@@ -17,11 +17,11 @@ export type Stats = {
 const StatsQuery = gql`
   query GetAllStats {
     totalContributors
-    lastWeekContributors
+    lastMonthContributors
     totalGitPOAPs
-    lastWeekGitPOAPs
+    lastMonthGitPOAPs
     totalRepos
-    lastWeekRepos
+    lastMonthRepos
   }
 `;
 
@@ -46,11 +46,11 @@ const InfoHexMetricStyled = styled(InfoHexMetric)`
 export const BannerStats = () => {
   const [result] = useQuery<{
     totalContributors: number;
-    lastWeekContributors: number;
+    lastMonthContributors: number;
     totalGitPOAPs: number;
-    lastWeekGitPOAPs: number;
+    lastMonthGitPOAPs: number;
     totalRepos: number;
-    lastWeekRepos: number;
+    lastMonthRepos: number;
   }>({
     query: StatsQuery,
   });
@@ -63,19 +63,19 @@ export const BannerStats = () => {
     {
       value: result.data.totalContributors,
       unit: 'contributors',
-      rate: result.data.lastWeekContributors,
+      rate: result.data.lastMonthContributors,
       icon: 'people',
     },
     {
       value: result.data.totalGitPOAPs,
       unit: 'GitPOAPs',
-      rate: result.data.lastWeekGitPOAPs,
+      rate: result.data.lastMonthGitPOAPs,
       icon: 'gitPOAP',
     },
     {
       value: result.data.totalRepos,
       unit: 'projects',
-      rate: result.data.lastWeekRepos,
+      rate: result.data.lastMonthRepos,
       icon: 'project',
     },
   ];
@@ -88,7 +88,7 @@ export const BannerStats = () => {
             value={Number(stat.value).toLocaleString()}
             key={stat.unit + '-' + i}
             unit={stat.unit}
-            rate={`${stat.rate >= 0 && '+'}${stat.rate} / past week`}
+            rate={`${stat.rate >= 0 && '+'}${stat.rate} / past month`}
             icon={ICONS[stat.icon]}
           />
         );
