@@ -69,7 +69,7 @@ const List = styled.div`
 
 const LeadersQuery = gql`
   query leaders {
-    lastWeekMostHonoredContributors(count: 10) {
+    mostHonoredContributors(count: 10) {
       user {
         id
         githubHandle
@@ -100,16 +100,16 @@ const LeaderBoardItem = ({ user, claimsCount }: LeaderBoardItemProps) => {
 
 export const LeaderBoard = () => {
   const [result] = useQuery<{
-    lastWeekMostHonoredContributors: LeaderBoardItemProps[];
+    mostHonoredContributors: LeaderBoardItemProps[];
   }>({
     query: LeadersQuery,
   });
 
   return (
     <Wrapper>
-      <HeaderStyled>{'Most honored contributors last week'}</HeaderStyled>
+      <HeaderStyled>{'Most honored contributors'}</HeaderStyled>
       <List>
-        {result.data?.lastWeekMostHonoredContributors.map((item: LeaderBoardItemProps) => (
+        {result.data?.mostHonoredContributors.map((item: LeaderBoardItemProps) => (
           <LeaderBoardItem key={item.user.githubHandle} {...item} />
         ))}
       </List>
