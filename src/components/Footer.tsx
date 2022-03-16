@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { FaDiscord as DiscordIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { Divider } from '@mantine/core';
 import { GitPOAP } from './shared/elements/icons/GitPOAP';
-import { BackgroundPanel2, TextGray } from '../colors';
+import { BackgroundPanel2, ExtraHover, TextGray } from '../colors';
 
 const Content = styled.div`
   display: flex;
@@ -22,7 +23,34 @@ const Container = styled.div`
   line-height: ${rem(17)};
   letter-spacing: ${rem(0.5)};
   color: ${TextGray};
-  padding: ${rem(20)} 0;
+  padding: ${rem(32)} 0;
+`;
+
+const ContentLeft = styled.div`
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const ContentRight = styled.div`
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const SocialLink = styled.a`
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    color: ${ExtraHover};
+  }
+
+  svg {
+    height: ${rem(24)};
+    margin: 0 ${rem(12)};
+    width: ${rem(24)};
+  }
 `;
 
 export const Footer = () => {
@@ -30,11 +58,18 @@ export const Footer = () => {
     <Content>
       <Divider style={{ borderTopColor: BackgroundPanel2 }} />
       <Container>
-        <div>
+        <ContentLeft>
           <GitPOAP style={{ marginRight: rem(8) }} />
           {'GitPOAP 2022'}
-        </div>
-        <div>{'Get in touch team@gitpoap.io'}</div>
+        </ContentLeft>
+        <ContentRight>
+          <SocialLink href={'https://gitpoap.io/discord'}>
+            <DiscordIcon />
+          </SocialLink>
+          <SocialLink href={'https://twitter.com/gitpoap'}>
+            <TwitterIcon />
+          </SocialLink>
+        </ContentRight>
       </Container>
     </Content>
   );
