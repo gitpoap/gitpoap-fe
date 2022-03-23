@@ -28,7 +28,6 @@ const GitPOAPQuery = gql`
             id
             name
             description
-            githubHandle
             twitterHandle
             url
           }
@@ -47,7 +46,6 @@ type Organization = {
   id: number;
   name: string;
   description?: string;
-  githubHandle?: string;
   twitterHandle?: string;
   url?: string;
 };
@@ -163,25 +161,23 @@ export const Header = ({ gitPOAPId }: Props) => {
             </Link>
           </OrgName>
           <OrgDescription>{organization.description}</OrgDescription>
-          {(organization.twitterHandle || organization.githubHandle || organization.url) && (
-            <Links>
-              {organization.twitterHandle && (
-                <StyledLink href={`https://twitter.com/${organization.twitterHandle}`}>
-                  <TwitterIcon size={24} />
-                </StyledLink>
-              )}
-              {organization.githubHandle && (
-                <StyledLink href={`https://github.com/${organization.githubHandle}`}>
-                  <GithubIcon size={24} />
-                </StyledLink>
-              )}
-              {organization.url && (
-                <StyledLink href={organization.url}>
-                  <GlobeIcon size={24} />
-                </StyledLink>
-              )}
-            </Links>
-          )}
+          <Links>
+            {organization.twitterHandle && (
+              <StyledLink href={`https://twitter.com/${organization.twitterHandle}`}>
+                <TwitterIcon size={24} />
+              </StyledLink>
+            )}
+            {organization.name && (
+              <StyledLink href={`https://github.com/${organization.name}`}>
+                <GithubIcon size={24} />
+              </StyledLink>
+            )}
+            {organization.url && (
+              <StyledLink href={organization.url}>
+                <GlobeIcon size={24} />
+              </StyledLink>
+            )}
+          </Links>
         </>
       )}
       {features.hasCheckIfImEligible && (
