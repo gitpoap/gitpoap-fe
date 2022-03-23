@@ -67,7 +67,7 @@ type SortOptions = 'claim-date' | 'claim-count';
 
 const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'claim-date', label: 'Claim Date' },
-  { value: 'claim-count', label: 'Claim Count' },
+  { value: 'claim-count', label: 'Total Poaps' },
 ];
 
 export const GitPOAPHolders = ({ gitPOAPId }: GitPOAPHoldersProps) => {
