@@ -14,7 +14,7 @@ type Props = {
   imgSrc?: string;
   name: string;
   address: string;
-  blurb: string;
+  blurb?: string;
   gitpoapId: string | number;
   twitterHref?: string;
   githubHref?: string;
@@ -139,10 +139,9 @@ export const InfoHexSummary = ({
   return (
     <StyledInfoHex className={className} hoverEffects>
       <Content>
-        {imgSrc && <Avatar src={imgSrc} useDefaultImageTag />}
-        {!imgSrc && <JazzIcon address={address} />}
+        {imgSrc ? <Avatar src={imgSrc} useDefaultImageTag /> : <JazzIcon address={address} />}
         <Name>{name}</Name>
-        <Blurb>{blurb}</Blurb>
+        {blurb && <Blurb>{blurb}</Blurb>}
         <Social>
           {twitterHref && <Twitter href={twitterHref} />}
           {githubHref && <GitHub href={githubHref} />}
