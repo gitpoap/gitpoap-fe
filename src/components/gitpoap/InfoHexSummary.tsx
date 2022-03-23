@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { TextAccent, TextLight, ExtraHover, ExtraPressed } from '../../colors';
 import { Twitter } from '../shared/elements/icons/Twitter';
 import { GitHub } from '../shared/elements/icons/GitHub';
@@ -9,8 +10,10 @@ import { InfoHexBase, Body } from '../shared/elements/InfoHexBase';
 import { Avatar as AvatarUI } from '../shared/elements/Avatar';
 
 type Props = {
-  imgSrc: string;
+  className?: string;
+  imgSrc?: string;
   name: string;
+  address: string;
   blurb: string;
   gitpoapId: string | number;
   twitterHref?: string;
@@ -116,9 +119,17 @@ const getGitPOAPHref = (gitpoapId: string | number) => {
   return `https://gitpoap.io/@${gitpoapId}`;
 };
 
+const JazzIcon = styled(JazzIconReact)`
+  height: ${rem(80)};
+  width: ${rem(80)};
+  margin-bottom: ${rem(14)};
+`;
+
 export const InfoHexSummary = ({
+  className,
   imgSrc,
   name,
+  address,
   blurb,
   gitpoapId,
   twitterHref,
@@ -126,9 +137,10 @@ export const InfoHexSummary = ({
   numGitPOAPs,
 }: Props) => {
   return (
-    <StyledInfoHex hoverEffects>
+    <StyledInfoHex className={className} hoverEffects>
       <Content>
-        <Avatar src={imgSrc} />
+        {imgSrc && <Avatar src={imgSrc} useDefaultImageTag />}
+        {!imgSrc && <JazzIcon address={address} />}
         <Name>{name}</Name>
         <Blurb>{blurb}</Blurb>
         <Social>
