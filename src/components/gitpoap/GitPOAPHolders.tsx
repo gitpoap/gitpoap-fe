@@ -1,36 +1,29 @@
+import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { rem } from 'polished';
-import { useRouter } from 'next/router';
 import { useQuery, gql } from 'urql';
-import { Header } from '../shared/elements/Header';
-import { BackgroundPanel2 } from '../../colors';
-import { Avatar } from '../shared/elements/Avatar';
-import { IconCount } from '../shared/elements/IconCount';
-import { GitPOAP } from '../shared/elements/icons/GitPOAP';
-import { Divider as DividerUI } from '@mantine/core';
-import { Title } from '../shared/elements/Title';
+
 import { InfoHexSummary } from './InfoHexSummary';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 
-type holder = {
-  profileId: number;
-  address: string;
-  bio: string;
-  profileImageUrl?: string;
-  githubHandle: string;
-  twitterHandle?: string;
-  personalSiteUrl?: string;
-  gitPOAPCount: number;
-};
-
-export type GitPOAPHoldersQueryProps = {
-  holders: holder[];
-  totalHolders: number;
-};
-
-type GitPOAPHoldersProps = {
+type Props = {
   gitPOAPId: number;
+};
+
+type Holder = {
+  address: string;
+  githubHandle: string;
+  gitPOAPCount: number;
+  profileId: number;
+  bio?: string;
+  personalSiteUrl?: string;
+  profileImageUrl?: string;
+  twitterHandle?: string;
+};
+
+type GitPOAPHoldersQueryProps = {
+  holders: Holder[];
+  totalHolders: number;
 };
 
 const HoldersWrapper = styled.div`
@@ -50,14 +43,14 @@ const GitPOAPHoldersQuery = gql`
     gitPOAPHolders(gitPOAPId: $gitPOAPId, page: $page, perPage: $perPage, sort: $sort) {
       totalHolders
       holders {
-        profileId
         address
-        bio
-        profileImageUrl
         githubHandle
-        twitterHandle
-        personalSiteUrl
         gitPOAPCount
+        profileId
+        bio
+        personalSiteUrl
+        profileImageUrl
+        twitterHandle
       }
     }
   }
@@ -70,10 +63,10 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'claim-count', label: 'Total Poaps' },
 ];
 
-export const GitPOAPHolders = ({ gitPOAPId }: GitPOAPHoldersProps) => {
+export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortOptions>('claim-count');
-  const [holders, setHolders] = useState<holder[]>([]);
+  const [holders, setHolders] = useState<Holder[]>([]);
   const [total, setTotal] = useState<number>();
   const perPage = 12;
 
@@ -89,15 +82,20 @@ export const GitPOAPHolders = ({ gitPOAPId }: GitPOAPHoldersProps) => {
     },
   });
 
-  /* Hook to append new data onto existing list of poaps */
+  /* Hook to append new data onto existing list of holders */
   useEffect(() => {
-    setHolders((prev: holder[]) => {
+    setHolders((prev: Holder[]) => {
       if (result.data?.gitPOAPHolders) {
         return [...prev, ...result.data.gitPOAPHolders.holders];
       }
       return prev;
     });
   }, [result.data]);
+
+  /* Hook to clear list of holders when the gitPOAPId changes */
+  useEffect(() => {
+    setHolders([]);
+  }, [gitPOAPId]);
 
   /* Hook to set total number of poaps */
   useEffect(() => {
@@ -131,7 +129,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: GitPOAPHoldersProps) => {
       }}
     >
       <HoldersWrapper>
-        {holders.map((holder: holder) => (
+        {holders.map((holder: Holder) => (
           <Holder
             key={holder.githubHandle}
             imgSrc={holder.profileImageUrl}

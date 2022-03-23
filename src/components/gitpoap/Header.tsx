@@ -1,22 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { rem } from 'polished';
 import Link from 'next/link';
-import { Grid } from '@mantine/core';
-import { useQuery, gql } from 'urql';
-import { FeatureHeart } from '../shared/compounds/FeatureHeart';
-import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
-import { Text } from '../shared/elements/Text';
-import { Title } from '../shared/elements/Title';
-import { TextAccent, TextGray, ExtraHover } from '../../colors';
-import { Header as HeaderText } from '../shared/elements/Header';
+import { rem } from 'polished';
+import React, { useState, useEffect } from 'react';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
+import styled from 'styled-components';
+import { useQuery, gql } from 'urql';
+
+import { Grid } from '@mantine/core';
+
 import { Button } from '../shared/elements/Button';
+import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
+import { Header as HeaderText } from '../shared/elements/Header';
+import { Text } from '../shared/elements/Text';
+import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { useFeatures } from '../../components/FeaturesContext';
 
 type Props = {
   gitPOAPId: number;
+};
+
+type Organization = {
+  id: number;
+  name: string;
+  description?: string;
+  twitterHandle?: string;
+  url?: string;
+};
+
+type Event = {
+  name: string;
+  image_url: string;
+  description: string;
+};
+
+type GitPOAPQueryRes = {
+  gitPOAP: {
+    repo: {
+      organization: Organization;
+    };
+  };
+  event: Event;
 };
 
 const GitPOAPQuery = gql`
@@ -41,29 +64,6 @@ const GitPOAPQuery = gql`
     }
   }
 `;
-
-type Organization = {
-  id: number;
-  name: string;
-  description?: string;
-  twitterHandle?: string;
-  url?: string;
-};
-
-type Event = {
-  name: string;
-  image_url: string;
-  description: string;
-};
-
-export type GitPOAPQueryRes = {
-  gitPOAP: {
-    repo: {
-      organization: Organization;
-    };
-  };
-  event: Event;
-};
 
 const Wrapper = styled(Grid.Col)`
   display: flex;

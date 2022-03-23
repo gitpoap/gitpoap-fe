@@ -3,22 +3,16 @@ import styled from 'styled-components';
 import { rgba, rem } from 'polished';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 
 import { Grid } from '@mantine/core';
-import { Page } from '../_app';
-import { Layout } from '../../components/Layout';
-import { GitPOAP as GitPOAPUI } from '../../components/shared/compounds/GitPOAP';
-import { GitPOAPHolders } from '../../components/gitpoap/GitPOAPHolders';
-import { Header } from '../../components/gitpoap/Header';
-import { BackgroundHexes } from '../../components/gitpoap/BackgroundHexes';
-import { default as BackgroundHexesSVG } from '../../components/gitpoap/BackgroundHexes.svg';
-import { MidnightBlue } from '../../colors';
 
-const GitPOAPBadge = styled(GitPOAPUI)`
-  margin-right: ${rem(36)};
-  margin-bottom: ${rem(36)};
-`;
+import { Page } from '../_app';
+import { MidnightBlue } from '../../colors';
+import { BackgroundHexes } from '../../components/gitpoap/BackgroundHexes';
+import { GitPOAPHolders } from '../../components/gitpoap/GitPOAPHolders';
+import { Header as PageHeader } from '../../components/gitpoap/Header';
+import { Layout } from '../../components/Layout';
+import { Header } from '../../components/shared/elements/Header';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;
@@ -40,11 +34,28 @@ const Background = styled(BackgroundHexes)`
   );
 `;
 
+const Error = styled(Header)`
+  position: fixed;
+  top: ${rem(333)};
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 const GitPOAP: Page = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  return id ? (
+  if (typeof id !== 'string') {
+    return <></>;
+  }
+
+  const gitPOAPId = parseInt(id);
+
+  if (isNaN(gitPOAPId)) {
+    return <Error>404</Error>;
+  }
+
+  return (
     <>
       <Head>
         <title>{'GitPOAP | GitPOAP'}</title>
@@ -52,15 +63,13 @@ const GitPOAP: Page = () => {
       <Grid justify="center" style={{ zIndex: 1 }}>
         <Background />
         <Grid.Col span={8} style={{ zIndex: 1 }}>
-          <Header gitPOAPId={parseInt(id[0])} />
+          <PageHeader gitPOAPId={gitPOAPId} />
         </Grid.Col>
         <Grid.Col span={11}>
-          <GitPOAPHolders gitPOAPId={parseInt(id[0])} />
+          <GitPOAPHolders gitPOAPId={gitPOAPId} />
         </Grid.Col>
       </Grid>
     </>
-  ) : (
-    <div>FAIL</div>
   );
 };
 
