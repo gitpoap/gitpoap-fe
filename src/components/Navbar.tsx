@@ -14,6 +14,7 @@ import { NavLink } from './shared/elements/NavLink';
 
 const Nav = styled(Group)`
   color: ${TextLight} !important;
+  z-index: 2;
 `;
 
 const Container = styled.div`

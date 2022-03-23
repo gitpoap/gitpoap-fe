@@ -4,16 +4,18 @@ import { rem } from 'polished';
 import { TextLight, MidnightBlue, ExtraHover, ExtraPressed, TextGray } from '../../../colors';
 
 type Props = {
+  className?: string;
   imgUrl: string;
   disabled?: boolean;
   size: Sizes;
 };
 
-type Sizes = 'sm' | 'md';
+type Sizes = 'sm' | 'md' | 'lg';
 
 type Dimensions = {
   sm: { width: number; borderSize: number };
   md: { width: number; borderSize: number };
+  lg: { width: number; borderSize: number };
 };
 
 type HexProps = {
@@ -23,6 +25,7 @@ type HexProps = {
 const dimensions: Dimensions = {
   sm: { width: 150, borderSize: 3 },
   md: { width: 200, borderSize: 4 },
+  lg: { width: 350, borderSize: 5 },
 };
 
 const Hexagon = styled.div`
@@ -84,9 +87,9 @@ const HexInnerBorder = styled(Hexagon)<HexProps>`
   background: ${MidnightBlue};
 `;
 
-export const GitPOAPBadge = ({ imgUrl, disabled, size }: Props) => {
+export const GitPOAPBadge = ({ className, imgUrl, disabled, size }: Props) => {
   return (
-    <HexOuterBorder size={size} disabled={disabled}>
+    <HexOuterBorder className={className} size={size} disabled={disabled}>
       <HexInnerBorder size={size}>
         <HexBadge imgUrl={imgUrl} size={size} />
       </HexInnerBorder>

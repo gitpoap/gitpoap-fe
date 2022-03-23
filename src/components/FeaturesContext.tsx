@@ -6,6 +6,7 @@ type FeaturesState = {
   hasGitPOAPsPage: boolean;
   hasProjectsPage: boolean;
   hasDocs: boolean;
+  hasCheckIfImEligible: boolean;
 };
 
 export const getInitialState = (): FeaturesState => ({
@@ -13,6 +14,7 @@ export const getInitialState = (): FeaturesState => ({
   hasGitPOAPsPage: false,
   hasProjectsPage: true,
   hasDocs: true,
+  hasCheckIfImEligible: false,
 });
 
 const FeaturesContext = createContext<FeaturesState>({} as FeaturesState);
