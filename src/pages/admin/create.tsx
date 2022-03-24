@@ -67,16 +67,6 @@ const ImageUploadIcon = ({
   return <Photo {...props} />;
 };
 
-const randomSchema = z
-  .object({
-    password: z.string(),
-    confirm: z.string(),
-  })
-  .refine((data) => data.confirm === data.password, {
-    message: "Passwords don't match",
-    path: ['confirm'],
-  });
-
 export const dropzoneChildren = (
   status: DropzoneStatus,
   theme: MantineTheme,
