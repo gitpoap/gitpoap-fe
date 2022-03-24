@@ -31,7 +31,7 @@ export const TextInputLabelStyles = css<{ disabled?: boolean }>`
   ${(props) => props.disabled && `color: ${TextGray}`};
 `;
 
-const StyledInputBase = styled(TextInput)<{ disabled?: boolean }>`
+const StyledInput = styled(TextInput)<{ disabled?: boolean }>`
   display: inline-block;
 
   .mantine-TextInput-label {
@@ -77,5 +77,5 @@ const StyledInputBase = styled(TextInput)<{ disabled?: boolean }>`
 
 export function Input(props: Props) {
   const { inputRef, ...selectedProps } = props;
-  return <StyledInputBase {...selectedProps} ref={props.inputRef} spellCheck={false} />;
+  return <StyledInput {...selectedProps} ref={props.inputRef} spellCheck={false} />;
 }
