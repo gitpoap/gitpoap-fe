@@ -69,29 +69,53 @@ export const AuthProvider = ({ children }: Props) => {
   const redirectUri = REACT_APP_REDIRECT_URI + router.asPath;
   const githubAuthURL = `https://github.com/login/oauth/authorize?scope=user&client_id=${REACT_APP_CLIENT_ID}&redirect_uri=${redirectUri}`;
 
-  const performRefresh = useCallback(async (refreshToken: string) => {
-    try {
-      const res = await fetch(`${GITPOAP_API_URL}/github/refresh`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token: refreshToken }),
-      });
-
-      const tokenRes: Tokens = await res.json();
-
-      localStorage.setItem('accessToken', tokenRes.accessToken);
-      localStorage.setItem('refreshToken', tokenRes.refreshToken);
-      setTokens({
-        accessToken: tokenRes.accessToken,
-        refreshToken: tokenRes.refreshToken,
-      });
-    } catch (err) {
-      console.warn(err);
+  const handleLogout = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+      localStorage.removeItem('isLoggedIntoGitHub');
     }
-  }, []);
+
+    setTokens(null);
+    setAuthState({
+      ...authState,
+      isLoggedIntoGitHub: false,
+      user: null,
+    });
+  }, [authState]);
+
+  const performRefresh = useCallback(
+    async (refreshToken: string) => {
+      try {
+        const res = await fetch(`${GITPOAP_API_URL}/github/refresh`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: refreshToken }),
+        });
+
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
+
+        const tokenRes: Tokens = await res.json();
+
+        localStorage.setItem('accessToken', tokenRes.accessToken);
+        localStorage.setItem('refreshToken', tokenRes.refreshToken);
+        setTokens({
+          accessToken: tokenRes.accessToken,
+          refreshToken: tokenRes.refreshToken,
+        });
+      } catch (err) {
+        handleLogout();
+        console.warn(err);
+      }
+    },
+    [handleLogout],
+  );
 
   /* Redirect to github to authorize if not connected / logged in */
   const authorizeGitHub = useCallback(() => router.push(githubAuthURL), [githubAuthURL, router]);
@@ -166,22 +190,6 @@ export const AuthProvider = ({ children }: Props) => {
     },
     [authState, setAuthState],
   );
-
-  const handleLogout = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('user');
-      localStorage.removeItem('isLoggedIntoGitHub');
-    }
-
-    setTokens(null);
-    setAuthState({
-      ...authState,
-      isLoggedIntoGitHub: false,
-      user: null,
-    });
-  }, [authState]);
 
   /* After requesting Github access, Github redirects back to your app with a code parameter. */
   useEffect(() => {
