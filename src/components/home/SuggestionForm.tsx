@@ -6,7 +6,7 @@ import { validate } from 'email-validator';
 import { BackgroundPanel2, TextAccent } from '../../colors';
 import { Input, TextInputLabelStyles } from '../shared/elements/Input';
 import { Button } from '../shared/elements/Button';
-import { BREAKPOINTS } from '../../constants';
+import { BREAKPOINTS, GITPOAP_API_URL } from '../../constants';
 import { RadioGroup } from '../shared/elements/Radio';
 import { Header } from '../shared/elements/Header';
 import { Text } from '../shared/elements/Text';
@@ -138,7 +138,7 @@ export const SuggestionForm = () => {
   const submitForm = useCallback(async () => {
     try {
       if (email && repoUrl && userType) {
-        const resJwt = await fetch('https://api.gitpoap.io/jwt/', {
+        const resJwt = await fetch(`${GITPOAP_API_URL}/jwt/`, {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ export const SuggestionForm = () => {
           userType,
         };
 
-        await fetch('https://api.gitpoap.io/suggest', {
+        await fetch(`${GITPOAP_API_URL}/suggest`, {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
