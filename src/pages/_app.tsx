@@ -8,7 +8,6 @@ import { Web3ContextProvider } from '../components/wallet/Web3ContextProvider';
 import { AuthProvider } from '../components/github/AuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
-import { ErrorBoundary } from '../components/ErrorBoundary';
 
 const client = createClient({
   url: 'http://localhost:3001/graphql',
@@ -36,22 +35,20 @@ const TheApp = ({ Component, pageProps }: Props) => {
   const getLayout = Component.getLayout || ((page: React.ReactNode) => page);
 
   return (
-    <ErrorBoundary>
-      <Web3ContextProvider>
-        <MantineProvider theme={{ colorScheme: 'dark' }}>
-          <URQLProvider value={client}>
-            <AuthProvider>
-              <FeaturesProvider>
-                <GlobalStyles />
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </FeaturesProvider>
-            </AuthProvider>
-          </URQLProvider>
-        </MantineProvider>
-      </Web3ContextProvider>
-    </ErrorBoundary>
+    <Web3ContextProvider>
+      <MantineProvider theme={{ colorScheme: 'dark' }}>
+        <URQLProvider value={client}>
+          <AuthProvider>
+            <FeaturesProvider>
+              <GlobalStyles />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </FeaturesProvider>
+          </AuthProvider>
+        </URQLProvider>
+      </MantineProvider>
+    </Web3ContextProvider>
   );
 };
 
