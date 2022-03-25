@@ -22,6 +22,7 @@ const FeaturedPOAPsQuery = gql`
         }
         poap {
           event {
+            id
             image_url
             name
             description
@@ -31,6 +32,7 @@ const FeaturedPOAPsQuery = gql`
       }
       poaps {
         event {
+          id
           name
           description
           image_url

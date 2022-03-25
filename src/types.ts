@@ -63,6 +63,7 @@ export type Project = {
 
 export type POAP = {
   event: {
+    id?: number;
     name: string;
     description?: string;
     image_url: string;

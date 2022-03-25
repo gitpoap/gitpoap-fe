@@ -68,7 +68,7 @@ export const FeaturedPOAPs = () => {
                   poapTokenId={featuredPOAP.tokenId}
                   name={featuredPOAP.event.name}
                   imgSrc={featuredPOAP.event.image_url}
-                  href={`https://app.poap.xyz/token/${featuredPOAP.tokenId}`}
+                  href={`https://poap.gallery/event/${featuredPOAP.event.id}`}
                 />
               );
             })}

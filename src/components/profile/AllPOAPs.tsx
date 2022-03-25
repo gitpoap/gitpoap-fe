@@ -23,6 +23,7 @@ const AllPOAPsQuery = gql`
       totalPOAPs
       poaps {
         event {
+          id
           name
           image_url
         }
@@ -124,7 +125,7 @@ export const AllPOAPs = ({ address }: Props) => {
                 name={poap.event.name}
                 imgSrc={poap.event.image_url}
                 poapTokenId={poap.tokenId}
-                href={`https://app.poap.xyz/token/${poap.tokenId}`}
+                href={`https://poap.gallery/event/${poap.event.id}`}
               />
             );
           })}
