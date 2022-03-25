@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Button } from '../elements/Button';
 import { GitPOAP } from './GitPOAP';
+import { FaCheckCircle } from 'react-icons/fa';
 
 type Props = {
   imgSrc: string;
@@ -10,6 +11,8 @@ type Props = {
   orgName: string;
   description: string;
   onClickClaim: () => void;
+  isClaimed?: boolean;
+  isLoading?: boolean;
 };
 
 const Wrapper = styled.div`
@@ -28,12 +31,27 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-export const ClaimBlock = ({ imgSrc, name, orgName, description, onClickClaim }: Props) => {
+export const ClaimBlock = ({
+  imgSrc,
+  name,
+  orgName,
+  description,
+  onClickClaim,
+  isClaimed,
+  isLoading,
+}: Props) => {
   return (
     <Wrapper>
       <GitPOAP imgSrc={imgSrc} name={name} orgName={orgName} description={description} />
       <ButtonWrapper>
-        <Button onClick={onClickClaim}>{'Claim'}</Button>
+        <Button
+          onClick={onClickClaim}
+          loading={isLoading}
+          leftIcon={isClaimed ? <FaCheckCircle /> : undefined}
+          disabled={isClaimed}
+        >
+          {'Claim'}
+        </Button>
       </ButtonWrapper>
     </Wrapper>
   );
