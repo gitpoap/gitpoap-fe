@@ -5,7 +5,7 @@ import { z } from 'zod';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useForm, zodResolver } from '@mantine/form';
-import { Group, useMantineTheme, MantineTheme } from '@mantine/core';
+import { Group, useMantineTheme, MantineTheme, Checkbox } from '@mantine/core';
 import { Upload, Photo, X, Icon as TablerIcon } from 'tabler-icons-react';
 import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { DatePicker } from '@mantine/dates';
@@ -23,10 +23,6 @@ const CreationForm = styled.form`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-
-  > * {
-    margin-bottom: ${rem(25)};
-  }
 `;
 
 const FormInput = styled(Input)`
@@ -40,6 +36,25 @@ const FormDatePicker = styled(DatePicker)`
 
 const FormNumberInput = styled(NumberInput)`
   width: ${rem(400)};
+`;
+
+const FormLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  > * {
+    margin-bottom: ${rem(25)};
+  }
+`;
+
+const FormRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: ${rem(40)};
+  > * {
+    margin-bottom: ${rem(25)};
+  }
 `;
 
 const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
@@ -131,6 +146,7 @@ type FormValues = {
   eventUrl: string;
   email: string;
   requestedCodes: number;
+  ongoing: boolean;
   image: File | null;
 };
 
@@ -151,6 +167,7 @@ const CreateGitPOAP: NextPage = () => {
       eventUrl: '',
       email: '',
       requestedCodes: 10,
+      ongoing: true,
       image: null as any,
     },
   });
@@ -196,91 +213,103 @@ const CreateGitPOAP: NextPage = () => {
         <Grid.Col span={10}>
           <Box>
             <CreationForm onSubmit={form.onSubmit((values) => submitCreateGitPOAP(values))}>
-              <Header style={{ alignSelf: 'start' }}>{'Admin - Create new GitPOAP'}</Header>
-              <FormNumberInput
-                required
-                label={'GitHub Repo ID'}
-                name={'githubRepoId'}
-                placeholder={'123456'}
-                hideControls
-                {...form.getInputProps('githubRepoId')}
-              />
+              <Header style={{ alignSelf: 'start', marginBottom: rem(20) }}>
+                {'Admin - Create new GitPOAP'}
+              </Header>
+              <Group direction="row" align="flex-start">
+                <FormLeft>
+                  <FormNumberInput
+                    required
+                    label={'GitHub Repo ID'}
+                    name={'githubRepoId'}
+                    placeholder={'123456'}
+                    hideControls
+                    {...form.getInputProps('githubRepoId')}
+                  />
 
-              <FormInput
-                required
-                label={'GitPOAP Name'}
-                name={'name'}
-                placeholder={'Top 2022 GitPOAP Contributor'}
-                {...form.getInputProps('name')}
-              />
+                  <FormInput
+                    required
+                    label={'GitPOAP Name'}
+                    name={'name'}
+                    placeholder={'Top 2022 GitPOAP Contributor'}
+                    {...form.getInputProps('name')}
+                  />
 
-              <FormInput
-                required
-                label={'Description'}
-                name={'description'}
-                placeholder={"Killin' it w codez"}
-                {...form.getInputProps('description')}
-              />
+                  <FormInput
+                    required
+                    label={'Description'}
+                    name={'description'}
+                    placeholder={"Killin' it w codez"}
+                    {...form.getInputProps('description')}
+                  />
+                  {/* -------- URLs -------- */}
+                  <FormInput
+                    required
+                    label={'Event URL'}
+                    name={'eventUrl'}
+                    placeholder={'https://gitpoap.io/gp/123456'}
+                    {...form.getInputProps('eventUrl')}
+                  />
 
-              {/* -------- Dates -------- */}
-              <FormDatePicker
-                required
-                label={'Start Date'}
-                name={'startDate'}
-                placeholder={'1 January 2022'}
-                {...form.getInputProps('startDate')}
-              />
+                  <FormInput
+                    required
+                    label={'Email'}
+                    name={'email'}
+                    placeholder={'admin@gitpoap.io'}
+                    {...form.getInputProps('email')}
+                  />
 
-              <FormDatePicker
-                required
-                label={'End Date'}
-                name={'endDate'}
-                placeholder={'31 December 2022'}
-                {...form.getInputProps('endDate')}
-              />
+                  <FormNumberInput
+                    required
+                    label={'Requested Codes'}
+                    name={'requestedCodes'}
+                    placeholder={'10'}
+                    hideControls
+                    {...form.getInputProps('requestedCodes')}
+                  />
 
-              <FormDatePicker
-                required
-                label={'Expiration Date'}
-                name={'expiryDate'}
-                placeholder={'31 December 2025'}
-                {...form.getInputProps('expiryDate')}
-              />
+                  <Checkbox
+                    mt="md"
+                    label="Ongoing Issuance?"
+                    {...form.getInputProps('ongoing', { type: 'checkbox' })}
+                  />
+                </FormLeft>
+                <FormRight>
+                  {/* -------- Dates -------- */}
+                  <FormDatePicker
+                    required
+                    label={'Start Date'}
+                    name={'startDate'}
+                    placeholder={'1 January 2022'}
+                    {...form.getInputProps('startDate')}
+                  />
 
-              <FormNumberInput
-                required
-                label={'Year'}
-                name={'year'}
-                placeholder={'2022'}
-                hideControls
-                {...form.getInputProps('year')}
-              />
+                  <FormDatePicker
+                    required
+                    label={'End Date'}
+                    name={'endDate'}
+                    placeholder={'31 December 2022'}
+                    {...form.getInputProps('endDate')}
+                  />
 
-              {/* -------- URLs -------- */}
-              <FormInput
-                required
-                label={'Event URL'}
-                name={'eventUrl'}
-                placeholder={'https://gitpoap.io/gp/123456'}
-                {...form.getInputProps('eventUrl')}
-              />
+                  <FormDatePicker
+                    required
+                    label={'Expiration Date'}
+                    name={'expiryDate'}
+                    placeholder={'31 December 2025'}
+                    {...form.getInputProps('expiryDate')}
+                  />
 
-              <FormInput
-                required
-                label={'Email'}
-                name={'email'}
-                placeholder={'admin@gitpoap.io'}
-                {...form.getInputProps('email')}
-              />
-
-              <FormNumberInput
-                required
-                label={'Requested Codes'}
-                name={'requestedCodes'}
-                placeholder={'10'}
-                hideControls
-                {...form.getInputProps('requestedCodes')}
-              />
+                  <FormNumberInput
+                    required
+                    label={'Year'}
+                    name={'year'}
+                    placeholder={'2022'}
+                    hideControls
+                    {...form.getInputProps('year')}
+                  />
+                </FormRight>
+              </Group>
 
               <Dropzone
                 onDrop={(files) => {
@@ -295,7 +324,10 @@ const CreateGitPOAP: NextPage = () => {
             </CreationForm>
           </Box>
 
-          <Button onClick={form.onSubmit((values) => submitCreateGitPOAP(values))}>
+          <Button
+            onClick={form.onSubmit((values) => submitCreateGitPOAP(values))}
+            style={{ marginTop: rem(20), marginBottom: rem(20) }}
+          >
             {'Submit'}
           </Button>
           {isSuccessful && <Text>{'Successful Creation'}</Text>}
