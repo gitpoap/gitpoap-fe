@@ -4,6 +4,7 @@ import { rem } from 'polished';
 import { z } from 'zod';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { DateTime } from 'luxon';
 import { useForm, zodResolver } from '@mantine/form';
 import { Group, useMantineTheme, MantineTheme, Checkbox } from '@mantine/core';
 import { Upload, Photo, X, Icon as TablerIcon } from 'tabler-icons-react';
@@ -131,7 +132,7 @@ const schema = z.object({
   year: z.number(),
   eventUrl: z.string().url().nonempty(),
   email: z.string().email({ message: 'Invalid email' }),
-  requestedCodes: z.number(),
+  numRequestedCodes: z.number(),
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),
 });
 
@@ -145,7 +146,7 @@ type FormValues = {
   year: number;
   eventUrl: string;
   email: string;
-  requestedCodes: number;
+  numRequestedCodes: number;
   ongoing: boolean;
   image: File | null;
 };
@@ -166,7 +167,7 @@ const CreateGitPOAP: NextPage = () => {
       year: 2022,
       eventUrl: '',
       email: '',
-      requestedCodes: 10,
+      numRequestedCodes: 10,
       ongoing: true,
       image: null as any,
     },
@@ -177,7 +178,12 @@ const CreateGitPOAP: NextPage = () => {
 
       for (const key in formValues) {
         if (formValues.hasOwnProperty(key)) {
-          formData.append(key, formValues[key]);
+          if (formValues[key] instanceof Date) {
+            const dateStr = DateTime.fromJSDate(formValues[key]).toFormat('yyyy-MM-dd');
+            formData.append(key, dateStr);
+          } else {
+            formData.append(key, formValues[key]);
+          }
         }
       }
 
@@ -262,10 +268,10 @@ const CreateGitPOAP: NextPage = () => {
                   <FormNumberInput
                     required
                     label={'Requested Codes'}
-                    name={'requestedCodes'}
+                    name={'numRequestedCodes'}
                     placeholder={'10'}
                     hideControls
-                    {...form.getInputProps('requestedCodes')}
+                    {...form.getInputProps('numRequestedCodes')}
                   />
 
                   <Checkbox

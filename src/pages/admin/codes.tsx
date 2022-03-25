@@ -96,12 +96,12 @@ export const dropzoneChildren = (
 );
 
 const schema = z.object({
-  gitPOAPId: z.number(),
+  id: z.number(),
   codes: typeof window === 'undefined' ? z.any() : z.instanceof(File),
 });
 
 type FormValues = {
-  gitPOAPId?: number;
+  id?: number;
   codes: File | null;
 };
 
@@ -113,7 +113,7 @@ const AddCodesPage: NextPage = () => {
   const form = useForm<FormValues>({
     schema: zodResolver(schema),
     initialValues: {
-      gitPOAPId: undefined,
+      id: undefined,
       codes: null as any,
     },
   });
@@ -167,9 +167,9 @@ const AddCodesPage: NextPage = () => {
               <FormNumberInput
                 required
                 label={'GitPOAP ID'}
-                name={'gitPOAPId'}
+                name={'id'}
                 hideControls
-                {...form.getInputProps('gitPOAPId')}
+                {...form.getInputProps('id')}
               />
 
               <Dropzone

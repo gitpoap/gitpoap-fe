@@ -110,8 +110,8 @@ export const GitHub = ({ className }: Props) => {
         JSON.stringify({
           site: 'gitpoap.io',
           method: 'POST /claims',
-          claimIds: claimIds,
           createdAt: timestamp,
+          claimIds: claimIds,
         }),
       );
 
