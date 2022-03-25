@@ -122,16 +122,16 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
         twitterHandle: newProfileData.twitterHandle,
       };
 
-      const signature = await signer?.signMessage(
-        JSON.stringify({
-          site: 'gitpoap.io',
-          method: 'POST /profiles',
-          createdAt: timestamp,
-          data,
-        }),
-      );
-
       try {
+        const signature = await signer?.signMessage(
+          JSON.stringify({
+            site: 'gitpoap.io',
+            method: 'POST /profiles',
+            createdAt: timestamp,
+            data,
+          }),
+        );
+
         const res = await fetch(`${GITPOAP_API_URL}/profiles`, {
           method: 'POST',
           headers: {

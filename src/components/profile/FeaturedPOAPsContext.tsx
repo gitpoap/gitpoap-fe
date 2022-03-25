@@ -151,16 +151,17 @@ export const FeaturedPOAPsProvider = ({ children, address, ensName }: Props) => 
     async (poapTokenId: string) => {
       const timestamp = Date.now();
       const address = await signer?.getAddress();
-      const signature = await signer?.signMessage(
-        JSON.stringify({
-          site: 'gitpoap.io',
-          method: 'PUT /featured',
-          createdAt: timestamp,
-          poapTokenId,
-        }),
-      );
 
       try {
+        const signature = await signer?.signMessage(
+          JSON.stringify({
+            site: 'gitpoap.io',
+            method: 'PUT /featured',
+            createdAt: timestamp,
+            poapTokenId,
+          }),
+        );
+
         await fetch(`${GITPOAP_API_URL}/featured`, {
           method: 'PUT',
           headers: {
@@ -188,16 +189,17 @@ export const FeaturedPOAPsProvider = ({ children, address, ensName }: Props) => 
     async (poapTokenId: string) => {
       const timestamp = Date.now();
       const address = await signer?.getAddress();
-      const signature = await signer?.signMessage(
-        JSON.stringify({
-          site: 'gitpoap.io',
-          method: 'DELETE /featured/:id',
-          createdAt: timestamp,
-          poapTokenId,
-        }),
-      );
 
       try {
+        const signature = await signer?.signMessage(
+          JSON.stringify({
+            site: 'gitpoap.io',
+            method: 'DELETE /featured/:id',
+            createdAt: timestamp,
+            poapTokenId,
+          }),
+        );
+
         await fetch(`${GITPOAP_API_URL}/featured/${poapTokenId}`, {
           method: 'DELETE',
           headers: {
