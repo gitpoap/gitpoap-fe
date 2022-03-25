@@ -4,6 +4,7 @@ This is a [Next.js](https://nextjs.org/) project - view the [docs](https://nextj
 
 Example `.env`
 ```
+NEXT_PUBLIC_SENTRY_DSN='https://99be3ffab4cc404ea3283c08cf6b020a@o1178229.ingest.sentry.io/6289197'
 NEXT_PUBLIC_REACT_APP_CLIENT_ID = '2c27505d957d66f74122'
 NEXT_PUBLIC_REACT_APP_REDIRECT_URI='http://localhost:3000'
 NEXT_PUBLIC_GITPOAP_API_URL = 'http://localhost:3001'
