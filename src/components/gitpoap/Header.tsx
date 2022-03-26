@@ -33,7 +33,7 @@ type Event = {
   description: string;
 };
 
-type GitPOAPQueryRes = {
+export type GitPOAPEventQueryRes = {
   gitPOAP: {
     repo: {
       organization: Organization;
@@ -42,8 +42,8 @@ type GitPOAPQueryRes = {
   event: Event;
 };
 
-const GitPOAPQuery = gql`
-  query gitPOAPQuery($id: Float!) {
+const GitPOAPEventQuery = gql`
+  query gitPOAPEventQuery($id: Float!) {
     gitPOAPEvent(id: $id) {
       gitPOAP {
         repo {
@@ -65,7 +65,7 @@ const GitPOAPQuery = gql`
   }
 `;
 
-const Wrapper = styled(Grid.Col)`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -132,8 +132,8 @@ const CheckEligibilityButton = styled(Button)`
 export const Header = ({ gitPOAPId }: Props) => {
   const [event, setEvent] = useState<Event>();
   const [organization, setOrganization] = useState<Organization>();
-  const [result] = useQuery<{ gitPOAPEvent: GitPOAPQueryRes }>({
-    query: GitPOAPQuery,
+  const [result] = useQuery<{ gitPOAPEvent: GitPOAPEventQueryRes }>({
+    query: GitPOAPEventQuery,
     variables: {
       id: gitPOAPId,
     },
@@ -148,7 +148,7 @@ export const Header = ({ gitPOAPId }: Props) => {
   }, [result.data]);
 
   return (
-    <Wrapper span={12}>
+    <Wrapper>
       <Badge size="lg" imgUrl={event?.image_url ?? ''} />
       <TitleStyled>{event?.name}</TitleStyled>
       <Description>{event?.description}</Description>

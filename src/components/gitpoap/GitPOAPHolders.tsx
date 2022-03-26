@@ -10,7 +10,7 @@ type Props = {
   gitPOAPId: number;
 };
 
-type Holder = {
+export type Holder = {
   address: string;
   githubHandle: string;
   gitPOAPCount: number;
@@ -21,7 +21,7 @@ type Holder = {
   twitterHandle?: string;
 };
 
-type GitPOAPHoldersQueryProps = {
+export type GitPOAPHoldersQueryRes = {
   holders: Holder[];
   totalHolders: number;
 };
@@ -39,7 +39,7 @@ const Holder = styled(InfoHexSummary)`
 `;
 
 const GitPOAPHoldersQuery = gql`
-  query gitPOAPHolders($gitPOAPId: Float!, $page: Float, $perPage: Float, $sort: String) {
+  query gitPOAPHoldersQuery($gitPOAPId: Float!, $page: Float, $perPage: Float, $sort: String) {
     gitPOAPHolders(gitPOAPId: $gitPOAPId, page: $page, perPage: $perPage, sort: $sort) {
       totalHolders
       holders {
@@ -71,7 +71,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   const perPage = 12;
 
   const [result] = useQuery<{
-    gitPOAPHolders: GitPOAPHoldersQueryProps;
+    gitPOAPHolders: GitPOAPHoldersQueryRes;
   }>({
     query: GitPOAPHoldersQuery,
     variables: {

@@ -3,6 +3,8 @@ import { GitPOAP, POAP } from '../../types';
 import { Project } from '../../types';
 import { Stats } from '../../components/home/BannerStats';
 import { LeaderBoardItemProps } from '../../components/home/LeaderBoard';
+import { Holder } from '../../components/gitpoap/GitPOAPHolders';
+import { GitPOAPEventQueryRes } from '../../components/gitpoap/Header';
 
 /* GitPOAPs */
 import badge1 from '../assets/gitPOAPs/badge1.png';
@@ -413,3 +415,58 @@ export const mostClaimed: MostClaimedItem[] = [
     },
   },
 ];
+
+export const gitPOAPHolders: Holder[] = [
+  {
+    address: '0xae95f7e7fb2fcf86148ef832faed2752ae5a358a',
+    githubHandle: 'burz',
+    gitPOAPCount: 3,
+    profileId: 4,
+    bio: 'I am addicted to POAPs',
+    personalSiteUrl: undefined,
+    profileImageUrl: undefined,
+    twitterHandle: undefined,
+  },
+  {
+    address: '0x56d389c4e07a48d429035532402301310b8143a0',
+    githubHandle: 'colfax23',
+    gitPOAPCount: 1,
+    profileId: 1,
+    bio: 'I like brisket.',
+    personalSiteUrl: undefined,
+    profileImageUrl: undefined,
+    twitterHandle: undefined,
+  },
+  {
+    address: '0x206e554084beec98e08043397be63c5132cc01a1',
+    githubHandle: 'burzzzzz',
+    gitPOAPCount: 1,
+    profileId: 5,
+    bio: 'I am not real',
+    personalSiteUrl: undefined,
+    profileImageUrl: undefined,
+    twitterHandle: undefined,
+  },
+];
+
+export const gitPOAPEvent: GitPOAPQueryRes = {
+  gitPOAP: {
+    repo: {
+      organization: {
+        id: 4,
+        name: 'gitpoap',
+        description:
+          'An open source and non-custodial liquidity protocol for earning interest on deposits and borrowing assets.',
+        twitterHandle: 'gitpoap',
+        url: 'http://gitpoap.io',
+      },
+    },
+  },
+  event: {
+    name: 'GitPOAP Strategy Meeting - EthDenver 2022',
+    image_url:
+      'https://assets.poap.xyz/gitpoap-strategy-meeting-ethdenver-2022-2022-logo-1645132648036.png',
+    description:
+      'This commemorates a meeting of wonderful folks discussing the future of decentralized reputation and how GitPOAP can contribute to it.',
+  },
+};

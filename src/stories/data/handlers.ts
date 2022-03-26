@@ -1,6 +1,17 @@
 import { graphql } from 'msw';
 import { UserPOAPsQueryRes } from '../../components/profile/AllPOAPs';
-import { gitPOAPs, stats, leaderData, projectData, rawPOAPs, mostClaimed } from './index';
+import { GitPOAPHoldersQueryRes } from '../../components/gitpoap/GitPOAPHolders';
+import { GitPOAPEventQueryRes } from '../../components/gitpoap/Header';
+import {
+  gitPOAPs,
+  stats,
+  leaderData,
+  projectData,
+  rawPOAPs,
+  mostClaimed,
+  gitPOAPHolders,
+  gitPOAPEvent,
+} from './index';
 
 export const GetAllStatsHandler = graphql.query('GetAllStats', (req, res, ctx) => {
   return res(
@@ -49,3 +60,22 @@ export const AllPOAPsHandler = graphql.query<UserPOAPsQueryRes>('allPOAPs', (req
     }),
   );
 });
+
+export const GitPOAPHoldersHandler = graphql.query<GitPOAPHoldersQueryRes>(
+  'gitPOAPHoldersQuery',
+  (req, res, ctx) => {
+    return res(
+      ctx.data({
+        totalHolders: gitPOAPHolders.length,
+        holders: gitPOAPHolders,
+      }),
+    );
+  },
+);
+
+export const GitPOAPEventHandler = graphql.query<GitPOAPEventQueryRes>(
+  'gitPOAPEventQuery',
+  (req, res, ctx) => {
+    return res(ctx.data(gitPOAPEvent));
+  },
+);
