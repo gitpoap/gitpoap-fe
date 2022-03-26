@@ -132,7 +132,7 @@ const CheckEligibilityButton = styled(Button)`
 export const Header = ({ gitPOAPId }: Props) => {
   const [event, setEvent] = useState<Event>();
   const [organization, setOrganization] = useState<Organization>();
-  const [result] = useQuery<{ gitPOAPEvent: GitPOAPEventQueryRes }>({
+  const [result] = useQuery<GitPOAPEventQueryRes>({
     query: GitPOAPEventQuery,
     variables: {
       id: gitPOAPId,
@@ -143,8 +143,8 @@ export const Header = ({ gitPOAPId }: Props) => {
 
   /* Hook to set profile data to state */
   useEffect(() => {
-    setEvent(result.data?.gitPOAPEvent?.event);
-    setOrganization(result.data?.gitPOAPEvent?.gitPOAP.repo.organization);
+    setEvent(result.data?.event);
+    setOrganization(result.data?.gitPOAP.repo.organization);
   }, [result.data]);
 
   return (

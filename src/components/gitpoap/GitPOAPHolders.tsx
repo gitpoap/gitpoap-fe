@@ -70,9 +70,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   const [total, setTotal] = useState<number>();
   const perPage = 12;
 
-  const [result] = useQuery<{
-    gitPOAPHolders: GitPOAPHoldersQueryRes;
-  }>({
+  const [result] = useQuery<GitPOAPHoldersQueryRes>({
     query: GitPOAPHoldersQuery,
     variables: {
       gitPOAPId,
@@ -85,8 +83,8 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   /* Hook to append new data onto existing list of holders */
   useEffect(() => {
     setHolders((prev: Holder[]) => {
-      if (result.data?.gitPOAPHolders) {
-        return [...prev, ...result.data.gitPOAPHolders.holders];
+      if (result.data) {
+        return [...prev, ...result.data.holders];
       }
       return prev;
     });
@@ -99,8 +97,8 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
 
   /* Hook to set total number of poaps */
   useEffect(() => {
-    if (result.data?.gitPOAPHolders) {
-      setTotal(result.data.gitPOAPHolders.totalHolders);
+    if (result.data) {
+      setTotal(result.data.totalHolders);
     }
   }, [result.data]);
 
