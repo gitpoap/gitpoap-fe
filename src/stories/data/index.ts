@@ -449,7 +449,7 @@ export const gitPOAPHolders: Holder[] = [
   },
 ];
 
-export const gitPOAPEvent: GitPOAPQueryRes = {
+export const gitPOAPEvent: GitPOAPEventQueryRes = {
   gitPOAP: {
     repo: {
       organization: {
