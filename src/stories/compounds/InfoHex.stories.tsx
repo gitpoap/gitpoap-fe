@@ -42,6 +42,7 @@ export const Profile: ComponentStory<typeof InfoHexBase> = (args) => {
       githubHref="github.com/nd_certora"
       gitpoapId={10}
       numGitPOAPs={12}
+      address="0x0"
     />
   );
 };
