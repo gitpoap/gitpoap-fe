@@ -24,7 +24,6 @@ export const ProfileSidebar = ({ ensName }: Props) => {
       <InfoHexProfileDetail
         imgSrc={avatarURI}
         name={ensName ?? truncateAddress(sidebarAddress, 10)}
-        ensName={ensName}
         address={sidebarAddress}
         bio={profileData?.bio}
         twitterHref={

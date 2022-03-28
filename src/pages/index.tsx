@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import Head from 'next/head';
-import { Grid } from '@mantine/core';
+import { Center, Grid } from '@mantine/core';
 import { Page } from './_app';
 import { TextLight } from '../colors';
 import { BannerStats } from '../components/home/BannerStats';
@@ -61,6 +61,7 @@ const Home: Page = () => {
           <BannerStats />
         </Grid.Col>
       </Grid>
+
       <Grid justify="center" style={{ marginTop: rem(100), marginBottom: rem(100) }}>
         <Grid.Col span={7} style={{ zIndex: 0 }}>
           <MostClaimed />
@@ -69,6 +70,7 @@ const Home: Page = () => {
           <LeaderBoard />
         </Grid.Col>
       </Grid>
+
       {features.hasHomePageRecentProjects && (
         <Grid justify="center" style={{ zIndex: 0, marginBottom: rem(100) }}>
           <Grid.Col span={10}>
@@ -76,9 +78,11 @@ const Home: Page = () => {
           </Grid.Col>
         </Grid>
       )}
-      <Grid justify="center" style={{ zIndex: 0, marginBottom: rem(100) }}>
+      <Grid align="center" justify="center" style={{ zIndex: 0, marginBottom: rem(100) }}>
         <Grid.Col span={10}>
-          <SuggestionForm />
+          <Center style={{ marginTop: rem(30) }}>
+            <SuggestionForm />
+          </Center>
         </Grid.Col>
       </Grid>
     </>

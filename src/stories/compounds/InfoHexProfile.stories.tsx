@@ -18,7 +18,6 @@ export const WithProjects: ComponentStory<typeof InfoHexBase> = (args) => {
       imgSrc={profileImg6 as unknown as string}
       name="miguelmota.eth"
       address="0xe4feb387cb1daff4bf9108581b116e5fa737bea2"
-      ensName="miguelmota.eth"
       bio="Passionate for Ethereum, Bitcoin, and client-side development."
       twitterHref="https://twitter.com/miguelmota"
       githubHref="github.com/miguelmota"
@@ -37,7 +36,6 @@ export const WithoutProjects: ComponentStory<typeof InfoHexBase> = (args) => {
       imgSrc={profileImg6 as unknown as string}
       name="miguelmota.eth"
       address="0xe4feb387cb1daff4bf9108581b116e5fa737bea2"
-      ensName="miguelmota.eth"
       bio="Passionate for Ethereum, Bitcoin, and client-side development."
       twitterHref="https://twitter.com/miguelmota"
       githubHref="github.com/miguelmota"

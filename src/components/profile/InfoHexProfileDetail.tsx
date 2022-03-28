@@ -160,7 +160,6 @@ export const InfoHexProfileDetail = ({
   imgSrc,
   name,
   address,
-  ensName,
   bio,
   twitterHref,
   githubHref,
@@ -169,6 +168,8 @@ export const InfoHexProfileDetail = ({
   onClickEditProfile,
   showEditProfileButton,
 }: Props) => {
+  const textToCopy = typeof window !== 'undefined' ? window.location.href : '';
+
   return (
     <StyledInfoHex>
       <Content>
@@ -216,7 +217,7 @@ export const InfoHexProfileDetail = ({
             })}
           </>
         )}
-        <ShareStyled textToCopy={`https://gitpoap.io/p/${ensName ?? address}`} />
+        <ShareStyled textToCopy={textToCopy} />
       </Content>
     </StyledInfoHex>
   );
