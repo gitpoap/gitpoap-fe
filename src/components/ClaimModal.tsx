@@ -6,10 +6,13 @@ import { BackgroundPanel, TextGray, TextLight } from '../colors';
 import { Button } from './shared/elements/Button';
 import { ClaimBlock } from './shared/compounds/ClaimBlock';
 import { UserClaim } from '../types';
+import { useFeatures } from './FeaturesContext';
 
 type Props = {
   isOpen: boolean;
   claims: UserClaim[];
+  claimedIds?: number[];
+  loadingClaimIds?: number[];
   onClose: () => void;
   onClickClaim: (claimIds: number[]) => void;
 };
@@ -45,7 +48,7 @@ const GitPOAPClaims = styled.div`
 const ClaimAll = styled(Center)`
   display: inline-flex;
   flex-direction: column;
-  margin-top: ${rem(54)};
+  margin-top: ${rem(30)};
 `;
 
 const ClaimText = styled.div`
@@ -53,7 +56,7 @@ const ClaimText = styled.div`
   text-align: center;
   letter-spacing: ${rem(0.5)};
   color: ${TextGray};
-  margin-top: ${rem(12)};
+  margin-top: ${rem(18)};
 `;
 
 const getClaimText = (numClaims: number): string => {
@@ -66,13 +69,23 @@ const getClaimText = (numClaims: number): string => {
   return `You have ${numClaims} new POAPs to claim!`;
 };
 
-export const ClaimModal = ({ isOpen, claims, onClose, onClickClaim }: Props) => {
+export const ClaimModal = ({
+  isOpen,
+  claims,
+  claimedIds,
+  loadingClaimIds,
+  onClose,
+  onClickClaim,
+}: Props) => {
   const [page, setPage] = useState(1);
   const claimText = getClaimText(claims.length);
+  const { hasClaimAllButton } = useFeatures();
   const perPage = 3;
   const numPages = Math.ceil(claims.length / perPage);
   const start = (page - 1) * perPage;
   const end = start + perPage;
+  const hasClaimedAll = claimedIds && claimedIds.length === claims.length;
+  const isClaimingAll = loadingClaimIds && loadingClaimIds.length === claims.length;
 
   /* All claimIds in view, not all */
   const allClaimIds = claims.slice(start, end).map((userClaim) => userClaim.claim.id);
@@ -97,17 +110,35 @@ export const ClaimModal = ({ isOpen, claims, onClose, onClickClaim }: Props) => 
                 orgName={userClaim.claim.gitPOAP.repo.organization.name}
                 description={userClaim.event.description}
                 onClickClaim={() => onClickClaim([userClaim.claim.id])}
+                isClaimed={claimedIds?.includes(userClaim.claim.id)}
+                isLoading={loadingClaimIds?.includes(userClaim.claim.id)}
               />
             );
           })}
         </GitPOAPClaims>
         {claims.length > perPage && (
-          <Pagination style={{ padding: rem(5) }} page={page} onChange={setPage} total={numPages} />
+          <Pagination
+            style={{ padding: rem(5) }}
+            page={page}
+            onChange={setPage}
+            total={numPages}
+            withControls={false}
+          />
         )}
 
-        {claims.length > 1 && (
+        {hasClaimAllButton && claims.length > 1 && !hasClaimedAll && (
           <ClaimAll>
-            <Button onClick={() => onClickClaim(allClaimIds)}>{'Claim all'}</Button>
+            <Button
+              onClick={() => onClickClaim(allClaimIds)}
+              disabled={
+                loadingClaimIds &&
+                loadingClaimIds.length > 0 &&
+                loadingClaimIds.length < allClaimIds.length
+              }
+              loading={isClaimingAll}
+            >
+              {'Claim all'}
+            </Button>
           </ClaimAll>
         )}
         <ClaimText>{'Claiming is free, no transaction fee required'}</ClaimText>

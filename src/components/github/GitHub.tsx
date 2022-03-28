@@ -58,6 +58,8 @@ export const GitHub = ({ className }: Props) => {
   const { tokens, authState, handleLogout, authorizeGitHub } = useAuthContext();
   const signer = web3Provider?.getSigner();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [claimedIds, setClaimedIds] = useState<number[]>([]);
+  const [loadingClaimIds, setLoadingClaimIds] = useState<number[]>([]);
   const [result, refetch] = useQuery<UserOpenClaimsRes>({
     query: OpenClaimsQuery,
     variables: {
@@ -104,18 +106,20 @@ export const GitHub = ({ className }: Props) => {
 
   const claimGitPOAP = useCallback(
     async (claimIds: number[]) => {
+      setLoadingClaimIds(claimIds);
       const address = await signer?.getAddress();
       const timestamp = Date.now();
-      const signature = await signer?.signMessage(
-        JSON.stringify({
-          site: 'gitpoap.io',
-          method: 'POST /claims',
-          createdAt: timestamp,
-          claimIds: claimIds,
-        }),
-      );
 
       try {
+        const signature = await signer?.signMessage(
+          JSON.stringify({
+            site: 'gitpoap.io',
+            method: 'POST /claims',
+            createdAt: timestamp,
+            claimIds: claimIds,
+          }),
+        );
+
         const res = await fetch(`${GITPOAP_API_URL}/claims`, {
           method: 'POST',
           headers: {
@@ -133,11 +137,19 @@ export const GitHub = ({ className }: Props) => {
           }),
         });
 
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
+
         if (res.status === 200) {
+          const data = (await res.json()) as { claimed: number[]; invalid: number[] };
+          setClaimedIds(data.claimed);
           refetch();
+          setLoadingClaimIds([]);
         }
       } catch (err) {
         console.warn(err);
+        setLoadingClaimIds([]);
       }
     },
     [signer, tokens?.accessToken, refetch],
@@ -152,6 +164,8 @@ export const GitHub = ({ className }: Props) => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onClickClaim={claimGitPOAP}
+        claimedIds={claimedIds}
+        loadingClaimIds={loadingClaimIds}
       />
     </Content>
   );
