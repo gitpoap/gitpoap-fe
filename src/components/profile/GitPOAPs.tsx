@@ -22,6 +22,7 @@ const GitPOAPList = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   margin-bottom: ${rem(50)};
+  align-items: flex-start;
 `;
 
 const GitPOAPBadge = styled(GitPOAPBadgeUI)`
@@ -47,6 +48,7 @@ const GitPOAPsQuery = gql`
           event {
             name
             image_url
+            description
           }
           tokenId
         }
@@ -152,6 +154,7 @@ export const GitPOAPs = ({ address }: Props) => {
                   name={gitPOAPItem.poap.event.name}
                   imgSrc={gitPOAPItem.poap.event.image_url}
                   poapTokenId={gitPOAPItem.poap.tokenId}
+                  description={gitPOAPItem.poap.event.description}
                 />
               );
             })}

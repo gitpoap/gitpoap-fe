@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { GitPOAPBadge } from '../elements/GitPOAPBadge';
 import { Title } from '../elements/Title';
@@ -14,6 +14,13 @@ type Props = {
   className?: string;
   poapTokenId?: string;
 };
+
+const LineClamp = (lines: number) => css`
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: ${lines};
+  -webkit-box-orient: vertical;
+`;
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -33,6 +40,7 @@ const Info = styled.div`
 const TitleStyled = styled(Title)`
   margin-top: ${rem(10)};
   text-align: center;
+  ${LineClamp(2)};
 `;
 
 const OrgName = styled.div`
@@ -58,10 +66,7 @@ const Description = styled.div`
   letter-spacing: ${rem(-0.1)};
   color: ${TextLight};
   margin-top: ${rem(8)};
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  ${LineClamp(3)};
 `;
 
 const Heart = styled(FeatureHeart)`

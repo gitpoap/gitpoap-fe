@@ -13,6 +13,7 @@ const POAPs = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   margin-bottom: ${rem(50)};
+  align-items: flex-start;
 `;
 
 const POAPBadge = styled(POAPBadgeUI)`
@@ -33,6 +34,20 @@ const SectionTitle = styled(Text)`
   margin-bottom: ${rem(30)};
 `;
 
+const StyledGitPOAP = styled(GitPOAP)`
+  &:not(:last-child) {
+    margin-right: ${rem(40)};
+  }
+  margin-top: ${rem(30)};
+`;
+
+const StyledPOAP = styled(POAPBadge)`
+  &:not(:last-child) {
+    margin-right: ${rem(40)};
+  }
+  margin-top: ${rem(30)};
+`;
+
 const isGitPOAP = (poap: POAP | GitPOAPType): poap is GitPOAPType => {
   return 'claim' in poap;
 };
@@ -51,7 +66,7 @@ export const FeaturedPOAPs = () => {
             {featuredPOAPsFull.map((featuredPOAP) => {
               if (isGitPOAP(featuredPOAP)) {
                 return (
-                  <GitPOAP
+                  <StyledGitPOAP
                     key={featuredPOAP.claim.id}
                     name={featuredPOAP.poap.event.name}
                     imgSrc={featuredPOAP.poap.event.image_url}
@@ -63,7 +78,7 @@ export const FeaturedPOAPs = () => {
               }
 
               return (
-                <POAPBadge
+                <StyledPOAP
                   key={featuredPOAP.tokenId}
                   poapTokenId={featuredPOAP.tokenId}
                   name={featuredPOAP.event.name}
