@@ -31,7 +31,6 @@ const SectionTitle = styled(Text)`
   line-height: ${rem(42)};
   letter-spacing: ${rem(-1)};
   color: ${TextAccent};
-  margin-bottom: ${rem(30)};
 `;
 
 const StyledGitPOAP = styled(GitPOAP)`

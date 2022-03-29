@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { rem } from 'polished';
 import Head from 'next/head';
 import { Grid } from '@mantine/core';
@@ -14,6 +15,19 @@ import { useWeb3Context } from '../../components/wallet/Web3ContextProvider';
 import { FeaturedPOAPsProvider } from '../../components/profile/FeaturedPOAPsContext';
 import { ProfileProvider } from '../../components/profile/ProfileContext';
 import { truncateAddress } from '../../helpers';
+import { BackgroundHexes } from '../../components/home/BackgroundHexes';
+
+const Background = styled(BackgroundHexes)`
+  position: fixed;
+  top: ${rem(50)};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 0;
+  width: ${rem(1840)};
+`;
 
 const Profile: Page = () => {
   const router = useRouter();
@@ -60,14 +74,15 @@ const Profile: Page = () => {
       </Head>
       <ProfileProvider address={profileAddress} ensName={ensName}>
         <FeaturedPOAPsProvider address={profileAddress} ensName={ensName}>
-          <Grid justify="center" style={{ marginTop: rem(40) }}>
+          <Grid justify="center" style={{ marginTop: rem(40), zIndex: 1 }}>
+            <Background />
             <Grid.Col span={2}>
               <ProfileSidebar address={profileAddress} ensName={ensName} />
             </Grid.Col>
 
-            <Grid.Col span={8}>
+            <Grid.Col span={8} style={{ zIndex: 1 }}>
               <Grid justify="center">
-                <Grid.Col span={10} style={{ marginTop: rem(100) }}>
+                <Grid.Col span={10} style={{ marginTop: rem(60) }}>
                   <FeaturedPOAPs />
                 </Grid.Col>
                 <Grid.Col span={10}>
