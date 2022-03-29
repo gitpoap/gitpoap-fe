@@ -8,7 +8,7 @@ import { TextLight } from '../../../colors';
 import { FeatureHeart } from './FeatureHeart';
 
 type Props = {
-  id: number;
+  gitPOAPId: number;
   imgSrc: string;
   name: string;
   orgName: string;
@@ -84,7 +84,7 @@ const BadgeWrapper = styled(Wrapper)`
 export const GitPOAP = ({
   className,
   poapTokenId,
-  id,
+  gitPOAPId,
   imgSrc,
   name,
   orgName,
@@ -93,7 +93,7 @@ export const GitPOAP = ({
   return (
     <Wrapper className={className}>
       <BadgeWrapper>
-        <Link href={`/gitpoaps/${id}`}>
+        <Link href={`/gitpoaps/${gitPOAPId}`}>
           <a>
             <GitPOAPBadge size="sm" imgUrl={imgSrc} />
           </a>
@@ -101,7 +101,7 @@ export const GitPOAP = ({
         {poapTokenId && <Heart poapTokenId={poapTokenId} />}
       </BadgeWrapper>
       <Info>
-        <Link href={`/gitpoaps/${id}`} passHref>
+        <Link href={`/gitpoaps/${gitPOAPId}`} passHref>
           <TitleStyled>{name}</TitleStyled>
         </Link>
         <OrgName>{orgName}</OrgName>

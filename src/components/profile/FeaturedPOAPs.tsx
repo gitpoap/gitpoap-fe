@@ -67,7 +67,7 @@ export const FeaturedPOAPs = () => {
                 return (
                   <StyledGitPOAP
                     key={featuredPOAP.claim.id}
-                    id={featuredPOAP.claim.gitPOAP.id}
+                    gitPOAPId={featuredPOAP.claim.gitPOAP.id}
                     name={featuredPOAP.poap.event.name}
                     imgSrc={featuredPOAP.poap.event.image_url}
                     orgName={featuredPOAP.claim.gitPOAP.repo.organization.name}

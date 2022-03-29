@@ -13,11 +13,17 @@ const Template: ComponentStory<typeof GitPOAP> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = gitPOAPs[0];
+Default.args = {
+  gitPOAPId: gitPOAPs[0].id,
+  imgSrc: gitPOAPs[0].imgSrc,
+  name: gitPOAPs[0].name,
+  orgName: gitPOAPs[0].orgName,
+  description: gitPOAPs[0].description,
+};
 
 export const NoDescription = Template.bind({});
 NoDescription.args = {
-  id: gitPOAPs[0].id,
+  gitPOAPId: gitPOAPs[0].id,
   imgSrc: gitPOAPs[0].imgSrc,
   name: gitPOAPs[0].name,
   orgName: gitPOAPs[0].orgName,
