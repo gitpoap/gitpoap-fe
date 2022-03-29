@@ -166,7 +166,7 @@ const CreateGitPOAP: NextPage = () => {
       expiryDate: null,
       year: 2022,
       eventUrl: '',
-      email: '',
+      email: 'issuer@gitpoap.io',
       numRequestedCodes: 10,
       ongoing: true,
       image: null as any,
@@ -248,6 +248,7 @@ const CreateGitPOAP: NextPage = () => {
                     placeholder={"Killin' it w codez"}
                     {...form.getInputProps('description')}
                   />
+
                   {/* -------- URLs -------- */}
                   <FormInput
                     required
@@ -261,7 +262,8 @@ const CreateGitPOAP: NextPage = () => {
                     required
                     label={'Email'}
                     name={'email'}
-                    placeholder={'admin@gitpoap.io'}
+                    disabled
+                    placeholder={'issuer@gitpoap.io'}
                     {...form.getInputProps('email')}
                   />
 
