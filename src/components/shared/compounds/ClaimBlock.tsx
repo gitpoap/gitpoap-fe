@@ -50,7 +50,7 @@ export const ClaimBlock = ({
           leftIcon={isClaimed ? <FaCheckCircle /> : undefined}
           disabled={isClaimed}
         >
-          {'Claim'}
+          {isClaimed ? 'Claimed' : 'Claim'}
         </Button>
       </ButtonWrapper>
     </Wrapper>
