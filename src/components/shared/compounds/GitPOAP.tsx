@@ -66,7 +66,7 @@ const Description = styled.div`
   letter-spacing: ${rem(-0.1)};
   color: ${TextLight};
   margin-top: ${rem(8)};
-  ${LineClamp(3)};
+  ${LineClamp(2)};
 `;
 
 const Heart = styled(FeatureHeart)`
