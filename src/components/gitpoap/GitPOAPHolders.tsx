@@ -22,8 +22,10 @@ export type Holder = {
 };
 
 export type GitPOAPHoldersQueryRes = {
-  holders: Holder[];
-  totalHolders: number;
+  gitPOAPHolders: {
+    holders: Holder[];
+    totalHolders: number;
+  };
 };
 
 const HoldersWrapper = styled.div`
@@ -80,25 +82,25 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
     },
   });
 
-  /* Hook to append new data onto existing list of holders */
-  useEffect(() => {
-    setHolders((prev: Holder[]) => {
-      if (result.data) {
-        return [...prev, ...result.data.holders];
-      }
-      return prev;
-    });
-  }, [result.data]);
-
   /* Hook to clear list of holders when the gitPOAPId changes */
   useEffect(() => {
     setHolders([]);
   }, [gitPOAPId]);
 
+  /* Hook to append new data onto existing list of holders */
+  useEffect(() => {
+    setHolders((prev: Holder[]) => {
+      if (result.data) {
+        return [...prev, ...result.data.gitPOAPHolders.holders];
+      }
+      return prev;
+    });
+  }, [result.data]);
+
   /* Hook to set total number of poaps */
   useEffect(() => {
     if (result.data) {
-      setTotal(result.data.totalHolders);
+      setTotal(result.data.gitPOAPHolders.totalHolders);
     }
   }, [result.data]);
 

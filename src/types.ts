@@ -12,6 +12,7 @@ export type UserClaim = {
   claim: {
     id: number;
     gitPOAP: {
+      id: number;
       repo: {
         organization: {
           name: string;
@@ -28,9 +29,9 @@ export type UserClaim = {
 };
 
 export type GitPOAP = {
-  id: string;
+  id: number;
   name: string;
-  description: string;
+  description?: string;
   orgName: string;
   imgSrc: string;
 };
@@ -38,6 +39,7 @@ export type GitPOAP = {
 export type GitPOAPGql = {
   claim: {
     gitPOAP: {
+      id: number;
       repo: {
         name: string;
       };

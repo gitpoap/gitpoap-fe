@@ -66,8 +66,10 @@ export const GitPOAPHoldersHandler = graphql.query<GitPOAPHoldersQueryRes>(
   (req, res, ctx) => {
     return res(
       ctx.data({
-        totalHolders: gitPOAPHolders.length,
-        holders: gitPOAPHolders,
+        gitPOAPHolders: {
+          totalHolders: gitPOAPHolders.length,
+          holders: gitPOAPHolders,
+        },
       }),
     );
   },

@@ -34,12 +34,14 @@ type Event = {
 };
 
 export type GitPOAPEventQueryRes = {
-  gitPOAP: {
-    repo: {
-      organization: Organization;
+  gitPOAPEvent: {
+    gitPOAP: {
+      repo: {
+        organization: Organization;
+      };
     };
+    event: Event;
   };
-  event: Event;
 };
 
 const GitPOAPEventQuery = gql`
@@ -143,8 +145,8 @@ export const Header = ({ gitPOAPId }: Props) => {
 
   /* Hook to set profile data to state */
   useEffect(() => {
-    setEvent(result.data?.event);
-    setOrganization(result.data?.gitPOAP.repo.organization);
+    setEvent(result.data?.gitPOAPEvent.event);
+    setOrganization(result.data?.gitPOAPEvent.gitPOAP.repo.organization);
   }, [result.data]);
 
   return (

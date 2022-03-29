@@ -13,6 +13,7 @@ const FeaturedPOAPsQuery = gql`
         claim {
           id
           gitPOAP {
+            id
             repo {
               organization {
                 name
@@ -47,6 +48,7 @@ export type GitPOAP = {
   claim: {
     id: string;
     gitPOAP: {
+      id: number;
       repo: {
         organization: {
           name: string;

@@ -42,49 +42,49 @@ import { MostClaimedItem } from '../../components/home/MostClaimed';
 
 export const gitPOAPs: GitPOAP[] = [
   {
-    id: '1',
+    id: 1,
     imgSrc: badge2 as unknown as string,
     name: 'Polygon Genesis Creator',
     orgName: 'Polygon',
     description: 'To the creators of Polygon Network',
   },
   {
-    id: '2',
+    id: 2,
     imgSrc: badge3 as unknown as string,
     name: 'AAVE Contributor 2021',
     orgName: 'AAVE',
     description: 'For all our valuable contributors in 2021',
   },
   {
-    id: '3',
+    id: 3,
     imgSrc: badge1 as unknown as string,
     name: 'AAVE Core Contributor',
     orgName: 'AAVE',
     description: 'Issued to core contributors of AAVE protocol',
   },
   {
-    id: '4',
+    id: 4,
     imgSrc: badge4 as unknown as string,
     name: 'Contributor 2021',
     orgName: 'SUBSPACE',
     description: 'For all Subspace contributors in 2021',
   },
   {
-    id: '5',
+    id: 5,
     imgSrc: badge5 as unknown as string,
     name: 'Contributor 2020',
     orgName: 'SUBSPACE',
     description: 'For all Subspace contributors in 2020',
   },
   {
-    id: '6',
+    id: 6,
     imgSrc: badge6 as unknown as string,
     name: 'Contributor 2019',
     orgName: 'AAVE',
     description: 'For all Subspace contributors in 2019',
   },
   {
-    id: '7',
+    id: 7,
     imgSrc: badge7 as unknown as string,
     name: 'AAVE Contributor 2019',
     orgName: 'AAVE',
@@ -450,23 +450,25 @@ export const gitPOAPHolders: Holder[] = [
 ];
 
 export const gitPOAPEvent: GitPOAPEventQueryRes = {
-  gitPOAP: {
-    repo: {
-      organization: {
-        id: 4,
-        name: 'gitpoap',
-        description:
-          'An open source and non-custodial liquidity protocol for earning interest on deposits and borrowing assets.',
-        twitterHandle: 'gitpoap',
-        url: 'http://gitpoap.io',
+  gitPOAPEvent: {
+    gitPOAP: {
+      repo: {
+        organization: {
+          id: 4,
+          name: 'gitpoap',
+          description:
+            'An open source and non-custodial liquidity protocol for earning interest on deposits and borrowing assets.',
+          twitterHandle: 'gitpoap',
+          url: 'http://gitpoap.io',
+        },
       },
     },
-  },
-  event: {
-    name: 'GitPOAP Strategy Meeting - EthDenver 2022',
-    image_url:
-      'https://assets.poap.xyz/gitpoap-strategy-meeting-ethdenver-2022-2022-logo-1645132648036.png',
-    description:
-      'This commemorates a meeting of wonderful folks discussing the future of decentralized reputation and how GitPOAP can contribute to it.',
+    event: {
+      name: 'GitPOAP Strategy Meeting - EthDenver 2022',
+      image_url:
+        'https://assets.poap.xyz/gitpoap-strategy-meeting-ethdenver-2022-2022-logo-1645132648036.png',
+      description:
+        'This commemorates a meeting of wonderful folks discussing the future of decentralized reputation and how GitPOAP can contribute to it.',
+    },
   },
 };

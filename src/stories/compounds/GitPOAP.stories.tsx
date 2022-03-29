@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { GitPOAP } from '../../components/shared/compounds/GitPOAP';
-import badgeImg1 from '../assets/gitPOAPs/badge1.png';
+import { gitPOAPs } from '../data';
 
 export default {
   title: 'Compounds/GitPOAP',
@@ -13,16 +13,12 @@ const Template: ComponentStory<typeof GitPOAP> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = {
-  imgSrc: badgeImg1 as unknown as string,
-  name: 'Polygon Genesis Creator',
-  orgName: 'Polygon',
-  description: 'To the creators of Polygon Network',
-};
+Default.args = gitPOAPs[0];
 
 export const NoDescription = Template.bind({});
 NoDescription.args = {
-  imgSrc: badgeImg1 as unknown as string,
-  name: 'Polygon Genesis Creator',
-  orgName: 'Polygon',
+  id: gitPOAPs[0].id,
+  imgSrc: gitPOAPs[0].imgSrc,
+  name: gitPOAPs[0].name,
+  orgName: gitPOAPs[0].orgName,
 };
