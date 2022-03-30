@@ -5,6 +5,11 @@ import { useQuery, gql } from 'urql';
 import { GitPOAPGql } from '../../types';
 import { GitPOAP as GitPOAPBadgeUI } from '../shared/compounds/GitPOAP';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
+import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
+import { Title } from '../shared/elements/Title';
+import { FaTrophy } from 'react-icons/fa';
+import { TextDarkGray } from '../../colors';
+import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 
 type Props = {
   address: string;
@@ -133,6 +138,25 @@ export const GitPOAPs = ({ address }: Props) => {
       }
     >
       <GitPOAPList>
+        {result.fetching && !result.operation && (
+          <>
+            {[...Array(5)].map((_, i) => {
+              return (
+                <POAPBadgeSkeleton key={i} style={{ marginTop: rem(30), marginRight: rem(40) }} />
+              );
+            })}
+          </>
+        )}
+        {result.operation && gitPOAPItems.length === 0 && (
+          <EmptyState icon={<FaTrophy color={TextDarkGray} size={rem(74)} />}>
+            <a href={'https://gitpoap.io/discord'} target="_blank" rel="noopener noreferrer">
+              <Title style={{ marginTop: rem(20) }}>
+                {'Get contributing! Head over to our Discord to get started.'}
+              </Title>
+            </a>
+          </EmptyState>
+        )}
+
         {gitPOAPItems &&
           gitPOAPItems
             .filter((gitPOAPItem) => {
