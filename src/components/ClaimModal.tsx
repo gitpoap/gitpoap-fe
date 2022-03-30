@@ -105,6 +105,7 @@ export const ClaimModal = ({
             return (
               <ClaimBlock
                 key={userClaim.claim.id}
+                gitPOAPId={userClaim.claim.id}
                 imgSrc={userClaim.event.image_url}
                 name={userClaim.event.name}
                 orgName={userClaim.claim.gitPOAP.repo.organization.name}

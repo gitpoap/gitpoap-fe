@@ -39,6 +39,7 @@ const GitPOAPsQuery = gql`
       gitPOAPs {
         claim {
           gitPOAP {
+            id
             repo {
               name
             }
@@ -150,6 +151,7 @@ export const GitPOAPs = ({ address }: Props) => {
               return (
                 <GitPOAPBadge
                   key={gitPOAPItem.poap.tokenId}
+                  gitPOAPId={gitPOAPItem.claim.gitPOAP.id}
                   orgName={gitPOAPItem.claim.gitPOAP.repo.name}
                   name={gitPOAPItem.poap.event.name}
                   imgSrc={gitPOAPItem.poap.event.image_url}

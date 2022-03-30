@@ -82,6 +82,7 @@ export const MostClaimed = () => {
           return (
             <GitPOAPBadge
               key={item.gitPOAP.id + '-' + i}
+              gitPOAPId={item.gitPOAP.id}
               imgSrc={item.event.image_url}
               name={item.event.name}
               orgName={item.gitPOAP.repo.name}

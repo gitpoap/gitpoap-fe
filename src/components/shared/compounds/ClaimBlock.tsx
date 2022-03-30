@@ -6,6 +6,7 @@ import { GitPOAP } from './GitPOAP';
 import { FaCheckCircle } from 'react-icons/fa';
 
 type Props = {
+  gitPOAPId: number;
   imgSrc: string;
   name: string;
   orgName: string;
@@ -32,6 +33,7 @@ const ButtonWrapper = styled.div`
 `;
 
 export const ClaimBlock = ({
+  gitPOAPId,
   imgSrc,
   name,
   orgName,
@@ -42,7 +44,13 @@ export const ClaimBlock = ({
 }: Props) => {
   return (
     <Wrapper>
-      <GitPOAP imgSrc={imgSrc} name={name} orgName={orgName} description={description} />
+      <GitPOAP
+        gitPOAPId={gitPOAPId}
+        imgSrc={imgSrc}
+        name={name}
+        orgName={orgName}
+        description={description}
+      />
       <ButtonWrapper>
         <Button
           onClick={onClickClaim}

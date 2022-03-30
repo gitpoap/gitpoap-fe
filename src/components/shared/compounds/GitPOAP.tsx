@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { rem } from 'polished';
@@ -7,6 +8,7 @@ import { TextLight } from '../../../colors';
 import { FeatureHeart } from './FeatureHeart';
 
 type Props = {
+  gitPOAPId: number;
   imgSrc: string;
   name: string;
   orgName: string;
@@ -79,15 +81,29 @@ const BadgeWrapper = styled(Wrapper)`
   position: relative;
 `;
 
-export const GitPOAP = ({ className, poapTokenId, imgSrc, name, orgName, description }: Props) => {
+export const GitPOAP = ({
+  className,
+  poapTokenId,
+  gitPOAPId,
+  imgSrc,
+  name,
+  orgName,
+  description,
+}: Props) => {
   return (
     <Wrapper className={className}>
       <BadgeWrapper>
-        <GitPOAPBadge size="sm" imgUrl={imgSrc} />
+        <Link href={`/gitpoaps/${gitPOAPId}`}>
+          <a>
+            <GitPOAPBadge size="sm" imgUrl={imgSrc} />
+          </a>
+        </Link>
         {poapTokenId && <Heart poapTokenId={poapTokenId} />}
       </BadgeWrapper>
       <Info>
-        <TitleStyled>{name}</TitleStyled>
+        <Link href={`/gitpoaps/${gitPOAPId}`} passHref>
+          <TitleStyled>{name}</TitleStyled>
+        </Link>
         <OrgName>{orgName}</OrgName>
         {description && <Description>{description}</Description>}
       </Info>

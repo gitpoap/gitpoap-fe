@@ -14,6 +14,7 @@ const Template: ComponentStory<typeof ClaimBlock> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
+  gitPOAPId: 1,
   imgSrc: badgeImg1 as unknown as string,
   name: 'Polygon Genesis Creator',
   orgName: 'Polygon',
@@ -22,6 +23,7 @@ Default.args = {
 
 export const LongDescription = Template.bind({});
 LongDescription.args = {
+  gitPOAPId: 1,
   imgSrc: badgeImg1 as unknown as string,
   name: 'Swype Protocol Purple Contributor',
   orgName: 'Swype',
