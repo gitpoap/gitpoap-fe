@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useQuery, gql } from 'urql';
-import { JsonRpcSigner } from '@ethersproject/providers';
 import { POAP } from '../../types';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { GITPOAP_API_URL } from '../../constants';
@@ -115,7 +114,7 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
   const [result, refetch] = useQuery<UserPOAPsQueryRes>({
     query: FeaturedPOAPsQuery,
     variables: {
-      address: profileAddress ?? ensName,
+      address: ensName ?? profileAddress,
     },
   });
 
