@@ -60,7 +60,7 @@ export const FeaturedPOAPs = () => {
     <>
       {featuredPOAPsFull.length > 0 && (
         <>
-          <SectionTitle>{'Featured by the user'}</SectionTitle>
+          <SectionTitle>{'Featured POAPs'}</SectionTitle>
           <POAPs>
             {featuredPOAPsFull.map((featuredPOAP) => {
               if (isGitPOAP(featuredPOAP)) {
