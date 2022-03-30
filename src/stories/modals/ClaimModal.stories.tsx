@@ -59,7 +59,7 @@ const claims: UserClaim[] = [
       id: 3,
       name: 'AAVE Core Contributor',
       image_url: badgeImg3 as unknown as string,
-      description: 'Issued to core contributors of AAVE protocol',
+      description: 'Minted to core contributors of AAVE protocol',
     },
   },
   {

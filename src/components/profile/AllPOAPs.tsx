@@ -13,7 +13,7 @@ type Props = {
 type SortOptions = 'date' | 'alphabetical';
 
 const selectOptions: SelectOption<SortOptions>[] = [
-  { value: 'date', label: 'Date of Claim' },
+  { value: 'date', label: 'Mint Date' },
   { value: 'alphabetical', label: 'Alphabetical' },
 ];
 

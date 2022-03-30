@@ -55,7 +55,7 @@ const Home: Page = () => {
       <Grid justify="center" style={{ zIndex: 0, position: 'relative' }}>
         <Background />
         <Grid.Col span={8} style={{ zIndex: 0 }}>
-          <HeaderStyled>{'Issue POAPs to your GitHub contributors'}</HeaderStyled>
+          <HeaderStyled>{'Mint POAPs to your GitHub contributors'}</HeaderStyled>
         </Grid.Col>
         <Grid.Col span={8}>
           <BannerStats />

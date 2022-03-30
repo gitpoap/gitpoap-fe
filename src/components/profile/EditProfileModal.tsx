@@ -121,7 +121,7 @@ export const EditProfileModal = ({
       opened={isOpen}
       centered
       size="xl"
-      closeButtonLabel="Close GitPOAP claim modal"
+      closeButtonLabel="Close the edit profile modal"
     >
       <Content>
         <Header style={{ marginBottom: rem(30) }}>{'Edit profile'}</Header>
@@ -137,7 +137,7 @@ export const EditProfileModal = ({
               </Setting>
             ) : (
               <Setting>
-                <Text>{'Connect your GitHub account to claim GitPOAPs'}</Text>
+                <Text>{'Connect your GitHub account to mint GitPOAPs'}</Text>
                 <Button onClick={authorizeGitHub} variant="outline">
                   {'Connect'}
                 </Button>

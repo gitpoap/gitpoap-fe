@@ -75,7 +75,7 @@ export const GitHub = ({ className }: Props) => {
     if (!authState.isLoggedIntoGitHub) {
       return (
         <Button onClick={authorizeGitHub} leftIcon={<GoMarkGithub size={16} />}>
-          {'CLAIM POAPS'}
+          {'MINT POAPS'}
         </Button>
       );
     } else if (userClaims && userClaims.length > 0) {
@@ -86,7 +86,7 @@ export const GitHub = ({ className }: Props) => {
             onClick={() => setIsModalOpen(true)}
             leftIcon={<ClaimCircle value={userClaims.length} />}
           >
-            {'VIEW & CLAIM'}
+            {'VIEW & MINT'}
           </Button>
         </>
       );

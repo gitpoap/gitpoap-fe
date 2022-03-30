@@ -61,12 +61,12 @@ const ClaimText = styled.div`
 
 const getClaimText = (numClaims: number): string => {
   if (numClaims < 1) {
-    return 'You have no new POAPs to claim.';
+    return 'You have no new POAPs to mint.';
   } else if (numClaims === 1) {
-    return 'You have a new POAP to claim!';
+    return 'You have a new POAP to mint!';
   }
 
-  return `You have ${numClaims} new POAPs to claim!`;
+  return `You have ${numClaims} new POAPs to mint!`;
 };
 
 export const ClaimModal = ({
@@ -96,7 +96,7 @@ export const ClaimModal = ({
       opened={isOpen}
       centered
       size="xl"
-      closeButtonLabel="Close GitPOAP claim modal"
+      closeButtonLabel="Close GitPOAP mint modal"
     >
       <Content>
         <Header>{claimText}</Header>
@@ -138,11 +138,11 @@ export const ClaimModal = ({
               }
               loading={isClaimingAll}
             >
-              {'Claim all'}
+              {'Mint all'}
             </Button>
           </ClaimAll>
         )}
-        <ClaimText>{'Claiming is free, no transaction fee required'}</ClaimText>
+        <ClaimText>{'Minting is free, no transaction fee required'}</ClaimText>
       </Content>
     </StyledModal>
   );

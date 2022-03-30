@@ -28,5 +28,5 @@ LongDescription.args = {
   name: 'Swype Protocol Purple Contributor',
   orgName: 'Swype',
   description:
-    'Issued to core contributors who have given back to the community enough to meet the requirements of level purple',
+    'Minted to core contributors who have given back to the community enough to meet the requirements of level purple',
 };

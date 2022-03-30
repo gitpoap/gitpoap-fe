@@ -75,7 +75,7 @@ export const MostClaimed = () => {
 
   return (
     <Container>
-      <Header>{'Most claimed GitPOAPs'}</Header>
+      <Header>{'Most minted GitPOAPs'}</Header>
 
       <Poaps>
         {result.data?.mostClaimedGitPOAPs?.map((item, i) => {
