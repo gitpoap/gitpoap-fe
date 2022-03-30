@@ -4,6 +4,7 @@ import { rem } from 'polished';
 import { Modal, Center, Pagination } from '@mantine/core';
 import { BackgroundPanel, TextGray, TextLight } from '../colors';
 import { Button } from './shared/elements/Button';
+import { TwitterShareButton } from './shared/elements/TwitterShareButton';
 import { ClaimBlock } from './shared/compounds/ClaimBlock';
 import { UserClaim } from '../types';
 import { useFeatures } from './FeaturesContext';
@@ -143,6 +144,22 @@ export const ClaimModal = ({
           </ClaimAll>
         )}
         <ClaimText>{'Claiming is free, no transaction fee required'}</ClaimText>
+        {claimedIds && (
+          <TwitterShareButton
+            hashtags={'poap,gitpoap'}
+            label={'Tweet'}
+            text={`I was just awarded ${claimedIds.length} POAP${
+              claimedIds.length > 1 && 's'
+            } for contributions I’ve made to open source!`}
+            url={
+              '\n' +
+              claimedIds
+                .map((claimedId) => `https://gitpoap.com/gitpoaps/${claimedId}`)
+                .join('\n') +
+              '\n'
+            }
+          />
+        )}
       </Content>
     </StyledModal>
   );
