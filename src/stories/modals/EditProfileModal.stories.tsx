@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { EditProfileModal } from '../../components/profile/EditProfileModal';
 
 export default {
-  title: 'Modals/UpdateProfile',
+  title: 'Modals/EditProfile',
   component: EditProfileModal,
   argTypes: {},
 } as ComponentMeta<typeof EditProfileModal>;
