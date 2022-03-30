@@ -13,7 +13,7 @@ class MyDocument extends Document {
           {/* <!-- Metadata for SEO --> */}
           <meta
             name="keywords"
-            content="ethereum, POAP, proof of attendance protocol, gitPOAP, github, git, token, badge, issuance, blockchain, crypto, l2"
+            content="ethereum, POAP, proof of attendance protocol, gitPOAP, github, git, token, wallet, badge, issuance, blockchain, crypto, l2"
           />
           <meta name="author" content="GitPOAP" />
           <link rel="canonical" href="https://gitpoap.io" />
