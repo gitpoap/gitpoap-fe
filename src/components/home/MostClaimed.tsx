@@ -7,6 +7,7 @@ import { GitPOAP as GitPOAPUI } from '../shared/compounds/GitPOAP';
 import { Button } from '../shared/elements/Button';
 import { FaArrowRight } from 'react-icons/fa';
 import { useFeatures } from '../FeaturesContext';
+import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 
 const Container = styled.div`
   display: inline-flex;
@@ -69,15 +70,19 @@ export const MostClaimed = () => {
     query: MostClaimedQuery,
   });
 
-  if (!result.data) {
-    return null;
-  }
-
   return (
     <Container>
       <Header>{'Most minted GitPOAPs'}</Header>
-
       <Poaps>
+        {result.fetching && !result.operation && (
+          <>
+            {[...Array(5)].map((_, i) => {
+              return (
+                <POAPBadgeSkeleton key={i} style={{ marginTop: rem(30), marginRight: rem(40) }} />
+              );
+            })}
+          </>
+        )}
         {result.data?.mostClaimedGitPOAPs?.map((item, i) => {
           return (
             <GitPOAPBadge
