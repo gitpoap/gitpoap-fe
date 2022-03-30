@@ -62,6 +62,7 @@ const Container = styled.div`
 `;
 
 const SearchInput = styled(Input)`
+  min-width: ${rem(300)};
   .mantine-TextInput-input {
     &::placeholder {
       color: ${TextGray};
@@ -75,7 +76,7 @@ const Results = styled.div`
   flex-direction: column;
   top: ${rem(45)};
   left: 0;
-  min-width: ${rem(198)};
+  min-width: ${rem(300)};
   padding: ${rem(6)} ${rem(6)} ${rem(6)} ${rem(6)};
   background-color: ${BackgroundPanel};
   z-index: 1;
@@ -147,7 +148,7 @@ export const SearchBox = ({ className }: Props) => {
     <Container className={className} onFocus={() => setAreResultsVisible(true)}>
       <SearchInput
         inputRef={inputRef}
-        placeholder={'SEARCH...'}
+        placeholder={'SEARCH BY ENS OR ACCOUNT...'}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         icon={result.fetching ? <Loader size={18} /> : <FaSearch />}
