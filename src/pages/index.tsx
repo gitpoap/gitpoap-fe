@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import Head from 'next/head';
-import { Center, Grid } from '@mantine/core';
+import { Center, Grid, Group } from '@mantine/core';
 import { Page } from './_app';
-import { TextLight } from '../colors';
+import { BackgroundPanel2, TextLight } from '../colors';
 import { BannerStats } from '../components/home/BannerStats';
 import { Layout } from '../components/Layout';
 import { MostClaimed } from '../components/home/MostClaimed';
@@ -13,6 +13,7 @@ import { RecentlyAdded } from '../components/home/RecentlyAdded';
 import { SuggestionForm } from '../components/home/SuggestionForm';
 import { BackgroundHexes } from '../components/home/BackgroundHexes';
 import { useFeatures } from '../components/FeaturesContext';
+import { Divider } from '@mantine/core';
 
 const HeaderStyled = styled.span`
   position: relative;
@@ -80,9 +81,12 @@ const Home: Page = () => {
       )}
       <Grid align="center" justify="center" style={{ zIndex: 0, marginBottom: rem(100) }}>
         <Grid.Col span={10}>
-          <Center style={{ marginTop: rem(30) }}>
-            <SuggestionForm />
-          </Center>
+          <Group direction="column" position="center" align="center">
+            <Divider style={{ width: '75%', borderTopColor: BackgroundPanel2 }} />
+            <Center style={{ marginTop: rem(30) }}>
+              <SuggestionForm />
+            </Center>
+          </Group>
         </Grid.Col>
       </Grid>
     </>
