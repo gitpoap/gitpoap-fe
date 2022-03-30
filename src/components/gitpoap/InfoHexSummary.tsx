@@ -8,6 +8,7 @@ import { GitHub } from '../shared/elements/icons/GitHub';
 import { GitPOAP } from '../shared/elements/icons/GitPOAP';
 import { InfoHexBase, Body } from '../shared/elements/InfoHexBase';
 import { Avatar as AvatarUI } from '../shared/elements/Avatar';
+import { IconCount } from '../shared/elements/IconCount';
 
 type Props = {
   className?: string;
@@ -85,18 +86,6 @@ const Social = styled.div`
   flex-grow: 0;
 `;
 
-const GPCount = styled.span`
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: bold;
-  font-size: ${rem(12)};
-  line-height: ${rem(17)};
-  letter-spacing: ${rem(0.5)};
-  text-transform: uppercase;
-  color: ${TextLight};
-  margin-left: ${rem(6)};
-`;
-
 const StyledInfoHex = styled(InfoHexBase)`
   display: inline-flex;
   flex-direction: column;
@@ -145,10 +134,9 @@ export const InfoHexSummary = ({
         <Social>
           {twitterHref && <Twitter href={twitterHref} />}
           {githubHref && <GitHub href={githubHref} />}
-          <div>
-            {gitpoapId && <GitPOAP href={getGitPOAPHref(gitpoapId)} />}
-            <GPCount>{numGitPOAPs}</GPCount>
-          </div>
+          {gitpoapId && (
+            <IconCount icon={<GitPOAP href={getGitPOAPHref(gitpoapId)} />} count={numGitPOAPs} />
+          )}
         </Social>
       </Content>
     </StyledInfoHex>
