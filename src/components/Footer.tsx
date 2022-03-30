@@ -63,10 +63,14 @@ export const Footer = () => {
           {'GitPOAP 2022'}
         </ContentLeft>
         <ContentRight>
-          <SocialLink href={'https://gitpoap.io/discord'}>
+          <SocialLink href={'https://gitpoap.io/discord'} target="_blank" rel="noopener noreferrer">
             <DiscordIcon />
           </SocialLink>
-          <SocialLink href={'https://twitter.com/gitpoap'}>
+          <SocialLink
+            href={'https://twitter.com/gitpoap'}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <TwitterIcon />
           </SocialLink>
         </ContentRight>
