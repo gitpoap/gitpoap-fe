@@ -53,10 +53,7 @@ const POAPs = styled.div`
 `;
 
 const POAPBadge = styled(POAPBadgeUI)`
-  &:not(:last-child) {
-    margin-right: ${rem(40)};
-  }
-  margin-top: ${rem(30)};
+  margin: ${rem(30)} ${rem(20)} 0;
 `;
 
 export const AllPOAPs = ({ address }: Props) => {
@@ -116,7 +113,7 @@ export const AllPOAPs = ({ address }: Props) => {
         }
       }}
       isLoading={result.fetching}
-      hasShowMoreButton={!result.fetching && !!total && poaps.length < total}
+      hasShowMoreButton={!!result?.operation && !!total && poaps.length < total}
       showMoreOnClick={() => {
         if (!result.fetching) {
           setPage(page + 1);
