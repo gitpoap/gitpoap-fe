@@ -4,7 +4,6 @@ import { InfoHexBase } from '../../components/shared/elements/InfoHexBase';
 import { InfoHexMetric } from '../../components/home/InfoHexMetric';
 import { InfoHexSummary } from '../../components/gitpoap/InfoHexSummary';
 import { People } from '../../components/shared/elements/icons/People';
-import profileImg from '../assets/profile1.png';
 
 export default {
   title: 'Compounds/InfoHex',
@@ -35,11 +34,9 @@ export const Profile: ComponentStory<typeof InfoHexBase> = (args) => {
   return (
     <InfoHexSummary
       {...args}
-      imgSrc={profileImg as unknown as string}
-      name="nd-certora"
       blurb="Recovering physicist turned programmer. Soccer aficionado."
-      twitterHref="https://twitter.com/nd_certora"
-      githubHref="github.com/nd_certora"
+      twitterHandle="nd_certora"
+      githubHandle="nd_certora"
       gitpoapId={10}
       numGitPOAPs={12}
       address="0x0"

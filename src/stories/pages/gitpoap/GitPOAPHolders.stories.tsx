@@ -12,4 +12,7 @@ const Template: ComponentStory<typeof GitPOAPHolders> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = { gitPOAPId: 5 };
+Default.args = { gitPOAPId: 1 };
+
+export const Empty = Template.bind({});
+Empty.args = { gitPOAPId: 0 };

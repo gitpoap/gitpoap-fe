@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import Link from 'next/link';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { TextAccent, TextLight, ExtraHover, ExtraPressed } from '../../colors';
 import { Twitter } from '../shared/elements/icons/Twitter';
@@ -9,16 +10,17 @@ import { GitPOAP } from '../shared/elements/icons/GitPOAP';
 import { InfoHexBase, Body } from '../shared/elements/InfoHexBase';
 import { Avatar as AvatarUI } from '../shared/elements/Avatar';
 import { IconCount } from '../shared/elements/IconCount';
+import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { truncateAddress } from '../../helpers';
+import { useEns } from '../../hooks/useEns';
 
 type Props = {
   className?: string;
-  imgSrc?: string;
-  name: string;
   address: string;
   blurb?: string;
   gitpoapId: string | number;
-  twitterHref?: string;
-  githubHref?: string;
+  twitterHandle?: string;
+  githubHandle?: string;
   numGitPOAPs: number;
 };
 
@@ -116,29 +118,49 @@ const JazzIcon = styled(JazzIconReact)`
 
 export const InfoHexSummary = ({
   className,
-  imgSrc,
-  name,
   address,
   blurb,
   gitpoapId,
-  twitterHref,
-  githubHref,
+  twitterHandle,
+  githubHandle,
   numGitPOAPs,
 }: Props) => {
+  const { web3Provider } = useWeb3Context();
+  const { ensName, avatarURI } = useEns(web3Provider, address);
+
   return (
-    <StyledInfoHex className={className} hoverEffects>
-      <Content>
-        {imgSrc ? <Avatar src={imgSrc} useDefaultImageTag /> : <JazzIcon address={address} />}
-        <Name>{name}</Name>
-        {blurb && <Blurb>{blurb}</Blurb>}
-        <Social>
-          {twitterHref && <Twitter href={twitterHref} />}
-          {githubHref && <GitHub href={githubHref} />}
-          {gitpoapId && (
-            <IconCount icon={<GitPOAP href={getGitPOAPHref(gitpoapId)} />} count={numGitPOAPs} />
-          )}
-        </Social>
-      </Content>
-    </StyledInfoHex>
+    <Link href={`/p/${ensName ?? address}`} passHref>
+      <a>
+        <StyledInfoHex className={className} hoverEffects>
+          <Content>
+            {avatarURI ? (
+              <Avatar src={avatarURI} useDefaultImageTag />
+            ) : (
+              <JazzIcon address={address} />
+            )}
+            <Name>{ensName ?? truncateAddress(address, 10)}</Name>
+            {blurb && <Blurb>{blurb}</Blurb>}
+            <Social>
+              {twitterHandle && (
+                <Link href={`https://twitter.com/${twitterHandle}`} passHref>
+                  <Twitter />
+                </Link>
+              )}
+              {githubHandle && (
+                <Link href={`https://github.com/${githubHandle}`} passHref>
+                  <GitHub />
+                </Link>
+              )}
+              {gitpoapId && (
+                <IconCount
+                  icon={<GitPOAP href={getGitPOAPHref(gitpoapId)} />}
+                  count={numGitPOAPs}
+                />
+              )}
+            </Social>
+          </Content>
+        </StyledInfoHex>
+      </a>
+    </Link>
   );
 };
