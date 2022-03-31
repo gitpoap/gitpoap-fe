@@ -46,6 +46,8 @@ type ProfileContext = {
   setIsUpdateModalOpen: Dispatch<SetStateAction<boolean>>;
   avatarURI: string | null;
   showEditProfileButton: boolean;
+  isSaveSuccessful: boolean;
+  setIsSaveSuccessful: Dispatch<SetStateAction<boolean>>;
 };
 
 const ProfileContext = createContext<ProfileContext>({} as ProfileContext);
@@ -68,6 +70,7 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
   const [avatarURI, setAvatarURI] = useState<string | null>(null);
+  const [isSaveSuccessful, setIsSaveSuccessful] = useState<boolean>(false);
   const [result, refetch] = useQuery<UserPOAPsQueryRes>({
     query: ProfileQuery,
     variables: {
@@ -104,6 +107,14 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
       getAvatar();
     }
   }, [ensName, web3Provider, avatarURI]);
+
+  useEffect(() => {
+    if (isSaveSuccessful) {
+      setTimeout(() => {
+        setIsSaveSuccessful(false);
+      }, 3000);
+    }
+  }, [isSaveSuccessful]);
 
   /* Hook to reset the avatarURI when the address changes */
   useEffect(() => {
@@ -152,10 +163,12 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
         if (res.status === 200) {
           refetch({ requestPolicy: 'network-only' });
         }
+        setIsSaveSuccessful(true);
         setIsSaveLoading(false);
       } catch (err) {
         console.warn(err);
         setIsSaveLoading(false);
+        setIsSaveSuccessful(false);
       }
     },
     [signer, tokens?.accessToken, refetch, connectedWalletAddress],
@@ -169,6 +182,8 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
         avatarURI,
         showEditProfileButton,
         setIsUpdateModalOpen,
+        isSaveSuccessful,
+        setIsSaveSuccessful,
       }}
     >
       {children}
