@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { Loader } from '@mantine/core';
 import { FaHeart } from 'react-icons/fa';
 import { ExtraHover, ExtraPressed, TextAccent, TextLight } from '../../../colors';
 import { useFeaturedPOAPs, useFeaturedPOAPsDispatch } from '../../profile/FeaturedPOAPsContext';
@@ -36,9 +37,11 @@ export const FeatureHeart = ({ className, poapTokenId }: Props) => {
   const {
     featuredPOAPsState: { featuredPOAPTokenIDs },
     showHearts,
+    loadingIds,
   } = useFeaturedPOAPs();
   const { addFeaturedPOAP, removeFeaturedPOAP } = useFeaturedPOAPsDispatch();
   const isFeatured: boolean = !!featuredPOAPTokenIDs && !!featuredPOAPTokenIDs[poapTokenId];
+  const isFeaturedLoading = !!loadingIds && !!loadingIds[poapTokenId];
 
   if (!showHearts) {
     return null;
@@ -46,16 +49,20 @@ export const FeatureHeart = ({ className, poapTokenId }: Props) => {
 
   return (
     <HeartWrapper isFeatured={isFeatured}>
-      <FeatureHeartStyled
-        className={className}
-        onClick={() => {
-          if (isFeatured) {
-            removeFeaturedPOAP(poapTokenId);
-          } else {
-            addFeaturedPOAP(poapTokenId);
-          }
-        }}
-      />
+      {isFeaturedLoading ? (
+        <Loader className={className} size={18} />
+      ) : (
+        <FeatureHeartStyled
+          className={className}
+          onClick={() => {
+            if (isFeatured) {
+              removeFeaturedPOAP(poapTokenId);
+            } else {
+              addFeaturedPOAP(poapTokenId);
+            }
+          }}
+        />
+      )}
     </HeartWrapper>
   );
 };

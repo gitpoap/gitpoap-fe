@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import { useQuery, gql } from 'urql';
+import { useQuery, useClient, gql } from 'urql';
 import { POAP } from '../../types';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { GITPOAP_API_URL } from '../../constants';
@@ -75,6 +75,7 @@ type FeaturedPOAPsData = {
   showHearts: boolean;
   isLoading: boolean;
   hasFetched: boolean;
+  loadingIds: Record<string, true>;
 };
 
 type FeaturedPOAPsDispatch = {
@@ -113,7 +114,9 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
   const [featuredPOAPsState, setFeaturedPOAPsState] = useState<FeaturedPOAPsState>(
     getInitialState(),
   );
-  const [result, refetch] = useQuery<UserPOAPsQueryRes>({
+  const [loadingIds, setLoadingIds] = useState<Record<string, true>>({} as Record<string, true>);
+  const gqlClient = useClient();
+  const [result] = useQuery<UserPOAPsQueryRes>({
     query: FeaturedPOAPsQuery,
     variables: {
       address: ensName ?? profileAddress,
@@ -138,24 +141,41 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
     }
   }, [profileAddress, checkIfUserOwnsProfile]);
 
+  /* Process & save fetched data to state */
+  const saveData = useCallback((data: UserPOAPsQueryRes) => {
+    const profileFeaturedPOAPs = data.profileFeaturedPOAPs;
+    const ids = [
+      ...profileFeaturedPOAPs.gitPOAPs.map((gitpoap) => gitpoap.poap.tokenId),
+      ...profileFeaturedPOAPs.poaps.map((poap) => poap.tokenId),
+    ];
+    setFeaturedPOAPsState({
+      featuredPOAPsFull: [...profileFeaturedPOAPs.gitPOAPs, ...profileFeaturedPOAPs.poaps],
+      featuredPOAPTokenIDs: ids.reduce((acc, id) => ({ ...acc, [id]: true }), {}),
+    });
+  }, []);
+
+  /* Save data when it arrives */
   useEffect(() => {
     if (result.data?.profileFeaturedPOAPs) {
-      const profileFeaturedPOAPs = result.data.profileFeaturedPOAPs;
-      const ids = [
-        ...profileFeaturedPOAPs.gitPOAPs.map((gitpoap) => gitpoap.poap.tokenId),
-        ...profileFeaturedPOAPs.poaps.map((poap) => poap.tokenId),
-      ];
-      setFeaturedPOAPsState({
-        featuredPOAPsFull: [...profileFeaturedPOAPs.gitPOAPs, ...profileFeaturedPOAPs.poaps],
-        featuredPOAPTokenIDs: ids.reduce((acc, id) => ({ ...acc, [id]: true }), {}),
-      });
+      saveData(result.data);
     }
-  }, [result.data]);
+  }, [result.data, saveData]);
+
+  /* Manually refetch data via a promisified query */
+  const refetchData = useCallback(async () => {
+    return await gqlClient
+      .query(
+        FeaturedPOAPsQuery,
+        { address: ensName ?? profileAddress },
+        { requestPolicy: 'network-only' },
+      )
+      .toPromise();
+  }, [gqlClient, ensName, profileAddress]);
 
   const addFeaturedPOAP = useCallback(
     async (poapTokenId: string) => {
       const timestamp = Date.now();
-      const address = await signer?.getAddress();
+      setLoadingIds((prevState) => ({ ...prevState, [poapTokenId]: true }));
 
       try {
         const signature = await signer?.signMessage(
@@ -174,7 +194,7 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
             Authorization: `Bearer ${tokens?.accessToken}`,
           },
           body: JSON.stringify({
-            address,
+            address: walletAddress,
             poapTokenId,
             signature: {
               data: signature,
@@ -182,18 +202,27 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
             },
           }),
         });
-        refetch({ requestPolicy: 'network-only' });
+        const results = await refetchData();
+        saveData(results.data);
+        setLoadingIds((prevState) => {
+          const { [poapTokenId]: _, ...newState } = prevState;
+          return newState;
+        });
       } catch (err) {
+        setLoadingIds((prevState) => {
+          const { [poapTokenId]: _, ...newState } = prevState;
+          return newState;
+        });
         console.error(err);
       }
     },
-    [refetch, signer, tokens?.accessToken],
+    [walletAddress, signer, tokens?.accessToken, saveData, refetchData],
   );
 
   const removeFeaturedPOAP = useCallback(
     async (poapTokenId: string) => {
       const timestamp = Date.now();
-      const address = await signer?.getAddress();
+      setLoadingIds((prevState) => ({ ...prevState, [poapTokenId]: true }));
 
       try {
         const signature = await signer?.signMessage(
@@ -212,19 +241,29 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
             Authorization: `Bearer ${tokens?.accessToken}`,
           },
           body: JSON.stringify({
-            address,
+            address: walletAddress,
             signature: {
               data: signature,
               createdAt: timestamp,
             },
           }),
         });
-        refetch({ requestPolicy: 'network-only' });
+
+        const results = await refetchData();
+        saveData(results.data);
+        setLoadingIds((prevState) => {
+          const { [poapTokenId]: _, ...newState } = prevState;
+          return newState;
+        });
       } catch (err) {
         console.error(err);
+        setLoadingIds((prevState) => {
+          const { [poapTokenId]: _, ...newState } = prevState;
+          return newState;
+        });
       }
     },
-    [refetch, signer, tokens?.accessToken],
+    [walletAddress, signer, tokens?.accessToken, saveData, refetchData],
   );
 
   return (
@@ -234,6 +273,7 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
         showHearts,
         isLoading: result.fetching,
         hasFetched: !!result.operation,
+        loadingIds,
       }}
     >
       <FeaturedPOAPsDispatchContext.Provider value={{ addFeaturedPOAP, removeFeaturedPOAP }}>
