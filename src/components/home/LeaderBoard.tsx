@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import Link from 'next/link';
 import { useQuery, gql } from 'urql';
 import { Header } from '../shared/elements/Header';
 import { BackgroundPanel2 } from '../../colors';
@@ -9,11 +10,15 @@ import { IconCount } from '../shared/elements/IconCount';
 import { GitPOAP } from '../shared/elements/icons/GitPOAP';
 import { Divider as DividerUI } from '@mantine/core';
 import { Title } from '../shared/elements/Title';
+import { truncateAddress } from '../../helpers';
+import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
+import { useEns } from '../../hooks/useEns';
 
 export type LeaderBoardItemProps = {
   claimsCount: number;
-  user: {
-    githubHandle: string;
+  profile: {
+    address: string;
     id: number;
   };
 };
@@ -28,12 +33,17 @@ const Name = styled(Title)`
   font-style: normal;
   font-weight: normal;
   font-size: ${rem(22)};
+  margin-left: ${rem(10)};
 `;
 
 const AvatarStyled = styled(Avatar)`
   height: ${rem(40)};
   width: ${rem(40)};
-  margin-right: ${rem(14)};
+`;
+
+const JazzIcon = styled(JazzIconReact)`
+  height: ${rem(40)};
+  width: ${rem(40)};
 `;
 
 const Item = styled.div`
@@ -69,27 +79,28 @@ const List = styled.div`
 
 const LeadersQuery = gql`
   query leaders {
-    mostHonoredContributors(count: 10) {
-      user {
+    mostHonoredContributors(count: 6) {
+      profile {
+        address
         id
-        githubHandle
       }
       claimsCount
     }
   }
 `;
 
-const LeaderBoardItem = ({ user, claimsCount }: LeaderBoardItemProps) => {
-  const imgSrc = `https://github.com/${user.githubHandle}.png?size=200`;
+const LeaderBoardItem = ({ profile, claimsCount }: LeaderBoardItemProps) => {
+  const { web3Provider } = useWeb3Context();
+  const { ensName, avatarURI } = useEns(web3Provider, profile.address);
 
   return (
     <>
       <Item>
         <UserInfo>
-          <AvatarStyled src={imgSrc} />
-          <a href={`https://github.com/${user.githubHandle}`} target="_blank" rel="noreferrer">
-            <Name>{user.githubHandle}</Name>
-          </a>
+          {avatarURI ? <AvatarStyled src={avatarURI} /> : <JazzIcon address={profile.address} />}
+          <Link href={`/p/${profile.address}`} passHref>
+            <Name>{ensName ?? truncateAddress(profile.address, 6)}</Name>
+          </Link>
         </UserInfo>
         <IconCount icon={<GitPOAP />} count={claimsCount} />
       </Item>
@@ -110,7 +121,7 @@ export const LeaderBoard = () => {
       <HeaderStyled>{'Most honored contributors'}</HeaderStyled>
       <List>
         {result.data?.mostHonoredContributors.map((item: LeaderBoardItemProps) => (
-          <LeaderBoardItem key={item.user.githubHandle} {...item} />
+          <LeaderBoardItem key={item.profile.id} {...item} />
         ))}
       </List>
     </Wrapper>
