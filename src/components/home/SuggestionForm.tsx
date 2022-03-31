@@ -179,7 +179,7 @@ export const SuggestionForm = () => {
   }, [formStatus]);
 
   return (
-    <FormContainer>
+    <FormContainer id="suggest">
       <Header style={{ marginBottom: rem(24) }}>{'Want to suggest a project?'}</Header>
       <Text style={{ marginBottom: rem(32) }}>
         {'Suggest any project that you would like to see supported on GitPOAP.'}
