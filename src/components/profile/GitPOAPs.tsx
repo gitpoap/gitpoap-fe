@@ -31,10 +31,7 @@ const GitPOAPList = styled.div`
 `;
 
 const GitPOAPBadge = styled(GitPOAPBadgeUI)`
-  &:not(:last-child) {
-    margin-right: ${rem(40)};
-  }
-  margin-top: ${rem(30)};
+  margin: ${rem(30)} ${rem(20)} 0;
 `;
 
 const GitPOAPsQuery = gql`

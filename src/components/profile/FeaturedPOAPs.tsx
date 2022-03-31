@@ -34,17 +34,11 @@ const SectionTitle = styled(Text)`
 `;
 
 const StyledGitPOAP = styled(GitPOAP)`
-  &:not(:last-child) {
-    margin-right: ${rem(40)};
-  }
-  margin-top: ${rem(30)};
+  margin: ${rem(30)} ${rem(20)} 0;
 `;
 
 const StyledPOAP = styled(POAPBadge)`
-  &:not(:last-child) {
-    margin-right: ${rem(40)};
-  }
-  margin-top: ${rem(30)};
+  margin: ${rem(30)} ${rem(20)} 0;
 `;
 
 const isGitPOAP = (poap: POAP | GitPOAPType): poap is GitPOAPType => {
