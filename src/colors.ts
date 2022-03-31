@@ -26,3 +26,6 @@ export const ExtraHover = '#5596F6';
 export const ExtraActive = '#1761CF';
 export const ExtraPressed = '#1761CF';
 export const ExtraRed = '#F77070';
+
+export const TwitterBlue = '#1D9BF0';
+export const TwitterBlueHover = '#0C7ABF';

@@ -4,6 +4,7 @@ import { rem } from 'polished';
 import { Modal, Center, Pagination } from '@mantine/core';
 import { BackgroundPanel, TextGray, TextLight } from '../colors';
 import { Button } from './shared/elements/Button';
+import { TwitterShareButton } from './shared/elements/TwitterShareButton';
 import { ClaimBlock } from './shared/compounds/ClaimBlock';
 import { UserClaim } from '../types';
 import { useFeatures } from './FeaturesContext';
@@ -143,6 +144,7 @@ export const ClaimModal = ({
           </ClaimAll>
         )}
         <ClaimText>{'Minting is free, no transaction fee required'}</ClaimText>
+        {claimedIds && <TwitterShareButton gitPOAPCount={claimedIds.length} />}
       </Content>
     </StyledModal>
   );
