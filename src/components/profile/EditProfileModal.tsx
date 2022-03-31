@@ -9,8 +9,9 @@ import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
 import { Text } from '../shared/elements/Text';
 import { MidnightBlue } from '../../colors';
 import { useAuthContext } from '../github/AuthContext';
-import { ProfileData } from './ProfileContext';
+import { ProfileData, useProfileContext } from './ProfileContext';
 import { isValidTwitterHandle, isValidURL } from '../../helpers';
+import { FaCheckCircle } from 'react-icons/fa';
 
 type Props = {
   isOpen: boolean;
@@ -99,15 +100,12 @@ export const EditProfileModal = ({
   isSaveLoading,
 }: Props) => {
   const { authState, handleLogout, authorizeGitHub } = useAuthContext();
+  const { isSaveSuccessful } = useProfileContext();
+  /* TODO: replace with mantine's useForm hook */
   const [personSiteUrlValue, setPersonalSiteUrlValue] =
     useState<string | undefined>(personalSiteUrl);
   const [bioValue, setBioValue] = useState<string | undefined>(bio);
   const [twitterHandleValue, setTwitterHandleValue] = useState<string | undefined>(twitterHandle);
-  /* TODO: replace with mantine's useForm hook */
-  const canSave =
-    personSiteUrlValue !== personalSiteUrl ||
-    bioValue !== bio ||
-    twitterHandleValue !== twitterHandle;
 
   useEffect(() => {
     setPersonalSiteUrlValue(personalSiteUrl);
@@ -185,9 +183,9 @@ export const EditProfileModal = ({
               personalSiteUrl: personSiteUrlValue,
             })
           }
-          disabled={!canSave}
           loading={isSaveLoading}
           style={{ minWidth: rem(100) }}
+          leftIcon={isSaveSuccessful ? <FaCheckCircle size={18} /> : undefined}
         >
           {'Save'}
         </Button>
