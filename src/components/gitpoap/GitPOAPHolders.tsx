@@ -61,7 +61,7 @@ const GitPOAPHoldersQuery = gql`
 type SortOptions = 'claim-date' | 'claim-count';
 
 const selectOptions: SelectOption<SortOptions>[] = [
-  { value: 'claim-date', label: 'Claim Date' },
+  { value: 'claim-date', label: 'Mint Date' },
   { value: 'claim-count', label: 'Total Poaps' },
 ];
 

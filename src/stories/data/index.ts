@@ -318,36 +318,36 @@ export const projectData: Project[] = [
 export const leaderData: LeaderBoardItemProps[] = [
   {
     claimsCount: 12,
-    user: {
-      githubHandle: 'nd-certora',
+    profile: {
+      address: '0x123nqg83vm4q',
       id: 1,
     },
   },
   {
     claimsCount: 11,
-    user: {
-      githubHandle: 'matthewlilley',
+    profile: {
+      address: '0x456ng3qq34',
       id: 2,
     },
   },
   {
     claimsCount: 9,
-    user: {
-      githubHandle: 'chefnomi',
+    profile: {
+      address: '0x6432uau24q3i',
       id: 2,
     },
   },
   {
     claimsCount: 5,
-    user: {
-      githubHandle: 'vbuterin',
+    profile: {
+      address: '0xc32n542',
       id: 2,
     },
   },
   {
     claimsCount: 5,
-    user: {
-      githubHandle: 'levx-io',
+    profile: {
+      address: '0x7go48w584',
       id: 2,
     },
   },

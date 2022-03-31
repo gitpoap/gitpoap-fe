@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useQuery, gql } from 'urql';
-import { JsonRpcSigner } from '@ethersproject/providers';
 import { POAP } from '../../types';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { GITPOAP_API_URL } from '../../constants';
@@ -99,12 +98,13 @@ export const useFeaturedPOAPsDispatch = () => useContext(FeaturedPOAPsDispatchCo
 /* -- The Provider -- */
 type Props = {
   children: React.ReactNode;
-  address: string | null;
+  /* The address of the profile */
+  profileAddress: string | null;
   ensName: string | null;
 };
 
-export const FeaturedPOAPsProvider = ({ children, address, ensName }: Props) => {
-  const { web3Provider } = useWeb3Context();
+export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Props) => {
+  const { web3Provider, address: walletAddress } = useWeb3Context();
   const signer = web3Provider?.getSigner();
   const { tokens } = useAuthContext();
   const [showHearts, setShowHearts] = useState(false);
@@ -114,27 +114,28 @@ export const FeaturedPOAPsProvider = ({ children, address, ensName }: Props) => 
   const [result, refetch] = useQuery<UserPOAPsQueryRes>({
     query: FeaturedPOAPsQuery,
     variables: {
-      address: address ?? ensName,
+      address: ensName ?? profileAddress,
     },
   });
 
-  const checkIfUserOwnsProfile = useCallback(async (address: string, signer: JsonRpcSigner) => {
-    const walletAddress = await signer?.getAddress();
-    if (address.toLocaleLowerCase() === walletAddress?.toLocaleLowerCase()) {
-      setShowHearts(true);
-    } else {
-      setShowHearts(false);
-    }
-  }, []);
+  const checkIfUserOwnsProfile = useCallback(
+    async (profileAddress: string) => {
+      if (profileAddress.toLocaleLowerCase() === walletAddress?.toLocaleLowerCase()) {
+        setShowHearts(true);
+      } else {
+        setShowHearts(false);
+      }
+    },
+    [walletAddress],
+  );
 
   /* Checks if the user owns the profile they're currently viewing */
   useEffect(() => {
-    if (address && signer) {
-      checkIfUserOwnsProfile(address, signer);
+    if (profileAddress) {
+      checkIfUserOwnsProfile(profileAddress);
     }
-  }, [address, signer, checkIfUserOwnsProfile]);
+  }, [profileAddress, checkIfUserOwnsProfile]);
 
-  /* Hook to append new data onto existing list of poaps */
   useEffect(() => {
     if (result.data?.profileFeaturedPOAPs) {
       const profileFeaturedPOAPs = result.data.profileFeaturedPOAPs;

@@ -46,6 +46,8 @@ const Profile: Page = () => {
 
         if (ensName) {
           setEnsName(ensName);
+        } else {
+          setEnsName(null);
         }
       } else if (nameOrAddress.includes('.eth')) {
         const name = nameOrAddress;
@@ -73,7 +75,7 @@ const Profile: Page = () => {
         <title>{`${ensName ?? truncateAddress(profileAddress ?? '', 4)} | GitPOAP`}</title>
       </Head>
       <ProfileProvider address={profileAddress} ensName={ensName}>
-        <FeaturedPOAPsProvider address={profileAddress} ensName={ensName}>
+        <FeaturedPOAPsProvider profileAddress={profileAddress} ensName={ensName}>
           <Grid justify="center" style={{ marginTop: rem(40), zIndex: 1 }}>
             <Background />
             <Grid.Col span={2}>

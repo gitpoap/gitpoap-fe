@@ -5,6 +5,11 @@ import { useQuery, gql } from 'urql';
 import { POAP } from '../../types';
 import { POAPBadge as POAPBadgeUI } from '../shared/elements/POAPBadge';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
+import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
+import { TextDarkGray } from '../../colors';
+import { FaRegGrinStars } from 'react-icons/fa';
+import { Text } from '../shared/elements/Text';
+import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 
 type Props = {
   address: string;
@@ -13,7 +18,7 @@ type Props = {
 type SortOptions = 'date' | 'alphabetical';
 
 const selectOptions: SelectOption<SortOptions>[] = [
-  { value: 'date', label: 'Date of Claim' },
+  { value: 'date', label: 'Mint Date' },
   { value: 'alphabetical', label: 'Alphabetical' },
 ];
 
@@ -48,10 +53,7 @@ const POAPs = styled.div`
 `;
 
 const POAPBadge = styled(POAPBadgeUI)`
-  &:not(:last-child) {
-    margin-right: ${rem(40)};
-  }
-  margin-top: ${rem(30)};
+  margin: ${rem(30)} ${rem(20)} 0;
 `;
 
 export const AllPOAPs = ({ address }: Props) => {
@@ -59,6 +61,8 @@ export const AllPOAPs = ({ address }: Props) => {
   const [sort, setSort] = useState<SortOptions>('date');
   const [poaps, setPoaps] = useState<POAP[]>([]);
   const [total, setTotal] = useState<number>();
+  const [searchValue, setSearchValue] = useState('');
+  // const [hasFetched, setHasFetched] = useState(false);
   const perPage = 12;
   const [result] = useQuery<UserPOAPsQueryRes>({
     query: AllPOAPsQuery,
@@ -109,26 +113,53 @@ export const AllPOAPs = ({ address }: Props) => {
         }
       }}
       isLoading={result.fetching}
-      hasShowMoreButton={!!total && poaps.length < total}
+      hasShowMoreButton={!!result?.operation && !!total && poaps.length < total}
       showMoreOnClick={() => {
         if (!result.fetching) {
           setPage(page + 1);
         }
       }}
+      searchInputPlaceholder={'QUICK SEARCH...'}
+      searchInputValue={searchValue}
+      onSearchInputChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+        setSearchValue(e.target.value)
+      }
     >
       <POAPs>
+        {result.fetching && !result.operation && (
+          <>
+            {[...Array(5)].map((_, i) => {
+              return (
+                <POAPBadgeSkeleton key={i} style={{ marginTop: rem(30), marginRight: rem(40) }} />
+              );
+            })}
+          </>
+        )}
+        {result.operation && poaps.length === 0 && (
+          <EmptyState icon={<FaRegGrinStars color={TextDarkGray} size={rem(74)} />}>
+            <Text style={{ marginTop: rem(20) }}>{'Go out and get some POAPs!'}</Text>
+          </EmptyState>
+        )}
         {poaps &&
-          poaps.map((poap) => {
-            return (
-              <POAPBadge
-                key={poap.tokenId}
-                name={poap.event.name}
-                imgSrc={poap.event.image_url}
-                poapTokenId={poap.tokenId}
-                href={`https://poap.gallery/event/${poap.event.id}`}
-              />
-            );
-          })}
+          poaps
+            .filter((poap) => {
+              if (searchValue) {
+                return poap.event.name.toLowerCase().includes(searchValue.toLowerCase());
+              }
+
+              return true;
+            })
+            .map((poap) => {
+              return (
+                <POAPBadge
+                  key={poap.tokenId}
+                  name={poap.event.name}
+                  imgSrc={poap.event.image_url}
+                  poapTokenId={poap.tokenId}
+                  href={`https://poap.gallery/event/${poap.event.id}`}
+                />
+              );
+            })}
       </POAPs>
     </ItemList>
   );

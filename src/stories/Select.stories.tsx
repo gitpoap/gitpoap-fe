@@ -17,7 +17,7 @@ export const Default = Template.bind({});
 Default.args = {
   data: [
     { value: 'total', label: 'Total Poaps' },
-    { value: 'claim', label: 'Claim Date' },
+    { value: 'claim', label: 'Mint Date' },
     { value: 'name', label: 'Name' },
   ],
   value: 'total',
@@ -28,7 +28,7 @@ Disabled.args = {
   disabled: true,
   data: [
     { value: 'total', label: 'Total Poaps' },
-    { value: 'claim', label: 'Claim Date' },
+    { value: 'claim', label: 'Mint Date' },
     { value: 'name', label: 'Name' },
   ],
   value: 'total',
