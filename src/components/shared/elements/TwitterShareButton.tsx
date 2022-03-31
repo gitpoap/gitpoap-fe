@@ -4,6 +4,7 @@ import { rem } from 'polished';
 import { FaTwitter } from 'react-icons/fa';
 
 import { useWeb3Context } from '../../wallet/Web3ContextProvider';
+import { TwitterBlue, TwitterBlueHover } from '../../../colors';
 
 const TwitterButton = styled.a`
   margin-top: ${rem(20)};
@@ -14,7 +15,7 @@ const TwitterButton = styled.a`
 
   position: relative;
   box-sizing: border-box;
-  background-color: #1d9bf0;
+  background-color: ${TwitterBlue};
   color: #fff;
   font-weight: 500;
 
@@ -23,7 +24,7 @@ const TwitterButton = styled.a`
   justify-content: center;
 
   &:hover {
-    background-color: #0c7abf;
+    background-color: ${TwitterBlueHover};
   }
 `;
 
