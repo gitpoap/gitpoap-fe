@@ -1,10 +1,14 @@
 import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
+import { FaUsers } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useQuery, gql } from 'urql';
 
 import { InfoHexSummary } from './InfoHexSummary';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
+import { EmptyState } from '../shared/compounds/ItemListEmptyState';
+import { Text } from '../shared/elements/Text';
+import { TextDarkGray } from '../../colors';
 
 type Props = {
   gitPOAPId: number;
@@ -17,7 +21,6 @@ export type Holder = {
   profileId: number;
   bio?: string;
   personalSiteUrl?: string;
-  profileImageUrl?: string;
   twitterHandle?: string;
 };
 
@@ -51,7 +54,6 @@ const GitPOAPHoldersQuery = gql`
         profileId
         bio
         personalSiteUrl
-        profileImageUrl
         twitterHandle
       }
     }
@@ -104,13 +106,13 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
     }
   }, [result.data]);
 
-  if (result.error) {
+  if (result.error || result.fetching) {
     return null;
   }
 
   return (
     <ItemList
-      title={total ? `${total} holders` : ''}
+      title={`${total ?? 0} holders`}
       selectOptions={selectOptions}
       selectValue={sort}
       onSelectChange={(sortValue) => {
@@ -128,21 +130,25 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
         }
       }}
     >
-      <HoldersWrapper>
-        {holders.map((holder: Holder) => (
-          <Holder
-            key={holder.githubHandle}
-            imgSrc={holder.profileImageUrl}
-            name={holder.githubHandle}
-            address={holder.address}
-            blurb={holder.bio}
-            gitpoapId={gitPOAPId}
-            twitterHref={`https://twitter.com/${holder.twitterHandle}`}
-            githubHref={`https://github.com/${holder.githubHandle}`}
-            numGitPOAPs={holder.gitPOAPCount}
-          />
-        ))}
-      </HoldersWrapper>
+      {total ? (
+        <HoldersWrapper>
+          {holders.map((holder: Holder) => (
+            <Holder
+              key={holder.githubHandle}
+              address={holder.address}
+              blurb={holder.bio}
+              gitpoapId={gitPOAPId}
+              twitterHandle={holder.twitterHandle}
+              githubHandle={holder.githubHandle}
+              numGitPOAPs={holder.gitPOAPCount}
+            />
+          ))}
+        </HoldersWrapper>
+      ) : (
+        <EmptyState icon={<FaUsers color={TextDarkGray} size={rem(74)} />}>
+          <Text style={{ marginTop: rem(20) }}>{'No one has minted this GitPOAP'}</Text>
+        </EmptyState>
+      )}
     </ItemList>
   );
 };

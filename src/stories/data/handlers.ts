@@ -64,11 +64,12 @@ export const AllPOAPsHandler = graphql.query<UserPOAPsQueryRes>('allPOAPs', (req
 export const GitPOAPHoldersHandler = graphql.query<GitPOAPHoldersQueryRes>(
   'gitPOAPHoldersQuery',
   (req, res, ctx) => {
+    const { gitPOAPId } = req.variables;
     return res(
       ctx.data({
         gitPOAPHolders: {
-          totalHolders: gitPOAPHolders.length,
-          holders: gitPOAPHolders,
+          totalHolders: gitPOAPId ? gitPOAPHolders.length : 0,
+          holders: gitPOAPId ? gitPOAPHolders : [],
         },
       }),
     );
