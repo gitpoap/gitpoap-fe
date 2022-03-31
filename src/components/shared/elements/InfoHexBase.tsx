@@ -67,9 +67,9 @@ const Hex = styled.div`
   min-width: ${rem(250)};
 `;
 
-export const InfoHexBase = ({ className, children, hoverEffects }: Props) => {
+export const InfoHexBase = ({ className, children, hoverEffects, ...props }: Props) => {
   return (
-    <Hex className={className}>
+    <Hex className={className} {...props}>
       <Body hoverEffects={hoverEffects}>{children}</Body>
     </Hex>
   );

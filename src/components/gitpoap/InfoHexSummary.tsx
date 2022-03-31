@@ -130,37 +130,32 @@ export const InfoHexSummary = ({
 
   return (
     <Link href={`/p/${ensName ?? address}`} passHref>
-      <a>
-        <StyledInfoHex className={className} hoverEffects>
-          <Content>
-            {avatarURI ? (
-              <Avatar src={avatarURI} useDefaultImageTag />
-            ) : (
-              <JazzIcon address={address} />
+      <StyledInfoHex className={className} hoverEffects>
+        <Content>
+          {avatarURI ? (
+            <Avatar src={avatarURI} useDefaultImageTag />
+          ) : (
+            <JazzIcon address={address} />
+          )}
+          <Name>{ensName ?? truncateAddress(address, 10)}</Name>
+          {blurb && <Blurb>{blurb}</Blurb>}
+          <Social>
+            {twitterHandle && (
+              <Link href={`https://twitter.com/${twitterHandle}`} passHref>
+                <Twitter />
+              </Link>
             )}
-            <Name>{ensName ?? truncateAddress(address, 10)}</Name>
-            {blurb && <Blurb>{blurb}</Blurb>}
-            <Social>
-              {twitterHandle && (
-                <Link href={`https://twitter.com/${twitterHandle}`} passHref>
-                  <Twitter />
-                </Link>
-              )}
-              {githubHandle && (
-                <Link href={`https://github.com/${githubHandle}`} passHref>
-                  <GitHub />
-                </Link>
-              )}
-              {gitpoapId && (
-                <IconCount
-                  icon={<GitPOAP href={getGitPOAPHref(gitpoapId)} />}
-                  count={numGitPOAPs}
-                />
-              )}
-            </Social>
-          </Content>
-        </StyledInfoHex>
-      </a>
+            {githubHandle && (
+              <Link href={`https://github.com/${githubHandle}`} passHref>
+                <GitHub />
+              </Link>
+            )}
+            {gitpoapId && (
+              <IconCount icon={<GitPOAP href={getGitPOAPHref(gitpoapId)} />} count={numGitPOAPs} />
+            )}
+          </Social>
+        </Content>
+      </StyledInfoHex>
     </Link>
   );
 };
