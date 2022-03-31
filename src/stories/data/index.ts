@@ -424,7 +424,6 @@ export const gitPOAPHolders: Holder[] = [
     profileId: 4,
     bio: 'I am addicted to POAPs',
     personalSiteUrl: undefined,
-    profileImageUrl: undefined,
     twitterHandle: undefined,
   },
   {
@@ -434,7 +433,6 @@ export const gitPOAPHolders: Holder[] = [
     profileId: 1,
     bio: 'I like brisket.',
     personalSiteUrl: undefined,
-    profileImageUrl: undefined,
     twitterHandle: undefined,
   },
   {
@@ -444,7 +442,6 @@ export const gitPOAPHolders: Holder[] = [
     profileId: 5,
     bio: 'I am not real',
     personalSiteUrl: undefined,
-    profileImageUrl: undefined,
     twitterHandle: undefined,
   },
 ];

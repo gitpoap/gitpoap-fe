@@ -21,7 +21,6 @@ export type Holder = {
   profileId: number;
   bio?: string;
   personalSiteUrl?: string;
-  profileImageUrl?: string;
   twitterHandle?: string;
 };
 
@@ -55,7 +54,6 @@ const GitPOAPHoldersQuery = gql`
         profileId
         bio
         personalSiteUrl
-        profileImageUrl
         twitterHandle
       }
     }
