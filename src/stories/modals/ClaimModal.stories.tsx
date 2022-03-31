@@ -12,6 +12,7 @@ const claims: UserClaim[] = [
     claim: {
       id: 1,
       gitPOAP: {
+        id: 1,
         repo: {
           organization: {
             name: 'Polygon',
@@ -30,6 +31,7 @@ const claims: UserClaim[] = [
     claim: {
       id: 2,
       gitPOAP: {
+        id: 2,
         repo: {
           organization: {
             name: 'AAVE',
@@ -48,6 +50,7 @@ const claims: UserClaim[] = [
     claim: {
       id: 3,
       gitPOAP: {
+        id: 3,
         repo: {
           organization: {
             name: 'AAVE',
@@ -66,6 +69,7 @@ const claims: UserClaim[] = [
     claim: {
       id: 4,
       gitPOAP: {
+        id: 4,
         repo: {
           organization: {
             name: 'Swype Protocol',
