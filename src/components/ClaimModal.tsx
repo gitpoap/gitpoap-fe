@@ -144,22 +144,7 @@ export const ClaimModal = ({
           </ClaimAll>
         )}
         <ClaimText>{'Claiming is free, no transaction fee required'}</ClaimText>
-        {claimedIds && (
-          <TwitterShareButton
-            hashtags={'poap,gitpoap'}
-            label={'Tweet'}
-            text={`I was just awarded ${claimedIds.length} POAP${
-              claimedIds.length > 1 && 's'
-            } for contributions I’ve made to open source!`}
-            url={
-              '\n' +
-              claimedIds
-                .map((claimedId) => `https://gitpoap.com/gitpoaps/${claimedId}`)
-                .join('\n') +
-              '\n'
-            }
-          />
-        )}
+        {claimedIds && <TwitterShareButton gitPOAPCount={claimedIds.length} />}
       </Content>
     </StyledModal>
   );
