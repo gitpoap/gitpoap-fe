@@ -73,6 +73,8 @@ type FeaturedPOAPsState = {
 type FeaturedPOAPsData = {
   featuredPOAPsState: FeaturedPOAPsState;
   showHearts: boolean;
+  isLoading: boolean;
+  hasFetched: boolean;
 };
 
 type FeaturedPOAPsDispatch = {
@@ -226,7 +228,14 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
   );
 
   return (
-    <FeaturedPOAPsContext.Provider value={{ featuredPOAPsState, showHearts }}>
+    <FeaturedPOAPsContext.Provider
+      value={{
+        featuredPOAPsState,
+        showHearts,
+        isLoading: result.fetching,
+        hasFetched: !!result.operation,
+      }}
+    >
       <FeaturedPOAPsDispatchContext.Provider value={{ addFeaturedPOAP, removeFeaturedPOAP }}>
         {children}
       </FeaturedPOAPsDispatchContext.Provider>
