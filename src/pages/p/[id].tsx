@@ -46,6 +46,8 @@ const Profile: Page = () => {
 
         if (ensName) {
           setEnsName(ensName);
+        } else {
+          setEnsName(null);
         }
       } else if (nameOrAddress.includes('.eth')) {
         const name = nameOrAddress;
