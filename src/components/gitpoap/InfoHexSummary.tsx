@@ -13,6 +13,7 @@ import { IconCount } from '../shared/elements/IconCount';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { truncateAddress } from '../../helpers';
 import { useEns } from '../../hooks/useEns';
+import { useEnsAvatar } from '../../hooks/useEnsAvatar';
 
 type Props = {
   className?: string;
@@ -126,7 +127,8 @@ export const InfoHexSummary = ({
   numGitPOAPs,
 }: Props) => {
   const { web3Provider } = useWeb3Context();
-  const { ensName, avatarURI } = useEns(web3Provider, address);
+  const ensName = useEns(web3Provider, address);
+  const avatarURI = useEnsAvatar(web3Provider, ensName);
 
   return (
     <Link href={`/p/${ensName ?? address}`} passHref>

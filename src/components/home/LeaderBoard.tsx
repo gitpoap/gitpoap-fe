@@ -14,6 +14,7 @@ import { truncateAddress } from '../../helpers';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { useEns } from '../../hooks/useEns';
+import { useEnsAvatar } from '../../hooks/useEnsAvatar';
 
 export type LeaderBoardItemProps = {
   claimsCount: number;
@@ -91,7 +92,8 @@ const LeadersQuery = gql`
 
 const LeaderBoardItem = ({ profile, claimsCount }: LeaderBoardItemProps) => {
   const { web3Provider } = useWeb3Context();
-  const { ensName, avatarURI } = useEns(web3Provider, profile.address);
+  const ensName = useEns(web3Provider, profile.address);
+  const avatarURI = useEnsAvatar(web3Provider, ensName);
 
   return (
     <>
