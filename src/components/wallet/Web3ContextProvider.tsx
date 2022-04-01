@@ -3,6 +3,7 @@ import Web3Modal from 'web3modal';
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { NETWORKS } from '../../constants';
 import { BackgroundPanel, BackgroundPanel2, TextLight, TextGray } from '../../colors';
+import { useEnsAvatar } from '../../hooks/useEnsAvatar';
 
 type Props = {
   children: React.ReactNode;
@@ -32,6 +33,7 @@ type onChainProvider = {
   hasCachedProvider: () => boolean;
   address: string;
   ensName: string | null;
+  avatarURI: string | null;
   isConnected: boolean;
   web3Provider: JsonRpcProvider | null; // does this have to be | null? can we avoid?
   web3Modal: Web3Modal;
@@ -68,6 +70,7 @@ export const Web3ContextProvider = (props: Props) => {
   const [web3Provider, setWeb3Provider] = useState<JsonRpcProvider | null>(null);
   const [chainId, setChainId] = useState(NETWORKS[1].chainId);
   const [ensName, setEnsName] = useState<string | null>(null);
+  const avatarURI = useEnsAvatar(web3Provider, ensName);
 
   const disconnect = useCallback(async () => {
     web3Modal.clearCachedProvider();
@@ -147,6 +150,7 @@ export const Web3ContextProvider = (props: Props) => {
       isConnected,
       address,
       ensName,
+      avatarURI,
       web3Provider,
       web3Modal,
       chainId,
@@ -158,6 +162,7 @@ export const Web3ContextProvider = (props: Props) => {
       isConnected,
       address,
       ensName,
+      avatarURI,
       web3Provider,
       web3Modal,
       chainId,
