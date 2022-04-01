@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { POAPBadge } from '../components/shared/elements/POAPBadge';
+import { POAPBadge } from '../../components/shared/elements/POAPBadge';
 import poap4 from './assets/poaps/poap4.png';
 
 export default {

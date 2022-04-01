@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { CopyableText } from '../components/shared/elements/CopyableText';
+import { CopyableText } from '../../components/shared/elements/CopyableText';
 
 export default {
   title: 'Elements/CopyableText',

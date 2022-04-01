@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { CollapsibleAddress } from '../components/shared/elements/CollapsibleAddress';
+import { CollapsibleAddress } from '../../components/shared/elements/CollapsibleAddress';
 
 export default {
   title: 'Elements/CollapsibleAddress',

@@ -2,25 +2,25 @@ import React, { useState } from 'react';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { TextArea } from '../components/shared/elements/TextArea';
+import { Input } from '../../components/shared/elements/Input';
 
 export default {
-  title: 'Elements/TextArea',
-  component: TextArea,
+  title: 'Elements/Input',
+  component: Input,
   argTypes: {},
-} as ComponentMeta<typeof TextArea>;
+} as ComponentMeta<typeof Input>;
 
-const StyledTextArea = styled(TextArea)`
+const StyledInput = styled(Input)`
   min-width: ${rem(300)};
 `;
 
-const Template: ComponentStory<typeof TextArea> = (args) => {
+const Template: ComponentStory<typeof Input> = (args) => {
   const [value, setValue] = useState('');
   return (
-    <StyledTextArea
+    <StyledInput
       {...args}
       value={value}
-      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setValue(e.target.value)}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
     />
   );
 };
@@ -35,14 +35,14 @@ Disabled.args = {
   disabled: true,
 };
 
-export const Error: ComponentStory<typeof TextArea> = () => {
+export const Error: ComponentStory<typeof Input> = () => {
   const [value, setValue] = useState('123456');
   return (
-    <StyledTextArea
+    <StyledInput
       placeholder={'github.com/stake-house/wagyu'}
       label={'GitHub Repo Url'}
       value={value}
-      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setValue(e.target.value)}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
       error={'Incorrect URL'}
     />
   );

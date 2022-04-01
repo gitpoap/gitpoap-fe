@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Select } from '../components/shared/elements/Select';
+import { Select } from '../../components/shared/elements/Select';
 
 export default {
   title: 'Elements/Select',

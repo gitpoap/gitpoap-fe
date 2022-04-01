@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { IconCount } from '../components/shared/elements/IconCount';
-import { GitPOAP } from '../components/shared/elements/icons/GitPOAP';
+import { IconCount } from '../../components/shared/elements/IconCount';
+import { GitPOAP } from '../../components/shared/elements/icons/GitPOAP';
 
 export default {
   title: 'Elements/IconCount',

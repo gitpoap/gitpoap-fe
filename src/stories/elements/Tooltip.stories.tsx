@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Tooltip } from '../components/shared/elements/Tooltip';
-import { Text } from '../components/shared/elements/Text';
+import { Tooltip } from '../../components/shared/elements/Tooltip';
+import { Text } from '../../components/shared/elements/Text';
 
 export default {
   title: 'Elements/Tooltip',

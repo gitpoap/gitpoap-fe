@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { GitPOAPBadge } from '../components/shared/elements/GitPOAPBadge';
+import { GitPOAPBadge } from '../../components/shared/elements/GitPOAPBadge';
 import badgeImg1 from './assets/gitPOAPs/badge1.png';
 
 const url = badgeImg1 as unknown as string;

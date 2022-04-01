@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Pagination } from '../components/shared/elements/Pagination';
+import { Pagination } from '../../components/shared/elements/Pagination';
 
 export default {
   title: 'Elements/Pagination',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { ClaimCircle } from '../components/shared/elements/ClaimCircle';
+import { ClaimCircle } from '../../components/shared/elements/ClaimCircle';
 
 export default {
   title: 'Elements/ClaimCircle',

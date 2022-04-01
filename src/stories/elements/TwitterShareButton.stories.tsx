@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { TwitterShareButton } from '../components/shared/elements/TwitterShareButton';
+import { TwitterShareButton } from '../../components/shared/elements/TwitterShareButton';
 
 export default {
   title: 'Elements/TwitterShareButton',

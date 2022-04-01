@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Title } from '../components/shared/elements/Title';
+import { Title } from '../../components/shared/elements/Title';
 
 export default {
   title: 'Elements/Title',

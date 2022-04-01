@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Share } from '../components/shared/elements/Share';
+import { Share } from '../../components/shared/elements/Share';
 
 export default {
   title: 'Elements/Share',
