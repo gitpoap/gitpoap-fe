@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { useClipboard } from '@mantine/hooks';
 import { FiCopy } from 'react-icons/fi';
-import { Tooltip } from '@mantine/core';
+import { Tooltip } from './Tooltip';
 import { Title } from '../../shared/elements/Title';
 import { TextGray } from '../../../colors';
 import { truncateAddress } from '../../../helpers';
