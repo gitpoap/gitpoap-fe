@@ -12,6 +12,7 @@ type Props = {
   orgName: string;
   description: string;
   onClickClaim: () => void;
+  onClickBadge?: () => void;
   isClaimed?: boolean;
   isLoading?: boolean;
 };
@@ -39,6 +40,7 @@ export const ClaimBlock = ({
   orgName,
   description,
   onClickClaim,
+  onClickBadge,
   isClaimed,
   isLoading,
 }: Props) => {
@@ -50,6 +52,7 @@ export const ClaimBlock = ({
         name={name}
         orgName={orgName}
         description={description}
+        onClick={onClickBadge}
       />
       <ButtonWrapper>
         <Button

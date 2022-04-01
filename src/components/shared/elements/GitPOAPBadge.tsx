@@ -8,6 +8,7 @@ type Props = {
   imgUrl: string;
   disabled?: boolean;
   size: Sizes;
+  onClick?: () => void;
 };
 
 type Sizes = 'sm' | 'md' | 'lg';
@@ -87,9 +88,9 @@ const HexInnerBorder = styled(Hexagon)<HexProps>`
   background: ${MidnightBlue};
 `;
 
-export const GitPOAPBadge = ({ className, imgUrl, disabled, size }: Props) => {
+export const GitPOAPBadge = ({ className, imgUrl, disabled, size, onClick }: Props) => {
   return (
-    <HexOuterBorder className={className} size={size} disabled={disabled}>
+    <HexOuterBorder className={className} size={size} disabled={disabled} onClick={onClick}>
       <HexInnerBorder size={size}>
         <HexBadge imgUrl={imgUrl} size={size} />
       </HexInnerBorder>

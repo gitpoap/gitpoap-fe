@@ -6,6 +6,7 @@ import { GitPOAPBadge } from '../elements/GitPOAPBadge';
 import { Title } from '../elements/Title';
 import { TextLight } from '../../../colors';
 import { FeatureHeart } from './FeatureHeart';
+import { useRouter } from 'next/router';
 
 type Props = {
   gitPOAPId: number;
@@ -15,6 +16,7 @@ type Props = {
   description?: string;
   className?: string;
   poapTokenId?: string;
+  onClick?: () => void;
 };
 
 const LineClamp = (lines: number) => css`
@@ -89,15 +91,22 @@ export const GitPOAP = ({
   name,
   orgName,
   description,
+  onClick,
 }: Props) => {
+  const router = useRouter();
   return (
     <Wrapper className={className}>
       <BadgeWrapper>
-        <Link href={`/gp/${gitPOAPId}`}>
-          <a>
-            <GitPOAPBadge size="sm" imgUrl={imgSrc} />
-          </a>
-        </Link>
+        <GitPOAPBadge
+          size="sm"
+          imgUrl={imgSrc}
+          onClick={() => {
+            if (onClick) {
+              onClick();
+            }
+            router.push(`/gp/${gitPOAPId}`);
+          }}
+        />
         {poapTokenId && <Heart poapTokenId={poapTokenId} />}
       </BadgeWrapper>
       <Info>

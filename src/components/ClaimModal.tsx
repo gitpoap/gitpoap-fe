@@ -114,6 +114,7 @@ export const ClaimModal = ({
                 orgName={userClaim.claim.gitPOAP.repo.organization.name}
                 description={userClaim.event.description}
                 onClickClaim={() => onClickClaim([userClaim.claim.id])}
+                onClickBadge={onClose}
                 isClaimed={claimedIds?.includes(userClaim.claim.id)}
                 isLoading={loadingClaimIds?.includes(userClaim.claim.id)}
               />
