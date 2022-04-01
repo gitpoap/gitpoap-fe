@@ -12,7 +12,7 @@ import { useFeatures } from './FeaturesContext';
 type Props = {
   isOpen: boolean;
   claims: UserClaim[];
-  claimedIds?: number[];
+  claimedIds: number[];
   loadingClaimIds?: number[];
   onClose: () => void;
   onClickClaim: (claimIds: number[]) => void;
@@ -144,7 +144,7 @@ export const ClaimModal = ({
           </ClaimAll>
         )}
         <ClaimText>{'Minting is free, no transaction fee required'}</ClaimText>
-        {claimedIds && <TwitterShareButton gitPOAPCount={claimedIds.length} />}
+        {claimedIds?.length > 0 && <TwitterShareButton gitPOAPCount={claimedIds.length} />}
       </Content>
     </StyledModal>
   );
