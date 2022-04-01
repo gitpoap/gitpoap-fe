@@ -53,13 +53,21 @@ const SocialLink = styled.a`
   }
 `;
 
+const GitPOAPLink = styled.a`
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+`;
+
 export const Footer = () => {
   return (
     <Content>
       <Divider style={{ borderTopColor: BackgroundPanel2 }} />
       <Container>
         <ContentLeft>
-          <GitPOAP style={{ marginRight: rem(8) }} />
+          <GitPOAPLink href={`https://gitpoap.io`} target="_blank" rel="noopener noreferrer">
+            <GitPOAP style={{ marginRight: rem(8) }} />
+          </GitPOAPLink>
           {'GitPOAP 2022'}
         </ContentLeft>
         <ContentRight>
