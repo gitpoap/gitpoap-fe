@@ -21,6 +21,7 @@ const OpenClaimsQuery = gql`
       claim {
         id
         gitPOAP {
+          id
           repo {
             organization {
               name

@@ -62,8 +62,7 @@ export const AllPOAPs = ({ address }: Props) => {
   const [poaps, setPoaps] = useState<POAP[]>([]);
   const [total, setTotal] = useState<number>();
   const [searchValue, setSearchValue] = useState('');
-  // const [hasFetched, setHasFetched] = useState(false);
-  const perPage = 12;
+  const perPage = 10;
   const [result] = useQuery<UserPOAPsQueryRes>({
     query: AllPOAPsQuery,
     variables: {
