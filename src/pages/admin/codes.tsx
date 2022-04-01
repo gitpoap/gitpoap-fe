@@ -15,6 +15,8 @@ import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { Text } from '../../components/shared/elements/Text';
 import { ExtraRed } from '../../colors';
+import { showNotification } from '@mantine/notifications';
+import { NotificationFactory } from '../../notifications';
 
 const AddCodesForm = styled.form`
   display: inline-flex;
@@ -146,6 +148,12 @@ const AddCodesPage: NextPage = () => {
         setIsSuccessful(true);
       } catch (err) {
         console.error(err);
+        showNotification(
+          NotificationFactory.createError(
+            'Error - Request Failed',
+            'Oops, something went wrong! 🤥',
+          ),
+        );
         setIsLoading(false);
         setIsSuccessful(false);
       }

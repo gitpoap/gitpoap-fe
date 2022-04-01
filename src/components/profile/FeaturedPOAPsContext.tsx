@@ -4,6 +4,8 @@ import { POAP } from '../../types';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
+import { showNotification } from '@mantine/notifications';
+import { NotificationFactory } from '../../notifications';
 
 const FeaturedPOAPsQuery = gql`
   query featuredPOAPs($address: String!) {
@@ -209,11 +211,17 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
           return newState;
         });
       } catch (err) {
+        console.error(err);
+        showNotification(
+          NotificationFactory.createError(
+            'Error - Request Failed',
+            'Oops, something went wrong! 🤥',
+          ),
+        );
         setLoadingIds((prevState) => {
           const { [poapTokenId]: _, ...newState } = prevState;
           return newState;
         });
-        console.error(err);
       }
     },
     [walletAddress, signer, tokens?.accessToken, saveData, refetchData],
@@ -257,6 +265,12 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
         });
       } catch (err) {
         console.error(err);
+        showNotification(
+          NotificationFactory.createError(
+            'Error - Request Failed',
+            'Oops, something went wrong! 🤥',
+          ),
+        );
         setLoadingIds((prevState) => {
           const { [poapTokenId]: _, ...newState } = prevState;
           return newState;

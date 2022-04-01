@@ -10,6 +10,8 @@ import { ClaimModal } from '../ClaimModal';
 import { UserClaim } from '../../types';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { GITPOAP_API_URL } from '../../constants';
+import { showNotification } from '@mantine/notifications';
+import { NotificationFactory } from '../../notifications';
 
 type Props = {
   className?: string;
@@ -150,6 +152,12 @@ export const GitHub = ({ className }: Props) => {
         }
       } catch (err) {
         console.warn(err);
+        showNotification(
+          NotificationFactory.createError(
+            'Error - Request Failed',
+            'Oops, something went wrong! 🤥',
+          ),
+        );
         setLoadingClaimIds([]);
       }
     },

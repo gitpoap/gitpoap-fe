@@ -7,6 +7,8 @@ import {
   GITPOAP_API_URL,
   FIVE_MINUTES,
 } from '../../constants';
+import { showNotification } from '@mantine/notifications';
+import { NotificationFactory } from '../../notifications';
 
 type StoredGHUserData = {
   githubId: number;
@@ -181,6 +183,12 @@ export const AuthProvider = ({ children }: Props) => {
         });
       } catch (err) {
         console.warn(err);
+        showNotification(
+          NotificationFactory.createError(
+            'Error - Request Failed',
+            'Oops, something went wrong! 🤥',
+          ),
+        );
         setAuthState({
           ...authState,
           isLoading: false,
