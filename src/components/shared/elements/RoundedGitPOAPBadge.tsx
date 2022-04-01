@@ -64,10 +64,10 @@ const RoundedHexOuterBorder = styled(RoundedHexagon)<HexProps & { disabled?: boo
   --s: ${(props) => rem(dimensions[props.size].width + 4 * dimensions[props.size].borderSize)};
   width: var(--s);
   height: calc(var(--s) * 1);
+  cursor: pointer;
 
   &:before {
     background-color: ${TextLight};
-    cursor: pointer;
   }
 
   &:hover:not([disabled]) {
