@@ -9,12 +9,12 @@ import React, {
 } from 'react';
 import { useQuery, gql } from 'urql';
 import { useWeb3Context } from '../../components/wallet/Web3ContextProvider';
-import { AvatarResolver } from '@ensdomains/ens-avatar';
 import { EditProfileModal } from '../../components/profile/EditProfileModal';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
+import { useEnsAvatar } from '../../hooks/useEnsAvatar';
 
 const ProfileQuery = gql`
   query profile($address: String!) {
@@ -71,7 +71,7 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
   const [profileData, setProfileData] = useState<UserPOAPsQueryRes['profileData']>();
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
-  const [avatarURI, setAvatarURI] = useState<string | null>(null);
+  const avatarURI = useEnsAvatar(web3Provider, ensName);
   const [isSaveSuccessful, setIsSaveSuccessful] = useState<boolean>(false);
   const [result, refetch] = useQuery<UserPOAPsQueryRes>({
     query: ProfileQuery,
@@ -88,28 +88,6 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
     setProfileData(result.data?.profileData);
   }, [result.data]);
 
-  /* Hook to fetch the avatar URI record based on a ENS name */
-  useEffect(() => {
-    const getAvatar = async () => {
-      try {
-        if (web3Provider && ensName) {
-          const avt = new AvatarResolver(web3Provider);
-          const resolvedAvatarURI = await avt.getAvatar(ensName, {});
-
-          if (resolvedAvatarURI) {
-            setAvatarURI(resolvedAvatarURI);
-          }
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    if (!avatarURI) {
-      getAvatar();
-    }
-  }, [ensName, web3Provider, avatarURI]);
-
   useEffect(() => {
     if (isSaveSuccessful) {
       setTimeout(() => {
@@ -117,11 +95,6 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
       }, 3000);
     }
   }, [isSaveSuccessful]);
-
-  /* Hook to reset the avatarURI when the address changes */
-  useEffect(() => {
-    setAvatarURI(null);
-  }, [address]);
 
   const updateProfile = useCallback(
     async (
