@@ -13,5 +13,5 @@ const Template: ComponentStory<typeof TwitterShareButton> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  gitPOAPCount: 42,
+  claimedCount: 42,
 };

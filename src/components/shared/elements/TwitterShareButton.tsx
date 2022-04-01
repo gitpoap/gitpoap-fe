@@ -41,18 +41,23 @@ const Label = styled.span`
   font-weight: 500;
 `;
 
+const getTweetText = (claimedCount: number) => {
+  if (claimedCount === 1) {
+    return 'I was just awarded a POAP for contributions to open source!';
+  }
+
+  return `I was just awarded ${claimedCount} POAPs for contributions to open source!`;
+};
+
 interface Props {
-  gitPOAPCount: number;
+  claimedCount: number;
 }
 
-export const TwitterShareButton = ({ gitPOAPCount }: Props) => {
+export const TwitterShareButton = ({ claimedCount }: Props) => {
   const { address, ensName } = useWeb3Context();
-
-  let queryParams = new URLSearchParams({
+  const queryParams = new URLSearchParams({
     hashtags: 'poap,gitpoap',
-    text: `I was just awarded ${gitPOAPCount} POAP${
-      gitPOAPCount > 1 && 's'
-    } for contributions I've made to open source!`,
+    text: getTweetText(claimedCount),
     url: `\nhttps://gitpoap.io/p/${ensName ?? address}\n`,
     via: 'gitpoap',
   }).toString();
