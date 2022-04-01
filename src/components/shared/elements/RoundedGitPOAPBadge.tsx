@@ -39,7 +39,8 @@ const RoundedHexagon = styled.div`
     content: '';
     display: block;
     padding-top: 100%;
-    clip-path: polygon(5% 25%, 50% 0, 95% 25%, 95% 75%, 50% 100%, 5% 75%);
+    clip-path: inherit;
+    transition: inherit;
   }
 `;
 
@@ -73,26 +74,26 @@ const RoundedHexOuterBorder = styled(RoundedHexagon)<HexProps & { disabled?: boo
   &:hover:not([disabled]) {
     &:before {
       background-color: ${ExtraHover};
-      ${RoundedHexBadge} {
-        opacity: 0.7;
-      }
+    }
+    ${RoundedHexBadge} {
+      opacity: 0.7;
     }
   }
   &:active:not([disabled]) {
     &:before {
       background-color: ${ExtraPressed};
-      ${RoundedHexBadge} {
-        opacity: 0.5;
-      }
+    }
+    ${RoundedHexBadge} {
+      opacity: 0.5;
     }
   }
   &[disabled] {
     &:before {
       cursor: not-allowed;
       background-color: ${TextGray};
-      ${RoundedHexBadge} {
-        background: ${MidnightBlue};
-      }
+    }
+    ${RoundedHexBadge} {
+      background: ${MidnightBlue};
     }
   }
 `;
