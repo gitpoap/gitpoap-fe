@@ -13,6 +13,8 @@ import { AvatarResolver } from '@ensdomains/ens-avatar';
 import { EditProfileModal } from '../../components/profile/EditProfileModal';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
+import { showNotification } from '@mantine/notifications';
+import { NotificationFactory } from '../../notifications';
 
 const ProfileQuery = gql`
   query profile($address: String!) {
@@ -167,6 +169,12 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
         setIsSaveLoading(false);
       } catch (err) {
         console.warn(err);
+        showNotification(
+          NotificationFactory.createError(
+            'Error - Request Failed',
+            'Oops, something went wrong! 🤥',
+          ),
+        );
         setIsSaveLoading(false);
         setIsSaveSuccessful(false);
       }
