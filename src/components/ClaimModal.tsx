@@ -60,14 +60,15 @@ const ClaimText = styled.div`
   margin-top: ${rem(18)};
 `;
 
-const getClaimText = (numClaims: number): string => {
-  if (numClaims < 1) {
+const getClaimText = (numClaims: number, numClaimed: number): string => {
+  const netClaims = numClaims - numClaimed;
+  if (netClaims < 1) {
     return 'You have no new POAPs to mint.';
-  } else if (numClaims === 1) {
+  } else if (netClaims === 1) {
     return 'You have a new POAP to mint!';
   }
 
-  return `You have ${numClaims} new POAPs to mint!`;
+  return `You have ${netClaims} new POAPs to mint!`;
 };
 
 export const ClaimModal = ({
@@ -79,7 +80,6 @@ export const ClaimModal = ({
   onClickClaim,
 }: Props) => {
   const [page, setPage] = useState(1);
-  const claimText = getClaimText(claims.length);
   const { hasClaimAllButton } = useFeatures();
   const perPage = 3;
   const numPages = Math.ceil(claims.length / perPage);
@@ -87,6 +87,7 @@ export const ClaimModal = ({
   const end = start + perPage;
   const hasClaimedAll = claimedIds && claimedIds.length === claims.length;
   const isClaimingAll = loadingClaimIds && loadingClaimIds.length === claims.length;
+  const claimText = getClaimText(claims.length, claimedIds.length);
 
   /* All claimIds in view, not all */
   const allClaimIds = claims.slice(start, end).map((userClaim) => userClaim.claim.id);
@@ -144,7 +145,7 @@ export const ClaimModal = ({
           </ClaimAll>
         )}
         <ClaimText>{'Minting is free, no transaction fee required'}</ClaimText>
-        {claimedIds?.length > 0 && <TwitterShareButton gitPOAPCount={claimedIds.length} />}
+        {claimedIds?.length > 0 && <TwitterShareButton claimedCount={claimedIds.length} />}
       </Content>
     </StyledModal>
   );
