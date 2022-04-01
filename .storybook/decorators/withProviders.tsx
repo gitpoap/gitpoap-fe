@@ -1,10 +1,11 @@
 import React from 'react';
-import { Web3ContextProvider } from '../../src/components/wallet/Web3ContextProvider';
-import { AuthProvider } from '../../src/components/github/AuthContext';
 import { createClient, Provider as URQLProvider } from 'urql';
 import { MantineProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { NextRouter } from 'next/router';
+import { Web3ContextProvider } from '../../src/components/wallet/Web3ContextProvider';
+import { AuthProvider } from '../../src/components/github/AuthContext';
 import { FeaturesProvider } from '../../src/components/FeaturesContext';
 
 const client = createClient({
@@ -41,11 +42,13 @@ export const withProviders = (storyFn) => {
     <RouterContext.Provider value={mockRouter}>
       <Web3ContextProvider>
         <MantineProvider theme={{ colorScheme: 'dark' }}>
-          <URQLProvider value={client}>
-            <AuthProvider>
-              <FeaturesProvider>{storyFn()}</FeaturesProvider>
-            </AuthProvider>
-          </URQLProvider>
+          <NotificationsProvider autoClose={5000}>
+            <URQLProvider value={client}>
+              <AuthProvider>
+                <FeaturesProvider>{storyFn()}</FeaturesProvider>
+              </AuthProvider>
+            </URQLProvider>
+          </NotificationsProvider>
         </MantineProvider>
       </Web3ContextProvider>
     </RouterContext.Provider>

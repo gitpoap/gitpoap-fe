@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { createClient, Provider as URQLProvider } from 'urql';
 import { MantineProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import * as Sentry from '@sentry/browser';
 import { GlobalStyles } from '../styles/globalStyles';
 import { Web3ContextProvider } from '../components/wallet/Web3ContextProvider';
@@ -37,16 +38,18 @@ const TheApp = ({ Component, pageProps }: Props) => {
   return (
     <Web3ContextProvider>
       <MantineProvider theme={{ colorScheme: 'dark' }}>
-        <URQLProvider value={client}>
-          <AuthProvider>
-            <FeaturesProvider>
-              <GlobalStyles />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </FeaturesProvider>
-          </AuthProvider>
-        </URQLProvider>
+        <NotificationsProvider autoClose={5000}>
+          <URQLProvider value={client}>
+            <AuthProvider>
+              <FeaturesProvider>
+                <GlobalStyles />
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </FeaturesProvider>
+            </AuthProvider>
+          </URQLProvider>
+        </NotificationsProvider>
       </MantineProvider>
     </Web3ContextProvider>
   );
