@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Modal, Center, Pagination } from '@mantine/core';
+import { Modal, Center } from '@mantine/core';
+import { Pagination } from './shared/elements/Pagination';
 import { BackgroundPanel, TextGray, TextLight } from '../colors';
 import { Button } from './shared/elements/Button';
 import { TwitterShareButton } from './shared/elements/TwitterShareButton';
