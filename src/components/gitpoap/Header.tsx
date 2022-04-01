@@ -145,8 +145,10 @@ export const Header = ({ gitPOAPId }: Props) => {
 
   /* Hook to set profile data to state */
   useEffect(() => {
-    setEvent(result.data?.gitPOAPEvent.event);
-    setOrganization(result.data?.gitPOAPEvent.gitPOAP.repo.organization);
+    if (result.data?.gitPOAPEvent) {
+      setEvent(result.data?.gitPOAPEvent.event);
+      setOrganization(result.data?.gitPOAPEvent.gitPOAP.repo.organization);
+    }
   }, [result.data]);
 
   return (
