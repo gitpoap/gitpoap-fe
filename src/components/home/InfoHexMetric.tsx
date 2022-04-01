@@ -22,6 +22,9 @@ const Content = styled.div`
 
 const Icon = styled.div`
   margin-bottom: ${rem(25)};
+  svg:hover {
+    cursor: default;
+  }
 `;
 
 const Value = styled.div`
