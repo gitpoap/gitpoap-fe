@@ -6,14 +6,13 @@ import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
 import { useQuery, gql } from 'urql';
 
-import { Grid } from '@mantine/core';
-
 import { Button } from '../shared/elements/Button';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Header as HeaderText } from '../shared/elements/Header';
 import { Text } from '../shared/elements/Text';
 import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { useFeatures } from '../../components/FeaturesContext';
+import { Title } from '../shared/elements/Title';
 
 type Props = {
   gitPOAPId: number;
@@ -100,8 +99,10 @@ const OrgName = styled(Text)`
   color: ${TextGray};
 `;
 
-const OrgLink = styled.a`
+const OrgLink = styled(Title)`
   color: ${TextAccent};
+  // Make this pointer once the org page is built
+  cursor: default;
 `;
 
 const OrgDescription = styled(Text)`
@@ -112,6 +113,7 @@ const OrgDescription = styled(Text)`
 
 const Badge = styled(GitPOAPBadge)`
   margin-top: ${rem(56)};
+  cursor: default;
 `;
 
 const Links = styled.div`
@@ -160,24 +162,32 @@ export const Header = ({ gitPOAPId }: Props) => {
         <>
           <OrgName>
             {'by '}
-            <Link href={`/o/${organization.id}`} passHref>
-              <OrgLink>{organization.name}</OrgLink>
-            </Link>
+            {/* <Link href={`/o/${organization.id}`} passHref> */}
+            <OrgLink>{organization.name}</OrgLink>
+            {/* </Link> */}
           </OrgName>
           <OrgDescription>{organization.description}</OrgDescription>
           <Links>
             {organization.twitterHandle && (
-              <StyledLink href={`https://twitter.com/${organization.twitterHandle}`}>
+              <StyledLink
+                href={`https://twitter.com/${organization.twitterHandle}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <TwitterIcon size={24} />
               </StyledLink>
             )}
             {organization.name && (
-              <StyledLink href={`https://github.com/${organization.name}`}>
+              <StyledLink
+                href={`https://github.com/${organization.name}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <GithubIcon size={24} />
               </StyledLink>
             )}
             {organization.url && (
-              <StyledLink href={organization.url}>
+              <StyledLink href={organization.url} target="_blank" rel="noopener noreferrer">
                 <GlobeIcon size={24} />
               </StyledLink>
             )}
