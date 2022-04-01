@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useQuery, gql } from 'urql';
 import { useDebouncedValue } from '@mantine/hooks';
 import { FaSearch } from 'react-icons/fa';
-import { Loader } from '@mantine/core';
+import { Loader } from '../shared/elements/Loader';
 import { rem } from 'polished';
 import { Input } from '../shared/elements/Input';
 import { SearchItem } from './SearchItem';

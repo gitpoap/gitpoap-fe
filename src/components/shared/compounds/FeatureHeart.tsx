@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Loader } from '@mantine/core';
+import { Loader } from '../elements/Loader';
 import { FaHeart } from 'react-icons/fa';
 import { ExtraHover, ExtraPressed, TextAccent, TextLight } from '../../../colors';
 import { useFeaturedPOAPs, useFeaturedPOAPsDispatch } from '../../profile/FeaturedPOAPsContext';
