@@ -93,7 +93,7 @@ export const GitPOAP = ({
   return (
     <Wrapper className={className}>
       <BadgeWrapper>
-        <Link href={`/gitpoaps/${gitPOAPId}`}>
+        <Link href={`/gp/${gitPOAPId}`}>
           <a>
             <GitPOAPBadge size="sm" imgUrl={imgSrc} />
           </a>
@@ -101,7 +101,7 @@ export const GitPOAP = ({
         {poapTokenId && <Heart poapTokenId={poapTokenId} />}
       </BadgeWrapper>
       <Info>
-        <Link href={`/gitpoaps/${gitPOAPId}`} passHref>
+        <Link href={`/gp/${gitPOAPId}`} passHref>
           <TitleStyled>{name}</TitleStyled>
         </Link>
         <OrgName>{orgName}</OrgName>

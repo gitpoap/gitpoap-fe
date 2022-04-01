@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Layout } from '../../../components/Layout';
-import GitPOAP from '../../../pages/gitpoaps/[id]';
+import GitPOAP from '../../../pages/gp/[id]';
 
 export default {
   title: 'Pages/GitPOAP',
