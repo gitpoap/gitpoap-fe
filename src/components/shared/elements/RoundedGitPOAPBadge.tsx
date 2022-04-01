@@ -55,7 +55,7 @@ const RoundedHexBadge = styled(RoundedHexagon)<Props>`
   font-size: initial; /* we reset the font-size if we want to add some content */
 
   &:before {
-    background: no-repeat center / 105% url('${(props) => props.imgUrl}');
+    background: no-repeat center / cover url('${(props) => props.imgUrl}');
   }
 `;
 
