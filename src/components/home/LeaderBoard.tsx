@@ -86,7 +86,6 @@ const LeadersQuery = gql`
         id
       }
       claimsCount
-      ensName
     }
   }
 `;
