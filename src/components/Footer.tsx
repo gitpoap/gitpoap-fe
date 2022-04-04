@@ -41,6 +41,7 @@ const ContentRight = styled.div`
 const SocialLink = styled.a`
   text-decoration: none;
   color: inherit;
+  transition: 150ms color ease;
 
   &:hover {
     color: ${ExtraHover};

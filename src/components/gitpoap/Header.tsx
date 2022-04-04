@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { rem } from 'polished';
 import React, { useState, useEffect } from 'react';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';

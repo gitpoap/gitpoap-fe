@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { TextAccent, TextGray, TextLight } from '../../colors';
+import { TextGray, TextLight } from '../../colors';
 import { InfoHexBase } from '../shared/elements/InfoHexBase';
 
 type Props = {
@@ -35,7 +35,7 @@ const Value = styled.div`
   line-height: ${rem(42)};
   text-align: center;
   letter-spacing: ${rem(-1)};
-  color: ${TextAccent};
+  color: ${TextLight};
   margin-bottom: ${rem(4)};
 `;
 

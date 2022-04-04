@@ -1,11 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { useQuery, gql } from 'urql';
 import { InfoHexMetric } from './InfoHexMetric';
 import { GitPOAP } from '../shared/elements/icons/GitPOAP';
 import { People } from '../shared/elements/icons/People';
 import { Project } from '../shared/elements/icons/Project';
+import { ExtraHover, TextAccent } from '../../colors';
 
 export type Stats = {
   value: number;
@@ -25,10 +26,28 @@ const StatsQuery = gql`
   }
 `;
 
+const CustomIconStyled = css`
+  path,
+  &:hover > path,
+  &:active > path {
+    fill: ${ExtraHover};
+  }
+`;
+
+const PeopleIcon = styled(People)`
+  ${CustomIconStyled}
+`;
+const GitPOAPIcon = styled(GitPOAP)`
+  ${CustomIconStyled}
+`;
+const ProjectIcon = styled(Project)`
+  ${CustomIconStyled}
+`;
+
 const ICONS: Record<string, React.ReactNode> = {
-  people: <People style={{ height: rem(70), width: rem(70) }} />,
-  gitPOAP: <GitPOAP style={{ height: rem(70), width: rem(70) }} />,
-  project: <Project style={{ height: rem(70), width: rem(70) }} />,
+  people: <PeopleIcon style={{ height: rem(70), width: rem(70) }} />,
+  gitPOAP: <GitPOAPIcon style={{ height: rem(70), width: rem(70) }} />,
+  project: <ProjectIcon style={{ height: rem(70), width: rem(70) }} />,
 };
 
 const StatsStyled = styled.div`

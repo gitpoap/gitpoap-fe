@@ -66,6 +66,7 @@ const SearchInput = styled(Input)`
   .mantine-TextInput-input {
     &::placeholder {
       color: ${TextGray};
+      text-transform: uppercase;
     }
   }
 `;
@@ -148,7 +149,7 @@ export const SearchBox = ({ className }: Props) => {
     <Container className={className} onFocus={() => setAreResultsVisible(true)}>
       <SearchInput
         inputRef={inputRef}
-        placeholder={'SEARCH BY ENS OR ACCOUNT...'}
+        placeholder={'POAP.ETH OR 0xf6B6...'}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         icon={result.fetching ? <Loader size={18} /> : <FaSearch />}
