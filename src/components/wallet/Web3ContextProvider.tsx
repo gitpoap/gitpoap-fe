@@ -1,6 +1,6 @@
 import React, { useContext, useState, useCallback, createContext, useMemo, useEffect } from 'react';
 import Web3Modal from 'web3modal';
-import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider, Web3Provider, InfuraProvider } from '@ethersproject/providers';
 import { NETWORKS } from '../../constants';
 import { BackgroundPanel, BackgroundPanel2, TextLight, TextGray } from '../../colors';
 import { useEnsAvatar } from '../../hooks/useEnsAvatar';
@@ -35,7 +35,8 @@ type onChainProvider = {
   ensName: string | null;
   avatarURI: string | null;
   isConnected: boolean;
-  web3Provider: JsonRpcProvider | null; // does this have to be | null? can we avoid?
+  web3Provider: JsonRpcProvider | null;
+  infuraProvider: InfuraProvider | null;
   web3Modal: Web3Modal;
   chainId: number;
 };
@@ -68,6 +69,7 @@ export const Web3ContextProvider = (props: Props) => {
   const [web3Modal, _] = useState<Web3Modal>(initWeb3Modal);
   const [address, setAddress] = useState('');
   const [web3Provider, setWeb3Provider] = useState<JsonRpcProvider | null>(null);
+  const [infuraProvider, setInfuraProvider] = useState<InfuraProvider | null>(null);
   const [chainId, setChainId] = useState(NETWORKS[1].chainId);
   const [ensName, setEnsName] = useState<string | null>(null);
   const avatarURI = useEnsAvatar(web3Provider, ensName);
@@ -137,10 +139,20 @@ export const Web3ContextProvider = (props: Props) => {
   useEffect(() => {
     const isCached = hasCachedProvider();
 
-    if (isCached && !isConnected) {
-      connect();
+    if (!isConnected) {
+      if (isCached) {
+        connect();
+      } else if (!infuraProvider) {
+        /* Initialize a backup provider when no wallet is connected */
+        if (!isConnected && !infuraProvider) {
+          const provider = new InfuraProvider(NETWORKS[1].chainId, {
+            projectId: process.env.NEXT_PUBLIC_INFURA_ID,
+          });
+          setInfuraProvider(provider);
+        }
+      }
     }
-  }, [hasCachedProvider, isConnected, connect]);
+  }, [hasCachedProvider, isConnected, connect, infuraProvider]);
 
   const onChainProvider = useMemo(
     () => ({
@@ -152,6 +164,7 @@ export const Web3ContextProvider = (props: Props) => {
       ensName,
       avatarURI,
       web3Provider,
+      infuraProvider,
       web3Modal,
       chainId,
     }),
@@ -164,6 +177,7 @@ export const Web3ContextProvider = (props: Props) => {
       ensName,
       avatarURI,
       web3Provider,
+      infuraProvider,
       web3Modal,
       chainId,
     ],

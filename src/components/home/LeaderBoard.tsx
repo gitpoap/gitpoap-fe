@@ -86,14 +86,15 @@ const LeadersQuery = gql`
         id
       }
       claimsCount
+      ensName
     }
   }
 `;
 
 const LeaderBoardItem = ({ profile, claimsCount }: LeaderBoardItemProps) => {
-  const { web3Provider } = useWeb3Context();
-  const ensName = useEns(web3Provider, profile.address);
-  const avatarURI = useEnsAvatar(web3Provider, ensName);
+  const { web3Provider, infuraProvider } = useWeb3Context();
+  const ensName = useEns(web3Provider ?? infuraProvider, profile.address);
+  const avatarURI = useEnsAvatar(web3Provider ?? infuraProvider, ensName);
 
   return (
     <>
