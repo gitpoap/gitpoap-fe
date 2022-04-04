@@ -35,6 +35,7 @@ export type GitPOAPEventQueryRes = {
   gitPOAPEvent: {
     gitPOAP: {
       repo: {
+        name: string;
         organization: Organization;
       };
     };
@@ -47,6 +48,7 @@ const GitPOAPEventQuery = gql`
     gitPOAPEvent(id: $id) {
       gitPOAP {
         repo {
+          name
           organization {
             id
             name
@@ -135,6 +137,7 @@ const CheckEligibilityButton = styled(Button)`
 export const Header = ({ gitPOAPId }: Props) => {
   const [event, setEvent] = useState<Event>();
   const [organization, setOrganization] = useState<Organization>();
+  const [repoName, setRepoName] = useState<string>();
   const [result] = useQuery<GitPOAPEventQueryRes>({
     query: GitPOAPEventQuery,
     variables: {
@@ -149,6 +152,7 @@ export const Header = ({ gitPOAPId }: Props) => {
     if (result.data?.gitPOAPEvent) {
       setEvent(result.data?.gitPOAPEvent.event);
       setOrganization(result.data?.gitPOAPEvent.gitPOAP.repo.organization);
+      setRepoName(result.data?.gitPOAPEvent.gitPOAP.repo.name);
     }
   }, [result.data]);
 
@@ -167,7 +171,7 @@ export const Header = ({ gitPOAPId }: Props) => {
           </OrgName>
           <OrgDescription>{organization.description}</OrgDescription>
           <Links>
-            {organization.twitterHandle && (
+            {features.hasOrganizations && organization.twitterHandle && (
               <StyledLink
                 href={`https://twitter.com/${organization.twitterHandle}`}
                 target="_blank"
@@ -178,14 +182,14 @@ export const Header = ({ gitPOAPId }: Props) => {
             )}
             {organization.name && (
               <StyledLink
-                href={`https://github.com/${organization.name}`}
+                href={`https://github.com/${organization.name}/${repoName}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <GithubIcon size={24} />
               </StyledLink>
             )}
-            {organization.url && (
+            {features.hasOrganizations && organization.url && (
               <StyledLink href={organization.url} target="_blank" rel="noopener noreferrer">
                 <GlobeIcon size={24} />
               </StyledLink>
