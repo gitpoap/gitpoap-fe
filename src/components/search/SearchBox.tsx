@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useQuery, gql } from 'urql';
 import { useDebouncedValue } from '@mantine/hooks';
+import { isAddress } from 'ethers/lib/utils'; // checksum address??????
 import { FaSearch } from 'react-icons/fa';
 import { Loader } from '../shared/elements/Loader';
 import { rem } from 'polished';
@@ -9,6 +10,7 @@ import { Input } from '../shared/elements/Input';
 import { SearchItem } from './SearchItem';
 import { BackgroundPanel, TextGray } from '../../colors';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
+import { useWeb3Context } from '../wallet/Web3ContextProvider';
 
 type Props = {
   className?: string;
@@ -87,8 +89,10 @@ const Results = styled.div`
 export const SearchBox = ({ className }: Props) => {
   const maxResults = 5;
   const [query, setQuery] = useState('');
+  const { web3Provider, infuraProvider } = useWeb3Context();
   const [debouncedQuery] = useDebouncedValue(query, 200);
   const [searchResults, setSearchResults] = useState<Result[]>([]);
+  const [areResultsLoading, setAreResultsLoading] = useState(false);
   const [areResultsVisible, setAreResultsVisible] = useState<boolean>(false);
   const [result, refetch] = useQuery<SearchQueryRes>({
     query: SearchQuery,
@@ -104,34 +108,63 @@ export const SearchBox = ({ className }: Props) => {
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
-    if (debouncedQuery.length > 0) {
-      let results: Result[] = [];
-      if (result.data?.search.profilesByAddress) {
-        const profilesByAddress = result.data.search.profilesByAddress.map(
-          (profile): Result => ({
-            id: profile.id,
-            text: profile.address,
-            href: `/p/${profile.address}`,
-          }),
-        );
+    const prepareResults = async () => {
+      if (debouncedQuery.length > 0) {
+        setAreResultsLoading(true);
+        let results: Result[] = [];
+        if (result.data?.search.profilesByAddress) {
+          const profilesByAddress = result.data.search.profilesByAddress.map(
+            (profile): Result => ({
+              id: profile.id,
+              text: profile.address,
+              href: `/p/${profile.address}`,
+            }),
+          );
 
-        results = [...profilesByAddress];
+          results = [...profilesByAddress];
+        }
+        if (result.data?.search.profileByENS) {
+          const profileByENSData = result.data?.search.profileByENS;
+          const profileByENS = {
+            id: profileByENSData.profile.id,
+            text: profileByENSData.profile.address,
+            href: `/p/${profileByENSData.ens}`,
+            name: profileByENSData.ens,
+          };
+
+          results = [profileByENS, ...results];
+        }
+
+        if (results.length === 0) {
+          if (debouncedQuery.endsWith('.eth')) {
+            const address = await (web3Provider ?? infuraProvider)?.resolveName(debouncedQuery);
+            if (address) {
+              results = [
+                {
+                  id: 0,
+                  text: debouncedQuery,
+                  name: debouncedQuery,
+                  href: `/p/${debouncedQuery}`,
+                },
+              ];
+            }
+          } else if (isAddress(debouncedQuery)) {
+            results = [
+              {
+                id: 0,
+                text: debouncedQuery,
+                href: `/p/${debouncedQuery}`,
+              },
+            ];
+          }
+        }
+        setAreResultsLoading(false);
+        setSearchResults(results);
       }
-      if (result.data?.search.profileByENS) {
-        const profileByENSData = result.data?.search.profileByENS;
-        const profileByENS = {
-          id: profileByENSData.profile.id,
-          text: profileByENSData.profile.address,
-          href: `/p/${profileByENSData.ens}`,
-          name: profileByENSData.ens,
-        };
+    };
 
-        results = [profileByENS, ...results];
-      }
-
-      setSearchResults(results);
-    }
-  }, [debouncedQuery, result.data]);
+    prepareResults();
+  }, [debouncedQuery, result.data, web3Provider, infuraProvider]);
 
   /* This hook is used to refetch data when the debounced query changes */
   useEffect(() => {
@@ -152,7 +185,7 @@ export const SearchBox = ({ className }: Props) => {
         placeholder={'POAP.ETH OR 0xf6B6...'}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        icon={result.fetching ? <Loader size={18} /> : <FaSearch />}
+        icon={result.fetching || areResultsLoading ? <Loader size={18} /> : <FaSearch />}
       />
 
       {areResultsVisible && searchResults.length > 0 && debouncedQuery.length > 0 && (
