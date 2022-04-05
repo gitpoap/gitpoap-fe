@@ -11,7 +11,7 @@ import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
 
 const client = createClient({
-  url: 'http://localhost:3001/graphql',
+  url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
 });
 
 Sentry.init({
