@@ -8,7 +8,9 @@ const url = badgeImg1 as unknown as string;
 export default {
   title: 'Elements/GitPOAPBadge',
   component: GitPOAPBadge,
-  argTypes: {},
+  argTypes: {
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+  },
 } as ComponentMeta<typeof GitPOAPBadge>;
 
 const Template: ComponentStory<typeof GitPOAPBadge> = (args) => {

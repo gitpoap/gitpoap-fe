@@ -18,4 +18,4 @@ const Template: ComponentStory<typeof RoundedGitPOAPBadge> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = { imgUrl: url, size: 'md', stdDeviation: 8 };
+Default.args = { imgUrl: url, size: 'md' };

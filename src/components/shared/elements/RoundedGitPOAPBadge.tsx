@@ -9,7 +9,6 @@ type Props = {
   disabled?: boolean;
   size: Sizes;
   onClick?: () => void;
-  stdDeviation?: number;
 };
 
 type Sizes = 'sm' | 'md' | 'lg';
@@ -33,7 +32,16 @@ const dimensions: Dimensions = {
 const RoundedHexagon = styled.div`
   transition: 150ms background-color ease-in-out, 150ms opacity ease-in-out;
   clip-path: polygon(5% 25%, 50% 0, 95% 25%, 95% 75%, 50% 100%, 5% 75%);
-  filter: url(#round);
+  filter: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.0">\
+      <defs>\
+        <filter id="round">\
+          <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />\
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="blurColorMatrix" />\
+          <feComposite in="SourceGraphic" in2="blurColorMatrix" operator="atop" />\
+        </filter>\
+      </defs>\
+    </svg>#round');
 
   &:before {
     content: '';
@@ -111,46 +119,12 @@ const RoundedHexInnerBorder = styled(RoundedHexagon)<HexProps>`
   }
 `;
 
-export const RoundedGitPOAPBadge = ({
-  className,
-  imgUrl,
-  disabled,
-  size,
-  onClick,
-  stdDeviation,
-}: Props) => {
+export const RoundedGitPOAPBadge = ({ className, imgUrl, disabled, size, onClick }: Props) => {
   return (
-    <>
-      <RoundedHexOuterBorder
-        className={className}
-        size={size}
-        disabled={disabled}
-        onClick={onClick}
-      >
-        <RoundedHexInnerBorder size={size}>
-          <RoundedHexBadge imgUrl={imgUrl} size={size} />
-        </RoundedHexInnerBorder>
-      </RoundedHexOuterBorder>
-      <svg
-        style={{ visibility: 'hidden', position: 'absolute' }}
-        width="0"
-        height="0"
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-      >
-        <defs>
-          <filter id="round">
-            <feGaussianBlur in="SourceGraphic" stdDeviation={stdDeviation ?? '8'} result="blur" />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
-              result="goo"
-            />
-            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-          </filter>
-        </defs>
-      </svg>
-    </>
+    <RoundedHexOuterBorder className={className} size={size} disabled={disabled} onClick={onClick}>
+      <RoundedHexInnerBorder size={size}>
+        <RoundedHexBadge imgUrl={imgUrl} size={size} />
+      </RoundedHexInnerBorder>
+    </RoundedHexOuterBorder>
   );
 };
