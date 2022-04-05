@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { useQuery, gql } from 'urql';
-import { GitPOAPGql } from '../../types';
+import { GitPOAPGql, UserClaim } from '../../types';
 import { GitPOAP as GitPOAPBadgeUI } from '../shared/compounds/GitPOAP';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
@@ -38,6 +38,22 @@ const GitPOAPsQuery = gql`
   query gitPOAPs($address: String!, $sort: String, $page: Float, $perPage: Float) {
     userPOAPs(address: $address, sort: $sort, page: $page, perPage: $perPage) {
       totalGitPOAPs
+      mintingGitPOAPs {
+        claim {
+          id
+          gitPOAP {
+            id
+            repo {
+              name
+            }
+          }
+        }
+        event {
+          name
+          image_url
+          description
+        }
+      }
       gitPOAPs {
         claim {
           gitPOAP {
@@ -64,6 +80,7 @@ export const GitPOAPs = ({ address }: Props) => {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortOptions>('date');
   const [gitPOAPItems, setGitPOAPItems] = useState<GitPOAPGql[]>([]);
+  const [mintingGitPOAPs, setMintingGitPOAPs] = useState<UserClaim[]>([]);
   const [total, setTotal] = useState<number>();
   const [searchValue, setSearchValue] = useState('');
   const perPage = 4;
@@ -72,6 +89,7 @@ export const GitPOAPs = ({ address }: Props) => {
     userPOAPs: {
       totalGitPOAPs: number;
       gitPOAPs: GitPOAPGql[];
+      mintingGitPOAPs: UserClaim[];
     };
   }>({
     query: GitPOAPsQuery,
@@ -96,13 +114,21 @@ export const GitPOAPs = ({ address }: Props) => {
       }
       return prev;
     });
+    if (result.data?.userPOAPs.mintingGitPOAPs) {
+      setMintingGitPOAPs(result.data.userPOAPs.mintingGitPOAPs);
+    }
   }, [result.data]);
 
   /* Hook to set total number of GitPOAPs */
   useEffect(() => {
+    let total = 0;
     if (result.data?.userPOAPs) {
-      setTotal(result.data.userPOAPs.totalGitPOAPs);
+      total += result.data.userPOAPs.totalGitPOAPs;
     }
+    if (result.data?.userPOAPs.mintingGitPOAPs) {
+      total += result.data?.userPOAPs.mintingGitPOAPs.length;
+    }
+    setTotal(total);
   }, [result.data]);
 
   if (result.error) {
@@ -144,7 +170,7 @@ export const GitPOAPs = ({ address }: Props) => {
             })}
           </>
         )}
-        {result.operation && gitPOAPItems.length === 0 && (
+        {result.operation && gitPOAPItems.length === 0 && mintingGitPOAPs.length === 0 && (
           <EmptyState icon={<FaTrophy color={TextDarkGray} size={rem(74)} />}>
             <a href={'https://gitpoap.io/discord'} target="_blank" rel="noopener noreferrer">
               <Title style={{ marginTop: rem(20) }}>
@@ -154,6 +180,36 @@ export const GitPOAPs = ({ address }: Props) => {
           </EmptyState>
         )}
 
+        {/* Minting POAPs rendered first */}
+        {mintingGitPOAPs &&
+          mintingGitPOAPs
+            .filter((mintingGitPOAP) => {
+              if (searchValue) {
+                return (
+                  mintingGitPOAP.event.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                  (mintingGitPOAP.claim.gitPOAP.repo.name &&
+                    mintingGitPOAP.claim.gitPOAP.repo.name
+                      .toLowerCase()
+                      .includes(searchValue.toLowerCase()))
+                );
+              }
+
+              return true;
+            })
+            .map((mintingGitPOAP) => {
+              return (
+                <GitPOAPBadge
+                  key={mintingGitPOAP.event.id + 'minting'}
+                  gitPOAPId={mintingGitPOAP.claim.gitPOAP.id}
+                  orgName={mintingGitPOAP.claim.gitPOAP.repo.name ?? ''}
+                  name={mintingGitPOAP.event.name}
+                  imgSrc={mintingGitPOAP.event.image_url}
+                  description={mintingGitPOAP.event.description}
+                />
+              );
+            })}
+
+        {/* Fully Claimed GitPOAPs rendered next */}
         {gitPOAPItems &&
           gitPOAPItems
             .filter((gitPOAPItem) => {
