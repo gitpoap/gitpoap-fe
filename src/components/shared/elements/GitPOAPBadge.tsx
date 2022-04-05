@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+
 import { TextLight, MidnightBlue, ExtraHover, ExtraPressed, TextGray } from '../../../colors';
 
 type Props = {
@@ -9,7 +10,6 @@ type Props = {
   disabled?: boolean;
   size: Sizes;
   onClick?: () => void;
-  stdDeviation?: number;
 };
 
 type Sizes = 'sm' | 'md' | 'lg';
@@ -30,10 +30,19 @@ const dimensions: Dimensions = {
   lg: { width: 350, borderSize: 5 },
 };
 
-const RoundedHexagon = styled.div`
+const Hexagon = styled.div`
   transition: 150ms background-color ease-in-out, 150ms opacity ease-in-out;
   clip-path: polygon(5% 25%, 50% 0, 95% 25%, 95% 75%, 50% 100%, 5% 75%);
-  filter: url(#round);
+  filter: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.0">\
+      <defs>\
+        <filter id="round">\
+          <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />\
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="blurColorMatrix" />\
+          <feComposite in="SourceGraphic" in2="blurColorMatrix" operator="atop" />\
+        </filter>\
+      </defs>\
+    </svg>#round');
 
   &:before {
     content: '';
@@ -44,7 +53,7 @@ const RoundedHexagon = styled.div`
   }
 `;
 
-const RoundedHexBadge = styled(RoundedHexagon)<Props>`
+const HexBadge = styled(Hexagon)<Props>`
   --s: ${(props) => rem(dimensions[props.size].width)};
   position: absolute;
   top: ${(props) => rem(dimensions[props.size].borderSize)};
@@ -56,12 +65,11 @@ const RoundedHexBadge = styled(RoundedHexagon)<Props>`
   font-size: initial; /* we reset the font-size if we want to add some content */
 
   &:before {
-    background: no-repeat center / cover url('${(props) => props.imgUrl}');
-    background-size: 100% 100%;
+    background: no-repeat center / 100% url('${(props) => props.imgUrl}');
   }
 `;
 
-const RoundedHexOuterBorder = styled(RoundedHexagon)<HexProps & { disabled?: boolean }>`
+const HexOuterBorder = styled(Hexagon)<HexProps & { disabled?: boolean }>`
   position: relative;
   --s: ${(props) => rem(dimensions[props.size].width + 4 * dimensions[props.size].borderSize)};
   width: var(--s);
@@ -76,7 +84,7 @@ const RoundedHexOuterBorder = styled(RoundedHexagon)<HexProps & { disabled?: boo
     &:before {
       background-color: ${ExtraHover};
     }
-    ${RoundedHexBadge} {
+    ${HexBadge} {
       opacity: 0.7;
     }
   }
@@ -84,7 +92,7 @@ const RoundedHexOuterBorder = styled(RoundedHexagon)<HexProps & { disabled?: boo
     &:before {
       background-color: ${ExtraPressed};
     }
-    ${RoundedHexBadge} {
+    ${HexBadge} {
       opacity: 0.5;
     }
   }
@@ -93,13 +101,13 @@ const RoundedHexOuterBorder = styled(RoundedHexagon)<HexProps & { disabled?: boo
       cursor: not-allowed;
       background-color: ${TextGray};
     }
-    ${RoundedHexBadge} {
+    ${HexBadge}:before {
       background: ${MidnightBlue};
     }
   }
 `;
 
-const RoundedHexInnerBorder = styled(RoundedHexagon)<HexProps>`
+const HexInnerBorder = styled(Hexagon)<HexProps>`
   --s: ${(props) => rem(dimensions[props.size].width + 2 * dimensions[props.size].borderSize)};
   position: absolute;
   top: ${(props) => rem(dimensions[props.size].borderSize)};
@@ -112,46 +120,12 @@ const RoundedHexInnerBorder = styled(RoundedHexagon)<HexProps>`
   }
 `;
 
-export const GitPOAPBadge = ({
-  className,
-  imgUrl,
-  disabled,
-  size,
-  onClick,
-  stdDeviation,
-}: Props) => {
+export const GitPOAPBadge = ({ className, imgUrl, disabled, size, onClick }: Props) => {
   return (
-    <>
-      <RoundedHexOuterBorder
-        className={className}
-        size={size}
-        disabled={disabled}
-        onClick={onClick}
-      >
-        <RoundedHexInnerBorder size={size}>
-          <RoundedHexBadge imgUrl={imgUrl} size={size} />
-        </RoundedHexInnerBorder>
-      </RoundedHexOuterBorder>
-      <svg
-        style={{ visibility: 'hidden', position: 'absolute' }}
-        width="0"
-        height="0"
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-      >
-        <defs>
-          <filter id="round">
-            <feGaussianBlur in="SourceGraphic" stdDeviation={stdDeviation ?? '8'} result="blur" />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
-              result="goo"
-            />
-            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-          </filter>
-        </defs>
-      </svg>
-    </>
+    <HexOuterBorder className={className} size={size} disabled={disabled} onClick={onClick}>
+      <HexInnerBorder size={size}>
+        <HexBadge imgUrl={imgUrl} size={size} />
+      </HexInnerBorder>
+    </HexOuterBorder>
   );
 };

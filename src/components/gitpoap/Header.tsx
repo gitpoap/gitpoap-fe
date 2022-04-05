@@ -113,7 +113,7 @@ const OrgDescription = styled(Text)`
 `;
 
 const Badge = styled(GitPOAPBadge)`
-  margin-top: ${rem(56)};
+  margin-top: ${rem(64)};
   cursor: default;
 `;
 
