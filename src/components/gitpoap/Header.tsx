@@ -4,7 +4,7 @@ import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
 import { useQuery, gql } from 'urql';
-
+import Link from 'next/link';
 import { Button } from '../shared/elements/Button';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Header as HeaderText } from '../shared/elements/Header';
@@ -163,13 +163,17 @@ export const Header = ({ gitPOAPId }: Props) => {
       <Description>{event?.description}</Description>
       {organization && (
         <>
-          <OrgName>
-            {'by '}
-            {/* <Link href={`/o/${organization.id}`} passHref> */}
-            <OrgLink>{organization.name}</OrgLink>
-            {/* </Link> */}
-          </OrgName>
-          <OrgDescription>{organization.description}</OrgDescription>
+          {features.hasOrganizations && (
+            <>
+              <OrgName>
+                {'by '}
+                <Link href={`/o/${organization.id}`} passHref>
+                  <OrgLink>{organization.name}</OrgLink>
+                </Link>
+              </OrgName>
+              <OrgDescription>{organization.description}</OrgDescription>
+            </>
+          )}
           <Links>
             {features.hasOrganizations && organization.twitterHandle && (
               <StyledLink
