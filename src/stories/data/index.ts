@@ -450,11 +450,12 @@ export const gitPOAPEvent: GitPOAPEventQueryRes = {
   gitPOAPEvent: {
     gitPOAP: {
       repo: {
+        name: 'gitpoap-fe',
         organization: {
           id: 4,
           name: 'gitpoap',
           description:
-            'An open source and non-custodial liquidity protocol for earning interest on deposits and borrowing assets.',
+            'A recognition platform for recognizing and rewarding your contributors through POAPs.',
           twitterHandle: 'gitpoap',
           url: 'http://gitpoap.io',
         },

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { JsonRpcProvider } from '@ethersproject/providers';
 
+/* Map address -> ENS name */
 export const useEns = (web3Provider: JsonRpcProvider | null, address: string | null) => {
   const [ensName, setEnsName] = useState<string | null>(null);
 

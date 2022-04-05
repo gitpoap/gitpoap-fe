@@ -2,18 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button as ButtonUI, SharedButtonProps, ButtonProps } from '@mantine/core';
 import { rem } from 'polished';
-import {
-  PrimaryBlue,
-  TextGray,
-  ExtraHover,
-  ExtraActive,
-  DarkGray,
-  ExtraPressed,
-} from '../../../colors';
+import { PrimaryBlue, TextGray, ExtraHover, ExtraPressed, DarkGray } from '../../../colors';
 
 type Props = SharedButtonProps & {
   className?: string;
   onClick?: React.MouseEventHandler;
+  onMouseEnter?: React.MouseEventHandler;
+  onMouseLeave?: React.MouseEventHandler;
   disabled?: boolean;
   variant?: 'filled' | 'outline';
 };
@@ -42,7 +37,7 @@ const StyledButton = styled(ButtonUI)<ButtonProps<'button'>>`
       background-color: ${ExtraHover};
     }
     &:active:not(:disabled) {
-      background-color: ${ExtraActive};
+      background-color: ${ExtraPressed};
     }
     &:disabled {
       background-color: ${DarkGray};

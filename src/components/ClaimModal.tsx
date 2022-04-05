@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Modal, Center } from '@mantine/core';
+import { Modal, Center, Group } from '@mantine/core';
+import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { Pagination } from './shared/elements/Pagination';
-import { BackgroundPanel, TextGray, TextLight } from '../colors';
+import { BackgroundPanel, TextDarkGray, TextGray, TextLight } from '../colors';
 import { Button } from './shared/elements/Button';
 import { TwitterShareButton } from './shared/elements/TwitterShareButton';
 import { ClaimBlock } from './shared/compounds/ClaimBlock';
@@ -103,32 +104,36 @@ export const ClaimModal = ({
     >
       <Content>
         <Header>{claimText}</Header>
-        <GitPOAPClaims>
-          {claims.slice(start, end).map((userClaim: UserClaim) => {
-            return (
-              <ClaimBlock
-                key={userClaim.claim.id}
-                gitPOAPId={userClaim.claim.gitPOAP.id}
-                imgSrc={userClaim.event.image_url}
-                name={userClaim.event.name}
-                orgName={userClaim.claim.gitPOAP.repo.organization.name}
-                description={userClaim.event.description}
-                onClickClaim={() => onClickClaim([userClaim.claim.id])}
-                onClickBadge={onClose}
-                isClaimed={claimedIds?.includes(userClaim.claim.id)}
-                isLoading={loadingClaimIds?.includes(userClaim.claim.id)}
+        {claims.length > 0 && (
+          <>
+            <GitPOAPClaims>
+              {claims.slice(start, end).map((userClaim: UserClaim) => {
+                return (
+                  <ClaimBlock
+                    key={userClaim.claim.id}
+                    gitPOAPId={userClaim.claim.gitPOAP.id}
+                    imgSrc={userClaim.event.image_url}
+                    name={userClaim.event.name}
+                    orgName={userClaim.claim.gitPOAP.repo.organization.name}
+                    description={userClaim.event.description}
+                    onClickClaim={() => onClickClaim([userClaim.claim.id])}
+                    onClickBadge={onClose}
+                    isClaimed={claimedIds?.includes(userClaim.claim.id)}
+                    isLoading={loadingClaimIds?.includes(userClaim.claim.id)}
+                  />
+                );
+              })}
+            </GitPOAPClaims>
+            {claims.length > perPage && (
+              <Pagination
+                style={{ padding: rem(5) }}
+                page={page}
+                onChange={setPage}
+                total={numPages}
+                withControls={false}
               />
-            );
-          })}
-        </GitPOAPClaims>
-        {claims.length > perPage && (
-          <Pagination
-            style={{ padding: rem(5) }}
-            page={page}
-            onChange={setPage}
-            total={numPages}
-            withControls={false}
-          />
+            )}
+          </>
         )}
 
         {hasClaimAllButton && claims.length > 1 && !hasClaimedAll && (
@@ -145,6 +150,11 @@ export const ClaimModal = ({
               {'Mint all'}
             </Button>
           </ClaimAll>
+        )}
+        {claims.length === 0 && (
+          <Group style={{ marginTop: rem(50), marginBottom: rem(50) }}>
+            <BsFillMoonStarsFill color={TextDarkGray} size={rem(74)} />
+          </Group>
         )}
         <ClaimText>{'Minting is free, no transaction fee required'}</ClaimText>
         {claimedIds?.length > 0 && <TwitterShareButton claimedCount={claimedIds.length} />}

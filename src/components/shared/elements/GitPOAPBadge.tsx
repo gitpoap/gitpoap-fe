@@ -47,8 +47,9 @@ const HexBadge = styled(Hexagon)<Props>`
   height: calc(var(--s) * ${HEIGHT_RATIO});
   display: inline-block;
   font-size: initial; /* we reset the font-size if we want to add some content */
-  background: url('${(props) => props.imgUrl}') no-repeat center center;
-  background-size: cover;
+
+  background: no-repeat center / cover url('${(props) => props.imgUrl}');
+  background-size: 100% 100%;
 `;
 
 const HexOuterBorder = styled(Hexagon)<HexProps & { disabled?: boolean }>`

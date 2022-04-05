@@ -52,7 +52,7 @@ const GitPOAP: Page = () => {
   const gitPOAPId = parseInt(id);
 
   if (isNaN(gitPOAPId)) {
-    return <Error>404</Error>;
+    return <Error>{'404'}</Error>;
   }
 
   return (
