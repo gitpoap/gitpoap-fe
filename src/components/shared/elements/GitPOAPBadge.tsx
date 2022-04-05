@@ -27,14 +27,30 @@ type HexProps = {
 const dimensions: Dimensions = {
   sm: { width: 150, borderSize: 3 },
   md: { width: 200, borderSize: 4 },
-  lg: { width: 324, borderSize: 5 },
+  lg: { width: 350, borderSize: 5 },
 };
-
-const HEIGHT_RATIO = 1.0467;
 
 const Hexagon = styled.div`
   transition: 150ms background-color ease-in-out, 150ms opacity ease-in-out;
-  clip-path: url(#myPath);
+  clip-path: polygon(5% 25%, 50% 0, 95% 25%, 95% 75%, 50% 100%, 5% 75%);
+  filter: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.0">\
+      <defs>\
+        <filter id="round">\
+          <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />\
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="blurColorMatrix" />\
+          <feComposite in="SourceGraphic" in2="blurColorMatrix" operator="atop" />\
+        </filter>\
+      </defs>\
+    </svg>#round');
+
+  &:before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+    clip-path: inherit;
+    transition: inherit;
+  }
 `;
 
 const HexBadge = styled(Hexagon)<Props>`
@@ -44,38 +60,48 @@ const HexBadge = styled(Hexagon)<Props>`
   left: ${(props) => rem(dimensions[props.size].borderSize)};
 
   width: var(--s);
-  height: calc(var(--s) * ${HEIGHT_RATIO});
+  height: calc(var(--s) * 1);
   display: inline-block;
   font-size: initial; /* we reset the font-size if we want to add some content */
 
-  background: no-repeat center / cover url('${(props) => props.imgUrl}');
-  background-size: 100% 100%;
+  &:before {
+    background: no-repeat center / 100% url('${(props) => props.imgUrl}');
+  }
 `;
 
 const HexOuterBorder = styled(Hexagon)<HexProps & { disabled?: boolean }>`
   position: relative;
   --s: ${(props) => rem(dimensions[props.size].width + 4 * dimensions[props.size].borderSize)};
   width: var(--s);
-  height: calc(var(--s) * ${HEIGHT_RATIO});
-  background-color: ${TextLight};
+  height: calc(var(--s) * 1);
   cursor: pointer;
 
+  &:before {
+    background-color: ${TextLight};
+  }
+
   &:hover:not([disabled]) {
-    background-color: ${ExtraHover};
+    &:before {
+      background-color: ${ExtraHover};
+    }
     ${HexBadge} {
       opacity: 0.7;
     }
   }
   &:active:not([disabled]) {
-    background-color: ${ExtraPressed};
+    &:before {
+      background-color: ${ExtraPressed};
+    }
     ${HexBadge} {
       opacity: 0.5;
     }
   }
   &[disabled] {
-    cursor: not-allowed;
-    background-color: ${TextGray};
-    ${HexBadge} {
+    &:before {
+      cursor: not-allowed;
+      background-color: ${TextGray};
+    }
+    ${HexBadge}:before {
       background: ${MidnightBlue};
     }
   }
@@ -88,23 +114,18 @@ const HexInnerBorder = styled(Hexagon)<HexProps>`
   left: ${(props) => rem(dimensions[props.size].borderSize)};
 
   width: var(--s);
-  height: calc(var(--s) * ${HEIGHT_RATIO});
-  background: ${MidnightBlue};
+  height: calc(var(--s) * 1);
+  &:before {
+    background: ${MidnightBlue};
+  }
 `;
 
 export const GitPOAPBadge = ({ className, imgUrl, disabled, size, onClick }: Props) => {
   return (
-    <>
-      <HexOuterBorder className={className} size={size} disabled={disabled} onClick={onClick}>
-        <HexInnerBorder size={size}>
-          <HexBadge imgUrl={imgUrl} size={size} />
-        </HexInnerBorder>
-      </HexOuterBorder>
-      <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
-        <clipPath id="myPath" clipPathUnits="objectBoundingBox">
-          <path d="m0.902,0.185 l-0.287,-0.157 a0.221,0.21,0,0,0,-0.214,-0.002 l-0.282,0.142 a0.221,0.21,0,0,0,-0.115,0.184 l-0.002,0.294 a0.219,0.208,0,0,0,0.112,0.181 l0.278,0.149 a0.216,0.205,0,0,0,0.207,0 l0.29,-0.149 a0.211,0.2,0,0,0,0.11,-0.174 l0.002,-0.304 a0.197,0.187,0,0,0,-0.1,-0.165" />
-        </clipPath>
-      </svg>
-    </>
+    <HexOuterBorder className={className} size={size} disabled={disabled} onClick={onClick}>
+      <HexInnerBorder size={size}>
+        <HexBadge imgUrl={imgUrl} size={size} />
+      </HexInnerBorder>
+    </HexOuterBorder>
   );
 };
