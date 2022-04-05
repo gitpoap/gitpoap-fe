@@ -7,6 +7,8 @@ import { PrimaryBlue, TextGray, ExtraHover, ExtraPressed, DarkGray } from '../..
 type Props = SharedButtonProps & {
   className?: string;
   onClick?: React.MouseEventHandler;
+  onMouseEnter?: React.MouseEventHandler;
+  onMouseLeave?: React.MouseEventHandler;
   disabled?: boolean;
   variant?: 'filled' | 'outline';
 };
