@@ -231,8 +231,7 @@ const CreateGitPOAP: NextPage = () => {
         );
       }
     };
-
-    if (isValidURL(repoUrlSeed) && !values.githubRepoId) {
+    if (isValidURL(repoUrlSeed) && values.eventUrl !== repoUrlSeed) {
       const url = new URL(repoUrlSeed);
       const pathStrs = url.pathname.split('/');
       if (
@@ -244,7 +243,7 @@ const CreateGitPOAP: NextPage = () => {
         fetchGitHubRepoId(pathStrs[1], pathStrs[2]);
       }
     }
-  }, [repoUrlSeed, setFieldValue, values.githubRepoId]);
+  }, [repoUrlSeed, setFieldValue, values.githubRepoId, values.eventUrl]);
 
   /* Update Name && Description */
   useEffect(() => {
