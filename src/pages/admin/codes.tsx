@@ -1,9 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { z } from 'zod';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { useQuery, gql } from 'urql';
 import { useForm, zodResolver } from '@mantine/form';
 import { Group, useMantineTheme, MantineTheme } from '@mantine/core';
 import { FileText, Upload, X, Icon as TablerIcon } from 'tabler-icons-react';
@@ -26,6 +27,20 @@ const AddCodesForm = styled.form`
 
   > * {
     margin-bottom: ${rem(25)};
+  }
+`;
+
+const GetUniqueGitPOAPQuery = gql`
+  query gitPOAP($poapEventId: Int!) {
+    gitPOAP(where: { poapEventId: $poapEventId }) {
+      id
+      poapSecret
+      poapEventId
+      status
+      repo {
+        name
+      }
+    }
   }
 `;
 
@@ -103,22 +118,46 @@ const schema = z.object({
 });
 
 type FormValues = {
-  id?: number;
+  gitPOAPId?: number;
+  poapEventId?: number;
   codes: File | null;
 };
 
 const AddCodesPage: NextPage = () => {
   const [isSuccessful, setIsSuccessful] = useState<boolean>();
   const [isLoading, setIsLoading] = useState<boolean>();
+  const [isError, setIsError] = useState<boolean>();
   const { tokens } = useAuthContext();
   const theme = useMantineTheme();
-  const form = useForm<FormValues>({
+  const { setFieldValue, values, errors, onSubmit, getInputProps } = useForm<FormValues>({
     schema: zodResolver(schema),
     initialValues: {
-      id: undefined,
+      gitPOAPId: undefined,
+      poapEventId: undefined,
       codes: null as any,
     },
   });
+
+  const [result] = useQuery<any>({
+    query: GetUniqueGitPOAPQuery,
+    variables: {
+      poapEventId: values.poapEventId ?? 0,
+    },
+  });
+
+  useEffect(() => {
+    if (result.data?.gitPOAP) {
+      if (result.data.gitPOAP.id !== values.gitPOAPId) {
+        setFieldValue('gitPOAPId', result.data?.gitPOAP?.id);
+      }
+    }
+  }, [setFieldValue, values.gitPOAPId, result.data]);
+
+  useEffect(() => {
+    if (result.data?.gitPOAP === null && values.gitPOAPId !== undefined) {
+      setFieldValue('gitPOAPId', undefined);
+    }
+  }, [setFieldValue, result.data?.gitPOAP, values.gitPOAPId]);
 
   const submitCodes = useCallback(
     async (formValues: FormValues) => {
@@ -161,6 +200,22 @@ const AddCodesPage: NextPage = () => {
     [tokens?.accessToken],
   );
 
+  useEffect(() => {
+    if (isSuccessful) {
+      setTimeout(() => {
+        setIsSuccessful(false);
+      }, 3000);
+    }
+  }, [isSuccessful]);
+
+  useEffect(() => {
+    if (isError) {
+      setTimeout(() => {
+        setIsError(false);
+      }, 3000);
+    }
+  }, [isError]);
+
   return (
     <div>
       <Head>
@@ -170,34 +225,47 @@ const AddCodesPage: NextPage = () => {
       <Grid justify="center" style={{ marginTop: rem(40) }}>
         <Grid.Col span={10}>
           <Box>
-            <AddCodesForm onSubmit={form.onSubmit((values) => submitCodes(values))}>
+            <AddCodesForm onSubmit={onSubmit((values) => submitCodes(values))}>
               <Header style={{ alignSelf: 'start' }}>{'Admin - Add Codes'}</Header>
               <FormNumberInput
                 required
-                label={'GitPOAP ID'}
-                name={'id'}
+                label={'POAP EVENT ID'}
+                name={'poapEventId'}
                 hideControls
-                {...form.getInputProps('id')}
+                {...getInputProps('poapEventId')}
+              />
+
+              <FormNumberInput
+                required
+                label={'GitPOAP ID'}
+                name={'gitPOAPId'}
+                hideControls
+                disabled
+                {...getInputProps('gitPOAPId')}
               />
 
               <Dropzone
                 onDrop={(files) => {
-                  form.setFieldValue('codes', files[0]);
+                  setFieldValue('codes', files[0]);
                 }}
                 onReject={(files) => console.error('rejected files', files)}
                 maxSize={3 * 1024 ** 2}
                 accept={['text/*']}
               >
-                {(status) => dropzoneChildren(status, theme, form.values.codes, form.errors.codes)}
+                {(status) => dropzoneChildren(status, theme, values.codes, errors.codes)}
               </Dropzone>
             </AddCodesForm>
           </Box>
 
-          <Button onClick={form.onSubmit((values) => submitCodes(values))} loading={isLoading}>
+          <Button
+            onClick={onSubmit((values) => submitCodes(values))}
+            loading={isLoading}
+            disabled={values.gitPOAPId === undefined}
+          >
             {'Submit'}
           </Button>
           {isSuccessful && <Text>{'Successful Creation'}</Text>}
-          {isSuccessful === false && (
+          {isError && (
             <Text>{'Failed to add codes - did you forget to attach the text file? '}</Text>
           )}
         </Grid.Col>
