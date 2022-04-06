@@ -43,10 +43,10 @@ const Label = styled.span`
 
 const getTweetText = (claimedCount: number) => {
   if (claimedCount === 1) {
-    return 'I was just awarded a POAP for contributions to open source!';
+    return 'I was just awarded a GitPOAP for contributions to open source!';
   }
 
-  return `I was just awarded ${claimedCount} POAPs for contributions to open source!`;
+  return `I was just awarded ${claimedCount} GitPOAPs for contributions to open source!`;
 };
 
 interface Props {
