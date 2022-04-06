@@ -12,6 +12,7 @@ import { UserClaim } from '../types';
 import { useFeatures } from './FeaturesContext';
 
 type Props = {
+  isConnected: boolean;
   isOpen: boolean;
   claims: UserClaim[];
   claimedIds: number[];
@@ -62,8 +63,10 @@ const ClaimText = styled.div`
   margin-top: ${rem(18)};
 `;
 
-const getClaimText = (numClaims: number, numClaimed: number): string => {
+const getClaimText = (isConnected: boolean, numClaims: number, numClaimed: number): string => {
   const netClaims = numClaims - numClaimed;
+  if (!isConnected && netClaims > 0) return 'Connect your wallet to mint!';
+
   if (netClaims < 1) {
     return 'You have no new POAPs to mint.';
   } else if (netClaims === 1) {
@@ -74,6 +77,7 @@ const getClaimText = (numClaims: number, numClaimed: number): string => {
 };
 
 export const ClaimModal = ({
+  isConnected,
   isOpen,
   claims,
   claimedIds,
@@ -87,9 +91,9 @@ export const ClaimModal = ({
   const numPages = Math.ceil(claims.length / perPage);
   const start = (page - 1) * perPage;
   const end = start + perPage;
-  const hasClaimedAll = claimedIds && claimedIds.length === claims.length;
+  const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = loadingClaimIds && loadingClaimIds.length === claims.length;
-  const claimText = getClaimText(claims.length, claimedIds.length);
+  const claimText = getClaimText(isConnected, claims.length, claimedIds.length);
 
   /* All claimIds in view, not all */
   const allClaimIds = claims.slice(start, end).map((userClaim) => userClaim.claim.id);
@@ -119,6 +123,7 @@ export const ClaimModal = ({
                     onClickClaim={() => onClickClaim([userClaim.claim.id])}
                     onClickBadge={onClose}
                     isClaimed={claimedIds?.includes(userClaim.claim.id)}
+                    isDisabled={!isConnected && !hasClaimedAll}
                     isLoading={loadingClaimIds?.includes(userClaim.claim.id)}
                   />
                 );

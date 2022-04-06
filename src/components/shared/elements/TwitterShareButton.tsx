@@ -69,7 +69,7 @@ export const TwitterShareButton = ({ claimedCount }: Props) => {
       target="_blank"
     >
       <TwitterIcon />
-      <Label>{'Tweet'}</Label>
+      <Label>{'Tweet My Mints'}</Label>
     </TwitterButton>
   );
 };
