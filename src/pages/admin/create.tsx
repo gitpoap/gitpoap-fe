@@ -190,7 +190,7 @@ const CreateGitPOAP: NextPage = () => {
       eventUrl: '',
       email: 'issuer@gitpoap.io',
       numRequestedCodes: 20,
-      ongoing: true,
+      ongoing: false,
       image: null as any,
     },
   });
