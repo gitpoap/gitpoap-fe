@@ -23,6 +23,7 @@ import { NotificationFactory } from '../../notifications';
 import { TextArea } from '../../components/shared/elements/TextArea';
 import { Divider } from '../../components/shared/elements/Divider';
 import { isValidURL } from '../../helpers';
+import Image from 'next/image';
 
 const CreationForm = styled.form`
   display: inline-flex;
@@ -108,6 +109,13 @@ export const dropzoneChildren = (
         <Text size="sm" color="dimmed" inline mt={7}>
           {`${file.size / 1000} KB - ${file.type}`}
         </Text>
+        <Image
+          width={150}
+          height={150}
+          src={URL.createObjectURL(file)}
+          alt="preview"
+          style={{ maxWidth: '100%' }}
+        />
       </div>
     ) : !!error ? (
       <div>
@@ -241,7 +249,7 @@ const CreateGitPOAP: NextPage = () => {
   /* Update Name && Description */
   useEffect(() => {
     const newName = `GitPOAP: ${values.year} ${projectNameSeed} Contributor`;
-    const newDescription = `You contributed at least one merged pull request to the ${projectNameSeed} project in ${values.year}. Your contributions are greatly valued.`;
+    const newDescription = `You made at least one contribution to the ${projectNameSeed} project in ${values.year}. Your contributions are greatly appreciated!`;
     if (projectNameSeed && values.name !== newName) {
       setFieldValue('name', newName);
     }
