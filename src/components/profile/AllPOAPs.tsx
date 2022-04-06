@@ -118,11 +118,6 @@ export const AllPOAPs = ({ address }: Props) => {
           setPage(page + 1);
         }
       }}
-      searchInputPlaceholder={'QUICK SEARCH...'}
-      searchInputValue={searchValue}
-      onSearchInputChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-        setSearchValue(e.target.value)
-      }
     >
       <POAPs>
         {result.fetching && !result.operation && (
