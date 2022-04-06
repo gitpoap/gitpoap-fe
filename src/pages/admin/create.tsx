@@ -20,6 +20,7 @@ import { Text } from '../../components/shared/elements/Text';
 import { ExtraRed } from '../../colors';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
+import { TextArea } from '../../components/shared/elements/TextArea';
 
 const CreationForm = styled.form`
   display: inline-flex;
@@ -38,6 +39,10 @@ const FormDatePicker = styled(DatePicker)`
 `;
 
 const FormNumberInput = styled(NumberInput)`
+  width: ${rem(400)};
+`;
+
+const FormTextArea = styled(TextArea)`
   width: ${rem(400)};
 `;
 
@@ -163,13 +168,13 @@ const CreateGitPOAP: NextPage = () => {
       githubRepoId: undefined,
       name: '',
       description: '',
-      startDate: null,
-      endDate: null,
-      expiryDate: null,
+      startDate: DateTime.local(2022, 1, 1).toJSDate(),
+      endDate: DateTime.local(2022, 12, 31).toJSDate(),
+      expiryDate: DateTime.local(2023, 4, 1).toJSDate(),
       year: 2022,
       eventUrl: '',
       email: 'issuer@gitpoap.io',
-      numRequestedCodes: 10,
+      numRequestedCodes: 20,
       ongoing: true,
       image: null as any,
     },
@@ -249,11 +254,13 @@ const CreateGitPOAP: NextPage = () => {
                     {...form.getInputProps('name')}
                   />
 
-                  <FormInput
+                  <FormTextArea
                     required
                     label={'Description'}
                     name={'description'}
-                    placeholder={"Killin' it w codez"}
+                    minRows={3}
+                    maxRows={5}
+                    autosize
                     {...form.getInputProps('description')}
                   />
 
