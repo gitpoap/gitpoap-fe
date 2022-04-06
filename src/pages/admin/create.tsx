@@ -299,6 +299,14 @@ const CreateGitPOAP: NextPage = () => {
     [tokens?.accessToken],
   );
 
+  useEffect(() => {
+    if (isSuccessful) {
+      setTimeout(() => {
+        setIsSuccessful(false);
+      }, 3000);
+    }
+  }, [isSuccessful]);
+
   return (
     <div>
       <Head>
