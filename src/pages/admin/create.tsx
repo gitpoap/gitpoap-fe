@@ -170,6 +170,7 @@ type FormValues = {
 
 const CreateGitPOAP: NextPage = () => {
   const [isSuccessful, setIsSuccessful] = useState<boolean>();
+  const [isError, setIsError] = useState<boolean>();
   const { tokens } = useAuthContext();
   const theme = useMantineTheme();
   /* Form Seed Values */
@@ -292,7 +293,7 @@ const CreateGitPOAP: NextPage = () => {
             'Oops, something went wrong! 🤥',
           ),
         );
-        setIsSuccessful(false);
+        setIsError(true);
       }
     },
     [tokens?.accessToken],
@@ -305,6 +306,14 @@ const CreateGitPOAP: NextPage = () => {
       }, 3000);
     }
   }, [isSuccessful]);
+
+  useEffect(() => {
+    if (isError) {
+      setTimeout(() => {
+        setIsError(false);
+      }, 3000);
+    }
+  }, [isError]);
 
   return (
     <div>
@@ -455,9 +464,7 @@ const CreateGitPOAP: NextPage = () => {
             {'Submit'}
           </Button>
           {isSuccessful && <Text>{'Successful Creation'}</Text>}
-          {isSuccessful === false && (
-            <Text>{'Failed to create - did you forget to select an image? '}</Text>
-          )}
+          {isError && <Text>{'Failed to create - did you forget to select an image? '}</Text>}
         </Grid.Col>
       </Grid>
     </div>
