@@ -9,6 +9,7 @@ import {
 } from '../../constants';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
+import { useLocalStorage } from '@mantine/hooks';
 
 type StoredGHUserData = {
   githubId: number;
@@ -16,16 +17,15 @@ type StoredGHUserData = {
 };
 
 type AuthState = {
-  hasLoadedLocalStorage: boolean;
+  hasInitializedAuth: boolean;
   isLoading: boolean;
-  errorMessage: string;
-  isLoggedIntoGitHub: boolean;
-  user: StoredGHUserData | null;
 };
 
 type AuthContextData = {
   authState: AuthState;
   tokens: Tokens | null;
+  isLoggedIntoGitHub: boolean;
+  user: StoredGHUserData | null;
   setAuthState: (authState: AuthState) => void;
   handleLogout: () => void;
   authorizeGitHub: () => void;
@@ -47,11 +47,8 @@ type AccessTokenPayload = {
 };
 
 export const getInitialState = (): AuthState => ({
-  hasLoadedLocalStorage: false,
+  hasInitializedAuth: false,
   isLoading: false,
-  errorMessage: '',
-  isLoggedIntoGitHub: false,
-  user: null,
 });
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -66,29 +63,35 @@ type Props = {
 
 export const AuthProvider = ({ children }: Props) => {
   const [authState, setAuthState] = useState<AuthState>(getInitialState());
-  const [tokens, setTokens] = useState<Tokens | null>(null);
+  const [refreshToken, setRefreshToken] = useLocalStorage<string | null>({
+    key: 'refreshToken',
+    defaultValue: null,
+  });
+  const [accessToken, setAccessToken] = useLocalStorage<string | null>({
+    key: 'accessToken',
+    defaultValue: null,
+  });
+  const [isLoggedIntoGitHub, setIsLoggedIntoGitHub] = useLocalStorage<boolean>({
+    key: 'isLoggedIntoGitHub',
+    defaultValue: false,
+  });
+  const [user, setUser] = useLocalStorage<StoredGHUserData | null>({
+    key: 'gitHubUser',
+    defaultValue: null,
+  });
   const router = useRouter();
   const redirectUri = REACT_APP_REDIRECT_URI + router.asPath;
   const githubAuthURL = `https://github.com/login/oauth/authorize?scope=user&client_id=${REACT_APP_CLIENT_ID}&redirect_uri=${redirectUri}`;
 
   const handleLogout = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('user');
-      localStorage.removeItem('isLoggedIntoGitHub');
-    }
+    setAccessToken(null);
+    setRefreshToken(null);
+    setIsLoggedIntoGitHub(false);
+    setUser(null);
+  }, [setRefreshToken, setAccessToken, setIsLoggedIntoGitHub, setUser]);
 
-    setTokens(null);
-    setAuthState({
-      ...authState,
-      isLoggedIntoGitHub: false,
-      user: null,
-    });
-  }, [authState]);
-
-  const performRefresh = useCallback(
-    async (refreshToken: string) => {
+  const performRefresh = useCallback(async () => {
+    if (refreshToken) {
       try {
         const res = await fetch(`${GITPOAP_API_URL}/github/refresh`, {
           method: 'POST',
@@ -105,47 +108,34 @@ export const AuthProvider = ({ children }: Props) => {
 
         const tokenRes: Tokens = await res.json();
 
-        localStorage.setItem('accessToken', tokenRes.accessToken);
-        localStorage.setItem('refreshToken', tokenRes.refreshToken);
-        setTokens({
-          accessToken: tokenRes.accessToken,
-          refreshToken: tokenRes.refreshToken,
-        });
+        if (tokenRes.accessToken && tokenRes.refreshToken) {
+          setAccessToken(tokenRes.accessToken);
+          setRefreshToken(tokenRes.refreshToken);
+        } else {
+          throw new Error('No access token or refresh token returned');
+        }
       } catch (err) {
         handleLogout();
         console.warn(err);
       }
-    },
-    [handleLogout],
-  );
+    }
+  }, [handleLogout, refreshToken, setRefreshToken, setAccessToken]);
 
   /* Redirect to github to authorize if not connected / logged in */
   const authorizeGitHub = useCallback(() => router.push(githubAuthURL), [githubAuthURL, router]);
 
-  /* Load values from localStorage into state on page load */
+  /* Perform token refresh & load localStorage values on page load */
   useEffect(() => {
-    const isLoggedIntoGitHub = Boolean(localStorage.getItem('isLoggedIntoGitHub'));
-    const userData = localStorage.getItem('user');
-    const user = userData ? (JSON.parse(userData) as StoredGHUserData) : null;
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    if (!authState.hasLoadedLocalStorage) {
+    if (!authState.hasInitializedAuth) {
       if (accessToken && refreshToken) {
-        performRefresh(refreshToken);
-        setTokens({
-          accessToken,
-          refreshToken,
-        });
+        performRefresh();
       }
       setAuthState({
         ...authState,
-        hasLoadedLocalStorage: true,
-        isLoggedIntoGitHub,
-        user,
+        hasInitializedAuth: true,
       });
     }
-  }, [authState, performRefresh]);
+  }, [authState, performRefresh, accessToken, refreshToken]);
 
   const authenticate = useCallback(
     async (code: string) => {
@@ -167,20 +157,10 @@ export const AuthProvider = ({ children }: Props) => {
           githubHandle: accessTokenPayload.githubHandle,
         };
 
-        localStorage.setItem('accessToken', tokenRes.accessToken);
-        localStorage.setItem('refreshToken', tokenRes.refreshToken);
-        localStorage.setItem('isLoggedIntoGitHub', JSON.stringify(true));
-        localStorage.setItem('user', JSON.stringify(selectedUserData));
-
-        setTokens({
-          accessToken: tokenRes.accessToken,
-          refreshToken: tokenRes.refreshToken,
-        });
-        setAuthState({
-          ...authState,
-          isLoggedIntoGitHub: true,
-          user: selectedUserData,
-        });
+        setAccessToken(tokenRes.accessToken);
+        setRefreshToken(tokenRes.refreshToken);
+        setIsLoggedIntoGitHub(true);
+        setUser(selectedUserData);
       } catch (err) {
         console.warn(err);
         showNotification(
@@ -192,11 +172,10 @@ export const AuthProvider = ({ children }: Props) => {
         setAuthState({
           ...authState,
           isLoading: false,
-          errorMessage: 'Sorry! Authentication failed',
         });
       }
     },
-    [authState, setAuthState],
+    [authState, setAuthState, setAccessToken, setRefreshToken, setIsLoggedIntoGitHub, setUser],
   );
 
   /* After requesting Github access, Github redirects back to your app with a code parameter. */
@@ -221,8 +200,8 @@ export const AuthProvider = ({ children }: Props) => {
   /* This hook is used to refresh the access token when it expires */
   useEffect(() => {
     let timeout: NodeJS.Timeout;
-    if (!!tokens?.accessToken && !!tokens?.refreshToken) {
-      timeout = setTimeout(() => performRefresh(tokens.refreshToken), FIVE_MINUTES);
+    if (authState.hasInitializedAuth && !!accessToken && !!refreshToken) {
+      timeout = setTimeout(() => performRefresh(), FIVE_MINUTES);
     }
 
     return () => {
@@ -230,11 +209,27 @@ export const AuthProvider = ({ children }: Props) => {
         clearTimeout(timeout);
       }
     };
-  }, [tokens?.accessToken, tokens?.refreshToken, performRefresh]);
+  }, [authState.hasInitializedAuth, accessToken, refreshToken, performRefresh]);
+
+  let tokens = null;
+  if (accessToken && refreshToken) {
+    tokens = {
+      accessToken,
+      refreshToken,
+    };
+  }
 
   return (
     <AuthContext.Provider
-      value={{ authState, tokens, setAuthState, handleLogout, authorizeGitHub }}
+      value={{
+        authState,
+        tokens,
+        isLoggedIntoGitHub,
+        user,
+        setAuthState,
+        handleLogout,
+        authorizeGitHub,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -99,7 +99,7 @@ export const EditProfileModal = ({
   onClickSave,
   isSaveLoading,
 }: Props) => {
-  const { authState, handleLogout, authorizeGitHub } = useAuthContext();
+  const { authState, handleLogout, authorizeGitHub, isLoggedIntoGitHub, user } = useAuthContext();
   const { isSaveSuccessful } = useProfileContext();
   /* TODO: replace with mantine's useForm hook */
   const [personSiteUrlValue, setPersonalSiteUrlValue] =
@@ -126,9 +126,9 @@ export const EditProfileModal = ({
         <ProfileFields>
           <ConnectGitHub>
             <FieldLabel>{'GitHub'}</FieldLabel>
-            {authState.isLoggedIntoGitHub ? (
+            {isLoggedIntoGitHub ? (
               <Setting>
-                <SettingsText>{`You're connected as @${authState.user?.githubHandle}`}</SettingsText>
+                <SettingsText>{`You're connected as @${user?.githubHandle}`}</SettingsText>
                 <Button onClick={handleLogout} variant="outline">
                   {'Disconnect'}
                 </Button>

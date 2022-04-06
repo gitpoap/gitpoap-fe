@@ -102,7 +102,8 @@ type Props = {
 
 export const GitHub = ({ className }: Props) => {
   const { web3Provider } = useWeb3Context();
-  const { tokens, authState, handleLogout, authorizeGitHub } = useAuthContext();
+  const { tokens, authState, handleLogout, authorizeGitHub, isLoggedIntoGitHub, user } =
+    useAuthContext();
   const signer = web3Provider?.getSigner();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isGHPopoverOpen, setIsGHPopoverOpen] = useState<boolean>(false);
@@ -112,9 +113,9 @@ export const GitHub = ({ className }: Props) => {
   const [result, refetch] = useQuery<UserOpenClaimsRes>({
     query: OpenClaimsQuery,
     variables: {
-      githubId: authState.user?.githubId,
+      githubId: user?.githubId,
     },
-    pause: !authState.user,
+    pause: !user,
   });
 
   const userClaims = result.data?.userClaims;
@@ -133,7 +134,7 @@ export const GitHub = ({ className }: Props) => {
 
   const renderGitHubButton = useCallback(() => {
     /* Not connected to GitHub */
-    if (!authState.isLoggedIntoGitHub) {
+    if (!isLoggedIntoGitHub) {
       return (
         <Button onClick={authorizeGitHub} leftIcon={<GoMarkGithub size={16} />}>
           {'CONNECT TO MINT'}
@@ -188,7 +189,7 @@ export const GitHub = ({ className }: Props) => {
         }
       />
     );
-  }, [authState.isLoggedIntoGitHub, userClaims, handleLogout, authorizeGitHub, isGHPopoverOpen]);
+  }, [isLoggedIntoGitHub, userClaims, handleLogout, authorizeGitHub, isGHPopoverOpen]);
 
   const claimGitPOAP = useCallback(
     async (claimIds: number[]) => {
@@ -249,7 +250,7 @@ export const GitHub = ({ className }: Props) => {
 
   return (
     <Content className={className}>
-      {authState.hasLoadedLocalStorage && renderGitHubButton()}
+      {authState.hasInitializedAuth && renderGitHubButton()}
 
       <ClaimModal
         claims={userClaims ?? []}
