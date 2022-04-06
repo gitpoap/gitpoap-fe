@@ -93,19 +93,19 @@ export const dropzoneChildren = (
     ) : !!error ? (
       <div>
         <Text style={{ color: ExtraRed }} size="xl" inline>
-          {'Drag text file here or click to select file'}
+          {'Drag or attach a single text file here or click to select file'}
         </Text>
         <Text size="sm" style={{ color: ExtraRed }} inline mt={7}>
-          {'Attach a single text file, should not exceed 5mb'}
+          {'File name should be in the format of "#<poapEventId>_<name>.txt"'}
         </Text>
       </div>
     ) : (
       <div>
         <Text color="white" size="xl" inline>
-          {'Drag text file here or click to select file'}
+          {'Drag or attach a single text file here or click to select file'}
         </Text>
         <Text size="sm" color="dimmed" inline mt={7}>
-          {'Attach a single text file, should not exceed 5mb'}
+          {'File name should be in the format of "#<poapEventId>_<name>.txt"'}
         </Text>
       </div>
     )}
@@ -216,6 +216,22 @@ const AddCodesPage: NextPage = () => {
     }
   }, [isError]);
 
+  /* Get poapEventID from the uploaded file name */
+  useEffect(() => {
+    if (values.codes) {
+      const codeFileNameRegex = new RegExp(/\#[0-9].*\_.*\.txt/);
+      const isFileNameValid = values.codes.name.match(codeFileNameRegex) !== null;
+      if (isFileNameValid) {
+        const parsedEventID = parseInt(values.codes.name.split('_')[0].substring(1));
+        if (values.poapEventId != parsedEventID) {
+          setFieldValue('poapEventId', parsedEventID);
+        }
+      } else if (values.poapEventId !== undefined) {
+        setFieldValue('poapEventId', undefined);
+      }
+    }
+  }, [values.codes, setFieldValue, values.poapEventId]);
+
   return (
     <div>
       <Head>
@@ -227,6 +243,11 @@ const AddCodesPage: NextPage = () => {
           <Box>
             <AddCodesForm onSubmit={onSubmit((values) => submitCodes(values))}>
               <Header style={{ alignSelf: 'start' }}>{'Admin - Add Codes'}</Header>
+              <Header style={{ alignSelf: 'start', marginBottom: rem(20), fontSize: rem(24) }}>
+                {
+                  'Enter a POAP EventID OR upload a claim link file to automagically fill out the form'
+                }
+              </Header>
               <FormNumberInput
                 required
                 label={'POAP EVENT ID'}
