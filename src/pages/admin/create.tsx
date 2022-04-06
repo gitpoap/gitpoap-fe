@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { z } from 'zod';
@@ -21,6 +21,8 @@ import { ExtraRed } from '../../colors';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { TextArea } from '../../components/shared/elements/TextArea';
+import { Divider } from '../../components/shared/elements/Divider';
+import { isValidURL } from '../../helpers';
 
 const CreationForm = styled.form`
   display: inline-flex;
@@ -162,7 +164,11 @@ const CreateGitPOAP: NextPage = () => {
   const [isSuccessful, setIsSuccessful] = useState<boolean>();
   const { tokens } = useAuthContext();
   const theme = useMantineTheme();
-  const form = useForm<FormValues>({
+  /* Form Seed Values */
+  const [repoUrlSeed, setRepoUrlSeed] = useState<string>('');
+  const [projectNameSeed, setProjectNameSeed] = useState<string>('');
+
+  const { values, setFieldValue, getInputProps, onSubmit, errors } = useForm<FormValues>({
     schema: zodResolver(schema),
     initialValues: {
       githubRepoId: undefined,
@@ -179,6 +185,71 @@ const CreateGitPOAP: NextPage = () => {
       image: null as any,
     },
   });
+
+  /* GitHub API Request to get repo ID */
+  useEffect(() => {
+    const fetchGitHubRepoId = async (orgName: string, repoName: string) => {
+      try {
+        const res = await fetch(`https://api.github.com/repos/${orgName}/${repoName}`, {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
+
+        const repoData = (await res.json()) as {
+          id: number;
+          name: string;
+          full_name: string;
+          private: boolean;
+        };
+
+        if (repoData.id) {
+          setFieldValue('githubRepoId', repoData.id);
+          setFieldValue('eventUrl', `https://github.com/${orgName}/${repoName}`);
+        }
+      } catch (err) {
+        console.warn(err);
+        showNotification(
+          NotificationFactory.createError(
+            'Error - Request Failed',
+            'Oops, something went wrong! 🤥',
+          ),
+        );
+      }
+    };
+
+    if (isValidURL(repoUrlSeed) && !values.githubRepoId) {
+      const url = new URL(repoUrlSeed);
+      const pathStrs = url.pathname.split('/');
+      if (
+        pathStrs.length === 3 &&
+        !!pathStrs[1] &&
+        !!pathStrs[2] &&
+        url.origin === 'https://github.com'
+      ) {
+        fetchGitHubRepoId(pathStrs[1], pathStrs[2]);
+      }
+    }
+  }, [repoUrlSeed, setFieldValue, values.githubRepoId]);
+
+  /* Update Name && Description */
+  useEffect(() => {
+    const newName = `GitPOAP: ${values.year} ${projectNameSeed} Contributor`;
+    const newDescription = `You contributed at least one merged pull request to the ${projectNameSeed} project in ${values.year}. Your contributions are greatly valued.`;
+    if (projectNameSeed && values.name !== newName) {
+      setFieldValue('name', newName);
+    }
+    if (projectNameSeed && values.description !== newDescription) {
+      setFieldValue('description', newDescription);
+    }
+  }, [projectNameSeed, values.year, values.name, values.description, setFieldValue]);
+
   const submitCreateGitPOAP = useCallback(
     async (formValues: Record<string, any>) => {
       const formData = new FormData();
@@ -202,11 +273,9 @@ const CreateGitPOAP: NextPage = () => {
           },
           body: formData,
         });
-
         if (!res.ok) {
           throw new Error(res.statusText);
         }
-
         setIsSuccessful(true);
       } catch (err) {
         console.error(err);
@@ -231,27 +300,53 @@ const CreateGitPOAP: NextPage = () => {
       <Grid justify="center" style={{ marginTop: rem(40) }}>
         <Grid.Col span={10}>
           <Box>
-            <CreationForm onSubmit={form.onSubmit((values) => submitCreateGitPOAP(values))}>
+            <CreationForm onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}>
               <Header style={{ alignSelf: 'start', marginBottom: rem(20) }}>
                 {'Admin - Create new GitPOAP'}
               </Header>
+              <Header style={{ alignSelf: 'start', marginBottom: rem(20), fontSize: rem(24) }}>
+                {'Enter values below to automatically generate values in the form'}
+              </Header>
+              <>
+                <FormInput
+                  label={'Repo URL Seed'}
+                  value={repoUrlSeed}
+                  onChange={(e) => setRepoUrlSeed(e.target.value)}
+                  style={{ marginBottom: rem(20) }}
+                />
+                <FormTextArea
+                  label={'Project Name Seed'}
+                  value={projectNameSeed}
+                  onChange={(e) => setProjectNameSeed(e.target.value)}
+                  style={{ marginBottom: rem(20) }}
+                />
+
+                <FormNumberInput
+                  required
+                  label={'Year'}
+                  name={'year'}
+                  placeholder={'2022'}
+                  hideControls
+                  {...getInputProps('year')}
+                />
+              </>
+              <Divider style={{ width: '100%', marginTop: rem(40), marginBottom: rem(40) }} />
               <Group direction="row" align="flex-start">
                 <FormLeft>
                   <FormNumberInput
                     required
                     label={'GitHub Repo ID'}
                     name={'githubRepoId'}
-                    placeholder={'123456'}
                     hideControls
-                    {...form.getInputProps('githubRepoId')}
+                    disabled
+                    {...getInputProps('githubRepoId')}
                   />
 
                   <FormInput
                     required
                     label={'GitPOAP Name'}
                     name={'name'}
-                    placeholder={'Top 2022 GitPOAP Contributor'}
-                    {...form.getInputProps('name')}
+                    {...getInputProps('name')}
                   />
 
                   <FormTextArea
@@ -261,7 +356,7 @@ const CreateGitPOAP: NextPage = () => {
                     minRows={3}
                     maxRows={5}
                     autosize
-                    {...form.getInputProps('description')}
+                    {...getInputProps('description')}
                   />
 
                   {/* -------- URLs -------- */}
@@ -269,8 +364,8 @@ const CreateGitPOAP: NextPage = () => {
                     required
                     label={'Event URL'}
                     name={'eventUrl'}
-                    placeholder={'https://gitpoap.io/gp/123456'}
-                    {...form.getInputProps('eventUrl')}
+                    disabled
+                    {...getInputProps('eventUrl')}
                   />
 
                   <FormInput
@@ -279,7 +374,7 @@ const CreateGitPOAP: NextPage = () => {
                     name={'email'}
                     disabled
                     placeholder={'issuer@gitpoap.io'}
-                    {...form.getInputProps('email')}
+                    {...getInputProps('email')}
                   />
 
                   <FormNumberInput
@@ -288,13 +383,13 @@ const CreateGitPOAP: NextPage = () => {
                     name={'numRequestedCodes'}
                     placeholder={'10'}
                     hideControls
-                    {...form.getInputProps('numRequestedCodes')}
+                    {...getInputProps('numRequestedCodes')}
                   />
 
                   <Checkbox
                     mt="md"
                     label="Ongoing Issuance?"
-                    {...form.getInputProps('ongoing', { type: 'checkbox' })}
+                    {...getInputProps('ongoing', { type: 'checkbox' })}
                   />
                 </FormLeft>
                 <FormRight>
@@ -304,7 +399,7 @@ const CreateGitPOAP: NextPage = () => {
                     label={'Start Date'}
                     name={'startDate'}
                     placeholder={'1 January 2022'}
-                    {...form.getInputProps('startDate')}
+                    {...getInputProps('startDate')}
                   />
 
                   <FormDatePicker
@@ -312,7 +407,7 @@ const CreateGitPOAP: NextPage = () => {
                     label={'End Date'}
                     name={'endDate'}
                     placeholder={'31 December 2022'}
-                    {...form.getInputProps('endDate')}
+                    {...getInputProps('endDate')}
                   />
 
                   <FormDatePicker
@@ -320,35 +415,26 @@ const CreateGitPOAP: NextPage = () => {
                     label={'Expiration Date'}
                     name={'expiryDate'}
                     placeholder={'31 December 2025'}
-                    {...form.getInputProps('expiryDate')}
-                  />
-
-                  <FormNumberInput
-                    required
-                    label={'Year'}
-                    name={'year'}
-                    placeholder={'2022'}
-                    hideControls
-                    {...form.getInputProps('year')}
+                    {...getInputProps('expiryDate')}
                   />
                 </FormRight>
               </Group>
 
               <Dropzone
                 onDrop={(files) => {
-                  form.setFieldValue('image', files[0]);
+                  setFieldValue('image', files[0]);
                 }}
                 onReject={(files) => console.error('rejected files', files)}
                 maxSize={3 * 1024 ** 2}
                 accept={IMAGE_MIME_TYPE}
               >
-                {(status) => dropzoneChildren(status, theme, form.values.image, form.errors.image)}
+                {(status) => dropzoneChildren(status, theme, values.image, errors.image)}
               </Dropzone>
             </CreationForm>
           </Box>
 
           <Button
-            onClick={form.onSubmit((values) => submitCreateGitPOAP(values))}
+            onClick={onSubmit((values) => submitCreateGitPOAP(values))}
             style={{ marginTop: rem(20), marginBottom: rem(20) }}
           >
             {'Submit'}
