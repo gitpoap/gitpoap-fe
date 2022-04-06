@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useReducer } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useLocalStorage } from '@mantine/hooks';
 import { Theme, themes, ThemeNames } from '../theme';
 
 type Props = {
@@ -33,8 +33,10 @@ export const ThemeDispatchContext = createContext<ACTIONS>({} as ACTIONS);
 
 export const ThemeProvider = ({ children }: Props) => {
   const [themePreference, setThemePreference] = useLocalStorage<ThemeNames.light | ThemeNames.dark>(
-    'theme-preference',
-    ThemeNames.dark,
+    {
+      key: 'theme-preference',
+      defaultValue: ThemeNames.dark,
+    },
   );
 
   const reducer = (theme: Theme, action: ThemeActions): Theme => {
