@@ -14,6 +14,7 @@ type Props = {
   onClickClaim: () => void;
   onClickBadge?: () => void;
   isClaimed?: boolean;
+  isDisabled?: boolean;
   isLoading?: boolean;
 };
 
@@ -42,6 +43,7 @@ export const ClaimBlock = ({
   onClickClaim,
   onClickBadge,
   isClaimed,
+  isDisabled,
   isLoading,
 }: Props) => {
   return (
@@ -59,7 +61,7 @@ export const ClaimBlock = ({
           onClick={onClickClaim}
           loading={isLoading}
           leftIcon={isClaimed ? <FaCheckCircle /> : undefined}
-          disabled={isClaimed}
+          disabled={isClaimed || isDisabled}
         >
           {isClaimed ? 'Minted' : 'Mint'}
         </Button>

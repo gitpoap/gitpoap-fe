@@ -101,7 +101,7 @@ type Props = {
 };
 
 export const GitHub = ({ className }: Props) => {
-  const { web3Provider } = useWeb3Context();
+  const { isConnected, web3Provider } = useWeb3Context();
   const { tokens, authState, handleLogout, authorizeGitHub, isLoggedIntoGitHub, user } =
     useAuthContext();
   const signer = web3Provider?.getSigner();
@@ -254,6 +254,7 @@ export const GitHub = ({ className }: Props) => {
 
       <ClaimModal
         claims={userClaims ?? []}
+        isConnected={isConnected}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onClickClaim={claimGitPOAP}

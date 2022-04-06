@@ -90,7 +90,8 @@ const claims: UserClaim[] = [
 export default {
   title: 'Modals/Claim',
   component: ClaimModal,
-  argTypes: {},
+  args: { claimedIds: [], isOpen: true, isConnected: true },
+  argTypes: { isConnected: { control: 'select', options: [true, false] } },
 } as ComponentMeta<typeof ClaimModal>;
 
 const Template: ComponentStory<typeof ClaimModal> = (args) => {
@@ -99,34 +100,34 @@ const Template: ComponentStory<typeof ClaimModal> = (args) => {
 
 /* -- Single Claim -- */
 export const SingleClaim = Template.bind({});
-SingleClaim.args = { claims: claims.slice(0, 1), isOpen: true };
+SingleClaim.args = { claims: claims.slice(0, 1) };
 
 export const SingleClaimLoading = Template.bind({});
-SingleClaimLoading.args = { claims: claims.slice(0, 1), isOpen: true, loadingClaimIds: [1] };
+SingleClaimLoading.args = { claims: claims.slice(0, 1), loadingClaimIds: [1] };
 
 export const SingleClaimClaimed = Template.bind({});
-SingleClaimClaimed.args = { claims: claims.slice(0, 1), isOpen: true, claimedIds: [1] };
+SingleClaimClaimed.args = { claims: claims.slice(0, 1), claimedIds: [1] };
 
 /* -- Two Claims -- */
 export const TwoClaims = Template.bind({});
-TwoClaims.args = { claims: claims.slice(0, 2), isOpen: true };
+TwoClaims.args = { claims: claims.slice(0, 2) };
 
 export const TwoClaimsAllLoading = Template.bind({});
-TwoClaimsAllLoading.args = { claims: claims.slice(0, 2), isOpen: true, loadingClaimIds: [1, 2] };
+TwoClaimsAllLoading.args = { claims: claims.slice(0, 2), loadingClaimIds: [1, 2] };
 
 export const TwoClaimsAllClaimed = Template.bind({});
-TwoClaimsAllClaimed.args = { claims: claims.slice(0, 2), isOpen: true, claimedIds: [1, 2] };
+TwoClaimsAllClaimed.args = { claims: claims.slice(0, 2), claimedIds: [1, 2] };
 
 export const TwoClaimsOneLoading = Template.bind({});
-TwoClaimsOneLoading.args = { claims: claims.slice(0, 2), isOpen: true, loadingClaimIds: [1] };
+TwoClaimsOneLoading.args = { claims: claims.slice(0, 2), loadingClaimIds: [1] };
 
 export const TwoClaimsOneClaimed = Template.bind({});
-TwoClaimsOneClaimed.args = { claims: claims.slice(0, 2), isOpen: true, claimedIds: [1] };
+TwoClaimsOneClaimed.args = { claims: claims.slice(0, 2), claimedIds: [1] };
 
 /* -- Multiple Claims -- */
 export const MultipleClaims = Template.bind({});
-MultipleClaims.args = { claims: claims, isOpen: true };
+MultipleClaims.args = { claims: claims };
 
 /* -- No Claims -- */
 export const NoClaims = Template.bind({});
-NoClaims.args = { claims: [], isOpen: true };
+NoClaims.args = { claims: [] };
