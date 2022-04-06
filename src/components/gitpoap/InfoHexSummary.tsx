@@ -147,11 +147,11 @@ export const InfoHexSummary = ({
                 <Twitter />
               </Link>
             )}
-            {githubHandle && (
+            {/* {githubHandle && (
               <Link href={`https://github.com/${githubHandle}`} passHref>
                 <GitHub />
               </Link>
-            )}
+            )} */}
             {gitpoapId && (
               <IconCount icon={<GitPOAP href={getGitPOAPHref(gitpoapId)} />} count={numGitPOAPs} />
             )}
