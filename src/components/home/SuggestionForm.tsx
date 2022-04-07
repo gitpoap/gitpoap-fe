@@ -165,14 +165,15 @@ export const SuggestionForm = () => {
         setEmail('');
         setRepoURL('');
         setUserType(undefined);
-        setFormStatus('Thanks! Repo submitted.');
+        showNotification(
+          NotificationFactory.createSuccess('Success - Repo Submitted', 'Thanks! 🤓'),
+        );
       }
     } catch (e) {
       console.warn(e);
       showNotification(
         NotificationFactory.createError('Error - Request Failed', 'Oops, something went wrong! 🤥'),
       );
-      setFormStatus('Submission was unsuccessful.');
     }
   }, [email, repoUrl, userType]);
 
