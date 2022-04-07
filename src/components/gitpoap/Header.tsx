@@ -75,6 +75,7 @@ const Wrapper = styled.div`
   text-align: center;
   margin: auto;
   width: ${rem(480)};
+  max-width: 90%;
 
   a {
     text-decoration: none;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Grid } from '@mantine/core';
 import { InfoHexProfileDetail } from './InfoHexProfileDetail';
 import { truncateAddress } from '../../helpers';
 import { useProfileContext } from './ProfileContext';

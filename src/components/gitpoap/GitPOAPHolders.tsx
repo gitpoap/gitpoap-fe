@@ -9,6 +9,7 @@ import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { Text } from '../shared/elements/Text';
 import { TextDarkGray } from '../../colors';
+import { BREAKPOINTS } from '../../constants';
 
 type Props = {
   gitPOAPId: number;
@@ -36,11 +37,13 @@ const HoldersWrapper = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   margin-bottom: ${rem(50)};
-`;
-
-const Holder = styled(InfoHexSummary)`
-  margin-right: ${rem(24)};
   margin-top: ${rem(40)};
+  column-gap: ${rem(24)};
+  row-gap: ${rem(40)};
+
+  @media (max-width: ${BREAKPOINTS.md}px) {
+    justify-content: center;
+  }
 `;
 
 const GitPOAPHoldersQuery = gql`
@@ -133,7 +136,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       {total ? (
         <HoldersWrapper>
           {holders.map((holder: Holder) => (
-            <Holder
+            <InfoHexSummary
               key={holder.githubHandle}
               address={holder.address}
               blurb={holder.bio}
