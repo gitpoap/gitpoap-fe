@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { FaDiscord as DiscordIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
+import { FaDiscord as DiscordIcon, FaTwitter as TwitterIcon, FaMedium } from 'react-icons/fa';
 import { Divider } from '@mantine/core';
 import { GitPOAP } from './shared/elements/icons/GitPOAP';
 import { BackgroundPanel2, ExtraHover, TextGray } from '../colors';
@@ -81,6 +81,9 @@ export const Footer = () => {
             rel="noopener noreferrer"
           >
             <TwitterIcon />
+          </SocialLink>
+          <SocialLink href={'https://medium.com/gitpoap'} target="_blank" rel="noopener noreferrer">
+            <FaMedium />
           </SocialLink>
         </ContentRight>
       </Container>
