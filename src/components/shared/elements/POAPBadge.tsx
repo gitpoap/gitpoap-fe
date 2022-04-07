@@ -48,7 +48,7 @@ const POAP = styled(Image)`
 const Title = styled(TitleUI)`
   margin-top: ${rem(10)};
   color: ${TextLight};
-  width: ${rem(170)};
+  width: ${rem(162)};
 `;
 
 const Heart = styled(FeatureHeart)`
