@@ -126,9 +126,9 @@ export const InfoHexSummary = ({
   githubHandle,
   numGitPOAPs,
 }: Props) => {
-  const { web3Provider } = useWeb3Context();
+  const { web3Provider, infuraProvider } = useWeb3Context();
   const ensName = useEns(web3Provider, address);
-  const avatarURI = useEnsAvatar(web3Provider, ensName);
+  const avatarURI = useEnsAvatar(web3Provider ?? infuraProvider, ensName);
 
   return (
     <Link href={`/p/${ensName ?? address}`} passHref>
