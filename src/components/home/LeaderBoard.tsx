@@ -99,7 +99,11 @@ const LeaderBoardItem = ({ profile, claimsCount }: LeaderBoardItemProps) => {
     <>
       <Item>
         <UserInfo>
-          {avatarURI ? <AvatarStyled src={avatarURI} /> : <JazzIcon address={profile.address} />}
+          {avatarURI ? (
+            <AvatarStyled src={avatarURI} useDefaultImageTag />
+          ) : (
+            <JazzIcon address={profile.address} />
+          )}
           <Link href={`/p/${profile.address}`} passHref>
             <Name>{ensName ?? truncateAddress(profile.address, 6)}</Name>
           </Link>
