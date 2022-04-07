@@ -142,6 +142,7 @@ export const GitHub = ({ className }: Props) => {
       );
     } else if (userClaims && userClaims.length > 0) {
       /* Connected to GitHub, but HAS open claims */
+      const netClaims = userClaims.length - claimedIds.length;
       return (
         <DisconnectPopover
           isOpen={isGHPopoverOpen}
@@ -158,7 +159,7 @@ export const GitHub = ({ className }: Props) => {
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
               leftIcon={<GoMarkGithub size={16} />}
-              rightIcon={<ClaimCircle value={userClaims.length} />}
+              rightIcon={<ClaimCircle value={netClaims} />}
             >
               {'VIEW & MINT'}
             </Button>
