@@ -127,7 +127,7 @@ export const InfoHexSummary = ({
   numGitPOAPs,
 }: Props) => {
   const { web3Provider, infuraProvider } = useWeb3Context();
-  const ensName = useEns(web3Provider, address);
+  const ensName = useEns(web3Provider ?? infuraProvider, address);
   const avatarURI = useEnsAvatar(web3Provider ?? infuraProvider, ensName);
 
   return (
