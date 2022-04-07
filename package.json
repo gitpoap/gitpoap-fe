@@ -10,6 +10,7 @@
     "chromatic": "npx chromatic --project-token=17617c85151f"
   },
   "dependencies": {
+    "@coinbase/wallet-sdk": "^3.0.5",
     "@ensdomains/ens-avatar": "^0.1.1",
     "@mantine/core": "^4.0.8",
     "@mantine/dates": "^4.0.8",
