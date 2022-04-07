@@ -1,12 +1,7 @@
 import React, { createContext, useState, useContext, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import jwtDecode from 'jwt-decode';
-import {
-  REACT_APP_CLIENT_ID,
-  REACT_APP_REDIRECT_URI,
-  GITPOAP_API_URL,
-  FIVE_MINUTES,
-} from '../../constants';
+import { REACT_APP_CLIENT_ID, GITPOAP_API_URL, FIVE_MINUTES } from '../../constants';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { useLocalStorage } from '@mantine/hooks';
@@ -80,7 +75,7 @@ export const AuthProvider = ({ children }: Props) => {
     defaultValue: null,
   });
   const router = useRouter();
-  const redirectUri = REACT_APP_REDIRECT_URI + router.asPath;
+  const redirectUri = typeof window !== 'undefined' ? window.location.href : '';
   const githubAuthURL = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${REACT_APP_CLIENT_ID}&redirect_uri=${redirectUri}`;
 
   const handleLogout = useCallback(() => {

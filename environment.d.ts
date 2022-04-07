@@ -6,7 +6,6 @@ declare global {
       SENTRY_AUTH_TOKEN?: string;
       NEXT_PUBLIC_INFURA_ID: string;
       NEXT_PUBLIC_REACT_APP_CLIENT_ID: string;
-      NEXT_PUBLIC_REACT_APP_REDIRECT_URI: string;
       NEXT_PUBLIC_GITPOAP_API_URL: string;
     }
   }
