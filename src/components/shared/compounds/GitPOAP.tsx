@@ -43,7 +43,7 @@ const Info = styled.div`
 const TitleStyled = styled(Title)`
   margin-top: ${rem(10)};
   text-align: center;
-  ${LineClamp(2)};
+  ${LineClamp(3)};
 `;
 
 const OrgName = styled.div`
