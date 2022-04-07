@@ -89,7 +89,7 @@ export const Web3ContextProvider = (props: Props) => {
   const [infuraProvider, setInfuraProvider] = useState<InfuraProvider | null>(null);
   const [chainId, setChainId] = useState(NETWORKS[1].chainId);
   const [ensName, setEnsName] = useState<string | null>(null);
-  const avatarURI = useEnsAvatar(web3Provider ?? infuraProvider, ensName);
+  const avatarURI = useEnsAvatar(infuraProvider, ensName);
 
   const disconnect = useCallback(async () => {
     web3Modal.clearCachedProvider();
@@ -160,18 +160,17 @@ export const Web3ContextProvider = (props: Props) => {
   useEffect(() => {
     const isCached = hasCachedProvider();
 
-    if (!isConnected) {
-      if (isCached) {
-        connect();
-      } else if (!infuraProvider) {
-        /* Initialize a backup provider when no wallet is connected */
-        if (!isConnected && !infuraProvider) {
-          const provider = new InfuraProvider(NETWORKS[1].chainId, {
-            projectId: process.env.NEXT_PUBLIC_INFURA_ID,
-          });
-          setInfuraProvider(provider);
-        }
-      }
+    /* Attempt to connect to cached provider */
+    if (!isConnected && isCached) {
+      connect();
+    }
+
+    /* Always initialize a backup provider for when no wallet is connected */
+    if (!infuraProvider) {
+      const provider = new InfuraProvider(NETWORKS[1].chainId, {
+        projectId: process.env.NEXT_PUBLIC_INFURA_ID,
+      });
+      setInfuraProvider(provider);
     }
   }, [hasCachedProvider, isConnected, connect, infuraProvider]);
 
