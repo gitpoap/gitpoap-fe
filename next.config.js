@@ -37,6 +37,7 @@ const moduleExports = {
         os: false,
         https: false,
         buffer: require.resolve('buffer'),
+        http: false,
       };
     }
 

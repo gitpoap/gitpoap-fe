@@ -20,7 +20,7 @@
     "@mantine/notifications": "^4.1.1",
     "@sentry/nextjs": "^6.19.2",
     "@ukstv/jazzicon-react": "^1.0.0",
-    "@walletconnect/web3-provider": "^1.7.3",
+    "@walletconnect/web3-provider": "^1.7.7",
     "dayjs": "^1.11.0",
     "email-validator": "^2.0.4",
     "ethers": "^5.6.0",
@@ -36,7 +36,7 @@
     "styled-components": "^5.3.3",
     "tabler-icons-react": "^1.41.0",
     "urql": "^2.0.6",
-    "web3modal": "^1.9.4",
+    "web3modal": "^1.9.6",
     "zod": "^3.14.2"
   },
   "devDependencies": {

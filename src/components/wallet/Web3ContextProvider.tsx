@@ -1,6 +1,8 @@
 import React, { useContext, useState, useCallback, createContext, useMemo, useEffect } from 'react';
 import Web3Modal from 'web3modal';
 import { JsonRpcProvider, Web3Provider, InfuraProvider } from '@ethersproject/providers';
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
+import WalletConnect from '@walletconnect/web3-provider';
 import { NETWORKS } from '../../constants';
 import { BackgroundPanel, BackgroundPanel2, TextLight, TextGray } from '../../colors';
 import { useEnsAvatar } from '../../hooks/useEnsAvatar';
@@ -9,7 +11,22 @@ type Props = {
   children: React.ReactNode;
 };
 
-const providerOptions = {};
+const providerOptions = {
+  walletlink: {
+    package: CoinbaseWalletSDK,
+    options: {
+      appName: 'gitpoap-fe',
+      infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
+      darkMode: true,
+    },
+  },
+  walletconnect: {
+    package: WalletConnect,
+    options: {
+      infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
+    },
+  },
+};
 
 let initWeb3Modal: Web3Modal;
 if (typeof window !== 'undefined') {
@@ -120,11 +137,15 @@ export const Web3ContextProvider = (props: Props) => {
   );
 
   const connect = useCallback(async () => {
-    const provider = await web3Modal.connect();
-    const web3Provider = initialize(provider);
-    addListeners(provider);
+    try {
+      const provider = await web3Modal.connect();
+      const web3Provider = initialize(provider);
+      addListeners(provider);
 
-    return web3Provider;
+      return web3Provider;
+    } catch (err) {
+      console.warn(err);
+    }
   }, [web3Modal, addListeners, initialize]);
 
   const hasCachedProvider = useCallback(() => {
