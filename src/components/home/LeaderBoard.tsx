@@ -15,6 +15,7 @@ import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { useEns } from '../../hooks/useEns';
 import { useEnsAvatar } from '../../hooks/useEnsAvatar';
+import { useFeatures } from '../FeaturesContext';
 
 export type LeaderBoardItemProps = {
   claimsCount: number;
@@ -94,13 +95,14 @@ const LeaderBoardItem = ({ profile, claimsCount }: LeaderBoardItemProps) => {
   const { infuraProvider } = useWeb3Context();
   const ensName = useEns(infuraProvider, profile.address);
   const avatarURI = useEnsAvatar(infuraProvider, ensName);
+  const { hasEnsAvatar } = useFeatures();
 
   return (
     <>
       <Item>
         <UserInfo>
           <Link href={`/p/${ensName ?? profile.address}`} passHref>
-            {avatarURI ? (
+            {avatarURI && hasEnsAvatar ? (
               <AvatarStyled src={avatarURI} useDefaultImageTag />
             ) : (
               <JazzIcon address={profile.address} />
