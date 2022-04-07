@@ -1,5 +1,3 @@
-const webpack = require('webpack');
-
 module.exports = {
   core: {
     builder: 'webpack5',
@@ -9,21 +7,4 @@ module.exports = {
   framework: '@storybook/react',
   staticDirs: ['../public'],
   typescript: { reactDocgen: false },
-  webpackFinal: async (config, options) => {
-    config.plugins.push(
-      new webpack.ProvidePlugin({
-        Buffer: ['buffer', 'Buffer'],
-      }),
-    );
-
-    config.resolve.fallback = {
-      stream: require.resolve('stream-browserify'),
-      os: require.resolve('os-browserify/browser'),
-      https: false,
-      http: require.resolve('stream-http'),
-      buffer: require.resolve('buffer/'),
-    };
-
-    return config;
-  },
 };

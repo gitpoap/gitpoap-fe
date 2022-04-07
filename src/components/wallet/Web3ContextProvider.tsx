@@ -1,8 +1,7 @@
 import React, { useContext, useState, useCallback, createContext, useMemo, useEffect } from 'react';
-import Web3Modal from 'web3modal';
+import Web3Modal, { IProviderOptions } from 'web3modal';
 import { JsonRpcProvider, Web3Provider, InfuraProvider } from '@ethersproject/providers';
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
-import WalletConnect from '@walletconnect/web3-provider';
 import { NETWORKS } from '../../constants';
 import { BackgroundPanel, BackgroundPanel2, TextLight, TextGray } from '../../colors';
 import { useEnsAvatar } from '../../hooks/useEnsAvatar';
@@ -11,19 +10,13 @@ type Props = {
   children: React.ReactNode;
 };
 
-const providerOptions = {
+let providerOptions: IProviderOptions = {
   walletlink: {
     package: CoinbaseWalletSDK,
     options: {
       appName: 'gitpoap-fe',
       infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
       darkMode: true,
-    },
-  },
-  walletconnect: {
-    package: WalletConnect,
-    options: {
-      infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
     },
   },
 };
