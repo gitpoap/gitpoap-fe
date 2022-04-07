@@ -60,7 +60,7 @@ const claims: UserClaim[] = [
     },
     event: {
       id: 3,
-      name: 'AAVE Core Contributor',
+      name: 'GitPOAP: 2017 OpenZeppelin Contracts Contributor',
       image_url: badgeImg3 as unknown as string,
       description: 'Minted to core contributors of AAVE protocol',
     },

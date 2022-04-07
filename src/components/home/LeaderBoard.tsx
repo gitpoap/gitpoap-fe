@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import Link from 'next/link';
+import { Link } from '../Link';
 import { useQuery, gql } from 'urql';
 import { Header } from '../shared/elements/Header';
 import { BackgroundPanel2 } from '../../colors';
@@ -102,16 +102,22 @@ const LeadersQuery = gql`
 `;
 
 const LeaderBoardItem = ({ profile, claimsCount }: LeaderBoardItemProps) => {
-  const { web3Provider, infuraProvider } = useWeb3Context();
-  const ensName = useEns(web3Provider ?? infuraProvider, profile.address);
-  const avatarURI = useEnsAvatar(web3Provider ?? infuraProvider, ensName);
+  const { infuraProvider } = useWeb3Context();
+  const ensName = useEns(infuraProvider, profile.address);
+  const avatarURI = useEnsAvatar(infuraProvider, ensName);
 
   return (
     <>
       <Item>
         <UserInfo>
-          {avatarURI ? <AvatarStyled src={avatarURI} /> : <JazzIcon address={profile.address} />}
-          <Link href={`/p/${profile.address}`} passHref>
+          <Link href={`/p/${ensName ?? profile.address}`} passHref>
+            {avatarURI ? (
+              <AvatarStyled src={avatarURI} useDefaultImageTag />
+            ) : (
+              <JazzIcon address={profile.address} />
+            )}
+          </Link>
+          <Link href={`/p/${ensName ?? profile.address}`} passHref>
             <Name>{ensName ?? truncateAddress(profile.address, 6)}</Name>
           </Link>
         </UserInfo>

@@ -1,6 +1,8 @@
 import React, { useContext, useState, useCallback, createContext, useMemo, useEffect } from 'react';
 import Web3Modal from 'web3modal';
 import { JsonRpcProvider, Web3Provider, InfuraProvider } from '@ethersproject/providers';
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
+import WalletConnect from '@walletconnect/web3-provider';
 import { NETWORKS } from '../../constants';
 import { BackgroundPanel, BackgroundPanel2, TextLight, TextGray } from '../../colors';
 import { useEnsAvatar } from '../../hooks/useEnsAvatar';
@@ -9,7 +11,22 @@ type Props = {
   children: React.ReactNode;
 };
 
-const providerOptions = {};
+const providerOptions = {
+  walletlink: {
+    package: CoinbaseWalletSDK,
+    options: {
+      appName: 'gitpoap-fe',
+      infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
+      darkMode: true,
+    },
+  },
+  walletconnect: {
+    package: WalletConnect,
+    options: {
+      infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
+    },
+  },
+};
 
 let initWeb3Modal: Web3Modal;
 if (typeof window !== 'undefined') {
@@ -72,7 +89,7 @@ export const Web3ContextProvider = (props: Props) => {
   const [infuraProvider, setInfuraProvider] = useState<InfuraProvider | null>(null);
   const [chainId, setChainId] = useState(NETWORKS[1].chainId);
   const [ensName, setEnsName] = useState<string | null>(null);
-  const avatarURI = useEnsAvatar(web3Provider, ensName);
+  const avatarURI = useEnsAvatar(infuraProvider, ensName);
 
   const disconnect = useCallback(async () => {
     web3Modal.clearCachedProvider();
@@ -120,11 +137,15 @@ export const Web3ContextProvider = (props: Props) => {
   );
 
   const connect = useCallback(async () => {
-    const provider = await web3Modal.connect();
-    const web3Provider = initialize(provider);
-    addListeners(provider);
+    try {
+      const provider = await web3Modal.connect();
+      const web3Provider = initialize(provider);
+      addListeners(provider);
 
-    return web3Provider;
+      return web3Provider;
+    } catch (err) {
+      console.warn(err);
+    }
   }, [web3Modal, addListeners, initialize]);
 
   const hasCachedProvider = useCallback(() => {
@@ -139,18 +160,17 @@ export const Web3ContextProvider = (props: Props) => {
   useEffect(() => {
     const isCached = hasCachedProvider();
 
-    if (!isConnected) {
-      if (isCached) {
-        connect();
-      } else if (!infuraProvider) {
-        /* Initialize a backup provider when no wallet is connected */
-        if (!isConnected && !infuraProvider) {
-          const provider = new InfuraProvider(NETWORKS[1].chainId, {
-            projectId: process.env.NEXT_PUBLIC_INFURA_ID,
-          });
-          setInfuraProvider(provider);
-        }
-      }
+    /* Attempt to connect to cached provider */
+    if (!isConnected && isCached) {
+      connect();
+    }
+
+    /* Always initialize a backup provider for when no wallet is connected */
+    if (!infuraProvider) {
+      const provider = new InfuraProvider(NETWORKS[1].chainId, {
+        projectId: process.env.NEXT_PUBLIC_INFURA_ID,
+      });
+      setInfuraProvider(provider);
     }
   }, [hasCachedProvider, isConnected, connect, infuraProvider]);
 

@@ -51,7 +51,7 @@ export const ClaimBlock = ({
       <GitPOAP
         gitPOAPId={gitPOAPId}
         imgSrc={imgSrc}
-        name={name}
+        name={name.replace('GitPOAP: ', '')}
         orgName={orgName}
         description={description}
         onClick={onClickBadge}

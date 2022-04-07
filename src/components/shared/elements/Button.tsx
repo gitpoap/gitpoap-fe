@@ -18,7 +18,7 @@ const StyledButton = styled(ButtonUI)<ButtonProps<'button'>>`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  font-family: 'PT Mono', monospace;
+  font-family: 'PT Mono', monospace !important;
   font-weight: 700;
   text-transform: uppercase;
   font-size: ${rem(12)};

@@ -17,14 +17,8 @@ const Nav = styled(Group)`
   z-index: 2;
 `;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  flex: 1;
+const Container = styled(Group)`
   padding: ${rem(24)} ${rem(45)};
-
   @media (max-width: ${BREAKPOINTS.sm}px) {
     padding: ${rem(24)} ${rem(30)};
   }
@@ -69,8 +63,8 @@ export const Navbar = () => {
   const showDocsLink = false;
 
   return (
-    <Nav>
-      <Container>
+    <Nav grow>
+      <Container direction="row" align="center" position="apart">
         <Link href="/" passHref>
           <ContentLeft>
             <GitPOAPLogo />

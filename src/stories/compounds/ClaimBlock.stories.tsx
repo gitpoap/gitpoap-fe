@@ -16,7 +16,7 @@ export const Default = Template.bind({});
 Default.args = {
   gitPOAPId: 1,
   imgSrc: badgeImg1 as unknown as string,
-  name: 'Polygon Genesis Creator',
+  name: 'GitPOAP: 2017 OpenZeppelin Contracts Contributor',
   orgName: 'Polygon',
   description: 'To the creators of Polygon Network',
 };

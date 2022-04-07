@@ -126,9 +126,9 @@ export const InfoHexSummary = ({
   githubHandle,
   numGitPOAPs,
 }: Props) => {
-  const { web3Provider } = useWeb3Context();
-  const ensName = useEns(web3Provider, address);
-  const avatarURI = useEnsAvatar(web3Provider, ensName);
+  const { infuraProvider } = useWeb3Context();
+  const ensName = useEns(infuraProvider, address);
+  const avatarURI = useEnsAvatar(infuraProvider, ensName);
 
   return (
     <Link href={`/p/${ensName ?? address}`} passHref>
@@ -147,11 +147,11 @@ export const InfoHexSummary = ({
                 <Twitter />
               </Link>
             )}
-            {githubHandle && (
+            {/* {githubHandle && (
               <Link href={`https://github.com/${githubHandle}`} passHref>
                 <GitHub />
               </Link>
-            )}
+            )} */}
             {gitpoapId && (
               <IconCount icon={<GitPOAP href={getGitPOAPHref(gitpoapId)} />} count={numGitPOAPs} />
             )}

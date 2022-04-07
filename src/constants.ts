@@ -1,5 +1,4 @@
 export const REACT_APP_CLIENT_ID = process.env.NEXT_PUBLIC_REACT_APP_CLIENT_ID;
-export const REACT_APP_REDIRECT_URI = process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_URI;
 export const GITPOAP_API_URL = process.env.NEXT_PUBLIC_GITPOAP_API_URL;
 
 /* CSS Breakpoints */
