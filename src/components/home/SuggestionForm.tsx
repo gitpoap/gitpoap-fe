@@ -165,7 +165,9 @@ export const SuggestionForm = () => {
         setEmail('');
         setRepoURL('');
         setUserType(undefined);
-        showNotification(NotificationFactory.createSuccess('Success - Repo Submitted', 'Thanks!'));
+        showNotification(
+          NotificationFactory.createSuccess('Success - Repo Submitted', 'Thanks! 🤓'),
+        );
       }
     } catch (e) {
       console.warn(e);
