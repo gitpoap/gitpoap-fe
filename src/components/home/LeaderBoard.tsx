@@ -15,6 +15,7 @@ import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { useEns } from '../../hooks/useEns';
 import { useEnsAvatar } from '../../hooks/useEnsAvatar';
+import { BREAKPOINTS } from '../../constants';
 import { useFeatures } from '../FeaturesContext';
 
 export type LeaderBoardItemProps = {
@@ -28,6 +29,11 @@ export type LeaderBoardItemProps = {
 const Wrapper = styled.div`
   display: inline-flex;
   flex-direction: column;
+
+  @media (max-width: ${BREAKPOINTS.md}px) {
+    display: flex;
+    margin: auto;
+  }
 `;
 
 const Name = styled(Title)`
@@ -59,6 +65,11 @@ const Item = styled.div`
 const HeaderStyled = styled(Header)`
   font-size: ${rem(30)};
   line-height: ${rem(48)};
+
+  @media (max-width: ${BREAKPOINTS.md}px) {
+    font-size: ${rem(48)};
+    margin: auto;
+  }
 `;
 
 const UserInfo = styled.div`

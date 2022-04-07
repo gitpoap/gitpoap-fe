@@ -16,6 +16,7 @@ import { FeaturedPOAPsProvider } from '../../components/profile/FeaturedPOAPsCon
 import { ProfileProvider } from '../../components/profile/ProfileContext';
 import { truncateAddress } from '../../helpers';
 import { BackgroundHexes } from '../../components/home/BackgroundHexes';
+import { BREAKPOINTS } from '../../constants';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;
@@ -27,6 +28,14 @@ const Background = styled(BackgroundHexes)`
   position: absolute;
   z-index: 0;
   width: ${rem(1840)};
+`;
+
+const ProfileSidebarWrapper = styled(Grid.Col)`
+  @media (max-width: ${BREAKPOINTS.lg}px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const Profile: Page = () => {
@@ -78,11 +87,11 @@ const Profile: Page = () => {
         <FeaturedPOAPsProvider profileAddress={profileAddress} ensName={ensName}>
           <Grid justify="center" style={{ marginTop: rem(40), zIndex: 1 }}>
             <Background />
-            <Grid.Col span={2}>
+            <ProfileSidebarWrapper lg={2}>
               <ProfileSidebar address={profileAddress} ensName={ensName} />
-            </Grid.Col>
+            </ProfileSidebarWrapper>
 
-            <Grid.Col span={8} style={{ zIndex: 1 }}>
+            <Grid.Col lg={8} style={{ zIndex: 1 }}>
               <Grid justify="center">
                 <Grid.Col span={10} style={{ marginTop: rem(60) }}>
                   <FeaturedPOAPs />
