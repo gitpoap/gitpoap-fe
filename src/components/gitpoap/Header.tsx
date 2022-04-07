@@ -5,6 +5,7 @@ import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
 import { useQuery, gql } from 'urql';
 import Link from 'next/link';
+import Head from 'next/head';
 import { Button } from '../shared/elements/Button';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Header as HeaderText } from '../shared/elements/Header';
@@ -158,6 +159,9 @@ export const Header = ({ gitPOAPId }: Props) => {
 
   return (
     <Wrapper>
+      <Head>
+        <title>{` ${event?.name.replace('GitPOAP: ', '') ?? 'GitPOAP'} | GitPOAP`}</title>
+      </Head>
       <Badge size="lg" imgUrl={event?.image_url ?? ''} />
       <TitleStyled>{event?.name}</TitleStyled>
       <Description>{event?.description}</Description>
