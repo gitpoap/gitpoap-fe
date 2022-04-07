@@ -124,6 +124,11 @@ export const EditProfileModal = ({
       <Content>
         <Header style={{ marginBottom: rem(30) }}>{'Edit profile'}</Header>
         <ProfileFields>
+          {/*
+          Colfax - commented out on 4/7/22 for now
+          GitHub in profile should be separate from OAuth github imo, as many users dont want to make a
+          public connection between their address and github accounts.
+
           <ConnectGitHub>
             <FieldLabel>{'GitHub'}</FieldLabel>
             {isLoggedIntoGitHub ? (
@@ -142,6 +147,7 @@ export const EditProfileModal = ({
               </Setting>
             )}
           </ConnectGitHub>
+          */}
 
           <TwitterHandle>
             <Input
