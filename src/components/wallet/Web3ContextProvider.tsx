@@ -72,7 +72,7 @@ export const Web3ContextProvider = (props: Props) => {
   const [infuraProvider, setInfuraProvider] = useState<InfuraProvider | null>(null);
   const [chainId, setChainId] = useState(NETWORKS[1].chainId);
   const [ensName, setEnsName] = useState<string | null>(null);
-  const avatarURI = useEnsAvatar(web3Provider, ensName);
+  const avatarURI = useEnsAvatar(web3Provider ?? infuraProvider, ensName);
 
   const disconnect = useCallback(async () => {
     web3Modal.clearCachedProvider();
