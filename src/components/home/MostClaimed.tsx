@@ -3,17 +3,22 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { useQuery, gql } from 'urql';
 import { Header } from '../shared/elements/Header';
-import { GitPOAP as GitPOAPUI } from '../shared/compounds/GitPOAP';
+import { GitPOAP as GitPOAPBadge } from '../shared/compounds/GitPOAP';
 import { Button } from '../shared/elements/Button';
 import { FaArrowRight } from 'react-icons/fa';
 import { useFeatures } from '../FeaturesContext';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
+import { BREAKPOINTS } from '../../constants';
 
 const Container = styled.div`
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   padding: ${rem(10)};
+
+  @media (max-width: ${BREAKPOINTS.md}px) {
+    align-items: center;
+  }
 `;
 
 const Poaps = styled.div`
@@ -23,11 +28,12 @@ const Poaps = styled.div`
   flex-wrap: wrap;
   margin-top: ${rem(50)};
   margin-bottom: ${rem(50)};
-`;
+  column-gap: ${rem(36)};
+  row-gap: ${rem(36)};
 
-const GitPOAPBadge = styled(GitPOAPUI)`
-  margin-right: ${rem(36)};
-  margin-bottom: ${rem(36)};
+  @media (max-width: ${BREAKPOINTS.md}px) {
+    justify-content: center;
+  }
 `;
 
 export type MostClaimedItem = {

@@ -14,6 +14,7 @@ import { SuggestionForm } from '../components/home/SuggestionForm';
 import { BackgroundHexes } from '../components/home/BackgroundHexes';
 import { useFeatures } from '../components/FeaturesContext';
 import { Divider } from '@mantine/core';
+import { BREAKPOINTS } from '../constants';
 
 const HeaderStyled = styled.span`
   position: relative;
@@ -63,11 +64,11 @@ const Home: Page = () => {
         </Grid.Col>
       </Grid>
 
-      <Grid justify="center" style={{ marginTop: rem(100), marginBottom: rem(100) }}>
-        <Grid.Col span={7} style={{ zIndex: 0 }}>
+      <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(100) }}>
+        <Grid.Col xs={22} md={13} xl={14} style={{ zIndex: 0 }}>
           <MostClaimed />
         </Grid.Col>
-        <Grid.Col span={3} style={{ zIndex: 0 }}>
+        <Grid.Col xs={20} md={7} xl={6} style={{ zIndex: 0 }}>
           <LeaderBoard />
         </Grid.Col>
       </Grid>

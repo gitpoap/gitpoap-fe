@@ -9,6 +9,7 @@ import { Web3ContextProvider } from '../components/wallet/Web3ContextProvider';
 import { AuthProvider } from '../components/github/AuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
+import { BREAKPOINTS } from '../constants';
 
 const client = createClient({
   url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
@@ -37,7 +38,7 @@ const TheApp = ({ Component, pageProps }: Props) => {
 
   return (
     <Web3ContextProvider>
-      <MantineProvider theme={{ colorScheme: 'dark' }}>
+      <MantineProvider theme={{ breakpoints: BREAKPOINTS, colorScheme: 'dark' }}>
         <NotificationsProvider autoClose={5000}>
           <URQLProvider value={client}>
             <AuthProvider>
