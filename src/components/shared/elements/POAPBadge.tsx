@@ -25,6 +25,8 @@ const ImgContainer = styled.a`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  // Account for hex height
+  margin: ${rem(6)} 0;
 `;
 
 const POAP = styled(Image)`
@@ -44,7 +46,7 @@ const POAP = styled(Image)`
 `;
 
 const Title = styled(TitleUI)`
-  margin-top: ${rem(18)};
+  margin-top: ${rem(10)};
   color: ${TextLight};
   width: ${rem(170)};
 `;
