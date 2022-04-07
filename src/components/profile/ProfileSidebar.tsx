@@ -20,21 +20,17 @@ export const ProfileSidebar = ({ ensName }: Props) => {
   }
 
   return (
-    <Grid.Col span={12}>
-      <InfoHexProfileDetail
-        imgSrc={avatarURI}
-        name={ensName ?? truncateAddress(sidebarAddress, 10)}
-        address={sidebarAddress}
-        bio={profileData?.bio}
-        twitterHref={
-          profileData?.twitterHandle
-            ? `https://twitter.com/${profileData.twitterHandle}`
-            : undefined
-        }
-        websiteHref={profileData?.personalSiteUrl}
-        onClickEditProfile={() => setIsUpdateModalOpen(true)}
-        showEditProfileButton={showEditProfileButton}
-      />
-    </Grid.Col>
+    <InfoHexProfileDetail
+      imgSrc={avatarURI}
+      name={ensName ?? truncateAddress(sidebarAddress, 10)}
+      address={sidebarAddress}
+      bio={profileData?.bio}
+      twitterHref={
+        profileData?.twitterHandle ? `https://twitter.com/${profileData.twitterHandle}` : undefined
+      }
+      websiteHref={profileData?.personalSiteUrl}
+      onClickEditProfile={() => setIsUpdateModalOpen(true)}
+      showEditProfileButton={showEditProfileButton}
+    />
   );
 };
