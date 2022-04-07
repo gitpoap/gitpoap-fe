@@ -28,9 +28,6 @@ const POAPs = styled.div`
 `;
 
 const POAPBadge = styled(POAPBadgeUI)`
-  &:not(:last-child) {
-    margin-right: ${rem(40)};
-  }
   margin-top: ${rem(30)};
 `;
 
