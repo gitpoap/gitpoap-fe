@@ -114,11 +114,12 @@ export const dropzoneChildren = (
 
 const schema = z.object({
   id: z.number(),
+  poapEventId: z.number(),
   codes: typeof window === 'undefined' ? z.any() : z.instanceof(File),
 });
 
 type FormValues = {
-  gitPOAPId?: number;
+  id?: number;
   poapEventId?: number;
   codes: File | null;
 };
@@ -132,7 +133,7 @@ const AddCodesPage: NextPage = () => {
   const { setFieldValue, values, errors, onSubmit, getInputProps } = useForm<FormValues>({
     schema: zodResolver(schema),
     initialValues: {
-      gitPOAPId: undefined,
+      id: undefined,
       poapEventId: undefined,
       codes: null as any,
     },
@@ -147,17 +148,17 @@ const AddCodesPage: NextPage = () => {
 
   useEffect(() => {
     if (result.data?.gitPOAP) {
-      if (result.data.gitPOAP.id !== values.gitPOAPId) {
-        setFieldValue('gitPOAPId', result.data?.gitPOAP?.id);
+      if (result.data.gitPOAP.id !== values.id) {
+        setFieldValue('id', result.data?.gitPOAP?.id);
       }
     }
-  }, [setFieldValue, values.gitPOAPId, result.data]);
+  }, [setFieldValue, values.id, result.data]);
 
   useEffect(() => {
-    if (result.data?.gitPOAP === null && values.gitPOAPId !== undefined) {
-      setFieldValue('gitPOAPId', undefined);
+    if (result.data?.gitPOAP === null && values.id !== undefined) {
+      setFieldValue('id', undefined);
     }
-  }, [setFieldValue, result.data?.gitPOAP, values.gitPOAPId]);
+  }, [setFieldValue, result.data?.gitPOAP, values.id]);
 
   const submitCodes = useCallback(
     async (formValues: FormValues) => {
@@ -259,10 +260,10 @@ const AddCodesPage: NextPage = () => {
               <FormNumberInput
                 required
                 label={'GitPOAP ID'}
-                name={'gitPOAPId'}
+                name={'id'}
                 hideControls
                 disabled
-                {...getInputProps('gitPOAPId')}
+                {...getInputProps('id')}
               />
 
               <Dropzone
@@ -281,7 +282,7 @@ const AddCodesPage: NextPage = () => {
           <Button
             onClick={onSubmit((values) => submitCodes(values))}
             loading={isLoading}
-            disabled={values.gitPOAPId === undefined}
+            disabled={values.id === undefined}
           >
             {'Submit'}
           </Button>
