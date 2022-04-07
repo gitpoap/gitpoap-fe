@@ -34,21 +34,28 @@ const moduleExports = {
         source: '/discord',
         destination: 'https://discord.gg/qa3mfPvjWm',
         permanent: false,
-        basePath: false
+        basePath: false,
+      },
+      {
+        source: '/issues',
+        destination: 'https://2jxwpvhqb4y.typeform.com/to/VNXmuNQG',
+        permanent: false,
+        basePath: false,
+      },
+      {
+        source: '/launch-party',
+        destination:
+          'https://medium.com/gitpoap/gitpoap-launch-poap-art-painting-party-224faf0a7667',
+        permanent: false,
+        basePath: false,
       },
       {
         source: '/twitter',
         destination: 'https://twitter.com/gitpoap',
         permanent: false,
-        basePath: false
+        basePath: false,
       },
-      {
-        source: '/launch-party',
-        destination: 'https://medium.com/gitpoap/gitpoap-launch-poap-art-painting-party-224faf0a7667',
-        permanent: false,
-        basePath: false
-      },
-    ]
+    ];
   },
   webpack: (config, options) => {
     if (!options.isServer) {
