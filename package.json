@@ -7,17 +7,19 @@
     "start": "next start",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token=17617c85151f"
+    "chromatic": "npx chromatic --project-token=17617c85151f",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.0.5",
     "@ensdomains/ens-avatar": "^0.1.1",
-    "@mantine/core": "^4.0.8",
-    "@mantine/dates": "^4.0.8",
-    "@mantine/dropzone": "^4.0.8",
-    "@mantine/form": "^4.0.8",
-    "@mantine/hooks": "^4.0.8",
-    "@mantine/notifications": "^4.1.1",
+    "@mantine/core": "^4.1.0",
+    "@mantine/dates": "^4.1.2",
+    "@mantine/dropzone": "^4.1.2",
+    "@mantine/form": "^4.1.2",
+    "@mantine/hooks": "^4.1.2",
+    "@mantine/next": "^4.1.2",
+    "@mantine/notifications": "^4.1.2",
     "@sentry/nextjs": "^6.19.2",
     "@ukstv/jazzicon-react": "^1.0.0",
     "@walletconnect/web3-provider": "^1.7.7",
@@ -30,11 +32,11 @@
     "luxon": "^2.3.1",
     "next": "^12.1.4",
     "polished": "^4.1.3",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
     "react-icons": "^4.3.1",
-    "styled-components": "^5.3.3",
-    "tabler-icons-react": "^1.41.0",
+    "styled-components": "^5.3.5",
+    "tabler-icons-react": "^1.43.0",
     "urql": "^2.0.6",
     "web3modal": "^1.9.6",
     "zod": "^3.14.2"
@@ -72,7 +74,7 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "swc": "^1.0.11",
-    "typescript": "4.5.4"
+    "typescript": "4.6.3"
   },
   "msw": {
     "workerDirectory": "public"
