@@ -231,7 +231,7 @@ export const GitHub = ({ className }: Props) => {
 
         if (res.status === 200) {
           const data = (await res.json()) as { claimed: number[]; invalid: number[] };
-          setClaimedIds(data.claimed);
+          setClaimedIds((prevClaimedIds) => [...prevClaimedIds, ...data.claimed]);
           refetch();
           setLoadingClaimIds([]);
         }
