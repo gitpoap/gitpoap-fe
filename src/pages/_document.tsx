@@ -21,8 +21,8 @@ export default class MyDocument extends Document {
         styles: (
           <>
             {initialProps.styles}
-            {sheet.getStyleElement()}
             <ServerStyles html={initialProps.html} server={stylesServer} />
+            {sheet.getStyleElement()}
           </>
         ),
       };
