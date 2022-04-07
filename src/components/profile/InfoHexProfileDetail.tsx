@@ -22,6 +22,7 @@ import { FiGlobe } from 'react-icons/fi';
 import { IconStyles } from '../shared/elements/icons/BaseIcon';
 import { Button } from '../shared/elements/Button';
 import { Share } from '../shared/elements/Share';
+import { useFeatures } from '../FeaturesContext';
 
 type Props = {
   imgSrc: string | null;
@@ -169,12 +170,16 @@ export const InfoHexProfileDetail = ({
   showEditProfileButton,
 }: Props) => {
   const textToCopy = typeof window !== 'undefined' ? window.location.href : '';
+  const { hasEnsAvatar } = useFeatures();
 
   return (
     <StyledInfoHex>
       <Content>
-        {imgSrc && <Avatar src={imgSrc} useDefaultImageTag />}
-        {!imgSrc && <JazzIcon address={address} />}
+        {imgSrc && hasEnsAvatar ? (
+          <Avatar src={imgSrc} useDefaultImageTag />
+        ) : (
+          <JazzIcon address={address} />
+        )}
         <Name title={name}>{name}</Name>
         <Address address={address} isCollapsed />
         {bio && <Bio>{bio}</Bio>}

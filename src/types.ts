@@ -14,6 +14,7 @@ export type UserClaim = {
     gitPOAP: {
       id: number;
       repo: {
+        name?: string;
         organization: {
           name: string;
         };

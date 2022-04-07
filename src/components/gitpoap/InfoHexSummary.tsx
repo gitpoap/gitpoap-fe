@@ -14,6 +14,7 @@ import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { truncateAddress } from '../../helpers';
 import { useEns } from '../../hooks/useEns';
 import { useEnsAvatar } from '../../hooks/useEnsAvatar';
+import { useFeatures } from '../FeaturesContext';
 
 type Props = {
   className?: string;
@@ -129,12 +130,13 @@ export const InfoHexSummary = ({
   const { infuraProvider } = useWeb3Context();
   const ensName = useEns(infuraProvider, address);
   const avatarURI = useEnsAvatar(infuraProvider, ensName);
+  const { hasEnsAvatar } = useFeatures();
 
   return (
     <Link href={`/p/${ensName ?? address}`} passHref>
       <StyledInfoHex className={className} hoverEffects>
         <Content>
-          {avatarURI ? (
+          {avatarURI && hasEnsAvatar ? (
             <Avatar src={avatarURI} useDefaultImageTag />
           ) : (
             <JazzIcon address={address} />
