@@ -92,7 +92,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   /* Hook to append new data onto existing list of holders */
   useEffect(() => {
     setHolders((prev: Holder[]) => {
-      if (result.data) {
+      if (result.data?.gitPOAPHolders) {
         return [...prev, ...result.data.gitPOAPHolders.holders];
       }
       return prev;
@@ -101,7 +101,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
 
   /* Hook to set total number of poaps */
   useEffect(() => {
-    if (result.data) {
+    if (result.data?.gitPOAPHolders) {
       setTotal(result.data.gitPOAPHolders.totalHolders);
     }
   }, [result.data]);
