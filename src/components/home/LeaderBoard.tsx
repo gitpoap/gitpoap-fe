@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import Link from 'next/link';
+import { Link } from '../Link';
 import { useQuery, gql } from 'urql';
 import { Header } from '../shared/elements/Header';
 import { BackgroundPanel2 } from '../../colors';
@@ -99,12 +99,14 @@ const LeaderBoardItem = ({ profile, claimsCount }: LeaderBoardItemProps) => {
     <>
       <Item>
         <UserInfo>
-          {avatarURI ? (
-            <AvatarStyled src={avatarURI} useDefaultImageTag />
-          ) : (
-            <JazzIcon address={profile.address} />
-          )}
-          <Link href={`/p/${profile.address}`} passHref>
+          <Link href={`/p/${ensName ?? profile.address}`} passHref>
+            {avatarURI ? (
+              <AvatarStyled src={avatarURI} useDefaultImageTag />
+            ) : (
+              <JazzIcon address={profile.address} />
+            )}
+          </Link>
+          <Link href={`/p/${ensName ?? profile.address}`} passHref>
             <Name>{ensName ?? truncateAddress(profile.address, 6)}</Name>
           </Link>
         </UserInfo>
