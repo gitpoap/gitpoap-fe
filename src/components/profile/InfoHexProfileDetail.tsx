@@ -11,15 +11,12 @@ import {
   TextGray,
   TextLight,
 } from '../../colors';
-import { Twitter } from '../shared/elements/icons/Twitter';
-import { GitHub } from '../shared/elements/icons/GitHub';
 import { InfoHexBase } from '../shared/elements/InfoHexBase';
 import { Avatar as AvatarUI } from '../shared/elements/Avatar';
 import { CollapsibleAddress } from '../shared/elements/CollapsibleAddress';
 import { Project } from '../../types';
 import { ProjectHex } from '../shared/compounds/ProjectHex';
-import { FiGlobe } from 'react-icons/fi';
-import { IconStyles } from '../shared/elements/icons/BaseIcon';
+import { IconStyles, Globe, GitHub, Twitter } from '../shared/elements/icons';
 import { Button } from '../shared/elements/Button';
 import { Share } from '../shared/elements/Share';
 import { useFeatures } from '../FeaturesContext';
@@ -133,26 +130,6 @@ const IconLink = styled.a`
   text-decoration: none;
 `;
 
-const FiGlobeStyled = styled(FiGlobe)`
-  ${IconStyles};
-  stroke: ${TextGray};
-  path {
-    fill: unset;
-  }
-  &:hover {
-    stroke: ${ExtraHover};
-    path {
-      fill: unset;
-    }
-  }
-  &:active {
-    stroke: ${ExtraPressed};
-    path {
-      fill: unset;
-    }
-  }
-`;
-
 const ShareStyled = styled(Share)`
   margin-top: ${rem(20)};
 `;
@@ -196,7 +173,7 @@ export const InfoHexProfileDetail = ({
           )}
           {websiteHref && (
             <IconLink href={websiteHref} target="_blank" rel="noreferrer">
-              <FiGlobeStyled />
+              <Globe />
             </IconLink>
           )}
         </Social>
