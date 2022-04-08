@@ -21,6 +21,7 @@ const moduleExports = {
   images: {
     domains: [
       'assets.poap.xyz',
+      'poap.xyz',
       'github.com',
       'githubusercontent.com',
       'avatars.githubusercontent.com',
