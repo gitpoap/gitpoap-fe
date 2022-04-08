@@ -83,7 +83,7 @@ export const GitPOAPs = ({ address }: Props) => {
   const [mintingGitPOAPs, setMintingGitPOAPs] = useState<UserClaim[]>([]);
   const [total, setTotal] = useState<number>();
   const [searchValue, setSearchValue] = useState('');
-  const perPage = 4;
+  const perPage = 10;
 
   const [result] = useQuery<{
     userPOAPs: {
