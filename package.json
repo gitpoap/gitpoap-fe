@@ -13,7 +13,7 @@
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.0.5",
     "@ensdomains/ens-avatar": "^0.1.1",
-    "@mantine/core": "^4.1.0",
+    "@mantine/core": "^4.1.2",
     "@mantine/dates": "^4.1.2",
     "@mantine/dropzone": "^4.1.2",
     "@mantine/form": "^4.1.2",

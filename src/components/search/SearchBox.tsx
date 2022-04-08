@@ -61,10 +61,12 @@ export type SearchQueryRes = {
 
 const Container = styled.div`
   position: relative;
+  min-width: ${rem(240)};
 `;
 
 const SearchInput = styled(Input)`
-  min-width: ${rem(300)};
+  width: inherit;
+  min-width: inherit;
   .mantine-TextInput-input {
     &::placeholder {
       color: ${TextGray};
@@ -79,7 +81,8 @@ const Results = styled.div`
   flex-direction: column;
   top: ${rem(45)};
   left: 0;
-  min-width: ${rem(300)};
+  width: inherit;
+  min-width: inherit;
   padding: ${rem(6)} ${rem(6)} ${rem(6)} ${rem(6)};
   background-color: ${BackgroundPanel};
   z-index: 1;
