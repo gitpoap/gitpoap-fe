@@ -110,7 +110,7 @@ export const GitPOAP = ({
       </BadgeWrapper>
       <Info>
         <Link href={`/gp/${gitPOAPId}`} passHref>
-          <TitleStyled>{name}</TitleStyled>
+          <TitleStyled>{name.replace('GitPOAP: ', '')}</TitleStyled>
         </Link>
         <OrgName>{orgName}</OrgName>
         {description && <Description>{description}</Description>}

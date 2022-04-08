@@ -164,7 +164,7 @@ export const Header = ({ gitPOAPId }: Props) => {
         <title>{` ${event?.name.replace('GitPOAP: ', '') ?? 'GitPOAP'} | GitPOAP`}</title>
       </Head>
       <Badge size="lg" imgUrl={event?.image_url ?? ''} />
-      <TitleStyled>{event?.name}</TitleStyled>
+      <TitleStyled>{event?.name.replace('GitPOAP: ', '')}</TitleStyled>
       <Description>{event?.description}</Description>
       {organization && (
         <>
