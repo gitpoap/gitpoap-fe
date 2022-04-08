@@ -19,8 +19,8 @@ const StatsQuery = gql`
   query GetAllStats {
     totalContributors
     lastMonthContributors
-    totalGitPOAPs
-    lastMonthGitPOAPs
+    totalClaims
+    lastMonthClaims
     totalRepos
     lastMonthRepos
   }
@@ -66,8 +66,8 @@ export const BannerStats = () => {
   const [result] = useQuery<{
     totalContributors: number;
     lastMonthContributors: number;
-    totalGitPOAPs: number;
-    lastMonthGitPOAPs: number;
+    totalClaims: number;
+    lastMonthClaims: number;
     totalRepos: number;
     lastMonthRepos: number;
   }>({
@@ -86,9 +86,9 @@ export const BannerStats = () => {
       icon: 'people',
     },
     {
-      value: result.data.totalGitPOAPs,
+      value: result.data.totalClaims,
       unit: 'GitPOAPs',
-      rate: result.data.lastMonthGitPOAPs,
+      rate: result.data.lastMonthClaims,
       icon: 'gitPOAP',
     },
     {

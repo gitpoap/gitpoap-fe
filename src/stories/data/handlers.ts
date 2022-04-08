@@ -18,8 +18,8 @@ export const GetAllStatsHandler = graphql.query('GetAllStats', (req, res, ctx) =
     ctx.data({
       totalContributors: stats[0].value,
       lastMonthContributors: stats[0].rate,
-      totalGitPOAPs: stats[1].value,
-      lastMonthGitPOAPs: stats[1].rate,
+      totalClaims: stats[1].value,
+      lastMonthClaims: stats[1].rate,
       totalRepos: stats[2].value,
       lastMonthRepos: stats[2].rate,
     }),
