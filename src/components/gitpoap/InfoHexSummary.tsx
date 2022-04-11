@@ -149,11 +149,11 @@ export const InfoHexSummary = ({
                 <Twitter />
               </Link>
             )}
-            {githubHandle && (
+            {/* {githubHandle && (
               <Link href={`https://github.com/${githubHandle}`} passHref>
                 <GitHub />
               </Link>
-            )}
+            )} */}
             {personalSiteUrl && (
               <Link href={personalSiteUrl} passHref>
                 <Globe />
