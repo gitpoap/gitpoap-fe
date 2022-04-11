@@ -14,7 +14,6 @@ import { SuggestionForm } from '../components/home/SuggestionForm';
 import { BackgroundHexes } from '../components/home/BackgroundHexes';
 import { useFeatures } from '../components/FeaturesContext';
 import { Divider } from '@mantine/core';
-import { BREAKPOINTS } from '../constants';
 
 const HeaderStyled = styled.span`
   position: relative;
@@ -57,7 +56,7 @@ const Home: Page = () => {
       <Grid justify="center" style={{ zIndex: 0, position: 'relative' }}>
         <Background />
         <Grid.Col span={8} style={{ zIndex: 0 }}>
-          <HeaderStyled>{'Mint POAPs to your GitHub contributors'}</HeaderStyled>
+          <HeaderStyled>{'Mint POAPs for open source contributions'}</HeaderStyled>
         </Grid.Col>
         <Grid.Col span={8}>
           <BannerStats />
