@@ -17,7 +17,7 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: ${rem(230)};
+  height: ${rem(190)};
 `;
 
 const Icon = styled.div`
@@ -69,7 +69,7 @@ export const InfoHexMetric = ({ className, rate, value, unit, icon }: Props) => 
         <Icon>{icon}</Icon>
         <Value>{value}</Value>
         <Unit>{unit}</Unit>
-        <Rate>{rate}</Rate>
+        {/* <Rate>{rate}</Rate> */}
       </Content>
     </InfoHexBase>
   );
