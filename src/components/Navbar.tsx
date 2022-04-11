@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { rem } from 'polished';
-import { Group, Space } from '@mantine/core';
-import { TextGray, TextLight } from '../colors';
+import { Burger, Collapse, Stack, Group } from '@mantine/core';
+import { DividerGray1, TextLight, MidnightBlue } from '../colors';
 import { BREAKPOINTS } from '../constants';
 import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
 import { Wallet } from './wallet/Wallet';
@@ -15,16 +15,26 @@ import { NavLink } from './shared/elements/NavLink';
 const Nav = styled(Group)`
   color: ${TextLight} !important;
   z-index: 2;
-`;
 
-const Container = styled(Group)`
-  padding: ${rem(24)} ${rem(45)};
-  @media (max-width: ${BREAKPOINTS.sm}px) {
-    padding: ${rem(24)} ${rem(30)};
+  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+    background: ${MidnightBlue};
   }
 `;
 
-const ContentLeft = styled.a`
+const Container = styled(Group)`
+  width: 100%;
+  padding: ${rem(24)} ${rem(45)};
+
+  @media (max-width: ${rem(BREAKPOINTS.lg)}) {
+    padding: ${rem(24)} ${rem(30)};
+  }
+
+  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+    padding: ${rem(24)} ${rem(30)} 0;
+  }
+`;
+
+const LogoWrapper = styled.a`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -35,23 +45,60 @@ const ContentRight = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`;
 
-const Links = styled.div`
-  font-family: 'PT Mono', monospace;
-  color: ${TextGray} !important;
-  font-size: ${rem(12)};
-  font-weight: 700;
-  letter-spacing: ${rem(2)};
-  text-transform: uppercase;
+  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+    display: none;
+  }
 `;
 
 const ClaimButton = styled(GitHub)`
   margin-right: ${rem(12)};
+
+  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+    margin-right: 0;
+  }
 `;
 
 const SearchBox = styled(SearchBoxUI)`
   margin-right: ${rem(25)};
+  width: ${rem(300)};
+
+  @media (max-width: ${rem(BREAKPOINTS.lg)}) {
+    width: ${rem(240)};
+  }
+
+  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+    width: 100%;
+  }
+`;
+
+const MobileBurgerButton = styled(Burger)`
+  display: none;
+  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+    display: block;
+  }
+`;
+
+const MobileCollapseMenu = styled(Collapse)`
+  display: none;
+  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+    display: block;
+  }
+`;
+
+const CollapseMenuContent = styled(Stack)`
+  width: 100vw;
+  padding: 0 3vw ${rem(16)};
+  border-bottom: ${rem(1)} solid ${DividerGray1};
+  text-align: center;
+
+  > * {
+    padding-bottom: ${rem(18)};
+    margin: 0;
+    &:not(:last-child) {
+      border-bottom: ${rem(1)} solid ${DividerGray1};
+    }
+  }
 `;
 
 export const Navbar = () => {
@@ -62,28 +109,36 @@ export const Navbar = () => {
   const showContributorsPage = false;
   const showDocsLink = false;
 
+  const [opened, setOpened] = useState(false);
+  const title = opened ? 'Close navigation' : 'Open navigation';
+
+  const navItems = (
+    <>
+      <SearchBox />
+      {showPOAPsPage && <NavLink href="/poaps">{'POAPS'}</NavLink>}
+      {showProjectsPage && <NavLink href="/projects">{'Projects'}</NavLink>}
+      {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
+      {showDocsLink && <NavLink href="/docs">{'Docs'}</NavLink>}
+      {isConnected && <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>}
+      <ClaimButton />
+      <Wallet />
+    </>
+  );
+
   return (
-    <Nav grow>
-      <Container direction="row" align="center" position="apart">
+    <Nav>
+      <Container position="apart">
         <Link href="/" passHref>
-          <ContentLeft>
+          <LogoWrapper>
             <GitPOAPLogo />
-          </ContentLeft>
+          </LogoWrapper>
         </Link>
-        <Space />
-        <ContentRight>
-          <SearchBox />
-          <Links>
-            {showPOAPsPage && <NavLink href="/poaps">{'POAPS'}</NavLink>}
-            {showProjectsPage && <NavLink href="/projects">{'Projects'}</NavLink>}
-            {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
-            {showDocsLink && <NavLink href="/docs">{'Docs'}</NavLink>}
-            {isConnected && <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>}
-          </Links>
-          <ClaimButton />
-          <Wallet />
-        </ContentRight>
+        <ContentRight>{navItems}</ContentRight>
+        <MobileBurgerButton opened={opened} onClick={() => setOpened((o) => !o)} title={title} />
       </Container>
+      <MobileCollapseMenu in={opened}>
+        <CollapseMenuContent spacing="lg">{navItems}</CollapseMenuContent>
+      </MobileCollapseMenu>
     </Nav>
   );
 };
