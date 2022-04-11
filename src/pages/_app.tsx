@@ -44,7 +44,11 @@ const TheApp = ({ Component, pageProps }: Props) => {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <Web3ContextProvider>
-        <MantineProvider theme={{ breakpoints: BREAKPOINTS, colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
+        <MantineProvider
+          theme={{ breakpoints: BREAKPOINTS, colorScheme: 'dark' }}
+          withGlobalStyles
+          withNormalizeCSS
+        >
           <NotificationsProvider autoClose={5000}>
             <URQLProvider value={client}>
               <AuthProvider>
