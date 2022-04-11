@@ -1,8 +1,7 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { GoMarkGithub } from 'react-icons/go';
-import { Group, Popover } from '@mantine/core';
 import { useQuery, gql } from 'urql';
 import { useAuthContext } from './AuthContext';
 import { Button } from '../shared/elements/Button';
@@ -13,8 +12,7 @@ import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { GITPOAP_API_URL } from '../../constants';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
-
-const POPOVER_HOVER_TIME = 400;
+import { DisconnectPopover } from '../DisconnectPopover';
 
 const OpenClaimsQuery = gql`
   query openClaims($githubId: Float!) {
@@ -55,47 +53,6 @@ const ConnectedButton = styled(Button)`
   min-width: ${rem(125)};
 `;
 
-type DisconnectPopoverProps = {
-  isOpen: boolean;
-  target: React.ReactNode;
-  onMouseEnter: React.MouseEventHandler;
-  onMouseLeave: React.MouseEventHandler;
-  onClose: () => void;
-  handleLogout: () => void;
-};
-
-const DisconnectPopover = ({
-  isOpen,
-  target,
-  onMouseEnter,
-  onMouseLeave,
-  handleLogout,
-  onClose,
-}: DisconnectPopoverProps) => {
-  return (
-    <Popover
-      opened={isOpen}
-      onClose={onClose}
-      target={target}
-      position="bottom"
-      placement="center"
-      closeOnClickOutside
-      trapFocus={false}
-      spacing={6}
-      withArrow
-      radius="md"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      <Group>
-        <Button variant="outline" onClick={handleLogout} rightIcon={<GoMarkGithub size={16} />}>
-          {'DISCONNECT'}
-        </Button>
-      </Group>
-    </Popover>
-  );
-};
-
 type Props = {
   className?: string;
 };
@@ -120,18 +77,6 @@ export const GitHub = ({ className }: Props) => {
 
   const userClaims = result.data?.userClaims;
 
-  /* Opens & closes the popover on hover with a time delay */
-  useEffect(() => {
-    if (isHovering && !isGHPopoverOpen) {
-      const timeout = setTimeout(() => setIsGHPopoverOpen(true), POPOVER_HOVER_TIME);
-      return () => clearTimeout(timeout);
-    }
-    if (!isHovering && isGHPopoverOpen) {
-      const timeout = setTimeout(() => setIsGHPopoverOpen(false), POPOVER_HOVER_TIME);
-      return () => clearTimeout(timeout);
-    }
-  }, [isHovering, isGHPopoverOpen]);
-
   const renderGitHubButton = useCallback(() => {
     /* Not connected to GitHub */
     if (!isLoggedIntoGitHub) {
@@ -146,10 +91,14 @@ export const GitHub = ({ className }: Props) => {
       return (
         <DisconnectPopover
           isOpen={isGHPopoverOpen}
+          setIsOpen={setIsGHPopoverOpen}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           onClose={() => setIsGHPopoverOpen(false)}
-          handleLogout={handleLogout}
+          handleOnClick={handleLogout}
+          icon={<GoMarkGithub size={16} />}
+          buttonText={'DISCONNECT'}
+          isHovering={isHovering}
           target={
             <Button
               onClick={() => {
@@ -172,10 +121,14 @@ export const GitHub = ({ className }: Props) => {
     return (
       <DisconnectPopover
         isOpen={isGHPopoverOpen}
+        setIsOpen={setIsGHPopoverOpen}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         onClose={() => setIsGHPopoverOpen(false)}
-        handleLogout={handleLogout}
+        handleOnClick={handleLogout}
+        icon={<GoMarkGithub size={16} />}
+        buttonText={'DISCONNECT'}
+        isHovering={isHovering}
         target={
           <ConnectedButton
             onClick={() => {
@@ -190,7 +143,15 @@ export const GitHub = ({ className }: Props) => {
         }
       />
     );
-  }, [isLoggedIntoGitHub, userClaims, handleLogout, authorizeGitHub, isGHPopoverOpen]);
+  }, [
+    isLoggedIntoGitHub,
+    userClaims,
+    handleLogout,
+    authorizeGitHub,
+    isGHPopoverOpen,
+    isHovering,
+    claimedIds.length,
+  ]);
 
   const claimGitPOAP = useCallback(
     async (claimIds: number[]) => {
