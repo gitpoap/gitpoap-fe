@@ -4,9 +4,7 @@ import { rem } from 'polished';
 import Link from 'next/link';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { TextAccent, TextLight, ExtraHover, ExtraPressed } from '../../colors';
-import { Twitter } from '../shared/elements/icons/Twitter';
-import { GitHub } from '../shared/elements/icons/GitHub';
-import { GitPOAP } from '../shared/elements/icons/GitPOAP';
+import { GitHub, Globe, GitPOAP, Twitter } from '../shared/elements/icons';
 import { InfoHexBase, Body } from '../shared/elements/InfoHexBase';
 import { Avatar as AvatarUI } from '../shared/elements/Avatar';
 import { IconCount } from '../shared/elements/IconCount';
@@ -23,6 +21,7 @@ type Props = {
   gitpoapId: string | number;
   twitterHandle?: string;
   githubHandle?: string;
+  personalSiteUrl?: string;
   numGitPOAPs: number;
 };
 
@@ -125,6 +124,7 @@ export const InfoHexSummary = ({
   gitpoapId,
   twitterHandle,
   githubHandle,
+  personalSiteUrl,
   numGitPOAPs,
 }: Props) => {
   const { web3Provider, infuraProvider } = useWeb3Context();
@@ -154,6 +154,11 @@ export const InfoHexSummary = ({
                 <GitHub />
               </Link>
             )} */}
+            {personalSiteUrl && (
+              <Link href={personalSiteUrl} passHref>
+                <Globe />
+              </Link>
+            )}
             {gitpoapId && (
               <IconCount icon={<GitPOAP href={getGitPOAPHref(gitpoapId)} />} count={numGitPOAPs} />
             )}

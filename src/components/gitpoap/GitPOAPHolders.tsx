@@ -142,7 +142,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
               blurb={holder.bio}
               gitpoapId={gitPOAPId}
               twitterHandle={holder.twitterHandle}
-              githubHandle={holder.githubHandle}
+              personalSiteUrl={holder.personalSiteUrl}
               numGitPOAPs={holder.gitPOAPCount}
             />
           ))}
