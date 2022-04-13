@@ -33,16 +33,7 @@ const dimensions: Dimensions = {
 const Hexagon = styled.div`
   transition: 150ms background-color ease-in-out, 150ms opacity ease-in-out;
   clip-path: polygon(5% 25%, 50% 0, 95% 25%, 95% 75%, 50% 100%, 5% 75%);
-  filter: url('data:image/svg+xml,\
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.0">\
-      <defs>\
-        <filter id="round">\
-          <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />\
-          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="blurColorMatrix" />\
-          <feComposite in="SourceGraphic" in2="blurColorMatrix" operator="atop" />\
-        </filter>\
-      </defs>\
-    </svg>#round');
+  filter: url('#hexagonFilter');
 
   &:before {
     content: '';
@@ -122,10 +113,26 @@ const HexInnerBorder = styled(Hexagon)<HexProps>`
 
 export const GitPOAPBadge = ({ className, imgUrl, disabled, size, onClick }: Props) => {
   return (
-    <HexOuterBorder className={className} size={size} disabled={disabled} onClick={onClick}>
-      <HexInnerBorder size={size}>
-        <HexBadge imgUrl={imgUrl} size={size} />
-      </HexInnerBorder>
-    </HexOuterBorder>
+    <>
+      <HexOuterBorder className={className} size={size} disabled={disabled} onClick={onClick}>
+        <HexInnerBorder size={size}>
+          <HexBadge imgUrl={imgUrl} size={size} />
+        </HexInnerBorder>
+      </HexOuterBorder>
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.0" style={{ display: 'none' }}>
+        <defs>
+          <filter id="hexagonFilter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />\
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
+              result="blurColorMatrix"
+            />
+            <feComposite in="SourceGraphic" in2="blurColorMatrix" operator="atop" />\
+          </filter>
+        </defs>
+      </svg>
+    </>
   );
 };
