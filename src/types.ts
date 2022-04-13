@@ -37,18 +37,6 @@ export type GitPOAP = {
   imgSrc: string;
 };
 
-export type GitPOAPGql = {
-  claim: {
-    gitPOAP: {
-      id: number;
-      repo: {
-        name: string;
-      };
-    };
-  };
-  poap: POAP;
-};
-
 export enum ClaimStatus {
   UNCLAIMED = 'UNCLAIMED',
   PENDING = 'PENDING',
@@ -64,12 +52,14 @@ export type Project = {
   };
 };
 
+export type POAPEvent = {
+  id?: number;
+  name: string;
+  description?: string;
+  image_url: string;
+};
+
 export type POAP = {
-  event: {
-    id?: number;
-    name: string;
-    description?: string;
-    image_url: string;
-  };
+  event: POAPEvent;
   tokenId: string;
 };

@@ -14,7 +14,7 @@ type Props = {
   orgName: string;
   description?: string;
   className?: string;
-  poapTokenId?: string;
+  poapTokenId?: string | null;
   onClick?: () => void;
 };
 
