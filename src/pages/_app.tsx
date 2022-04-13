@@ -23,6 +23,20 @@ Sentry.init({
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
+  beforeSend(event, hint) {
+    const error = hint?.originalException;
+
+    if (error) {
+      if (event.user?.ip_address) {
+        delete event.user.ip_address;
+      }
+      if (event.user?.email) {
+        delete event.user.email;
+      }
+    }
+
+    return event;
+  },
 });
 
 export type Page<P = unknown> = NextPage<P> & {
