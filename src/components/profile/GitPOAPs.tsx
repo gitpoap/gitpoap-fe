@@ -41,9 +41,9 @@ export type GitPOAPGql = {
       repo: {
         name: string;
       };
-      status: 'UNCLAIMED' | 'PENDING' | 'MINTING' | 'CLAIMED';
-      poapTokenId?: string | null;
     };
+    status: 'UNCLAIMED' | 'PENDING' | 'MINTING' | 'CLAIMED';
+    poapTokenId?: string | null;
   };
   event: POAPEvent;
 };
@@ -185,15 +185,12 @@ export const GitPOAPs = ({ address }: Props) => {
             .map((gitPOAPItem) => {
               return (
                 <GitPOAPBadge
-                  key={
-                    gitPOAPItem.claim.gitPOAP.poapTokenId ??
-                    `${gitPOAPItem.claim.gitPOAP.id}-minting`
-                  }
+                  key={gitPOAPItem.claim.poapTokenId ?? `${gitPOAPItem.claim.gitPOAP.id}-minting`}
                   gitPOAPId={gitPOAPItem.claim.gitPOAP.id}
                   orgName={gitPOAPItem.claim.gitPOAP.repo.name}
                   name={gitPOAPItem.event.name}
                   imgSrc={gitPOAPItem.event.image_url}
-                  poapTokenId={gitPOAPItem.claim.gitPOAP.poapTokenId}
+                  poapTokenId={gitPOAPItem.claim.poapTokenId}
                   description={gitPOAPItem.event.description}
                 />
               );
