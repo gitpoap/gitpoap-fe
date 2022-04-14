@@ -102,7 +102,7 @@ const CollapseMenuContent = styled(Stack)`
 `;
 
 export const Navbar = () => {
-  const { isConnected, address, ensName } = useWeb3Context();
+  const { connectionStatus, address, ensName } = useWeb3Context();
 
   const showPOAPsPage = false;
   const showProjectsPage = false;
@@ -119,7 +119,9 @@ export const Navbar = () => {
       {showProjectsPage && <NavLink href="/projects">{'Projects'}</NavLink>}
       {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
       {showDocsLink && <NavLink href="/docs">{'Docs'}</NavLink>}
-      {isConnected && <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>}
+      {connectionStatus === 'connected' && (
+        <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
+      )}
       <ClaimButton />
       <Wallet />
     </>
