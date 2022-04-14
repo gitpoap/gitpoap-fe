@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
-import { JsonRpcProvider } from '@ethersproject/providers';
+import { InfuraProvider } from '@ethersproject/providers';
 import { AvatarResolver } from '@ensdomains/ens-avatar';
 
-export const useEnsAvatar = (web3Provider: JsonRpcProvider | null, ensName: string | null) => {
+export const useEnsAvatar = (infuraProvider: InfuraProvider | null, ensName: string | null) => {
   const [avatarURI, setAvatarURI] = useState<string | null>(null);
+  const [ensForAvatarUri, setEnsForAvatarUri] = useState<string | null>(null);
 
   /* Hook to fetch the avatar URI record based on a ENS name */
   useEffect(() => {
     const getAvatar = async () => {
       try {
-        if (web3Provider && ensName) {
-          const avt = new AvatarResolver(web3Provider);
+        if (infuraProvider && ensName) {
+          const avt = new AvatarResolver(infuraProvider);
           const resolvedAvatarURI = await avt.getAvatar(ensName, {});
 
           if (resolvedAvatarURI) {
@@ -18,16 +19,18 @@ export const useEnsAvatar = (web3Provider: JsonRpcProvider | null, ensName: stri
           } else {
             setAvatarURI(null);
           }
+          setEnsForAvatarUri(ensName);
         }
       } catch (err) {
         console.error(err);
       }
     };
 
-    if (ensName && web3Provider) {
-      getAvatar();
+    if (ensName && infuraProvider && ensForAvatarUri !== ensName) {
+      // TODO: enable eventually
+      // getAvatar();
     }
-  }, [ensName, web3Provider, avatarURI]);
+  }, [ensName, infuraProvider, avatarURI, ensForAvatarUri]);
 
   return avatarURI;
 };
