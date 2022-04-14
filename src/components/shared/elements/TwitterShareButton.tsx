@@ -56,9 +56,8 @@ interface Props {
 export const TwitterShareButton = ({ claimedCount }: Props) => {
   const { address, ensName } = useWeb3Context();
   const queryParams = new URLSearchParams({
-    hashtags: 'poap,gitpoap',
-    text: getTweetText(claimedCount),
-    url: `\nhttps://gitpoap.io/p/${ensName ?? address}\n`,
+    text:
+      getTweetText(claimedCount) + `\nhttps://gitpoap.io/p/${ensName ?? address}\n#poap #gitpoap`,
     via: 'gitpoap',
   }).toString();
 
