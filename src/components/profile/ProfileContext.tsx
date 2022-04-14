@@ -140,6 +140,7 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
         }
         setIsSaveSuccessful(true);
         setIsSaveLoading(false);
+        setIsUpdateModalOpen(false);
       } catch (err) {
         console.warn(err);
         showNotification(
