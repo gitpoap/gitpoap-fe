@@ -66,12 +66,12 @@ type Props = {
 
 export const ProfileProvider = ({ children, address, ensName }: Props) => {
   const { tokens } = useAuthContext();
-  const { web3Provider, infuraProvider, address: connectedWalletAddress } = useWeb3Context();
+  const { infuraProvider, web3Provider, address: connectedWalletAddress } = useWeb3Context();
   const signer = web3Provider?.getSigner();
   const [profileData, setProfileData] = useState<UserPOAPsQueryRes['profileData']>();
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
-  const avatarURI = useEnsAvatar(web3Provider ?? infuraProvider, ensName);
+  const avatarURI = useEnsAvatar(infuraProvider, ensName);
   const [isSaveSuccessful, setIsSaveSuccessful] = useState<boolean>(false);
   const [result, refetch] = useQuery<UserPOAPsQueryRes>({
     query: ProfileQuery,
