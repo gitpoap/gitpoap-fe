@@ -51,7 +51,7 @@ const Profile: Page = () => {
       if (isAddress(nameOrAddress)) {
         const profileAddress = nameOrAddress;
         setProfileAddress(profileAddress);
-        const ensName = await (web3Provider ?? infuraProvider)?.lookupAddress(profileAddress);
+        const ensName = await infuraProvider?.lookupAddress(profileAddress);
 
         if (ensName) {
           setEnsName(ensName);
@@ -60,7 +60,7 @@ const Profile: Page = () => {
         }
       } else if (nameOrAddress.includes('.eth')) {
         const name = nameOrAddress;
-        const profileAddress = await (web3Provider ?? infuraProvider)?.resolveName(name);
+        const profileAddress = await infuraProvider?.resolveName(name);
 
         if (profileAddress) {
           setProfileAddress(profileAddress);
