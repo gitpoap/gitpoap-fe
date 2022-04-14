@@ -48,7 +48,7 @@ type onChainProvider = {
   web3Provider: JsonRpcProvider | null;
   infuraProvider: InfuraProvider | null;
   web3Modal: Web3Modal;
-  chainId: number;
+  chainId: number | null;
 };
 
 type Web3ContextState = {
@@ -82,9 +82,9 @@ export const Web3ContextProvider = (props: Props) => {
   const [address, setAddress] = useState('');
   const [web3Provider, setWeb3Provider] = useState<JsonRpcProvider | null>(null);
   const [infuraProvider, setInfuraProvider] = useState<InfuraProvider | null>(null);
-  const [chainId, setChainId] = useState(NETWORKS[1].chainId);
+  const [chainId, setChainId] = useState<number | null>(null);
   const [ensName, setEnsName] = useState<string | null>(null);
-  const avatarURI = useEnsAvatar(web3Provider ?? infuraProvider, ensName);
+  const avatarURI = useEnsAvatar(infuraProvider, ensName);
 
   const disconnect = useCallback(async () => {
     web3Modal.clearCachedProvider();
@@ -95,36 +95,45 @@ export const Web3ContextProvider = (props: Props) => {
     setEnsName(null);
   }, [web3Modal]);
 
-  const initialize = useCallback(async (provider: any): Promise<Web3Provider> => {
-    const web3Provider = new Web3Provider(provider, 'any');
-    const connectedAddress = await web3Provider?.getSigner().getAddress();
+  const initialize = useCallback(
+    async (provider: any): Promise<Web3Provider> => {
+      const web3Provider = new Web3Provider(provider, 'any');
+      const connectedAddress = await web3Provider?.getSigner().getAddress();
+      const chainId = (await web3Provider?.getNetwork()).chainId;
 
-    const ensName = await web3Provider?.lookupAddress(connectedAddress);
-    if (ensName) {
-      setEnsName(ensName);
-    } else {
-      setEnsName(null);
-    }
+      const ensName = await infuraProvider?.lookupAddress(connectedAddress);
+      if (ensName) {
+        setEnsName(ensName);
+      } else {
+        setEnsName(null);
+      }
 
-    setAddress(connectedAddress);
-    setWeb3Provider(web3Provider);
+      setAddress(connectedAddress);
+      setWeb3Provider(web3Provider);
+      setChainId(chainId);
       setConnectionStatus('connected');
 
-    return web3Provider;
-  }, []);
+      return web3Provider;
+    },
+    [infuraProvider],
+  );
 
   const addListeners = useCallback(
     async (provider: JsonRpcProvider) => {
-      provider.on('accountsChanged', async () => {
-        const provider = await web3Modal.connect();
+      provider.on('accountsChanged', async (accounts: string[]) => {
+        if (accounts.length > 0 && address !== accounts[0]) {
+          const provider = await web3Modal.connect();
+          initialize(provider);
+        } else {
+          disconnect();
+        }
+      });
+
+      provider.on('chainChanged', (chainId: number) => {
         initialize(provider);
       });
 
-      provider.on('chainChanged', (chainId) => {
-        setChainId(chainId);
-      });
-
-      provider.on('disconnect', () => {
+      provider.on('disconnect', (error: { code: number; message: string }) => {
         disconnect();
       });
 
@@ -142,8 +151,8 @@ export const Web3ContextProvider = (props: Props) => {
 
     try {
       const provider = await web3Modal.connect();
-      const web3Provider = initialize(provider);
-      addListeners(provider);
+      const web3Provider = await initialize(provider);
+      await addListeners(provider);
 
       return web3Provider;
     } catch (err) {
