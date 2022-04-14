@@ -13,6 +13,7 @@ import { Text } from '../shared/elements/Text';
 import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { useFeatures } from '../../components/FeaturesContext';
 import { Title } from '../shared/elements/Title';
+import { ClaimModalContext } from '../ClaimModal/ClaimModalContext';
 
 type Props = {
   gitPOAPId: number;
@@ -206,11 +207,16 @@ export const Header = ({ gitPOAPId }: Props) => {
           </Links>
         </>
       )}
-      {features.hasCheckIfImEligible && (
-        <CheckEligibilityButton onClick={() => {}} leftIcon={<GithubIcon size={20} />}>
-          {"Check If I'm Eligible"}
-        </CheckEligibilityButton>
-      )}
+      <ClaimModalContext.Consumer>
+        {({ setIsOpen }) => (
+          <CheckEligibilityButton
+            onClick={() => setIsOpen(true)}
+            leftIcon={<GithubIcon size={20} />}
+          >
+            {"Check If I'm Eligible"}
+          </CheckEligibilityButton>
+        )}
+      </ClaimModalContext.Consumer>
     </Wrapper>
   );
 };

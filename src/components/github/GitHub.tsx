@@ -13,6 +13,7 @@ import { GITPOAP_API_URL } from '../../constants';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { DisconnectPopover } from '../DisconnectPopover';
+import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
 
 const OpenClaimsQuery = gql`
   query openClaims($githubId: Float!) {
@@ -62,7 +63,7 @@ export const GitHub = ({ className }: Props) => {
   const { tokens, authState, handleLogout, authorizeGitHub, isLoggedIntoGitHub, user } =
     useAuthContext();
   const signer = web3Provider?.getSigner();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { isOpen: isModalOpen, setIsOpen: setIsModalOpen } = useClaimModalContext();
   const [isGHPopoverOpen, setIsGHPopoverOpen] = useState<boolean>(false);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [claimedIds, setClaimedIds] = useState<number[]>([]);
