@@ -44,7 +44,7 @@ type onChainProvider = {
   address: string;
   ensName: string | null;
   avatarURI: string | null;
-  isConnected: boolean;
+  connectionStatus: ConnectionStatus;
   web3Provider: JsonRpcProvider | null;
   infuraProvider: InfuraProvider | null;
   web3Modal: Web3Modal;
@@ -54,6 +54,8 @@ type onChainProvider = {
 type Web3ContextState = {
   onChainProvider: onChainProvider;
 } | null;
+
+type ConnectionStatus = 'connecting' | 'connected' | 'disconnecting' | 'disconnected';
 
 const Web3Context = createContext<Web3ContextState>(null);
 
@@ -75,7 +77,7 @@ export const useWeb3Context = () => {
 };
 
 export const Web3ContextProvider = (props: Props) => {
-  const [isConnected, setIsConnected] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('disconnected');
   const [web3Modal, _] = useState<Web3Modal>(initWeb3Modal);
   const [address, setAddress] = useState('');
   const [web3Provider, setWeb3Provider] = useState<JsonRpcProvider | null>(null);
@@ -87,7 +89,7 @@ export const Web3ContextProvider = (props: Props) => {
   const disconnect = useCallback(async () => {
     web3Modal.clearCachedProvider();
 
-    setIsConnected(false);
+    setConnectionStatus('disconnected');
     setAddress('');
     setWeb3Provider(null);
     setEnsName(null);
@@ -106,7 +108,7 @@ export const Web3ContextProvider = (props: Props) => {
 
     setAddress(connectedAddress);
     setWeb3Provider(web3Provider);
-    setIsConnected(true);
+      setConnectionStatus('connected');
 
     return web3Provider;
   }, []);
@@ -125,11 +127,19 @@ export const Web3ContextProvider = (props: Props) => {
       provider.on('disconnect', () => {
         disconnect();
       });
+
+      provider.on('connect', (info: { chainId: number }) => {
+        if (connectionStatus === 'disconnected') {
+          initialize(provider);
+        }
+      });
     },
-    [disconnect, initialize, web3Modal],
+    [disconnect, web3Modal, connectionStatus, address, initialize],
   );
 
   const connect = useCallback(async () => {
+    setConnectionStatus('connecting');
+
     try {
       const provider = await web3Modal.connect();
       const web3Provider = initialize(provider);
@@ -154,10 +164,12 @@ export const Web3ContextProvider = (props: Props) => {
     const isCached = hasCachedProvider();
 
     /* Attempt to connect to cached provider */
-    if (!isConnected && isCached) {
+    if (connectionStatus === 'disconnected' && isCached && infuraProvider) {
       connect();
     }
+  }, [hasCachedProvider, connectionStatus, connect, infuraProvider]);
 
+  useEffect(() => {
     /* Always initialize a backup provider for when no wallet is connected */
     if (!infuraProvider) {
       const provider = new InfuraProvider(NETWORKS[1].chainId, {
@@ -165,14 +177,14 @@ export const Web3ContextProvider = (props: Props) => {
       });
       setInfuraProvider(provider);
     }
-  }, [hasCachedProvider, isConnected, connect, infuraProvider]);
+  }, [infuraProvider]);
 
   const onChainProvider = useMemo(
     () => ({
       connect,
       disconnect,
       hasCachedProvider,
-      isConnected,
+      connectionStatus,
       address,
       ensName,
       avatarURI,
@@ -185,7 +197,7 @@ export const Web3ContextProvider = (props: Props) => {
       connect,
       disconnect,
       hasCachedProvider,
-      isConnected,
+      connectionStatus,
       address,
       ensName,
       avatarURI,

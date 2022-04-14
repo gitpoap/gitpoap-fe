@@ -16,22 +16,22 @@ const Content = styled.div`
 `;
 
 export const Wallet = () => {
-  const { isConnected, address, connect, disconnect, ensName } = useWeb3Context();
+  const { connectionStatus, address, connect, disconnect, ensName } = useWeb3Context();
   const [isHovering, setIsHovering] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
+  /* Ensure the popover is closed when the button switches to a connected state */
   useEffect(() => {
-    if (isConnected) {
+    if (connectionStatus === 'connected') {
       setIsOpen(false);
       setIsHovering(false);
     }
-  }, [isConnected]);
+  }, [connectionStatus]);
 
   return (
     <Content>
-      {!isConnected && <Button onClick={() => connect()}>{'Connect Wallet'}</Button>}
-      {isConnected && (
+      {connectionStatus === 'connected' ? (
         <DisconnectPopover
           isOpen={isOpen}
           setIsOpen={setIsOpen}
@@ -52,6 +52,8 @@ export const Wallet = () => {
             />
           }
         />
+      ) : (
+        <Button onClick={() => connect()}>{'Connect Wallet'}</Button>
       )}
     </Content>
   );
