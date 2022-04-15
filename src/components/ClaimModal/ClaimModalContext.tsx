@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 
 interface ClaimModalState {
   isOpen: boolean;
@@ -18,11 +18,15 @@ interface Props {
 }
 
 export default function ClaimModalContextProvider({ children }: Props) {
-  const setIsOpen = useCallback((isOpen: boolean) => {
-    setState((prev) => ({ ...prev, isOpen }));
-  }, []);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const [state, setState] = useState<ClaimModalState>({ isOpen: false, setIsOpen });
+  const value = useMemo(
+    () => ({
+      isOpen,
+      setIsOpen,
+    }),
+    [isOpen, setIsOpen],
+  );
 
-  return <ClaimModalContext.Provider value={state}>{children}</ClaimModalContext.Provider>;
+  return <ClaimModalContext.Provider value={value}>{children}</ClaimModalContext.Provider>;
 }
