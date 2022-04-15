@@ -65,18 +65,18 @@ const TheApp = ({ Component, pageProps }: Props) => {
           withNormalizeCSS
         >
           <NotificationsProvider autoClose={5000}>
-            <ClaimModalContextProvider>
-              <URQLProvider value={client}>
-                <AuthProvider>
-                  <FeaturesProvider>
+            <URQLProvider value={client}>
+              <AuthProvider>
+                <FeaturesProvider>
+                  <ClaimModalContextProvider>
                     <GlobalStyles />
                     <Layout>
                       <Component {...pageProps} />
                     </Layout>
-                  </FeaturesProvider>
-                </AuthProvider>
-              </URQLProvider>
-            </ClaimModalContextProvider>
+                  </ClaimModalContextProvider>
+                </FeaturesProvider>
+              </AuthProvider>
+            </URQLProvider>
           </NotificationsProvider>
         </MantineProvider>
       </Web3ContextProvider>
