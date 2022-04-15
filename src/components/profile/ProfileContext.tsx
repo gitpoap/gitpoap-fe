@@ -15,6 +15,7 @@ import { useAuthContext } from '../github/AuthContext';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { useEnsAvatar } from '../../hooks/useEnsAvatar';
+import { MetaMaskError, MetaMaskErrors } from '../../types';
 
 const ProfileQuery = gql`
   query profile($address: String!) {
@@ -141,13 +142,15 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
         setIsSaveSuccessful(true);
         setIsSaveLoading(false);
       } catch (err) {
-        console.warn(err);
-        showNotification(
-          NotificationFactory.createError(
-            'Error - Request Failed',
-            'Oops, something went wrong! 🤥',
-          ),
-        );
+        if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
+          console.warn(err);
+          showNotification(
+            NotificationFactory.createError(
+              'Error - Request to update profile failed',
+              'Oops, something went wrong! 🤥',
+            ),
+          );
+        }
         setIsSaveLoading(false);
         setIsSaveSuccessful(false);
       }

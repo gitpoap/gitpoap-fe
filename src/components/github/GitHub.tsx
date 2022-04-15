@@ -7,7 +7,7 @@ import { useAuthContext } from './AuthContext';
 import { Button } from '../shared/elements/Button';
 import { ClaimCircle } from '../shared/elements/ClaimCircle';
 import { ClaimModal } from '../ClaimModal';
-import { UserClaim } from '../../types';
+import { MetaMaskError, MetaMaskErrors, UserClaim } from '../../types';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { GITPOAP_API_URL } from '../../constants';
 import { showNotification } from '@mantine/notifications';
@@ -197,13 +197,15 @@ export const GitHub = ({ className }: Props) => {
           setLoadingClaimIds([]);
         }
       } catch (err) {
-        console.warn(err);
-        showNotification(
-          NotificationFactory.createError(
-            'Error - Request Failed',
-            'Oops, something went wrong! 🤥',
-          ),
-        );
+        if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
+          console.warn(err);
+          showNotification(
+            NotificationFactory.createError(
+              'Error - Request to claim GitPOAP failed',
+              'Oops, something went wrong! 🤥',
+            ),
+          );
+        }
         setLoadingClaimIds([]);
       }
     },

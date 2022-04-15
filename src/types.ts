@@ -63,3 +63,13 @@ export type POAP = {
   event: POAPEvent;
   tokenId: string;
 };
+
+export enum MetaMaskErrors {
+  UserRejectedRequest = 4001,
+}
+
+export type MetaMaskError = {
+  code: MetaMaskErrors;
+  message: string;
+  stack: string;
+};

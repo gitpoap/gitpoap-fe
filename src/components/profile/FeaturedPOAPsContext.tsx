@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useQuery, useClient, gql } from 'urql';
-import { POAP } from '../../types';
+import { MetaMaskError, POAP, MetaMaskErrors } from '../../types';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
@@ -211,13 +211,15 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
           return newState;
         });
       } catch (err) {
-        console.error(err);
-        showNotification(
-          NotificationFactory.createError(
-            'Error - Request Failed',
-            'Oops, something went wrong! 🤥',
-          ),
-        );
+        if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
+          console.error(err);
+          showNotification(
+            NotificationFactory.createError(
+              'Error - Request to add a featured POAP failed',
+              'Oops, something went wrong! 🤥',
+            ),
+          );
+        }
         setLoadingIds((prevState) => {
           const { [poapTokenId]: _, ...newState } = prevState;
           return newState;
@@ -264,13 +266,15 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
           return newState;
         });
       } catch (err) {
-        console.error(err);
-        showNotification(
-          NotificationFactory.createError(
-            'Error - Request Failed',
-            'Oops, something went wrong! 🤥',
-          ),
-        );
+        if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
+          console.error(err);
+          showNotification(
+            NotificationFactory.createError(
+              'Error - Request to remove a featured POAP failed',
+              'Oops, something went wrong! 🤥',
+            ),
+          );
+        }
         setLoadingIds((prevState) => {
           const { [poapTokenId]: _, ...newState } = prevState;
           return newState;
