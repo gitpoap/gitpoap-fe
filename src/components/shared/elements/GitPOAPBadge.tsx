@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 
 import { TextLight, MidnightBlue, ExtraHover, ExtraPressed, TextGray } from '../../../colors';
+import { HexagonPath } from './HexagonPath';
 
 type Props = {
   className?: string;
@@ -32,16 +33,13 @@ const dimensions: Dimensions = {
 
 const Hexagon = styled.div`
   transition: 150ms background-color ease-in-out, 150ms opacity ease-in-out;
-  clip-path: polygon(5% 25%, 50% 0, 95% 25%, 95% 75%, 50% 100%, 5% 75%);
-  filter: url('#hexagonFilter');
+  clip-path: url('#hexagonPath');
 
-  &:before {
-    content: '';
-    display: block;
-    padding-top: 100%;
-    clip-path: inherit;
-    transition: inherit;
-  }
+  // Fixes filter path
+  overflow: hidden;
+
+  // forces webkit browser visual refresh
+  transform: translateZ(0);
 `;
 
 const HexBadge = styled(Hexagon)<Props>`
@@ -54,10 +52,7 @@ const HexBadge = styled(Hexagon)<Props>`
   height: calc(var(--s) * 1);
   display: inline-block;
   font-size: initial; /* we reset the font-size if we want to add some content */
-
-  &:before {
-    background: no-repeat center / 100% url('${(props) => props.imgUrl}');
-  }
+  background: no-repeat center / 100% url('${(props) => props.imgUrl}');
 `;
 
 const HexOuterBorder = styled(Hexagon)<HexProps & { disabled?: boolean }>`
@@ -66,32 +61,23 @@ const HexOuterBorder = styled(Hexagon)<HexProps & { disabled?: boolean }>`
   width: var(--s);
   height: calc(var(--s) * 1);
   cursor: pointer;
-
-  &:before {
-    background-color: ${TextLight};
-  }
+  background-color: ${TextLight};
 
   &:hover:not([disabled]) {
-    &:before {
-      background-color: ${ExtraHover};
-    }
+    background-color: ${ExtraHover};
     ${HexBadge} {
       opacity: 0.7;
     }
   }
   &:active:not([disabled]) {
-    &:before {
-      background-color: ${ExtraPressed};
-    }
+    background-color: ${ExtraPressed};
     ${HexBadge} {
       opacity: 0.5;
     }
   }
   &[disabled] {
-    &:before {
-      cursor: not-allowed;
-      background-color: ${TextGray};
-    }
+    cursor: not-allowed;
+    background-color: ${TextGray};
     ${HexBadge}:before {
       background: ${MidnightBlue};
     }
@@ -106,17 +92,18 @@ const HexInnerBorder = styled(Hexagon)<HexProps>`
 
   width: var(--s);
   height: calc(var(--s) * 1);
-  &:before {
-    background: ${MidnightBlue};
-  }
+  background: ${MidnightBlue};
 `;
 
 export const GitPOAPBadge = ({ className, imgUrl, disabled, size, onClick }: Props) => {
   return (
-    <HexOuterBorder className={className} size={size} disabled={disabled} onClick={onClick}>
-      <HexInnerBorder size={size}>
-        <HexBadge imgUrl={imgUrl} size={size} />
-      </HexInnerBorder>
-    </HexOuterBorder>
+    <>
+      <HexOuterBorder className={className} size={size} disabled={disabled} onClick={onClick}>
+        <HexInnerBorder size={size}>
+          <HexBadge imgUrl={imgUrl} size={size} />
+        </HexInnerBorder>
+      </HexOuterBorder>
+      <HexagonPath />
+    </>
   );
 };
