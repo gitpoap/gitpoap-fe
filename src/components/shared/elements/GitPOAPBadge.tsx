@@ -113,26 +113,10 @@ const HexInnerBorder = styled(Hexagon)<HexProps>`
 
 export const GitPOAPBadge = ({ className, imgUrl, disabled, size, onClick }: Props) => {
   return (
-    <>
-      <HexOuterBorder className={className} size={size} disabled={disabled} onClick={onClick}>
-        <HexInnerBorder size={size}>
-          <HexBadge imgUrl={imgUrl} size={size} />
-        </HexInnerBorder>
-      </HexOuterBorder>
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.0" style={{ display: 'none' }}>
-        <defs>
-          <filter id="hexagonFilter">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />\
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
-              result="blurColorMatrix"
-            />
-            <feComposite in="SourceGraphic" in2="blurColorMatrix" operator="atop" />\
-          </filter>
-        </defs>
-      </svg>
-    </>
+    <HexOuterBorder className={className} size={size} disabled={disabled} onClick={onClick}>
+      <HexInnerBorder size={size}>
+        <HexBadge imgUrl={imgUrl} size={size} />
+      </HexInnerBorder>
+    </HexOuterBorder>
   );
 };
