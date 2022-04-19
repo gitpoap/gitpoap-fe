@@ -33,7 +33,6 @@ const dimensions: Dimensions = {
 const Hexagon = styled.div`
   transition: 150ms background-color ease-in-out, 150ms opacity ease-in-out;
   clip-path: polygon(5% 25%, 50% 0, 95% 25%, 95% 75%, 50% 100%, 5% 75%);
-  filter: url('#hexagonFilter');
 
   &:before {
     content: '';
