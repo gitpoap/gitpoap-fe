@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button as ButtonUI, SharedButtonProps, ButtonProps } from '@mantine/core';
+import { Button as ButtonUI, SharedButtonProps } from '@mantine/core';
 import { rem } from 'polished';
 import { PrimaryBlue, TextGray, ExtraHover, ExtraPressed, DarkGray } from '../../../colors';
 
@@ -13,7 +13,7 @@ type Props = SharedButtonProps & {
   variant?: 'filled' | 'outline';
 };
 
-const StyledButton = styled(ButtonUI)<ButtonProps<'button'>>`
+const StyledButton = styled(ButtonUI)<React.ComponentProps<typeof Button>>`
   display: inline-flex;
   flex-direction: row;
   justify-content: center;
