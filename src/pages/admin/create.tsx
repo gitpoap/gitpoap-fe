@@ -175,7 +175,7 @@ type FormValues = {
 const CreateGitPOAP: NextPage = () => {
   const [isSuccessful, setIsSuccessful] = useState<boolean>();
   const [isError, setIsError] = useState<boolean>();
-  const { tokens } = useAuthContext();
+  const { tokens, isLoggedIntoGitHub } = useAuthContext();
   const theme = useMantineTheme();
   /* Form Seed Values */
   const [repoUrlSeed, setRepoUrlSeed] = useState<string>('');
@@ -462,6 +462,7 @@ const CreateGitPOAP: NextPage = () => {
           </Box>
 
           <Button
+            disabled={!isLoggedIntoGitHub}
             onClick={onSubmit((values) => submitCreateGitPOAP(values))}
             style={{ marginTop: rem(20), marginBottom: rem(20) }}
           >
@@ -469,6 +470,7 @@ const CreateGitPOAP: NextPage = () => {
           </Button>
           {isSuccessful && <Text>{'Successful Creation'}</Text>}
           {isError && <Text>{'Failed to create - did you forget to select an image? '}</Text>}
+          {!isLoggedIntoGitHub && <Text>{'Please connect your GitHub account'}</Text>}
         </Grid.Col>
       </Grid>
     </div>
