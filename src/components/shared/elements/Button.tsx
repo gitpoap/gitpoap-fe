@@ -88,5 +88,9 @@ const StyledButton = styled(ButtonUI)<React.ComponentProps<typeof Button>>`
 `;
 
 export const Button = (props: Props) => {
-  return <StyledButton {...props}>{props.children}</StyledButton>;
+  return (
+    <StyledButton {...props} disabled={props.disabled}>
+      {props.children}
+    </StyledButton>
+  );
 };
