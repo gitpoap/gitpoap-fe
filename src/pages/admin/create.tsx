@@ -8,7 +8,7 @@ import { DateTime } from 'luxon';
 import { useForm, zodResolver } from '@mantine/form';
 import { Group, useMantineTheme, MantineTheme, Checkbox } from '@mantine/core';
 import { Upload, Photo, X, Icon as TablerIcon } from 'tabler-icons-react';
-import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Dropzone as DropzoneUI, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { DatePicker } from '@mantine/dates';
 import { Input } from '../../components/shared/elements/Input';
 import { Button } from '../../components/shared/elements/Button';
@@ -66,6 +66,10 @@ const FormRight = styled.div`
   > * {
     margin-bottom: ${rem(25)};
   }
+`;
+
+const Dropzone = styled(DropzoneUI)`
+  background-color: ${BackgroundPanel};
 `;
 
 const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
