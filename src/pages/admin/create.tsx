@@ -12,12 +12,13 @@ import { Dropzone as DropzoneUI, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantin
 import { DatePicker } from '@mantine/dates';
 import { Input } from '../../components/shared/elements/Input';
 import { Button } from '../../components/shared/elements/Button';
-import { Box, Grid, NumberInput } from '@mantine/core';
+import { Box, Grid } from '@mantine/core';
 import { Header } from '../../components/shared/elements/Header';
+import { NumberInput } from '../../components/shared/elements/NumberInput';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { Text } from '../../components/shared/elements/Text';
-import { BackgroundPanel, ExtraRed } from '../../colors';
+import { BackgroundPanel, BackgroundPanel2, ExtraRed } from '../../colors';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { TextArea } from '../../components/shared/elements/TextArea';
@@ -69,8 +70,11 @@ const FormRight = styled.div`
 
 const Dropzone = styled(DropzoneUI)`
   background-color: ${BackgroundPanel};
-`;
 
+  &:hover {
+    background-color: ${BackgroundPanel2};
+  }
+`;
 const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
   return status.accepted
     ? theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]
@@ -340,12 +344,14 @@ const CreateGitPOAP: NextPage = () => {
                 <Grid.Col span={12}>
                   <Group direction="column">
                     <FormInput
+                      required
                       label={'Repo URL Seed'}
                       value={repoUrlSeed}
                       onChange={(e) => setRepoUrlSeed(e.target.value)}
                       style={{ marginBottom: rem(20) }}
                     />
                     <FormTextArea
+                      required
                       label={'Project Name Seed'}
                       value={projectNameSeed}
                       onChange={(e) => setProjectNameSeed(e.target.value)}
@@ -367,8 +373,7 @@ const CreateGitPOAP: NextPage = () => {
                 <Grid.Col sm={12} md={7} lg={5}>
                   <FormLeft>
                     <FormNumberInput
-                      required
-                      label={'GitHub Repo ID'}
+                      label={'GitHub Repo ID (automatically set)'}
                       name={'githubRepoId'}
                       hideControls
                       disabled
@@ -394,8 +399,7 @@ const CreateGitPOAP: NextPage = () => {
 
                     {/* -------- URLs -------- */}
                     <FormInput
-                      required
-                      label={'Event URL'}
+                      label={'Event URL (automatically set)'}
                       name={'eventUrl'}
                       disabled
                       {...getInputProps('eventUrl')}
@@ -403,7 +407,7 @@ const CreateGitPOAP: NextPage = () => {
 
                     <FormInput
                       required
-                      label={'Email'}
+                      label={'Email (automatically set)'}
                       name={'email'}
                       disabled
                       placeholder={'issuer@gitpoap.io'}
@@ -470,7 +474,6 @@ const CreateGitPOAP: NextPage = () => {
           </Box>
 
           <Button
-            disabled={!isLoggedIntoGitHub}
             onClick={onSubmit((values) => submitCreateGitPOAP(values))}
             style={{ marginTop: rem(20), marginBottom: rem(20) }}
           >
