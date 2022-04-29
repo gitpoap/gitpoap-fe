@@ -385,12 +385,16 @@ const CreateGitPOAP: NextPage = () => {
             </CreationForm>
           </Box>
 
-          <Button
-            onClick={onSubmit((values) => submitCreateGitPOAP(values))}
-            style={{ marginTop: rem(20), marginBottom: rem(20) }}
-          >
-            {'Submit'}
-          </Button>
+          {/* Prevent SSR for the button due to disabled styling issue */}
+          {typeof window !== 'undefined' && (
+            <Button
+              disabled={!isLoggedIntoGitHub}
+              onClick={onSubmit((values) => submitCreateGitPOAP(values))}
+              style={{ marginTop: rem(20), marginBottom: rem(20) }}
+            >
+              {'Submit'}
+            </Button>
+          )}
           {isSuccessful && <Text>{'Successful Creation'}</Text>}
           {isError && <Text>{'Failed to create - did you forget to select an image? '}</Text>}
           {!isLoggedIntoGitHub && <Text>{'Please connect your GitHub account'}</Text>}
