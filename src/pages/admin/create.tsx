@@ -8,7 +8,6 @@ import { DateTime } from 'luxon';
 import { useForm, zodResolver } from '@mantine/form';
 import { Group, useMantineTheme, Checkbox, Box, Grid } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
-import { DatePicker } from '@mantine/dates';
 import { Input, Button, NumberInput, Text, Header } from '../../components/shared/elements';
 import { TextArea, Divider } from '../../components/shared/elements';
 import { GITPOAP_API_URL } from '../../constants';
@@ -16,6 +15,7 @@ import { useAuthContext } from '../../components/github/AuthContext';
 import { NotificationFactory } from '../../notifications';
 import { isValidURL } from '../../helpers';
 import { ImageDropzone, dropzoneChildren } from '../../components/admin/ImageDropzone';
+import { DateInput } from '../../components/shared/elements/DateInput';
 
 const CreationForm = styled.form`
   display: inline-flex;
@@ -28,7 +28,7 @@ const FormInput = styled(Input)`
   width: ${rem(400)};
 `;
 
-const FormDatePicker = styled(DatePicker)`
+const FormDatePicker = styled(DateInput)`
   align-self: flex-start;
   width: ${rem(400)};
 `;
@@ -164,7 +164,8 @@ const CreateGitPOAP: NextPage = () => {
         fetchGitHubRepoId(pathStrs[1], pathStrs[2]);
       }
     }
-  }, [repoUrlSeed, setFieldValue, values.githubRepoId, values.eventUrl]);
+    /* do not include setFieldValue below */
+  }, [repoUrlSeed, values.githubRepoId, values.eventUrl]);
 
   /* Update Name && Description */
   useEffect(() => {
