@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Modal, Center, Group } from '@mantine/core';
 import { BsFillMoonStarsFill } from 'react-icons/bs';
-import { Pagination } from './shared/elements/Pagination';
-import { BackgroundPanel, TextDarkGray, TextGray, TextLight } from '../colors';
-import { Button } from './shared/elements/Button';
-import { TwitterShareButton } from './shared/elements/TwitterShareButton';
-import { ClaimBlock } from './shared/compounds/ClaimBlock';
-import { UserClaim } from '../types';
-import { useFeatures } from './FeaturesContext';
+import { Pagination } from '../shared/elements/Pagination';
+import { BackgroundPanel, TextDarkGray, TextGray, TextLight } from '../../colors';
+import { Button } from '../shared/elements/Button';
+import { TwitterShareButton } from '../shared/elements/TwitterShareButton';
+import { ClaimBlock } from '../shared/compounds/ClaimBlock';
+import { UserClaim } from '../../types';
+import { useFeatures } from '../FeaturesContext';
 
 type Props = {
   isConnected: boolean;

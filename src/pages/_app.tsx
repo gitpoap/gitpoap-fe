@@ -11,6 +11,7 @@ import { AuthProvider } from '../components/github/AuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
 import { BREAKPOINTS } from '../constants';
+import ClaimModalContextProvider from '../components/ClaimModal/ClaimModalContext';
 
 const client = createClient({
   url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
@@ -67,10 +68,12 @@ const TheApp = ({ Component, pageProps }: Props) => {
             <URQLProvider value={client}>
               <AuthProvider>
                 <FeaturesProvider>
-                  <GlobalStyles />
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
+                  <ClaimModalContextProvider>
+                    <GlobalStyles />
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </ClaimModalContextProvider>
                 </FeaturesProvider>
               </AuthProvider>
             </URQLProvider>
