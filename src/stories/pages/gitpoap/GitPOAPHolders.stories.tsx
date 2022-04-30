@@ -8,7 +8,11 @@ export default {
 } as ComponentMeta<typeof GitPOAPHolders>;
 
 const Template: ComponentStory<typeof GitPOAPHolders> = (args) => {
-  return <GitPOAPHolders {...args} />;
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <GitPOAPHolders {...args} />
+    </div>
+  );
 };
 
 export const Default = Template.bind({});

@@ -32,6 +32,10 @@ export type GitPOAPHoldersQueryRes = {
   };
 };
 
+const ITEM_WIDTH = 215;
+const COLUMN_GAP = 24;
+const PADDING = 32;
+
 const HoldersWrapper = styled.div`
   display: inline-flex;
   flex-direction: row;
@@ -41,24 +45,22 @@ const HoldersWrapper = styled.div`
   column-gap: ${rem(24)};
   row-gap: ${rem(40)};
 
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    justify-content: center;
+  justify-content: center;
+  @media (min-width: ${rem(ITEM_WIDTH * 2 + COLUMN_GAP + PADDING * 2)}) {
+    justify-content: left;
   }
 `;
-
-const ITEM_WIDTH = 215;
-const COLUMN_GAP = 24;
-const PADDING = 32;
 
 const StyledItemList = styled(ItemList)`
   ${[...Array(8)].map((_, it) => {
     let i = it + 2;
-    return `@media (min-width: ${rem(ITEM_WIDTH * i + COLUMN_GAP * i - 1 + PADDING)}) {
-      width: ${rem(ITEM_WIDTH * i + COLUMN_GAP * i - 1)};
+    return `@media (min-width: ${rem(ITEM_WIDTH * i + COLUMN_GAP * (i - 1) + PADDING * 2)}) {
+      width: ${rem(ITEM_WIDTH * i + COLUMN_GAP * (i - 1))};
     }`;
   })}
 
-  padding: ${rem(8)} ${rem(PADDING)};
+  width: calc(100vw - ${rem(PADDING * 2)});
+  margin: ${rem(8)} 0;
 `;
 
 const GitPOAPHoldersQuery = gql`
