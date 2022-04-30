@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import Link from 'next/link';
-import { Text } from '@mantine/core';
+import { Text, TextProps } from '@mantine/core';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { TextAccent, TextLight, ExtraHover, ExtraPressed } from '../../colors';
 import { GitHub, Globe, GitPOAP, Twitter } from '../shared/elements/icons';
@@ -60,7 +60,7 @@ const Name = styled.div`
   flex-grow: 0;
 `;
 
-const Bio = styled(Text)`
+const Bio = styled(Text)<TextProps<'div'>>`
   font-family: PT Mono;
   font-style: normal;
   font-weight: normal;
