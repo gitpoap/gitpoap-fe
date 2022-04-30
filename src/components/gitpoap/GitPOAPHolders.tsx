@@ -58,7 +58,7 @@ const StyledItemList = styled(ItemList)`
     }`;
   })}
 
-  width: calc(100vw - ${rem(PADDING)});
+  padding: ${rem(8)} ${rem(PADDING)};
 `;
 
 const GitPOAPHoldersQuery = gql`

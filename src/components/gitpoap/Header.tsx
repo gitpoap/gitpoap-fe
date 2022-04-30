@@ -76,8 +76,10 @@ const Wrapper = styled.div`
   justify-content: center;
   text-align: center;
   margin: auto;
+  padding: ${rem(8)} 0;
   width: ${rem(480)};
   max-width: 90%;
+  z-index: 1;
 
   a {
     text-decoration: none;
