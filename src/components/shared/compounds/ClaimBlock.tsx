@@ -4,6 +4,7 @@ import { rem } from 'polished';
 import { Button } from '../elements/Button';
 import { GitPOAP } from './GitPOAP';
 import { FaCheckCircle, FaCoins, FaEthereum } from 'react-icons/fa';
+import { useReward } from 'react-rewards';
 
 type Props = {
   gitPOAPId: number;
@@ -11,7 +12,7 @@ type Props = {
   name: string;
   orgName: string;
   description: string;
-  onClickClaim: () => void;
+  onClickClaim: (reward?: () => void) => void;
   onClickBadge?: () => void;
   isClaimed?: boolean;
   isLoading?: boolean;
@@ -58,6 +59,8 @@ export const ClaimBlock = ({
   isLoading,
   isConnected,
 }: Props) => {
+  const rewardId = 'rewardId-' + gitPOAPId;
+  const { reward } = useReward(rewardId, 'confetti');
   return (
     <Wrapper>
       <GitPOAP
@@ -70,7 +73,8 @@ export const ClaimBlock = ({
       />
       <ButtonWrapper>
         <Button
-          onClick={onClickClaim}
+          id={rewardId}
+          onClick={() => onClickClaim(reward)}
           loading={isLoading}
           leftIcon={isClaimed ? <FaCheckCircle /> : !isConnected ? <FaEthereum /> : <FaCoins />}
           disabled={isClaimed}

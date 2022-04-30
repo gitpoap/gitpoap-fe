@@ -86,7 +86,15 @@ const claims: UserClaim[] = [
 export default {
   title: 'Modals/Claim',
   component: ClaimModal,
-  args: { claimedIds: [], isOpen: true, isConnected: true, isLoggedIntoGitHub: true },
+  args: {
+    claimedIds: [],
+    isOpen: true,
+    isConnected: true,
+    isLoggedIntoGitHub: true,
+    onClickClaim: (claimIds, reward?: () => void) => {
+      reward && reward();
+    },
+  },
   argTypes: { isConnected: { control: 'select', options: [true, false] } },
 } as ComponentMeta<typeof ClaimModal>;
 
