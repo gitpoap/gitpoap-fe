@@ -10,10 +10,11 @@ type Props = SharedButtonProps & {
   onMouseEnter?: React.MouseEventHandler;
   onMouseLeave?: React.MouseEventHandler;
   disabled?: boolean;
+  id?: string;
   variant?: 'filled' | 'outline';
 };
 
-const StyledButton = styled(ButtonUI)<React.ComponentProps & React.HTMLAttributes<typeof Button>>`
+const StyledButton = styled(ButtonUI)<React.ComponentProps<typeof Button>>`
   display: inline-flex;
   flex-direction: row;
   justify-content: center;
