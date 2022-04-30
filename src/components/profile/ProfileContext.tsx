@@ -141,6 +141,7 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
         }
         setIsSaveSuccessful(true);
         setIsSaveLoading(false);
+        setIsUpdateModalOpen(false);
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.warn(err);

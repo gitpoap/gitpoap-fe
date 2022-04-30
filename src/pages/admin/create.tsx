@@ -8,16 +8,17 @@ import { DateTime } from 'luxon';
 import { useForm, zodResolver } from '@mantine/form';
 import { Group, useMantineTheme, MantineTheme, Checkbox } from '@mantine/core';
 import { Upload, Photo, X, Icon as TablerIcon } from 'tabler-icons-react';
-import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Dropzone as DropzoneUI, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { DatePicker } from '@mantine/dates';
 import { Input } from '../../components/shared/elements/Input';
 import { Button } from '../../components/shared/elements/Button';
-import { Box, Grid, NumberInput } from '@mantine/core';
+import { Box, Grid } from '@mantine/core';
 import { Header } from '../../components/shared/elements/Header';
+import { NumberInput } from '../../components/shared/elements/NumberInput';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { Text } from '../../components/shared/elements/Text';
-import { ExtraRed } from '../../colors';
+import { BackgroundPanel, BackgroundPanel2, ExtraRed } from '../../colors';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { TextArea } from '../../components/shared/elements/TextArea';
@@ -62,12 +63,18 @@ const FormLeft = styled.div`
 const FormRight = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: ${rem(40)};
   > * {
     margin-bottom: ${rem(25)};
   }
 `;
 
+const Dropzone = styled(DropzoneUI)`
+  background-color: ${BackgroundPanel};
+
+  &:hover {
+    background-color: ${BackgroundPanel2};
+  }
+`;
 const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
   return status.accepted
     ? theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]
@@ -171,7 +178,7 @@ type FormValues = {
 const CreateGitPOAP: NextPage = () => {
   const [isSuccessful, setIsSuccessful] = useState<boolean>();
   const [isError, setIsError] = useState<boolean>();
-  const { tokens } = useAuthContext();
+  const { tokens, isLoggedIntoGitHub } = useAuthContext();
   const theme = useMantineTheme();
   /* Form Seed Values */
   const [repoUrlSeed, setRepoUrlSeed] = useState<string>('');
@@ -250,13 +257,15 @@ const CreateGitPOAP: NextPage = () => {
   useEffect(() => {
     const newName = `GitPOAP: ${values.year} ${projectNameSeed} Contributor`;
     const newDescription = `You made at least one contribution to the ${projectNameSeed} project in ${values.year}. Your contributions are greatly appreciated!`;
-    if (projectNameSeed && values.name !== newName) {
+
+    if (projectNameSeed) {
       setFieldValue('name', newName);
     }
-    if (projectNameSeed && values.description !== newDescription) {
+    if (projectNameSeed) {
       setFieldValue('description', newDescription);
     }
-  }, [projectNameSeed, values.year, values.name, values.description, setFieldValue]);
+    /* do not include setFieldValue below */
+  }, [projectNameSeed, values.year]);
 
   const submitCreateGitPOAP = useCallback(
     async (formValues: Record<string, any>) => {
@@ -331,118 +340,125 @@ const CreateGitPOAP: NextPage = () => {
               <Header style={{ alignSelf: 'start', marginBottom: rem(20), fontSize: rem(24) }}>
                 {'Enter values below to automatically generate values in the form'}
               </Header>
-              <>
-                <FormInput
-                  label={'Repo URL Seed'}
-                  value={repoUrlSeed}
-                  onChange={(e) => setRepoUrlSeed(e.target.value)}
-                  style={{ marginBottom: rem(20) }}
-                />
-                <FormTextArea
-                  label={'Project Name Seed'}
-                  value={projectNameSeed}
-                  onChange={(e) => setProjectNameSeed(e.target.value)}
-                  style={{ marginBottom: rem(20) }}
-                />
+              <Grid>
+                <Grid.Col span={12}>
+                  <Group direction="column">
+                    <FormInput
+                      required
+                      label={'Repo URL Seed'}
+                      value={repoUrlSeed}
+                      onChange={(e) => setRepoUrlSeed(e.target.value)}
+                      style={{ marginBottom: rem(20) }}
+                    />
+                    <FormTextArea
+                      required
+                      label={'Project Name Seed'}
+                      value={projectNameSeed}
+                      onChange={(e) => setProjectNameSeed(e.target.value)}
+                      style={{ marginBottom: rem(20) }}
+                    />
 
-                <FormNumberInput
-                  required
-                  label={'Year'}
-                  name={'year'}
-                  placeholder={'2022'}
-                  hideControls
-                  {...getInputProps('year')}
-                />
-              </>
-              <Divider style={{ width: '100%', marginTop: rem(40), marginBottom: rem(40) }} />
-              <Group direction="row" align="flex-start">
-                <FormLeft>
-                  <FormNumberInput
-                    required
-                    label={'GitHub Repo ID'}
-                    name={'githubRepoId'}
-                    hideControls
-                    disabled
-                    {...getInputProps('githubRepoId')}
-                  />
+                    <FormNumberInput
+                      required
+                      label={'Year'}
+                      name={'year'}
+                      placeholder={'2022'}
+                      hideControls
+                      {...getInputProps('year')}
+                    />
+                  </Group>
+                </Grid.Col>
+                <Divider style={{ width: '100%', marginTop: rem(40), marginBottom: rem(40) }} />
 
-                  <FormInput
-                    required
-                    label={'GitPOAP Name'}
-                    name={'name'}
-                    {...getInputProps('name')}
-                  />
+                <Grid.Col sm={12} md={7} lg={5}>
+                  <FormLeft>
+                    <FormNumberInput
+                      label={'GitHub Repo ID (automatically set)'}
+                      name={'githubRepoId'}
+                      hideControls
+                      disabled
+                      {...getInputProps('githubRepoId')}
+                    />
 
-                  <FormTextArea
-                    required
-                    label={'Description'}
-                    name={'description'}
-                    minRows={3}
-                    maxRows={5}
-                    autosize
-                    {...getInputProps('description')}
-                  />
+                    <FormInput
+                      required
+                      label={'GitPOAP Name'}
+                      name={'name'}
+                      {...getInputProps('name')}
+                    />
 
-                  {/* -------- URLs -------- */}
-                  <FormInput
-                    required
-                    label={'Event URL'}
-                    name={'eventUrl'}
-                    disabled
-                    {...getInputProps('eventUrl')}
-                  />
+                    <FormTextArea
+                      required
+                      label={'Description'}
+                      name={'description'}
+                      minRows={3}
+                      maxRows={5}
+                      autosize
+                      {...getInputProps('description')}
+                    />
 
-                  <FormInput
-                    required
-                    label={'Email'}
-                    name={'email'}
-                    disabled
-                    placeholder={'issuer@gitpoap.io'}
-                    {...getInputProps('email')}
-                  />
+                    {/* -------- URLs -------- */}
+                    <FormInput
+                      label={'Event URL (automatically set)'}
+                      name={'eventUrl'}
+                      disabled
+                      {...getInputProps('eventUrl')}
+                    />
 
-                  <FormNumberInput
-                    required
-                    label={'Requested Codes'}
-                    name={'numRequestedCodes'}
-                    placeholder={'10'}
-                    hideControls
-                    {...getInputProps('numRequestedCodes')}
-                  />
+                    <FormInput
+                      required
+                      label={'Email (automatically set)'}
+                      name={'email'}
+                      disabled
+                      placeholder={'issuer@gitpoap.io'}
+                      {...getInputProps('email')}
+                    />
 
-                  <Checkbox
-                    mt="md"
-                    label="Ongoing Issuance?"
-                    {...getInputProps('ongoing', { type: 'checkbox' })}
-                  />
-                </FormLeft>
-                <FormRight>
-                  {/* -------- Dates -------- */}
-                  <FormDatePicker
-                    required
-                    label={'Start Date'}
-                    name={'startDate'}
-                    placeholder={'1 January 2022'}
-                    {...getInputProps('startDate')}
-                  />
+                    <FormNumberInput
+                      required
+                      label={'Requested Codes'}
+                      name={'numRequestedCodes'}
+                      placeholder={'10'}
+                      hideControls
+                      {...getInputProps('numRequestedCodes')}
+                    />
 
-                  <FormDatePicker
-                    required
-                    label={'End Date'}
-                    name={'endDate'}
-                    placeholder={'31 December 2022'}
-                    {...getInputProps('endDate')}
-                  />
+                    <Checkbox
+                      mt="md"
+                      label="Ongoing Issuance?"
+                      {...getInputProps('ongoing', { type: 'checkbox' })}
+                    />
+                  </FormLeft>
+                </Grid.Col>
+                <Grid.Col sm={12} md={7} lg={5}>
+                  <FormRight>
+                    {/* -------- Dates -------- */}
+                    <FormDatePicker
+                      required
+                      label={'Start Date'}
+                      name={'startDate'}
+                      placeholder={'1 January 2022'}
+                      {...getInputProps('startDate')}
+                    />
 
-                  <FormDatePicker
-                    required
-                    label={'Expiration Date'}
-                    name={'expiryDate'}
-                    placeholder={'31 December 2025'}
-                    {...getInputProps('expiryDate')}
-                  />
-                </FormRight>
-              </Group>
+                    <FormDatePicker
+                      required
+                      label={'End Date'}
+                      name={'endDate'}
+                      placeholder={'31 December 2022'}
+                      {...getInputProps('endDate')}
+                    />
+
+                    <FormDatePicker
+                      required
+                      label={'Expiration Date'}
+                      name={'expiryDate'}
+                      placeholder={'31 December 2025'}
+                      {...getInputProps('expiryDate')}
+                    />
+                  </FormRight>
+                </Grid.Col>
+              </Grid>
 
               <Dropzone
                 onDrop={(files) => {
@@ -465,6 +481,7 @@ const CreateGitPOAP: NextPage = () => {
           </Button>
           {isSuccessful && <Text>{'Successful Creation'}</Text>}
           {isError && <Text>{'Failed to create - did you forget to select an image? '}</Text>}
+          {!isLoggedIntoGitHub && <Text>{'Please connect your GitHub account'}</Text>}
         </Grid.Col>
       </Grid>
     </div>
