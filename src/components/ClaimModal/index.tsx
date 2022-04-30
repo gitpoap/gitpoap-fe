@@ -20,7 +20,7 @@ type Props = {
   claimedIds: number[];
   loadingClaimIds?: number[];
   onClose: () => void;
-  onClickClaim: (claimIds: number[]) => void;
+  onClickClaim: (claimIds: number[], reward?: () => void) => void;
 };
 
 const StyledModal = styled(Modal)`
