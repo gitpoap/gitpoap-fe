@@ -13,7 +13,7 @@ type Props = SharedButtonProps & {
   variant?: 'filled' | 'outline';
 };
 
-const StyledButton = styled(ButtonUI)<React.ComponentProps<typeof Button>>`
+const StyledButton = styled(ButtonUI)<React.ComponentProps & React.HTMLAttributes<typeof Button>>`
   display: inline-flex;
   flex-direction: row;
   justify-content: center;
