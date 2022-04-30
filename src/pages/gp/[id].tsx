@@ -65,7 +65,7 @@ const GitPOAP: Page = () => {
         <Grid.Col style={{ zIndex: 1 }}>
           <PageHeader gitPOAPId={gitPOAPId} />
         </Grid.Col>
-        <Grid.Col span={11}>
+        <Grid.Col>
           <GitPOAPHolders gitPOAPId={gitPOAPId} />
         </Grid.Col>
       </Grid>

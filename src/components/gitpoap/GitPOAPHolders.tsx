@@ -46,6 +46,21 @@ const HoldersWrapper = styled.div`
   }
 `;
 
+const ITEM_WIDTH = 215;
+const COLUMN_GAP = 24;
+const PADDING = 32;
+
+const StyledItemList = styled(ItemList)`
+  ${[...Array(8)].map((_, it) => {
+    let i = it + 2;
+    return `@media (min-width: ${rem(ITEM_WIDTH * i + COLUMN_GAP * i - 1 + PADDING)}) {
+      width: ${rem(ITEM_WIDTH * i + COLUMN_GAP * i - 1)};
+    }`;
+  })}
+
+  width: calc(100vw - ${rem(PADDING)});
+`;
+
 const GitPOAPHoldersQuery = gql`
   query gitPOAPHoldersQuery($gitPOAPId: Float!, $page: Float, $perPage: Float, $sort: String) {
     gitPOAPHolders(gitPOAPId: $gitPOAPId, page: $page, perPage: $perPage, sort: $sort) {
@@ -114,7 +129,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   }
 
   return (
-    <ItemList
+    <StyledItemList
       title={`${total ?? 0} holders`}
       selectOptions={selectOptions}
       selectValue={sort}
@@ -152,6 +167,6 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
           <Text style={{ marginTop: rem(20) }}>{'No one has minted this GitPOAP'}</Text>
         </EmptyState>
       )}
-    </ItemList>
+    </StyledItemList>
   );
 };
