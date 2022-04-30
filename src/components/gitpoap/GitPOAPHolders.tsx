@@ -46,6 +46,10 @@ const HoldersWrapper = styled.div`
   }
 `;
 
+const LoadingState = styled.div`
+  height: 100vh;
+`;
+
 const GitPOAPHoldersQuery = gql`
   query gitPOAPHoldersQuery($gitPOAPId: Float!, $page: Float, $perPage: Float, $sort: String) {
     gitPOAPHolders(gitPOAPId: $gitPOAPId, page: $page, perPage: $perPage, sort: $sort) {
@@ -109,7 +113,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
     }
   }, [result.data]);
 
-  if (result.error || result.fetching) {
+  if (result.error) {
     return null;
   }
 
@@ -133,7 +137,9 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
         }
       }}
     >
-      {total ? (
+      {result.fetching ? (
+        <LoadingState />
+      ) : total ? (
         <HoldersWrapper>
           {holders.map((holder: Holder) => (
             <InfoHexSummary
