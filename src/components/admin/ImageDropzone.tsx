@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { rem } from 'polished';
 import { Group, MantineTheme } from '@mantine/core';
 import { Dropzone as DropzoneUI, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { HiOutlinePhotograph, HiOutlineX, HiUpload } from 'react-icons/hi';
@@ -16,6 +17,13 @@ export const Dropzone = styled(DropzoneUI)`
   &:hover {
     background-color: ${BackgroundPanel2};
   }
+`;
+
+const SmallText = styled(Text)`
+  font-size: ${rem(12)};
+  wordwrap: wrap;
+  overflow: hidden;
+  text-align: center;
 `;
 
 const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
@@ -85,6 +93,55 @@ export const dropzoneChildren = (
           {'Attach a single image file, should not exceed 5mb'}
         </Text>
       </div>
+    )}
+  </Group>
+);
+
+export const dropzoneChildrenSmall = (
+  status: DropzoneStatus,
+  theme: MantineTheme,
+  file?: File | null,
+  error?: React.ReactNode,
+) => (
+  <Group
+    position="center"
+    spacing="md"
+    style={{ maxWidth: rem(200), minHeight: rem(90), pointerEvents: 'none' }}
+  >
+    {!!file ? (
+      <Group align="center" position="center" spacing={5}>
+        <Image
+          width={100}
+          height={100}
+          src={URL.createObjectURL(file)}
+          alt="preview"
+          style={{ maxWidth: '100%' }}
+        />
+        <SmallText color="white" size="sm" inline styles={{ wordWrap: 'wrap' }}>
+          {file.name}
+        </SmallText>
+        <SmallText size="sm" color="dimmed" inline mt={7}>
+          {`${file.size / 1000} KB - ${file.type}`}
+        </SmallText>
+      </Group>
+    ) : !!error ? (
+      <>
+        <ImageUploadIcon status={status} style={{ color: getIconColor(status, theme) }} size={24} />
+        <div>
+          <Text style={{ color: ExtraRed }} size="md" inline>
+            {'Drag image or select file'}
+          </Text>
+        </div>
+      </>
+    ) : (
+      <>
+        <ImageUploadIcon status={status} style={{ color: getIconColor(status, theme) }} size={24} />
+        <div>
+          <Text color="white" size="md" inline>
+            {'Drag image or select file'}
+          </Text>
+        </div>
+      </>
     )}
   </Group>
 );
