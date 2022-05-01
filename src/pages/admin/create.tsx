@@ -245,7 +245,7 @@ const CreateGitPOAP: NextPage = () => {
         <meta name="description" content="GitPOAP Frontend App" />
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
-        <Grid.Col span={11}>
+        <Grid.Col span={10}>
           <Box>
             <CreationForm onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}>
               <Header style={{ alignSelf: 'start', marginBottom: rem(20) }}>
