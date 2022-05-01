@@ -244,14 +244,14 @@ const CreateGitPOAP: NextPage = () => {
         <title>{'Create GitPOAP | GitPOAP'}</title>
         <meta name="description" content="GitPOAP Frontend App" />
       </Head>
-      <Grid justify="center" style={{ marginTop: rem(40) }}>
-        <Grid.Col span={10}>
+      <Grid justify="center" style={{ marginTop: rem(20) }}>
+        <Grid.Col span={11}>
           <Box>
             <CreationForm onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}>
               <Header style={{ alignSelf: 'start', marginBottom: rem(20) }}>
                 {'Admin - Create new GitPOAP'}
               </Header>
-              <Header style={{ alignSelf: 'start', marginBottom: rem(20), fontSize: rem(24) }}>
+              <Header style={{ alignSelf: 'start', fontSize: rem(24) }}>
                 {'Enter values below to automatically generate values in the form'}
               </Header>
               <Grid>
@@ -282,7 +282,7 @@ const CreateGitPOAP: NextPage = () => {
                     />
                   </Group>
                 </Grid.Col>
-                <Divider style={{ width: '100%', marginTop: rem(40), marginBottom: rem(40) }} />
+                <Divider style={{ width: '100%', marginTop: rem(20), marginBottom: rem(20) }} />
 
                 <Grid.Col sm={12} md={7} lg={5}>
                   <FormLeft>
