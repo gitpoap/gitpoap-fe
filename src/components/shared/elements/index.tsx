@@ -11,6 +11,7 @@ export * from './HexagonPath';
 export * from './IconCount';
 export * from './InfoHexBase';
 export * from './Input';
+export * from './InputWrapper';
 export * from './Loader';
 export * from './NavLink';
 export * from './NumberInput';
