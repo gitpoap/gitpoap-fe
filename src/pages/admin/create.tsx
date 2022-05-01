@@ -238,6 +238,14 @@ const CreateGitPOAP: NextPage = () => {
     }
   }, [isError]);
 
+  if (!isLoggedIntoGitHub) {
+    return (
+      <Group position="center" align="center" grow={false}>
+        <Header>{'Please connect your GitHub account'}</Header>
+      </Group>
+    );
+  }
+
   return (
     <div>
       <Head>
