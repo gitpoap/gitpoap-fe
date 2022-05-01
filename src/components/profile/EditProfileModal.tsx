@@ -9,13 +9,14 @@ import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
 import { Text } from '../shared/elements/Text';
 import { MidnightBlue } from '../../colors';
 import { EditableProfileData, useProfileContext } from './ProfileContext';
-import { isValidTwitterHandle, isValidURL } from '../../helpers';
+import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
 import { FaCheckCircle } from 'react-icons/fa';
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
   bio?: string | null;
+  githubHandle?: string;
   twitterHandle?: string | null;
   personalSiteUrl?: string | null;
   onClickSave: (newProfileData: EditableProfileData) => void;
@@ -54,6 +55,8 @@ const SettingSection = styled.div`
   margin-bottom: ${rem(30)};
 `;
 
+const GithubHandle = styled(SettingSection)``;
+
 const TwitterHandle = styled(SettingSection)``;
 
 const PersonalWebsite = styled(SettingSection)``;
@@ -77,6 +80,7 @@ export const SettingsText = styled(Text)`
 export const EditProfileModal = ({
   isOpen,
   onClose,
+  githubHandle,
   twitterHandle,
   bio,
   personalSiteUrl,
@@ -87,14 +91,17 @@ export const EditProfileModal = ({
   const [personSiteUrlValue, setPersonalSiteUrlValue] =
     useState<string | undefined | null>(personalSiteUrl);
   const [bioValue, setBioValue] = useState<string | undefined | null>(bio);
+  const [githubHandleValue, setGithubHandleValue] =
+    useState<string | undefined | null>(githubHandle);
   const [twitterHandleValue, setTwitterHandleValue] =
     useState<string | undefined | null>(twitterHandle);
 
   useEffect(() => {
     setPersonalSiteUrlValue(personalSiteUrl);
     setBioValue(bio);
+    setGithubHandleValue(githubHandle);
     setTwitterHandleValue(twitterHandle);
-  }, [personalSiteUrl, bio, twitterHandle]);
+  }, [personalSiteUrl, bio, githubHandle, twitterHandle]);
 
   return (
     <StyledModal
@@ -107,6 +114,16 @@ export const EditProfileModal = ({
       <Content>
         <Header style={{ marginBottom: rem(30) }}>{'Edit profile'}</Header>
         <ProfileFields>
+          <GithubHandle>
+            <Input
+              placeholder="gitpoap"
+              label={'GitHub Handle'}
+              value={githubHandleValue ?? ''}
+              onChange={(e) => setGithubHandleValue(e.target.value)}
+              error={githubHandleValue && !isValidGithubHandle(githubHandleValue)}
+            />
+          </GithubHandle>
+
           <TwitterHandle>
             <Input
               placeholder="gitpoap"

@@ -20,7 +20,7 @@ import { MetaMaskError, MetaMaskErrors } from '../../types';
 export type EditableProfileData = Partial<
   Pick<
     Exclude<ProfileQuery['profileData'], null | undefined>,
-    'bio' | 'personalSiteUrl' | 'twitterHandle'
+    'bio' | 'githubHandle' | 'personalSiteUrl' | 'twitterHandle'
   >
 >;
 
@@ -84,6 +84,7 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
       const data = {
         bio: newProfileData.bio,
         personalSiteUrl: newProfileData.personalSiteUrl,
+        githubHandle: newProfileData.githubHandle,
         twitterHandle: newProfileData.twitterHandle,
       };
 
@@ -154,6 +155,7 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
         <EditProfileModal
           bio={profileData?.bio}
           personalSiteUrl={profileData?.personalSiteUrl}
+          githubHandle={profileData?.githubHandle}
           twitterHandle={profileData?.twitterHandle}
           isOpen={isUpdateModalOpen}
           onClose={() => setIsUpdateModalOpen(false)}

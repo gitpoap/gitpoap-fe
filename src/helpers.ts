@@ -21,5 +21,14 @@ export const isValidURL = (str: string): boolean => {
   return !!pattern.test(str);
 };
 
+/**
+ * Github username may only contain alphanumeric characters or hyphens.
+ * Github username cannot have multiple consecutive hyphens.
+ * Github username cannot begin or end with a hyphen.
+ * Maximum is 39 characters.
+ */
+export const isValidGithubHandle = (handle: string): boolean =>
+  /^(?![-])(?!.*[-]{2})(?!.*[-]$)[a-zA-Z0-9-]{1,39}$/.test(handle);
+
 export const isValidTwitterHandle = (handle: string): boolean =>
-  /^[a-zA-Z0-9_]{1,15}$/.test(handle);
+  /^[a-zA-Z0-9_]{4,15}$/.test(handle);
