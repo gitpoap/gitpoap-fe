@@ -7,7 +7,7 @@ import { Button } from '../shared/elements/Button';
 import { Input as InputUI } from '../shared/elements/Input';
 import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
 import { Text } from '../shared/elements/Text';
-import { MidnightBlue } from '../../colors';
+import { MidnightBlue, PrimaryBlue } from '../../colors';
 import { EditableProfileData, useProfileContext } from './ProfileContext';
 import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
 import { FaCheckCircle } from 'react-icons/fa';
@@ -73,6 +73,13 @@ const TextArea = styled(TextAreaUI)`
   flex: 1;
 `;
 
+const ConnectGithubAccount = styled.span`
+  &:hover {
+    color: ${PrimaryBlue};
+    cursor: pointer;
+  }
+`;
+
 export const SettingsText = styled(Text)`
   padding-right: ${rem(30)};
 `;
@@ -118,6 +125,14 @@ export const EditProfileModal = ({
             <Input
               placeholder="gitpoap"
               label={'GitHub Handle'}
+              description={
+                !githubHandleValue &&
+                isLoggedIntoGitHub && (
+                  <ConnectGithubAccount onClick={() => setGithubHandleValue(user?.githubHandle)}>
+                    {'Use the handle of the currently authenticated github account'}
+                  </ConnectGithubAccount>
+                )
+              }
               value={githubHandleValue ?? ''}
               onChange={(e) => setGithubHandleValue(e.target.value)}
               error={githubHandleValue && !isValidGithubHandle(githubHandleValue)}
