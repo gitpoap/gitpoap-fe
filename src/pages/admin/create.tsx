@@ -6,25 +6,16 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { DateTime } from 'luxon';
 import { useForm, zodResolver } from '@mantine/form';
-import { Group, useMantineTheme, MantineTheme, Checkbox } from '@mantine/core';
-import { Upload, Photo, X, Icon as TablerIcon } from 'tabler-icons-react';
-import { Dropzone as DropzoneUI, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-import { DatePicker } from '@mantine/dates';
-import { Input } from '../../components/shared/elements/Input';
-import { Button } from '../../components/shared/elements/Button';
-import { Box, Grid } from '@mantine/core';
-import { Header } from '../../components/shared/elements/Header';
-import { NumberInput } from '../../components/shared/elements/NumberInput';
+import { Group, useMantineTheme, Checkbox, Box, Grid } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
+import { Input, Button, NumberInput, Text, Header } from '../../components/shared/elements';
+import { TextArea, Divider } from '../../components/shared/elements';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../../components/github/AuthContext';
-import { Text } from '../../components/shared/elements/Text';
-import { BackgroundPanel, BackgroundPanel2, ExtraRed } from '../../colors';
-import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
-import { TextArea } from '../../components/shared/elements/TextArea';
-import { Divider } from '../../components/shared/elements/Divider';
 import { isValidURL } from '../../helpers';
-import Image from 'next/image';
+import { ImageDropzone, dropzoneChildren } from '../../components/admin/ImageDropzone';
+import { DateInput } from '../../components/shared/elements/DateInput';
 
 const CreationForm = styled.form`
   display: inline-flex;
@@ -37,7 +28,7 @@ const FormInput = styled(Input)`
   width: ${rem(400)};
 `;
 
-const FormDatePicker = styled(DatePicker)`
+const FormDatePicker = styled(DateInput)`
   align-self: flex-start;
   width: ${rem(400)};
 `;
@@ -67,84 +58,6 @@ const FormRight = styled.div`
     margin-bottom: ${rem(25)};
   }
 `;
-
-const Dropzone = styled(DropzoneUI)`
-  background-color: ${BackgroundPanel};
-
-  &:hover {
-    background-color: ${BackgroundPanel2};
-  }
-`;
-const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
-  return status.accepted
-    ? theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]
-    : status.rejected
-    ? theme.colors.red[theme.colorScheme === 'dark' ? 4 : 6]
-    : theme.colorScheme === 'dark'
-    ? theme.colors.dark[0]
-    : theme.colors.gray[7];
-};
-
-const ImageUploadIcon = ({
-  status,
-  ...props
-}: React.ComponentProps<TablerIcon> & { status: DropzoneStatus }) => {
-  if (status.accepted) {
-    return <Upload {...props} />;
-  }
-
-  if (status.rejected) {
-    return <X {...props} />;
-  }
-
-  return <Photo {...props} />;
-};
-
-export const dropzoneChildren = (
-  status: DropzoneStatus,
-  theme: MantineTheme,
-  file?: File | null,
-  error?: React.ReactNode,
-) => (
-  <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
-    <ImageUploadIcon status={status} style={{ color: getIconColor(status, theme) }} size={80} />
-    {!!file ? (
-      <div>
-        <Text color="white" size="xl" inline>
-          {file.name}
-        </Text>
-        <Text size="sm" color="dimmed" inline mt={7}>
-          {`${file.size / 1000} KB - ${file.type}`}
-        </Text>
-        <Image
-          width={150}
-          height={150}
-          src={URL.createObjectURL(file)}
-          alt="preview"
-          style={{ maxWidth: '100%' }}
-        />
-      </div>
-    ) : !!error ? (
-      <div>
-        <Text style={{ color: ExtraRed }} size="xl" inline>
-          {'Drag image here or click to select files'}
-        </Text>
-        <Text size="sm" style={{ color: ExtraRed }} inline mt={7}>
-          {'Attach a single image file, should not exceed 5mb'}
-        </Text>
-      </div>
-    ) : (
-      <div>
-        <Text color="white" size="xl" inline>
-          {'Drag image here or click to select files'}
-        </Text>
-        <Text size="sm" color="dimmed" inline mt={7}>
-          {'Attach a single image file, should not exceed 5mb'}
-        </Text>
-      </div>
-    )}
-  </Group>
-);
 
 const schema = z.object({
   githubRepoId: z.number(),
@@ -251,7 +164,8 @@ const CreateGitPOAP: NextPage = () => {
         fetchGitHubRepoId(pathStrs[1], pathStrs[2]);
       }
     }
-  }, [repoUrlSeed, setFieldValue, values.githubRepoId, values.eventUrl]);
+    /* do not include setFieldValue below */
+  }, [repoUrlSeed, values.githubRepoId, values.eventUrl]);
 
   /* Update Name && Description */
   useEffect(() => {
@@ -324,20 +238,28 @@ const CreateGitPOAP: NextPage = () => {
     }
   }, [isError]);
 
+  if (!isLoggedIntoGitHub) {
+    return (
+      <Group position="center" align="center" grow={false}>
+        <Header>{'Please connect your GitHub account'}</Header>
+      </Group>
+    );
+  }
+
   return (
     <div>
       <Head>
         <title>{'Create GitPOAP | GitPOAP'}</title>
         <meta name="description" content="GitPOAP Frontend App" />
       </Head>
-      <Grid justify="center" style={{ marginTop: rem(40) }}>
+      <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col span={10}>
           <Box>
             <CreationForm onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}>
               <Header style={{ alignSelf: 'start', marginBottom: rem(20) }}>
                 {'Admin - Create new GitPOAP'}
               </Header>
-              <Header style={{ alignSelf: 'start', marginBottom: rem(20), fontSize: rem(24) }}>
+              <Header style={{ alignSelf: 'start', fontSize: rem(24) }}>
                 {'Enter values below to automatically generate values in the form'}
               </Header>
               <Grid>
@@ -368,7 +290,7 @@ const CreateGitPOAP: NextPage = () => {
                     />
                   </Group>
                 </Grid.Col>
-                <Divider style={{ width: '100%', marginTop: rem(40), marginBottom: rem(40) }} />
+                <Divider style={{ width: '100%', marginTop: rem(20), marginBottom: rem(20) }} />
 
                 <Grid.Col sm={12} md={7} lg={5}>
                   <FormLeft>
@@ -460,25 +382,28 @@ const CreateGitPOAP: NextPage = () => {
                 </Grid.Col>
               </Grid>
 
-              <Dropzone
+              <ImageDropzone
                 onDrop={(files) => {
                   setFieldValue('image', files[0]);
                 }}
                 onReject={(files) => console.error('rejected files', files)}
                 maxSize={3 * 1024 ** 2}
-                accept={IMAGE_MIME_TYPE}
               >
                 {(status) => dropzoneChildren(status, theme, values.image, errors.image)}
-              </Dropzone>
+              </ImageDropzone>
             </CreationForm>
           </Box>
 
-          <Button
-            onClick={onSubmit((values) => submitCreateGitPOAP(values))}
-            style={{ marginTop: rem(20), marginBottom: rem(20) }}
-          >
-            {'Submit'}
-          </Button>
+          {/* Prevent SSR for the button due to disabled styling issue */}
+          {typeof window !== 'undefined' && (
+            <Button
+              disabled={!isLoggedIntoGitHub}
+              onClick={onSubmit((values) => submitCreateGitPOAP(values))}
+              style={{ marginTop: rem(20), marginBottom: rem(20) }}
+            >
+              {'Submit'}
+            </Button>
+          )}
           {isSuccessful && <Text>{'Successful Creation'}</Text>}
           {isError && <Text>{'Failed to create - did you forget to select an image? '}</Text>}
           {!isLoggedIntoGitHub && <Text>{'Please connect your GitHub account'}</Text>}
