@@ -90,7 +90,8 @@ const claims: UserClaim[] = [
 export default {
   title: 'Modals/Claim',
   component: ClaimModal,
-  args: { claimedIds: [], isOpen: true },
+  args: { claimedIds: [], isOpen: true, isConnected: true },
+  argTypes: { isConnected: { control: 'select', options: [true, false] } },
 } as ComponentMeta<typeof ClaimModal>;
 
 const Template: ComponentStory<typeof ClaimModal> = (args) => {

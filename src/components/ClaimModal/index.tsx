@@ -13,6 +13,7 @@ import { useFeatures } from '../FeaturesContext';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 
 type Props = {
+  isConnected: boolean;
   isOpen: boolean;
   claims: UserClaim[];
   claimedIds: number[];
@@ -77,6 +78,7 @@ const getClaimText = (isConnected: boolean, numClaims: number, numClaimed: numbe
 };
 
 export const ClaimModal = ({
+  isConnected,
   isOpen,
   claims,
   claimedIds,
@@ -91,8 +93,7 @@ export const ClaimModal = ({
   const start = (page - 1) * perPage;
   const end = start + perPage;
 
-  const { connectionStatus, connect } = useWeb3Context();
-  const isConnected = connectionStatus === 'connected';
+  const { connect } = useWeb3Context();
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = loadingClaimIds && loadingClaimIds.length === claims.length;
   const claimText = getClaimText(isConnected, claims.length, claimedIds.length);
@@ -127,7 +128,6 @@ export const ClaimModal = ({
                     }
                     onClickBadge={onClose}
                     isClaimed={claimedIds?.includes(userClaim.claim.id)}
-                    isDisabled={!hasClaimedAll}
                     isLoading={loadingClaimIds?.includes(userClaim.claim.id)}
                   />
                 );
