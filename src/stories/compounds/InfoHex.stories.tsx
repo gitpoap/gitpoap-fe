@@ -34,7 +34,7 @@ export const Profile: ComponentStory<typeof InfoHexBase> = (args) => {
   return (
     <InfoHexSummary
       {...args}
-      blurb="Recovering physicist turned programmer. Soccer aficionado."
+      bio="Recovering physicist turned programmer. Soccer aficionado."
       twitterHandle="nd_certora"
       githubHandle="nd_certora"
       gitpoapId={10}
