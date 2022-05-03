@@ -133,7 +133,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
             <InfoHexSummary
               key={holder.githubHandle}
               address={holder.address}
-              blurb={holder.bio}
+              bio={holder.bio}
               gitpoapId={gitPOAPId}
               twitterHandle={holder.twitterHandle}
               personalSiteUrl={holder.personalSiteUrl}

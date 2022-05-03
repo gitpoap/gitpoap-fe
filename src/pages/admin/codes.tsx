@@ -5,18 +5,16 @@ import { z } from 'zod';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useQuery, gql } from 'urql';
+import { IconType } from 'react-icons';
+import { HiDocumentText, HiOutlineX, HiUpload } from 'react-icons/hi';
 import { useForm, zodResolver } from '@mantine/form';
-import { Group, useMantineTheme, MantineTheme } from '@mantine/core';
-import { FileText, Upload, X, Icon as TablerIcon } from 'tabler-icons-react';
+import { Group, useMantineTheme, MantineTheme, Box, Grid } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 import { Dropzone, DropzoneStatus } from '@mantine/dropzone';
-import { Button } from '../../components/shared/elements/Button';
-import { Box, Grid, NumberInput } from '@mantine/core';
-import { Header } from '../../components/shared/elements/Header';
+import { NumberInput, Text, Header, Button } from '../../components/shared/elements';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../../components/github/AuthContext';
-import { Text } from '../../components/shared/elements/Text';
 import { ExtraRed } from '../../colors';
-import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 
 const AddCodesForm = styled.form`
@@ -61,16 +59,16 @@ const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
 const TextFileUploadIcon = ({
   status,
   ...props
-}: React.ComponentProps<TablerIcon> & { status: DropzoneStatus }) => {
+}: React.ComponentProps<IconType> & { status: DropzoneStatus }) => {
   if (status.accepted) {
-    return <Upload {...props} />;
+    return <HiUpload {...props} />;
   }
 
   if (status.rejected) {
-    return <X {...props} />;
+    return <HiOutlineX {...props} />;
   }
 
-  return <FileText {...props} />;
+  return <HiDocumentText {...props} />;
 };
 
 export const dropzoneChildren = (

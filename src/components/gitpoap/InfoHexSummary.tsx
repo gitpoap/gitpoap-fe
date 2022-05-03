@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import Link from 'next/link';
+import { Text, TextProps } from '@mantine/core';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { TextAccent, TextLight, ExtraHover, ExtraPressed } from '../../colors';
 import { GitHub, Globe, GitPOAP, Twitter } from '../shared/elements/icons';
@@ -17,7 +18,7 @@ import { useFeatures } from '../FeaturesContext';
 type Props = {
   className?: string;
   address: string;
-  blurb?: string;
+  bio?: string;
   gitpoapId: string | number;
   twitterHandle?: string;
   githubHandle?: string;
@@ -59,7 +60,7 @@ const Name = styled.div`
   flex-grow: 0;
 `;
 
-const Blurb = styled.div`
+const Bio = styled(Text)<TextProps<'div'>>`
   font-family: PT Mono;
   font-style: normal;
   font-weight: normal;
@@ -120,7 +121,7 @@ const JazzIcon = styled(JazzIconReact)`
 export const InfoHexSummary = ({
   className,
   address,
-  blurb,
+  bio,
   gitpoapId,
   twitterHandle,
   githubHandle,
@@ -142,7 +143,7 @@ export const InfoHexSummary = ({
             <JazzIcon address={address} />
           )}
           <Name>{ensName ?? truncateAddress(address, 10)}</Name>
-          {blurb && <Blurb>{blurb}</Blurb>}
+          {bio && <Bio lineClamp={3}>{bio}</Bio>}
           <Social>
             {twitterHandle && (
               <Link href={`https://twitter.com/${twitterHandle}`} passHref>
