@@ -10,6 +10,7 @@ import { TwitterShareButton } from '../shared/elements/TwitterShareButton';
 import { ClaimBlock } from '../shared/compounds/ClaimBlock';
 import { UserClaim } from '../../types';
 import { useFeatures } from '../FeaturesContext';
+import { useWeb3Context } from '../wallet/Web3ContextProvider';
 
 type Props = {
   isConnected: boolean;
@@ -91,6 +92,8 @@ export const ClaimModal = ({
   const numPages = Math.ceil(claims.length / perPage);
   const start = (page - 1) * perPage;
   const end = start + perPage;
+
+  const { connect } = useWeb3Context();
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = loadingClaimIds && loadingClaimIds.length === claims.length;
   const claimText = getClaimText(isConnected, claims.length, claimedIds.length);
@@ -120,10 +123,11 @@ export const ClaimModal = ({
                     name={userClaim.event.name}
                     orgName={userClaim.claim.gitPOAP.repo.organization.name}
                     description={userClaim.event.description}
-                    onClickClaim={() => onClickClaim([userClaim.claim.id])}
+                    onClickClaim={() =>
+                      isConnected ? onClickClaim([userClaim.claim.id]) : connect()
+                    }
                     onClickBadge={onClose}
                     isClaimed={claimedIds?.includes(userClaim.claim.id)}
-                    isDisabled={!isConnected && !hasClaimedAll}
                     isLoading={loadingClaimIds?.includes(userClaim.claim.id)}
                   />
                 );
