@@ -11,7 +11,6 @@ import { Input } from '../elements/Input';
 
 type Props = {
   title: string;
-  className?: string;
   children?: React.ReactNode;
   selectOptions: SelectOption[];
   selectValue: string;
@@ -70,7 +69,6 @@ const SearchInput = styled(Input)`
 `;
 
 export const ItemList = ({
-  className,
   children,
   title,
   selectOptions,
@@ -84,7 +82,7 @@ export const ItemList = ({
   onSearchInputChange,
 }: Props) => {
   return (
-    <Container className={className}>
+    <Container>
       <Heading>
         <ListTitle>{title}</ListTitle>
         <Sorting>

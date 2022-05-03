@@ -9,7 +9,6 @@ import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { Text } from '../shared/elements/Text';
 import { TextDarkGray } from '../../colors';
-import { BREAKPOINTS } from '../../constants';
 
 type Props = {
   gitPOAPId: number;
@@ -32,35 +31,13 @@ export type GitPOAPHoldersQueryRes = {
   };
 };
 
-const ITEM_WIDTH = 215;
-const COLUMN_GAP = 24;
-const PADDING = 32;
-
 const HoldersWrapper = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
   margin-bottom: ${rem(50)};
   margin-top: ${rem(40)};
   column-gap: ${rem(24)};
   row-gap: ${rem(40)};
-
-  justify-content: center;
-  @media (min-width: ${rem(ITEM_WIDTH * 2 + COLUMN_GAP + PADDING * 2)}) {
-    justify-content: left;
-  }
-`;
-
-const StyledItemList = styled(ItemList)`
-  ${[...Array(8)].map((_, it) => {
-    let i = it + 2;
-    return `@media (min-width: ${rem(ITEM_WIDTH * i + COLUMN_GAP * (i - 1) + PADDING * 2)}) {
-      width: ${rem(ITEM_WIDTH * i + COLUMN_GAP * (i - 1))};
-    }`;
-  })}
-
-  width: calc(100vw - ${rem(PADDING * 2)});
-  margin: ${rem(8)} 0;
+  grid-template-columns: repeat(auto-fill, minmax(${rem(215)}, 1fr));
 `;
 
 const GitPOAPHoldersQuery = gql`
@@ -131,7 +108,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   }
 
   return (
-    <StyledItemList
+    <ItemList
       title={`${total ?? 0} holders`}
       selectOptions={selectOptions}
       selectValue={sort}
@@ -169,6 +146,6 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
           <Text style={{ marginTop: rem(20) }}>{'No one has minted this GitPOAP'}</Text>
         </EmptyState>
       )}
-    </StyledItemList>
+    </ItemList>
   );
 };
