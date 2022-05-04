@@ -8,6 +8,7 @@ import { IconType } from 'react-icons';
 import Image from 'next/image';
 import { BackgroundPanel, BackgroundPanel2, ExtraRed } from '../../colors';
 import { Text } from '../shared/elements/Text';
+import { LineClamp } from '../shared/compounds/GitPOAP';
 
 type Props = Omit<React.ComponentProps<typeof DropzoneUI>, 'accept'>;
 
@@ -20,10 +21,11 @@ export const Dropzone = styled(DropzoneUI)`
 `;
 
 const SmallText = styled(Text)`
-  font-size: ${rem(12)};
+  font-size: ${rem(11)};
   wordwrap: wrap;
   overflow: hidden;
-  text-align: center;
+  max-width: ${rem(180)};
+  ${LineClamp(3)}
 `;
 
 const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
@@ -106,23 +108,25 @@ export const dropzoneChildrenSmall = (
   <Group
     position="center"
     spacing="md"
-    style={{ maxWidth: rem(200), minHeight: rem(90), pointerEvents: 'none' }}
+    style={{ minWidth: rem(300), maxWidth: rem(400), minHeight: rem(90), pointerEvents: 'none' }}
   >
     {!!file ? (
-      <Group align="center" position="center" spacing={5}>
-        <Image
-          width={100}
-          height={100}
-          src={URL.createObjectURL(file)}
-          alt="preview"
-          style={{ maxWidth: '100%' }}
-        />
-        <SmallText color="white" size="sm" inline styles={{ wordWrap: 'wrap' }}>
-          {file.name}
-        </SmallText>
-        <SmallText size="sm" color="dimmed" inline mt={7}>
-          {`${file.size / 1000} KB - ${file.type}`}
-        </SmallText>
+      <Group align="start" position="center" direction="row" spacing={5}>
+        <Image width={90} height={90} src={URL.createObjectURL(file)} alt="preview" />
+        <Group
+          direction="column"
+          align="start"
+          position="center"
+          spacing={5}
+          style={{ marginLeft: rem(10) }}
+        >
+          <SmallText color="white" size="sm" inline>
+            {file.name}
+          </SmallText>
+          <SmallText size="sm" color="dimmed" inline mt={7}>
+            {`${file.size / 1000} KB - ${file.type}`}
+          </SmallText>
+        </Group>
       </Group>
     ) : !!error ? (
       <>

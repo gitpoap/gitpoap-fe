@@ -18,7 +18,7 @@ type Props = {
   onClick?: () => void;
 };
 
-const LineClamp = (lines: number) => css`
+export const LineClamp = (lines: number) => css`
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: ${lines};

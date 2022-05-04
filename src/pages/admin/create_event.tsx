@@ -61,9 +61,12 @@ const CreateGitPOAP: NextPage = () => {
                 <Header style={{ alignSelf: 'start', fontSize: rem(24) }}>
                   {'Enter values below to automatically generate values in the form'}
                 </Header>
-                <Button onClick={() => setRowCount(rowCount + 1)} style={{ marginTop: rem(20) }}>
+                <Button
+                  leftIcon={<HiPlus size={18} />}
+                  onClick={() => setRowCount(rowCount + 1)}
+                  style={{ marginTop: rem(20) }}
+                >
                   {'Add Row '}
-                  <HiPlus />
                 </Button>
               </Group>
 
