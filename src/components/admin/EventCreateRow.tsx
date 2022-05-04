@@ -206,12 +206,34 @@ export const EventCreateRow = (props: Props) => {
             {(status) => dropzoneChildrenSmall(status, theme, values.image, errors.image)}
           </ImageDropzone>
         </InputWrapper>
-        <Button
-          onClick={onSubmit((values) => submitCreateGitPOAP(values))}
-          style={{ marginTop: rem(20), marginBottom: rem(20) }}
-        >
-          {'Submit'}
-        </Button>
+
+        <Group position="center" align="end" style={{ height: rem(180) }}>
+          <Button
+            onClick={onSubmit((values) => submitCreateGitPOAP(values))}
+            style={{ marginTop: rem(20), marginBottom: rem(20) }}
+            loading={buttonStatus === ButtonStatus.LOADING}
+            disabled={
+              buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING
+            }
+            leftIcon={
+              buttonStatus === ButtonStatus.SUCCESS ? (
+                <FaCheckCircle size={18} />
+              ) : buttonStatus === ButtonStatus.ERROR ? (
+                <MdError size={18} />
+              ) : null
+            }
+          >
+            {'Submit'}
+          </Button>
+        </Group>
+      </Group>
+      <Group>
+        <Errors>
+          {errors &&
+            Object.keys(errors).map((errorKey, i) => {
+              return <ErrorText key={i}>{`${errorKey}: ${errors[errorKey]}`}</ErrorText>;
+            })}
+        </Errors>
       </Group>
       <Divider style={{ width: '100%', borderTopColor: BackgroundPanel2 }} />
     </>
