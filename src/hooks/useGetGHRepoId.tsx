@@ -35,7 +35,10 @@ export const useGetGHRepoId = (repoUrlSeed: string): [number | null, string | nu
     } catch (err) {
       console.warn(err);
       showNotification(
-        NotificationFactory.createError('Error - Request Failed', 'Oops, something went wrong! 🤥'),
+        NotificationFactory.createError(
+          'Error - Request to fetch Github Repo ID failed',
+          'Oops, something went wrong! 🤥',
+        ),
       );
     }
   }, []);
