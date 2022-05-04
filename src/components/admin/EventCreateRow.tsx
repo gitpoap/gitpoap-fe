@@ -12,7 +12,9 @@ import { useGetGHRepoId } from '../../hooks/useGetGHRepoId';
 import { ImageDropzone, dropzoneChildrenSmall } from './ImageDropzone';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
-import { BackgroundPanel2 } from '../../colors';
+import { BackgroundPanel2, ExtraRed } from '../../colors';
+import { FaCheckCircle } from 'react-icons/fa';
+import { MdError } from 'react-icons/md';
 
 type Props = {
   eventName: string;
@@ -29,6 +31,11 @@ const FormInput = styled(Input)`
 
 const FormTextArea = styled(TextArea)`
   width: ${rem(400)};
+`;
+
+const ErrorText = styled(Text)`
+  color: ${ExtraRed};
+  font-size: ${rem(11)};
 `;
 
 const schema = z.object({
@@ -60,13 +67,19 @@ type FormValues = {
   image: File | null;
 };
 
+enum ButtonStatus {
+  INITIAL,
+  LOADING,
+  SUCCESS,
+  ERROR,
+}
+
 export const EventCreateRow = (props: Props) => {
   const { tokens } = useAuthContext();
   const [repoUrlSeed, setRepoUrlSeed] = useState<string>('');
   const [projectNameSeed, setProjectNameSeed] = useState<string>('');
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
-  const [isSuccessful, setIsSuccessful] = useState<boolean>();
-  const [isError, setIsError] = useState<boolean>();
+  const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
 
   const theme = useMantineTheme();
 
@@ -116,6 +129,7 @@ export const EventCreateRow = (props: Props) => {
 
   const submitCreateGitPOAP = useCallback(
     async (formValues: Record<string, any>) => {
+      setButtonStatus(ButtonStatus.LOADING);
       const formData = new FormData();
 
       for (const key in formValues) {
@@ -140,32 +154,38 @@ export const EventCreateRow = (props: Props) => {
         if (!res.ok) {
           throw new Error(res.statusText);
         }
-        setIsSuccessful(true);
+        setButtonStatus(ButtonStatus.SUCCESS);
+        showNotification(
+          NotificationFactory.createSuccess(
+            `Success - GitPOAP Created - ${projectNameSeed}`,
+            'Thanks! 🤓',
+          ),
+        );
       } catch (err) {
         console.error(err);
         showNotification(
           NotificationFactory.createError(
-            'Error - Request Failed',
+            `Error - Request Failed for ${projectNameSeed}`,
             'Oops, something went wrong! 🤥',
           ),
         );
-        setIsError(true);
+        setButtonStatus(ButtonStatus.ERROR);
       }
     },
-    [tokens?.accessToken],
+    [tokens?.accessToken, projectNameSeed],
   );
 
   return (
     <>
+      <Box style={{ minWidth: rem(30) }}>
+        <Text>{`${props.rowNumber}.`}</Text>
+      </Box>
       <Group direction="row" align="start" style={{ marginBottom: rem(20) }} spacing="md">
-        <Box style={{ minWidth: rem(30) }}>
-          <Text>{`${props.rowNumber}.`}</Text>
-        </Box>
         {/* Project Specific Seed values */}
         <Group direction="column">
           <FormInput
             required
-            label={'Repo URL Seed'}
+            label={'Repo URL Seed (generates githubRepoID)'}
             value={repoUrlSeed}
             onChange={(e) => setRepoUrlSeed(e.target.value)}
           />
@@ -228,12 +248,12 @@ export const EventCreateRow = (props: Props) => {
         </Group>
       </Group>
       <Group>
-        <Errors>
+        <Box>
           {errors &&
             Object.keys(errors).map((errorKey, i) => {
               return <ErrorText key={i}>{`${errorKey}: ${errors[errorKey]}`}</ErrorText>;
             })}
-        </Errors>
+        </Box>
       </Group>
       <Divider style={{ width: '100%', borderTopColor: BackgroundPanel2 }} />
     </>
