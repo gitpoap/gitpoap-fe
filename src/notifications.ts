@@ -2,7 +2,7 @@ import { BackgroundPanel2, ExtraRed, PrimaryBlue, TextLight } from './colors';
 import { NotificationProps } from '@mantine/notifications';
 
 export class NotificationFactory {
-  public static createSuccess = (title: string, message: string) => {
+  public static createSuccess = (title: string, message?: string) => {
     return <NotificationProps>{
       title,
       message,
@@ -23,7 +23,7 @@ export class NotificationFactory {
       }),
     };
   };
-  public static createError = (title: string, message: string) => {
+  public static createError = (title: string, message?: string) => {
     return <NotificationProps>{
       title,
       message,
