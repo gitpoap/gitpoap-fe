@@ -32,7 +32,8 @@ const CreateGitPOAP: NextPage = () => {
   const { isLoggedIntoGitHub } = useAuthContext();
   /* Form Seed Values */
   const [eventName, setEventName] = useState<string>('');
-  const [date, setDate] = useState<Date | null>(DateTime.local().toJSDate());
+  const [startDate, setStartDate] = useState<Date | null>(DateTime.local().toJSDate());
+  const [endDate, setEndDate] = useState<Date | null>(DateTime.local().toJSDate());
   const [expiry, setExpiry] = useState<Date | null>(DateTime.local(2023, 4, 1).toJSDate());
   const [codeCount, setCodeCount] = useState<number>(10);
   const [rowCount, setRowCount] = useState<number>(1);
@@ -87,10 +88,17 @@ const CreateGitPOAP: NextPage = () => {
                   <Group>
                     <FormDatePicker
                       required
-                      label={'Event Date'}
-                      name={'date'}
-                      value={date}
-                      onChange={(date) => setDate(date)}
+                      label={'Event Start Date'}
+                      name={'startDate'}
+                      value={startDate}
+                      onChange={(startDate) => setStartDate(startDate)}
+                    />
+                    <FormDatePicker
+                      required
+                      label={'Event End Date'}
+                      name={'endDate'}
+                      value={endDate}
+                      onChange={(endDate) => setEndDate(endDate)}
                     />
                     <FormDatePicker
                       required
@@ -115,7 +123,8 @@ const CreateGitPOAP: NextPage = () => {
                       key={index}
                       rowNumber={index + 1}
                       eventName={eventName}
-                      eventDate={date}
+                      eventStartDate={startDate}
+                      eventEndDate={endDate}
                       expiry={expiry}
                       codeCount={codeCount}
                       hasYear={hasYear}
