@@ -20,7 +20,7 @@
     "@mantine/hooks": "^4.2.2",
     "@mantine/next": "^4.2.2",
     "@mantine/notifications": "^4.2.2",
-    "@sentry/nextjs": "^6.19.2",
+    "@sentry/nextjs": "^6.19.7",
     "@ukstv/jazzicon-react": "^1.0.0",
     "@walletconnect/web3-provider": "^1.7.7",
     "buffer": "^6.0.3",
