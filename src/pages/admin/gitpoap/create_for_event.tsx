@@ -46,7 +46,7 @@ const CreateGitPOAP: NextPage = () => {
         <meta name="description" content="GitPOAP Frontend App" />
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
-        <Grid.Col xs={10} sm={10} md={10} lg={12}>
+        <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
           {isLoggedIntoGitHub ? (
             <Group direction="row" position="center">
               <Group direction="column">
