@@ -106,7 +106,7 @@ export const GitPOAP = ({
             }}
           />
         </Link>
-        {poapTokenId && <Heart poapTokenId={poapTokenId} />}
+        {/* {poapTokenId && <Heart poapTokenId={poapTokenId} />} */}
       </BadgeWrapper>
       <Info>
         <Link href={`/gp/${gitPOAPId}`} passHref>
