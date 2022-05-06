@@ -11,6 +11,7 @@ const StyledInputWrapper = styled(InputWrapperUI)<{ disabled?: boolean }>`
 
   .mantine-InputWrapper-label {
     ${TextInputLabelStyles};
+    margin-bottom: ${rem(11)};
   }
 
   .mantine-InputWrapper-error {

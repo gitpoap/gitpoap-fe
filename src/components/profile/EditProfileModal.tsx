@@ -45,6 +45,7 @@ const Header = styled.div`
 
 const FieldLabel = styled.div`
   ${TextInputLabelStyles};
+  margin-bottom: ${rem(11)};
 `;
 
 const ProfileFields = styled.div`
