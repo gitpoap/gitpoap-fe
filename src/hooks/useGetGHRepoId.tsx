@@ -17,28 +17,29 @@ export const useGetGHRepoId = (repoUrlSeed: string): [number | null, string | nu
         },
       });
 
-      if (!res.ok) {
-        throw new Error(res.statusText);
-      }
+      if (res.ok) {
+        const repoData = (await res.json()) as {
+          id: number;
+          name: string;
+          full_name: string;
+          private: boolean;
+        };
 
-      const repoData = (await res.json()) as {
-        id: number;
-        name: string;
-        full_name: string;
-        private: boolean;
-      };
-
-      if (repoData.id) {
-        setGithubRepoId(repoData.id);
-        setEventUrl(`https://github.com/${orgOrUserName}/${repoName}`);
+        if (repoData.id) {
+          setGithubRepoId(repoData.id);
+          setEventUrl(`https://github.com/${orgOrUserName}/${repoName}`);
+        }
+      } else {
+        throw res;
       }
     } catch (err) {
+      if ((err as Response).status === 404) {
+        return;
+      }
+
       console.warn(err);
       showNotification(
-        NotificationFactory.createError(
-          'Error - Request to fetch Github Repo ID failed',
-          'Oops, something went wrong! 🤥',
-        ),
+        NotificationFactory.createError('Error - Request to fetch Github Repo ID failed'),
       );
     }
   }, []);

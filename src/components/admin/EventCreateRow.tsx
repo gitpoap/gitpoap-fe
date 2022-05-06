@@ -18,7 +18,8 @@ import { MdError } from 'react-icons/md';
 
 type Props = {
   eventName: string;
-  eventDate: Date | null;
+  eventStartDate: Date | null;
+  eventEndDate: Date | null;
   expiry: Date | null;
   codeCount: number;
   rowNumber: number;
@@ -89,8 +90,8 @@ export const EventCreateRow = (props: Props) => {
       githubRepoId: undefined,
       name: '',
       description: '',
-      startDate: props.eventDate,
-      endDate: props.eventDate,
+      startDate: props.eventStartDate,
+      endDate: props.eventEndDate,
       expiryDate: props.expiry,
       year: DateTime.local().year,
       eventUrl: '',
