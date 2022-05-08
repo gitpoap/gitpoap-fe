@@ -33,6 +33,9 @@ export const useGetGHRepoId = (repoUrlSeed: string): [number | null, string | nu
         throw res;
       }
     } catch (err) {
+      setGithubRepoId(null);
+      setEventUrl(null);
+
       if ((err as Response).status === 404) {
         return;
       }

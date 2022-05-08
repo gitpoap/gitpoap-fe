@@ -81,7 +81,6 @@ export const EventCreateRow = (props: Props) => {
   const [projectNameSeed, setProjectNameSeed] = useState<string>('');
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
-
   const theme = useMantineTheme();
 
   const { values, setFieldValue, getInputProps, onSubmit, errors } = useForm<FormValues>({
@@ -102,16 +101,41 @@ export const EventCreateRow = (props: Props) => {
     },
   });
 
-  /* Set GitHubRepoID & eventUrl when values are returned from the hook */
+  /* -- Hooks to sync form state w passed props -- */
+  useEffect(() => {
+    setFieldValue('expiryDate', props.expiry);
+    /* do not include setFieldValue below */
+  }, [props.expiry]);
+
+  useEffect(() => {
+    setFieldValue('startDate', props.eventStartDate);
+    /* do not include setFieldValue below */
+  }, [props.eventStartDate]);
+
+  useEffect(() => {
+    setFieldValue('endDate', props.eventEndDate);
+    /* do not include setFieldValue below */
+  }, [props.eventEndDate]);
+
+  /* Set GitHubRepoID when values are returned from the hook */
   useEffect(() => {
     if (githubRepoId && githubRepoId !== values.githubRepoId) {
       setFieldValue('githubRepoId', githubRepoId);
-    }
-    if (eventUrl && eventUrl !== values.eventUrl) {
-      setFieldValue('eventUrl', eventUrl);
+    } else if (!githubRepoId) {
+      setFieldValue('githubRepoId', undefined);
     }
     /* do not include setFieldValue below */
-  }, [githubRepoId, eventUrl, values.githubRepoId, values.eventUrl]);
+  }, [githubRepoId, values.githubRepoId]);
+
+  /* Set eventUrl when values are returned from the hook */
+  useEffect(() => {
+    if (eventUrl && eventUrl !== values.eventUrl) {
+      setFieldValue('eventUrl', eventUrl);
+    } else if (!eventUrl) {
+      setFieldValue('eventUrl', '');
+    }
+    /* do not include setFieldValue below */
+  }, [eventUrl, values.eventUrl]);
 
   useEffect(() => {
     const newName = `GitPOAP: ${props.eventName.trim()} - ${projectNameSeed.trim()} Contributor`;
@@ -189,6 +213,7 @@ export const EventCreateRow = (props: Props) => {
             label={'Repo URL Seed (generates githubRepoID)'}
             value={repoUrlSeed}
             onChange={(e) => setRepoUrlSeed(e.target.value)}
+            error={getInputProps('githubRepoId').error}
           />
           <FormInput
             required
