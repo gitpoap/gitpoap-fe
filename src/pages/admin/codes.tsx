@@ -48,7 +48,6 @@ const GetUniqueGitPOAPQuery = gql`
   query gitPOAP($poapEventId: Int!) {
     gitPOAP(where: { poapEventId: $poapEventId }) {
       id
-      poapSecret
       poapEventId
       status
       repo {
