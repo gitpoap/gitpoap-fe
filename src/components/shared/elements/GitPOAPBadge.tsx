@@ -13,7 +13,7 @@ type Props = {
   onClick?: () => void;
 };
 
-type Sizes = 'sm' | 'md' | 'lg';
+type Sizes = 'xs' | 'sm' | 'md' | 'lg';
 
 type Dimensions = {
   sm: { width: number; borderSize: number };
@@ -26,6 +26,7 @@ type HexProps = {
 };
 
 const dimensions: Dimensions = {
+  xs: { width: 100, borderSize: 2 },
   sm: { width: 150, borderSize: 3 },
   md: { width: 200, borderSize: 4 },
   lg: { width: 350, borderSize: 5 },
