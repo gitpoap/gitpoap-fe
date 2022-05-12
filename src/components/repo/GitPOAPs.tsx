@@ -1,91 +1,145 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { useQuery, gql } from 'urql';
-import { Header } from '../shared/elements/Header';
-import { GitPOAP as GitPOAPBadge } from '../shared/compounds/GitPOAP';
-import { Button } from '../shared/elements/Button';
-import { FaArrowRight } from 'react-icons/fa';
-import { useFeatures } from '../FeaturesContext';
+import { POAPEvent } from '../../types';
+import { GitPOAP as GitPOAPBadgeUI } from '../shared/compounds/GitPOAP';
+import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
-import { BREAKPOINTS } from '../../constants';
+import { Title } from '../shared/elements/Title';
+import { FaTrophy } from 'react-icons/fa';
+import { TextDarkGray } from '../../colors';
+import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 
-const Container = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: ${rem(10)};
+type Props = {
+  repoId: number;
+};
 
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    align-items: center;
-  }
-`;
+type SortOptions = 'date' | 'alphabetical';
 
-const Poaps = styled.div`
+const selectOptions: SelectOption<SortOptions>[] = [
+  { value: 'date', label: 'Mint Date' },
+  { value: 'alphabetical', label: 'Alphabetical' },
+];
+
+const GitPOAPList = styled.div`
   display: inline-flex;
   flex-direction: row;
-  max-width: ${rem(1000)};
   flex-wrap: wrap;
-  margin-top: ${rem(50)};
   margin-bottom: ${rem(50)};
-  column-gap: ${rem(36)};
-  row-gap: ${rem(36)};
-
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    justify-content: center;
-  }
+  align-items: flex-start;
 `;
 
-export type MostClaimedItem = {
-  claimsCount: number;
+const GitPOAPBadge = styled(GitPOAPBadgeUI)`
+  margin: ${rem(30)} ${rem(20)} 0;
+`;
+
+export type GitPOAPGql = {
   gitPOAP: {
     id: number;
     repo: {
       name: string;
     };
   };
-  event: {
-    name: string;
-    image_url: string;
-  };
+  event: POAPEvent;
 };
 
-const MostClaimedQuery = gql`
-  query mostClaimedGitPoaps($repoId: Float!) {
-    mostClaimedGitPOAPs(count: 10, repoId: $repoId) {
-      claimsCount
-      gitPOAP {
-        id
-        repo {
-          name
+const RepoGitPOAPsQuery = gql`
+  query repoGitPOAPs($repoId: Float!, $sort: String, $page: Float, $perPage: Float) {
+    repoGitPOAPs(repoId: $repoId, sort: $sort, page: $page, perPage: $perPage) {
+      totalGitPOAPs
+      gitPOAPs {
+        gitPOAP {
+          id
+          repo {
+            name
+          }
         }
-      }
-      event {
-        name
-        image_url
+        event {
+          name
+          image_url
+          description
+        }
       }
     }
   }
 `;
 
-export type GitPOAPsProps = {
-  repoId: number;
-};
+export const GitPOAPs = ({ repoId }: Props) => {
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState<SortOptions>('date');
+  const [gitPOAPItems, setGitPOAPItems] = useState<GitPOAPGql[]>([]);
+  const [total, setTotal] = useState<number>();
+  const [searchValue, setSearchValue] = useState('');
+  const perPage = 10;
 
-export const GitPOAPs = ({ repoId }: GitPOAPsProps) => {
   const [result] = useQuery<{
-    mostClaimedGitPOAPs: MostClaimedItem[];
-  } | null>({
-    query: MostClaimedQuery,
+    repoGitPOAPs: {
+      totalGitPOAPs: number;
+      gitPOAPs: GitPOAPGql[];
+    };
+  }>({
+    query: RepoGitPOAPsQuery,
     variables: {
       repoId,
+      page,
+      perPage,
+      sort,
     },
   });
 
+  /* If the repoId of the repo being looked at changes, clear the data we've saved */
+  useEffect(() => {
+    setGitPOAPItems([]);
+  }, [repoId]);
+
+  /* Hook to append new data onto existing list of gitPOAPs */
+  useEffect(() => {
+    setGitPOAPItems((prev: GitPOAPGql[]) => {
+      if (result.data?.repoGitPOAPs) {
+        return [...prev, ...result.data.repoGitPOAPs.gitPOAPs];
+      }
+      return prev;
+    });
+  }, [result.data]);
+
+  /* Hook to set total number of GitPOAPs */
+  useEffect(() => {
+    if (result.data?.repoGitPOAPs) {
+      setTotal(result.data.repoGitPOAPs.totalGitPOAPs);
+    }
+  }, [result.data]);
+
+  if (result.error) {
+    return null;
+  }
+
   return (
-    <Container>
-      <Header>{'GitPOAPs'}</Header>
-      <Poaps>
+    <ItemList
+      title={`GitPOAPs: ${total ?? ''}`}
+      selectOptions={selectOptions}
+      selectValue={sort}
+      onSelectChange={(sortValue) => {
+        if (sortValue !== sort) {
+          setSort(sortValue as SortOptions);
+          setGitPOAPItems([]);
+          setPage(1);
+        }
+      }}
+      isLoading={result.fetching}
+      hasShowMoreButton={!!total && gitPOAPItems.length < total && gitPOAPItems.length > 0}
+      showMoreOnClick={() => {
+        if (!result.fetching) {
+          setPage(page + 1);
+        }
+      }}
+      searchInputPlaceholder={'QUICK SEARCH...'}
+      searchInputValue={searchValue}
+      onSearchInputChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+        setSearchValue(e.target.value)
+      }
+    >
+      <GitPOAPList>
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => {
@@ -95,18 +149,42 @@ export const GitPOAPs = ({ repoId }: GitPOAPsProps) => {
             })}
           </>
         )}
-        {result.data?.mostClaimedGitPOAPs?.map((item, i) => {
-          return (
-            <GitPOAPBadge
-              key={item.gitPOAP.id + '-' + i}
-              gitPOAPId={item.gitPOAP.id}
-              imgSrc={item.event.image_url}
-              name={item.event.name}
-              orgName={item.gitPOAP.repo.name}
-            />
-          );
-        })}
-      </Poaps>
-    </Container>
+        {result.operation && gitPOAPItems.length === 0 && (
+          <EmptyState icon={<FaTrophy color={TextDarkGray} size={rem(74)} />}>
+            <a href={'https://gitpoap.io/discord'} target="_blank" rel="noopener noreferrer">
+              <Title style={{ marginTop: rem(20) }}>
+                {'Get contributing! Head over to our Discord to get started.'}
+              </Title>
+            </a>
+          </EmptyState>
+        )}
+
+        {/* Fully Claimed GitPOAPs rendered next */}
+        {gitPOAPItems &&
+          gitPOAPItems
+            .filter((gitPOAPItem) => {
+              if (searchValue) {
+                return (
+                  gitPOAPItem.event.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                  gitPOAPItem.gitPOAP.repo.name.toLowerCase().includes(searchValue.toLowerCase())
+                );
+              }
+
+              return true;
+            })
+            .map((gitPOAPItem) => {
+              return (
+                <GitPOAPBadge
+                  key={`${gitPOAPItem.gitPOAP.id}-minting`}
+                  gitPOAPId={gitPOAPItem.gitPOAP.id}
+                  orgName={gitPOAPItem.gitPOAP.repo.name}
+                  name={gitPOAPItem.event.name}
+                  imgSrc={gitPOAPItem.event.image_url}
+                  description={gitPOAPItem.event.description}
+                />
+              );
+            })}
+      </GitPOAPList>
+    </ItemList>
   );
 };

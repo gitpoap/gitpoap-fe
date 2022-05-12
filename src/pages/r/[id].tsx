@@ -9,11 +9,8 @@ import { Grid } from '@mantine/core';
 import { Page } from '../_app';
 import { MidnightBlue } from '../../colors';
 import { BackgroundHexes } from '../../components/repo/BackgroundHexes';
-// import { GitPOAPs } from '../../components/repo/GitPOAPs';
-import { GitPOAPs } from '../../components/profile/GitPOAPs';
+import { GitPOAPs } from '../../components/repo/GitPOAPs';
 import { TopContributors } from '../../components/repo/TopContributors';
-import { GitPOAPHolders } from '../../components/gitpoap/GitPOAPHolders';
-import { LeaderBoard } from '../../components/home/LeaderBoard';
 import { Header as PageHeader } from '../../components/repo/Header';
 import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
@@ -107,7 +104,7 @@ const Repo: Page = () => {
         <Grid.Col>
           <ContentWrapper>
             <GitPOAPsWrapper>
-              <GitPOAPs address={'burz.eth'} />
+              <GitPOAPs repoId={repoId} />
             </GitPOAPsWrapper>
             <TopContributorsWrapper>
               <TopContributors repoId={repoId} />

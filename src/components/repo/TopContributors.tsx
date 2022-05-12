@@ -99,8 +99,8 @@ const List = styled.div`
 `;
 
 const TopContributorsQuery = gql`
-  query topContributors {
-    mostHonoredContributors(count: 6) {
+  query topContributors($repoId: Float!) {
+    repoMostHonoredContributors(count: 6, repoId: $repoId) {
       profile {
         address
         id
@@ -144,9 +144,12 @@ export type TopContributorsProps = {
 
 export const TopContributors = ({ repoId }: TopContributorsProps) => {
   const [result] = useQuery<{
-    mostHonoredContributors: LeaderBoardItemProps[];
+    repoMostHonoredContributors: LeaderBoardItemProps[];
   }>({
     query: TopContributorsQuery,
+    variables: {
+      repoId,
+    },
   });
 
   return (
@@ -154,7 +157,7 @@ export const TopContributors = ({ repoId }: TopContributorsProps) => {
       <Content>
         <HeaderStyled>{'Top contributors'}</HeaderStyled>
         <List>
-          {result.data?.mostHonoredContributors.map((item: LeaderBoardItemProps) => (
+          {result.data?.repoMostHonoredContributors.map((item: LeaderBoardItemProps) => (
             <LeaderBoardItem key={item.profile.id} {...item} />
           ))}
         </List>
