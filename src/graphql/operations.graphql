@@ -16,3 +16,14 @@ query leaders($count: Float!) {
     claimsCount
   }
 }
+
+query gitpoapByPoapEventId($poapEventId: Int!) {
+  gitPOAP(where: { poapEventId: $poapEventId }) {
+    id
+    poapEventId
+    status
+    repo {
+      name
+    }
+  }
+}

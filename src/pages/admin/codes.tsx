@@ -4,13 +4,13 @@ import { rem } from 'polished';
 import { z } from 'zod';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useQuery, gql } from 'urql';
 import { IconType } from 'react-icons';
 import { HiDocumentText, HiOutlineX, HiUpload } from 'react-icons/hi';
 import { useForm, zodResolver } from '@mantine/form';
-import { Group, useMantineTheme, MantineTheme, Box, Grid } from '@mantine/core';
+import { Group, useMantineTheme, MantineTheme, Grid } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { DropzoneStatus, Dropzone as DropzoneUI } from '@mantine/dropzone';
+import { useGitpoapByPoapEventIdQuery } from '../../graphql/generated-gql';
 import { NumberInput, Text, Header, Button } from '../../components/shared/elements';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../../components/github/AuthContext';
@@ -42,19 +42,6 @@ const FormContainer = styled.section`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-`;
-
-const GetUniqueGitPOAPQuery = gql`
-  query gitPOAP($poapEventId: Int!) {
-    gitPOAP(where: { poapEventId: $poapEventId }) {
-      id
-      poapEventId
-      status
-      repo {
-        name
-      }
-    }
-  }
 `;
 
 const FormNumberInput = styled(NumberInput)`
@@ -152,8 +139,7 @@ const AddCodesPage: NextPage = () => {
     },
   });
 
-  const [result] = useQuery<any>({
-    query: GetUniqueGitPOAPQuery,
+  const [result] = useGitpoapByPoapEventIdQuery({
     variables: {
       poapEventId: values.poapEventId ?? 0,
     },

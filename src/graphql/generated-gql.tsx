@@ -17,6 +17,54 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type AuthToken = {
+  __typename?: 'AuthToken';
+  generation: Scalars['Int'];
+  githubId: Scalars['Int'];
+  githubOAuthToken: Scalars['String'];
+  id: Scalars['Int'];
+};
+
+export type AuthTokenListRelationFilter = {
+  every?: InputMaybe<AuthTokenWhereInput>;
+  none?: InputMaybe<AuthTokenWhereInput>;
+  some?: InputMaybe<AuthTokenWhereInput>;
+};
+
+export type AuthTokenOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type AuthTokenOrderByWithRelationInput = {
+  generation?: InputMaybe<SortOrder>;
+  githubId?: InputMaybe<SortOrder>;
+  githubOAuthToken?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+};
+
+export enum AuthTokenScalarFieldEnum {
+  Generation = 'generation',
+  GithubId = 'githubId',
+  GithubOAuthToken = 'githubOAuthToken',
+  Id = 'id',
+}
+
+export type AuthTokenWhereInput = {
+  AND?: InputMaybe<Array<AuthTokenWhereInput>>;
+  NOT?: InputMaybe<Array<AuthTokenWhereInput>>;
+  OR?: InputMaybe<Array<AuthTokenWhereInput>>;
+  generation?: InputMaybe<IntFilter>;
+  githubId?: InputMaybe<IntFilter>;
+  githubOAuthToken?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IntFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+};
+
+export type AuthTokenWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+};
+
 export type BoolFilter = {
   equals?: InputMaybe<Scalars['Boolean']>;
   not?: InputMaybe<NestedBoolFilter>;
@@ -1058,11 +1106,22 @@ export type StringNullableFilter = {
 export type User = {
   __typename?: 'User';
   _count?: Maybe<UserCount>;
+  authTokens: Array<AuthToken>;
   claims: Array<Claim>;
   createdAt: Scalars['DateTime'];
+  githubHandle: Scalars['String'];
   githubId: Scalars['Int'];
   id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
+};
+
+export type UserAuthTokensArgs = {
+  cursor?: InputMaybe<AuthTokenWhereUniqueInput>;
+  distinct?: InputMaybe<Array<AuthTokenScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<AuthTokenOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<AuthTokenWhereInput>;
 };
 
 export type UserClaimsArgs = {
@@ -1099,8 +1158,10 @@ export type UserGitPoapData = {
 };
 
 export type UserOrderByWithRelationInput = {
+  authTokens?: InputMaybe<AuthTokenOrderByRelationAggregateInput>;
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
+  githubHandle?: InputMaybe<SortOrder>;
   githubId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -1131,8 +1192,10 @@ export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
+  authTokens?: InputMaybe<AuthTokenListRelationFilter>;
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  githubHandle?: InputMaybe<StringFilter>;
   githubId?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -1168,6 +1231,21 @@ export type LeadersQuery = {
   }>;
 };
 
+export type GitpoapByPoapEventIdQueryVariables = Exact<{
+  poapEventId: Scalars['Int'];
+}>;
+
+export type GitpoapByPoapEventIdQuery = {
+  __typename?: 'Query';
+  gitPOAP?: {
+    __typename?: 'GitPOAP';
+    id: number;
+    poapEventId: number;
+    status: GitPoapStatus;
+    repo: { __typename?: 'Repo'; name: string };
+  } | null;
+};
+
 export const GetAllStatsDocument = gql`
   query GetAllStats {
     totalContributors
@@ -1198,4 +1276,25 @@ export const LeadersDocument = gql`
 
 export function useLeadersQuery(options: Omit<Urql.UseQueryArgs<LeadersQueryVariables>, 'query'>) {
   return Urql.useQuery<LeadersQuery>({ query: LeadersDocument, ...options });
+}
+export const GitpoapByPoapEventIdDocument = gql`
+  query gitpoapByPoapEventId($poapEventId: Int!) {
+    gitPOAP(where: { poapEventId: $poapEventId }) {
+      id
+      poapEventId
+      status
+      repo {
+        name
+      }
+    }
+  }
+`;
+
+export function useGitpoapByPoapEventIdQuery(
+  options: Omit<Urql.UseQueryArgs<GitpoapByPoapEventIdQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<GitpoapByPoapEventIdQuery>({
+    query: GitpoapByPoapEventIdDocument,
+    ...options,
+  });
 }
