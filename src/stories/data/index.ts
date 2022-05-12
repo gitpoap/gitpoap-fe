@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import { GitPOAP, POAP } from '../../types';
 import { Project } from '../../types';
 import { Stats } from '../../components/home/BannerStats';
-import { LeaderBoardItemProps } from '../../components/home/LeaderBoard';
+import { LeadersQuery } from '../../graphql/generated-gql';
 import { Holder } from '../../components/gitpoap/GitPOAPHolders';
 import { GitPOAPEventQueryRes } from '../../components/gitpoap/Header';
 
@@ -315,7 +315,7 @@ export const projectData: Project[] = [
   },
 ];
 
-export const leaderData: LeaderBoardItemProps[] = [
+export const leaderData: LeadersQuery['mostHonoredContributors'] = [
   {
     claimsCount: 12,
     profile: {

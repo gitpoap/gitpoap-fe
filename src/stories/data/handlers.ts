@@ -3,7 +3,6 @@ import { UserPOAPsQueryRes } from '../../components/profile/AllPOAPs';
 import { GitPOAPHoldersQueryRes } from '../../components/gitpoap/GitPOAPHolders';
 import { GitPOAPEventQueryRes } from '../../components/gitpoap/Header';
 import {
-  gitPOAPs,
   stats,
   leaderData,
   projectData,
