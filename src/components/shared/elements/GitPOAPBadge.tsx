@@ -26,7 +26,6 @@ type HexProps = {
 };
 
 const dimensions: Dimensions = {
-  xs: { width: 100, borderSize: 2 },
   sm: { width: 150, borderSize: 3 },
   md: { width: 200, borderSize: 4 },
   lg: { width: 350, borderSize: 5 },

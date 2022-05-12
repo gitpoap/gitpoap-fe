@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { GitPOAP } from '../../components/shared/compounds/GitPOAP';
-import { gitPOAPs } from '../data';
 import { GitPOAPBadge } from '../../components/shared/elements/GitPOAPBadge';
 
 import real_badge1 from '../assets/gitPOAPs/real_badge1.png';
@@ -51,8 +49,8 @@ const Hex = styled.div<{ featured: boolean; imgUrl?: string }>`
   text-align: center;
   line-height: calc(var(--s) * 1.1547);
 
-  //   background: ${(props) => (props.featured ? 'red' : 'green')};
-  background: ${(props) =>
+  background: ${(props) => (props.featured ? 'red' : 'green')};
+  // background: ${(props) =>
     props.imgUrl ? `no-repeat center / 100% url('${props.imgUrl}')` : 'blue'};
   //   &:nth-child(odd) {
   //     background: green;
@@ -74,11 +72,11 @@ let gitpoaps = [
   real_badge5,
   real_badge6,
   real_badge7,
-  real_badge8,
-  real_badge9,
-  real_badge10,
-  real_badge11,
-  real_badge12,
+  // real_badge8,
+  // real_badge9,
+  // real_badge10,
+  // real_badge11,
+  // real_badge12,
 ].slice(0, 7);
 
 // https://css-tricks.com/hexagons-and-beyond-flexible-responsive-grid-patterns-sans-media-queries/
@@ -101,12 +99,12 @@ const HexGrid = ({}) => {
     <Main>
       <Container>
         {[...Array(length)].map((_, i) => {
-          return (
-            <Hex key={i} featured={map.has(i)}>
-              {map.has(i) ? <StyledGitPOAPBadge imgUrl={map.get(i)} size="xs" /> : null}
-            </Hex>
-          );
-          //   return <Hex key={i} imgUrl={map.get(i)} featured={map.has(i)} />;
+          return <Hex key={i} featured={map.has(i)} />;
+          // return (
+          //   <Hex key={i} featured={map.has(i)}>
+          //     {map.has(i) ? <StyledGitPOAPBadge imgUrl={map.get(i)} size="sm" /> : null}
+          //   </Hex>
+          // );
         })}
       </Container>
     </Main>
