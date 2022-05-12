@@ -8,7 +8,9 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "chromatic": "npx chromatic --project-token=17617c85151f",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "gql:generate-dev": "graphql-codegen --config codegen-dev.yml",
+    "gql:generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.0.5",
@@ -43,6 +45,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.12",
+    "@graphql-codegen/cli": "2.6.2",
+    "@graphql-codegen/typescript": "2.4.11",
+    "@graphql-codegen/typescript-operations": "2.4.0",
+    "@graphql-codegen/typescript-urql": "^3.5.10",
     "@storybook/addon-actions": "^6.4.20",
     "@storybook/addon-essentials": "^6.4.20",
     "@storybook/addon-links": "^6.4.20",
