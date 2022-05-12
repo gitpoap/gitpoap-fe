@@ -1,0 +1,18 @@
+query GetAllStats {
+  totalContributors
+  lastMonthContributors
+  totalClaims
+  lastMonthClaims
+  totalRepos
+  lastMonthRepos
+}
+
+query leaders($count: Float!) {
+  mostHonoredContributors(count: $count) {
+    profile {
+      address
+      id
+    }
+    claimsCount
+  }
+}
