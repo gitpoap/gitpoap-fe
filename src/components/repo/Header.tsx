@@ -30,6 +30,9 @@ type Repo = {
   name: string;
   githubRepoId: number;
   organization: Organization;
+  _count: {
+    gitPOAPs: number;
+  };
 };
 
 type RepoQueryRes = {
@@ -48,6 +51,9 @@ const RepoQuery = gql`
         description
         twitterHandle
         url
+      }
+      _count {
+        gitPOAPs
       }
     }
   }
@@ -364,13 +370,15 @@ export const Header = ({ repoId }: Props) => {
           <People />
           <SubHeaderItemCount>{contributors}</SubHeaderItemCount>
           <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
-        </SubHeaderItem>
-        <SubHeaderItem>
-          <GitPOAP />
-          <SubHeaderItemCount>{gitpoaps}</SubHeaderItemCount>
-          <SubHeaderItemLabel>{'GitPOAPs'}</SubHeaderItemLabel>
-        </SubHeaderItem>
-        <SubHeaderItem>
+        </SubHeaderItem> */}
+        {repo?._count.gitPOAPs && (
+          <SubHeaderItem>
+            <GitPOAP />
+            <SubHeaderItemCount>{repo?._count.gitPOAPs}</SubHeaderItemCount>
+            <SubHeaderItemLabel>{'GitPOAPs'}</SubHeaderItemLabel>
+          </SubHeaderItem>
+        )}
+        {/* <SubHeaderItem>
           <Star />
           <SubHeaderItemCount>{stars}</SubHeaderItemCount>
           <SubHeaderItemLabel>{'Stars'}</SubHeaderItemLabel>
