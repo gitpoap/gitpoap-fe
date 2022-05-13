@@ -98,7 +98,7 @@ const Repo: Page = () => {
       <Grid justify="center" style={{ zIndex: 1 }}>
         <Background />
         <Grid.Col style={{ zIndex: 1 }}>
-          <PageHeader gitPOAPId={repoId} />
+          <PageHeader repoId={repoId} />
         </Grid.Col>
 
         <Grid.Col>

@@ -14,7 +14,7 @@ import { InfoHexBase } from '../shared/elements/InfoHexBase';
 import { People, GitPOAP, Star, Globe, GitHub, Twitter } from '../shared/elements/icons';
 
 type Props = {
-  gitPOAPId: number;
+  repoId: number;
 };
 
 type Organization = {
@@ -25,43 +25,29 @@ type Organization = {
   url?: string;
 };
 
-type Event = {
+type Repo = {
+  id: number;
   name: string;
-  image_url: string;
-  description: string;
+  githubRepoId: number;
+  organization: Organization;
 };
 
-export type GitPOAPEventQueryRes = {
-  gitPOAPEvent: {
-    gitPOAP: {
-      repo: {
-        name: string;
-        organization: Organization;
-      };
-    };
-    event: Event;
-  };
+type RepoQueryRes = {
+  repo: Repo;
 };
 
-const GitPOAPEventQuery = gql`
-  query gitPOAPEventQuery($id: Float!) {
-    gitPOAPEvent(id: $id) {
-      gitPOAP {
-        repo {
-          name
-          organization {
-            id
-            name
-            description
-            twitterHandle
-            url
-          }
-        }
-      }
-      event {
+const RepoQuery = gql`
+  query RepoQuery($id: Int!) {
+    repo(where: { id: $id }) {
+      id
+      name
+      githubRepoId
+      organization {
+        id
         name
-        image_url
         description
+        twitterHandle
+        url
       }
     }
   }
@@ -161,6 +147,7 @@ const SubHeader = styled.div`
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   margin-top: ${rem(48)};
+  min-height: ${rem(48)};
 `;
 
 const SubHeaderItem = styled.div`
@@ -272,8 +259,11 @@ const HexagonWrapper = styled.div`
   left: 0;
   top: 0;
   margin-top: ${rem(75)};
-  padding-top: ${rem(80)};
   max-width: 90vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const StyledSVG = styled.svg`
@@ -284,32 +274,21 @@ const StyledSVG = styled.svg`
   max-width: inherit;
 `;
 
-export const Header = ({ gitPOAPId }: Props) => {
-  const [event, setEvent] = useState<Event>();
-  const [organization, setOrganization] = useState<Organization>({
-    id: 1,
-    name: 'Polygon',
-  });
-  const [repoName, setRepoName] = useState<string>();
-  const [result] = useQuery<GitPOAPEventQueryRes>({
-    query: GitPOAPEventQuery,
+export const Header = ({ repoId }: Props) => {
+  const [repo, setRepo] = useState<Repo>();
+  const [result] = useQuery<RepoQueryRes>({
+    query: RepoQuery,
     variables: {
-      id: gitPOAPId,
+      id: repoId,
     },
   });
 
   /* Hook to set profile data to state */
   useEffect(() => {
-    if (result.data?.gitPOAPEvent) {
-      setEvent(result.data?.gitPOAPEvent.event);
-      setOrganization(result.data?.gitPOAPEvent.gitPOAP.repo.organization);
-      setRepoName(result.data?.gitPOAPEvent.gitPOAP.repo.name);
+    if (result?.data?.repo) {
+      setRepo(result?.data?.repo);
     }
   }, [result.data]);
-
-  let twitterHref = 'twitter.com';
-  let githubHref = 'github.com';
-  let websiteHref = 'github.com';
 
   let contributors = 35;
   let gitpoaps = 7;
@@ -319,7 +298,7 @@ export const Header = ({ gitPOAPId }: Props) => {
   return (
     <Wrapper>
       <Head>
-        <title>{` ${event?.name.replace('GitPOAP: ', '') ?? 'GitPOAP'} | GitPOAP`}</title>
+        <title>{` ${repo?.name.replace('GitPOAP: ', '') ?? 'GitPOAP'} | GitPOAP`}</title>
       </Head>
       {/* <HeaderHexagonPath /> */}
       <HexagonWrapper>
@@ -336,40 +315,52 @@ export const Header = ({ gitPOAPId }: Props) => {
             fill="#1E1F2E"
           />
         </StyledSVG>
-        <HeaderText>matic.js</HeaderText>
-        <Text style={{ paddingTop: rem(13) }}>
-          Javascript developer library to interact with Matic Network
-        </Text>
-        <Tags>
-          <Tag>{'blockchain'}</Tag>
-          <Tag>{'javascript'}</Tag>
-        </Tags>
-        <OrgName>
-          {'by '}
-          <Link href={`/o/${organization.id}`} passHref>
-            <OrgLink>{organization.name}</OrgLink>
-          </Link>
-        </OrgName>
-        <Social>
-          {twitterHref && (
-            <IconLink href={twitterHref} target="_blank" rel="noreferrer">
-              <Twitter />
-            </IconLink>
-          )}
-          {githubHref && (
-            <IconLink href={githubHref} target="_blank" rel="noreferrer">
-              <GitHub />
-            </IconLink>
-          )}
-          {websiteHref && (
-            <IconLink href={websiteHref} target="_blank" rel="noreferrer">
-              <Globe />
-            </IconLink>
-          )}
-        </Social>
+        {repo && (
+          <div>
+            <HeaderText>{repo.name}</HeaderText>
+            {/* <Text style={{ paddingTop: rem(13) }}>
+              Javascript developer library to interact with Matic Network
+            </Text> */}
+            <Tags>
+              <Tag>{'blockchain'}</Tag>
+              <Tag>{'javascript'}</Tag>
+            </Tags>
+            <OrgName>
+              {'by '}
+              <Link href={`/o/${repo.organization.id}`} passHref>
+                <OrgLink>{repo.organization.name}</OrgLink>
+              </Link>
+            </OrgName>
+            <Social>
+              {repo.organization.twitterHandle && (
+                <IconLink
+                  href={`https://twitter.com/${repo.organization.twitterHandle}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Twitter />
+                </IconLink>
+              )}
+              {repo.organization.name && (
+                <IconLink
+                  href={`https://github.com/${repo.organization.name}/${repo.name}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <GitHub />
+                </IconLink>
+              )}
+              {repo.organization.url && (
+                <IconLink href={repo.organization.url} target="_blank" rel="noreferrer">
+                  <Globe />
+                </IconLink>
+              )}
+            </Social>
+          </div>
+        )}
       </HexagonWrapper>
       <SubHeader>
-        <SubHeaderItem>
+        {/* <SubHeaderItem>
           <People />
           <SubHeaderItemCount>{contributors}</SubHeaderItemCount>
           <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
@@ -389,7 +380,7 @@ export const Header = ({ gitPOAPId }: Props) => {
             <LookingForContributors>{'Looking for contributors'}</LookingForContributors>
             <DetailsButton>{'Details'}</DetailsButton>
           </SubHeaderItem>
-        )}
+        )} */}
       </SubHeader>
     </Wrapper>
   );
