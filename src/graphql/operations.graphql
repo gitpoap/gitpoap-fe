@@ -1,4 +1,4 @@
-query GetAllStats {
+query getAllStats {
   totalContributors
   lastMonthContributors
   totalClaims
@@ -23,6 +23,119 @@ query gitpoapByPoapEventId($poapEventId: Int!) {
     poapEventId
     status
     repo {
+      name
+    }
+  }
+}
+
+query gitPOAPHolders($gitPOAPId: Float!, $page: Float, $perPage: Float, $sort: String) {
+  gitPOAPHolders(gitPOAPId: $gitPOAPId, page: $page, perPage: $perPage, sort: $sort) {
+    totalHolders
+    holders {
+      address
+      githubHandle
+      gitPOAPCount
+      profileId
+      bio
+      personalSiteUrl
+      twitterHandle
+    }
+  }
+}
+
+query mostClaimedGitPoaps($count: Float!) {
+  mostClaimedGitPOAPs(count: $count) {
+    claimsCount
+    gitPOAP {
+      id
+      repo {
+        name
+      }
+    }
+    event {
+      name
+      image_url
+    }
+  }
+}
+
+query profile($address: String!) {
+  profileData(address: $address) {
+    id
+    bio
+    name
+    twitterHandle
+    personalSiteUrl
+    address
+  }
+}
+
+query searchForString($text: String!) {
+  search(text: $text) {
+    profilesByAddress {
+      id
+      address
+    }
+    profileByENS {
+      profile {
+        id
+        address
+      }
+      ens
+    }
+  }
+}
+
+query gitPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) {
+  userPOAPs(address: $address, sort: $sort, page: $page, perPage: $perPage) {
+    totalGitPOAPs
+    gitPOAPs {
+      claim {
+        gitPOAP {
+          id
+          repo {
+            name
+          }
+        }
+        status
+        poapTokenId
+      }
+      event {
+        name
+        image_url
+        description
+      }
+    }
+  }
+}
+
+query openClaims($githubId: Float!) {
+  userClaims(githubId: $githubId) {
+    claim {
+      id
+      gitPOAP {
+        id
+        repo {
+          organization {
+            name
+          }
+        }
+      }
+    }
+    event {
+      name
+      image_url
+      description
+    }
+  }
+}
+
+query recentProjects($count: Float!) {
+  recentlyAddedProjects(count: $count) {
+    id
+    name
+    createdAt
+    organization {
       name
     }
   }

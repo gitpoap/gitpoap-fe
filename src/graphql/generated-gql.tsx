@@ -17,54 +17,6 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type AuthToken = {
-  __typename?: 'AuthToken';
-  generation: Scalars['Int'];
-  githubId: Scalars['Int'];
-  githubOAuthToken: Scalars['String'];
-  id: Scalars['Int'];
-};
-
-export type AuthTokenListRelationFilter = {
-  every?: InputMaybe<AuthTokenWhereInput>;
-  none?: InputMaybe<AuthTokenWhereInput>;
-  some?: InputMaybe<AuthTokenWhereInput>;
-};
-
-export type AuthTokenOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
-export type AuthTokenOrderByWithRelationInput = {
-  generation?: InputMaybe<SortOrder>;
-  githubId?: InputMaybe<SortOrder>;
-  githubOAuthToken?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  user?: InputMaybe<UserOrderByWithRelationInput>;
-};
-
-export enum AuthTokenScalarFieldEnum {
-  Generation = 'generation',
-  GithubId = 'githubId',
-  GithubOAuthToken = 'githubOAuthToken',
-  Id = 'id',
-}
-
-export type AuthTokenWhereInput = {
-  AND?: InputMaybe<Array<AuthTokenWhereInput>>;
-  NOT?: InputMaybe<Array<AuthTokenWhereInput>>;
-  OR?: InputMaybe<Array<AuthTokenWhereInput>>;
-  generation?: InputMaybe<IntFilter>;
-  githubId?: InputMaybe<IntFilter>;
-  githubOAuthToken?: InputMaybe<StringFilter>;
-  id?: InputMaybe<IntFilter>;
-  user?: InputMaybe<UserRelationFilter>;
-};
-
-export type AuthTokenWhereUniqueInput = {
-  id?: InputMaybe<Scalars['Int']>;
-};
-
 export type BoolFilter = {
   equals?: InputMaybe<Scalars['Boolean']>;
   not?: InputMaybe<NestedBoolFilter>;
@@ -718,6 +670,8 @@ export type Query = {
   profiles: Array<Profile>;
   recentlyAddedProjects: Array<Repo>;
   repo?: Maybe<Repo>;
+  repoGitPOAPs?: Maybe<RepoGitPoaPs>;
+  repoMostHonoredContributors: Array<ProfileWithClaimsCount>;
   repos: Array<Repo>;
   search: SearchResults;
   totalClaims: Scalars['Float'];
@@ -893,6 +847,18 @@ export type QueryRepoArgs = {
   where: RepoWhereUniqueInput;
 };
 
+export type QueryRepoGitPoaPsArgs = {
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+  repoId: Scalars['Float'];
+  sort?: InputMaybe<Scalars['String']>;
+};
+
+export type QueryRepoMostHonoredContributorsArgs = {
+  count?: InputMaybe<Scalars['Float']>;
+  repoId: Scalars['Float'];
+};
+
 export type QueryReposArgs = {
   cursor?: InputMaybe<RepoWhereUniqueInput>;
   distinct?: InputMaybe<Array<RepoScalarFieldEnum>>;
@@ -1006,6 +972,18 @@ export type RepoCount = {
   gitPOAPs: Scalars['Int'];
 };
 
+export type RepoGitPoapData = {
+  __typename?: 'RepoGitPOAPData';
+  event: PoapEvent;
+  gitPOAP: GitPoap;
+};
+
+export type RepoGitPoaPs = {
+  __typename?: 'RepoGitPOAPs';
+  gitPOAPs: Array<RepoGitPoapData>;
+  totalGitPOAPs: Scalars['Float'];
+};
+
 export type RepoListRelationFilter = {
   every?: InputMaybe<RepoWhereInput>;
   none?: InputMaybe<RepoWhereInput>;
@@ -1106,22 +1084,12 @@ export type StringNullableFilter = {
 export type User = {
   __typename?: 'User';
   _count?: Maybe<UserCount>;
-  authTokens: Array<AuthToken>;
   claims: Array<Claim>;
   createdAt: Scalars['DateTime'];
   githubHandle: Scalars['String'];
   githubId: Scalars['Int'];
   id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
-};
-
-export type UserAuthTokensArgs = {
-  cursor?: InputMaybe<AuthTokenWhereUniqueInput>;
-  distinct?: InputMaybe<Array<AuthTokenScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<AuthTokenOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<AuthTokenWhereInput>;
 };
 
 export type UserClaimsArgs = {
@@ -1158,7 +1126,6 @@ export type UserGitPoapData = {
 };
 
 export type UserOrderByWithRelationInput = {
-  authTokens?: InputMaybe<AuthTokenOrderByRelationAggregateInput>;
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
@@ -1192,7 +1159,6 @@ export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
-  authTokens?: InputMaybe<AuthTokenListRelationFilter>;
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   githubHandle?: InputMaybe<StringFilter>;
@@ -1246,8 +1212,146 @@ export type GitpoapByPoapEventIdQuery = {
   } | null;
 };
 
+export type GitPoapHoldersQueryVariables = Exact<{
+  gitPOAPId: Scalars['Float'];
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+  sort?: InputMaybe<Scalars['String']>;
+}>;
+
+export type GitPoapHoldersQuery = {
+  __typename?: 'Query';
+  gitPOAPHolders?: {
+    __typename?: 'Holders';
+    totalHolders: number;
+    holders: Array<{
+      __typename?: 'Holder';
+      address: string;
+      githubHandle: string;
+      gitPOAPCount: number;
+      profileId: number;
+      bio?: string | null;
+      personalSiteUrl?: string | null;
+      twitterHandle?: string | null;
+    }>;
+  } | null;
+};
+
+export type MostClaimedGitPoapsQueryVariables = Exact<{
+  count: Scalars['Float'];
+}>;
+
+export type MostClaimedGitPoapsQuery = {
+  __typename?: 'Query';
+  mostClaimedGitPOAPs?: Array<{
+    __typename?: 'GitPOAPWithClaimsCount';
+    claimsCount: number;
+    gitPOAP: { __typename?: 'GitPOAP'; id: number; repo: { __typename?: 'Repo'; name: string } };
+    event: { __typename?: 'POAPEvent'; name: string; image_url: string };
+  }> | null;
+};
+
+export type ProfileQueryVariables = Exact<{
+  address: Scalars['String'];
+}>;
+
+export type ProfileQuery = {
+  __typename?: 'Query';
+  profileData?: {
+    __typename?: 'NullableProfile';
+    id?: number | null;
+    bio?: string | null;
+    name?: string | null;
+    twitterHandle?: string | null;
+    personalSiteUrl?: string | null;
+    address: string;
+  } | null;
+};
+
+export type SearchForStringQueryVariables = Exact<{
+  text: Scalars['String'];
+}>;
+
+export type SearchForStringQuery = {
+  __typename?: 'Query';
+  search: {
+    __typename?: 'SearchResults';
+    profilesByAddress: Array<{ __typename?: 'Profile'; id: number; address: string }>;
+    profileByENS?: {
+      __typename?: 'ProfileWithENS';
+      ens: string;
+      profile: { __typename?: 'Profile'; id: number; address: string };
+    } | null;
+  };
+};
+
+export type GitPoapsQueryVariables = Exact<{
+  address: Scalars['String'];
+  sort?: InputMaybe<Scalars['String']>;
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+}>;
+
+export type GitPoapsQuery = {
+  __typename?: 'Query';
+  userPOAPs?: {
+    __typename?: 'UserPOAPs';
+    totalGitPOAPs: number;
+    gitPOAPs: Array<{
+      __typename?: 'UserGitPOAPData';
+      claim: {
+        __typename?: 'Claim';
+        status: ClaimStatus;
+        poapTokenId?: string | null;
+        gitPOAP: {
+          __typename?: 'GitPOAP';
+          id: number;
+          repo: { __typename?: 'Repo'; name: string };
+        };
+      };
+      event: { __typename?: 'POAPEvent'; name: string; image_url: string; description: string };
+    }>;
+  } | null;
+};
+
+export type OpenClaimsQueryVariables = Exact<{
+  githubId: Scalars['Float'];
+}>;
+
+export type OpenClaimsQuery = {
+  __typename?: 'Query';
+  userClaims?: Array<{
+    __typename?: 'FullClaimData';
+    claim: {
+      __typename?: 'Claim';
+      id: number;
+      gitPOAP: {
+        __typename?: 'GitPOAP';
+        id: number;
+        repo: { __typename?: 'Repo'; organization: { __typename?: 'Organization'; name: string } };
+      };
+    };
+    event: { __typename?: 'POAPEvent'; name: string; image_url: string; description: string };
+  }> | null;
+};
+
+export type RecentProjectsQueryVariables = Exact<{
+  count: Scalars['Float'];
+}>;
+
+export type RecentProjectsQuery = {
+  __typename?: 'Query';
+  recentlyAddedProjects: Array<{
+    __typename?: 'Repo';
+    id: number;
+    name: string;
+    createdAt: any;
+    organization: { __typename?: 'Organization'; name: string };
+  }>;
+};
+
 export const GetAllStatsDocument = gql`
-  query GetAllStats {
+  query getAllStats {
     totalContributors
     lastMonthContributors
     totalClaims
@@ -1297,4 +1401,167 @@ export function useGitpoapByPoapEventIdQuery(
     query: GitpoapByPoapEventIdDocument,
     ...options,
   });
+}
+export const GitPoapHoldersDocument = gql`
+  query gitPOAPHolders($gitPOAPId: Float!, $page: Float, $perPage: Float, $sort: String) {
+    gitPOAPHolders(gitPOAPId: $gitPOAPId, page: $page, perPage: $perPage, sort: $sort) {
+      totalHolders
+      holders {
+        address
+        githubHandle
+        gitPOAPCount
+        profileId
+        bio
+        personalSiteUrl
+        twitterHandle
+      }
+    }
+  }
+`;
+
+export function useGitPoapHoldersQuery(
+  options: Omit<Urql.UseQueryArgs<GitPoapHoldersQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<GitPoapHoldersQuery>({ query: GitPoapHoldersDocument, ...options });
+}
+export const MostClaimedGitPoapsDocument = gql`
+  query mostClaimedGitPoaps($count: Float!) {
+    mostClaimedGitPOAPs(count: $count) {
+      claimsCount
+      gitPOAP {
+        id
+        repo {
+          name
+        }
+      }
+      event {
+        name
+        image_url
+      }
+    }
+  }
+`;
+
+export function useMostClaimedGitPoapsQuery(
+  options: Omit<Urql.UseQueryArgs<MostClaimedGitPoapsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<MostClaimedGitPoapsQuery>({
+    query: MostClaimedGitPoapsDocument,
+    ...options,
+  });
+}
+export const ProfileDocument = gql`
+  query profile($address: String!) {
+    profileData(address: $address) {
+      id
+      bio
+      name
+      twitterHandle
+      personalSiteUrl
+      address
+    }
+  }
+`;
+
+export function useProfileQuery(options: Omit<Urql.UseQueryArgs<ProfileQueryVariables>, 'query'>) {
+  return Urql.useQuery<ProfileQuery>({ query: ProfileDocument, ...options });
+}
+export const SearchForStringDocument = gql`
+  query searchForString($text: String!) {
+    search(text: $text) {
+      profilesByAddress {
+        id
+        address
+      }
+      profileByENS {
+        profile {
+          id
+          address
+        }
+        ens
+      }
+    }
+  }
+`;
+
+export function useSearchForStringQuery(
+  options: Omit<Urql.UseQueryArgs<SearchForStringQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<SearchForStringQuery>({ query: SearchForStringDocument, ...options });
+}
+export const GitPoapsDocument = gql`
+  query gitPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) {
+    userPOAPs(address: $address, sort: $sort, page: $page, perPage: $perPage) {
+      totalGitPOAPs
+      gitPOAPs {
+        claim {
+          gitPOAP {
+            id
+            repo {
+              name
+            }
+          }
+          status
+          poapTokenId
+        }
+        event {
+          name
+          image_url
+          description
+        }
+      }
+    }
+  }
+`;
+
+export function useGitPoapsQuery(
+  options: Omit<Urql.UseQueryArgs<GitPoapsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<GitPoapsQuery>({ query: GitPoapsDocument, ...options });
+}
+export const OpenClaimsDocument = gql`
+  query openClaims($githubId: Float!) {
+    userClaims(githubId: $githubId) {
+      claim {
+        id
+        gitPOAP {
+          id
+          repo {
+            organization {
+              name
+            }
+          }
+        }
+      }
+      event {
+        name
+        image_url
+        description
+      }
+    }
+  }
+`;
+
+export function useOpenClaimsQuery(
+  options: Omit<Urql.UseQueryArgs<OpenClaimsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<OpenClaimsQuery>({ query: OpenClaimsDocument, ...options });
+}
+export const RecentProjectsDocument = gql`
+  query recentProjects($count: Float!) {
+    recentlyAddedProjects(count: $count) {
+      id
+      name
+      createdAt
+      organization {
+        name
+      }
+    }
+  }
+`;
+
+export function useRecentProjectsQuery(
+  options: Omit<Urql.UseQueryArgs<RecentProjectsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<RecentProjectsQuery>({ query: RecentProjectsDocument, ...options });
 }
