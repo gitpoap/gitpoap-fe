@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useQuery, gql } from 'urql';
 import { useDebouncedValue } from '@mantine/hooks';
-import { isAddress } from 'ethers/lib/utils'; // checksum address??????
+import { isAddress } from 'ethers/lib/utils';
 import { FaSearch } from 'react-icons/fa';
 import { Loader } from '../shared/elements/Loader';
 import { rem } from 'polished';
@@ -11,6 +10,7 @@ import { SearchItem } from './SearchItem';
 import { BackgroundPanel, TextGray } from '../../colors';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { useSearchForStringQuery } from '../../graphql/generated-gql';
 
 type Props = {
   className?: string;
@@ -21,42 +21,6 @@ type Result = {
   text: string;
   href: string;
   name?: string;
-};
-
-const SearchQuery = gql`
-  query searchForString($text: String!) {
-    search(text: $text) {
-      profilesByAddress {
-        id
-        address
-      }
-      profileByENS {
-        profile {
-          id
-          address
-        }
-        ens
-      }
-    }
-  }
-`;
-
-type ProfileWithENS = {
-  profile: {
-    id: number;
-    address: string;
-  };
-  ens: string;
-};
-
-export type SearchQueryRes = {
-  search: {
-    profilesByAddress: {
-      id: number;
-      address: string;
-    }[];
-    profileByENS: ProfileWithENS | null;
-  };
 };
 
 const Container = styled.div`
@@ -97,8 +61,7 @@ export const SearchBox = ({ className }: Props) => {
   const [searchResults, setSearchResults] = useState<Result[]>([]);
   const [areResultsLoading, setAreResultsLoading] = useState(false);
   const [areResultsVisible, setAreResultsVisible] = useState<boolean>(false);
-  const [result, refetch] = useQuery<SearchQueryRes>({
-    query: SearchQuery,
+  const [result, refetch] = useSearchForStringQuery({
     pause: true,
     variables: {
       text: debouncedQuery,
@@ -116,13 +79,11 @@ export const SearchBox = ({ className }: Props) => {
         setAreResultsLoading(true);
         let results: Result[] = [];
         if (result.data?.search.profilesByAddress) {
-          const profilesByAddress = result.data.search.profilesByAddress.map(
-            (profile): Result => ({
-              id: profile.id,
-              text: profile.address,
-              href: `/p/${profile.address}`,
-            }),
-          );
+          const profilesByAddress = result.data.search.profilesByAddress.map((profile) => ({
+            id: profile.id,
+            text: profile.address,
+            href: `/p/${profile.address}`,
+          }));
 
           results = [...profilesByAddress];
         }
