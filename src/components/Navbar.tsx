@@ -103,14 +103,12 @@ const CollapseMenuContent = styled(Stack)`
 
 export const Navbar = () => {
   const { connectionStatus, address, ensName } = useWeb3Context();
+  const [opened, setOpened] = useState(false);
+  const title = opened ? 'Close navigation' : 'Open navigation';
 
   const showPOAPsPage = false;
   const showProjectsPage = false;
   const showContributorsPage = false;
-  const showDocsLink = false;
-
-  const [opened, setOpened] = useState(false);
-  const title = opened ? 'Close navigation' : 'Open navigation';
 
   const navItems = (
     <>
@@ -118,7 +116,7 @@ export const Navbar = () => {
       {showPOAPsPage && <NavLink href="/poaps">{'POAPS'}</NavLink>}
       {showProjectsPage && <NavLink href="/projects">{'Projects'}</NavLink>}
       {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
-      {showDocsLink && <NavLink href="/docs">{'Docs'}</NavLink>}
+      <NavLink href={'https://docs.gitpoap.io'}>{'Docs'}</NavLink>
       {connectionStatus === 'connected' && (
         <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
       )}

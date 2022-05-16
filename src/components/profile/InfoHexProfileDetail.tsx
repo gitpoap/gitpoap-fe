@@ -3,20 +3,13 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Divider as DividerUI, Text } from '@mantine/core';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
-import {
-  DividerGray1,
-  ExtraHover,
-  ExtraPressed,
-  TextAccent,
-  TextGray,
-  TextLight,
-} from '../../colors';
+import { DividerGray1, TextAccent, TextLight } from '../../colors';
 import { InfoHexBase } from '../shared/elements/InfoHexBase';
 import { Avatar as AvatarUI } from '../shared/elements/Avatar';
 import { CollapsibleAddress } from '../shared/elements/CollapsibleAddress';
 import { Project } from '../../types';
 import { ProjectHex } from '../shared/compounds/ProjectHex';
-import { IconStyles, Globe, GitHub, Twitter } from '../shared/elements/icons';
+import { Globe, GitHub, Twitter } from '../shared/elements/icons';
 import { Button } from '../shared/elements/Button';
 import { Share } from '../shared/elements/Share';
 import { useFeatures } from '../FeaturesContext';
