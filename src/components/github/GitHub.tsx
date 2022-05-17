@@ -33,8 +33,7 @@ type Props = {
 
 export const GitHub = ({ className }: Props) => {
   const { connectionStatus, web3Provider } = useWeb3Context();
-  const { tokens, authState, handleLogout, authorizeGitHub, isLoggedIntoGitHub, user } =
-    useAuthContext();
+  const { tokens, handleLogout, authorizeGitHub, isLoggedIntoGitHub, user } = useAuthContext();
   const signer = web3Provider?.getSigner();
   const { isOpen: isModalOpen, setIsOpen: setIsModalOpen } = useClaimModalContext();
   const [isGHPopoverOpen, setIsGHPopoverOpen] = useState<boolean>(false);
@@ -188,7 +187,7 @@ export const GitHub = ({ className }: Props) => {
 
   return (
     <Content className={className}>
-      {authState.hasInitializedAuth && renderGitHubButton()}
+      {renderGitHubButton()}
       <ClaimModal
         claims={userClaims ?? []}
         isConnected={connectionStatus === 'connected'}
