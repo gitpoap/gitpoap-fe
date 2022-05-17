@@ -4,24 +4,21 @@ import { rem } from 'polished';
 import { Modal, Center } from '@mantine/core';
 import { BackgroundPanel, BackgroundPanel2, TextLight } from '../../colors';
 import { Button } from '../shared/elements/Button';
-import { Input as InputUI, TextInputLabelStyles } from '../shared/elements/Input';
+import { Input as InputUI } from '../shared/elements/Input';
 import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
 import { Text } from '../shared/elements/Text';
 import { MidnightBlue } from '../../colors';
-import { useAuthContext } from '../github/AuthContext';
-import { ProfileData, useProfileContext } from './ProfileContext';
+import { EditableProfileData, useProfileContext } from './ProfileContext';
 import { isValidTwitterHandle, isValidURL } from '../../helpers';
 import { FaCheckCircle } from 'react-icons/fa';
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  bio?: string;
-  twitterHandle?: string;
-  personalSiteUrl?: string;
-  onClickSave: (
-    newProfileData: Partial<Pick<ProfileData, 'bio' | 'personalSiteUrl' | 'twitterHandle'>>,
-  ) => void;
+  bio?: string | null;
+  twitterHandle?: string | null;
+  personalSiteUrl?: string | null;
+  onClickSave: (newProfileData: EditableProfileData) => void;
   isSaveLoading: boolean;
 };
 
@@ -43,11 +40,6 @@ const Header = styled.div`
   color: ${TextLight};
 `;
 
-const FieldLabel = styled.div`
-  ${TextInputLabelStyles};
-  margin-bottom: ${rem(11)};
-`;
-
 const ProfileFields = styled.div`
   background-color: ${MidnightBlue};
   padding: ${rem(30)} ${rem(70)};
@@ -57,21 +49,12 @@ const ProfileFields = styled.div`
   min-width: ${rem(600)};
 `;
 
-const Setting = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: ${rem(35)};
-  justify-content: space-between;
-`;
-
 const SettingSection = styled.div`
   display: flex;
   margin-bottom: ${rem(30)};
 `;
 
 const TwitterHandle = styled(SettingSection)``;
-
-const ConnectGitHub = styled.div``;
 
 const PersonalWebsite = styled(SettingSection)``;
 
@@ -100,13 +83,12 @@ export const EditProfileModal = ({
   onClickSave,
   isSaveLoading,
 }: Props) => {
-  const { authState, handleLogout, authorizeGitHub, isLoggedIntoGitHub, user } = useAuthContext();
   const { isSaveSuccessful } = useProfileContext();
-  /* TODO: replace with mantine's useForm hook */
   const [personSiteUrlValue, setPersonalSiteUrlValue] =
-    useState<string | undefined>(personalSiteUrl);
-  const [bioValue, setBioValue] = useState<string | undefined>(bio);
-  const [twitterHandleValue, setTwitterHandleValue] = useState<string | undefined>(twitterHandle);
+    useState<string | undefined | null>(personalSiteUrl);
+  const [bioValue, setBioValue] = useState<string | undefined | null>(bio);
+  const [twitterHandleValue, setTwitterHandleValue] =
+    useState<string | undefined | null>(twitterHandle);
 
   useEffect(() => {
     setPersonalSiteUrlValue(personalSiteUrl);
@@ -125,31 +107,6 @@ export const EditProfileModal = ({
       <Content>
         <Header style={{ marginBottom: rem(30) }}>{'Edit profile'}</Header>
         <ProfileFields>
-          {/*
-          Colfax - commented out on 4/7/22 for now
-          GitHub in profile should be separate from OAuth github imo, as many users dont want to make a
-          public connection between their address and github accounts.
-
-          <ConnectGitHub>
-            <FieldLabel>{'GitHub'}</FieldLabel>
-            {isLoggedIntoGitHub ? (
-              <Setting>
-                <SettingsText>{`You're connected as @${user?.githubHandle}`}</SettingsText>
-                <Button onClick={handleLogout} variant="outline">
-                  {'Disconnect'}
-                </Button>
-              </Setting>
-            ) : (
-              <Setting>
-                <Text>{'Connect your GitHub account to mint GitPOAPs'}</Text>
-                <Button onClick={authorizeGitHub} variant="outline">
-                  {'Connect'}
-                </Button>
-              </Setting>
-            )}
-          </ConnectGitHub>
-          */}
-
           <TwitterHandle>
             <Input
               placeholder="gitpoap"
