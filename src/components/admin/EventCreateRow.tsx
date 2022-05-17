@@ -239,6 +239,27 @@ export const EventCreateRow = (props: Props) => {
             onChange={(e) => setProjectNameSeed(e.target.value)}
           />
         </Group>
+        {/* Image Upload */}
+        <InputWrapper label="Image" required>
+          <ImageDropzone
+            onDrop={(files) => {
+              setFieldValue('image', files[0]);
+            }}
+            onReject={(files) => console.error('rejected files', files)}
+            maxSize={3 * 1024 ** 2}
+          >
+            {(status) => (
+              <DropzoneChildrenSmall
+                status={status}
+                theme={theme}
+                file={values.image}
+                error={errors.image}
+                isPopoverOpen={isImgPopoverOpen}
+                setIsPopoverOpen={setIsImgPopoverOpen}
+              />
+            )}
+          </ImageDropzone>
+        </InputWrapper>
         {/* Derived Values */}
         <FormTextArea
           required
