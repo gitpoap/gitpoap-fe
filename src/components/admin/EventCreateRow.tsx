@@ -137,8 +137,11 @@ export const EventCreateRow = (props: Props) => {
     /* do not include setFieldValue below */
   }, [eventUrl, values.eventUrl]);
 
+  /* Hook is used to set new gitpoap name & description strings */
   useEffect(() => {
-    const newName = `GitPOAP: ${props.eventName.trim()} - ${projectNameSeed.trim()} Contributor`;
+    const newName = `GitPOAP: ${
+      props.hasYear ? `${values.year} ` : ''
+    }${props.eventName.trim()} - ${projectNameSeed.trim()} Contributor`;
     const newDescription = `You made at least one contribution to the ${projectNameSeed.trim()} project during the ${props.eventName.trim()}${
       props.hasYear ? ` in ${values.year}` : ''
     }. Hope you had fun!`;
