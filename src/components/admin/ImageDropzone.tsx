@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Group, MantineTheme } from '@mantine/core';
+import { Group, MantineTheme, Popover } from '@mantine/core';
+import { Image } from '@mantine/core';
 import { Dropzone as DropzoneUI, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { HiOutlinePhotograph, HiOutlineX, HiUpload } from 'react-icons/hi';
 import { IconType } from 'react-icons';
-import Image from 'next/image';
 import { BackgroundPanel, BackgroundPanel2, ExtraRed } from '../../colors';
 import { Text } from '../shared/elements/Text';
 import { LineClamp } from '../shared/compounds/GitPOAP';
@@ -99,20 +99,62 @@ export const dropzoneChildren = (
   </Group>
 );
 
-export const dropzoneChildrenSmall = (
-  status: DropzoneStatus,
-  theme: MantineTheme,
-  file?: File | null,
-  error?: React.ReactNode,
-) => (
+type DropzoneChildrenSmallProps = {
+  status: DropzoneStatus;
+  theme: MantineTheme;
+  file: File | null;
+  error: React.ReactNode;
+  isPopoverOpen: boolean;
+  setIsPopoverOpen: Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const DropzoneChildrenSmall = ({
+  status,
+  theme,
+  file,
+  error,
+  isPopoverOpen,
+  setIsPopoverOpen,
+}: DropzoneChildrenSmallProps) => (
   <Group
     position="center"
     spacing="md"
-    style={{ minWidth: rem(300), maxWidth: rem(400), minHeight: rem(90), pointerEvents: 'none' }}
+    style={{ minWidth: rem(300), maxWidth: rem(400), minHeight: rem(90) }}
   >
     {!!file ? (
       <Group align="start" position="center" direction="row" spacing={5}>
-        <Image width={90} height={90} src={URL.createObjectURL(file)} alt="preview" />
+        <Popover
+          opened={isPopoverOpen}
+          onClose={() => setIsPopoverOpen(false)}
+          position="left"
+          placement="center"
+          withArrow
+          trapFocus={false}
+          closeOnEscape={false}
+          transition="pop-top-left"
+          styles={{
+            body: {
+              pointerEvents: 'none',
+              backgroundColor: BackgroundPanel2,
+              borderColor: BackgroundPanel2,
+            },
+          }}
+          radius="lg"
+          target={
+            <Image
+              width={90}
+              height={90}
+              src={URL.createObjectURL(file)}
+              alt="preview"
+              onMouseEnter={() => setIsPopoverOpen(true)}
+              onMouseLeave={() => setIsPopoverOpen(false)}
+            />
+          }
+        >
+          <div style={{ display: 'flex' }}>
+            <Image width={470} height={470} src={URL.createObjectURL(file)} alt="preview" />
+          </div>
+        </Popover>
         <Group
           direction="column"
           align="start"
