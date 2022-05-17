@@ -119,7 +119,7 @@ export const DropzoneChildrenSmall = ({
   <Group
     position="center"
     spacing="md"
-    style={{ minWidth: rem(300), maxWidth: rem(400), minHeight: rem(90) }}
+    style={{ minWidth: rem(340), maxWidth: rem(400), minHeight: rem(90) }}
   >
     {!!file ? (
       <Group align="start" position="center" direction="row" spacing={5}>
