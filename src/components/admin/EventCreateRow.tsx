@@ -120,6 +120,9 @@ export const EventCreateRow = (props: Props) => {
 
   useEffect(() => {
     setFieldValue('startDate', props.eventStartDate);
+    if (props.eventStartDate) {
+      setFieldValue('year', DateTime.fromJSDate(props.eventStartDate).year);
+    }
     /* do not include setFieldValue below */
   }, [props.eventStartDate]);
 
