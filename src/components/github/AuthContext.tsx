@@ -182,7 +182,7 @@ export const AuthProvider = ({ children }: Props) => {
   /* This hook is used to refresh the access token when it expires */
   useEffect(() => {
     let timeout: NodeJS.Timeout;
-    if (authState.hasInitializedAuth && !!accessToken && !!refreshToken) {
+    if (accessToken && refreshToken && isPageVisible) {
       timeout = setTimeout(() => performRefresh(), FIVE_MINUTES);
     }
 
@@ -191,7 +191,17 @@ export const AuthProvider = ({ children }: Props) => {
         clearTimeout(timeout);
       }
     };
-  }, [authState.hasInitializedAuth, accessToken, refreshToken, performRefresh]);
+  }, [accessToken, refreshToken, performRefresh, isPageVisible]);
+
+  useEffect(() => {
+    if (isPageVisible && !trackedIsPageVisible) {
+      /* Essentially perform on token refresh on page load & whenever the user focuses on the page */
+      performRefresh();
+      setTrackedIsPageVisible(true);
+    } else if (!isPageVisible && trackedIsPageVisible) {
+      setTrackedIsPageVisible(false);
+    }
+  }, [isPageVisible, performRefresh, trackedIsPageVisible]);
 
   let tokens = null;
   if (accessToken && refreshToken) {
