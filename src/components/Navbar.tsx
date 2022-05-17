@@ -10,7 +10,7 @@ import { Wallet } from './wallet/Wallet';
 import { GitHub } from './github/GitHub';
 import { SearchBox as SearchBoxUI } from './search/SearchBox';
 import { useWeb3Context } from './wallet/Web3ContextProvider';
-import { NavLink } from './shared/elements/NavLink';
+import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
 
 const Nav = styled(Group)`
   color: ${TextLight} !important;
@@ -116,7 +116,9 @@ export const Navbar = () => {
       {showPOAPsPage && <NavLink href="/poaps">{'POAPS'}</NavLink>}
       {showProjectsPage && <NavLink href="/projects">{'Projects'}</NavLink>}
       {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
-      <NavLink href={'https://docs.gitpoap.io'}>{'Docs'}</NavLink>
+      <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
+        {'Docs'}
+      </NavLinkAnchor>
       {connectionStatus === 'connected' && (
         <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
       )}

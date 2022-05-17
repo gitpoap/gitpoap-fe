@@ -41,15 +41,17 @@ const StyledLink = styled.a`
   margin-right: ${rem(25)};
 `;
 
-type NavLinkProps = {
-  href: string;
-  children: React.ReactNode;
-};
-
-export const NavLink = ({ href, children }: NavLinkProps) => {
+export const NavLink = ({ children, ...restProps }: React.ComponentProps<typeof Link>) => {
   return (
-    <Link href={href} passHref>
+    <Link passHref {...restProps}>
       <StyledLink>{children}</StyledLink>
     </Link>
   );
+};
+
+export const NavLinkAnchor = ({
+  children,
+  ...restProps
+}: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
+  return <StyledLink {...restProps}>{children}</StyledLink>;
 };
