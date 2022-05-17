@@ -119,19 +119,6 @@ export const AuthProvider = ({ children }: Props) => {
   /* Redirect to github to authorize if not connected / logged in */
   const authorizeGitHub = useCallback(() => router.push(githubAuthURL), [githubAuthURL, router]);
 
-  /* Perform token refresh & load localStorage values on page load */
-  useEffect(() => {
-    if (!authState.hasInitializedAuth) {
-      if (accessToken && refreshToken) {
-        performRefresh();
-      }
-      setAuthState({
-        ...authState,
-        hasInitializedAuth: true,
-      });
-    }
-  }, [authState, performRefresh, accessToken, refreshToken]);
-
   const authenticate = useCallback(
     async (code: string) => {
       try {
