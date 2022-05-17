@@ -1,7 +1,7 @@
 import { graphql } from 'msw';
 import { UserPOAPsQueryRes } from '../../components/profile/AllPOAPs';
-import { GitPOAPHoldersQueryRes } from '../../components/gitpoap/GitPOAPHolders';
 import { GitPOAPEventQueryRes } from '../../components/gitpoap/Header';
+import { GitPoapHoldersQuery } from '../../graphql/generated-gql';
 import {
   stats,
   leaderData,
@@ -60,7 +60,7 @@ export const AllPOAPsHandler = graphql.query<UserPOAPsQueryRes>('allPOAPs', (req
   );
 });
 
-export const GitPOAPHoldersHandler = graphql.query<GitPOAPHoldersQueryRes>(
+export const GitPOAPHoldersHandler = graphql.query<GitPoapHoldersQuery>(
   'gitPOAPHoldersQuery',
   (req, res, ctx) => {
     const { gitPOAPId } = req.variables;

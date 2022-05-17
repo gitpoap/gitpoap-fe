@@ -19,10 +19,10 @@ type Props = {
   name: string;
   address: string;
   ensName?: string | null;
-  bio?: string;
+  bio?: string | null;
   twitterHref?: string;
   githubHref?: string;
-  websiteHref?: string;
+  websiteHref?: string | null;
   projects?: Project[];
   onClickEditProfile: () => void;
   showEditProfileButton: boolean;
