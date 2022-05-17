@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import { GitPOAP, POAP } from '../../types';
 import { Project } from '../../types';
 import { Stats } from '../../components/home/BannerStats';
-import { LeadersQuery } from '../../graphql/generated-gql';
+import { LeadersQuery, MostClaimedGitPoapsQuery } from '../../graphql/generated-gql';
 import { Holder } from '../../components/gitpoap/GitPOAPHolders';
 import { GitPOAPEventQueryRes } from '../../components/gitpoap/Header';
 
@@ -38,7 +38,6 @@ import poap12 from '../assets/poaps/poap12.png';
 import poap13 from '../assets/poaps/poap13.png';
 import poap14 from '../assets/poaps/poap14.png';
 import poap15 from '../assets/poaps/poap15.png';
-import { MostClaimedItem } from '../../components/home/MostClaimed';
 
 export const gitPOAPs: GitPOAP[] = [
   {
@@ -374,7 +373,7 @@ export const stats: Stats[] = [
   },
 ];
 
-export const mostClaimed: MostClaimedItem[] = [
+export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
   {
     claimsCount: 35,
     gitPOAP: {
