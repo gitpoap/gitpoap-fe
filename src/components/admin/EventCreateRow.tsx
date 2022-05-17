@@ -148,12 +148,26 @@ export const EventCreateRow = (props: Props) => {
 
     if (projectNameSeed) {
       setFieldValue('name', newName);
-    }
-    if (projectNameSeed) {
       setFieldValue('description', newDescription);
+    } else {
+      setFieldValue('name', '');
+      setFieldValue('description', '');
     }
     /* do not include setFieldValue below */
   }, [projectNameSeed, values.year, props.eventName, props.hasYear]);
+
+  const clearData = useCallback(() => {
+    setRepoUrlSeed('');
+    setProjectNameSeed('');
+    setButtonStatus(ButtonStatus.INITIAL);
+    setFieldValue('githubRepoId', undefined);
+    setFieldValue('name', '');
+    setFieldValue('description', '');
+    setFieldValue('eventUrl', '');
+    setFieldValue('image', null);
+    setErrors({});
+    /* do not include setFieldValue below */
+  }, []);
 
   const submitCreateGitPOAP = useCallback(
     async (formValues: Record<string, any>) => {
@@ -245,20 +259,15 @@ export const EventCreateRow = (props: Props) => {
         />
         {/* Image Upload */}
         <InputWrapper label="Image" required>
-          <ImageDropzone
-            onDrop={(files) => {
-              setFieldValue('image', files[0]);
-            }}
-            onReject={(files) => console.error('rejected files', files)}
-            maxSize={3 * 1024 ** 2}
-          >
-            {(status) => dropzoneChildrenSmall(status, theme, values.image, errors.image)}
-          </ImageDropzone>
-        </InputWrapper>
-
-        <Group position="center" align="end" style={{ height: rem(180) }}>
-          <Button
-            onClick={onSubmit((values) => submitCreateGitPOAP(values))}
+      {/* Buttons Section */}
+      <Group position="center" align="end" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
+        <Button
+          onClick={clearData}
+          disabled={[ButtonStatus.SUCCESS, ButtonStatus.LOADING].includes(buttonStatus)}
+          variant="outline"
+        >
+          {'Clear'}
+        </Button>
             style={{ marginTop: rem(20), marginBottom: rem(20) }}
             loading={buttonStatus === ButtonStatus.LOADING}
             disabled={
