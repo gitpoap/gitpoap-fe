@@ -140,3 +140,75 @@ query recentProjects($count: Float!) {
     }
   }
 }
+
+query gitPoapEvent($id: Float!) {
+  gitPOAPEvent(id: $id) {
+    gitPOAP {
+      repo {
+        name
+        organization {
+          id
+          name
+          description
+          twitterHandle
+          url
+        }
+      }
+    }
+    event {
+      name
+      image_url
+      description
+    }
+  }
+}
+
+query allPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) {
+  userPOAPs(address: $address, sort: $sort, page: $page, perPage: $perPage) {
+    totalPOAPs
+    poaps {
+      event {
+        id
+        name
+        image_url
+      }
+      tokenId
+    }
+  }
+}
+
+query featuredPoaps($address: String!) {
+  profileFeaturedPOAPs(address: $address) {
+    gitPOAPs {
+      claim {
+        id
+        gitPOAP {
+          id
+          repo {
+            organization {
+              name
+            }
+          }
+        }
+      }
+      poap {
+        event {
+          id
+          image_url
+          name
+          description
+        }
+        tokenId
+      }
+    }
+    poaps {
+      event {
+        id
+        name
+        description
+        image_url
+      }
+      tokenId
+    }
+  }
+}

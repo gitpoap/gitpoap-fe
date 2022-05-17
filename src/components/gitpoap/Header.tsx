@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
-import { useQuery, gql } from 'urql';
 import Link from 'next/link';
 import Head from 'next/head';
 import { Button } from '../shared/elements/Button';
@@ -14,60 +13,16 @@ import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { useFeatures } from '../../components/FeaturesContext';
 import { Title } from '../shared/elements/Title';
 import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
+import { GitPoapEventQuery, useGitPoapEventQuery } from '../../graphql/generated-gql';
 
 type Props = {
   gitPOAPId: number;
 };
 
-type Organization = {
-  id: number;
-  name: string;
-  description?: string;
-  twitterHandle?: string;
-  url?: string;
-};
-
-type Event = {
-  name: string;
-  image_url: string;
-  description: string;
-};
-
-export type GitPOAPEventQueryRes = {
-  gitPOAPEvent: {
-    gitPOAP: {
-      repo: {
-        name: string;
-        organization: Organization;
-      };
-    };
-    event: Event;
-  };
-};
-
-const GitPOAPEventQuery = gql`
-  query gitPOAPEventQuery($id: Float!) {
-    gitPOAPEvent(id: $id) {
-      gitPOAP {
-        repo {
-          name
-          organization {
-            id
-            name
-            description
-            twitterHandle
-            url
-          }
-        }
-      }
-      event {
-        name
-        image_url
-        description
-      }
-    }
-  }
-`;
+type GitPOAPEvent = Exclude<GitPoapEventQuery['gitPOAPEvent'], undefined | null>;
+type GitPOAP = GitPOAPEvent['gitPOAP'];
+type Event = GitPOAPEvent['event'];
+type Organization = GitPOAP['repo']['organization'];
 
 const Wrapper = styled.div`
   display: flex;
@@ -141,8 +96,7 @@ export const Header = ({ gitPOAPId }: Props) => {
   const [event, setEvent] = useState<Event>();
   const [organization, setOrganization] = useState<Organization>();
   const [repoName, setRepoName] = useState<string>();
-  const [result] = useQuery<GitPOAPEventQueryRes>({
-    query: GitPOAPEventQuery,
+  const [result] = useGitPoapEventQuery({
     variables: {
       id: gitPOAPId,
     },

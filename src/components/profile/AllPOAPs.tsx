@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { useQuery, gql } from 'urql';
 import { POAP } from '../../types';
 import { POAPBadge as POAPBadgeUI } from '../shared/elements/POAPBadge';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
@@ -10,6 +9,7 @@ import { TextDarkGray } from '../../colors';
 import { FaRegGrinStars } from 'react-icons/fa';
 import { Text } from '../shared/elements/Text';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
+import { useAllPoapsQuery } from '../../graphql/generated-gql';
 
 type Props = {
   address: string;
@@ -21,29 +21,6 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'date', label: 'Mint Date' },
   { value: 'alphabetical', label: 'Alphabetical' },
 ];
-
-const AllPOAPsQuery = gql`
-  query allPOAPs($address: String!, $sort: String, $page: Float, $perPage: Float) {
-    userPOAPs(address: $address, sort: $sort, page: $page, perPage: $perPage) {
-      totalPOAPs
-      poaps {
-        event {
-          id
-          name
-          image_url
-        }
-        tokenId
-      }
-    }
-  }
-`;
-
-export type UserPOAPsQueryRes = {
-  userPOAPs: {
-    totalPOAPs: number;
-    poaps: POAP[];
-  } | null;
-};
 
 const POAPs = styled.div`
   display: inline-flex;
@@ -63,8 +40,7 @@ export const AllPOAPs = ({ address }: Props) => {
   const [total, setTotal] = useState<number>();
   const [searchValue, setSearchValue] = useState('');
   const perPage = 10;
-  const [result] = useQuery<UserPOAPsQueryRes>({
-    query: AllPOAPsQuery,
+  const [result] = useAllPoapsQuery({
     variables: {
       address,
       page,

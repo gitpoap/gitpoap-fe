@@ -1,13 +1,3 @@
-export type Claim = {
-  id: string;
-  status: ClaimStatus;
-  poapTokenId: string;
-  gitPoapId: string;
-  address: string;
-  userId: string;
-  gitPoap?: GitPOAP;
-};
-
 export type UserClaim = {
   claim: {
     id: number;
@@ -36,12 +26,6 @@ export type GitPOAP = {
   imgSrc: string;
 };
 
-export enum ClaimStatus {
-  UNCLAIMED = 'UNCLAIMED',
-  PENDING = 'PENDING',
-  CLAIMED = 'CLAIMED',
-}
-
 export type Project = {
   id: number;
   name: string;
@@ -51,8 +35,8 @@ export type Project = {
   };
 };
 
-export type POAPEvent = {
-  id?: number;
+type POAPEvent = {
+  id: number;
   name: string;
   description?: string;
   image_url: string;

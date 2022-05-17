@@ -3,7 +3,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { isValidURL } from '../helpers';
 import { NotificationFactory } from '../notifications';
 
-export const useGetGHRepoId = (repoUrlSeed: string): [number | null, string | null] => {
+type UserGHRepoReturnType = [number | null, string | null];
+
+export const useGetGHRepoId = (repoUrlSeed: string): UserGHRepoReturnType => {
   const [eventUrl, setEventUrl] = useState<string | null>(null);
   const [githubRepoId, setGithubRepoId] = useState<number | null>(null);
 
@@ -59,8 +61,16 @@ export const useGetGHRepoId = (repoUrlSeed: string): [number | null, string | nu
       ) {
         fetchGitHubRepoId(pathStrs[1], pathStrs[2]);
       }
+    } else if (repoUrlSeed.length === 0) {
+    /* Clear repo ID and event URL if there is no repoUrlSeed */
+      if (githubRepoId !== null) {
+        setGithubRepoId(null);
+      }
+      if (eventUrl !== null) {
+        setEventUrl(null);
+      }
     }
-  }, [eventUrl, fetchGitHubRepoId, repoUrlSeed]);
+  }, [eventUrl, fetchGitHubRepoId, repoUrlSeed, githubRepoId]);
 
   return [githubRepoId, eventUrl];
 };

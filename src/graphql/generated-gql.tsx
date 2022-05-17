@@ -1350,6 +1350,101 @@ export type RecentProjectsQuery = {
   }>;
 };
 
+export type GitPoapEventQueryVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+export type GitPoapEventQuery = {
+  __typename?: 'Query';
+  gitPOAPEvent?: {
+    __typename?: 'FullGitPOAPEventData';
+    gitPOAP: {
+      __typename?: 'GitPOAP';
+      repo: {
+        __typename?: 'Repo';
+        name: string;
+        organization: {
+          __typename?: 'Organization';
+          id: number;
+          name: string;
+          description?: string | null;
+          twitterHandle?: string | null;
+          url?: string | null;
+        };
+      };
+    };
+    event: { __typename?: 'POAPEvent'; name: string; image_url: string; description: string };
+  } | null;
+};
+
+export type AllPoapsQueryVariables = Exact<{
+  address: Scalars['String'];
+  sort?: InputMaybe<Scalars['String']>;
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+}>;
+
+export type AllPoapsQuery = {
+  __typename?: 'Query';
+  userPOAPs?: {
+    __typename?: 'UserPOAPs';
+    totalPOAPs: number;
+    poaps: Array<{
+      __typename?: 'POAPToken';
+      tokenId: string;
+      event: { __typename?: 'POAPEvent'; id: number; name: string; image_url: string };
+    }>;
+  } | null;
+};
+
+export type FeaturedPoapsQueryVariables = Exact<{
+  address: Scalars['String'];
+}>;
+
+export type FeaturedPoapsQuery = {
+  __typename?: 'Query';
+  profileFeaturedPOAPs?: {
+    __typename?: 'UserFeaturedPOAPs';
+    gitPOAPs: Array<{
+      __typename?: 'UserFeaturedGitPOAPData';
+      claim: {
+        __typename?: 'Claim';
+        id: number;
+        gitPOAP: {
+          __typename?: 'GitPOAP';
+          id: number;
+          repo: {
+            __typename?: 'Repo';
+            organization: { __typename?: 'Organization'; name: string };
+          };
+        };
+      };
+      poap: {
+        __typename?: 'POAPToken';
+        tokenId: string;
+        event: {
+          __typename?: 'POAPEvent';
+          id: number;
+          image_url: string;
+          name: string;
+          description: string;
+        };
+      };
+    }>;
+    poaps: Array<{
+      __typename?: 'POAPToken';
+      tokenId: string;
+      event: {
+        __typename?: 'POAPEvent';
+        id: number;
+        name: string;
+        description: string;
+        image_url: string;
+      };
+    }>;
+  } | null;
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -1564,4 +1659,97 @@ export function useRecentProjectsQuery(
   options: Omit<Urql.UseQueryArgs<RecentProjectsQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<RecentProjectsQuery>({ query: RecentProjectsDocument, ...options });
+}
+export const GitPoapEventDocument = gql`
+  query gitPoapEvent($id: Float!) {
+    gitPOAPEvent(id: $id) {
+      gitPOAP {
+        repo {
+          name
+          organization {
+            id
+            name
+            description
+            twitterHandle
+            url
+          }
+        }
+      }
+      event {
+        name
+        image_url
+        description
+      }
+    }
+  }
+`;
+
+export function useGitPoapEventQuery(
+  options: Omit<Urql.UseQueryArgs<GitPoapEventQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<GitPoapEventQuery>({ query: GitPoapEventDocument, ...options });
+}
+export const AllPoapsDocument = gql`
+  query allPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) {
+    userPOAPs(address: $address, sort: $sort, page: $page, perPage: $perPage) {
+      totalPOAPs
+      poaps {
+        event {
+          id
+          name
+          image_url
+        }
+        tokenId
+      }
+    }
+  }
+`;
+
+export function useAllPoapsQuery(
+  options: Omit<Urql.UseQueryArgs<AllPoapsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AllPoapsQuery>({ query: AllPoapsDocument, ...options });
+}
+export const FeaturedPoapsDocument = gql`
+  query featuredPoaps($address: String!) {
+    profileFeaturedPOAPs(address: $address) {
+      gitPOAPs {
+        claim {
+          id
+          gitPOAP {
+            id
+            repo {
+              organization {
+                name
+              }
+            }
+          }
+        }
+        poap {
+          event {
+            id
+            image_url
+            name
+            description
+          }
+          tokenId
+        }
+      }
+      poaps {
+        event {
+          id
+          name
+          description
+          image_url
+        }
+        tokenId
+      }
+    }
+  }
+`;
+
+export function useFeaturedPoapsQuery(
+  options: Omit<Urql.UseQueryArgs<FeaturedPoapsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<FeaturedPoapsQuery>({ query: FeaturedPoapsDocument, ...options });
 }

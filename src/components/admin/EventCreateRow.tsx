@@ -9,7 +9,7 @@ import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { Button, Input, InputWrapper, TextArea, Text } from '../shared/elements';
 import { useGetGHRepoId } from '../../hooks/useGetGHRepoId';
-import { ImageDropzone, dropzoneChildrenSmall } from './ImageDropzone';
+import { ImageDropzone, DropzoneChildrenSmall } from './ImageDropzone';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
 import { BackgroundPanel2, ExtraRed } from '../../colors';
@@ -27,11 +27,11 @@ type Props = {
 };
 
 const FormInput = styled(Input)`
-  width: ${rem(400)};
+  width: ${rem(375)};
 `;
 
 const FormTextArea = styled(TextArea)`
-  width: ${rem(400)};
+  width: ${rem(375)};
 `;
 
 const ErrorText = styled(Text)`
@@ -39,6 +39,14 @@ const ErrorText = styled(Text)`
   font-size: ${rem(11)};
 `;
 
+const RowContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
+/* Validates on Submit */
 const schema = z.object({
   githubRepoId: z.number(),
   name: z.string().nonempty(),
@@ -60,7 +68,7 @@ type FormValues = {
   startDate: Date | null;
   endDate: Date | null;
   expiryDate: Date | null;
-  year: number;
+  year: number | null;
   eventUrl: string;
   email: string;
   numRequestedCodes: number;
@@ -81,25 +89,28 @@ export const EventCreateRow = (props: Props) => {
   const [projectNameSeed, setProjectNameSeed] = useState<string>('');
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
+  const [isImgPopoverOpen, setIsImgPopoverOpen] = useState<boolean>(false);
   const theme = useMantineTheme();
 
-  const { values, setFieldValue, getInputProps, onSubmit, errors } = useForm<FormValues>({
-    schema: zodResolver(schema),
-    initialValues: {
-      githubRepoId: undefined,
-      name: '',
-      description: '',
-      startDate: props.eventStartDate,
-      endDate: props.eventEndDate,
-      expiryDate: props.expiry,
-      year: DateTime.local().year,
-      eventUrl: '',
-      email: 'issuer@gitpoap.io',
-      numRequestedCodes: props.codeCount,
-      ongoing: false,
-      image: null as any,
+  const { values, setFieldValue, getInputProps, onSubmit, errors, setErrors } = useForm<FormValues>(
+    {
+      schema: zodResolver(schema),
+      initialValues: {
+        githubRepoId: undefined,
+        name: '',
+        description: '',
+        startDate: props.eventStartDate,
+        endDate: props.eventEndDate,
+        expiryDate: props.expiry,
+        year: props.eventStartDate ? DateTime.fromJSDate(props.eventStartDate).year : null,
+        eventUrl: '',
+        email: 'issuer@gitpoap.io',
+        numRequestedCodes: props.codeCount,
+        ongoing: false,
+        image: null,
+      },
     },
-  });
+  );
 
   /* -- Hooks to sync form state w passed props -- */
   useEffect(() => {
@@ -109,6 +120,9 @@ export const EventCreateRow = (props: Props) => {
 
   useEffect(() => {
     setFieldValue('startDate', props.eventStartDate);
+    if (props.eventStartDate) {
+      setFieldValue('year', DateTime.fromJSDate(props.eventStartDate).year);
+    }
     /* do not include setFieldValue below */
   }, [props.eventStartDate]);
 
@@ -137,20 +151,37 @@ export const EventCreateRow = (props: Props) => {
     /* do not include setFieldValue below */
   }, [eventUrl, values.eventUrl]);
 
+  /* Hook is used to set new gitpoap name & description strings */
   useEffect(() => {
-    const newName = `GitPOAP: ${props.eventName.trim()} - ${projectNameSeed.trim()} Contributor`;
+    const newName = `GitPOAP: ${
+      props.hasYear ? `${values.year} ` : ''
+    }${props.eventName.trim()} - ${projectNameSeed.trim()} Contributor`;
     const newDescription = `You made at least one contribution to the ${projectNameSeed.trim()} project during the ${props.eventName.trim()}${
       props.hasYear ? ` in ${values.year}` : ''
     }. Hope you had fun!`;
 
     if (projectNameSeed) {
       setFieldValue('name', newName);
-    }
-    if (projectNameSeed) {
       setFieldValue('description', newDescription);
+    } else {
+      setFieldValue('name', '');
+      setFieldValue('description', '');
     }
     /* do not include setFieldValue below */
   }, [projectNameSeed, values.year, props.eventName, props.hasYear]);
+
+  const clearData = useCallback(() => {
+    setRepoUrlSeed('');
+    setProjectNameSeed('');
+    setButtonStatus(ButtonStatus.INITIAL);
+    setFieldValue('githubRepoId', undefined);
+    setFieldValue('name', '');
+    setFieldValue('description', '');
+    setFieldValue('eventUrl', '');
+    setFieldValue('image', null);
+    setErrors({});
+    /* do not include setFieldValue below */
+  }, []);
 
   const submitCreateGitPOAP = useCallback(
     async (formValues: Record<string, any>) => {
@@ -201,11 +232,14 @@ export const EventCreateRow = (props: Props) => {
   );
 
   return (
-    <>
-      <Box style={{ minWidth: rem(30) }}>
+    <RowContainer>
+      {/* Row Number Section */}
+      <Box style={{ minWidth: rem(30), marginBottom: rem(10) }}>
         <Text>{`${props.rowNumber}.`}</Text>
       </Box>
-      <Group direction="row" align="start" style={{ marginBottom: rem(20) }} spacing="md">
+
+      {/* Form Inputs Section */}
+      <Group direction="row" align="start" style={{}} spacing="md">
         {/* Project Specific Seed values */}
         <Group direction="column">
           <FormInput
@@ -222,24 +256,6 @@ export const EventCreateRow = (props: Props) => {
             onChange={(e) => setProjectNameSeed(e.target.value)}
           />
         </Group>
-        {/* Derived Values */}
-        <FormTextArea
-          required
-          label={'GitPOAP Name (generated)'}
-          name={'name'}
-          minRows={5}
-          maxRows={5}
-          {...getInputProps('name')}
-        />
-        <FormTextArea
-          required
-          label={'Description (generated)'}
-          name={'description'}
-          minRows={5}
-          maxRows={5}
-          autosize
-          {...getInputProps('description')}
-        />
         {/* Image Upload */}
         <InputWrapper label="Image" required>
           <ImageDropzone
@@ -249,39 +265,76 @@ export const EventCreateRow = (props: Props) => {
             onReject={(files) => console.error('rejected files', files)}
             maxSize={3 * 1024 ** 2}
           >
-            {(status) => dropzoneChildrenSmall(status, theme, values.image, errors.image)}
+            {(status) => (
+              <DropzoneChildrenSmall
+                status={status}
+                theme={theme}
+                file={values.image}
+                error={errors.image}
+                isPopoverOpen={isImgPopoverOpen}
+                setIsPopoverOpen={setIsImgPopoverOpen}
+              />
+            )}
           </ImageDropzone>
         </InputWrapper>
-
-        <Group position="center" align="end" style={{ height: rem(180) }}>
-          <Button
-            onClick={onSubmit((values) => submitCreateGitPOAP(values))}
-            style={{ marginTop: rem(20), marginBottom: rem(20) }}
-            loading={buttonStatus === ButtonStatus.LOADING}
-            disabled={
-              buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING
-            }
-            leftIcon={
-              buttonStatus === ButtonStatus.SUCCESS ? (
-                <FaCheckCircle size={18} />
-              ) : buttonStatus === ButtonStatus.ERROR ? (
-                <MdError size={18} />
-              ) : null
-            }
-          >
-            {'Submit'}
-          </Button>
-        </Group>
+        {/* Derived Values */}
+        <FormTextArea
+          required
+          label={'GitPOAP Name (generated)'}
+          name={'name'}
+          minRows={5}
+          maxRows={5}
+          placeholder={'Add project name to generate.'}
+          {...getInputProps('name')}
+        />
+        <FormTextArea
+          required
+          label={'Description (generated)'}
+          name={'description'}
+          minRows={5}
+          maxRows={5}
+          placeholder={'Add project name to generate.'}
+          autosize
+          {...getInputProps('description')}
+        />
       </Group>
-      <Group>
-        <Box>
-          {errors &&
-            Object.keys(errors).map((errorKey, i) => {
+
+      {/* Buttons Section */}
+      <Group position="center" align="end" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
+        <Button
+          onClick={clearData}
+          disabled={[ButtonStatus.SUCCESS, ButtonStatus.LOADING].includes(buttonStatus)}
+          variant="outline"
+        >
+          {'Clear'}
+        </Button>
+        <Button
+          onClick={onSubmit((values) => submitCreateGitPOAP(values))}
+          loading={buttonStatus === ButtonStatus.LOADING}
+          disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}
+          leftIcon={
+            buttonStatus === ButtonStatus.SUCCESS ? (
+              <FaCheckCircle size={18} />
+            ) : buttonStatus === ButtonStatus.ERROR ? (
+              <MdError size={18} />
+            ) : null
+          }
+        >
+          {'Submit'}
+        </Button>
+      </Group>
+
+      {/* Errors Section */}
+      {Object.keys(errors).length > 0 && (
+        <Group style={{ marginBottom: rem(20) }}>
+          <Box>
+            {Object.keys(errors).map((errorKey, i) => {
               return <ErrorText key={i}>{`${errorKey}: ${errors[errorKey]}`}</ErrorText>;
             })}
-        </Box>
-      </Group>
+          </Box>
+        </Group>
+      )}
       <Divider style={{ width: '100%', borderTopColor: BackgroundPanel2 }} />
-    </>
+    </RowContainer>
   );
 };

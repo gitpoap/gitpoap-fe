@@ -61,9 +61,9 @@ const CreateGitPOAP: NextPage = () => {
                   <Button
                     leftIcon={<HiPlus size={18} />}
                     onClick={() => setRowCount(rowCount + 1)}
-                    style={{ marginTop: rem(20) }}
+                    style={{}}
                   >
-                    {'Add Row '}
+                    {`Add Row (${rowCount})`}
                   </Button>
                 </Group>
 
@@ -132,6 +132,13 @@ const CreateGitPOAP: NextPage = () => {
                   );
                 })}
               </Group>
+              <Button
+                leftIcon={<HiPlus size={18} />}
+                onClick={() => setRowCount(rowCount + 1)}
+                style={{ marginTop: rem(20), marginBottom: rem(35) }}
+              >
+                {`Add Row (${rowCount})`}
+              </Button>
             </Group>
           ) : (
             <ConnectGitHub />
