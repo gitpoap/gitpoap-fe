@@ -52,7 +52,7 @@ export type Project = {
 };
 
 export type POAPEvent = {
-  id?: number;
+  id: number;
   name: string;
   description?: string;
   image_url: string;

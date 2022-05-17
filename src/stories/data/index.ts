@@ -2,9 +2,12 @@ import { DateTime } from 'luxon';
 import { GitPOAP, POAP } from '../../types';
 import { Project } from '../../types';
 import { Stats } from '../../components/home/BannerStats';
-import { LeadersQuery, MostClaimedGitPoapsQuery } from '../../graphql/generated-gql';
+import {
+  LeadersQuery,
+  MostClaimedGitPoapsQuery,
+  GitPoapEventQuery,
+} from '../../graphql/generated-gql';
 import { Holder } from '../../components/gitpoap/GitPOAPHolders';
-import { GitPOAPEventQueryRes } from '../../components/gitpoap/Header';
 
 /* GitPOAPs */
 import badge1 from '../assets/gitPOAPs/badge1.png';
@@ -95,6 +98,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '1',
     event: {
+      id: 1,
       image_url: poap1 as unknown as string,
       name: '2 LIVES NFT art exhibition',
     },
@@ -102,6 +106,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '2',
     event: {
+      id: 2,
       image_url: poap2 as unknown as string,
       name: 'DevOps Summit Canada 2021: Speaker',
     },
@@ -109,6 +114,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '3',
     event: {
+      id: 3,
       image_url: poap3 as unknown as string,
       name: 'Mojito at Somewhere Nowhere party',
     },
@@ -116,6 +122,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '4',
     event: {
+      id: 4,
       image_url: poap4 as unknown as string,
       name: 'Artifact Technology',
     },
@@ -123,6 +130,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '5',
     event: {
+      id: 5,
       image_url: poap5 as unknown as string,
       name: 'Deadfellaz Halloween Happy Hour',
     },
@@ -131,6 +139,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '6',
     event: {
+      id: 6,
       image_url: poap6 as unknown as string,
       name: 'DODO 1 year celebration event',
     },
@@ -138,6 +147,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '7',
     event: {
+      id: 7,
       image_url: poap7 as unknown as string,
       name: 'Crypto something lecture',
     },
@@ -145,6 +155,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '8',
     event: {
+      id: 8,
       image_url: poap8 as unknown as string,
       name: 'Float Capital AMA',
     },
@@ -152,6 +163,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '9',
     event: {
+      id: 9,
       image_url: poap9 as unknown as string,
       name: 'NFTs + Philantropy lecture',
     },
@@ -159,6 +171,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '10',
     event: {
+      id: 10,
       image_url: poap10 as unknown as string,
       name: 'Shapeshift DAO weekly sprint participant',
     },
@@ -167,6 +180,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '11',
     event: {
+      id: 11,
       image_url: poap11 as unknown as string,
       name: '2 LIVES NFT art exhibition',
     },
@@ -174,6 +188,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '12',
     event: {
+      id: 12,
       image_url: poap12 as unknown as string,
       name: 'Mojito at Somewhere Nowhere party',
     },
@@ -181,6 +196,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '13',
     event: {
+      id: 13,
       image_url: poap13 as unknown as string,
       name: 'Artifact Technology exhibition',
     },
@@ -188,6 +204,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '14',
     event: {
+      id: 14,
       image_url: poap14 as unknown as string,
       name: 'Deadfellaz Halloween event',
     },
@@ -195,6 +212,7 @@ export const rawPOAPs: POAP[] = [
   {
     tokenId: '15',
     event: {
+      id: 15,
       image_url: poap15 as unknown as string,
       name: 'Bitcoin crypto something event',
     },
@@ -445,7 +463,7 @@ export const gitPOAPHolders: Holder[] = [
   },
 ];
 
-export const gitPOAPEvent: GitPOAPEventQueryRes = {
+export const gitPOAPEvent: GitPoapEventQuery = {
   gitPOAPEvent: {
     gitPOAP: {
       repo: {
