@@ -7,7 +7,7 @@ import React, {
   Dispatch,
   SetStateAction,
 } from 'react';
-import { useQuery, gql } from 'urql';
+import { useProfileQuery, ProfileQuery } from '../../graphql/generated-gql';
 import { useWeb3Context } from '../../components/wallet/Web3ContextProvider';
 import { EditProfileModal } from '../../components/profile/EditProfileModal';
 import { GITPOAP_API_URL } from '../../constants';
@@ -17,35 +17,16 @@ import { NotificationFactory } from '../../notifications';
 import { useEnsAvatar } from '../../hooks/useEnsAvatar';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
 
-const ProfileQuery = gql`
-  query profile($address: String!) {
-    profileData(address: $address) {
-      id
-      bio
-      name
-      twitterHandle
-      personalSiteUrl
-      address
-    }
-  }
-`;
-
-export type ProfileData = {
-  id: string;
-  address: string | null;
-  bio?: string;
-  name: string;
-  twitterHandle?: string;
-  personalSiteUrl?: string;
-};
-
-export type UserPOAPsQueryRes = {
-  profileData: ProfileData;
-};
+export type EditableProfileData = Partial<
+  Pick<
+    Exclude<ProfileQuery['profileData'], null | undefined>,
+    'bio' | 'personalSiteUrl' | 'twitterHandle'
+  >
+>;
 
 type ProfileContext = {
-  profileData?: UserPOAPsQueryRes['profileData'];
-  setProfileData: Dispatch<SetStateAction<UserPOAPsQueryRes['profileData'] | undefined>>;
+  profileData?: ProfileQuery['profileData'];
+  setProfileData: Dispatch<SetStateAction<ProfileQuery['profileData']>>;
   setIsUpdateModalOpen: Dispatch<SetStateAction<boolean>>;
   avatarURI: string | null;
   showEditProfileButton: boolean;
@@ -69,15 +50,14 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
   const { tokens } = useAuthContext();
   const { infuraProvider, web3Provider, address: connectedWalletAddress } = useWeb3Context();
   const signer = web3Provider?.getSigner();
-  const [profileData, setProfileData] = useState<UserPOAPsQueryRes['profileData']>();
+  const [profileData, setProfileData] = useState<ProfileQuery['profileData']>();
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
   const avatarURI = useEnsAvatar(infuraProvider, ensName);
   const [isSaveSuccessful, setIsSaveSuccessful] = useState<boolean>(false);
-  const [result, refetch] = useQuery<UserPOAPsQueryRes>({
-    query: ProfileQuery,
+  const [result, refetch] = useProfileQuery({
     variables: {
-      address: address ?? ensName,
+      address: address ?? ensName ?? '',
     },
   });
 
@@ -98,9 +78,7 @@ export const ProfileProvider = ({ children, address, ensName }: Props) => {
   }, [isSaveSuccessful]);
 
   const updateProfile = useCallback(
-    async (
-      newProfileData: Partial<Pick<ProfileData, 'bio' | 'personalSiteUrl' | 'twitterHandle'>>,
-    ) => {
+    async (newProfileData: EditableProfileData) => {
       setIsSaveLoading(true);
       const timestamp = Date.now();
       const data = {

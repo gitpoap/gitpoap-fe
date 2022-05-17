@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { useQuery, gql } from 'urql';
 import { FaArrowRight } from 'react-icons/fa';
 import { FaQuestion } from 'react-icons/fa';
 import { ProjectHex as ProjectHexUI } from '../shared/compounds/ProjectHex';
 import { Header as HeaderUI } from '../shared/elements/Header';
-import { Project } from '../../types';
 import { Button } from '../shared/elements/Button';
 import { TextGray, TextLight } from '../../colors';
 import { RecentlyAddedPopover } from './RecentlyAddedPopover';
+import { useRecentProjectsQuery } from '../../graphql/generated-gql';
 
 const Container = styled.div`
   display: inline-flex;
@@ -54,26 +53,11 @@ const Header = styled(HeaderUI)`
   align-items: center;
 `;
 
-const RecentProjectsQuery = gql`
-  query recentProjects {
-    recentlyAddedProjects(count: 12) {
-      id
-      name
-      createdAt
-      organization {
-        name
-      }
-    }
-  }
-`;
-
-type RecentProjectsQueryRes = {
-  recentlyAddedProjects: Project[];
-};
-
 export const RecentlyAdded = () => {
-  const [result] = useQuery<RecentProjectsQueryRes>({
-    query: RecentProjectsQuery,
+  const [result] = useRecentProjectsQuery({
+    variables: {
+      count: 10,
+    },
   });
   const [isOpen, setIsOpen] = useState(false);
 

@@ -21,7 +21,6 @@ const claims: UserClaim[] = [
       },
     },
     event: {
-      id: 1,
       name: 'Polygon Genesis Creator',
       image_url: badgeImg1 as unknown as string,
       description: 'To the creators of Polygon Network',
@@ -40,7 +39,6 @@ const claims: UserClaim[] = [
       },
     },
     event: {
-      id: 2,
       name: 'AAVE Contributor 2021',
       image_url: badgeImg2 as unknown as string,
       description: 'For all our valuable contributors in 2021',
@@ -59,7 +57,6 @@ const claims: UserClaim[] = [
       },
     },
     event: {
-      id: 3,
       name: 'GitPOAP: 2017 OpenZeppelin Contracts Contributor',
       image_url: badgeImg3 as unknown as string,
       description: 'Minted to core contributors of AAVE protocol',
@@ -78,7 +75,6 @@ const claims: UserClaim[] = [
       },
     },
     event: {
-      id: 4,
       name: 'Swype Protocol Purple Contributor',
       image_url: badgeImg4 as unknown as string,
       description:

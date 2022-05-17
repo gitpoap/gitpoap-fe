@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }: Props) => {
   });
   const router = useRouter();
   const redirectUri = typeof window !== 'undefined' ? window.location.href : '';
-  const githubAuthURL = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${REACT_APP_CLIENT_ID}&redirect_uri=${redirectUri}`;
+  const githubAuthURL = `https://github.com/login/oauth/authorize?scope=read&client_id=${REACT_APP_CLIENT_ID}&redirect_uri=${redirectUri}`;
 
   const handleLogout = useCallback(() => {
     setAccessToken(null);

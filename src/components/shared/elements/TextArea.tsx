@@ -23,6 +23,7 @@ const StyledInputBase = styled(Textarea)<{ disabled?: boolean }>`
 
   .mantine-Textarea-label {
     ${TextInputLabelStyles};
+    margin-bottom: ${rem(11)};
   }
 
   .mantine-Textarea-input {

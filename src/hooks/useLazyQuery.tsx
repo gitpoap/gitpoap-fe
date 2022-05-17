@@ -5,7 +5,7 @@ export const useLazyQuery: <T extends {}>(
   args: Omit<UseQueryArgs, 'variables' | 'pause'>,
 ) => UseQueryResponse<T> = (args) => {
   const firstUpdate = useRef(true);
-  const [variables, setVariables] = useState<any>();
+  const [variables, setVariables] = useState<UseQueryArgs['variables']>();
 
   const [result, refetch] = useQuery({
     ...args,
@@ -21,7 +21,7 @@ export const useLazyQuery: <T extends {}>(
     refetch();
   }, [refetch, variables]);
 
-  const makeRequest = useCallback((reqVariables) => {
+  const makeRequest = useCallback((reqVariables: UseQueryArgs['variables']) => {
     setVariables(reqVariables);
   }, []);
 

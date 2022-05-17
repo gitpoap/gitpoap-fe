@@ -4,20 +4,27 @@ import { rem } from 'polished';
 import { z } from 'zod';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useQuery, gql } from 'urql';
+import { IconType } from 'react-icons';
+import { HiDocumentText, HiOutlineX, HiUpload } from 'react-icons/hi';
 import { useForm, zodResolver } from '@mantine/form';
-import { Group, useMantineTheme, MantineTheme } from '@mantine/core';
-import { FileText, Upload, X, Icon as TablerIcon } from 'tabler-icons-react';
-import { Dropzone, DropzoneStatus } from '@mantine/dropzone';
-import { Button } from '../../components/shared/elements/Button';
-import { Box, Grid, NumberInput } from '@mantine/core';
-import { Header } from '../../components/shared/elements/Header';
+import { Group, useMantineTheme, MantineTheme, Grid } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
+import { DropzoneStatus, Dropzone as DropzoneUI } from '@mantine/dropzone';
+import { useGitpoapByPoapEventIdQuery } from '../../graphql/generated-gql';
+import { NumberInput, Text, Header, Button } from '../../components/shared/elements';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../../components/github/AuthContext';
-import { Text } from '../../components/shared/elements/Text';
-import { ExtraRed } from '../../colors';
-import { showNotification } from '@mantine/notifications';
+import { BackgroundPanel, BackgroundPanel2, ExtraRed } from '../../colors';
 import { NotificationFactory } from '../../notifications';
+import { ConnectGitHub } from '../../components/admin/ConnectGitHub';
+
+export const Dropzone = styled(DropzoneUI)`
+  background-color: ${BackgroundPanel};
+
+  &:hover {
+    background-color: ${BackgroundPanel2};
+  }
+`;
 
 const AddCodesForm = styled.form`
   display: inline-flex;
@@ -30,18 +37,11 @@ const AddCodesForm = styled.form`
   }
 `;
 
-const GetUniqueGitPOAPQuery = gql`
-  query gitPOAP($poapEventId: Int!) {
-    gitPOAP(where: { poapEventId: $poapEventId }) {
-      id
-      poapSecret
-      poapEventId
-      status
-      repo {
-        name
-      }
-    }
-  }
+const FormContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 `;
 
 const FormNumberInput = styled(NumberInput)`
@@ -61,16 +61,16 @@ const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
 const TextFileUploadIcon = ({
   status,
   ...props
-}: React.ComponentProps<TablerIcon> & { status: DropzoneStatus }) => {
+}: React.ComponentProps<IconType> & { status: DropzoneStatus }) => {
   if (status.accepted) {
-    return <Upload {...props} />;
+    return <HiUpload {...props} />;
   }
 
   if (status.rejected) {
-    return <X {...props} />;
+    return <HiOutlineX {...props} />;
   }
 
-  return <FileText {...props} />;
+  return <HiDocumentText {...props} />;
 };
 
 export const dropzoneChildren = (
@@ -128,7 +128,7 @@ const AddCodesPage: NextPage = () => {
   const [isSuccessful, setIsSuccessful] = useState<boolean>();
   const [isLoading, setIsLoading] = useState<boolean>();
   const [isError, setIsError] = useState<boolean>();
-  const { tokens } = useAuthContext();
+  const { tokens, isLoggedIntoGitHub } = useAuthContext();
   const theme = useMantineTheme();
   const { setFieldValue, values, errors, onSubmit, getInputProps } = useForm<FormValues>({
     schema: zodResolver(schema),
@@ -139,8 +139,7 @@ const AddCodesPage: NextPage = () => {
     },
   });
 
-  const [result] = useQuery<any>({
-    query: GetUniqueGitPOAPQuery,
+  const [result] = useGitpoapByPoapEventIdQuery({
     variables: {
       poapEventId: values.poapEventId ?? 0,
     },
@@ -241,54 +240,58 @@ const AddCodesPage: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(40) }}>
         <Grid.Col span={10}>
-          <Box>
-            <AddCodesForm onSubmit={onSubmit((values) => submitCodes(values))}>
-              <Header style={{ alignSelf: 'start' }}>{'Admin - Add Codes'}</Header>
-              <Header style={{ alignSelf: 'start', marginBottom: rem(20), fontSize: rem(24) }}>
-                {
-                  'Enter a POAP EventID OR upload a claim link file to automagically fill out the form'
-                }
-              </Header>
-              <FormNumberInput
-                required
-                label={'POAP EVENT ID'}
-                name={'poapEventId'}
-                hideControls
-                {...getInputProps('poapEventId')}
-              />
+          {isLoggedIntoGitHub ? (
+            <FormContainer>
+              <AddCodesForm onSubmit={onSubmit((values) => submitCodes(values))}>
+                <Header style={{ alignSelf: 'start' }}>{'Admin - Add Codes'}</Header>
+                <Header style={{ alignSelf: 'start', marginBottom: rem(20), fontSize: rem(24) }}>
+                  {
+                    'Enter a POAP EventID OR upload a claim link file to automagically fill out the form'
+                  }
+                </Header>
+                <FormNumberInput
+                  required
+                  label={'POAP EVENT ID'}
+                  name={'poapEventId'}
+                  hideControls
+                  {...getInputProps('poapEventId')}
+                />
 
-              <FormNumberInput
-                required
-                label={'GitPOAP ID'}
-                name={'id'}
-                hideControls
-                disabled
-                {...getInputProps('id')}
-              />
+                <FormNumberInput
+                  required
+                  label={'GitPOAP ID'}
+                  name={'id'}
+                  hideControls
+                  disabled
+                  {...getInputProps('id')}
+                />
 
-              <Dropzone
-                onDrop={(files) => {
-                  setFieldValue('codes', files[0]);
-                }}
-                onReject={(files) => console.error('rejected files', files)}
-                maxSize={3 * 1024 ** 2}
-                accept={['text/*']}
+                <Dropzone
+                  onDrop={(files) => {
+                    setFieldValue('codes', files[0]);
+                  }}
+                  onReject={(files) => console.error('rejected files', files)}
+                  maxSize={3 * 1024 ** 2}
+                  accept={['text/*']}
+                >
+                  {(status) => dropzoneChildren(status, theme, values.codes, errors.codes)}
+                </Dropzone>
+              </AddCodesForm>
+
+              <Button
+                onClick={onSubmit((values) => submitCodes(values))}
+                loading={isLoading}
+                disabled={values.id === undefined}
               >
-                {(status) => dropzoneChildren(status, theme, values.codes, errors.codes)}
-              </Dropzone>
-            </AddCodesForm>
-          </Box>
-
-          <Button
-            onClick={onSubmit((values) => submitCodes(values))}
-            loading={isLoading}
-            disabled={values.id === undefined}
-          >
-            {'Submit'}
-          </Button>
-          {isSuccessful && <Text>{'Successful Creation'}</Text>}
-          {isError && (
-            <Text>{'Failed to add codes - did you forget to attach the text file? '}</Text>
+                {'Submit'}
+              </Button>
+              {isSuccessful && <Text>{'Successful Creation'}</Text>}
+              {isError && (
+                <Text>{'Failed to add codes - did you forget to attach the text file? '}</Text>
+              )}
+            </FormContainer>
+          ) : (
+            <ConnectGitHub />
           )}
         </Grid.Col>
       </Grid>

@@ -23,3 +23,9 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 View the component library on a deployed version of [Storybook](https://gitpoap-fe-storybook.vercel.app/?path=/story/button--primary0).
+
+## GraphQL Code generation
+
+`yarn gql:generate-dev`: Generate graphql hooks and types based on a local version of `schema.graphql` found in `gitpoap-backend`
+
+`yarn gql:generate`: Generate graphql hooks and types based on the graphql schema found at `api.gitpoap.io/graphql`

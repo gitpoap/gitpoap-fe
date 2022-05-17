@@ -60,6 +60,7 @@ const FormStatus = styled.div`
 const InputWrapper = styled(InputWrapperUI)`
   .mantine-InputWrapper-label {
     ${TextInputLabelStyles};
+    margin-bottom: ${rem(11)};
   }
 `;
 

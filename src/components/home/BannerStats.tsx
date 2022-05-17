@@ -1,12 +1,12 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { rem } from 'polished';
-import { useQuery, gql } from 'urql';
 import { InfoHexMetric } from './InfoHexMetric';
 import { GitPOAP } from '../shared/elements/icons/GitPOAP';
 import { People } from '../shared/elements/icons/People';
 import { Project } from '../shared/elements/icons/Project';
-import { ExtraHover, TextAccent } from '../../colors';
+import { ExtraHover } from '../../colors';
+import { useGetAllStatsQuery } from '../../graphql/generated-gql';
 
 export type Stats = {
   value: number;
@@ -14,17 +14,6 @@ export type Stats = {
   rate: number;
   icon: string;
 };
-
-const StatsQuery = gql`
-  query GetAllStats {
-    totalContributors
-    lastMonthContributors
-    totalClaims
-    lastMonthClaims
-    totalRepos
-    lastMonthRepos
-  }
-`;
 
 const CustomIconStyled = css`
   path,
@@ -63,16 +52,7 @@ const InfoHexMetricStyled = styled(InfoHexMetric)`
 `;
 
 export const BannerStats = () => {
-  const [result] = useQuery<{
-    totalContributors: number;
-    lastMonthContributors: number;
-    totalClaims: number;
-    lastMonthClaims: number;
-    totalRepos: number;
-    lastMonthRepos: number;
-  }>({
-    query: StatsQuery,
-  });
+  const [result] = useGetAllStatsQuery();
 
   if (result.fetching) return null;
   if (result.error) return null;

@@ -22,7 +22,6 @@ export type UserClaim = {
     };
   };
   event: {
-    id: number;
     name: string;
     image_url: string;
     description: string;

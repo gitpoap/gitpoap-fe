@@ -9,17 +9,17 @@ import {
   ExtraRed,
   TextDarkGray,
 } from '../../../colors';
-import { TextInput } from '@mantine/core';
+import { DatePicker as DateInputUI } from '@mantine/dates';
+import React from 'react';
 
-type Props = React.ComponentProps<typeof TextInput> & {
+type Props = React.ComponentProps<typeof DateInputUI> & {
   className?: string;
   placeholder?: string;
   disabled?: boolean;
-  value: string;
-  inputRef?: React.RefObject<HTMLInputElement>;
+  inputRef?: React.RefObject<HTMLButtonElement>;
 };
 
-export const TextInputLabelStyles = css<{ disabled?: boolean }>`
+export const DateInputLabelStyles = css<{ disabled?: boolean }>`
   font-family: 'PT Mono', monospace;
   color: ${TextLight};
   font-weight: 700;
@@ -27,18 +27,18 @@ export const TextInputLabelStyles = css<{ disabled?: boolean }>`
   text-transform: uppercase;
   letter-spacing: ${rem(1.2)};
   line-height: ${rem(18)};
+  margin-bottom: ${rem(11)};
   ${(props) => props.disabled && `color: ${TextGray}`};
 `;
 
-const StyledInput = styled(TextInput)<{ disabled?: boolean }>`
+const StyledDateInput = styled(DateInputUI)<{ disabled?: boolean }>`
   display: inline-block;
 
-  .mantine-TextInput-label {
-    ${TextInputLabelStyles};
-    margin-bottom: ${rem(11)};
+  .mantine-DatePicker-label {
+    ${DateInputLabelStyles};
   }
 
-  .mantine-TextInput-input {
+  .mantine-DatePicker-input {
     border-radius: ${rem(6)};
     font-family: 'PT Mono', monospace;
     font-weight: 400;
@@ -59,12 +59,12 @@ const StyledInput = styled(TextInput)<{ disabled?: boolean }>`
     &::placeholder {
       color: ${TextDarkGray};
     }
-    &.mantine-TextInput-invalid {
+    &.mantine-DatePicker-invalid {
       color: ${ExtraRed};
     }
   }
 
-  .mantine-TextInput-error {
+  .mantine-DatePicker-error {
     font-family: 'PT Mono', monospace;
     font-size: ${rem(10)};
     letter-spacing: 1.2px;
@@ -75,7 +75,7 @@ const StyledInput = styled(TextInput)<{ disabled?: boolean }>`
   }
 `;
 
-export function Input(props: Props) {
-  const { inputRef, ...selectedProps } = props;
-  return <StyledInput {...selectedProps} ref={props.inputRef} spellCheck={false} />;
+export function DateInput(props: Props) {
+  const { inputRef, ...restProps } = props;
+  return <StyledDateInput {...restProps} ref={props.inputRef} spellCheck={false} />;
 }
