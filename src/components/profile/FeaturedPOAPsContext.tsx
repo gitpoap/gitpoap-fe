@@ -1,71 +1,26 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import { useQuery, useClient, gql } from 'urql';
-import { MetaMaskError, POAP, MetaMaskErrors } from '../../types';
+import { useClient } from 'urql';
+import {
+  FeaturedPoapsDocument,
+  FeaturedPoapsQuery,
+  useFeaturedPoapsQuery,
+} from '../../graphql/generated-gql';
+import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 
-const FeaturedPOAPsQuery = gql`
-  query featuredPOAPs($address: String!) {
-    profileFeaturedPOAPs(address: $address) {
-      gitPOAPs {
-        claim {
-          id
-          gitPOAP {
-            id
-            repo {
-              organization {
-                name
-              }
-            }
-          }
-        }
-        poap {
-          event {
-            id
-            image_url
-            name
-            description
-          }
-          tokenId
-        }
-      }
-      poaps {
-        event {
-          id
-          name
-          description
-          image_url
-        }
-        tokenId
-      }
-    }
-  }
-`;
+export type GitPOAP = Exclude<
+  FeaturedPoapsQuery['profileFeaturedPOAPs'],
+  null | undefined
+>['gitPOAPs'][number];
 
-export type GitPOAP = {
-  claim: {
-    id: string;
-    gitPOAP: {
-      id: number;
-      repo: {
-        organization: {
-          name: string;
-        };
-      };
-    };
-  };
-  poap: POAP;
-};
-
-export type UserPOAPsQueryRes = {
-  profileFeaturedPOAPs: {
-    gitPOAPs: GitPOAP[];
-    poaps: POAP[];
-  };
-};
+export type POAP = Exclude<
+  FeaturedPoapsQuery['profileFeaturedPOAPs'],
+  null | undefined
+>['poaps'][number];
 
 type FeaturedPOAPsState = {
   featuredPOAPsFull: (GitPOAP | POAP)[];
@@ -118,10 +73,9 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
   );
   const [loadingIds, setLoadingIds] = useState<Record<string, true>>({} as Record<string, true>);
   const gqlClient = useClient();
-  const [result] = useQuery<UserPOAPsQueryRes>({
-    query: FeaturedPOAPsQuery,
+  const [result] = useFeaturedPoapsQuery({
     variables: {
-      address: ensName ?? profileAddress,
+      address: ensName ?? profileAddress ?? '',
     },
   });
 
@@ -144,16 +98,18 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
   }, [profileAddress, checkIfUserOwnsProfile]);
 
   /* Process & save fetched data to state */
-  const saveData = useCallback((data: UserPOAPsQueryRes) => {
+  const saveData = useCallback((data: FeaturedPoapsQuery) => {
     const profileFeaturedPOAPs = data.profileFeaturedPOAPs;
-    const ids = [
-      ...profileFeaturedPOAPs.gitPOAPs.map((gitpoap) => gitpoap.poap.tokenId),
-      ...profileFeaturedPOAPs.poaps.map((poap) => poap.tokenId),
-    ];
-    setFeaturedPOAPsState({
-      featuredPOAPsFull: [...profileFeaturedPOAPs.gitPOAPs, ...profileFeaturedPOAPs.poaps],
-      featuredPOAPTokenIDs: ids.reduce((acc, id) => ({ ...acc, [id]: true }), {}),
-    });
+    if (profileFeaturedPOAPs) {
+      const ids = [
+        ...profileFeaturedPOAPs.gitPOAPs.map((gitpoap) => gitpoap.poap.tokenId),
+        ...profileFeaturedPOAPs.poaps.map((poap) => poap.tokenId),
+      ];
+      setFeaturedPOAPsState({
+        featuredPOAPsFull: [...profileFeaturedPOAPs.gitPOAPs, ...profileFeaturedPOAPs.poaps],
+        featuredPOAPTokenIDs: ids.reduce((acc, id) => ({ ...acc, [id]: true }), {}),
+      });
+    }
   }, []);
 
   /* Save data when it arrives */
@@ -167,7 +123,7 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
   const refetchData = useCallback(async () => {
     return await gqlClient
       .query(
-        FeaturedPOAPsQuery,
+        FeaturedPoapsDocument,
         { address: ensName ?? profileAddress },
         { requestPolicy: 'network-only' },
       )
