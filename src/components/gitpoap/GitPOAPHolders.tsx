@@ -7,6 +7,7 @@ import { useQuery, gql } from 'urql';
 import { InfoHexSummary } from './InfoHexSummary';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
+import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { Text } from '../shared/elements/Text';
 import { TextDarkGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
@@ -44,10 +45,6 @@ const HoldersWrapper = styled.div`
   @media (max-width: ${BREAKPOINTS.md}px) {
     justify-content: center;
   }
-`;
-
-const LoadingState = styled.div`
-  height: 100vh;
 `;
 
 const GitPOAPHoldersQuery = gql`
@@ -138,7 +135,11 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       }}
     >
       {result.fetching ? (
-        <LoadingState />
+        <>
+          {[...Array(5)].map((_, i) => {
+            return <POAPBadgeSkeleton key={i} height={rem(215)} />;
+          })}
+        </>
       ) : total ? (
         <HoldersWrapper>
           {holders.map((holder: Holder) => (
