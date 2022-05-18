@@ -61,8 +61,8 @@ export const useGetGHRepoId = (repoUrlSeed: string): UserGHRepoReturnType => {
       ) {
         fetchGitHubRepoId(pathStrs[1], pathStrs[2]);
       }
-    } else if (repoUrlSeed.length === 0) {
-    /* Clear repo ID and event URL if there is no repoUrlSeed */
+    } else if (!isValidURL(repoUrlSeed)) {
+      /* Clear repo ID and event URL if there is no repoUrlSeed */
       if (githubRepoId !== null) {
         setGithubRepoId(null);
       }

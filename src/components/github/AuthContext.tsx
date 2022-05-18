@@ -5,6 +5,7 @@ import { REACT_APP_CLIENT_ID, GITPOAP_API_URL, FIVE_MINUTES } from '../../consta
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { useLocalStorage } from '@mantine/hooks';
+import { usePageVisibility } from '../../hooks/usePageVisibility';
 
 type StoredGHUserData = {
   githubId: number;
@@ -12,16 +13,13 @@ type StoredGHUserData = {
 };
 
 type AuthState = {
-  hasInitializedAuth: boolean;
   isLoading: boolean;
 };
 
 type AuthContextData = {
-  authState: AuthState;
   tokens: Tokens | null;
   isLoggedIntoGitHub: boolean;
   user: StoredGHUserData | null;
-  setAuthState: (authState: AuthState) => void;
   handleLogout: () => void;
   authorizeGitHub: () => void;
 };
@@ -42,7 +40,6 @@ type AccessTokenPayload = {
 };
 
 export const getInitialState = (): AuthState => ({
-  hasInitializedAuth: false,
   isLoading: false,
 });
 
@@ -58,6 +55,8 @@ type Props = {
 
 export const AuthProvider = ({ children }: Props) => {
   const [authState, setAuthState] = useState<AuthState>(getInitialState());
+  const isPageVisible = usePageVisibility();
+  const [trackedIsPageVisible, setTrackedIsPageVisible] = useState<boolean>(false);
   const [refreshToken, setRefreshToken] = useLocalStorage<string | null>({
     key: 'refreshToken',
     defaultValue: null,
@@ -83,7 +82,7 @@ export const AuthProvider = ({ children }: Props) => {
     setRefreshToken(null);
     setIsLoggedIntoGitHub(false);
     setUser(null);
-  }, [setRefreshToken, setAccessToken, setIsLoggedIntoGitHub, setUser]);
+  }, []);
 
   const performRefresh = useCallback(async () => {
     if (refreshToken) {
@@ -114,23 +113,10 @@ export const AuthProvider = ({ children }: Props) => {
         console.warn(err);
       }
     }
-  }, [handleLogout, refreshToken, setRefreshToken, setAccessToken]);
+  }, [handleLogout, refreshToken]);
 
   /* Redirect to github to authorize if not connected / logged in */
   const authorizeGitHub = useCallback(() => router.push(githubAuthURL), [githubAuthURL, router]);
-
-  /* Perform token refresh & load localStorage values on page load */
-  useEffect(() => {
-    if (!authState.hasInitializedAuth) {
-      if (accessToken && refreshToken) {
-        performRefresh();
-      }
-      setAuthState({
-        ...authState,
-        hasInitializedAuth: true,
-      });
-    }
-  }, [authState, performRefresh, accessToken, refreshToken]);
 
   const authenticate = useCallback(
     async (code: string) => {
@@ -190,12 +176,12 @@ export const AuthProvider = ({ children }: Props) => {
 
       authenticate(code);
     }
-  }, [authState, setAuthState, authenticate, router]);
+  }, [authState, authenticate, router]);
 
   /* This hook is used to refresh the access token when it expires */
   useEffect(() => {
     let timeout: NodeJS.Timeout;
-    if (authState.hasInitializedAuth && !!accessToken && !!refreshToken) {
+    if (accessToken && refreshToken && isPageVisible) {
       timeout = setTimeout(() => performRefresh(), FIVE_MINUTES);
     }
 
@@ -204,7 +190,17 @@ export const AuthProvider = ({ children }: Props) => {
         clearTimeout(timeout);
       }
     };
-  }, [authState.hasInitializedAuth, accessToken, refreshToken, performRefresh]);
+  }, [accessToken, refreshToken, performRefresh, isPageVisible]);
+
+  useEffect(() => {
+    if (isPageVisible && !trackedIsPageVisible) {
+      /* Essentially perform on token refresh on page load & whenever the user focuses on the page */
+      performRefresh();
+      setTrackedIsPageVisible(true);
+    } else if (!isPageVisible && trackedIsPageVisible) {
+      setTrackedIsPageVisible(false);
+    }
+  }, [isPageVisible, performRefresh, trackedIsPageVisible]);
 
   let tokens = null;
   if (accessToken && refreshToken) {
@@ -217,11 +213,9 @@ export const AuthProvider = ({ children }: Props) => {
   return (
     <AuthContext.Provider
       value={{
-        authState,
         tokens,
         isLoggedIntoGitHub,
         user,
-        setAuthState,
         handleLogout,
         authorizeGitHub,
       }}
