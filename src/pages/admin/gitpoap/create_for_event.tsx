@@ -4,8 +4,8 @@ import { rem } from 'polished';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { HiPlus } from 'react-icons/hi';
-import { Checkbox, Grid, Group } from '@mantine/core';
-import { Input, Button, NumberInput, Header } from '../../../components/shared/elements';
+import { Grid, Group } from '@mantine/core';
+import { Input, Button, NumberInput, Header, Checkbox } from '../../../components/shared/elements';
 import { Divider } from '../../../components/shared/elements';
 import { useAuthContext } from '../../../components/github/AuthContext';
 import { DateTime } from 'luxon';
@@ -61,9 +61,9 @@ const CreateGitPOAP: NextPage = () => {
                   <Button
                     leftIcon={<HiPlus size={18} />}
                     onClick={() => setRowCount(rowCount + 1)}
-                    style={{ marginTop: rem(20) }}
+                    style={{}}
                   >
-                    {'Add Row '}
+                    {`Add Row (${rowCount})`}
                   </Button>
                 </Group>
 
@@ -132,6 +132,13 @@ const CreateGitPOAP: NextPage = () => {
                   );
                 })}
               </Group>
+              <Button
+                leftIcon={<HiPlus size={18} />}
+                onClick={() => setRowCount(rowCount + 1)}
+                style={{ marginTop: rem(20), marginBottom: rem(35) }}
+              >
+                {`Add Row (${rowCount})`}
+              </Button>
             </Group>
           ) : (
             <ConnectGitHub />

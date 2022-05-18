@@ -1,0 +1,214 @@
+query getAllStats {
+  totalContributors
+  lastMonthContributors
+  totalClaims
+  lastMonthClaims
+  totalRepos
+  lastMonthRepos
+}
+
+query leaders($count: Float!) {
+  mostHonoredContributors(count: $count) {
+    profile {
+      address
+      id
+    }
+    claimsCount
+  }
+}
+
+query gitpoapByPoapEventId($poapEventId: Int!) {
+  gitPOAP(where: { poapEventId: $poapEventId }) {
+    id
+    poapEventId
+    status
+    repo {
+      name
+    }
+  }
+}
+
+query gitPOAPHolders($gitPOAPId: Float!, $page: Float, $perPage: Float, $sort: String) {
+  gitPOAPHolders(gitPOAPId: $gitPOAPId, page: $page, perPage: $perPage, sort: $sort) {
+    totalHolders
+    holders {
+      address
+      githubHandle
+      gitPOAPCount
+      profileId
+      bio
+      personalSiteUrl
+      twitterHandle
+    }
+  }
+}
+
+query mostClaimedGitPoaps($count: Float!) {
+  mostClaimedGitPOAPs(count: $count) {
+    claimsCount
+    gitPOAP {
+      id
+      repo {
+        name
+      }
+    }
+    event {
+      name
+      image_url
+    }
+  }
+}
+
+query profile($address: String!) {
+  profileData(address: $address) {
+    id
+    bio
+    name
+    twitterHandle
+    personalSiteUrl
+    address
+  }
+}
+
+query searchForString($text: String!) {
+  search(text: $text) {
+    profilesByAddress {
+      id
+      address
+    }
+    profileByENS {
+      profile {
+        id
+        address
+      }
+      ens
+    }
+  }
+}
+
+query gitPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) {
+  userPOAPs(address: $address, sort: $sort, page: $page, perPage: $perPage) {
+    totalGitPOAPs
+    gitPOAPs {
+      claim {
+        gitPOAP {
+          id
+          repo {
+            name
+          }
+        }
+        status
+        poapTokenId
+      }
+      event {
+        name
+        image_url
+        description
+      }
+    }
+  }
+}
+
+query openClaims($githubId: Float!) {
+  userClaims(githubId: $githubId) {
+    claim {
+      id
+      gitPOAP {
+        id
+        repo {
+          organization {
+            name
+          }
+        }
+      }
+    }
+    event {
+      name
+      image_url
+      description
+    }
+  }
+}
+
+query recentProjects($count: Float!) {
+  recentlyAddedProjects(count: $count) {
+    id
+    name
+    createdAt
+    organization {
+      name
+    }
+  }
+}
+
+query gitPoapEvent($id: Float!) {
+  gitPOAPEvent(id: $id) {
+    gitPOAP {
+      repo {
+        name
+        organization {
+          id
+          name
+          description
+          twitterHandle
+          url
+        }
+      }
+    }
+    event {
+      name
+      image_url
+      description
+    }
+  }
+}
+
+query allPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) {
+  userPOAPs(address: $address, sort: $sort, page: $page, perPage: $perPage) {
+    totalPOAPs
+    poaps {
+      event {
+        id
+        name
+        image_url
+      }
+      tokenId
+    }
+  }
+}
+
+query featuredPoaps($address: String!) {
+  profileFeaturedPOAPs(address: $address) {
+    gitPOAPs {
+      claim {
+        id
+        gitPOAP {
+          id
+          repo {
+            organization {
+              name
+            }
+          }
+        }
+      }
+      poap {
+        event {
+          id
+          image_url
+          name
+          description
+        }
+        tokenId
+      }
+    }
+    poaps {
+      event {
+        id
+        name
+        description
+        image_url
+      }
+      tokenId
+    }
+  }
+}

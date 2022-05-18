@@ -5,7 +5,6 @@ type FeaturesState = {
   /* Whether user should see a page showing all gitpoaps */
   hasGitPOAPsPage: boolean;
   hasProjectsPage: boolean;
-  hasDocs: boolean;
   hasCheckIfImEligible: boolean;
   hasClaimAllButton: boolean;
   hasOrganizations: boolean;
@@ -16,7 +15,6 @@ export const getInitialState = (): FeaturesState => ({
   hasHomePageRecentProjects: false,
   hasGitPOAPsPage: false,
   hasProjectsPage: true,
-  hasDocs: true,
   hasCheckIfImEligible: false,
   hasClaimAllButton: false,
   hasOrganizations: false,

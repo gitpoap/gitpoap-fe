@@ -27,7 +27,6 @@ export const TextInputLabelStyles = css<{ disabled?: boolean }>`
   text-transform: uppercase;
   letter-spacing: ${rem(1.2)};
   line-height: ${rem(18)};
-  margin-bottom: ${rem(11)};
   ${(props) => props.disabled && `color: ${TextGray}`};
 `;
 
@@ -36,6 +35,7 @@ const StyledInput = styled(TextInput)<{ disabled?: boolean }>`
 
   .mantine-TextInput-label {
     ${TextInputLabelStyles};
+    margin-bottom: ${rem(11)};
   }
 
   .mantine-TextInput-input {

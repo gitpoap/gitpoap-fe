@@ -2,8 +2,7 @@ import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { FaUsers } from 'react-icons/fa';
 import styled from 'styled-components';
-import { useQuery, gql } from 'urql';
-
+import { useGitPoapHoldersQuery } from '../../graphql/generated-gql';
 import { InfoHexSummary } from './InfoHexSummary';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
@@ -19,16 +18,9 @@ export type Holder = {
   githubHandle: string;
   gitPOAPCount: number;
   profileId: number;
-  bio?: string;
-  personalSiteUrl?: string;
-  twitterHandle?: string;
-};
-
-export type GitPOAPHoldersQueryRes = {
-  gitPOAPHolders: {
-    holders: Holder[];
-    totalHolders: number;
-  };
+  bio?: string | null;
+  personalSiteUrl?: string | null;
+  twitterHandle?: string | null;
 };
 
 const HoldersWrapper = styled.div`
@@ -38,23 +30,6 @@ const HoldersWrapper = styled.div`
   column-gap: ${rem(24)};
   row-gap: ${rem(40)};
   grid-template-columns: repeat(auto-fill, minmax(${rem(215)}, 1fr));
-`;
-
-const GitPOAPHoldersQuery = gql`
-  query gitPOAPHoldersQuery($gitPOAPId: Float!, $page: Float, $perPage: Float, $sort: String) {
-    gitPOAPHolders(gitPOAPId: $gitPOAPId, page: $page, perPage: $perPage, sort: $sort) {
-      totalHolders
-      holders {
-        address
-        githubHandle
-        gitPOAPCount
-        profileId
-        bio
-        personalSiteUrl
-        twitterHandle
-      }
-    }
-  }
 `;
 
 type SortOptions = 'claim-date' | 'claim-count';
@@ -71,8 +46,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   const [total, setTotal] = useState<number>();
   const perPage = 12;
 
-  const [result] = useQuery<GitPOAPHoldersQueryRes>({
-    query: GitPOAPHoldersQuery,
+  const [result] = useGitPoapHoldersQuery({
     variables: {
       gitPOAPId,
       page,

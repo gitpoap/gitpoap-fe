@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { useQuery, gql } from 'urql';
-import { POAPEvent } from '../../types';
 import { GitPOAP as GitPOAPBadgeUI } from '../shared/compounds/GitPOAP';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
@@ -10,6 +8,7 @@ import { Title } from '../shared/elements/Title';
 import { FaTrophy } from 'react-icons/fa';
 import { TextDarkGray } from '../../colors';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
+import { useGitPoapsQuery, GitPoapsQuery } from '../../graphql/generated-gql';
 
 type Props = {
   address: string;
@@ -34,60 +33,17 @@ const GitPOAPBadge = styled(GitPOAPBadgeUI)`
   margin: ${rem(30)} ${rem(20)} 0;
 `;
 
-export type GitPOAPGql = {
-  claim: {
-    gitPOAP: {
-      id: number;
-      repo: {
-        name: string;
-      };
-    };
-    status: 'UNCLAIMED' | 'PENDING' | 'MINTING' | 'CLAIMED';
-    poapTokenId?: string | null;
-  };
-  event: POAPEvent;
-};
-
-const GitPOAPsQuery = gql`
-  query gitPOAPs($address: String!, $sort: String, $page: Float, $perPage: Float) {
-    userPOAPs(address: $address, sort: $sort, page: $page, perPage: $perPage) {
-      totalGitPOAPs
-      gitPOAPs {
-        claim {
-          gitPOAP {
-            id
-            repo {
-              name
-            }
-          }
-          status
-          poapTokenId
-        }
-        event {
-          name
-          image_url
-          description
-        }
-      }
-    }
-  }
-`;
+type GitPOAPItems = Exclude<GitPoapsQuery['userPOAPs'], undefined | null>['gitPOAPs'];
 
 export const GitPOAPs = ({ address }: Props) => {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortOptions>('date');
-  const [gitPOAPItems, setGitPOAPItems] = useState<GitPOAPGql[]>([]);
+  const [gitPOAPItems, setGitPOAPItems] = useState<GitPOAPItems>([]);
   const [total, setTotal] = useState<number>();
   const [searchValue, setSearchValue] = useState('');
   const perPage = 10;
 
-  const [result] = useQuery<{
-    userPOAPs: {
-      totalGitPOAPs: number;
-      gitPOAPs: GitPOAPGql[];
-    };
-  }>({
-    query: GitPOAPsQuery,
+  const [result] = useGitPoapsQuery({
     variables: {
       address,
       page,
@@ -103,7 +59,7 @@ export const GitPOAPs = ({ address }: Props) => {
 
   /* Hook to append new data onto existing list of gitPOAPs */
   useEffect(() => {
-    setGitPOAPItems((prev: GitPOAPGql[]) => {
+    setGitPOAPItems((prev: GitPOAPItems) => {
       if (result.data?.userPOAPs) {
         return [...prev, ...result.data.userPOAPs.gitPOAPs];
       }

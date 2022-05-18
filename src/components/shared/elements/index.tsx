@@ -1,6 +1,7 @@
 export * from './Avatar';
 export * from './Badge';
 export * from './Button';
+export * from './Checkbox';
 export * from './ClaimCircle';
 export * from './CollapsibleAddress';
 export * from './CopyableText';

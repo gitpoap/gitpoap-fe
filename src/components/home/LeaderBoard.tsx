@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { LeadersQuery, useLeadersQuery } from '../../graphql/generated-gql';
 import { Link } from '../Link';
-import { useQuery, gql } from 'urql';
 import { Header } from '../shared/elements/Header';
 import { BackgroundPanel2 } from '../../colors';
 import { Avatar } from '../shared/elements/Avatar';
@@ -17,14 +17,6 @@ import { useEns } from '../../hooks/useEns';
 import { useEnsAvatar } from '../../hooks/useEnsAvatar';
 import { BREAKPOINTS } from '../../constants';
 import { useFeatures } from '../FeaturesContext';
-
-export type LeaderBoardItemProps = {
-  claimsCount: number;
-  profile: {
-    address: string;
-    id: number;
-  };
-};
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -90,19 +82,10 @@ const List = styled.div`
   margin-top: ${rem(30)};
 `;
 
-const LeadersQuery = gql`
-  query leaders {
-    mostHonoredContributors(count: 6) {
-      profile {
-        address
-        id
-      }
-      claimsCount
-    }
-  }
-`;
-
-const LeaderBoardItem = ({ profile, claimsCount }: LeaderBoardItemProps) => {
+const LeaderBoardItem = ({
+  profile,
+  claimsCount,
+}: LeadersQuery['mostHonoredContributors'][number]) => {
   const { infuraProvider } = useWeb3Context();
   const ensName = useEns(infuraProvider, profile.address);
   const avatarURI = useEnsAvatar(infuraProvider, ensName);
@@ -131,17 +114,17 @@ const LeaderBoardItem = ({ profile, claimsCount }: LeaderBoardItemProps) => {
 };
 
 export const LeaderBoard = () => {
-  const [result] = useQuery<{
-    mostHonoredContributors: LeaderBoardItemProps[];
-  }>({
-    query: LeadersQuery,
+  const [result] = useLeadersQuery({
+    variables: {
+      count: 6,
+    },
   });
 
   return (
     <Wrapper>
       <HeaderStyled>{'Most honored contributors'}</HeaderStyled>
       <List>
-        {result.data?.mostHonoredContributors.map((item: LeaderBoardItemProps) => (
+        {result.data?.mostHonoredContributors.map((item) => (
           <LeaderBoardItem key={item.profile.id} {...item} />
         ))}
       </List>

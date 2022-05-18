@@ -2,45 +2,18 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { GoMarkGithub } from 'react-icons/go';
-import { useQuery, gql } from 'urql';
 import { useAuthContext } from './AuthContext';
 import { Button } from '../shared/elements/Button';
 import { ClaimCircle } from '../shared/elements/ClaimCircle';
 import { ClaimModal } from '../ClaimModal';
-import { MetaMaskError, MetaMaskErrors, UserClaim } from '../../types';
+import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { GITPOAP_API_URL } from '../../constants';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { DisconnectPopover } from '../DisconnectPopover';
 import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
-
-const OpenClaimsQuery = gql`
-  query openClaims($githubId: Float!) {
-    userClaims(githubId: $githubId) {
-      claim {
-        id
-        gitPOAP {
-          id
-          repo {
-            organization {
-              name
-            }
-          }
-        }
-      }
-      event {
-        name
-        image_url
-        description
-      }
-    }
-  }
-`;
-
-export type UserOpenClaimsRes = {
-  userClaims: UserClaim[];
-};
+import { useOpenClaimsQuery } from '../../graphql/generated-gql';
 
 const Content = styled.div`
   display: flex;
@@ -60,18 +33,16 @@ type Props = {
 
 export const GitHub = ({ className }: Props) => {
   const { connectionStatus, web3Provider } = useWeb3Context();
-  const { tokens, authState, handleLogout, authorizeGitHub, isLoggedIntoGitHub, user } =
-    useAuthContext();
+  const { tokens, handleLogout, authorizeGitHub, isLoggedIntoGitHub, user } = useAuthContext();
   const signer = web3Provider?.getSigner();
   const { isOpen: isModalOpen, setIsOpen: setIsModalOpen } = useClaimModalContext();
   const [isGHPopoverOpen, setIsGHPopoverOpen] = useState<boolean>(false);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [claimedIds, setClaimedIds] = useState<number[]>([]);
   const [loadingClaimIds, setLoadingClaimIds] = useState<number[]>([]);
-  const [result, refetch] = useQuery<UserOpenClaimsRes>({
-    query: OpenClaimsQuery,
+  const [result, refetch] = useOpenClaimsQuery({
     variables: {
-      githubId: user?.githubId,
+      githubId: user?.githubId ?? -1,
     },
     pause: !user,
   });
@@ -152,6 +123,7 @@ export const GitHub = ({ className }: Props) => {
     isGHPopoverOpen,
     isHovering,
     claimedIds.length,
+    setIsModalOpen,
   ]);
 
   const claimGitPOAP = useCallback(
@@ -215,8 +187,7 @@ export const GitHub = ({ className }: Props) => {
 
   return (
     <Content className={className}>
-      {authState.hasInitializedAuth && renderGitHubButton()}
-
+      {renderGitHubButton()}
       <ClaimModal
         claims={userClaims ?? []}
         isConnected={connectionStatus === 'connected'}

@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { useQuery, gql } from 'urql';
 import { Header } from '../shared/elements/Header';
 import { GitPOAP as GitPOAPBadge } from '../shared/compounds/GitPOAP';
 import { Button } from '../shared/elements/Button';
@@ -9,6 +8,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import { useFeatures } from '../FeaturesContext';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { BREAKPOINTS } from '../../constants';
+import { useMostClaimedGitPoapsQuery } from '../../graphql/generated-gql';
 
 const Container = styled.div`
   display: inline-flex;
@@ -36,44 +36,12 @@ const Poaps = styled.div`
   }
 `;
 
-export type MostClaimedItem = {
-  claimsCount: number;
-  gitPOAP: {
-    id: number;
-    repo: {
-      name: string;
-    };
-  };
-  event: {
-    name: string;
-    image_url: string;
-  };
-};
-
-const MostClaimedQuery = gql`
-  query mostClaimedGitPoaps {
-    mostClaimedGitPOAPs(count: 10) {
-      claimsCount
-      gitPOAP {
-        id
-        repo {
-          name
-        }
-      }
-      event {
-        name
-        image_url
-      }
-    }
-  }
-`;
-
 export const MostClaimed = () => {
   const { hasGitPOAPsPage } = useFeatures();
-  const [result] = useQuery<{
-    mostClaimedGitPOAPs: MostClaimedItem[];
-  } | null>({
-    query: MostClaimedQuery,
+  const [result] = useMostClaimedGitPoapsQuery({
+    variables: {
+      count: 10,
+    },
   });
 
   return (

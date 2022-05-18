@@ -1,0 +1,15 @@
+schema: "../gitpoap-backend/schema.gql"
+documents: "src/graphql/**/*.graphql"
+# Format files
+hooks:
+  afterAllFileWrite:
+    - prettier --write
+
+generates:
+  src/graphql/generated-gql.tsx:
+    config:
+      withHooks: true
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-urql"

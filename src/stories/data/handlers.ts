@@ -1,9 +1,6 @@
 import { graphql } from 'msw';
-import { UserPOAPsQueryRes } from '../../components/profile/AllPOAPs';
-import { GitPOAPHoldersQueryRes } from '../../components/gitpoap/GitPOAPHolders';
-import { GitPOAPEventQueryRes } from '../../components/gitpoap/Header';
+import { GitPoapHoldersQuery, AllPoapsQuery, GitPoapEventQuery } from '../../graphql/generated-gql';
 import {
-  gitPOAPs,
   stats,
   leaderData,
   projectData,
@@ -50,7 +47,7 @@ export const RecentProjectsHandler = graphql.query('recentProjects', (req, res, 
   );
 });
 
-export const AllPOAPsHandler = graphql.query<UserPOAPsQueryRes>('allPOAPs', (req, res, ctx) => {
+export const AllPOAPsHandler = graphql.query<AllPoapsQuery>('allPOAPs', (req, res, ctx) => {
   return res(
     ctx.data({
       userPOAPs: {
@@ -61,7 +58,7 @@ export const AllPOAPsHandler = graphql.query<UserPOAPsQueryRes>('allPOAPs', (req
   );
 });
 
-export const GitPOAPHoldersHandler = graphql.query<GitPOAPHoldersQueryRes>(
+export const GitPOAPHoldersHandler = graphql.query<GitPoapHoldersQuery>(
   'gitPOAPHoldersQuery',
   (req, res, ctx) => {
     const { gitPOAPId } = req.variables;
@@ -76,7 +73,7 @@ export const GitPOAPHoldersHandler = graphql.query<GitPOAPHoldersQueryRes>(
   },
 );
 
-export const GitPOAPEventHandler = graphql.query<GitPOAPEventQueryRes>(
+export const GitPOAPEventHandler = graphql.query<GitPoapEventQuery>(
   'gitPOAPEventQuery',
   (req, res, ctx) => {
     return res(ctx.data(gitPOAPEvent));

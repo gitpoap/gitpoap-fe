@@ -1,11 +1,18 @@
-import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentContext,
+  DocumentInitialProps,
+} from 'next/document';
 import { ServerStyles, createStylesServer } from '@mantine/next';
 import { ServerStyleSheet } from 'styled-components';
 
 const stylesServer = createStylesServer();
 
 export default class MyDocument extends Document {
-  static async getInitialProps(context: DocumentContext) {
+  static async getInitialProps(context: DocumentContext): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = context.renderPage;
 
@@ -18,13 +25,13 @@ export default class MyDocument extends Document {
       const initialProps = await Document.getInitialProps(context);
       return {
         ...initialProps,
-        styles: (
+        styles: [
           <>
             {initialProps.styles}
             <ServerStyles html={initialProps.html} server={stylesServer} />
             {sheet.getStyleElement()}
-          </>
-        ),
+          </>,
+        ],
       };
     } finally {
       sheet.seal();
