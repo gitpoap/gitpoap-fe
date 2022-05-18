@@ -433,6 +433,7 @@ export type NullableProfile = {
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   featuredPOAPs: Array<FeaturedPoap>;
+  githubHandle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
@@ -551,6 +552,7 @@ export type Profile = {
   bio?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   featuredPOAPs: Array<FeaturedPoap>;
+  githubHandle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
@@ -579,6 +581,7 @@ export type ProfileOrderByWithRelationInput = {
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   featuredPOAPs?: InputMaybe<FeaturedPoapOrderByRelationAggregateInput>;
+  githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   personalSiteUrl?: InputMaybe<SortOrder>;
@@ -597,6 +600,7 @@ export enum ProfileScalarFieldEnum {
   BannerImageUrl = 'bannerImageUrl',
   Bio = 'bio',
   CreatedAt = 'createdAt',
+  GithubHandle = 'githubHandle',
   Id = 'id',
   Name = 'name',
   PersonalSiteUrl = 'personalSiteUrl',
@@ -614,6 +618,7 @@ export type ProfileWhereInput = {
   bio?: InputMaybe<StringNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   featuredPOAPs?: InputMaybe<FeaturedPoapListRelationFilter>;
+  githubHandle?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringNullableFilter>;
   personalSiteUrl?: InputMaybe<StringNullableFilter>;
