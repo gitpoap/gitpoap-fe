@@ -120,10 +120,19 @@ export const EditProfileModal = ({
 
   useEffect(() => {
     setPersonalSiteUrlValue(personalSiteUrl);
+  }, [personalSiteUrl]);
+
+  useEffect(() => {
     setBioValue(bio);
+  }, [bio]);
+
+  useEffect(() => {
     setGithubHandleValue(githubHandle);
+  }, [githubHandle]);
+
+  useEffect(() => {
     setTwitterHandleValue(twitterHandle);
-  }, [personalSiteUrl, bio, githubHandle, twitterHandle]);
+  }, [twitterHandle]);
 
   return (
     <StyledModal
