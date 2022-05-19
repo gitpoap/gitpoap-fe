@@ -29,7 +29,8 @@ const HoldersWrapper = styled.div`
   margin-top: ${rem(40)};
   column-gap: ${rem(24)};
   row-gap: ${rem(40)};
-  grid-template-columns: repeat(auto-fill, minmax(${rem(215)}, 1fr));
+  grid-template-columns: repeat(auto-fit, ${rem(215)});
+  justify-content: center;
 `;
 
 type SortOptions = 'claim-date' | 'claim-count';
