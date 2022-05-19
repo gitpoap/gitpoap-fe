@@ -15,7 +15,6 @@ const Content = styled.div`
   align-items: center;
   justify-content: center;
   margin: ${rem(10)} ${rem(20)};
-  // height: ${rem(190)};
 `;
 
 // 224 112

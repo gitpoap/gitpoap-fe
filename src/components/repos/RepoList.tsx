@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { useQuery, gql } from 'urql';
-import { GitPOAP as GitPOAPBadgeUI } from '../shared/compounds/GitPOAP';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { Header } from '../shared/elements/Header';
@@ -27,10 +26,6 @@ const GitPOAPList = styled.div`
 
   margin: ${rem(50)} 0;
   align-items: flex-start;
-`;
-
-const GitPOAPBadge = styled(GitPOAPBadgeUI)`
-  margin: ${rem(30)} ${rem(20)} 0;
 `;
 
 const StyledHeader = styled(Header)`
@@ -148,14 +143,14 @@ export const RepoList = () => {
             </>
           )}
           {/* {result.operation && gitPOAPItems.length === 0 && (
-          <EmptyState icon={<FaTrophy color={TextDarkGray} size={rem(74)} />}>
-            <a href={'https://gitpoap.io/discord'} target="_blank" rel="noopener noreferrer">
-              <Title style={{ marginTop: rem(20) }}>
-                {'Get contributing! Head over to our Discord to get started.'}
-              </Title>
-            </a>
-          </EmptyState>
-        )} */}
+            <EmptyState icon={<FaTrophy color={TextDarkGray} size={rem(74)} />}>
+              <a href={'https://gitpoap.io/discord'} target="_blank" rel="noopener noreferrer">
+                <Title style={{ marginTop: rem(20) }}>
+                  {'Get contributing! Head over to our Discord to get started.'}
+                </Title>
+              </a>
+            </EmptyState>
+          )} */}
 
           {/* Fully Claimed GitPOAPs rendered next */}
           {gitPOAPItems &&
