@@ -6,7 +6,6 @@ import { useGitPoapHoldersQuery } from '../../graphql/generated-gql';
 import { InfoHexSummary } from './InfoHexSummary';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
-import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { Text } from '../shared/elements/Text';
 import { TextDarkGray } from '../../colors';
 
@@ -66,11 +65,15 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   useEffect(() => {
     setHolders((prev: Holder[]) => {
       if (result.data?.gitPOAPHolders) {
-        return [...prev, ...result.data.gitPOAPHolders.holders];
+        if (page === 1) {
+          return [...result.data.gitPOAPHolders.holders];
+        } else {
+          return [...prev, ...result.data.gitPOAPHolders.holders];
+        }
       }
       return prev;
     });
-  }, [result.data]);
+  }, [page, result.data]);
 
   /* Hook to set total number of poaps */
   useEffect(() => {
@@ -91,7 +94,6 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       onSelectChange={(sortValue) => {
         if (sortValue !== sort) {
           setSort(sortValue as SortOptions);
-          setHolders([]);
           setPage(1);
         }
       }}
@@ -103,13 +105,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
         }
       }}
     >
-      {result.fetching ? (
-        <>
-          {[...Array(5)].map((_, i) => {
-            return <POAPBadgeSkeleton key={i} height={rem(215)} />;
-          })}
-        </>
-      ) : total ? (
+      {total ? (
         <HoldersWrapper>
           {holders.map((holder: Holder) => (
             <InfoHexSummary
