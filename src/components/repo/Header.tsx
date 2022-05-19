@@ -5,59 +5,11 @@ import { useQuery, gql } from 'urql';
 import Link from 'next/link';
 import Head from 'next/head';
 import { Button } from '../shared/elements/Button';
-import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Header as HeaderText } from '../shared/elements/Header';
 import { Text } from '../shared/elements/Text';
 import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { Title } from '../shared/elements/Title';
-import { InfoHexBase } from '../shared/elements/InfoHexBase';
 import { People, GitPOAP, Star, Globe, GitHub, Twitter } from '../shared/elements/icons';
-
-type Props = {
-  repoId: number;
-};
-
-type Organization = {
-  id: number;
-  name: string;
-  description?: string;
-  twitterHandle?: string;
-  url?: string;
-};
-
-type Repo = {
-  id: number;
-  name: string;
-  githubRepoId: number;
-  organization: Organization;
-  _count: {
-    gitPOAPs: number;
-  };
-};
-
-type RepoQueryRes = {
-  repo: Repo;
-};
-
-const RepoQuery = gql`
-  query RepoQuery($id: Int!) {
-    repo(where: { id: $id }) {
-      id
-      name
-      githubRepoId
-      organization {
-        id
-        name
-        description
-        twitterHandle
-        url
-      }
-      _count {
-        gitPOAPs
-      }
-    }
-  }
-`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -78,15 +30,6 @@ const Wrapper = styled.div`
   }
 `;
 
-const TitleStyled = styled(HeaderText)`
-  margin-top: ${rem(24)};
-`;
-
-const Description = styled(Text)`
-  margin-top: ${rem(16)};
-  font-size: ${rem(16)};
-`;
-
 const OrgName = styled(Text)`
   margin-top: ${rem(30)};
   font-weight: 700;
@@ -97,39 +40,6 @@ const OrgLink = styled(Title)`
   color: ${TextAccent};
   // Make this pointer once the org page is built
   cursor: default;
-`;
-
-const OrgDescription = styled(Text)`
-  font-size: ${rem(12)};
-  margin-top: ${rem(12)};
-  color: ${TextGray};
-`;
-
-const Badge = styled(GitPOAPBadge)`
-  margin-top: ${rem(64)};
-  cursor: default;
-`;
-
-const Links = styled.div`
-  margin-top: ${rem(18)};
-`;
-
-const StyledLink = styled.a`
-  color: ${TextGray};
-  margin: 0 ${rem(12)};
-
-  svg {
-    fill: currentColor;
-  }
-`;
-
-const CheckEligibilityButton = styled(Button)`
-  margin-top: ${rem(40)};
-`;
-
-const StyledInfoHexBase = styled(InfoHexBase)`
-  margin-top: ${rem(64)};
-  min-width: ${rem(626)};
 `;
 
 const Social = styled.div`
@@ -280,6 +190,52 @@ const StyledSVG = styled.svg`
   max-width: inherit;
 `;
 
+type Props = {
+  repoId: number;
+};
+
+type Organization = {
+  id: number;
+  name: string;
+  description?: string;
+  twitterHandle?: string;
+  url?: string;
+};
+
+type Repo = {
+  id: number;
+  name: string;
+  githubRepoId: number;
+  organization: Organization;
+  _count: {
+    gitPOAPs: number;
+  };
+};
+
+type RepoQueryRes = {
+  repo: Repo;
+};
+
+const RepoQuery = gql`
+  query RepoQuery($id: Int!) {
+    repo(where: { id: $id }) {
+      id
+      name
+      githubRepoId
+      organization {
+        id
+        name
+        description
+        twitterHandle
+        url
+      }
+      _count {
+        gitPOAPs
+      }
+    }
+  }
+`;
+
 export const Header = ({ repoId }: Props) => {
   const [repo, setRepo] = useState<Repo>();
   const [result] = useQuery<RepoQueryRes>({
@@ -296,17 +252,11 @@ export const Header = ({ repoId }: Props) => {
     }
   }, [result.data]);
 
-  let contributors = 35;
-  let gitpoaps = 7;
-  let stars = 339;
-  let lookingForContributors = true;
-
   return (
     <Wrapper>
       <Head>
         <title>{` ${repo?.name.replace('GitPOAP: ', '') ?? 'GitPOAP'} | GitPOAP`}</title>
       </Head>
-      {/* <HeaderHexagonPath /> */}
       <HexagonWrapper>
         <StyledSVG
           width="628"
@@ -324,18 +274,20 @@ export const Header = ({ repoId }: Props) => {
         {repo && (
           <div>
             <HeaderText>{repo.name}</HeaderText>
-            {/* <Text style={{ paddingTop: rem(13) }}>
-              Javascript developer library to interact with Matic Network
-            </Text> */}
-            <Tags>
-              <Tag>{'blockchain'}</Tag>
-              <Tag>{'javascript'}</Tag>
-            </Tags>
+            {/* {repo?.description && <Text style={{ paddingTop: rem(13) }}>{repo.description}</Text>} */}
+            {/* {repo?.tags && (
+              <Tags>
+                {repo.tags.map((tag, i) => (
+                  <Tag key={repo.name + '-tag' + i}>{tag}</Tag>
+                ))}
+              </Tags>
+            )} */}
             <OrgName>
               {'by '}
-              <Link href={`/o/${repo.organization.id}`} passHref>
-                <OrgLink>{repo.organization.name}</OrgLink>
-              </Link>
+              {/* TODO: Add link when organization page is complete */}
+              {/* <Link href={`/o/${repo.organization.id}`} passHref> */}
+              <OrgLink>{repo.organization.name}</OrgLink>
+              {/* </Link> */}
             </OrgName>
             <Social>
               {repo.organization.twitterHandle && (
@@ -366,24 +318,28 @@ export const Header = ({ repoId }: Props) => {
         )}
       </HexagonWrapper>
       <SubHeader>
-        {/* <SubHeaderItem>
-          <People />
-          <SubHeaderItemCount>{contributors}</SubHeaderItemCount>
-          <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
-        </SubHeaderItem> */}
+        {/* {repo?.totalContributors && (
+          <SubHeaderItem>
+            <People />
+            <SubHeaderItemCount>{repo.totalContributors}</SubHeaderItemCount>
+            <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
+          </SubHeaderItem>
+        )} */}
         {repo?._count.gitPOAPs && (
           <SubHeaderItem>
             <GitPOAP />
-            <SubHeaderItemCount>{repo?._count.gitPOAPs}</SubHeaderItemCount>
+            <SubHeaderItemCount>{repo._count.gitPOAPs}</SubHeaderItemCount>
             <SubHeaderItemLabel>{'GitPOAPs'}</SubHeaderItemLabel>
           </SubHeaderItem>
         )}
-        {/* <SubHeaderItem>
-          <Star />
-          <SubHeaderItemCount>{stars}</SubHeaderItemCount>
-          <SubHeaderItemLabel>{'Stars'}</SubHeaderItemLabel>
-        </SubHeaderItem>
-        {lookingForContributors && (
+        {/* {repo?.starredCount && (
+          <SubHeaderItem>
+            <Star />
+            <SubHeaderItemCount>{repo.starredCount}</SubHeaderItemCount>
+            <SubHeaderItemLabel>{'Stars'}</SubHeaderItemLabel>
+          </SubHeaderItem>
+        )} */}
+        {/* {repo?.lookingForContributors && (
           <SubHeaderItem>
             <LookingForContributors>{'Looking for contributors'}</LookingForContributors>
             <DetailsButton>{'Details'}</DetailsButton>

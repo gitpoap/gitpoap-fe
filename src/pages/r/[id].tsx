@@ -10,7 +10,7 @@ import { Page } from '../_app';
 import { MidnightBlue } from '../../colors';
 import { BackgroundHexes } from '../../components/repo/BackgroundHexes';
 import { GitPOAPs } from '../../components/repo/GitPOAPs';
-import { TopContributors } from '../../components/repo/TopContributors';
+import { RepoLeaderBoard } from '../../components/repo/RepoLeaderBoard';
 import { Header as PageHeader } from '../../components/repo/Header';
 import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
@@ -64,7 +64,7 @@ const GitPOAPsWrapper = styled.div`
   }
 `;
 
-const TopContributorsWrapper = styled.div`
+const RepoLeaderBoardWrapper = styled.div`
   width: ${rem(348)};
 
   @media (max-width: ${BREAKPOINTS.md}px) {
@@ -106,9 +106,9 @@ const Repo: Page = () => {
             <GitPOAPsWrapper>
               <GitPOAPs repoId={repoId} />
             </GitPOAPsWrapper>
-            <TopContributorsWrapper>
-              <TopContributors repoId={repoId} />
-            </TopContributorsWrapper>
+            <RepoLeaderBoardWrapper>
+              <RepoLeaderBoard repoId={repoId} />
+            </RepoLeaderBoardWrapper>
           </ContentWrapper>
         </Grid.Col>
       </Grid>
