@@ -17,7 +17,7 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   bio?: string | null;
-  githubHandle?: string;
+  githubHandle?: string | null;
   twitterHandle?: string | null;
   personalSiteUrl?: string | null;
   onClickSave: (newProfileData: EditableProfileData) => void;
