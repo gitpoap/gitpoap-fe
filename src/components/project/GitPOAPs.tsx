@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { useQuery, gql } from 'urql';
-import { POAPEvent } from '../../types';
 import { GitPOAP as GitPOAPBadgeUI } from '../shared/compounds/GitPOAP';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
@@ -10,6 +8,7 @@ import { Title } from '../shared/elements/Title';
 import { FaTrophy } from 'react-icons/fa';
 import { TextDarkGray } from '../../colors';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
+import { RepoGitPoapsQuery, useRepoGitPoapsQuery } from '../../graphql/generated-gql';
 
 type Props = {
   repoId: number;
@@ -34,52 +33,17 @@ const GitPOAPBadge = styled(GitPOAPBadgeUI)`
   margin: ${rem(30)} ${rem(20)} 0;
 `;
 
-export type GitPOAPGql = {
-  gitPOAP: {
-    id: number;
-    repo: {
-      name: string;
-    };
-  };
-  event: POAPEvent;
-};
-
-const RepoGitPOAPsQuery = gql`
-  query repoGitPOAPs($repoId: Float!, $sort: String, $page: Float, $perPage: Float) {
-    repoGitPOAPs(repoId: $repoId, sort: $sort, page: $page, perPage: $perPage) {
-      totalGitPOAPs
-      gitPOAPs {
-        gitPOAP {
-          id
-          repo {
-            name
-          }
-        }
-        event {
-          name
-          image_url
-          description
-        }
-      }
-    }
-  }
-`;
+type RepoGitPOAPItems = Exclude<RepoGitPoapsQuery['repoGitPOAPs'], undefined | null>['gitPOAPs'];
 
 export const GitPOAPs = ({ repoId }: Props) => {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortOptions>('date');
-  const [gitPOAPItems, setGitPOAPItems] = useState<GitPOAPGql[]>([]);
+  const [gitPOAPItems, setGitPOAPItems] = useState<RepoGitPOAPItems>([]);
   const [total, setTotal] = useState<number>();
   const [searchValue, setSearchValue] = useState('');
   const perPage = 10;
 
-  const [result] = useQuery<{
-    repoGitPOAPs: {
-      totalGitPOAPs: number;
-      gitPOAPs: GitPOAPGql[];
-    };
-  }>({
-    query: RepoGitPOAPsQuery,
+  const [result] = useRepoGitPoapsQuery({
     variables: {
       repoId,
       page,
@@ -95,7 +59,7 @@ export const GitPOAPs = ({ repoId }: Props) => {
 
   /* Hook to append new data onto existing list of gitPOAPs */
   useEffect(() => {
-    setGitPOAPItems((prev: GitPOAPGql[]) => {
+    setGitPOAPItems((prev: RepoGitPOAPItems) => {
       if (result.data?.repoGitPOAPs) {
         return [...prev, ...result.data.repoGitPOAPs.gitPOAPs];
       }

@@ -8,10 +8,10 @@ import { Grid } from '@mantine/core';
 
 import { Page } from '../_app';
 import { MidnightBlue } from '../../colors';
-import { BackgroundHexes } from '../../components/repo/BackgroundHexes';
-import { GitPOAPs } from '../../components/repo/GitPOAPs';
-import { RepoLeaderBoard } from '../../components/repo/RepoLeaderBoard';
-import { Header as PageHeader } from '../../components/repo/Header';
+import { BackgroundHexes } from '../../components/project/BackgroundHexes';
+import { GitPOAPs } from '../../components/project/GitPOAPs';
+import { ProjectLeaderBoard } from '../../components/project/ProjectLeaderBoard';
+import { Header as PageHeader } from '../../components/project/Header';
 import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
 import { BREAKPOINTS } from '../../constants';
@@ -64,7 +64,7 @@ const GitPOAPsWrapper = styled.div`
   }
 `;
 
-const RepoLeaderBoardWrapper = styled.div`
+const ProjectLeaderBoardWrapper = styled.div`
   width: ${rem(348)};
 
   @media (max-width: ${BREAKPOINTS.md}px) {
@@ -76,7 +76,7 @@ const RepoLeaderBoardWrapper = styled.div`
   }
 `;
 
-const Repo: Page = () => {
+const Project: Page = () => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -106,9 +106,9 @@ const Repo: Page = () => {
             <GitPOAPsWrapper>
               <GitPOAPs repoId={repoId} />
             </GitPOAPsWrapper>
-            <RepoLeaderBoardWrapper>
-              <RepoLeaderBoard repoId={repoId} />
-            </RepoLeaderBoardWrapper>
+            <ProjectLeaderBoardWrapper>
+              <ProjectLeaderBoard repoId={repoId} />
+            </ProjectLeaderBoardWrapper>
           </ContentWrapper>
         </Grid.Col>
       </Grid>
@@ -117,8 +117,8 @@ const Repo: Page = () => {
 };
 
 /* Custom layout function for this page */
-Repo.getLayout = (page: React.ReactNode) => {
+Project.getLayout = (page: React.ReactNode) => {
   return <Layout>{page}</Layout>;
 };
 
-export default Repo;
+export default Project;

@@ -1441,6 +1441,20 @@ export type LeadersQuery = {
   }>;
 };
 
+export type RepoLeadersQueryVariables = Exact<{
+  count: Scalars['Float'];
+  repoId: Scalars['Float'];
+}>;
+
+export type RepoLeadersQuery = {
+  __typename?: 'Query';
+  repoMostHonoredContributors: Array<{
+    __typename?: 'ProfileWithClaimsCount';
+    claimsCount: number;
+    profile: { __typename?: 'Profile'; address: string; id: number };
+  }>;
+};
+
 export type GitpoapByPoapEventIdQueryVariables = Exact<{
   poapEventId: Scalars['Int'];
 }>;
@@ -1555,6 +1569,26 @@ export type GitPoapsQuery = {
           repo: { __typename?: 'Repo'; name: string };
         };
       };
+      event: { __typename?: 'POAPEvent'; name: string; image_url: string; description: string };
+    }>;
+  } | null;
+};
+
+export type RepoGitPoapsQueryVariables = Exact<{
+  repoId: Scalars['Float'];
+  sort?: InputMaybe<Scalars['String']>;
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+}>;
+
+export type RepoGitPoapsQuery = {
+  __typename?: 'Query';
+  repoGitPOAPs?: {
+    __typename?: 'RepoGitPOAPs';
+    totalGitPOAPs: number;
+    gitPOAPs: Array<{
+      __typename?: 'FullGitPOAPEventData';
+      gitPOAP: { __typename?: 'GitPOAP'; id: number; repo: { __typename?: 'Repo'; name: string } };
       event: { __typename?: 'POAPEvent'; name: string; image_url: string; description: string };
     }>;
   } | null;
@@ -1739,6 +1773,23 @@ export const LeadersDocument = gql`
 export function useLeadersQuery(options: Omit<Urql.UseQueryArgs<LeadersQueryVariables>, 'query'>) {
   return Urql.useQuery<LeadersQuery>({ query: LeadersDocument, ...options });
 }
+export const RepoLeadersDocument = gql`
+  query repoLeaders($count: Float!, $repoId: Float!) {
+    repoMostHonoredContributors(count: $count, repoId: $repoId) {
+      profile {
+        address
+        id
+      }
+      claimsCount
+    }
+  }
+`;
+
+export function useRepoLeadersQuery(
+  options: Omit<Urql.UseQueryArgs<RepoLeadersQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<RepoLeadersQuery>({ query: RepoLeadersDocument, ...options });
+}
 export const GitpoapByPoapEventIdDocument = gql`
   query gitpoapByPoapEventId($poapEventId: Int!) {
     gitPOAP(where: { poapEventId: $poapEventId }) {
@@ -1878,6 +1929,32 @@ export function useGitPoapsQuery(
   options: Omit<Urql.UseQueryArgs<GitPoapsQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GitPoapsQuery>({ query: GitPoapsDocument, ...options });
+}
+export const RepoGitPoapsDocument = gql`
+  query repoGitPoaps($repoId: Float!, $sort: String, $page: Float, $perPage: Float) {
+    repoGitPOAPs(repoId: $repoId, sort: $sort, page: $page, perPage: $perPage) {
+      totalGitPOAPs
+      gitPOAPs {
+        gitPOAP {
+          id
+          repo {
+            name
+          }
+        }
+        event {
+          name
+          image_url
+          description
+        }
+      }
+    }
+  }
+`;
+
+export function useRepoGitPoapsQuery(
+  options: Omit<Urql.UseQueryArgs<RepoGitPoapsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<RepoGitPoapsQuery>({ query: RepoGitPoapsDocument, ...options });
 }
 export const OpenClaimsDocument = gql`
   query openClaims($githubId: Float!) {

@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { useQuery, gql } from 'urql';
 import { Header } from '../shared/elements/Header';
 import { BREAKPOINTS } from '../../constants';
 import { InfoHexBase } from '../shared/elements/InfoHexBase';
 import { LeaderBoardItem } from '../home/LeaderBoardItem';
+import { useRepoLeadersQuery } from '../../graphql/generated-gql';
 
 const Wrapper = styled(InfoHexBase)`
   display: inline-flex;
@@ -38,37 +38,15 @@ const List = styled.div`
   margin-top: ${rem(30)};
 `;
 
-export type RepoLeaderBoardProps = {
+export type ProjectLeaderBoardProps = {
   repoId: number;
 };
 
-export type LeaderBoardItemProps = {
-  claimsCount: number;
-  profile: {
-    address: string;
-    id: number;
-  };
-};
-
-const RepoLeaderBoardQuery = gql`
-  query RepoLeaderBoard($repoId: Float!) {
-    repoMostHonoredContributors(count: 6, repoId: $repoId) {
-      profile {
-        address
-        id
-      }
-      claimsCount
-    }
-  }
-`;
-
-export const RepoLeaderBoard = ({ repoId }: RepoLeaderBoardProps) => {
-  const [result] = useQuery<{
-    repoMostHonoredContributors: LeaderBoardItemProps[];
-  }>({
-    query: RepoLeaderBoardQuery,
+export const ProjectLeaderBoard = ({ repoId }: ProjectLeaderBoardProps) => {
+  const [result] = useRepoLeadersQuery({
     variables: {
-      repoId,
+      count: 6,
+      repoId: repoId,
     },
   });
 
@@ -77,7 +55,7 @@ export const RepoLeaderBoard = ({ repoId }: RepoLeaderBoardProps) => {
       <Content>
         <HeaderStyled>{'Top contributors'}</HeaderStyled>
         <List>
-          {result.data?.repoMostHonoredContributors.map((item: LeaderBoardItemProps) => (
+          {result.data?.repoMostHonoredContributors.map((item) => (
             <LeaderBoardItem key={item.profile.id} {...item} />
           ))}
         </List>
