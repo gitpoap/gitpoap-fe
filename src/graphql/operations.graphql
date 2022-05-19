@@ -64,6 +64,7 @@ query profile($address: String!) {
     id
     bio
     name
+    githubHandle
     twitterHandle
     personalSiteUrl
     address

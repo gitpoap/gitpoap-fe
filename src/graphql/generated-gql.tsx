@@ -1267,6 +1267,7 @@ export type ProfileQuery = {
     id?: number | null;
     bio?: string | null;
     name?: string | null;
+    githubHandle?: string | null;
     twitterHandle?: string | null;
     personalSiteUrl?: string | null;
     address: string;
@@ -1556,6 +1557,7 @@ export const ProfileDocument = gql`
       id
       bio
       name
+      githubHandle
       twitterHandle
       personalSiteUrl
       address
