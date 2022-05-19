@@ -11,6 +11,8 @@ import { TextDarkGray } from '../../colors';
 
 type Props = {
   gitPOAPId: number;
+  variant?: number;
+  highNumberTest?: boolean;
 };
 
 export type Holder = {
@@ -23,13 +25,45 @@ export type Holder = {
   twitterHandle?: string | null;
 };
 
-const HoldersWrapper = styled.div`
+const HoldersWrapper = styled.div<{ variant?: number }>`
   display: grid;
   margin-bottom: ${rem(50)};
   margin-top: ${rem(40)};
   column-gap: ${rem(24)};
   row-gap: ${rem(40)};
-  grid-template-columns: repeat(auto-fill, minmax(${rem(215)}, 1fr));
+
+  > div {
+    border: 1px solid #000;
+  }
+
+  ${({ variant }) => {
+    switch (variant) {
+      case 1:
+        return `grid-template-columns: repeat(auto-fill, minmax(${rem(215)}, 1fr));`;
+      case 2:
+        return `grid-template-columns: repeat(auto-fill, minmax(${rem(
+          215,
+        )}, 1fr)); justify-items: center;`;
+      case 3:
+        return `grid-template-columns: repeat(auto-fill, ${rem(215)});`;
+      case 4:
+        return `grid-template-columns: repeat(auto-fill, ${rem(
+          215,
+        )});justify-content: center;align-content: center;`;
+      case 5:
+        return `grid-template-columns: repeat(auto-fit, ${rem(
+          215,
+        )});justify-content: center;align-content: center;`;
+      case 6:
+        return `grid-template-columns: repeat(auto-fit, minmax(${rem(
+          215,
+        )}, 1fr));justify-items: center;`;
+      default:
+        return `grid-template-columns: repeat(auto-fill, minmax(${rem(
+          215,
+        )}, 1fr));justify-content: center;align-content: center;`;
+    }
+  }}
 `;
 
 type SortOptions = 'claim-date' | 'claim-count';
@@ -39,7 +73,7 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'claim-count', label: 'Total Poaps' },
 ];
 
-export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
+export const GitPOAPHolders = ({ gitPOAPId, variant, highNumberTest }: Props) => {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortOptions>('claim-count');
   const [holders, setHolders] = useState<Holder[]>([]);
@@ -83,7 +117,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
 
   return (
     <ItemList
-      title={`${total ?? 0} holders`}
+      title={`Variant ${variant ?? 0}`}
       selectOptions={selectOptions}
       selectValue={sort}
       onSelectChange={(sortValue) => {
@@ -102,18 +136,34 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       }}
     >
       {total ? (
-        <HoldersWrapper>
-          {holders.map((holder: Holder) => (
-            <InfoHexSummary
-              key={holder.githubHandle}
-              address={holder.address}
-              bio={holder.bio}
-              gitpoapId={gitPOAPId}
-              twitterHandle={holder.twitterHandle}
-              personalSiteUrl={holder.personalSiteUrl}
-              numGitPOAPs={holder.gitPOAPCount}
-            />
-          ))}
+        <HoldersWrapper variant={variant}>
+          {[...Array(highNumberTest ? 3 : 1)].map(() =>
+            holders.map((holder: Holder) =>
+              variant && variant === 1 ? (
+                <div>
+                  <InfoHexSummary
+                    key={holder.githubHandle}
+                    address={holder.address}
+                    bio={holder.bio}
+                    gitpoapId={gitPOAPId}
+                    twitterHandle={holder.twitterHandle}
+                    personalSiteUrl={holder.personalSiteUrl}
+                    numGitPOAPs={holder.gitPOAPCount}
+                  />
+                </div>
+              ) : (
+                <InfoHexSummary
+                  key={holder.githubHandle}
+                  address={holder.address}
+                  bio={holder.bio}
+                  gitpoapId={gitPOAPId}
+                  twitterHandle={holder.twitterHandle}
+                  personalSiteUrl={holder.personalSiteUrl}
+                  numGitPOAPs={holder.gitPOAPCount}
+                />
+              ),
+            ),
+          )}
         </HoldersWrapper>
       ) : (
         <EmptyState icon={<FaUsers color={TextDarkGray} size={rem(74)} />}>
