@@ -25,7 +25,7 @@ export const Default = Template.bind({});
 Default.args = { gitPOAPId: 5 };
 
 export const HighNumber = Template.bind({});
-HighNumber.args = { gitPOAPId: 5, highNumberTest: true };
+HighNumber.args = { gitPOAPId: 5, highNumberTest: true, showBorder: true };
 
 export const Empty = Template.bind({});
 Empty.args = { gitPOAPId: 0 };

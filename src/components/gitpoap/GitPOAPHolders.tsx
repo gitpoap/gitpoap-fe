@@ -13,6 +13,7 @@ type Props = {
   gitPOAPId: number;
   variant?: number;
   highNumberTest?: boolean;
+  showBorder?: boolean;
 };
 
 export type Holder = {
@@ -25,7 +26,7 @@ export type Holder = {
   twitterHandle?: string | null;
 };
 
-const HoldersWrapper = styled.div<{ variant?: number }>`
+const HoldersWrapper = styled.div<{ showBorder?: boolean; variant?: number }>`
   display: grid;
   margin-bottom: ${rem(50)};
   margin-top: ${rem(40)};
@@ -33,7 +34,7 @@ const HoldersWrapper = styled.div<{ variant?: number }>`
   row-gap: ${rem(40)};
 
   > div {
-    border: 1px solid #000;
+    ${({ showBorder }) => showBorder && `border: 1px solid #000;`}
   }
 
   ${({ variant }) => {
@@ -73,7 +74,7 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'claim-count', label: 'Total Poaps' },
 ];
 
-export const GitPOAPHolders = ({ gitPOAPId, variant, highNumberTest }: Props) => {
+export const GitPOAPHolders = ({ gitPOAPId, variant, highNumberTest, showBorder }: Props) => {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortOptions>('claim-count');
   const [holders, setHolders] = useState<Holder[]>([]);
@@ -136,8 +137,8 @@ export const GitPOAPHolders = ({ gitPOAPId, variant, highNumberTest }: Props) =>
       }}
     >
       {total ? (
-        <HoldersWrapper variant={variant}>
-          {[...Array(highNumberTest ? 3 : 1)].map(() =>
+        <HoldersWrapper showBorder={showBorder} variant={variant}>
+          {[...Array(highNumberTest ? 2 : 1)].map(() =>
             holders.map((holder: Holder) =>
               variant && variant === 1 ? (
                 <div>
