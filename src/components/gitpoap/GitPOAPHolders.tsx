@@ -9,7 +9,6 @@ import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { Text } from '../shared/elements/Text';
 import { TextDarkGray } from '../../colors';
-import { BREAKPOINTS } from '../../constants';
 
 type Props = {
   gitPOAPId: number;
@@ -26,17 +25,13 @@ export type Holder = {
 };
 
 const HoldersWrapper = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
   margin-bottom: ${rem(50)};
   margin-top: ${rem(40)};
   column-gap: ${rem(24)};
   row-gap: ${rem(40)};
-
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    justify-content: center;
-  }
+  grid-template-columns: repeat(auto-fit, ${rem(215)});
+  justify-content: center;
 `;
 
 type SortOptions = 'claim-date' | 'claim-count';
