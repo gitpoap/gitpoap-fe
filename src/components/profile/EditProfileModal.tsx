@@ -7,10 +7,11 @@ import { Button } from '../shared/elements/Button';
 import { Input as InputUI } from '../shared/elements/Input';
 import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
 import { Text } from '../shared/elements/Text';
-import { MidnightBlue, PrimaryBlue } from '../../colors';
+import { ExtraHover, ExtraPressed, MidnightBlue, TextGray } from '../../colors';
 import { EditableProfileData, useProfileContext } from './ProfileContext';
 import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
-import { FaCheckCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaRegEdit } from 'react-icons/fa';
+import { useAuthContext } from '../github/AuthContext';
 
 type Props = {
   isOpen: boolean;
@@ -73,9 +74,22 @@ const TextArea = styled(TextAreaUI)`
   flex: 1;
 `;
 
-const ConnectGithubAccount = styled.span`
-  &:hover {
-    color: ${PrimaryBlue};
+const ConnectGithubAccount = styled(Text)`
+  color: ${TextGray};
+  font-size: 12px;
+  line-height: 1.2;
+
+  display: inline-flex;
+  gap: ${rem(8)};
+  transition: 150ms color ease;
+
+  &:active {
+    color: ${ExtraPressed};
+    cursor: pointer;
+  }
+
+  &:hover:not(:active) {
+    color: ${ExtraHover};
     cursor: pointer;
   }
 `;
@@ -94,6 +108,7 @@ export const EditProfileModal = ({
   onClickSave,
   isSaveLoading,
 }: Props) => {
+  const { isLoggedIntoGitHub, user } = useAuthContext();
   const { isSaveSuccessful } = useProfileContext();
   const [personSiteUrlValue, setPersonalSiteUrlValue] =
     useState<string | undefined | null>(personalSiteUrl);
@@ -126,10 +141,10 @@ export const EditProfileModal = ({
               placeholder="gitpoap"
               label={'GitHub Handle'}
               description={
-                !githubHandleValue &&
                 isLoggedIntoGitHub && (
                   <ConnectGithubAccount onClick={() => setGithubHandleValue(user?.githubHandle)}>
-                    {'Use the handle of the currently authenticated github account'}
+                    <FaRegEdit />
+                    {' Use the currently authenticated github account'}
                   </ConnectGithubAccount>
                 )
               }
