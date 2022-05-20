@@ -7,15 +7,17 @@ import { Button } from '../shared/elements/Button';
 import { Input as InputUI } from '../shared/elements/Input';
 import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
 import { Text } from '../shared/elements/Text';
-import { MidnightBlue } from '../../colors';
+import { ExtraHover, ExtraPressed, MidnightBlue, TextGray } from '../../colors';
 import { EditableProfileData, useProfileContext } from './ProfileContext';
-import { isValidTwitterHandle, isValidURL } from '../../helpers';
-import { FaCheckCircle } from 'react-icons/fa';
+import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
+import { FaCheckCircle, FaRegEdit } from 'react-icons/fa';
+import { useAuthContext } from '../github/AuthContext';
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
   bio?: string | null;
+  githubHandle?: string | null;
   twitterHandle?: string | null;
   personalSiteUrl?: string | null;
   onClickSave: (newProfileData: EditableProfileData) => void;
@@ -54,6 +56,8 @@ const SettingSection = styled.div`
   margin-bottom: ${rem(30)};
 `;
 
+const GithubHandle = styled(SettingSection)``;
+
 const TwitterHandle = styled(SettingSection)``;
 
 const PersonalWebsite = styled(SettingSection)``;
@@ -70,6 +74,26 @@ const TextArea = styled(TextAreaUI)`
   flex: 1;
 `;
 
+const ConnectGithubAccount = styled(Text)`
+  color: ${TextGray};
+  font-size: 12px;
+  line-height: 1.2;
+
+  display: inline-flex;
+  gap: ${rem(8)};
+  transition: 150ms color ease;
+
+  &:active {
+    color: ${ExtraPressed};
+    cursor: pointer;
+  }
+
+  &:hover:not(:active) {
+    color: ${ExtraHover};
+    cursor: pointer;
+  }
+`;
+
 export const SettingsText = styled(Text)`
   padding-right: ${rem(30)};
 `;
@@ -77,24 +101,38 @@ export const SettingsText = styled(Text)`
 export const EditProfileModal = ({
   isOpen,
   onClose,
+  githubHandle,
   twitterHandle,
   bio,
   personalSiteUrl,
   onClickSave,
   isSaveLoading,
 }: Props) => {
+  const { isLoggedIntoGitHub, user } = useAuthContext();
   const { isSaveSuccessful } = useProfileContext();
   const [personSiteUrlValue, setPersonalSiteUrlValue] =
     useState<string | undefined | null>(personalSiteUrl);
   const [bioValue, setBioValue] = useState<string | undefined | null>(bio);
+  const [githubHandleValue, setGithubHandleValue] =
+    useState<string | undefined | null>(githubHandle);
   const [twitterHandleValue, setTwitterHandleValue] =
     useState<string | undefined | null>(twitterHandle);
 
   useEffect(() => {
     setPersonalSiteUrlValue(personalSiteUrl);
+  }, [personalSiteUrl]);
+
+  useEffect(() => {
     setBioValue(bio);
+  }, [bio]);
+
+  useEffect(() => {
+    setGithubHandleValue(githubHandle);
+  }, [githubHandle]);
+
+  useEffect(() => {
     setTwitterHandleValue(twitterHandle);
-  }, [personalSiteUrl, bio, twitterHandle]);
+  }, [twitterHandle]);
 
   return (
     <StyledModal
@@ -107,6 +145,24 @@ export const EditProfileModal = ({
       <Content>
         <Header style={{ marginBottom: rem(30) }}>{'Edit profile'}</Header>
         <ProfileFields>
+          <GithubHandle>
+            <Input
+              placeholder="gitpoap"
+              label={'GitHub Handle'}
+              description={
+                isLoggedIntoGitHub && (
+                  <ConnectGithubAccount onClick={() => setGithubHandleValue(user?.githubHandle)}>
+                    <FaRegEdit />
+                    {' Use the currently authenticated github account'}
+                  </ConnectGithubAccount>
+                )
+              }
+              value={githubHandleValue ?? ''}
+              onChange={(e) => setGithubHandleValue(e.target.value)}
+              error={githubHandleValue && !isValidGithubHandle(githubHandleValue)}
+            />
+          </GithubHandle>
+
           <TwitterHandle>
             <Input
               placeholder="gitpoap"
