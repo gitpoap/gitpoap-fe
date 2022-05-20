@@ -65,11 +65,15 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   useEffect(() => {
     setHolders((prev: Holder[]) => {
       if (result.data?.gitPOAPHolders) {
-        return [...prev, ...result.data.gitPOAPHolders.holders];
+        if (page === 1) {
+          return [...result.data.gitPOAPHolders.holders];
+        } else {
+          return [...prev, ...result.data.gitPOAPHolders.holders];
+        }
       }
       return prev;
     });
-  }, [result.data]);
+  }, [page, result.data]);
 
   /* Hook to set total number of poaps */
   useEffect(() => {
@@ -78,7 +82,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
     }
   }, [result.data]);
 
-  if (result.error || result.fetching) {
+  if (result.error) {
     return null;
   }
 
@@ -90,7 +94,6 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       onSelectChange={(sortValue) => {
         if (sortValue !== sort) {
           setSort(sortValue as SortOptions);
-          setHolders([]);
           setPage(1);
         }
       }}
