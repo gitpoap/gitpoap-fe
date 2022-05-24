@@ -14,6 +14,7 @@ import { useWeb3Context } from '../wallet/Web3ContextProvider';
 
 type Props = {
   isConnected: boolean;
+  isLoggedIntoGitHub: boolean;
   isOpen: boolean;
   claims: UserClaim[];
   claimedIds: number[];
@@ -64,8 +65,14 @@ const ClaimText = styled.div`
   margin-top: ${rem(18)};
 `;
 
-const getClaimText = (isConnected: boolean, numClaims: number, numClaimed: number): string => {
+const getClaimText = (
+  isConnected: boolean,
+  numClaims: number,
+  numClaimed: number,
+  isLoggedIntoGitHub: boolean,
+): string => {
   const netClaims = numClaims - numClaimed;
+  if (!isLoggedIntoGitHub) return 'Connect your GitHub to mint!';
   if (!isConnected && netClaims > 0) return 'Connect your wallet to mint!';
 
   if (netClaims < 1) {
@@ -79,6 +86,7 @@ const getClaimText = (isConnected: boolean, numClaims: number, numClaimed: numbe
 
 export const ClaimModal = ({
   isConnected,
+  isLoggedIntoGitHub,
   isOpen,
   claims,
   claimedIds,
@@ -96,7 +104,7 @@ export const ClaimModal = ({
   const { connect } = useWeb3Context();
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = loadingClaimIds && loadingClaimIds.length === claims.length;
-  const claimText = getClaimText(isConnected, claims.length, claimedIds.length);
+  const claimText = getClaimText(isConnected, claims.length, claimedIds.length, isLoggedIntoGitHub);
 
   /* All claimIds in view, not all */
   const allClaimIds = claims.slice(start, end).map((userClaim) => userClaim.claim.id);

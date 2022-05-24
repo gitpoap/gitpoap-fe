@@ -191,6 +191,7 @@ export const GitHub = ({ className }: Props) => {
       <ClaimModal
         claims={userClaims ?? []}
         isConnected={connectionStatus === 'connected'}
+        isLoggedIntoGitHub={isLoggedIntoGitHub}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onClickClaim={claimGitPOAP}

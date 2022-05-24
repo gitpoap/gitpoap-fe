@@ -86,7 +86,7 @@ const claims: UserClaim[] = [
 export default {
   title: 'Modals/Claim',
   component: ClaimModal,
-  args: { claimedIds: [], isOpen: true, isConnected: true },
+  args: { claimedIds: [], isOpen: true, isConnected: true, isLoggedIntoGitHub: true },
   argTypes: { isConnected: { control: 'select', options: [true, false] } },
 } as ComponentMeta<typeof ClaimModal>;
 
@@ -127,3 +127,14 @@ MultipleClaims.args = { claims: claims };
 /* -- No Claims -- */
 export const NoClaims = Template.bind({});
 NoClaims.args = { claims: [] };
+
+/* -- Wallet Connection  -- */
+export const NoClaimsNotConnected = Template.bind({});
+NoClaimsNotConnected.args = { claims: [], isConnected: false };
+
+export const ClaimsNotConnected = Template.bind({});
+ClaimsNotConnected.args = { claims: claims.slice(0, 2), isConnected: false };
+
+/* -- GitHub Connection  -- */
+export const NoClaimsGithubNotConnected = Template.bind({});
+NoClaimsGithubNotConnected.args = { claims: [], isLoggedIntoGitHub: false };
