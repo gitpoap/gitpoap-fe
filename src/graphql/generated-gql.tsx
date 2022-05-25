@@ -30,9 +30,16 @@ export type Claim = {
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
   poapTokenId?: Maybe<Scalars['String']>;
+  pullRequestEarned?: Maybe<GithubPullRequest>;
+  pullRequestEarnedId?: Maybe<Scalars['Int']>;
   status: ClaimStatus;
   updatedAt: Scalars['DateTime'];
   user: User;
+  userId: Scalars['Int'];
+};
+
+export type ClaimGitPoapIdUserIdCompoundUniqueInput = {
+  gitPOAPId: Scalars['Int'];
   userId: Scalars['Int'];
 };
 
@@ -53,6 +60,8 @@ export type ClaimOrderByWithRelationInput = {
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   poapTokenId?: InputMaybe<SortOrder>;
+  pullRequestEarned?: InputMaybe<GithubPullRequestOrderByWithRelationInput>;
+  pullRequestEarnedId?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user?: InputMaybe<UserOrderByWithRelationInput>;
@@ -65,6 +74,7 @@ export enum ClaimScalarFieldEnum {
   GitPoapId = 'gitPOAPId',
   Id = 'id',
   PoapTokenId = 'poapTokenId',
+  PullRequestEarnedId = 'pullRequestEarnedId',
   QrHash = 'qrHash',
   Status = 'status',
   UpdatedAt = 'updatedAt',
@@ -94,6 +104,8 @@ export type ClaimWhereInput = {
   gitPOAPId?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
   poapTokenId?: InputMaybe<StringNullableFilter>;
+  pullRequestEarned?: InputMaybe<GithubPullRequestRelationFilter>;
+  pullRequestEarnedId?: InputMaybe<IntNullableFilter>;
   status?: InputMaybe<EnumClaimStatusFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -101,6 +113,7 @@ export type ClaimWhereInput = {
 };
 
 export type ClaimWhereUniqueInput = {
+  gitPOAPId_userId?: InputMaybe<ClaimGitPoapIdUserIdCompoundUniqueInput>;
   id?: InputMaybe<Scalars['Int']>;
   poapTokenId?: InputMaybe<Scalars['String']>;
 };
@@ -207,6 +220,7 @@ export type GitPoap = {
   claims: Array<Claim>;
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
+  lastPRUpdatedAt: Scalars['DateTime'];
   ongoing: Scalars['Boolean'];
   poapEventId: Scalars['Int'];
   redeemCodes: Array<RedeemCode>;
@@ -256,6 +270,7 @@ export type GitPoapOrderByWithRelationInput = {
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  lastPRUpdatedAt?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
   poapEventId?: InputMaybe<SortOrder>;
   redeemCodes?: InputMaybe<RedeemCodeOrderByRelationAggregateInput>;
@@ -275,6 +290,7 @@ export type GitPoapRelationFilter = {
 export enum GitPoapScalarFieldEnum {
   CreatedAt = 'createdAt',
   Id = 'id',
+  LastPrUpdatedAt = 'lastPRUpdatedAt',
   Ongoing = 'ongoing',
   PoapEventId = 'poapEventId',
   PoapSecret = 'poapSecret',
@@ -298,6 +314,7 @@ export type GitPoapWhereInput = {
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<IntFilter>;
+  lastPRUpdatedAt?: InputMaybe<DateTimeFilter>;
   ongoing?: InputMaybe<BoolFilter>;
   poapEventId?: InputMaybe<IntFilter>;
   redeemCodes?: InputMaybe<RedeemCodeListRelationFilter>;
@@ -319,6 +336,97 @@ export type GitPoapWithClaimsCount = {
   claimsCount: Scalars['Float'];
   event: PoapEvent;
   gitPOAP: GitPoap;
+};
+
+export type GithubPullRequest = {
+  __typename?: 'GithubPullRequest';
+  Claim: Array<Claim>;
+  _count?: Maybe<GithubPullRequestCount>;
+  createdAt: Scalars['DateTime'];
+  githubMergedAt: Scalars['DateTime'];
+  githubPullNumber: Scalars['Int'];
+  githubTitle: Scalars['String'];
+  id: Scalars['Int'];
+  repo: Repo;
+  repoId: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  user: User;
+  userId: Scalars['Int'];
+};
+
+export type GithubPullRequestClaimArgs = {
+  cursor?: InputMaybe<ClaimWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ClaimScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ClaimOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ClaimWhereInput>;
+};
+
+export type GithubPullRequestCount = {
+  __typename?: 'GithubPullRequestCount';
+  Claim: Scalars['Int'];
+};
+
+export type GithubPullRequestListRelationFilter = {
+  every?: InputMaybe<GithubPullRequestWhereInput>;
+  none?: InputMaybe<GithubPullRequestWhereInput>;
+  some?: InputMaybe<GithubPullRequestWhereInput>;
+};
+
+export type GithubPullRequestOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type GithubPullRequestOrderByWithRelationInput = {
+  Claim?: InputMaybe<ClaimOrderByRelationAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  githubMergedAt?: InputMaybe<SortOrder>;
+  githubPullNumber?: InputMaybe<SortOrder>;
+  githubTitle?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  repo?: InputMaybe<RepoOrderByWithRelationInput>;
+  repoId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubPullRequestRelationFilter = {
+  is?: InputMaybe<GithubPullRequestWhereInput>;
+  isNot?: InputMaybe<GithubPullRequestWhereInput>;
+};
+
+export enum GithubPullRequestScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  GithubMergedAt = 'githubMergedAt',
+  GithubPullNumber = 'githubPullNumber',
+  GithubTitle = 'githubTitle',
+  Id = 'id',
+  RepoId = 'repoId',
+  UpdatedAt = 'updatedAt',
+  UserId = 'userId',
+}
+
+export type GithubPullRequestWhereInput = {
+  AND?: InputMaybe<Array<GithubPullRequestWhereInput>>;
+  Claim?: InputMaybe<ClaimListRelationFilter>;
+  NOT?: InputMaybe<Array<GithubPullRequestWhereInput>>;
+  OR?: InputMaybe<Array<GithubPullRequestWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  githubMergedAt?: InputMaybe<DateTimeFilter>;
+  githubPullNumber?: InputMaybe<IntFilter>;
+  githubTitle?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IntFilter>;
+  repo?: InputMaybe<RepoRelationFilter>;
+  repoId?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+  userId?: InputMaybe<IntFilter>;
+};
+
+export type GithubPullRequestWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type Holder = {
@@ -347,6 +455,17 @@ export type IntFilter = {
   lt?: InputMaybe<Scalars['Int']>;
   lte?: InputMaybe<Scalars['Int']>;
   not?: InputMaybe<NestedIntFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export type IntNullableFilter = {
+  equals?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<Scalars['Int']>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  not?: InputMaybe<NestedIntNullableFilter>;
   notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
@@ -398,6 +517,17 @@ export type NestedIntFilter = {
   notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
+export type NestedIntNullableFilter = {
+  equals?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<Scalars['Int']>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  not?: InputMaybe<NestedIntNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']>>;
+};
+
 export type NestedStringFilter = {
   contains?: InputMaybe<Scalars['String']>;
   endsWith?: InputMaybe<Scalars['String']>;
@@ -432,6 +562,7 @@ export type NullableProfile = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
+  ensName?: Maybe<Scalars['String']>;
   featuredPOAPs: Array<FeaturedPoap>;
   githubHandle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Float']>;
@@ -646,6 +777,8 @@ export type ProfileWithEns = {
 
 export type Query = {
   __typename?: 'Query';
+  allOrganizations?: Maybe<Array<Organization>>;
+  allRepos?: Maybe<Array<Repo>>;
   claim?: Maybe<Claim>;
   claims: Array<Claim>;
   featuredPOAP?: Maybe<FeaturedPoap>;
@@ -653,6 +786,7 @@ export type Query = {
   findFirstClaim?: Maybe<Claim>;
   findFirstFeaturedPOAP?: Maybe<FeaturedPoap>;
   findFirstGitPOAP?: Maybe<GitPoap>;
+  findFirstGithubPullRequest?: Maybe<GithubPullRequest>;
   findFirstOrganization?: Maybe<Organization>;
   findFirstProfile?: Maybe<Profile>;
   findFirstRepo?: Maybe<Repo>;
@@ -661,6 +795,8 @@ export type Query = {
   gitPOAPEvent?: Maybe<FullGitPoapEventData>;
   gitPOAPHolders?: Maybe<Holders>;
   gitPOAPS: Array<GitPoap>;
+  githubPullRequest?: Maybe<GithubPullRequest>;
+  githubPullRequests: Array<GithubPullRequest>;
   lastMonthClaims: Scalars['Float'];
   lastMonthContributors: Scalars['Float'];
   lastMonthGitPOAPs: Scalars['Float'];
@@ -675,8 +811,10 @@ export type Query = {
   profiles: Array<Profile>;
   recentlyAddedProjects: Array<Repo>;
   repo?: Maybe<Repo>;
+  repoData?: Maybe<RepoData>;
   repoGitPOAPs?: Maybe<RepoGitPoaPs>;
   repoMostHonoredContributors: Array<ProfileWithClaimsCount>;
+  repoStarCount: Scalars['Float'];
   repos: Array<Repo>;
   search: SearchResults;
   totalClaims: Scalars['Float'];
@@ -687,6 +825,18 @@ export type Query = {
   userClaims?: Maybe<Array<FullClaimData>>;
   userPOAPs?: Maybe<UserPoaPs>;
   users: Array<User>;
+};
+
+export type QueryAllOrganizationsArgs = {
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+  sort?: InputMaybe<Scalars['String']>;
+};
+
+export type QueryAllReposArgs = {
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+  sort?: InputMaybe<Scalars['String']>;
 };
 
 export type QueryClaimArgs = {
@@ -740,6 +890,15 @@ export type QueryFindFirstGitPoapArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GitPoapWhereInput>;
+};
+
+export type QueryFindFirstGithubPullRequestArgs = {
+  cursor?: InputMaybe<GithubPullRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubPullRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubPullRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubPullRequestWhereInput>;
 };
 
 export type QueryFindFirstOrganizationArgs = {
@@ -802,6 +961,19 @@ export type QueryGitPoapsArgs = {
   where?: InputMaybe<GitPoapWhereInput>;
 };
 
+export type QueryGithubPullRequestArgs = {
+  where: GithubPullRequestWhereUniqueInput;
+};
+
+export type QueryGithubPullRequestsArgs = {
+  cursor?: InputMaybe<GithubPullRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubPullRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubPullRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubPullRequestWhereInput>;
+};
+
 export type QueryMostClaimedGitPoaPsArgs = {
   count?: InputMaybe<Scalars['Float']>;
 };
@@ -852,6 +1024,10 @@ export type QueryRepoArgs = {
   where: RepoWhereUniqueInput;
 };
 
+export type QueryRepoDataArgs = {
+  repoId: Scalars['Float'];
+};
+
 export type QueryRepoGitPoaPsArgs = {
   page?: InputMaybe<Scalars['Float']>;
   perPage?: InputMaybe<Scalars['Float']>;
@@ -861,6 +1037,10 @@ export type QueryRepoGitPoaPsArgs = {
 
 export type QueryRepoMostHonoredContributorsArgs = {
   count?: InputMaybe<Scalars['Float']>;
+  repoId: Scalars['Float'];
+};
+
+export type QueryRepoStarCountArgs = {
   repoId: Scalars['Float'];
 };
 
@@ -952,6 +1132,7 @@ export type RedeemCodeWhereUniqueInput = {
 
 export type Repo = {
   __typename?: 'Repo';
+  GithubPullRequest: Array<GithubPullRequest>;
   _count?: Maybe<RepoCount>;
   createdAt: Scalars['DateTime'];
   gitPOAPs: Array<GitPoap>;
@@ -961,6 +1142,15 @@ export type Repo = {
   organization: Organization;
   organizationId: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
+};
+
+export type RepoGithubPullRequestArgs = {
+  cursor?: InputMaybe<GithubPullRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubPullRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubPullRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubPullRequestWhereInput>;
 };
 
 export type RepoGitPoaPsArgs = {
@@ -974,18 +1164,46 @@ export type RepoGitPoaPsArgs = {
 
 export type RepoCount = {
   __typename?: 'RepoCount';
+  GithubPullRequest: Scalars['Int'];
   gitPOAPs: Scalars['Int'];
 };
 
-export type RepoGitPoapData = {
-  __typename?: 'RepoGitPOAPData';
-  event: PoapEvent;
-  gitPOAP: GitPoap;
+export type RepoData = {
+  __typename?: 'RepoData';
+  GithubPullRequest: Array<GithubPullRequest>;
+  _count?: Maybe<RepoCount>;
+  contributorCount: Scalars['Float'];
+  createdAt: Scalars['DateTime'];
+  gitPOAPs: Array<GitPoap>;
+  githubRepoId: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  organization: Organization;
+  organizationId: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type RepoDataGithubPullRequestArgs = {
+  cursor?: InputMaybe<GithubPullRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubPullRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubPullRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubPullRequestWhereInput>;
+};
+
+export type RepoDataGitPoaPsArgs = {
+  cursor?: InputMaybe<GitPoapWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GitPoapScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GitPoapOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GitPoapWhereInput>;
 };
 
 export type RepoGitPoaPs = {
   __typename?: 'RepoGitPOAPs';
-  gitPOAPs: Array<RepoGitPoapData>;
+  gitPOAPs: Array<FullGitPoapEventData>;
   totalGitPOAPs: Scalars['Float'];
 };
 
@@ -1000,6 +1218,7 @@ export type RepoOrderByRelationAggregateInput = {
 };
 
 export type RepoOrderByWithRelationInput = {
+  GithubPullRequest?: InputMaybe<GithubPullRequestOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   gitPOAPs?: InputMaybe<GitPoapOrderByRelationAggregateInput>;
   githubRepoId?: InputMaybe<SortOrder>;
@@ -1026,6 +1245,7 @@ export enum RepoScalarFieldEnum {
 
 export type RepoWhereInput = {
   AND?: InputMaybe<Array<RepoWhereInput>>;
+  GithubPullRequest?: InputMaybe<GithubPullRequestListRelationFilter>;
   NOT?: InputMaybe<Array<RepoWhereInput>>;
   OR?: InputMaybe<Array<RepoWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -1088,6 +1308,7 @@ export type StringNullableFilter = {
 
 export type User = {
   __typename?: 'User';
+  GithubPullRequest: Array<GithubPullRequest>;
   _count?: Maybe<UserCount>;
   claims: Array<Claim>;
   createdAt: Scalars['DateTime'];
@@ -1095,6 +1316,15 @@ export type User = {
   githubId: Scalars['Int'];
   id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
+};
+
+export type UserGithubPullRequestArgs = {
+  cursor?: InputMaybe<GithubPullRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubPullRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubPullRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubPullRequestWhereInput>;
 };
 
 export type UserClaimsArgs = {
@@ -1108,6 +1338,7 @@ export type UserClaimsArgs = {
 
 export type UserCount = {
   __typename?: 'UserCount';
+  GithubPullRequest: Scalars['Int'];
   authTokens: Scalars['Int'];
   claims: Scalars['Int'];
 };
@@ -1131,6 +1362,7 @@ export type UserGitPoapData = {
 };
 
 export type UserOrderByWithRelationInput = {
+  GithubPullRequest?: InputMaybe<GithubPullRequestOrderByRelationAggregateInput>;
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
@@ -1162,6 +1394,7 @@ export enum UserScalarFieldEnum {
 
 export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
+  GithubPullRequest?: InputMaybe<GithubPullRequestListRelationFilter>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
   claims?: InputMaybe<ClaimListRelationFilter>;
@@ -1271,6 +1504,7 @@ export type ProfileQuery = {
     twitterHandle?: string | null;
     personalSiteUrl?: string | null;
     address: string;
+    ensName?: string | null;
   } | null;
 };
 
@@ -1561,6 +1795,7 @@ export const ProfileDocument = gql`
       twitterHandle
       personalSiteUrl
       address
+      ensName
     }
   }
 `;
