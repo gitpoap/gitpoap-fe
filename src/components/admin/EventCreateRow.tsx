@@ -49,13 +49,13 @@ const RowContainer = styled.div`
 /* Validates on Submit */
 const schema = z.object({
   githubRepoId: z.number(),
-  name: z.string().nonempty(),
-  description: z.string().nonempty(),
+  name: z.string().min(1),
+  description: z.string().min(1),
   startDate: z.date(),
   endDate: z.date(),
   expiryDate: z.date(),
   year: z.number(),
-  eventUrl: z.string().url().nonempty(),
+  eventUrl: z.string().url().min(1),
   email: z.string().email({ message: 'Invalid email' }),
   numRequestedCodes: z.number(),
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),

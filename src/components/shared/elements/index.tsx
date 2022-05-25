@@ -5,6 +5,7 @@ export * from './Checkbox';
 export * from './ClaimCircle';
 export * from './CollapsibleAddress';
 export * from './CopyableText';
+export * from './DateInput';
 export * from './Divider';
 export * from './GitPOAPBadge';
 export * from './Header';

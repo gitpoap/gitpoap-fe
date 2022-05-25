@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 export const REACT_APP_CLIENT_ID = process.env.NEXT_PUBLIC_REACT_APP_CLIENT_ID;
 export const GITPOAP_API_URL = process.env.NEXT_PUBLIC_GITPOAP_API_URL;
 
@@ -11,6 +13,12 @@ export const BREAKPOINTS = {
 };
 
 export const FIVE_MINUTES = 5 * 60 * 1000;
+
+/** Date Constants **/
+export const THIS_YEAR = DateTime.local().year;
+export const DEFAULT_START_DATE = DateTime.local(THIS_YEAR, 1, 1).toJSDate();
+export const DEFAULT_END_DATE = DateTime.local(THIS_YEAR, 12, 31).toJSDate();
+export const DEFAULT_EXPIRY = DateTime.local(THIS_YEAR + 1, 4, 1).toJSDate();
 
 interface NativeCurrency {
   name: string;

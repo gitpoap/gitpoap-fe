@@ -10,13 +10,19 @@ import { Group, useMantineTheme, Grid } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { Input, Button, NumberInput, Text, Header } from '../../../components/shared/elements';
 import { TextArea, Divider, Checkbox } from '../../../components/shared/elements';
-import { GITPOAP_API_URL } from '../../../constants';
 import { useAuthContext } from '../../../components/github/AuthContext';
 import { NotificationFactory } from '../../../notifications';
 import { isValidURL } from '../../../helpers';
 import { ImageDropzone, dropzoneChildren } from '../../../components/admin/ImageDropzone';
 import { DateInput } from '../../../components/shared/elements/DateInput';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
+import {
+  THIS_YEAR,
+  DEFAULT_START_DATE,
+  DEFAULT_END_DATE,
+  GITPOAP_API_URL,
+  DEFAULT_EXPIRY,
+} from '../../../constants';
 
 const CreationForm = styled.form`
   display: inline-flex;
@@ -68,13 +74,13 @@ const FormContainer = styled.section`
 
 const schema = z.object({
   githubRepoId: z.number(),
-  name: z.string().nonempty(),
-  description: z.string().nonempty(),
+  name: z.string().min(1),
+  description: z.string().min(1),
   startDate: z.date(),
   endDate: z.date(),
   expiryDate: z.date(),
   year: z.number(),
-  eventUrl: z.string().url().nonempty(),
+  eventUrl: z.string().url().min(1),
   email: z.string().email({ message: 'Invalid email' }),
   numRequestedCodes: z.number(),
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),
@@ -110,15 +116,15 @@ const CreateGitPOAP: NextPage = () => {
       githubRepoId: undefined,
       name: '',
       description: '',
-      startDate: DateTime.local(2022, 1, 1).toJSDate(),
-      endDate: DateTime.local(2022, 12, 31).toJSDate(),
-      expiryDate: DateTime.local(2023, 4, 1).toJSDate(),
-      year: 2022,
+      startDate: DEFAULT_START_DATE,
+      endDate: DEFAULT_END_DATE,
+      expiryDate: DEFAULT_EXPIRY,
+      year: THIS_YEAR,
       eventUrl: '',
       email: 'issuer@gitpoap.io',
       numRequestedCodes: 20,
       ongoing: false,
-      image: null as any,
+      image: null,
     },
   });
 
@@ -181,9 +187,10 @@ const CreateGitPOAP: NextPage = () => {
 
     if (projectNameSeed) {
       setFieldValue('name', newName);
-    }
-    if (projectNameSeed) {
       setFieldValue('description', newDescription);
+    } else {
+      setFieldValue('name', '');
+      setFieldValue('description', '');
     }
     /* do not include setFieldValue below */
   }, [projectNameSeed, values.year]);
