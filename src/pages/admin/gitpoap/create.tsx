@@ -12,7 +12,6 @@ import { Input, Button, NumberInput, Text, Header } from '../../../components/sh
 import { TextArea, Divider, Checkbox } from '../../../components/shared/elements';
 import { useAuthContext } from '../../../components/github/AuthContext';
 import { NotificationFactory } from '../../../notifications';
-import { isValidURL } from '../../../helpers';
 import { ImageDropzone, dropzoneChildren } from '../../../components/admin/ImageDropzone';
 import { DateInput } from '../../../components/shared/elements/DateInput';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
@@ -23,6 +22,7 @@ import {
   GITPOAP_API_URL,
   DEFAULT_EXPIRY,
 } from '../../../constants';
+import { useGetGHRepoId } from '../../../hooks/useGetGHRepoId';
 
 const CreationForm = styled.form`
   display: inline-flex;
@@ -90,9 +90,9 @@ type FormValues = {
   githubRepoId?: number;
   name: string;
   description: string;
-  startDate: Date | null;
-  endDate: Date | null;
-  expiryDate: Date | null;
+  startDate: Date;
+  endDate: Date;
+  expiryDate: Date;
   year: number;
   eventUrl: string;
   email: string;
@@ -109,6 +109,7 @@ const CreateGitPOAP: NextPage = () => {
   /* Form Seed Values */
   const [repoUrlSeed, setRepoUrlSeed] = useState<string>('');
   const [projectNameSeed, setProjectNameSeed] = useState<string>('');
+  const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
 
   const { values, setFieldValue, getInputProps, onSubmit, errors } = useForm<FormValues>({
     schema: zodResolver(schema),
@@ -128,57 +129,30 @@ const CreateGitPOAP: NextPage = () => {
     },
   });
 
-  /* GitHub API Request to get repo ID */
+  /* Set GitHubRepoID when values are returned from the hook */
   useEffect(() => {
-    const fetchGitHubRepoId = async (orgName: string, repoName: string) => {
-      try {
-        const res = await fetch(`https://api.github.com/repos/${orgName}/${repoName}`, {
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!res.ok) {
-          throw new Error(res.statusText);
-        }
-
-        const repoData = (await res.json()) as {
-          id: number;
-          name: string;
-          full_name: string;
-          private: boolean;
-        };
-
-        if (repoData.id) {
-          setFieldValue('githubRepoId', repoData.id);
-          setFieldValue('eventUrl', `https://github.com/${orgName}/${repoName}`);
-        }
-      } catch (err) {
-        console.warn(err);
-        showNotification(
-          NotificationFactory.createError(
-            'Error - Request Failed',
-            'Oops, something went wrong! 🤥',
-          ),
-        );
-      }
-    };
-    if (isValidURL(repoUrlSeed) && values.eventUrl !== repoUrlSeed) {
-      const url = new URL(repoUrlSeed);
-      const pathStrs = url.pathname.split('/');
-      if (
-        pathStrs.length === 3 &&
-        !!pathStrs[1] &&
-        !!pathStrs[2] &&
-        url.origin === 'https://github.com'
-      ) {
-        fetchGitHubRepoId(pathStrs[1], pathStrs[2]);
-      }
+    if (githubRepoId && githubRepoId !== values.githubRepoId) {
+      setFieldValue('githubRepoId', githubRepoId);
+    } else if (!githubRepoId) {
+      setFieldValue('githubRepoId', undefined);
     }
     /* do not include setFieldValue below */
-  }, [repoUrlSeed, values.githubRepoId, values.eventUrl]);
+  }, [githubRepoId, values.githubRepoId]);
+
+  /* Set eventUrl when values are returned from the hook */
+  useEffect(() => {
+    if (eventUrl && eventUrl !== values.eventUrl) {
+      setFieldValue('eventUrl', eventUrl);
+    } else if (!eventUrl) {
+      setFieldValue('eventUrl', '');
+    }
+    /* do not include setFieldValue below */
+  }, [eventUrl, values.eventUrl]);
+
+  /* Update Ongoing boolean when end date changes */
+  useEffect(() => {
+    setFieldValue('ongoing', values.endDate.getTime() > Date.now());
+  }, [values.endDate]);
 
   /* Update Name && Description */
   useEffect(() => {
@@ -327,23 +301,6 @@ const CreateGitPOAP: NextPage = () => {
                           {...getInputProps('description')}
                         />
 
-                        {/* -------- URLs -------- */}
-                        <FormInput
-                          label={'Event URL (automatically set)'}
-                          name={'eventUrl'}
-                          disabled
-                          {...getInputProps('eventUrl')}
-                        />
-
-                        <FormInput
-                          required
-                          label={'Email (automatically set)'}
-                          name={'email'}
-                          disabled
-                          placeholder={'issuer@gitpoap.io'}
-                          {...getInputProps('email')}
-                        />
-
                         <FormNumberInput
                           required
                           label={'Requested Codes'}
@@ -352,7 +309,6 @@ const CreateGitPOAP: NextPage = () => {
                           hideControls
                           {...getInputProps('numRequestedCodes')}
                         />
-
                         <Checkbox
                           mt="md"
                           label="Ongoing Issuance?"
@@ -365,6 +321,7 @@ const CreateGitPOAP: NextPage = () => {
                         {/* -------- Dates -------- */}
                         <FormDatePicker
                           required
+                          clearable={false}
                           label={'Start Date'}
                           name={'startDate'}
                           placeholder={'1 January 2022'}
@@ -373,6 +330,7 @@ const CreateGitPOAP: NextPage = () => {
 
                         <FormDatePicker
                           required
+                          clearable={false}
                           label={'End Date'}
                           name={'endDate'}
                           placeholder={'31 December 2022'}
@@ -381,6 +339,7 @@ const CreateGitPOAP: NextPage = () => {
 
                         <FormDatePicker
                           required
+                          clearable={false}
                           label={'Expiration Date'}
                           name={'expiryDate'}
                           placeholder={'31 December 2025'}
