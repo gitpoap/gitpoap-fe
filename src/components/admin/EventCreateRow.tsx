@@ -59,6 +59,8 @@ const schema = z.object({
   email: z.string().email({ message: 'Invalid email' }),
   numRequestedCodes: z.number(),
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),
+  city: z.string().optional(),
+  country: z.string().optional(),
 });
 
 type FormValues = {
@@ -74,6 +76,8 @@ type FormValues = {
   numRequestedCodes: number;
   ongoing: boolean;
   image: File | null;
+  city?: string;
+  country?: string;
 };
 
 enum ButtonStatus {
@@ -108,6 +112,8 @@ export const EventCreateRow = (props: Props) => {
         numRequestedCodes: props.codeCount,
         ongoing: false,
         image: null,
+        city: undefined,
+        country: undefined,
       },
     },
   );
