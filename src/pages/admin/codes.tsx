@@ -135,7 +135,7 @@ const AddCodesPage: NextPage = () => {
     initialValues: {
       id: undefined,
       poapEventId: undefined,
-      codes: null as any,
+      codes: null,
     },
   });
 
