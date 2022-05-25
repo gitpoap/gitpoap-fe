@@ -16,7 +16,7 @@ type Props = React.ComponentProps<typeof DateInputUI> & {
   className?: string;
   placeholder?: string;
   disabled?: boolean;
-  inputRef?: React.RefObject<HTMLButtonElement>;
+  inputRef?: React.RefObject<HTMLInputElement>;
 };
 
 export const DateInputLabelStyles = css<{ disabled?: boolean }>`
