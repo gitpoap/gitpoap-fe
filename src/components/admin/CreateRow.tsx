@@ -6,18 +6,8 @@ import { useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { z } from 'zod';
 import { DateTime } from 'luxon';
-import { FaCheckCircle } from 'react-icons/fa';
-import { MdError } from 'react-icons/md';
 import { NotificationFactory } from '../../notifications';
-import {
-  Button,
-  Input,
-  InputWrapper,
-  TextArea,
-  Text,
-  DateInput,
-  Checkbox,
-} from '../shared/elements';
+import { Input, InputWrapper, TextArea, Text, DateInput, Checkbox } from '../shared/elements';
 import { NumberInput } from '../shared/elements';
 import { useGetGHRepoId } from '../../hooks/useGetGHRepoId';
 import { ImageDropzone, DropzoneChildrenSmall } from './ImageDropzone';
@@ -30,7 +20,8 @@ import {
 } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
 import { BackgroundPanel2, ExtraRed } from '../../colors';
-import { DataPopover } from './DataPopover';
+import { CreateButtonRow } from './CreateButtonRow';
+import { Errors } from './ErrorText';
 
 type Props = {
   rowNumber: number;
@@ -336,41 +327,14 @@ export const CreateRow = (props: Props) => {
       </Group>
 
       {/* Buttons Section */}
-      <Group position="center" align="center" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
-        <Button
-          onClick={clearData}
-          disabled={[ButtonStatus.SUCCESS, ButtonStatus.LOADING].includes(buttonStatus)}
-          variant="outline"
-        >
-          {'Clear'}
-        </Button>
-        <Button
-          onClick={onSubmit((values) => submitCreateGitPOAP(values))}
-          loading={buttonStatus === ButtonStatus.LOADING}
-          disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}
-          leftIcon={
-            buttonStatus === ButtonStatus.SUCCESS ? (
-              <FaCheckCircle size={18} />
-            ) : buttonStatus === ButtonStatus.ERROR ? (
-              <MdError size={18} />
-            ) : null
-          }
-        >
-          {'Submit'}
-        </Button>
-        <DataPopover data={values} />
-      </Group>
-
+      <CreateButtonRow
+        data={values}
+        clearData={clearData}
+        buttonStatus={buttonStatus}
+        onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}
+      />
       {/* Errors Section */}
-      {Object.keys(errors).length > 0 && (
-        <Group style={{ marginBottom: rem(20) }}>
-          <Box>
-            {Object.keys(errors).map((errorKey, i) => {
-              return <ErrorText key={i}>{`${errorKey}: ${errors[errorKey]}`}</ErrorText>;
-            })}
-          </Box>
-        </Group>
-      )}
+      <Errors errors={errors} />
       <Divider style={{ width: '100%', borderTopColor: BackgroundPanel2 }} />
     </RowContainer>
   );
