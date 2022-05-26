@@ -241,7 +241,7 @@ const CreateGitPOAP: NextPage = () => {
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col span={10}>
           {isLoggedIntoGitHub ? (
-            <>
+            <section>
               <FormContainer>
                 <CreationForm onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}>
                   <Header style={{ alignSelf: 'start', marginBottom: rem(20) }}>
@@ -356,18 +356,15 @@ const CreateGitPOAP: NextPage = () => {
                 </CreationForm>
               </FormContainer>
 
-              {/* Prevent SSR for the button due to disabled styling issue */}
-              {typeof window !== 'undefined' && (
-                <SubmitButtonRow
-                  data={values}
-                  clearData={clearData}
-                  buttonStatus={buttonStatus}
-                  onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}
-                />
-              )}
+              <SubmitButtonRow
+                data={values}
+                clearData={clearData}
+                buttonStatus={buttonStatus}
+                onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}
+              />
               {/* Errors Section */}
               <Errors errors={errors} />
-            </>
+            </section>
           ) : (
             <ConnectGitHub />
           )}
