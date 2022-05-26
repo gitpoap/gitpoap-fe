@@ -8,7 +8,7 @@ import { DateTime } from 'luxon';
 import { useForm, zodResolver } from '@mantine/form';
 import { Group, useMantineTheme, Grid } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
-import { Input, Button, NumberInput, Text, Header } from '../../../components/shared/elements';
+import { Input, NumberInput, Header } from '../../../components/shared/elements';
 import { TextArea, Divider, Checkbox } from '../../../components/shared/elements';
 import { useAuthContext } from '../../../components/github/AuthContext';
 import { NotificationFactory } from '../../../notifications';
@@ -23,7 +23,8 @@ import {
   DEFAULT_EXPIRY,
 } from '../../../constants';
 import { useGetGHRepoId } from '../../../hooks/useGetGHRepoId';
-import { DataPopover } from '../../../components/admin/DataPopover';
+import { CreateButtonRow, ButtonStatus } from '../../../components/admin/CreateButtonRow';
+import { Errors } from '../../../components/admin/ErrorText';
 
 const CreationForm = styled.form`
   display: inline-flex;
@@ -55,7 +56,7 @@ const FormLeft = styled.div`
   align-items: flex-start;
 
   > * {
-    margin-bottom: ${rem(25)};
+    margin-bottom: ${rem(20)};
   }
 `;
 
@@ -63,7 +64,7 @@ const FormRight = styled.div`
   display: flex;
   flex-direction: column;
   > * {
-    margin-bottom: ${rem(25)};
+    margin-bottom: ${rem(20)};
   }
 `;
 
@@ -71,18 +72,6 @@ const FormContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-`;
-
-const ButtonContainer = styled.section`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  > * {
-    &:first-child {
-      margin-right: ${rem(10)};
-    }
-  }
 `;
 
 const schema = z.object({
@@ -115,33 +104,32 @@ type FormValues = {
 };
 
 const CreateGitPOAP: NextPage = () => {
-  const [isSuccessful, setIsSuccessful] = useState<boolean>();
-  const [isError, setIsError] = useState<boolean>();
   const { tokens, isLoggedIntoGitHub } = useAuthContext();
   const theme = useMantineTheme();
   /* Form Seed Values */
   const [repoUrlSeed, setRepoUrlSeed] = useState<string>('');
   const [projectNameSeed, setProjectNameSeed] = useState<string>('');
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
-  const [isDataPopoverOpen, setIsDataPopoverOpen] = useState<boolean>(false);
-
-  const { values, setFieldValue, getInputProps, onSubmit, errors } = useForm<FormValues>({
-    schema: zodResolver(schema),
-    initialValues: {
-      githubRepoId: undefined,
-      name: '',
-      description: '',
-      startDate: DEFAULT_START_DATE,
-      endDate: DEFAULT_END_DATE,
-      expiryDate: DEFAULT_EXPIRY,
-      year: THIS_YEAR,
-      eventUrl: '',
-      email: 'issuer@gitpoap.io',
-      numRequestedCodes: 20,
-      ongoing: false,
-      image: null,
+  const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
+  const { values, setFieldValue, getInputProps, onSubmit, errors, setErrors } = useForm<FormValues>(
+    {
+      schema: zodResolver(schema),
+      initialValues: {
+        githubRepoId: undefined,
+        name: '',
+        description: '',
+        startDate: DEFAULT_START_DATE,
+        endDate: DEFAULT_END_DATE,
+        expiryDate: DEFAULT_EXPIRY,
+        year: THIS_YEAR,
+        eventUrl: '',
+        email: 'issuer@gitpoap.io',
+        numRequestedCodes: 20,
+        ongoing: false,
+        image: null,
+      },
     },
-  });
+  );
 
   /* Set GitHubRepoID when values are returned from the hook */
   useEffect(() => {
@@ -183,8 +171,22 @@ const CreateGitPOAP: NextPage = () => {
     /* do not include setFieldValue below */
   }, [projectNameSeed, values.year]);
 
+  const clearData = useCallback(() => {
+    setRepoUrlSeed('');
+    setProjectNameSeed('');
+    setButtonStatus(ButtonStatus.INITIAL);
+    setFieldValue('githubRepoId', undefined);
+    setFieldValue('name', '');
+    setFieldValue('description', '');
+    setFieldValue('eventUrl', '');
+    setFieldValue('image', null);
+    setErrors({});
+    /* do not include setFieldValue or setErrors below */
+  }, []);
+
   const submitCreateGitPOAP = useCallback(
     async (formValues: Record<string, any>) => {
+      setButtonStatus(ButtonStatus.LOADING);
       const formData = new FormData();
 
       for (const key in formValues) {
@@ -209,36 +211,26 @@ const CreateGitPOAP: NextPage = () => {
         if (!res.ok) {
           throw new Error(res.statusText);
         }
-        setIsSuccessful(true);
+        setButtonStatus(ButtonStatus.SUCCESS);
+        showNotification(
+          NotificationFactory.createSuccess(
+            `Success - GitPOAP Created - ${projectNameSeed}`,
+            'Thanks! 🤓',
+          ),
+        );
       } catch (err) {
         console.error(err);
         showNotification(
           NotificationFactory.createError(
-            'Error - Request Failed',
+            `Error - Request Failed for ${projectNameSeed}`,
             'Oops, something went wrong! 🤥',
           ),
         );
-        setIsError(true);
+        setButtonStatus(ButtonStatus.ERROR);
       }
     },
     [tokens?.accessToken],
   );
-
-  useEffect(() => {
-    if (isSuccessful) {
-      setTimeout(() => {
-        setIsSuccessful(false);
-      }, 3000);
-    }
-  }, [isSuccessful]);
-
-  useEffect(() => {
-    if (isError) {
-      setTimeout(() => {
-        setIsError(false);
-      }, 3000);
-    }
-  }, [isError]);
 
   return (
     <div>
@@ -266,14 +258,13 @@ const CreateGitPOAP: NextPage = () => {
                           label={'Repo URL Seed'}
                           value={repoUrlSeed}
                           onChange={(e) => setRepoUrlSeed(e.target.value)}
-                          style={{ marginBottom: rem(20) }}
+                          error={getInputProps('githubRepoId').error}
                         />
                         <FormTextArea
                           required
                           label={'Project Name Seed'}
                           value={projectNameSeed}
                           onChange={(e) => setProjectNameSeed(e.target.value)}
-                          style={{ marginBottom: rem(20) }}
                         />
 
                         <FormNumberInput
@@ -290,21 +281,12 @@ const CreateGitPOAP: NextPage = () => {
 
                     <Grid.Col sm={12} md={7} lg={5}>
                       <FormLeft>
-                        <FormNumberInput
-                          label={'GitHub Repo ID (automatically set)'}
-                          name={'githubRepoId'}
-                          hideControls
-                          disabled
-                          {...getInputProps('githubRepoId')}
-                        />
-
                         <FormInput
                           required
                           label={'GitPOAP Name'}
                           name={'name'}
                           {...getInputProps('name')}
                         />
-
                         <FormTextArea
                           required
                           label={'Description'}
@@ -314,7 +296,6 @@ const CreateGitPOAP: NextPage = () => {
                           autosize
                           {...getInputProps('description')}
                         />
-
                         <FormNumberInput
                           required
                           label={'Requested Codes'}
@@ -377,24 +358,15 @@ const CreateGitPOAP: NextPage = () => {
 
               {/* Prevent SSR for the button due to disabled styling issue */}
               {typeof window !== 'undefined' && (
-                <ButtonContainer>
-                  <Button
-                    disabled={!isLoggedIntoGitHub}
-                    onClick={onSubmit((values) => submitCreateGitPOAP(values))}
-                    style={{ marginTop: rem(20), marginBottom: rem(20) }}
-                  >
-                    {'Submit'}
-                  </Button>
-                  <DataPopover
-                    isPopoverOpen={isDataPopoverOpen}
-                    setIsPopoverOpen={setIsDataPopoverOpen}
-                    data={values}
-                  />
-                </ButtonContainer>
+                <CreateButtonRow
+                  data={values}
+                  clearData={clearData}
+                  buttonStatus={buttonStatus}
+                  onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}
+                />
               )}
-              {isSuccessful && <Text>{'Successful Creation'}</Text>}
-              {isError && <Text>{'Failed to create - did you forget to select an image? '}</Text>}
-              {!isLoggedIntoGitHub && <Text>{'Please connect your GitHub account'}</Text>}
+              {/* Errors Section */}
+              <Errors errors={errors} />
             </>
           ) : (
             <ConnectGitHub />
