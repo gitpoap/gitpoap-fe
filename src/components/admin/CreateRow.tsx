@@ -19,8 +19,8 @@ import {
   DEFAULT_EXPIRY,
 } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
-import { BackgroundPanel2, ExtraRed } from '../../colors';
-import { CreateButtonRow } from './CreateButtonRow';
+import { BackgroundPanel2 } from '../../colors';
+import { CreateButtonRow, ButtonStatus } from './CreateButtonRow';
 import { Errors } from './ErrorText';
 
 type Props = {
@@ -45,11 +45,6 @@ const FormDatePicker = styled(DateInput)`
   margin-bottom: ${rem(20)};
 `;
 
-const ErrorText = styled(Text)`
-  color: ${ExtraRed};
-  font-size: ${rem(11)};
-`;
-
 const RowContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -72,13 +67,6 @@ const schema = z.object({
   ongoing: z.boolean(),
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),
 });
-
-enum ButtonStatus {
-  INITIAL,
-  LOADING,
-  SUCCESS,
-  ERROR,
-}
 
 export const CreateRow = (props: Props) => {
   const { tokens } = useAuthContext();
