@@ -38,6 +38,8 @@ const schema = z.object({
   expiryDate: z.date(),
   codeCount: z.number(),
   hasYear: z.boolean(),
+  city: z.string().optional(),
+  country: z.string().optional(),
 });
 
 const DEFAULT_START_DATE = DateTime.local().toJSDate();
@@ -56,6 +58,8 @@ const CreateMultipleEvent: NextPage = () => {
       expiryDate: DEFAULT_EXPIRY_DATE,
       codeCount: 10,
       hasYear: true,
+      city: undefined,
+      country: undefined,
     },
   });
 
@@ -96,7 +100,7 @@ const CreateMultipleEvent: NextPage = () => {
                   </Button>
                 </Group>
 
-                <Group>
+                <Group style={{ gap: '0 16px' }}>
                   <Group>
                     <FormInput
                       required
@@ -137,6 +141,20 @@ const CreateMultipleEvent: NextPage = () => {
                     />
                     <Checkbox mt="md" label="Include year?" {...getInputProps('hasYear')} />
                   </Group>
+                  <Group>
+                    <FormInput
+                      style={{ width: rem(200) }}
+                      label={'City (optional)'}
+                      name={'city'}
+                      {...getInputProps('city')}
+                    />
+                    <FormInput
+                      style={{ width: rem(200) }}
+                      label={'Country (optional)'}
+                      name={'country'}
+                      {...getInputProps('country')}
+                    />
+                  </Group>
                 </Group>
                 <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
 
@@ -151,6 +169,8 @@ const CreateMultipleEvent: NextPage = () => {
                       expiry={values.expiryDate}
                       codeCount={values.codeCount}
                       hasYear={values.hasYear}
+                      city={values.city}
+                      country={values.country}
                     />
                   );
                 })}

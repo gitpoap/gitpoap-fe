@@ -25,6 +25,8 @@ type Props = {
   codeCount: number;
   rowNumber: number;
   hasYear: boolean;
+  city?: string;
+  country?: string;
 };
 
 const FormInput = styled(Input)`
@@ -115,8 +117,8 @@ export const EventCreateRow = (props: Props) => {
         numRequestedCodes: props.codeCount,
         ongoing: false,
         image: null,
-        city: undefined,
-        country: undefined,
+        city: props.city,
+        country: props.country,
       },
     },
   );
@@ -139,6 +141,16 @@ export const EventCreateRow = (props: Props) => {
     setFieldValue('endDate', props.eventEndDate);
     /* do not include setFieldValue below */
   }, [props.eventEndDate]);
+
+  useEffect(() => {
+    setFieldValue('city', props.city);
+    /* do not include setFieldValue below */
+  }, [props.city]);
+
+  useEffect(() => {
+    setFieldValue('country', props.country);
+    /* do not include setFieldValue below */
+  }, [props.country]);
 
   /* Set GitHubRepoID when values are returned from the hook */
   useEffect(() => {
