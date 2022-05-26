@@ -28,9 +28,7 @@ const CreateMultiple: NextPage = () => {
                 <Header style={{ alignSelf: 'start' }}>{'Admin - Create New  GitPOAPs'}</Header>
 
                 <Group position="apart" style={{ width: '100%' }}>
-                  <Header style={{ alignSelf: 'start', fontSize: rem(24) }}>
-                    {'Enter values below to automatically generate values in the form'}
-                  </Header>
+                  <div />
                   <Button
                     leftIcon={<HiPlus size={18} />}
                     onClick={() => setRowCount(rowCount + 1)}
