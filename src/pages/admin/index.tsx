@@ -17,8 +17,12 @@ const pages = [
     href: '/admin/gitpoap/create',
   },
   {
-    title: 'Create GitPOAP for Events - Multiple',
-    href: '/admin/gitpoap/create_for_event',
+    title: 'Create GitPOAPs - Multiple',
+    href: '/admin/gitpoap/create-multiple',
+  },
+  {
+    title: 'Create GitPOAPs for Events - Multiple',
+    href: '/admin/gitpoap/create-multiple-event',
   },
 ];
 
