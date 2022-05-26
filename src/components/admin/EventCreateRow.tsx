@@ -15,12 +15,13 @@ import { useAuthContext } from '../github/AuthContext';
 import { BackgroundPanel2, ExtraRed } from '../../colors';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdError } from 'react-icons/md';
+import { DataPopover } from './DataPopover';
 
 type Props = {
   eventName: string;
-  eventStartDate: Date | null;
-  eventEndDate: Date | null;
-  expiry: Date | null;
+  eventStartDate: Date;
+  eventEndDate: Date;
+  expiry: Date;
   codeCount: number;
   rowNumber: number;
   hasYear: boolean;
@@ -58,6 +59,7 @@ const schema = z.object({
   eventUrl: z.string().url().min(1),
   email: z.string().email({ message: 'Invalid email' }),
   numRequestedCodes: z.number(),
+  ongoing: z.boolean(),
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),
   city: z.string().optional(),
   country: z.string().optional(),
@@ -107,7 +109,7 @@ export const EventCreateRow = (props: Props) => {
         startDate: props.eventStartDate,
         endDate: props.eventEndDate,
         expiryDate: props.expiry,
-        year: props.eventStartDate ? DateTime.fromJSDate(props.eventStartDate).year : null,
+        year: DateTime.fromJSDate(props.eventStartDate).year,
         eventUrl: '',
         email: 'issuer@gitpoap.io',
         numRequestedCodes: props.codeCount,
