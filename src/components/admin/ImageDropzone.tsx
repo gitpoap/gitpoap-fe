@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Group, MantineTheme, Popover } from '@mantine/core';
@@ -104,8 +104,6 @@ type DropzoneChildrenSmallProps = {
   theme: MantineTheme;
   file: File | null;
   error: React.ReactNode;
-  isPopoverOpen: boolean;
-  setIsPopoverOpen: Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const DropzoneChildrenSmall = ({
@@ -113,84 +111,93 @@ export const DropzoneChildrenSmall = ({
   theme,
   file,
   error,
-  isPopoverOpen,
-  setIsPopoverOpen,
-}: DropzoneChildrenSmallProps) => (
-  <Group
-    position="center"
-    spacing="md"
-    style={{ minWidth: rem(340), maxWidth: rem(400), minHeight: rem(90) }}
-  >
-    {!!file ? (
-      <Group align="start" position="center" direction="row" spacing={5}>
-        <Popover
-          opened={isPopoverOpen}
-          onClose={() => setIsPopoverOpen(false)}
-          position="left"
-          placement="center"
-          withArrow
-          trapFocus={false}
-          closeOnEscape={false}
-          transition="pop-top-left"
-          styles={{
-            body: {
-              pointerEvents: 'none',
-              backgroundColor: BackgroundPanel2,
-              borderColor: BackgroundPanel2,
-            },
-          }}
-          radius="lg"
-          target={
-            <Image
-              width={90}
-              height={90}
-              src={URL.createObjectURL(file)}
-              alt="preview"
-              onMouseEnter={() => setIsPopoverOpen(true)}
-              onMouseLeave={() => setIsPopoverOpen(false)}
-            />
-          }
-        >
-          <div style={{ display: 'flex' }}>
-            <Image width={470} height={470} src={URL.createObjectURL(file)} alt="preview" />
-          </div>
-        </Popover>
-        <Group
-          direction="column"
-          align="start"
-          position="center"
-          spacing={5}
-          style={{ marginLeft: rem(10) }}
-        >
-          <SmallText color="white" size="sm" inline>
-            {file.name}
-          </SmallText>
-          <SmallText size="sm" color="dimmed" inline mt={7}>
-            {`${file.size / 1000} KB - ${file.type}`}
-          </SmallText>
+}: DropzoneChildrenSmallProps) => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
+  return (
+    <Group
+      position="center"
+      spacing="md"
+      style={{ minWidth: rem(340), maxWidth: rem(400), minHeight: rem(90) }}
+    >
+      {!!file ? (
+        <Group align="start" position="center" direction="row" spacing={5}>
+          <Popover
+            opened={isPopoverOpen}
+            onClose={() => setIsPopoverOpen(false)}
+            position="left"
+            placement="center"
+            withArrow
+            trapFocus={false}
+            closeOnEscape={false}
+            transition="pop-top-left"
+            styles={{
+              body: {
+                pointerEvents: 'none',
+                backgroundColor: BackgroundPanel2,
+                borderColor: BackgroundPanel2,
+              },
+            }}
+            radius="lg"
+            target={
+              <Image
+                width={90}
+                height={90}
+                src={URL.createObjectURL(file)}
+                alt="preview"
+                onMouseEnter={() => setIsPopoverOpen(true)}
+                onMouseLeave={() => setIsPopoverOpen(false)}
+              />
+            }
+          >
+            <div style={{ display: 'flex' }}>
+              <Image width={470} height={470} src={URL.createObjectURL(file)} alt="preview" />
+            </div>
+          </Popover>
+          <Group
+            direction="column"
+            align="start"
+            position="center"
+            spacing={5}
+            style={{ marginLeft: rem(10) }}
+          >
+            <SmallText color="white" size="sm" inline>
+              {file.name}
+            </SmallText>
+            <SmallText size="sm" color="dimmed" inline mt={7}>
+              {`${file.size / 1000} KB - ${file.type}`}
+            </SmallText>
+          </Group>
         </Group>
-      </Group>
-    ) : !!error ? (
-      <>
-        <ImageUploadIcon status={status} style={{ color: getIconColor(status, theme) }} size={24} />
-        <div>
-          <Text style={{ color: ExtraRed }} size="md" inline>
-            {'Drag image or select file'}
-          </Text>
-        </div>
-      </>
-    ) : (
-      <>
-        <ImageUploadIcon status={status} style={{ color: getIconColor(status, theme) }} size={24} />
-        <div>
-          <Text color="white" size="md" inline>
-            {'Drag image or select file'}
-          </Text>
-        </div>
-      </>
-    )}
-  </Group>
-);
+      ) : !!error ? (
+        <>
+          <ImageUploadIcon
+            status={status}
+            style={{ color: getIconColor(status, theme) }}
+            size={24}
+          />
+          <div>
+            <Text style={{ color: ExtraRed }} size="md" inline>
+              {'Drag image or select file'}
+            </Text>
+          </div>
+        </>
+      ) : (
+        <>
+          <ImageUploadIcon
+            status={status}
+            style={{ color: getIconColor(status, theme) }}
+            size={24}
+          />
+          <div>
+            <Text color="white" size="md" inline>
+              {'Drag image or select file'}
+            </Text>
+          </div>
+        </>
+      )}
+    </Group>
+  );
+};
 
 export const ImageDropzone = (props: Props) => {
   return (

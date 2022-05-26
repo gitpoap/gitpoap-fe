@@ -95,7 +95,6 @@ export const CreateRow = (props: Props) => {
   const [projectNameSeed, setProjectNameSeed] = useState<string>('');
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
-  const [isImgPopoverOpen, setIsImgPopoverOpen] = useState<boolean>(false);
   const theme = useMantineTheme();
 
   const { values, setFieldValue, getInputProps, onSubmit, errors, setErrors } = useForm<
@@ -310,8 +309,6 @@ export const CreateRow = (props: Props) => {
                 theme={theme}
                 file={values.image}
                 error={errors.image}
-                isPopoverOpen={isImgPopoverOpen}
-                setIsPopoverOpen={setIsImgPopoverOpen}
               />
             )}
           </ImageDropzone>
