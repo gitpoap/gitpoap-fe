@@ -13,14 +13,19 @@ export enum ButtonStatus {
   ERROR,
 }
 
-type Props = {
-  data: Record<string, AcceptedDataTypes>;
+type Props<F extends Record<string, AcceptedDataTypes>> = {
+  data: F;
   clearData: () => void;
   buttonStatus: ButtonStatus;
   onSubmit: () => void;
 };
 
-export const SubmitButtonRow = ({ clearData, buttonStatus, data, onSubmit }: Props) => {
+export const SubmitButtonRow = <F extends Record<string, AcceptedDataTypes>>({
+  clearData,
+  buttonStatus,
+  data,
+  onSubmit,
+}: Props<F>) => {
   return (
     <Group
       direction="row"

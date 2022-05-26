@@ -11,12 +11,14 @@ import { Group, useMantineTheme, MantineTheme, Grid } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { DropzoneStatus, Dropzone as DropzoneUI } from '@mantine/dropzone';
 import { useGitpoapByPoapEventIdQuery } from '../../graphql/generated-gql';
-import { NumberInput, Text, Header, Button } from '../../components/shared/elements';
+import { NumberInput, Text, Header } from '../../components/shared/elements';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { BackgroundPanel, BackgroundPanel2, ExtraRed } from '../../colors';
 import { NotificationFactory } from '../../notifications';
 import { ConnectGitHub } from '../../components/admin/ConnectGitHub';
+import { ButtonStatus, SubmitButtonRow } from '../../components/admin/SubmitButtonRow';
+import { Errors } from '../../components/admin/ErrorText';
 
 export const Dropzone = styled(DropzoneUI)`
   background-color: ${BackgroundPanel};
@@ -118,26 +120,22 @@ const schema = z.object({
   codes: typeof window === 'undefined' ? z.any() : z.instanceof(File),
 });
 
-type FormValues = {
-  id?: number;
-  poapEventId?: number;
-  codes: File | null;
-};
+type FormValues = z.infer<typeof schema>;
 
 const AddCodesPage: NextPage = () => {
-  const [isSuccessful, setIsSuccessful] = useState<boolean>();
-  const [isLoading, setIsLoading] = useState<boolean>();
-  const [isError, setIsError] = useState<boolean>();
   const { tokens, isLoggedIntoGitHub } = useAuthContext();
+  const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const theme = useMantineTheme();
-  const { setFieldValue, values, errors, onSubmit, getInputProps } = useForm<FormValues>({
-    schema: zodResolver(schema),
-    initialValues: {
-      id: undefined,
-      poapEventId: undefined,
-      codes: null,
+  const { setFieldValue, values, errors, onSubmit, getInputProps, setErrors } = useForm<FormValues>(
+    {
+      schema: zodResolver(schema),
+      initialValues: {
+        id: undefined!,
+        poapEventId: undefined!,
+        codes: null,
+      },
     },
-  });
+  );
 
   const [result] = useGitpoapByPoapEventIdQuery({
     variables: {
@@ -155,13 +153,22 @@ const AddCodesPage: NextPage = () => {
 
   useEffect(() => {
     if (result.data?.gitPOAP === null && values.id !== undefined) {
-      setFieldValue('id', undefined);
+      setFieldValue('id', undefined!);
     }
   }, [setFieldValue, result.data?.gitPOAP, values.id]);
 
+  const clearData = useCallback(() => {
+    setButtonStatus(ButtonStatus.INITIAL);
+    setFieldValue('id', undefined!);
+    setFieldValue('poapEventId', undefined!);
+    setFieldValue('codes', null);
+    setErrors({});
+    /* do not include setFieldValue or setErrors below */
+  }, []);
+
   const submitCodes = useCallback(
     async (formValues: FormValues) => {
-      setIsLoading(true);
+      setButtonStatus(ButtonStatus.LOADING);
       const formData = new FormData();
 
       let k: keyof FormValues;
@@ -183,38 +190,16 @@ const AddCodesPage: NextPage = () => {
         if (!res.ok) {
           throw new Error(res.statusText);
         }
-        setIsLoading(false);
-        setIsSuccessful(true);
+        setButtonStatus(ButtonStatus.SUCCESS);
+        showNotification(NotificationFactory.createSuccess('Success - Codes Added'));
       } catch (err) {
         console.error(err);
-        showNotification(
-          NotificationFactory.createError(
-            'Error - Request Failed',
-            'Oops, something went wrong! 🤥',
-          ),
-        );
-        setIsLoading(false);
-        setIsSuccessful(false);
+        showNotification(NotificationFactory.createError('Error - Request Failed'));
+        setButtonStatus(ButtonStatus.ERROR);
       }
     },
     [tokens?.accessToken],
   );
-
-  useEffect(() => {
-    if (isSuccessful) {
-      setTimeout(() => {
-        setIsSuccessful(false);
-      }, 3000);
-    }
-  }, [isSuccessful]);
-
-  useEffect(() => {
-    if (isError) {
-      setTimeout(() => {
-        setIsError(false);
-      }, 3000);
-    }
-  }, [isError]);
 
   /* Get poapEventID from the uploaded file name */
   useEffect(() => {
@@ -227,10 +212,10 @@ const AddCodesPage: NextPage = () => {
           setFieldValue('poapEventId', parsedEventID);
         }
       } else if (values.poapEventId !== undefined) {
-        setFieldValue('poapEventId', undefined);
+        setFieldValue('poapEventId', undefined!);
       }
     }
-  }, [values.codes, setFieldValue, values.poapEventId]);
+  }, [values.codes, values.poapEventId]);
 
   return (
     <div>
@@ -278,17 +263,15 @@ const AddCodesPage: NextPage = () => {
                 </Dropzone>
               </AddCodesForm>
 
-              <Button
-                onClick={onSubmit((values) => submitCodes(values))}
-                loading={isLoading}
-                disabled={values.id === undefined}
-              >
-                {'Submit'}
-              </Button>
-              {isSuccessful && <Text>{'Successful Creation'}</Text>}
-              {isError && (
-                <Text>{'Failed to add codes - did you forget to attach the text file? '}</Text>
-              )}
+              {/* Buttons Section */}
+              <SubmitButtonRow<FormValues>
+                data={values}
+                clearData={clearData}
+                buttonStatus={buttonStatus}
+                onSubmit={onSubmit((values) => submitCodes(values))}
+              />
+              {/* Errors Section */}
+              <Errors errors={errors} />
             </FormContainer>
           ) : (
             <ConnectGitHub />
