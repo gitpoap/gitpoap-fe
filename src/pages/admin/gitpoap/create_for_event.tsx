@@ -1,20 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { z } from 'zod';
 import { HiPlus } from 'react-icons/hi';
 import { Grid, Group } from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
+import { DateTime } from 'luxon';
 import { Input, Button, NumberInput, Header, Checkbox } from '../../../components/shared/elements';
 import { Divider } from '../../../components/shared/elements';
 import { useAuthContext } from '../../../components/github/AuthContext';
-import { DateTime } from 'luxon';
 import { DateInput } from '../../../components/shared/elements/DateInput';
 import { EventCreateRow } from '../../../components/admin/EventCreateRow';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
+import { THIS_YEAR } from '../../../constants';
 
 const FormInput = styled(Input)`
-  width: ${rem(400)};
+  width: ${rem(375)};
   margin-bottom: ${rem(20)};
 `;
 
@@ -28,16 +31,46 @@ const FormDatePicker = styled(DateInput)`
   margin-bottom: ${rem(20)};
 `;
 
-const CreateGitPOAP: NextPage = () => {
+const schema = z.object({
+  eventName: z.string(),
+  startDate: z.date(),
+  endDate: z.date(),
+  expiryDate: z.date(),
+  codeCount: z.number(),
+  hasYear: z.boolean(),
+});
+
+const DEFAULT_START_DATE = DateTime.local().toJSDate();
+const DEFAULT_END_DATE = DateTime.local().toJSDate();
+const DEFAULT_EXPIRY_DATE = DateTime.local(THIS_YEAR + 1, 4, 1).toJSDate();
+
+const CreateMultipleEvent: NextPage = () => {
   const { isLoggedIntoGitHub } = useAuthContext();
-  /* Form Seed Values */
-  const [eventName, setEventName] = useState<string>('');
-  const [startDate, setStartDate] = useState<Date | null>(DateTime.local().toJSDate());
-  const [endDate, setEndDate] = useState<Date | null>(DateTime.local().toJSDate());
-  const [expiry, setExpiry] = useState<Date | null>(DateTime.local(2023, 4, 1).toJSDate());
-  const [codeCount, setCodeCount] = useState<number>(10);
   const [rowCount, setRowCount] = useState<number>(1);
-  const [hasYear, setHasYear] = useState<boolean>(true);
+  const { values, setFieldValue, getInputProps } = useForm<z.infer<typeof schema>>({
+    schema: zodResolver(schema),
+    initialValues: {
+      eventName: '',
+      startDate: DEFAULT_START_DATE,
+      endDate: DEFAULT_END_DATE,
+      expiryDate: DEFAULT_EXPIRY_DATE,
+      codeCount: 10,
+      hasYear: true,
+    },
+  });
+
+  /* Hook to update the expiry date if the start date changes */
+  useEffect(() => {
+    const startDateYear = values.startDate.getFullYear();
+    const expiryDateYear = values.expiryDate.getFullYear();
+    if (startDateYear + 1 !== expiryDateYear) {
+      const newExpiryDate = DateTime.fromJSDate(values.expiryDate)
+        .set({ year: startDateYear + 1 })
+        .toJSDate();
+      setFieldValue('expiryDate', newExpiryDate);
+    }
+    /* do not include setFieldValue below */
+  }, [values.startDate, values.expiryDate]);
 
   return (
     <div>
@@ -51,18 +84,14 @@ const CreateGitPOAP: NextPage = () => {
             <Group direction="row" position="center">
               <Group direction="column">
                 <Header style={{ alignSelf: 'start' }}>
-                  {'Admin - Create new Event GitPOAPs'}
+                  {'Admin - Create New Event GitPOAPs'}
                 </Header>
 
                 <Group position="apart" style={{ width: '100%' }}>
                   <Header style={{ alignSelf: 'start', fontSize: rem(24) }}>
                     {'Enter values below to automatically generate values in the form'}
                   </Header>
-                  <Button
-                    leftIcon={<HiPlus size={18} />}
-                    onClick={() => setRowCount(rowCount + 1)}
-                    style={{}}
-                  >
+                  <Button leftIcon={<HiPlus size={18} />} onClick={() => setRowCount(rowCount + 1)}>
                     {`Add Row (${rowCount})`}
                   </Button>
                 </Group>
@@ -72,47 +101,41 @@ const CreateGitPOAP: NextPage = () => {
                     <FormInput
                       required
                       label={'Event Name'}
-                      value={eventName}
-                      onChange={(e) => setEventName(e.target.value)}
+                      name={'eventName'}
+                      {...getInputProps('eventName')}
                     />
                     <FormNumberInput
                       required
                       label={'Requested Codes'}
-                      name={'numRequestedCodes'}
+                      name={'codeCount'}
                       placeholder={'10'}
                       hideControls
-                      value={codeCount}
-                      onChange={(e) => setCodeCount(e!)}
+                      {...getInputProps('codeCount')}
                     />
                   </Group>
                   <Group>
                     <FormDatePicker
                       required
+                      clearable={false}
                       label={'Event Start Date'}
                       name={'startDate'}
-                      value={startDate}
-                      onChange={(startDate) => setStartDate(startDate)}
+                      {...getInputProps('startDate')}
                     />
                     <FormDatePicker
                       required
+                      clearable={false}
                       label={'Event End Date'}
                       name={'endDate'}
-                      value={endDate}
-                      onChange={(endDate) => setEndDate(endDate)}
+                      {...getInputProps('endDate')}
                     />
                     <FormDatePicker
                       required
+                      clearable={false}
                       label={'POAP Expiration Date'}
                       name={'expiryDate'}
-                      value={expiry}
-                      onChange={(date) => setExpiry(date)}
+                      {...getInputProps('expiryDate')}
                     />
-                    <Checkbox
-                      mt="md"
-                      label="Include year?"
-                      checked={hasYear}
-                      onChange={() => setHasYear(!hasYear)}
-                    />
+                    <Checkbox mt="md" label="Include year?" {...getInputProps('hasYear')} />
                   </Group>
                 </Group>
                 <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
@@ -122,12 +145,12 @@ const CreateGitPOAP: NextPage = () => {
                     <EventCreateRow
                       key={index}
                       rowNumber={index + 1}
-                      eventName={eventName}
-                      eventStartDate={startDate}
-                      eventEndDate={endDate}
-                      expiry={expiry}
-                      codeCount={codeCount}
-                      hasYear={hasYear}
+                      eventName={values.eventName}
+                      eventStartDate={values.startDate}
+                      eventEndDate={values.endDate}
+                      expiry={values.expiryDate}
+                      codeCount={values.codeCount}
+                      hasYear={values.hasYear}
                     />
                   );
                 })}
@@ -149,4 +172,4 @@ const CreateGitPOAP: NextPage = () => {
   );
 };
 
-export default CreateGitPOAP;
+export default CreateMultipleEvent;
