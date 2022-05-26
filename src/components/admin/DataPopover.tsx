@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Popover } from '@mantine/core';
@@ -7,12 +7,10 @@ import { FaQuestionCircle } from 'react-icons/fa';
 import { DateTime } from 'luxon';
 
 /* Add more types to this if need be */
-type AcceptedDataTypes = string | number | File | Date | boolean | null | undefined;
+export type AcceptedDataTypes = string | number | File | Date | boolean | null | undefined;
 
 type DataPopoverProps = {
   data: Record<string, AcceptedDataTypes>;
-  isPopoverOpen: boolean;
-  setIsPopoverOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 const DataContainer = styled.div`
@@ -67,7 +65,9 @@ const printValue = (value: AcceptedDataTypes) => {
   return '';
 };
 
-export const DataPopover = ({ isPopoverOpen, setIsPopoverOpen, data }: DataPopoverProps) => {
+export const DataPopover = ({ data }: DataPopoverProps) => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
+
   return (
     <Popover
       opened={isPopoverOpen}

@@ -1,8 +1,8 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { rem } from 'polished';
 import { Group } from '@mantine/core';
 import { Button } from '../shared/elements';
-import { DataPopover } from './DataPopover';
+import { AcceptedDataTypes, DataPopover } from './DataPopover';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdError } from 'react-icons/md';
 
@@ -14,22 +14,13 @@ export enum ButtonStatus {
 }
 
 type Props = {
-  isDataPopoverOpen: boolean;
-  setIsDataPopoverOpen: Dispatch<SetStateAction<boolean>>;
-  data: Record<string, any>;
+  data: Record<string, AcceptedDataTypes>;
   clearData: () => void;
   buttonStatus: ButtonStatus;
   onSubmit: () => void;
 };
 
-export const CreateButtonRow = ({
-  clearData,
-  buttonStatus,
-  isDataPopoverOpen,
-  setIsDataPopoverOpen,
-  data,
-  onSubmit,
-}: Props) => {
+export const CreateButtonRow = ({ clearData, buttonStatus, data, onSubmit }: Props) => {
   return (
     <Group
       direction="row"
@@ -58,11 +49,7 @@ export const CreateButtonRow = ({
       >
         {'Submit'}
       </Button>
-      <DataPopover
-        isPopoverOpen={isDataPopoverOpen}
-        setIsPopoverOpen={setIsDataPopoverOpen}
-        data={data}
-      />
+      <DataPopover data={data} />
     </Group>
   );
 };

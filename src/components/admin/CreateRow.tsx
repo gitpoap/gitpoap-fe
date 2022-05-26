@@ -96,7 +96,6 @@ export const CreateRow = (props: Props) => {
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [isImgPopoverOpen, setIsImgPopoverOpen] = useState<boolean>(false);
-  const [isDataPopoverOpen, setIsDataPopoverOpen] = useState<boolean>(false);
   const theme = useMantineTheme();
 
   const { values, setFieldValue, getInputProps, onSubmit, errors, setErrors } = useForm<
@@ -362,11 +361,7 @@ export const CreateRow = (props: Props) => {
         >
           {'Submit'}
         </Button>
-        <DataPopover
-          isPopoverOpen={isDataPopoverOpen}
-          setIsPopoverOpen={setIsDataPopoverOpen}
-          data={values}
-        />
+        <DataPopover data={values} />
       </Group>
 
       {/* Errors Section */}
