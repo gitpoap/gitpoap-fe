@@ -13,7 +13,7 @@ import { ImageDropzone, DropzoneChildrenSmall } from './ImageDropzone';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
 import { BackgroundPanel2 } from '../../colors';
-import { CreateButtonRow, ButtonStatus } from './CreateButtonRow';
+import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
 import { Errors } from './ErrorText';
 
 type Props = {
@@ -309,7 +309,7 @@ export const EventCreateRow = (props: Props) => {
       </Group>
 
       {/* Buttons Section */}
-      <CreateButtonRow
+      <SubmitButtonRow
         data={values}
         clearData={clearData}
         buttonStatus={buttonStatus}

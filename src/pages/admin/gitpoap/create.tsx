@@ -23,7 +23,7 @@ import {
   DEFAULT_EXPIRY,
 } from '../../../constants';
 import { useGetGHRepoId } from '../../../hooks/useGetGHRepoId';
-import { CreateButtonRow, ButtonStatus } from '../../../components/admin/CreateButtonRow';
+import { SubmitButtonRow, ButtonStatus } from '../../../components/admin/SubmitButtonRow';
 import { Errors } from '../../../components/admin/ErrorText';
 
 const CreationForm = styled.form`
@@ -229,7 +229,7 @@ const CreateGitPOAP: NextPage = () => {
         setButtonStatus(ButtonStatus.ERROR);
       }
     },
-    [tokens?.accessToken],
+    [tokens?.accessToken, projectNameSeed],
   );
 
   return (
@@ -358,7 +358,7 @@ const CreateGitPOAP: NextPage = () => {
 
               {/* Prevent SSR for the button due to disabled styling issue */}
               {typeof window !== 'undefined' && (
-                <CreateButtonRow
+                <SubmitButtonRow
                   data={values}
                   clearData={clearData}
                   buttonStatus={buttonStatus}

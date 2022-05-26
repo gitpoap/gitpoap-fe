@@ -20,7 +20,7 @@ type Props = {
   onSubmit: () => void;
 };
 
-export const CreateButtonRow = ({ clearData, buttonStatus, data, onSubmit }: Props) => {
+export const SubmitButtonRow = ({ clearData, buttonStatus, data, onSubmit }: Props) => {
   return (
     <Group
       direction="row"

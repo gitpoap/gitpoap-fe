@@ -20,7 +20,7 @@ import {
 } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
 import { BackgroundPanel2 } from '../../colors';
-import { CreateButtonRow, ButtonStatus } from './CreateButtonRow';
+import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
 import { Errors } from './ErrorText';
 
 type Props = {
@@ -103,12 +103,8 @@ export const CreateRow = (props: Props) => {
 
   /* Update the year field based on the start date */
   useEffect(() => {
-    const startDateYear = values.startDate.getFullYear();
-    if (startDateYear !== values.year) {
-      setFieldValue('year', values.startDate.getFullYear());
-      console.log(values.startDate.getFullYear());
-    }
-  }, [values.startDate, values.year]);
+    setFieldValue('year', values.startDate.getFullYear());
+  }, [values.startDate]);
 
   /* Set GitHubRepoID when values are returned from the hook */
   useEffect(() => {
@@ -315,7 +311,7 @@ export const CreateRow = (props: Props) => {
       </Group>
 
       {/* Buttons Section */}
-      <CreateButtonRow
+      <SubmitButtonRow
         data={values}
         clearData={clearData}
         buttonStatus={buttonStatus}
