@@ -23,6 +23,7 @@ import {
   DEFAULT_EXPIRY,
 } from '../../../constants';
 import { useGetGHRepoId } from '../../../hooks/useGetGHRepoId';
+import { DataPopover } from '../../../components/admin/DataPopover';
 
 const CreationForm = styled.form`
   display: inline-flex;
@@ -72,6 +73,18 @@ const FormContainer = styled.section`
   align-items: flex-start;
 `;
 
+const ButtonContainer = styled.section`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  > * {
+    &:first-child {
+      margin-right: ${rem(10)};
+    }
+  }
+`;
+
 const schema = z.object({
   githubRepoId: z.number(),
   name: z.string().min(1),
@@ -110,6 +123,7 @@ const CreateGitPOAP: NextPage = () => {
   const [repoUrlSeed, setRepoUrlSeed] = useState<string>('');
   const [projectNameSeed, setProjectNameSeed] = useState<string>('');
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
+  const [isDataPopoverOpen, setIsDataPopoverOpen] = useState<boolean>(false);
 
   const { values, setFieldValue, getInputProps, onSubmit, errors } = useForm<FormValues>({
     schema: zodResolver(schema),
@@ -363,13 +377,20 @@ const CreateGitPOAP: NextPage = () => {
 
               {/* Prevent SSR for the button due to disabled styling issue */}
               {typeof window !== 'undefined' && (
-                <Button
-                  disabled={!isLoggedIntoGitHub}
-                  onClick={onSubmit((values) => submitCreateGitPOAP(values))}
-                  style={{ marginTop: rem(20), marginBottom: rem(20) }}
-                >
-                  {'Submit'}
-                </Button>
+                <ButtonContainer>
+                  <Button
+                    disabled={!isLoggedIntoGitHub}
+                    onClick={onSubmit((values) => submitCreateGitPOAP(values))}
+                    style={{ marginTop: rem(20), marginBottom: rem(20) }}
+                  >
+                    {'Submit'}
+                  </Button>
+                  <DataPopover
+                    isPopoverOpen={isDataPopoverOpen}
+                    setIsPopoverOpen={setIsDataPopoverOpen}
+                    data={values}
+                  />
+                </ButtonContainer>
               )}
               {isSuccessful && <Text>{'Successful Creation'}</Text>}
               {isError && <Text>{'Failed to create - did you forget to select an image? '}</Text>}

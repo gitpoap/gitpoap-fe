@@ -94,6 +94,7 @@ export const EventCreateRow = (props: Props) => {
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [isImgPopoverOpen, setIsImgPopoverOpen] = useState<boolean>(false);
+  const [isDataPopoverOpen, setIsDataPopoverOpen] = useState<boolean>(false);
   const theme = useMantineTheme();
 
   const { values, setFieldValue, getInputProps, onSubmit, errors, setErrors } = useForm<FormValues>(
@@ -186,7 +187,7 @@ export const EventCreateRow = (props: Props) => {
     setFieldValue('eventUrl', '');
     setFieldValue('image', null);
     setErrors({});
-    /* do not include setFieldValue below */
+    /* do not include setFieldValue or setErrors below */
   }, []);
 
   const submitCreateGitPOAP = useCallback(
@@ -306,7 +307,7 @@ export const EventCreateRow = (props: Props) => {
       </Group>
 
       {/* Buttons Section */}
-      <Group position="center" align="end" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
+      <Group position="center" align="center" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
         <Button
           onClick={clearData}
           disabled={[ButtonStatus.SUCCESS, ButtonStatus.LOADING].includes(buttonStatus)}
@@ -328,6 +329,11 @@ export const EventCreateRow = (props: Props) => {
         >
           {'Submit'}
         </Button>
+        <DataPopover
+          isPopoverOpen={isDataPopoverOpen}
+          setIsPopoverOpen={setIsDataPopoverOpen}
+          data={values}
+        />
       </Group>
 
       {/* Errors Section */}
