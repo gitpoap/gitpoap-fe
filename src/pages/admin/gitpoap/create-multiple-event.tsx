@@ -139,18 +139,25 @@ const CreateMultipleEvent: NextPage = () => {
                       name={'expiryDate'}
                       {...getInputProps('expiryDate')}
                     />
-                    <Checkbox mt="md" label="Include year?" {...getInputProps('hasYear')} />
+                    <Checkbox
+                      mt="md"
+                      label="Include year?"
+                      defaultChecked
+                      {...getInputProps<'hasYear', 'checkbox'>('hasYear')}
+                    />
                   </Group>
                   <Group>
                     <FormInput
                       style={{ width: rem(200) }}
-                      label={'City (optional)'}
+                      label={'City'}
+                      placeholder="(optional)"
                       name={'city'}
                       {...getInputProps('city')}
                     />
                     <FormInput
                       style={{ width: rem(200) }}
-                      label={'Country (optional)'}
+                      label={'Country'}
+                      placeholder="(optional)"
                       name={'country'}
                       {...getInputProps('country')}
                     />

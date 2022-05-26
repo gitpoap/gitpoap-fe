@@ -18,12 +18,13 @@ type DataPopoverProps = {
 const DataContainer = styled.div`
   display: flex;
   flex-direction: column;
+  max-width: ${rem(450)};
 `;
 
 const DataEntry = styled.div`
   display: flex;
   flex-direction: row;
-
+  margin-bottom: ${rem(3)};
   > span {
     &:not(:last-child) {
       margin-right: ${rem(10)};

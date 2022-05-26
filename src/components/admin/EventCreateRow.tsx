@@ -143,6 +143,11 @@ export const EventCreateRow = (props: Props) => {
   }, [props.eventEndDate]);
 
   useEffect(() => {
+    setFieldValue('numRequestedCodes', props.codeCount);
+    /* do not include setFieldValue below */
+  }, [props.codeCount]);
+
+  useEffect(() => {
     setFieldValue('city', props.city);
     /* do not include setFieldValue below */
   }, [props.city]);
