@@ -7,15 +7,14 @@ import { useForm, zodResolver } from '@mantine/form';
 import { DateTime } from 'luxon';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
-import { Button, Input, InputWrapper, TextArea, Text } from '../shared/elements';
+import { Input, InputWrapper, TextArea, Text } from '../shared/elements';
 import { useGetGHRepoId } from '../../hooks/useGetGHRepoId';
 import { ImageDropzone, DropzoneChildrenSmall } from './ImageDropzone';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
-import { BackgroundPanel2, ExtraRed } from '../../colors';
-import { FaCheckCircle } from 'react-icons/fa';
-import { MdError } from 'react-icons/md';
-import { DataPopover } from './DataPopover';
+import { BackgroundPanel2 } from '../../colors';
+import { CreateButtonRow, ButtonStatus } from './CreateButtonRow';
+import { Errors } from './ErrorText';
 
 type Props = {
   eventName: string;
@@ -35,11 +34,6 @@ const FormInput = styled(Input)`
 
 const FormTextArea = styled(TextArea)`
   width: ${rem(375)};
-`;
-
-const ErrorText = styled(Text)`
-  color: ${ExtraRed};
-  font-size: ${rem(11)};
 `;
 
 const RowContainer = styled.div`
@@ -84,13 +78,6 @@ type FormValues = {
   country?: string;
 };
 
-enum ButtonStatus {
-  INITIAL,
-  LOADING,
-  SUCCESS,
-  ERROR,
-}
-
 export const EventCreateRow = (props: Props) => {
   const { tokens } = useAuthContext();
   const [repoUrlSeed, setRepoUrlSeed] = useState<string>('');
@@ -98,7 +85,6 @@ export const EventCreateRow = (props: Props) => {
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [isImgPopoverOpen, setIsImgPopoverOpen] = useState<boolean>(false);
-  const [isDataPopoverOpen, setIsDataPopoverOpen] = useState<boolean>(false);
   const theme = useMantineTheme();
 
   const { values, setFieldValue, getInputProps, onSubmit, errors, setErrors } = useForm<FormValues>(
@@ -265,7 +251,7 @@ export const EventCreateRow = (props: Props) => {
       </Box>
 
       {/* Form Inputs Section */}
-      <Group direction="row" align="start" style={{}} spacing="md">
+      <Group direction="row" align="start" spacing="md">
         {/* Project Specific Seed values */}
         <Group direction="column">
           <FormInput
@@ -326,45 +312,15 @@ export const EventCreateRow = (props: Props) => {
       </Group>
 
       {/* Buttons Section */}
-      <Group position="center" align="center" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
-        <Button
-          onClick={clearData}
-          disabled={[ButtonStatus.SUCCESS, ButtonStatus.LOADING].includes(buttonStatus)}
-          variant="outline"
-        >
-          {'Clear'}
-        </Button>
-        <Button
-          onClick={onSubmit((values) => submitCreateGitPOAP(values))}
-          loading={buttonStatus === ButtonStatus.LOADING}
-          disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}
-          leftIcon={
-            buttonStatus === ButtonStatus.SUCCESS ? (
-              <FaCheckCircle size={18} />
-            ) : buttonStatus === ButtonStatus.ERROR ? (
-              <MdError size={18} />
-            ) : null
-          }
-        >
-          {'Submit'}
-        </Button>
-        <DataPopover
-          isPopoverOpen={isDataPopoverOpen}
-          setIsPopoverOpen={setIsDataPopoverOpen}
-          data={values}
-        />
-      </Group>
+      <CreateButtonRow
+        data={values}
+        clearData={clearData}
+        buttonStatus={buttonStatus}
+        onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}
+      />
 
       {/* Errors Section */}
-      {Object.keys(errors).length > 0 && (
-        <Group style={{ marginBottom: rem(20) }}>
-          <Box>
-            {Object.keys(errors).map((errorKey, i) => {
-              return <ErrorText key={i}>{`${errorKey}: ${errors[errorKey]}`}</ErrorText>;
-            })}
-          </Box>
-        </Group>
-      )}
+      <Errors errors={errors} />
       <Divider style={{ width: '100%', borderTopColor: BackgroundPanel2 }} />
     </RowContainer>
   );
