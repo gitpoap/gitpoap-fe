@@ -25,10 +25,8 @@ const CreateMultiple: NextPage = () => {
           {isLoggedIntoGitHub ? (
             <Group direction="row" position="center">
               <Group direction="column">
-                <Header style={{ alignSelf: 'start' }}>{'Admin - Create New  GitPOAPs'}</Header>
-
                 <Group position="apart" style={{ width: '100%' }}>
-                  <div />
+                  <Header style={{ alignSelf: 'start' }}>{'Admin - Create New  GitPOAPs'}</Header>
                   <Button
                     leftIcon={<HiPlus size={18} />}
                     onClick={() => setRowCount(rowCount + 1)}
