@@ -24,6 +24,10 @@ const pages = [
     title: 'Create GitPOAPs for Events - Multiple',
     href: '/admin/gitpoap/create-multiple-event',
   },
+  {
+    title: 'Claims Dashboard',
+    href: '/admin/gitpoap/claims',
+  },
 ];
 
 const HeaderLink = styled(Header)`

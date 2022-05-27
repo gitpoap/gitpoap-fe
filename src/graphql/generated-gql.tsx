@@ -397,6 +397,11 @@ export type GithubPullRequestRelationFilter = {
   isNot?: InputMaybe<GithubPullRequestWhereInput>;
 };
 
+export type GithubPullRequestRepoIdGithubPullNumberCompoundUniqueInput = {
+  githubPullNumber: Scalars['Int'];
+  repoId: Scalars['Int'];
+};
+
 export enum GithubPullRequestScalarFieldEnum {
   CreatedAt = 'createdAt',
   GithubMergedAt = 'githubMergedAt',
@@ -427,6 +432,7 @@ export type GithubPullRequestWhereInput = {
 
 export type GithubPullRequestWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
+  repoId_githubPullNumber?: InputMaybe<GithubPullRequestRepoIdGithubPullNumberCompoundUniqueInput>;
 };
 
 export type Holder = {
@@ -1685,6 +1691,23 @@ export type FeaturedPoapsQuery = {
   } | null;
 };
 
+export type AdminClaimsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type AdminClaimsQuery = {
+  __typename?: 'Query';
+  claims: Array<{
+    __typename?: 'Claim';
+    id: number;
+    userId: number;
+    status: ClaimStatus;
+    poapTokenId?: string | null;
+    address?: string | null;
+    updatedAt: any;
+    createdAt: any;
+    gitPOAP: { __typename?: 'GitPOAP'; repo: { __typename?: 'Repo'; name: string } };
+  }>;
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -1994,4 +2017,28 @@ export function useFeaturedPoapsQuery(
   options: Omit<Urql.UseQueryArgs<FeaturedPoapsQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<FeaturedPoapsQuery>({ query: FeaturedPoapsDocument, ...options });
+}
+export const AdminClaimsDocument = gql`
+  query adminClaims {
+    claims(take: 20, orderBy: { updatedAt: desc }, where: { status: { equals: CLAIMED } }) {
+      id
+      userId
+      status
+      poapTokenId
+      address
+      updatedAt
+      createdAt
+      gitPOAP {
+        repo {
+          name
+        }
+      }
+    }
+  }
+`;
+
+export function useAdminClaimsQuery(
+  options?: Omit<Urql.UseQueryArgs<AdminClaimsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AdminClaimsQuery>({ query: AdminClaimsDocument, ...options });
 }
