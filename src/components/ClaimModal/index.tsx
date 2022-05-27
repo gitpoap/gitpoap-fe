@@ -137,6 +137,7 @@ export const ClaimModal = ({
                     onClickBadge={onClose}
                     isClaimed={claimedIds?.includes(userClaim.claim.id)}
                     isLoading={loadingClaimIds?.includes(userClaim.claim.id)}
+                    isConnected={isConnected}
                   />
                 );
               })}

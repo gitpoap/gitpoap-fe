@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Button } from '../elements/Button';
 import { GitPOAP } from './GitPOAP';
-import { FaCheckCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaCoins, FaEthereum } from 'react-icons/fa';
 
 type Props = {
   gitPOAPId: number;
@@ -15,6 +15,7 @@ type Props = {
   onClickBadge?: () => void;
   isClaimed?: boolean;
   isLoading?: boolean;
+  isConnected?: boolean;
 };
 
 const Wrapper = styled.div`
@@ -33,6 +34,18 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `;
 
+const getButtonText = (isClaimed: boolean | undefined, isConnected: boolean | undefined) => {
+  if (isClaimed) {
+    return 'Minted';
+  }
+
+  if (!isConnected) {
+    return 'Connect';
+  }
+
+  return 'Mint';
+};
+
 export const ClaimBlock = ({
   gitPOAPId,
   imgSrc,
@@ -43,6 +56,7 @@ export const ClaimBlock = ({
   onClickBadge,
   isClaimed,
   isLoading,
+  isConnected,
 }: Props) => {
   return (
     <Wrapper>
@@ -58,10 +72,10 @@ export const ClaimBlock = ({
         <Button
           onClick={onClickClaim}
           loading={isLoading}
-          leftIcon={isClaimed ? <FaCheckCircle /> : undefined}
+          leftIcon={isClaimed ? <FaCheckCircle /> : !isConnected ? <FaEthereum /> : <FaCoins />}
           disabled={isClaimed}
         >
-          {isClaimed ? 'Minted' : 'Mint'}
+          {getButtonText(isClaimed, isConnected)}
         </Button>
       </ButtonWrapper>
     </Wrapper>
