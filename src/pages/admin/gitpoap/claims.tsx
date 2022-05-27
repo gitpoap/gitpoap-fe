@@ -45,7 +45,8 @@ const ClaimsDashboard: NextPage = () => {
                 <Table>
                   <thead>
                     <tr>
-                      <th>{'ID'}</th>
+                      <th>{'Claim ID'}</th>
+                      <th>{'Github User'}</th>
                       <th>{'User ID'}</th>
                       <th>{'Repo'}</th>
                       <th>{'Status'}</th>
@@ -61,7 +62,8 @@ const ClaimsDashboard: NextPage = () => {
                         <ClaimRowItem key="id">
                           <Text>{claim.id}</Text>
                         </ClaimRowItem>
-                        <ClaimRowItem key="userId">{claim.userId}</ClaimRowItem>
+                        <ClaimRowItem key="githubUser">{claim.user.githubHandle}</ClaimRowItem>
+                        <ClaimRowItem key="githubUser">{claim.user.id}</ClaimRowItem>
                         <ClaimRowItem key="repoName">{claim.gitPOAP.repo.name}</ClaimRowItem>
                         <ClaimRowItem key="status">{claim.status}</ClaimRowItem>
                         <ClaimRowItem key="poapTokenId">{claim.poapTokenId}</ClaimRowItem>

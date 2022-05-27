@@ -1698,12 +1698,12 @@ export type AdminClaimsQuery = {
   claims: Array<{
     __typename?: 'Claim';
     id: number;
-    userId: number;
     status: ClaimStatus;
     poapTokenId?: string | null;
     address?: string | null;
     updatedAt: any;
     createdAt: any;
+    user: { __typename?: 'User'; id: number; githubHandle: string };
     gitPOAP: { __typename?: 'GitPOAP'; repo: { __typename?: 'Repo'; name: string } };
   }>;
 };
@@ -2022,7 +2022,10 @@ export const AdminClaimsDocument = gql`
   query adminClaims {
     claims(take: 20, orderBy: { updatedAt: desc }, where: { status: { equals: CLAIMED } }) {
       id
-      userId
+      user {
+        id
+        githubHandle
+      }
       status
       poapTokenId
       address

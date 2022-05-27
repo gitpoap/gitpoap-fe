@@ -218,7 +218,10 @@ query featuredPoaps($address: String!) {
 query adminClaims {
   claims(take: 20, orderBy: { updatedAt: desc }, where: { status: { equals: CLAIMED } }) {
     id
-    userId
+    user {
+      id
+      githubHandle
+    }
     status
     poapTokenId
     address
