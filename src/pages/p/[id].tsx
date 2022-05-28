@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import Head from 'next/head';
 import { Grid } from '@mantine/core';
 import { isAddress } from 'ethers/lib/utils';
 import { Page } from '../_app';
@@ -17,6 +16,7 @@ import { ProfileProvider } from '../../components/profile/ProfileContext';
 import { truncateAddress } from '../../helpers';
 import { BackgroundHexes } from '../../components/home/BackgroundHexes';
 import { BREAKPOINTS } from '../../constants';
+import { SEO } from '../../components/SEO';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;
@@ -80,9 +80,15 @@ const Profile: Page = () => {
 
   return (
     <>
-      <Head>
-        <title>{`${ensName ?? truncateAddress(profileAddress ?? '', 4)} | GitPOAP`}</title>
-      </Head>
+      <SEO
+        title={`${ensName ?? truncateAddress(profileAddress ?? '', 4)} | GitPOAP`}
+        description={
+          'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
+        }
+        image={'https://gitpoap.io/og-image-512x512.png'}
+        url={`https://gitpoap.io/p/${ensName ?? profileAddress}`}
+      />
+
       <ProfileProvider address={profileAddress} ensName={ensName}>
         <FeaturedPOAPsProvider profileAddress={profileAddress} ensName={ensName}>
           <Grid justify="center" style={{ marginTop: rem(40), zIndex: 1 }}>

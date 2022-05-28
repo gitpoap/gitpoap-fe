@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import Head from 'next/head';
 import { Center, Grid, Group } from '@mantine/core';
 import { Page } from './_app';
 import { BackgroundPanel2, TextLight } from '../colors';
@@ -14,6 +13,7 @@ import { SuggestionForm } from '../components/home/SuggestionForm';
 import { BackgroundHexes } from '../components/home/BackgroundHexes';
 import { useFeatures } from '../components/FeaturesContext';
 import { Divider } from '@mantine/core';
+import { SEO } from '../components/SEO';
 
 const HeaderStyled = styled.span`
   position: relative;
@@ -49,10 +49,15 @@ const Home: Page = () => {
 
   return (
     <>
-      <Head>
-        <title>{'Home | GitPOAP'}</title>
-        <meta name="description" content="GitPOAP Frontend App" />
-      </Head>
+      <SEO
+        title={'Home | GitPOAP'}
+        description={
+          'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
+        }
+        image={'https://gitpoap.io/og-image-512x512.png'}
+        url={'https://gitpoap.io/'}
+      />
+
       <Grid justify="center" style={{ zIndex: 0, position: 'relative' }}>
         <Background />
         <Grid.Col span={8} style={{ zIndex: 0 }}>
