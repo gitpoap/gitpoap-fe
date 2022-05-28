@@ -221,7 +221,7 @@ const AddCodesPage: NextPage = () => {
     <div>
       <Head>
         <title>{'Add Codes | GitPOAP'}</title>
-        <meta name="description" content="GitPOAP Frontend App" />
+        <meta name="description" content="GitPOAP Admin" />
       </Head>
       <Grid justify="center" style={{ marginTop: rem(40) }}>
         <Grid.Col span={10}>
