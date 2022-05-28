@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rgba, rem } from 'polished';
-import Head from 'next/head';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-
+import { withUrqlClient, initUrqlClient } from 'next-urql';
+import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { Grid } from '@mantine/core';
 
 import { Page } from '../_app';
@@ -13,6 +14,8 @@ import { GitPOAPHolders } from '../../components/gitpoap/GitPOAPHolders';
 import { Header as PageHeader } from '../../components/gitpoap/Header';
 import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
+import { GitPoapEventDocument, GitPoapEventQuery } from '../../graphql/generated-gql';
+import { SEO } from '../../components/SEO';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;
@@ -41,7 +44,12 @@ const Error = styled(Header)`
   transform: translate(-50%, -50%);
 `;
 
-const GitPOAP: Page = () => {
+type PageProps = {
+  children: React.ReactNode;
+  gitpoap: GitPoapEventQuery;
+};
+
+const GitPOAP: Page<PageProps> = (props) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -55,11 +63,16 @@ const GitPOAP: Page = () => {
     return <Error>{'404'}</Error>;
   }
 
+  const event = props.gitpoap.gitPOAPEvent?.event;
+
   return (
     <>
-      <Head>
-        <title>{'GitPOAP | GitPOAP'}</title>
-      </Head>
+      <SEO
+        title={`${event?.name.replace('GitPOAP: ', '') ?? 'GitPOAP'} | GitPOAP`}
+        description={event?.description ?? 'GitPOAP'}
+        image={event?.image_url ?? 'https://gitpoap.io/og-image-512x512.png'}
+        url={`https://gitpoap.io/gp/${id}`}
+      />
       <Grid justify="center" style={{ zIndex: 1 }}>
         <Background />
         <Grid.Col style={{ zIndex: 1 }}>
@@ -73,9 +86,40 @@ const GitPOAP: Page = () => {
   );
 };
 
+export async function getServerSideProps(context: NextPageContext) {
+  const ssrCache = ssrExchange({ isClient: false });
+  const client = initUrqlClient(
+    {
+      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
+      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+    },
+    false,
+  );
+  const id = parseInt(context.query.id as string);
+  const results = await client!
+    .query<GitPoapEventQuery>(GitPoapEventDocument, {
+      id,
+    })
+    .toPromise();
+
+  return {
+    props: {
+      // urqlState is a keyword here so withUrqlClient can pick it up.
+      urqlState: ssrCache.extractData(),
+      gitpoap: results.data,
+      revalidate: 600,
+    },
+  };
+}
+
 /* Custom layout function for this page */
 GitPOAP.getLayout = (page: React.ReactNode) => {
   return <Layout>{page}</Layout>;
 };
 
-export default GitPOAP;
+export default withUrqlClient(
+  (_) => ({
+    url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
+  }),
+  { ssr: false }, // Important so we don't wrap our component in getInitialProps
+)(GitPOAP);

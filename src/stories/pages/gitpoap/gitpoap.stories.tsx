@@ -10,7 +10,7 @@ export default {
 const Template: ComponentStory<typeof GitPOAP> = () => {
   return (
     <Layout>
-      <GitPOAP />
+      <GitPOAP pageProps={{}} />
     </Layout>
   );
 };
