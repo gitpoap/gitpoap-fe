@@ -23,6 +23,10 @@ export type Holder = {
   twitterHandle?: string | null;
 };
 
+const StyledItemList = styled(ItemList)`
+  margin-bottom: ${rem(20)};
+`;
+
 const HoldersWrapper = styled.div`
   display: grid;
   margin-bottom: ${rem(50)};
@@ -87,7 +91,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   }
 
   return (
-    <ItemList
+    <StyledItemList
       title={`${total ?? 0} holders`}
       selectOptions={selectOptions}
       selectValue={sort}
@@ -124,6 +128,6 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
           <Text style={{ marginTop: rem(20) }}>{'No one has minted this GitPOAP'}</Text>
         </EmptyState>
       )}
-    </ItemList>
+    </StyledItemList>
   );
 };
