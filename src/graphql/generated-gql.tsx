@@ -1742,6 +1742,36 @@ export type AdminClaimsQuery = {
   }>;
 };
 
+export type RepoDataQueryVariables = Exact<{
+  repoId: Scalars['Float'];
+}>;
+
+export type RepoDataQuery = {
+  __typename?: 'Query';
+  repoData?: {
+    __typename?: 'RepoData';
+    id: number;
+    name: string;
+    githubRepoId: number;
+    contributorCount: number;
+    organization: {
+      __typename?: 'Organization';
+      id: number;
+      name: string;
+      description?: string | null;
+      twitterHandle?: string | null;
+      url?: string | null;
+    };
+    gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number }>;
+  } | null;
+};
+
+export type RepoStarCountQueryVariables = Exact<{
+  repoId: Scalars['Float'];
+}>;
+
+export type RepoStarCountQuery = { __typename?: 'Query'; repoStarCount: number };
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -2121,4 +2151,41 @@ export function useAdminClaimsQuery(
   options?: Omit<Urql.UseQueryArgs<AdminClaimsQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<AdminClaimsQuery>({ query: AdminClaimsDocument, ...options });
+}
+export const RepoDataDocument = gql`
+  query repoData($repoId: Float!) {
+    repoData(repoId: $repoId) {
+      id
+      name
+      githubRepoId
+      organization {
+        id
+        name
+        description
+        twitterHandle
+        url
+      }
+      gitPOAPs {
+        id
+      }
+      contributorCount
+    }
+  }
+`;
+
+export function useRepoDataQuery(
+  options: Omit<Urql.UseQueryArgs<RepoDataQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<RepoDataQuery>({ query: RepoDataDocument, ...options });
+}
+export const RepoStarCountDocument = gql`
+  query repoStarCount($repoId: Float!) {
+    repoStarCount(repoId: $repoId)
+  }
+`;
+
+export function useRepoStarCountQuery(
+  options: Omit<Urql.UseQueryArgs<RepoStarCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<RepoStarCountQuery>({ query: RepoStarCountDocument, ...options });
 }

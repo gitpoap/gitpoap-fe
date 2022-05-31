@@ -1,15 +1,20 @@
 import { rem } from 'polished';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useQuery, gql } from 'urql';
-import Link from 'next/link';
 import Head from 'next/head';
 import { Button } from '../shared/elements/Button';
 import { Header as HeaderText } from '../shared/elements/Header';
 import { Text } from '../shared/elements/Text';
 import { TextAccent, TextGray, ExtraHover } from '../../colors';
+import { Link } from '../Link';
 import { Title } from '../shared/elements/Title';
 import { People, GitPOAP, Star, Globe, GitHub, Twitter } from '../shared/elements/icons';
+import {
+  RepoDataQuery,
+  RepoStarCountQuery,
+  useRepoDataQuery,
+  useRepoStarCountQuery,
+} from '../../graphql/generated-gql';
 
 const Wrapper = styled.div`
   display: flex;
@@ -54,7 +59,7 @@ const Social = styled.div`
   }
 `;
 
-const IconLink = styled.a`
+const IconLink = styled(Link)`
   text-decoration: none;
 `;
 
@@ -194,63 +199,25 @@ type Props = {
   repoId: number;
 };
 
-type Organization = {
-  id: number;
-  name: string;
-  description?: string;
-  twitterHandle?: string;
-  url?: string;
-};
-
-type Repo = {
-  id: number;
-  name: string;
-  githubRepoId: number;
-  organization: Organization;
-  _count: {
-    gitPOAPs: number;
-  };
-};
-
-type RepoQueryRes = {
-  repo: Repo;
-};
-
-const RepoQuery = gql`
-  query RepoQuery($id: Int!) {
-    repo(where: { id: $id }) {
-      id
-      name
-      githubRepoId
-      organization {
-        id
-        name
-        description
-        twitterHandle
-        url
-      }
-      _count {
-        gitPOAPs
-      }
-    }
-  }
-`;
-
 export const Header = ({ repoId }: Props) => {
-  const [repo, setRepo] = useState<Repo>();
-  const [result] = useQuery<RepoQueryRes>({
-    query: RepoQuery,
-    variables: {
-      id: repoId,
-    },
-  });
+  const [repo, setRepo] = useState<RepoDataQuery['repoData']>();
+  const [repoStarCount, setRepoStarCount] = useState<RepoStarCountQuery['repoStarCount']>();
 
-  /* Hook to set profile data to state */
+  const [result] = useRepoDataQuery({ variables: { repoId } });
+  const [resultStarCount] = useRepoStarCountQuery({ variables: { repoId } });
+
   useEffect(() => {
-    if (result?.data?.repo) {
-      setRepo(result?.data?.repo);
+    console.log(result?.data?.repoData);
+    if (result?.data?.repoData) {
+      setRepo(result?.data?.repoData);
     }
   }, [result.data]);
+
+  useEffect(() => {
+    if (resultStarCount?.data?.repoStarCount !== undefined) {
+      setRepoStarCount(resultStarCount?.data?.repoStarCount);
+    }
+  }, [resultStarCount.data]);
 
   return (
     <Wrapper>
@@ -318,27 +285,27 @@ export const Header = ({ repoId }: Props) => {
         )}
       </HexagonWrapper>
       <SubHeader>
-        {/* {repo?.totalContributors && (
+        {repo?.contributorCount && (
           <SubHeaderItem>
             <People />
-            <SubHeaderItemCount>{repo.totalContributors}</SubHeaderItemCount>
+            <SubHeaderItemCount>{repo.contributorCount}</SubHeaderItemCount>
             <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
           </SubHeaderItem>
-        )} */}
-        {repo?._count.gitPOAPs && (
+        )}
+        {repo?.gitPOAPs && (
           <SubHeaderItem>
             <GitPOAP />
-            <SubHeaderItemCount>{repo._count.gitPOAPs}</SubHeaderItemCount>
+            <SubHeaderItemCount>{repo?.gitPOAPs.length}</SubHeaderItemCount>
             <SubHeaderItemLabel>{'GitPOAPs'}</SubHeaderItemLabel>
           </SubHeaderItem>
         )}
-        {/* {repo?.starredCount && (
+        {repoStarCount !== undefined && (
           <SubHeaderItem>
             <Star />
-            <SubHeaderItemCount>{repo.starredCount}</SubHeaderItemCount>
+            <SubHeaderItemCount>{repoStarCount}</SubHeaderItemCount>
             <SubHeaderItemLabel>{'Stars'}</SubHeaderItemLabel>
           </SubHeaderItem>
-        )} */}
+        )}
         {/* {repo?.lookingForContributors && (
           <SubHeaderItem>
             <LookingForContributors>{'Looking for contributors'}</LookingForContributors>

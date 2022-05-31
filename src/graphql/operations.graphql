@@ -263,3 +263,26 @@ query adminClaims {
     }
   }
 }
+
+query repoData($repoId: Float!) {
+  repoData(repoId: $repoId) {
+    id
+    name
+    githubRepoId
+    organization {
+      id
+      name
+      description
+      twitterHandle
+      url
+    }
+    gitPOAPs {
+      id
+    }
+    contributorCount
+  }
+}
+
+query repoStarCount($repoId: Float!) {
+  repoStarCount(repoId: $repoId)
+}
