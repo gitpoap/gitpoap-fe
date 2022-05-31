@@ -201,6 +201,7 @@ export const EditProfileModal = ({
               twitterHandle: twitterHandleValue,
               bio: bioValue,
               personalSiteUrl: personSiteUrlValue,
+              githubHandle: githubHandleValue,
             })
           }
           loading={isSaveLoading}

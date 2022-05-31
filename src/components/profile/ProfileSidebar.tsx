@@ -27,6 +27,9 @@ export const ProfileSidebar = ({ ensName }: Props) => {
       twitterHref={
         profileData?.twitterHandle ? `https://twitter.com/${profileData.twitterHandle}` : undefined
       }
+      githubHref={
+        profileData?.githubHandle ? `https://github.com/${profileData.githubHandle}` : undefined
+      }
       websiteHref={profileData?.personalSiteUrl}
       onClickEditProfile={() => setIsUpdateModalOpen(true)}
       showEditProfileButton={showEditProfileButton}
