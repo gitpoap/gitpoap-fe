@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { createClient, Provider as URQLProvider } from 'urql';
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
@@ -55,6 +56,10 @@ const TheApp = ({ Component, pageProps }: Props) => {
 
   return (
     <>
+      <Head>
+        {/* <!-- Metadata for Viewport & Mantine (CANNOT GO IN _document.tsx) --> */}
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+      </Head>
       <Web3ContextProvider>
         <MantineProvider
           theme={{ breakpoints: BREAKPOINTS, colorScheme: 'dark' }}
