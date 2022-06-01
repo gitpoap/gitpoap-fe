@@ -24,7 +24,6 @@ export const Body = styled.div<{ hoverEffects?: boolean }>`
     height: ${rem(50)};
     background-color: ${BackgroundPanel};
     top: ${rem(-50)};
-    left: 0;
     transition: 150ms background-color ease;
   }
   &:after {
@@ -35,7 +34,6 @@ export const Body = styled.div<{ hoverEffects?: boolean }>`
     height: ${rem(50)};
     background-color: ${BackgroundPanel};
     bottom: ${rem(-50)};
-    left: 0;
     transition: 150ms background-color ease;
   }
 

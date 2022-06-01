@@ -35,7 +35,7 @@ export type Project = {
   };
 };
 
-export type POAPEvent = {
+type POAPEvent = {
   id: number;
   name: string;
   description?: string;

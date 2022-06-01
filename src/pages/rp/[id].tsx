@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rgba, rem } from 'polished';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import { Grid } from '@mantine/core';
@@ -91,28 +90,23 @@ const Project: Page = () => {
   }
 
   return (
-    <>
-      <Head>
-        <title>{'GitPOAP | GitPOAP'}</title>
-      </Head>
-      <Grid justify="center" style={{ zIndex: 1 }}>
-        <Background />
-        <Grid.Col style={{ zIndex: 1 }}>
-          <PageHeader repoId={repoId} />
-        </Grid.Col>
+    <Grid justify="center" style={{ zIndex: 1 }}>
+      <Background />
+      <Grid.Col style={{ zIndex: 1 }}>
+        <PageHeader repoId={repoId} />
+      </Grid.Col>
 
-        <Grid.Col>
-          <ContentWrapper>
-            <GitPOAPsWrapper>
-              <GitPOAPs repoId={repoId} />
-            </GitPOAPsWrapper>
-            <ProjectLeaderBoardWrapper>
-              <ProjectLeaderBoard repoId={repoId} />
-            </ProjectLeaderBoardWrapper>
-          </ContentWrapper>
-        </Grid.Col>
-      </Grid>
-    </>
+      <Grid.Col>
+        <ContentWrapper>
+          <GitPOAPsWrapper>
+            <GitPOAPs repoId={repoId} />
+          </GitPOAPsWrapper>
+          <ProjectLeaderBoardWrapper>
+            <ProjectLeaderBoard repoId={repoId} />
+          </ProjectLeaderBoardWrapper>
+        </ContentWrapper>
+      </Grid.Col>
+    </Grid>
   );
 };
 
