@@ -10,7 +10,7 @@ export default {
 const Template: ComponentStory<typeof Profile> = () => {
   return (
     <Layout>
-      <Profile />
+      <Profile nameOrAddress="peebeejay.eth" />
     </Layout>
   );
 };
