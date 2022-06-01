@@ -86,7 +86,7 @@ const Profile: Page = () => {
           'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
         }
         image={'https://gitpoap.io/og-image-512x512.png'}
-        url={`https://gitpoap.io/p/${ensName ?? profileAddress}`}
+        url={`https://gitpoap.io/p/${nameOrAddress}`}
       />
 
       <ProfileProvider address={profileAddress} ensName={ensName}>
