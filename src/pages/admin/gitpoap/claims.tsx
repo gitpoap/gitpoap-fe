@@ -42,7 +42,7 @@ const ClaimsDashboard: NextPage = () => {
     <div>
       <Head>
         <title>{'Claims Dashboard | GitPOAP'}</title>
-        <meta name="description" content="GitPOAP Frontend App" />
+        <meta name="description" content="GitPOAP Admin" />
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
