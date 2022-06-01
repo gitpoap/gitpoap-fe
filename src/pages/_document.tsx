@@ -50,9 +50,6 @@ export default class MyDocument extends Document {
           <meta name="author" content="GitPOAP" />
           <link rel="canonical" href="https://gitpoap.io" />
 
-          {/* <!-- Metadata for Viewport & Mantine --> */}
-          <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-
           {/* <!-- Google Fonts --> */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
