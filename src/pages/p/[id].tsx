@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Grid } from '@mantine/core';
 import { isAddress } from 'ethers/lib/utils';
+import { NextPageContext } from 'next';
+import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
+import { initUrqlClient, withUrqlClient } from 'next-urql';
+import { ProfileDocument, ProfileQuery, ProfileQueryVariables } from '../../graphql/generated-gql';
 import { Page } from '../_app';
 import { Layout } from '../../components/Layout';
 import { AllPOAPs } from '../../components/profile/AllPOAPs';
@@ -38,7 +42,12 @@ const ProfileSidebarWrapper = styled(Grid.Col)`
   }
 `;
 
-const Profile: Page = () => {
+type PageProps = {
+  children: React.ReactNode;
+  nameOrAddress: string;
+};
+
+const Profile: Page<PageProps> = (props) => {
   const router = useRouter();
   const [profileAddress, setProfileAddress] = useState<string | null>(null);
   const [ensName, setEnsName] = useState<string | null>(null);
@@ -74,52 +83,84 @@ const Profile: Page = () => {
     }
   }, [nameOrAddress, web3Provider, router, infuraProvider]);
 
-  if (!(router.isReady && (!!profileAddress || !!ensName))) {
-    return null;
-  }
-
   return (
     <>
       <SEO
-        title={`${ensName ?? truncateAddress(profileAddress ?? '', 4)} | GitPOAP`}
+        title={`${
+          isAddress(props.nameOrAddress)
+            ? truncateAddress(props.nameOrAddress ?? '', 4)
+            : props.nameOrAddress
+        } | GitPOAP`}
         description={
           'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
         }
         image={'https://gitpoap.io/og-image-512x512.png'}
-        url={`https://gitpoap.io/p/${nameOrAddress}`}
+        url={`https://gitpoap.io/p/${props.nameOrAddress}`}
       />
+      {router.isReady && (!!profileAddress || !!ensName) && (
+        <ProfileProvider address={profileAddress} ensName={ensName}>
+          <FeaturedPOAPsProvider profileAddress={profileAddress} ensName={ensName}>
+            <Grid justify="center" style={{ marginTop: rem(40), zIndex: 1 }}>
+              <Background />
+              <ProfileSidebarWrapper lg={2}>
+                <ProfileSidebar address={profileAddress} ensName={ensName} />
+              </ProfileSidebarWrapper>
 
-      <ProfileProvider address={profileAddress} ensName={ensName}>
-        <FeaturedPOAPsProvider profileAddress={profileAddress} ensName={ensName}>
-          <Grid justify="center" style={{ marginTop: rem(40), zIndex: 1 }}>
-            <Background />
-            <ProfileSidebarWrapper lg={2}>
-              <ProfileSidebar address={profileAddress} ensName={ensName} />
-            </ProfileSidebarWrapper>
-
-            <Grid.Col lg={8} style={{ zIndex: 1 }}>
-              <Grid justify="center">
-                <Grid.Col span={10} style={{ marginTop: rem(60) }}>
-                  <FeaturedPOAPs />
-                </Grid.Col>
-                <Grid.Col span={10}>
-                  <GitPOAPs address={nameOrAddress} />
-                </Grid.Col>
-                <Grid.Col span={10} style={{ marginBottom: rem(150) }}>
-                  <AllPOAPs address={nameOrAddress} />
-                </Grid.Col>
-              </Grid>
-            </Grid.Col>
-          </Grid>
-        </FeaturedPOAPsProvider>
-      </ProfileProvider>
+              <Grid.Col lg={8} style={{ zIndex: 1 }}>
+                <Grid justify="center">
+                  <Grid.Col span={10} style={{ marginTop: rem(60) }}>
+                    <FeaturedPOAPs />
+                  </Grid.Col>
+                  <Grid.Col span={10}>
+                    <GitPOAPs address={nameOrAddress} />
+                  </Grid.Col>
+                  <Grid.Col span={10} style={{ marginBottom: rem(150) }}>
+                    <AllPOAPs address={nameOrAddress} />
+                  </Grid.Col>
+                </Grid>
+              </Grid.Col>
+            </Grid>
+          </FeaturedPOAPsProvider>
+        </ProfileProvider>
+      )}
     </>
   );
 };
+
+export async function getServerSideProps(context: NextPageContext) {
+  const ssrCache = ssrExchange({ isClient: false });
+  const client = initUrqlClient(
+    {
+      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
+      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+    },
+    false,
+  );
+  const nameOrAddress = context.query.id as string;
+  const _ = await client!
+    .query<ProfileQuery, ProfileQueryVariables>(ProfileDocument, {
+      address: nameOrAddress,
+    })
+    .toPromise();
+
+  return {
+    props: {
+      // urqlState is a keyword here so withUrqlClient can pick it up.
+      urqlState: ssrCache.extractData(),
+      nameOrAddress,
+      revalidate: 600,
+    },
+  };
+}
 
 /* Custom layout function for this page */
 Profile.getLayout = (page: React.ReactNode) => {
   return <Layout>{page}</Layout>;
 };
 
-export default Profile;
+export default withUrqlClient(
+  (_) => ({
+    url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
+  }),
+  { ssr: false }, // Important so we don't wrap our component in getInitialProps
+)(Profile);
