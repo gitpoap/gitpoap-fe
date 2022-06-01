@@ -40,7 +40,6 @@ const ProfileSidebarWrapper = styled(Grid.Col)`
 `;
 
 type PageProps = {
-  children: React.ReactNode;
   nameOrAddress: string;
 };
 

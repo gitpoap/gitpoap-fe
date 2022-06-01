@@ -45,7 +45,6 @@ const Error = styled(Header)`
 `;
 
 type PageProps = {
-  children: React.ReactNode;
   gitpoap: GitPoapEventQuery;
 };
 
