@@ -4,9 +4,6 @@ import { rem } from 'polished';
 import { Grid } from '@mantine/core';
 import { isAddress } from 'ethers/lib/utils';
 import { NextPageContext } from 'next';
-import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
-import { initUrqlClient, withUrqlClient } from 'next-urql';
-import { ProfileDocument, ProfileQuery, ProfileQueryVariables } from '../../graphql/generated-gql';
 import { Page } from '../_app';
 import { Layout } from '../../components/Layout';
 import { AllPOAPs } from '../../components/profile/AllPOAPs';
@@ -128,27 +125,11 @@ const Profile: Page<PageProps> = (props) => {
 };
 
 export async function getServerSideProps(context: NextPageContext) {
-  const ssrCache = ssrExchange({ isClient: false });
-  const client = initUrqlClient(
-    {
-      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
-      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
-    },
-    false,
-  );
   const nameOrAddress = context.query.id as string;
-  const _ = await client!
-    .query<ProfileQuery, ProfileQueryVariables>(ProfileDocument, {
-      address: nameOrAddress,
-    })
-    .toPromise();
 
   return {
     props: {
-      // urqlState is a keyword here so withUrqlClient can pick it up.
-      urqlState: ssrCache.extractData(),
       nameOrAddress,
-      revalidate: 600,
     },
   };
 }
@@ -158,9 +139,4 @@ Profile.getLayout = (page: React.ReactNode) => {
   return <Layout>{page}</Layout>;
 };
 
-export default withUrqlClient(
-  (_) => ({
-    url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
-  }),
-  { ssr: false }, // Important so we don't wrap our component in getInitialProps
-)(Profile);
+export default Profile;
