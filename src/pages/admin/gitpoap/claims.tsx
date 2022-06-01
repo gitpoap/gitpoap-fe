@@ -35,7 +35,11 @@ const Table = styled(TableUI)`
 
 const ClaimsDashboard: NextPage = () => {
   const { isLoggedIntoGitHub } = useAuthContext();
-  const [result] = useAdminClaimsQuery();
+  const [result] = useAdminClaimsQuery({
+    variables: {
+      count: 20,
+    },
+  });
   const [resultStats] = useGetAllStatsQuery();
 
   return (
@@ -66,7 +70,7 @@ const ClaimsDashboard: NextPage = () => {
                       <th>{'Status'}</th>
                       <th>{'Poap Token ID'}</th>
                       <th>{'Address'}</th>
-                      <th>{'Updated At'}</th>
+                      <th>{'Claimed At'}</th>
                       <th>{'Created At'}</th>
                     </tr>
                   </thead>
@@ -84,8 +88,8 @@ const ClaimsDashboard: NextPage = () => {
                         <ClaimRowItem key="address">
                           {truncateAddress(claim.address ?? '', 6)}
                         </ClaimRowItem>
-                        <ClaimRowItem key="updatedAt">
-                          {DateTime.fromISO(claim.updatedAt).toFormat('dd LLL yyyy hh:mm')}
+                        <ClaimRowItem key="claimedAt">
+                          {DateTime.fromISO(claim.claimedAt).toFormat('dd LLL yyyy hh:mm')}
                         </ClaimRowItem>
                         <ClaimRowItem key="createdAt">
                           {DateTime.fromISO(claim.createdAt).toFormat('dd LLL yyyy hh:mm')}

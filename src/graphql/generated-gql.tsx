@@ -25,6 +25,7 @@ export type BoolFilter = {
 export type Claim = {
   __typename?: 'Claim';
   address?: Maybe<Scalars['String']>;
+  claimedAt?: Maybe<Scalars['DateTime']>;
   createdAt: Scalars['DateTime'];
   gitPOAP: GitPoap;
   gitPOAPId: Scalars['Int'];
@@ -55,6 +56,7 @@ export type ClaimOrderByRelationAggregateInput = {
 
 export type ClaimOrderByWithRelationInput = {
   address?: InputMaybe<SortOrder>;
+  claimedAt?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   gitPOAP?: InputMaybe<GitPoapOrderByWithRelationInput>;
   gitPOAPId?: InputMaybe<SortOrder>;
@@ -70,6 +72,7 @@ export type ClaimOrderByWithRelationInput = {
 
 export enum ClaimScalarFieldEnum {
   Address = 'address',
+  ClaimedAt = 'claimedAt',
   CreatedAt = 'createdAt',
   GitPoapId = 'gitPOAPId',
   Id = 'id',
@@ -99,6 +102,7 @@ export type ClaimWhereInput = {
   NOT?: InputMaybe<Array<ClaimWhereInput>>;
   OR?: InputMaybe<Array<ClaimWhereInput>>;
   address?: InputMaybe<StringNullableFilter>;
+  claimedAt?: InputMaybe<DateTimeNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   gitPOAP?: InputMaybe<GitPoapRelationFilter>;
   gitPOAPId?: InputMaybe<IntFilter>;
@@ -129,6 +133,17 @@ export type DateTimeFilter = {
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
+export type DateTimeNullableFilter = {
+  equals?: InputMaybe<Scalars['DateTime']>;
+  gt?: InputMaybe<Scalars['DateTime']>;
+  gte?: InputMaybe<Scalars['DateTime']>;
+  in?: InputMaybe<Array<Scalars['DateTime']>>;
+  lt?: InputMaybe<Scalars['DateTime']>;
+  lte?: InputMaybe<Scalars['DateTime']>;
+  not?: InputMaybe<NestedDateTimeNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['DateTime']>>;
+};
+
 export type EnumClaimStatusFilter = {
   equals?: InputMaybe<ClaimStatus>;
   in?: InputMaybe<Array<ClaimStatus>>;
@@ -148,6 +163,71 @@ export type EnumGitPoapStatusFilter = {
   in?: InputMaybe<Array<GitPoapStatus>>;
   not?: InputMaybe<NestedEnumGitPoapStatusFilter>;
   notIn?: InputMaybe<Array<GitPoapStatus>>;
+};
+
+export type Event = {
+  __typename?: 'Event';
+  _count?: Maybe<EventCount>;
+  createdAt: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  endDate: Scalars['DateTime'];
+  githubHandle?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  imageUrl?: Maybe<Scalars['String']>;
+  location: Scalars['String'];
+  name: Scalars['String'];
+  organization: Scalars['String'];
+  siteUrl?: Maybe<Scalars['String']>;
+  startDate: Scalars['DateTime'];
+  twitterHandle?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['DateTime'];
+};
+
+export type EventCount = {
+  __typename?: 'EventCount';
+  GitPOAP: Scalars['Int'];
+};
+
+export type EventOrderByWithRelationInput = {
+  GitPOAP?: InputMaybe<GitPoapOrderByRelationAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  endDate?: InputMaybe<SortOrder>;
+  githubHandle?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  imageUrl?: InputMaybe<SortOrder>;
+  location?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  organization?: InputMaybe<SortOrder>;
+  siteUrl?: InputMaybe<SortOrder>;
+  startDate?: InputMaybe<SortOrder>;
+  twitterHandle?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type EventRelationFilter = {
+  is?: InputMaybe<EventWhereInput>;
+  isNot?: InputMaybe<EventWhereInput>;
+};
+
+export type EventWhereInput = {
+  AND?: InputMaybe<Array<EventWhereInput>>;
+  GitPOAP?: InputMaybe<GitPoapListRelationFilter>;
+  NOT?: InputMaybe<Array<EventWhereInput>>;
+  OR?: InputMaybe<Array<EventWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  description?: InputMaybe<StringNullableFilter>;
+  endDate?: InputMaybe<DateTimeFilter>;
+  githubHandle?: InputMaybe<StringNullableFilter>;
+  id?: InputMaybe<IntFilter>;
+  imageUrl?: InputMaybe<StringNullableFilter>;
+  location?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
+  organization?: InputMaybe<StringFilter>;
+  siteUrl?: InputMaybe<StringNullableFilter>;
+  startDate?: InputMaybe<DateTimeFilter>;
+  twitterHandle?: InputMaybe<StringNullableFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
 export type FeaturedPoap = {
@@ -219,6 +299,8 @@ export type GitPoap = {
   _count?: Maybe<GitPoapCount>;
   claims: Array<Claim>;
   createdAt: Scalars['DateTime'];
+  event?: Maybe<Event>;
+  eventId?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   lastPRUpdatedAt: Scalars['DateTime'];
   ongoing: Scalars['Boolean'];
@@ -269,6 +351,8 @@ export type GitPoapOrderByRelationAggregateInput = {
 export type GitPoapOrderByWithRelationInput = {
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
+  event?: InputMaybe<EventOrderByWithRelationInput>;
+  eventId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   lastPRUpdatedAt?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
@@ -289,6 +373,7 @@ export type GitPoapRelationFilter = {
 
 export enum GitPoapScalarFieldEnum {
   CreatedAt = 'createdAt',
+  EventId = 'eventId',
   Id = 'id',
   LastPrUpdatedAt = 'lastPRUpdatedAt',
   Ongoing = 'ongoing',
@@ -313,6 +398,8 @@ export type GitPoapWhereInput = {
   OR?: InputMaybe<Array<GitPoapWhereInput>>;
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  event?: InputMaybe<EventRelationFilter>;
+  eventId?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<IntFilter>;
   lastPRUpdatedAt?: InputMaybe<DateTimeFilter>;
   ongoing?: InputMaybe<BoolFilter>;
@@ -343,6 +430,7 @@ export type GithubPullRequest = {
   Claim: Array<Claim>;
   _count?: Maybe<GithubPullRequestCount>;
   createdAt: Scalars['DateTime'];
+  githubMergeCommitSha: Scalars['String'];
   githubMergedAt: Scalars['DateTime'];
   githubPullNumber: Scalars['Int'];
   githubTitle: Scalars['String'];
@@ -381,6 +469,7 @@ export type GithubPullRequestOrderByRelationAggregateInput = {
 export type GithubPullRequestOrderByWithRelationInput = {
   Claim?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
+  githubMergeCommitSha?: InputMaybe<SortOrder>;
   githubMergedAt?: InputMaybe<SortOrder>;
   githubPullNumber?: InputMaybe<SortOrder>;
   githubTitle?: InputMaybe<SortOrder>;
@@ -404,6 +493,7 @@ export type GithubPullRequestRepoIdGithubPullNumberCompoundUniqueInput = {
 
 export enum GithubPullRequestScalarFieldEnum {
   CreatedAt = 'createdAt',
+  GithubMergeCommitSha = 'githubMergeCommitSha',
   GithubMergedAt = 'githubMergedAt',
   GithubPullNumber = 'githubPullNumber',
   GithubTitle = 'githubTitle',
@@ -419,6 +509,7 @@ export type GithubPullRequestWhereInput = {
   NOT?: InputMaybe<Array<GithubPullRequestWhereInput>>;
   OR?: InputMaybe<Array<GithubPullRequestWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  githubMergeCommitSha?: InputMaybe<StringFilter>;
   githubMergedAt?: InputMaybe<DateTimeFilter>;
   githubPullNumber?: InputMaybe<IntFilter>;
   githubTitle?: InputMaybe<StringFilter>;
@@ -488,6 +579,17 @@ export type NestedDateTimeFilter = {
   lt?: InputMaybe<Scalars['DateTime']>;
   lte?: InputMaybe<Scalars['DateTime']>;
   not?: InputMaybe<NestedDateTimeFilter>;
+  notIn?: InputMaybe<Array<Scalars['DateTime']>>;
+};
+
+export type NestedDateTimeNullableFilter = {
+  equals?: InputMaybe<Scalars['DateTime']>;
+  gt?: InputMaybe<Scalars['DateTime']>;
+  gte?: InputMaybe<Scalars['DateTime']>;
+  in?: InputMaybe<Array<Scalars['DateTime']>>;
+  lt?: InputMaybe<Scalars['DateTime']>;
+  lte?: InputMaybe<Scalars['DateTime']>;
+  not?: InputMaybe<NestedDateTimeNullableFilter>;
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
@@ -1691,7 +1793,9 @@ export type FeaturedPoapsQuery = {
   } | null;
 };
 
-export type AdminClaimsQueryVariables = Exact<{ [key: string]: never }>;
+export type AdminClaimsQueryVariables = Exact<{
+  count: Scalars['Int'];
+}>;
 
 export type AdminClaimsQuery = {
   __typename?: 'Query';
@@ -1703,6 +1807,7 @@ export type AdminClaimsQuery = {
     address?: string | null;
     updatedAt: any;
     createdAt: any;
+    claimedAt?: any | null;
     user: { __typename?: 'User'; id: number; githubHandle: string };
     gitPOAP: { __typename?: 'GitPOAP'; repo: { __typename?: 'Repo'; name: string } };
   }>;
@@ -2019,8 +2124,8 @@ export function useFeaturedPoapsQuery(
   return Urql.useQuery<FeaturedPoapsQuery>({ query: FeaturedPoapsDocument, ...options });
 }
 export const AdminClaimsDocument = gql`
-  query adminClaims {
-    claims(take: 20, orderBy: { updatedAt: desc }, where: { status: { equals: CLAIMED } }) {
+  query adminClaims($count: Int!) {
+    claims(take: $count, orderBy: { claimedAt: desc }, where: { status: { equals: CLAIMED } }) {
       id
       user {
         id
@@ -2031,6 +2136,7 @@ export const AdminClaimsDocument = gql`
       address
       updatedAt
       createdAt
+      claimedAt
       gitPOAP {
         repo {
           name
@@ -2041,7 +2147,7 @@ export const AdminClaimsDocument = gql`
 `;
 
 export function useAdminClaimsQuery(
-  options?: Omit<Urql.UseQueryArgs<AdminClaimsQueryVariables>, 'query'>,
+  options: Omit<Urql.UseQueryArgs<AdminClaimsQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<AdminClaimsQuery>({ query: AdminClaimsDocument, ...options });
 }
