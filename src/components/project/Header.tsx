@@ -2,20 +2,12 @@ import { rem } from 'polished';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ProjectHeaderHexagon } from './ProjectHeaderHexagon';
-import { Button } from '../shared/elements/Button';
 import { Header as HeaderText } from '../shared/elements/Header';
 import { Text } from '../shared/elements/Text';
-import {
-  BackgroundPanel3,
-  TextAccent,
-  TextGray,
-  TextLight,
-  ExtraHover,
-  ExtraNeon,
-} from '../../colors';
+import { TextAccent, TextGray, ExtraNeon } from '../../colors';
 import { Link } from '../Link';
-import { Title } from '../shared/elements/Title';
 import { SEO } from '../../components/SEO';
+import { OrgName, OrgLink, Wrapper } from '../gitpoap/Header';
 import { People, GitPOAP, Star, Globe, GitHub, Twitter } from '../shared/elements/icons';
 import {
   RepoDataQuery,
@@ -24,51 +16,13 @@ import {
   useRepoStarCountQuery,
 } from '../../graphql/generated-gql';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin: auto;
-  width: ${rem(480)};
-  max-width: 90%;
-
-  a {
-    text-decoration: none;
-    &:hover {
-      color: ${ExtraHover};
-      cursor: pointer;
-    }
-  }
-`;
-
-const OrgName = styled(Text)`
-  margin-top: ${rem(30)};
-  font-weight: 700;
-  color: ${TextGray};
-`;
-
-const OrgLink = styled(Title)`
-  color: ${TextAccent};
-  // Make this pointer once the org page is built
-  cursor: default;
-`;
-
 const Social = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
   margin: ${rem(23)} auto 0;
-  width: fit-content;
-  > *:not(:last-child) {
-    margin-right: ${rem(16)};
-  }
 `;
 
 const IconLink = styled(Link)`
   text-decoration: none;
+  margin: 0 ${rem(8)};
 `;
 
 const SubHeader = styled.div`
@@ -99,77 +53,14 @@ const SubHeaderItem = styled.div`
 // reference to InfoHexProfileDetail - Name
 const SubHeaderItemCount = styled.div`
   font-family: VT323;
-  font-style: normal;
-  font-weight: normal;
   font-size: ${rem(36)};
   line-height: ${rem(42)};
-  text-align: center;
-  letter-spacing: ${rem(-1)};
   color: ${TextAccent};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: ${rem(230)};
 `;
 
 const SubHeaderItemLabel = styled(Text)`
   font-size: ${rem(15)};
   color: ${TextGray};
-`;
-
-const LookingForContributors = styled.div`
-  font-family: 'PT Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-size: ${rem(11)};
-  line-height: ${rem(18)};
-
-  letter-spacing: ${rem(1.2)};
-  text-transform: uppercase;
-
-  color: ${ExtraNeon};
-`;
-
-const DetailsButton = styled(Button)`
-  margin-top: ${rem(16)};
-  font-family: 'PT Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-size: ${rem(10)};
-  line-height: ${rem(18)};
-
-  letter-spacing: ${rem(2)};
-  text-transform: uppercase;
-`;
-
-const Tags = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: ${rem(13)};
-`;
-
-const Tag = styled.div`
-  font-family: 'PT Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-size: ${rem(11)};
-  line-height: ${rem(18)};
-
-  letter-spacing: ${rem(1.2)};
-  text-transform: uppercase;
-  padding: 0 ${rem(4)};
-
-  color: ${TextLight};
-
-  background: ${BackgroundPanel3};
-  border-radius: ${rem(4)};
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  margin: 0 ${rem(5)};
 `;
 
 const HexagonWrapper = styled.div`
@@ -233,13 +124,6 @@ export const Header = ({ repoId }: Props) => {
           <div>
             <HeaderText>{repo.name}</HeaderText>
             {/* {repo?.description && <Text style={{ paddingTop: rem(13) }}>{repo.description}</Text>} */}
-            {/* {repo?.tags && (
-              <Tags>
-                {repo.tags.map((tag, i) => (
-                  <Tag key={repo.name + '-tag' + i}>{tag}</Tag>
-                ))}
-              </Tags>
-            )} */}
             <OrgName>
               {'by '}
               {/* TODO: Add link when organization page is complete */}
@@ -297,12 +181,6 @@ export const Header = ({ repoId }: Props) => {
             <SubHeaderItemLabel>{'Stars'}</SubHeaderItemLabel>
           </SubHeaderItem>
         )}
-        {/* {repo?.lookingForContributors && (
-          <SubHeaderItem>
-            <LookingForContributors>{'Looking for contributors'}</LookingForContributors>
-            <DetailsButton>{'Details'}</DetailsButton>
-          </SubHeaderItem>
-        )} */}
       </SubHeader>
     </Wrapper>
   );
