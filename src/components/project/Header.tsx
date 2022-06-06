@@ -1,20 +1,15 @@
 import { rem } from 'polished';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { ProjectHeaderHexagon } from './ProjectHeaderHexagon';
 import { Header as HeaderText } from '../shared/elements/Header';
 import { Text } from '../shared/elements/Text';
-import { TextAccent, TextGray, ExtraNeon } from '../../colors';
+import { TextAccent, TextGray } from '../../colors';
 import { Link } from '../Link';
 import { SEO } from '../../components/SEO';
 import { OrgName, OrgLink, Wrapper } from '../gitpoap/Header';
 import { People, GitPOAP, Star, Globe, GitHub, Twitter } from '../shared/elements/icons';
-import {
-  RepoDataQuery,
-  RepoStarCountQuery,
-  useRepoDataQuery,
-  useRepoStarCountQuery,
-} from '../../graphql/generated-gql';
+import { useRepoDataQuery, useRepoStarCountQuery } from '../../graphql/generated-gql';
 
 const Social = styled.div`
   margin: ${rem(23)} auto 0;
@@ -90,23 +85,11 @@ type Props = {
 };
 
 export const Header = ({ repoId }: Props) => {
-  const [repo, setRepo] = useState<RepoDataQuery['repoData']>();
-  const [repoStarCount, setRepoStarCount] = useState<RepoStarCountQuery['repoStarCount']>();
-
   const [result] = useRepoDataQuery({ variables: { repoId } });
   const [resultStarCount] = useRepoStarCountQuery({ variables: { repoId } });
 
-  useEffect(() => {
-    if (result?.data?.repoData) {
-      setRepo(result?.data?.repoData);
-    }
-  }, [result.data]);
-
-  useEffect(() => {
-    if (resultStarCount?.data?.repoStarCount !== undefined) {
-      setRepoStarCount(resultStarCount?.data?.repoStarCount);
-    }
-  }, [resultStarCount.data]);
+  let repo = result?.data?.repoData;
+  let repoStarCount = resultStarCount?.data?.repoStarCount;
 
   return (
     <Wrapper>
