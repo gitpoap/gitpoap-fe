@@ -2,7 +2,7 @@ import React from 'react';
 import { rem } from 'polished';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Grid, Group, Table } from '@mantine/core';
+import { Grid, Group, Table as TableUI } from '@mantine/core';
 import { Header, Text } from '../../../components/shared/elements';
 import { Divider } from '../../../components/shared/elements';
 import { useAuthContext } from '../../../components/github/AuthContext';
@@ -10,6 +10,8 @@ import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { useAdminClaimsQuery, useGetAllStatsQuery } from '../../../graphql/generated-gql';
 import { DateTime } from 'luxon';
 import { truncateAddress } from '../../../helpers';
+import styled from 'styled-components';
+import { TextLight } from '../../../colors';
 
 const ClaimRowItem = (props: { children: React.ReactNode }) => {
   return (
@@ -19,16 +21,32 @@ const ClaimRowItem = (props: { children: React.ReactNode }) => {
   );
 };
 
+const Table = styled(TableUI)`
+  thead th {
+    font-family: PT Mono;
+    font-style: normal;
+    font-weight: normal;
+    font-size: ${rem(14)};
+    line-height: ${rem(20)};
+    letter-spacing: ${rem(0.2)};
+    color: ${TextLight} !important;
+  }
+`;
+
 const ClaimsDashboard: NextPage = () => {
   const { isLoggedIntoGitHub } = useAuthContext();
-  const [result] = useAdminClaimsQuery();
+  const [result] = useAdminClaimsQuery({
+    variables: {
+      count: 20,
+    },
+  });
   const [resultStats] = useGetAllStatsQuery();
 
   return (
     <div>
       <Head>
         <title>{'Claims Dashboard | GitPOAP'}</title>
-        <meta name="description" content="GitPOAP Frontend App" />
+        <meta name="description" content="GitPOAP Admin" />
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
@@ -52,7 +70,7 @@ const ClaimsDashboard: NextPage = () => {
                       <th>{'Status'}</th>
                       <th>{'Poap Token ID'}</th>
                       <th>{'Address'}</th>
-                      <th>{'Updated At'}</th>
+                      <th>{'Claimed At'}</th>
                       <th>{'Created At'}</th>
                     </tr>
                   </thead>
@@ -68,10 +86,10 @@ const ClaimsDashboard: NextPage = () => {
                         <ClaimRowItem key="status">{claim.status}</ClaimRowItem>
                         <ClaimRowItem key="poapTokenId">{claim.poapTokenId}</ClaimRowItem>
                         <ClaimRowItem key="address">
-                          {truncateAddress(claim.address ?? '')}
+                          {truncateAddress(claim.address ?? '', 6)}
                         </ClaimRowItem>
-                        <ClaimRowItem key="updatedAt">
-                          {DateTime.fromISO(claim.updatedAt).toFormat('dd LLL yyyy hh:mm')}
+                        <ClaimRowItem key="claimedAt">
+                          {DateTime.fromISO(claim.claimedAt).toFormat('dd LLL yyyy hh:mm')}
                         </ClaimRowItem>
                         <ClaimRowItem key="createdAt">
                           {DateTime.fromISO(claim.createdAt).toFormat('dd LLL yyyy hh:mm')}

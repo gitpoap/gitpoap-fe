@@ -42,42 +42,13 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          {/* <!-- Metadata for SEO --> */}
+          {/* <!-- Universal Metadata for SEO --> */}
           <meta
             name="keywords"
             content="ethereum, POAP, proof of attendance protocol, gitPOAP, github, git, token, wallet, badge, issuance, blockchain, crypto, l2"
           />
           <meta name="author" content="GitPOAP" />
           <link rel="canonical" href="https://gitpoap.io" />
-
-          {/* <!-- Metadata for link cards --> */}
-          <meta property="og:site_name" content="GitPOAP " />
-          <meta
-            property="og:title"
-            content="GitPOAP - Mint POAPs to your community's contributors."
-          />
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://gitpoap.io" />
-          <meta property="og:image" content="https://gitpoap.io/og-image-512x512.png" />
-          <meta property="og:image:type" content="image/png" />
-          <meta property="og:image:width" content="256" />
-          <meta property="og:image:height" content="256" />
-          <meta
-            property="og:description"
-            content="GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs."
-          />
-
-          <meta property="twitter:card" content="summary" />
-          <meta property="twitter:url" content="https://gitpoap.io/" />
-          <meta
-            property="twitter:title"
-            content="GitPOAP - Mint POAPs to your community's contributors."
-          />
-          <meta
-            property="twitter:description"
-            content="GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs."
-          />
-          <meta property="twitter:image" content="https://gitpoap.io/og-image-512x512.png" />
 
           {/* <!-- Google Fonts --> */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
