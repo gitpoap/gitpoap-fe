@@ -17,6 +17,16 @@ query leaders($count: Float!) {
   }
 }
 
+query repoLeaders($count: Float!, $repoId: Float!) {
+  repoMostHonoredContributors(count: $count, repoId: $repoId) {
+    profile {
+      address
+      id
+    }
+    claimsCount
+  }
+}
+
 query gitpoapByPoapEventId($poapEventId: Int!) {
   gitPOAP(where: { poapEventId: $poapEventId }) {
     id
@@ -101,6 +111,25 @@ query gitPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) 
         }
         status
         poapTokenId
+      }
+      event {
+        name
+        image_url
+        description
+      }
+    }
+  }
+}
+
+query repoGitPoaps($repoId: Float!, $sort: String, $page: Float, $perPage: Float) {
+  repoGitPOAPs(repoId: $repoId, sort: $sort, page: $page, perPage: $perPage) {
+    totalGitPOAPs
+    gitPOAPs {
+      gitPOAP {
+        id
+        repo {
+          name
+        }
       }
       event {
         name
@@ -234,4 +263,27 @@ query adminClaims($count: Int!) {
       }
     }
   }
+}
+
+query repoData($repoId: Float!) {
+  repoData(repoId: $repoId) {
+    id
+    name
+    githubRepoId
+    organization {
+      id
+      name
+      description
+      twitterHandle
+      url
+    }
+    gitPOAPs {
+      id
+    }
+    contributorCount
+  }
+}
+
+query repoStarCount($repoId: Float!) {
+  repoStarCount(repoId: $repoId)
 }

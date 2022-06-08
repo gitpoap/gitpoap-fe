@@ -23,14 +23,11 @@ const Nav = styled(Group)`
 
 const Container = styled(Group)`
   width: 100%;
-  padding: ${rem(24)} ${rem(45)};
+  height: ${rem(84)};
+  padding: 0 ${rem(45)};
 
   @media (max-width: ${rem(BREAKPOINTS.lg)}) {
-    padding: ${rem(24)} ${rem(30)};
-  }
-
-  @media (max-width: ${rem(BREAKPOINTS.md)}) {
-    padding: ${rem(24)} ${rem(30)} 0;
+    padding: 0 ${rem(30)};
   }
 `;
 

@@ -23,7 +23,7 @@ type GitPOAP = GitPOAPEvent['gitPOAP'];
 type Event = GitPOAPEvent['event'];
 type Organization = GitPOAP['repo']['organization'];
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,13 +51,13 @@ const Description = styled(Text)`
   font-size: ${rem(16)};
 `;
 
-const OrgName = styled(Text)`
+export const OrgName = styled(Text)`
   margin-top: ${rem(30)};
   font-weight: 700;
   color: ${TextGray};
 `;
 
-const OrgLink = styled(Title)`
+export const OrgLink = styled(Title)`
   color: ${TextAccent};
   // Make this pointer once the org page is built
   cursor: default;
