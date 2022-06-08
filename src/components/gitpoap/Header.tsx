@@ -24,7 +24,7 @@ type Event = GitPOAPEvent['event'];
 type Repo = GitPOAP['repo'];
 type Organization = GitPOAP['repo']['organization'];
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

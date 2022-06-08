@@ -11,6 +11,7 @@ import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
+import { useProfileContext } from './ProfileContext';
 
 export type GitPOAP = Exclude<
   FeaturedPoapsQuery['profileFeaturedPOAPs'],
@@ -58,14 +59,12 @@ export const useFeaturedPOAPsDispatch = () => useContext(FeaturedPOAPsDispatchCo
 /* -- The Provider -- */
 type Props = {
   children: React.ReactNode;
-  /* The address of the profile */
-  profileAddress: string | null;
-  ensName: string | null;
 };
 
-export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Props) => {
+export const FeaturedPOAPsProvider = ({ children }: Props) => {
   const { web3Provider, address: walletAddress } = useWeb3Context();
   const signer = web3Provider?.getSigner();
+  const { profileData } = useProfileContext();
   const { tokens } = useAuthContext();
   const [showHearts, setShowHearts] = useState(false);
   const [featuredPOAPsState, setFeaturedPOAPsState] = useState<FeaturedPOAPsState>(
@@ -73,9 +72,10 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
   );
   const [loadingIds, setLoadingIds] = useState<Record<string, true>>({} as Record<string, true>);
   const gqlClient = useClient();
+  const profileAddress = profileData?.address;
   const [result] = useFeaturedPoapsQuery({
     variables: {
-      address: ensName ?? profileAddress ?? '',
+      address: profileData?.address ?? '',
     },
   });
 
@@ -122,13 +122,9 @@ export const FeaturedPOAPsProvider = ({ children, profileAddress, ensName }: Pro
   /* Manually refetch data via a promisified query */
   const refetchData = useCallback(async () => {
     return await gqlClient
-      .query(
-        FeaturedPoapsDocument,
-        { address: ensName ?? profileAddress },
-        { requestPolicy: 'network-only' },
-      )
+      .query(FeaturedPoapsDocument, { address: profileAddress }, { requestPolicy: 'network-only' })
       .toPromise();
-  }, [gqlClient, ensName, profileAddress]);
+  }, [gqlClient, profileAddress]);
 
   const addFeaturedPOAP = useCallback(
     async (poapTokenId: string) => {

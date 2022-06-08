@@ -3,16 +3,12 @@ import { InfoHexProfileDetail } from './InfoHexProfileDetail';
 import { truncateAddress } from '../../helpers';
 import { useProfileContext } from './ProfileContext';
 
-type Props = {
-  ensName: string | null;
-  address: string | null;
-};
-
-export const ProfileSidebar = ({ ensName }: Props) => {
+export const ProfileSidebar = () => {
   const { profileData, avatarURI, showEditProfileButton, setIsUpdateModalOpen } =
     useProfileContext();
 
   const sidebarAddress = profileData?.address;
+  const ensName = profileData?.ensName;
 
   if (!sidebarAddress) {
     return null;

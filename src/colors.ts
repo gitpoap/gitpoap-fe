@@ -23,6 +23,7 @@ export const TextGray = '#838495';
 export const TextDarkGray = DarkGray;
 
 export const ExtraHover = '#5596F6';
+export const ExtraNeon = '#CCF770';
 export const ExtraPressed = '#1761CF';
 export const ExtraRed = '#F77070';
 
