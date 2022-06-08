@@ -1,5 +1,5 @@
 import { rem } from 'polished';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
@@ -103,14 +103,9 @@ export const Header = ({ gitPOAPId }: Props) => {
 
   const features = useFeatures();
 
-  /* Hook to set profile data to state */
-  useEffect(() => {
-    if (result.data?.gitPOAPEvent) {
-      setEvent(result.data?.gitPOAPEvent.event);
-      setRepo(result.data?.gitPOAPEvent.gitPOAP.repo);
-      setOrganization(result.data?.gitPOAPEvent.gitPOAP.repo.organization);
-    }
-  }, [result.data]);
+  setEvent(result?.data?.gitPOAPEvent?.event);
+  setRepo(result?.data?.gitPOAPEvent?.gitPOAP.repo);
+  setOrganization(result.data?.gitPOAPEvent?.gitPOAP.repo.organization);
 
   return (
     <Wrapper>
