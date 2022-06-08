@@ -52,13 +52,13 @@ const Description = styled(Text)`
   font-size: ${rem(16)};
 `;
 
-const RepoName = styled(Text)`
+export const OrgName = styled(Text)`
   margin-top: ${rem(30)};
   font-weight: 700;
   color: ${TextGray};
 `;
 
-const RepoLink = styled(Title)`
+export const OrgLink = styled(Title)`
   color: ${TextAccent};
 `;
 
@@ -120,12 +120,12 @@ export const Header = ({ gitPOAPId }: Props) => {
       {organization && (
         <>
           {repo && (
-            <RepoName>
+            <OrgName>
               {`by ${organization.name}/`}
               <Link href={`/rp/${repo.id}`} passHref>
-                <RepoLink>{repo.name}</RepoLink>
+                <OrgLink>{repo.name}</OrgLink>
               </Link>
-            </RepoName>
+            </OrgName>
           )}
           <Links>
             {features.hasOrganizations && organization.twitterHandle && (
