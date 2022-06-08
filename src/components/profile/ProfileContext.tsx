@@ -42,27 +42,26 @@ export const useProfileContext = () => {
 
 type Props = {
   children: React.ReactNode;
-  address: string | null;
-  ensName: string | null;
+  addressOrEns: string | null;
 };
 
-export const ProfileProvider = ({ children, address, ensName }: Props) => {
+export const ProfileProvider = ({ children, addressOrEns }: Props) => {
   const { tokens } = useAuthContext();
   const { infuraProvider, web3Provider, address: connectedWalletAddress } = useWeb3Context();
   const signer = web3Provider?.getSigner();
   const [profileData, setProfileData] = useState<ProfileQuery['profileData']>();
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
-  const avatarURI = useEnsAvatar(infuraProvider, ensName);
+  const avatarURI = useEnsAvatar(infuraProvider, profileData?.ensName ?? null); // temporarily
   const [isSaveSuccessful, setIsSaveSuccessful] = useState<boolean>(false);
   const [result, refetch] = useProfileQuery({
     variables: {
-      address: address ?? ensName ?? '',
+      address: addressOrEns ?? '',
     },
   });
 
   const showEditProfileButton =
-    address?.toLocaleLowerCase() === connectedWalletAddress?.toLocaleLowerCase();
+    profileData?.address?.toLocaleLowerCase() === connectedWalletAddress?.toLocaleLowerCase();
 
   /* Hook to set profile data to state */
   useEffect(() => {
