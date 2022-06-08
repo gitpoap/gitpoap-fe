@@ -44,10 +44,11 @@ export default class MyDocument extends Document {
         <Head>
           {/* <!-- Universal Metadata for SEO --> */}
           <meta
+            key="keywords"
             name="keywords"
             content="ethereum, POAP, proof of attendance protocol, gitPOAP, github, git, token, wallet, badge, issuance, blockchain, crypto, l2"
           />
-          <meta name="author" content="GitPOAP" />
+          <meta key="authors" name="author" content="GitPOAP" />
           <link rel="canonical" href="https://gitpoap.io" />
 
           {/* <!-- Google Fonts --> */}
