@@ -12,6 +12,7 @@ import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
 import { BREAKPOINTS } from '../constants';
 import ClaimModalContextProvider from '../components/ClaimModal/ClaimModalContext';
+import { LoadingBar } from '../components/LoadingBar';
 
 const client = createClient({
   url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
@@ -73,6 +74,7 @@ const TheApp = ({ Component, pageProps }: Props) => {
                   <ClaimModalContextProvider>
                     <GlobalStyles />
                     <Layout>
+                      <LoadingBar />
                       <Component {...pageProps} />
                     </Layout>
                   </ClaimModalContextProvider>
