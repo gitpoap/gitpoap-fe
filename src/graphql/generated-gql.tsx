@@ -1710,6 +1710,7 @@ export type GitPoapEventQuery = {
       __typename?: 'GitPOAP';
       repo: {
         __typename?: 'Repo';
+        id: number;
         name: string;
         organization: {
           __typename?: 'Organization';
@@ -2035,6 +2036,7 @@ export const GitPoapEventDocument = gql`
     gitPOAPEvent(id: $id) {
       gitPOAP {
         repo {
+          id
           name
           organization {
             id

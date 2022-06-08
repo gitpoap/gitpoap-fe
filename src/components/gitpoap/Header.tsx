@@ -21,6 +21,7 @@ type Props = {
 type GitPOAPEvent = Exclude<GitPoapEventQuery['gitPOAPEvent'], undefined | null>;
 type GitPOAP = GitPOAPEvent['gitPOAP'];
 type Event = GitPOAPEvent['event'];
+type Repo = GitPOAP['repo'];
 type Organization = GitPOAP['repo']['organization'];
 
 const Wrapper = styled.div`
@@ -51,16 +52,14 @@ const Description = styled(Text)`
   font-size: ${rem(16)};
 `;
 
-const OrgName = styled(Text)`
+const RepoName = styled(Text)`
   margin-top: ${rem(30)};
   font-weight: 700;
   color: ${TextGray};
 `;
 
-const OrgLink = styled(Title)`
+const RepoLink = styled(Title)`
   color: ${TextAccent};
-  // Make this pointer once the org page is built
-  cursor: default;
 `;
 
 const OrgDescription = styled(Text)`
@@ -93,8 +92,8 @@ const CheckEligibilityButton = styled(Button)`
 
 export const Header = ({ gitPOAPId }: Props) => {
   const [event, setEvent] = useState<Event>();
+  const [repo, setRepo] = useState<Repo>();
   const [organization, setOrganization] = useState<Organization>();
-  const [repoName, setRepoName] = useState<string>();
   const [result] = useGitPoapEventQuery({
     variables: {
       id: gitPOAPId,
@@ -108,8 +107,8 @@ export const Header = ({ gitPOAPId }: Props) => {
   useEffect(() => {
     if (result.data?.gitPOAPEvent) {
       setEvent(result.data?.gitPOAPEvent.event);
+      setRepo(result.data?.gitPOAPEvent.gitPOAP.repo);
       setOrganization(result.data?.gitPOAPEvent.gitPOAP.repo.organization);
-      setRepoName(result.data?.gitPOAPEvent.gitPOAP.repo.name);
     }
   }, [result.data]);
 
@@ -120,16 +119,13 @@ export const Header = ({ gitPOAPId }: Props) => {
       <Description>{event?.description}</Description>
       {organization && (
         <>
-          {features.hasOrganizations && (
-            <>
-              <OrgName>
-                {'by '}
-                <Link href={`/o/${organization.id}`} passHref>
-                  <OrgLink>{organization.name}</OrgLink>
-                </Link>
-              </OrgName>
-              <OrgDescription>{organization.description}</OrgDescription>
-            </>
+          {repo && (
+            <RepoName>
+              {`by ${organization.name}/`}
+              <Link href={`/rp/${repo.id}`} passHref>
+                <RepoLink>{repo.name}</RepoLink>
+              </Link>
+            </RepoName>
           )}
           <Links>
             {features.hasOrganizations && organization.twitterHandle && (
@@ -141,9 +137,9 @@ export const Header = ({ gitPOAPId }: Props) => {
                 <TwitterIcon size={24} />
               </StyledLink>
             )}
-            {organization.name && (
+            {repo && (
               <StyledLink
-                href={`https://github.com/${organization.name}/${repoName}`}
+                href={`https://github.com/${organization.name}/${repo.name}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
