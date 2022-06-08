@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Header } from '../shared/elements/Header';
@@ -6,6 +6,9 @@ import { BREAKPOINTS } from '../../constants';
 import { InfoHexBase } from '../shared/elements/InfoHexBase';
 import { LeaderBoardItem } from '../home/LeaderBoardItem';
 import { useRepoLeadersQuery } from '../../graphql/generated-gql';
+import { Button } from '@mantine/core';
+import { AllContributorsModal } from './AllContributorsModal';
+import { TextGray } from '../../colors';
 
 const Wrapper = styled(InfoHexBase)`
   display: inline-flex;
@@ -20,6 +23,7 @@ const Wrapper = styled(InfoHexBase)`
 
 const Content = styled.div`
   padding: ${rem(13)} ${rem(18)};
+  text-align: center;
 `;
 
 const HeaderStyled = styled(Header)`
@@ -36,6 +40,7 @@ const HeaderStyled = styled(Header)`
 
 const List = styled.div`
   margin-top: ${rem(30)};
+  width: 100%;
 `;
 
 export type ProjectLeaderBoardProps = {
@@ -50,6 +55,8 @@ export const ProjectLeaderBoard = ({ repoId }: ProjectLeaderBoardProps) => {
     },
   });
 
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <Wrapper>
       <Content>
@@ -59,7 +66,16 @@ export const ProjectLeaderBoard = ({ repoId }: ProjectLeaderBoardProps) => {
             <LeaderBoardItem key={item.profile.id} {...item} />
           ))}
         </List>
+        <Button
+          style={{
+            marginTop: rem(30),
+          }}
+          onClick={() => setIsOpen(true)}
+        >
+          View All
+        </Button>
       </Content>
+      <AllContributorsModal repoId={repoId} isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </Wrapper>
   );
 };
