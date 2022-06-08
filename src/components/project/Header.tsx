@@ -18,6 +18,11 @@ const Social = styled.div`
 const IconLink = styled(Link)`
   text-decoration: none;
   margin: 0 ${rem(8)};
+
+  & > svg {
+    width: ${rem(24)};
+    height: ${rem(24)};
+  }
 `;
 
 const SubHeader = styled.div`
@@ -80,6 +85,10 @@ const StyledHeaderHexagon = styled(ProjectHeaderHexagon)`
   max-width: inherit;
 `;
 
+const OrgNameStyled = styled(OrgName)`
+  font-size: ${rem(16)};
+`;
+
 type Props = {
   repoId: number;
 };
@@ -107,13 +116,13 @@ export const Header = ({ repoId }: Props) => {
           <div>
             <HeaderText>{repo.name}</HeaderText>
             {/* {repo?.description && <Text style={{ paddingTop: rem(13) }}>{repo.description}</Text>} */}
-            <OrgName>
-              {'by '}
+            <OrgNameStyled>
+              {'by ' + repo.organization.name}
               {/* TODO: Add link when organization page is complete */}
-              {/* <Link href={`/o/${repo.organization.id}`} passHref> */}
-              <OrgLink>{repo.organization.name}</OrgLink>
-              {/* </Link> */}
-            </OrgName>
+              {/* <Link href={`/o/${repo.organization.id}`} passHref>
+                <OrgLink>{repo.organization.name}</OrgLink>
+              </Link> */}
+            </OrgNameStyled>
             <Social>
               {repo.organization.twitterHandle && (
                 <IconLink
