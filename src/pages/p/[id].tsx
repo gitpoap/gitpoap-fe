@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Grid } from '@mantine/core';
 import { isAddress } from 'ethers/lib/utils';
-import { NextPageContext } from 'next';
+import { GetStaticPropsContext } from 'next';
 import { Page } from '../_app';
 import { Layout } from '../../components/Layout';
 import { AllPOAPs } from '../../components/profile/AllPOAPs';
@@ -83,14 +83,19 @@ const Profile: Page<PageProps> = (props) => {
   );
 };
 
-export async function getServerSideProps(context: NextPageContext): Promise<{ props: PageProps }> {
-  const addressOrEns = context.query.id as string;
-
+export const getStaticProps = (context: GetStaticPropsContext<{ id: string }>) => {
   return {
     props: {
-      addressOrEns,
+      addressOrEns: context.params?.id,
     },
   };
+};
+
+// This function gets called at build time on server-side.
+// It may be called again, on a serverless function, if
+// the path has not been generated.
+export async function getStaticPaths() {
+  return { paths: [], fallback: 'blocking' };
 }
 
 /* Custom layout function for this page */
