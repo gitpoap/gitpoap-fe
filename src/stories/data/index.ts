@@ -467,6 +467,7 @@ export const gitPOAPEvent: GitPoapEventQuery = {
   gitPOAPEvent: {
     gitPOAP: {
       repo: {
+        id: 1,
         name: 'gitpoap-fe',
         organization: {
           id: 4,

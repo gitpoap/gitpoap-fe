@@ -1,5 +1,5 @@
 import { rem } from 'polished';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
@@ -12,16 +12,11 @@ import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { useFeatures } from '../../components/FeaturesContext';
 import { Title } from '../shared/elements/Title';
 import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
-import { GitPoapEventQuery, useGitPoapEventQuery } from '../../graphql/generated-gql';
+import { useGitPoapEventQuery } from '../../graphql/generated-gql';
 
 type Props = {
   gitPOAPId: number;
 };
-
-type GitPOAPEvent = Exclude<GitPoapEventQuery['gitPOAPEvent'], undefined | null>;
-type GitPOAP = GitPOAPEvent['gitPOAP'];
-type Event = GitPOAPEvent['event'];
-type Organization = GitPOAP['repo']['organization'];
 
 export const Wrapper = styled.div`
   display: flex;
@@ -59,8 +54,6 @@ export const OrgName = styled(Text)`
 
 export const OrgLink = styled(Title)`
   color: ${TextAccent};
-  // Make this pointer once the org page is built
-  cursor: default;
 `;
 
 const OrgDescription = styled(Text)`
@@ -92,66 +85,49 @@ const CheckEligibilityButton = styled(Button)`
 `;
 
 export const Header = ({ gitPOAPId }: Props) => {
-  const [event, setEvent] = useState<Event>();
-  const [organization, setOrganization] = useState<Organization>();
-  const [repoName, setRepoName] = useState<string>();
   const [result] = useGitPoapEventQuery({
     variables: {
       id: gitPOAPId,
     },
   });
+  let event = result?.data?.gitPOAPEvent?.event;
+  let repo = result?.data?.gitPOAPEvent?.gitPOAP.repo;
+
   const { setIsOpen } = useClaimModalContext();
-
   const features = useFeatures();
-
-  /* Hook to set profile data to state */
-  useEffect(() => {
-    if (result.data?.gitPOAPEvent) {
-      setEvent(result.data?.gitPOAPEvent.event);
-      setOrganization(result.data?.gitPOAPEvent.gitPOAP.repo.organization);
-      setRepoName(result.data?.gitPOAPEvent.gitPOAP.repo.name);
-    }
-  }, [result.data]);
 
   return (
     <Wrapper>
       <Badge size="lg" imgUrl={event?.image_url ?? ''} />
       <TitleStyled>{event?.name.replace('GitPOAP: ', '')}</TitleStyled>
       <Description>{event?.description}</Description>
-      {organization && (
+      {repo && (
         <>
-          {features.hasOrganizations && (
-            <>
-              <OrgName>
-                {'by '}
-                <Link href={`/o/${organization.id}`} passHref>
-                  <OrgLink>{organization.name}</OrgLink>
-                </Link>
-              </OrgName>
-              <OrgDescription>{organization.description}</OrgDescription>
-            </>
-          )}
+          <OrgName>
+            {`by ${repo.organization.name}/`}
+            <Link href={`/rp/${repo.id}`} passHref>
+              <OrgLink>{repo.name}</OrgLink>
+            </Link>
+          </OrgName>
           <Links>
-            {features.hasOrganizations && organization.twitterHandle && (
+            {features.hasOrganizations && repo.organization.twitterHandle && (
               <StyledLink
-                href={`https://twitter.com/${organization.twitterHandle}`}
+                href={`https://twitter.com/${repo.organization.twitterHandle}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <TwitterIcon size={24} />
               </StyledLink>
             )}
-            {organization.name && (
-              <StyledLink
-                href={`https://github.com/${organization.name}/${repoName}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <GithubIcon size={24} />
-              </StyledLink>
-            )}
-            {features.hasOrganizations && organization.url && (
-              <StyledLink href={organization.url} target="_blank" rel="noopener noreferrer">
+            <StyledLink
+              href={`https://github.com/${repo.organization.name}/${repo.name}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GithubIcon size={24} />
+            </StyledLink>
+            {features.hasOrganizations && repo.organization.url && (
+              <StyledLink href={repo.organization.url} target="_blank" rel="noopener noreferrer">
                 <GlobeIcon size={24} />
               </StyledLink>
             )}

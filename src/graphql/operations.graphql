@@ -176,6 +176,7 @@ query gitPoapEvent($id: Float!) {
   gitPOAPEvent(id: $id) {
     gitPOAP {
       repo {
+        id
         name
         organization {
           id
