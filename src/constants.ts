@@ -12,7 +12,8 @@ export const BREAKPOINTS = {
   xl: 1536,
 };
 
-export const FIVE_MINUTES = 5 * 60 * 1000;
+export const FIVE_MINUTES = 5 * 60 * 1000; // in seconds
+export const ONE_DAY = 86400; // in seconds
 
 /** Date Constants **/
 export const THIS_YEAR = DateTime.local().year;

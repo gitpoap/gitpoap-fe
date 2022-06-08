@@ -16,6 +16,7 @@ import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
 import { GitPoapEventDocument, GitPoapEventQuery } from '../../graphql/generated-gql';
 import { SEO } from '../../components/SEO';
+import { ONE_DAY } from '../../constants';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;
@@ -86,6 +87,11 @@ const GitPOAP: Page<PageProps> = (props) => {
 };
 
 export async function getServerSideProps(context: NextPageContext) {
+  context.res?.setHeader(
+    'Cache-Control',
+    `public, s-maxage=${ONE_DAY}, stale-while-revalidate=${ONE_DAY}`,
+  );
+
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     {
