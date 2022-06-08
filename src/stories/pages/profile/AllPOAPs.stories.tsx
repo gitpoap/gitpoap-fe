@@ -10,10 +10,7 @@ export default {
 
 const Template: ComponentStory<typeof AllPOAPs> = (args) => {
   return (
-    <FeaturedPOAPsProvider
-      ensName={'peebeejay.eth'}
-      profileAddress={'0xaE32D159BB3ABFcAdFaBE7aBB461C2AB4805596D'}
-    >
+    <FeaturedPOAPsProvider>
       <AllPOAPs {...args} />
     </FeaturedPOAPsProvider>
   );
