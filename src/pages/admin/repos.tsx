@@ -7,14 +7,14 @@ import { DateTime } from 'luxon';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { ConnectGitHub } from '../../components/admin/ConnectGitHub';
 import { useAllReposQuery, useGetAllStatsQuery } from '../../graphql/generated-gql';
-import TableDashboard from '../../components/admin/TableDashboard';
+import TableDashboard, { TD } from '../../components/admin/TableDashboard';
 
 type RowData = {
-  'Repo ID': number;
-  Name: string;
-  Organization: string;
-  GitPOAPs: number;
-  'Created At': string;
+  'Repo ID': TD<number>;
+  Name: TD<string>;
+  Organization: TD<string>;
+  GitPOAPs: TD<number>;
+  'Created At': TD<string>;
 };
 
 const ReposDashboard: NextPage = () => {
@@ -32,11 +32,11 @@ const ReposDashboard: NextPage = () => {
 
   const data = result.data?.repos.map((repo) => {
     return {
-      'Repo ID': repo.id,
-      Name: repo.name,
-      Organization: repo.organization.name,
-      GitPOAPs: repo.gitPOAPs.length,
-      'Created At': DateTime.fromISO(repo.createdAt).toFormat('dd LLL yyyy hh:mm'),
+      'Repo ID': { value: repo.id, href: `/rp/${repo.id}` },
+      Name: { value: repo.name },
+      Organization: { value: repo.organization.name },
+      GitPOAPs: { value: repo.gitPOAPs.length },
+      'Created At': { value: DateTime.fromISO(repo.createdAt).toFormat('dd LLL yyyy hh:mm') },
     };
   });
 

@@ -5,12 +5,31 @@ import { Group, Table as TableUI } from '@mantine/core';
 import { Header, Text } from '../../components/shared/elements';
 import { Divider } from '../../components/shared/elements';
 import { TextLight } from '../../colors';
+import { Link } from '../Link';
+import { LinkHoverStyles } from '../shared/elements/NavLink';
 
-const RowItem = (props: { children: React.ReactNode }) => {
+const StyledTD = styled.td`
+  a {
+    color: ${TextLight};
+    ${LinkHoverStyles}
+  }
+`;
+
+const RowItem = (props: { children: React.ReactNode; className?: string }) => {
   return (
     <td>
-      <Text>{props.children}</Text>
+      <Text className={props.className}>{props.children}</Text>
     </td>
+  );
+};
+
+const RowItemLink = (props: { children: React.ReactNode; className?: string; href: string }) => {
+  return (
+    <StyledTD>
+      <Link href={props.href}>
+        <Text className={props.className}>{props.children}</Text>
+      </Link>
+    </StyledTD>
   );
 };
 
@@ -26,13 +45,19 @@ const Table = styled(TableUI)`
   }
 `;
 
+/* Table Data Type */
+export type TD<V> = {
+  value: V;
+  href?: string;
+};
+
 type Props<T> = {
   name: string;
   data: T;
   topRowData: Record<string, string | number>;
 };
 
-export const TableDashboard = <T extends Record<string, string | number>[]>({
+export const TableDashboard = <T extends Record<string, TD<string | number>>[]>({
   data,
   topRowData,
   name,
@@ -58,9 +83,18 @@ export const TableDashboard = <T extends Record<string, string | number>[]>({
           <tbody>
             {data.map((row: T[number], i: number) => (
               <tr key={i}>
-                {Object.entries(row).map(([key, value], i: number) => (
-                  <RowItem key={`${key}-${i}`}>{value}</RowItem>
-                ))}
+                {Object.entries(row).map(([key, td], i: number) => {
+                  /* If it's a link, render with Link */
+                  if (td.href) {
+                    return (
+                      <RowItemLink key={`${key}-${i}`} href={td.href}>
+                        {td.value}
+                      </RowItemLink>
+                    );
+                  }
+
+                  return <RowItem key={`${key}-${i}`}>{td.value}</RowItem>;
+                })}
               </tr>
             ))}
           </tbody>

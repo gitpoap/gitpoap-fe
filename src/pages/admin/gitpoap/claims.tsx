@@ -8,18 +8,18 @@ import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { useAdminClaimsQuery, useGetAllStatsQuery } from '../../../graphql/generated-gql';
 import { DateTime } from 'luxon';
 import { truncateAddress } from '../../../helpers';
-import TableDashboard from '../../../components/admin/TableDashboard';
+import TableDashboard, { TD } from '../../../components/admin/TableDashboard';
 
 type RowData = {
-  'Claim ID': number;
-  'Github User': string;
-  'User ID': number;
-  Repo: string;
-  Status: string;
-  'Poap Token ID': string;
-  Address: string;
-  'Claimed At': string;
-  'Created At': string;
+  'Claim ID': TD<number>;
+  'Github User': TD<string>;
+  'User ID': TD<number>;
+  Repo: TD<string>;
+  Status: TD<string>;
+  'Poap Token ID': TD<string>;
+  Address: TD<string>;
+  'Claimed At': TD<string>;
+  'Created At': TD<string>;
 };
 
 const ClaimsDashboard: NextPage = () => {
@@ -35,17 +35,20 @@ const ClaimsDashboard: NextPage = () => {
     'Total Completed Claims': resultStats.data?.totalClaims ?? '',
   };
 
-  const data = result.data?.claims.map((claim) => {
+  const data: RowData[] | undefined = result.data?.claims.map((claim) => {
     return {
-      'Claim ID': claim.id,
-      'Github User': claim.user.githubHandle,
-      'User ID': claim.user.id,
-      Repo: claim.gitPOAP.repo.name,
-      Status: claim.status,
-      'Poap Token ID': claim.poapTokenId ?? '',
-      Address: truncateAddress(claim.address ?? '', 6),
-      'Claimed At': DateTime.fromISO(claim.claimedAt).toFormat('dd LLL yyyy hh:mm'),
-      'Created At': DateTime.fromISO(claim.createdAt).toFormat('dd LLL yyyy hh:mm'),
+      'Claim ID': { value: claim.id },
+      'Github User': { value: claim.user.githubHandle },
+      'User ID': { value: claim.user.id },
+      Repo: { value: claim.gitPOAP.repo.name },
+      Status: { value: claim.status },
+      'Poap Token ID': { value: claim.poapTokenId ?? '' },
+      Address: {
+        value: truncateAddress(claim.address ?? '', 6) ?? '',
+        href: `/p/${claim.address}`,
+      },
+      'Claimed At': { value: DateTime.fromISO(claim.claimedAt).toFormat('dd LLL yyyy hh:mm') },
+      'Created At': { value: DateTime.fromISO(claim.createdAt).toFormat('dd LLL yyyy hh:mm') },
     };
   });
 
@@ -61,7 +64,7 @@ const ClaimsDashboard: NextPage = () => {
             <>
               {data && (
                 <TableDashboard<RowData[]>
-                  name="Admin - Repos Dashboard"
+                  name="Admin - Claims Dashboard"
                   data={data}
                   topRowData={topRowData}
                 />
