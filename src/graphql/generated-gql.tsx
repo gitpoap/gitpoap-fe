@@ -1878,6 +1878,22 @@ export type RepoStarCountQueryVariables = Exact<{
 
 export type RepoStarCountQuery = { __typename?: 'Query'; repoStarCount: number };
 
+export type AllReposQueryVariables = Exact<{
+  count: Scalars['Int'];
+}>;
+
+export type AllReposQuery = {
+  __typename?: 'Query';
+  repos: Array<{
+    __typename?: 'Repo';
+    id: number;
+    name: string;
+    createdAt: any;
+    organization: { __typename?: 'Organization'; name: string };
+    gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number }>;
+  }>;
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -2296,4 +2312,25 @@ export function useRepoStarCountQuery(
   options: Omit<Urql.UseQueryArgs<RepoStarCountQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<RepoStarCountQuery>({ query: RepoStarCountDocument, ...options });
+}
+export const AllReposDocument = gql`
+  query allRepos($count: Int!) {
+    repos(take: $count, orderBy: { createdAt: desc }) {
+      id
+      name
+      organization {
+        name
+      }
+      createdAt
+      gitPOAPs {
+        id
+      }
+    }
+  }
+`;
+
+export function useAllReposQuery(
+  options: Omit<Urql.UseQueryArgs<AllReposQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AllReposQuery>({ query: AllReposDocument, ...options });
 }

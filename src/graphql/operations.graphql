@@ -288,3 +288,18 @@ query repoData($repoId: Float!) {
 query repoStarCount($repoId: Float!) {
   repoStarCount(repoId: $repoId)
 }
+
+query allRepos($count: Int!) {
+  repos(take: $count, orderBy: { createdAt: desc }) {
+    id
+    name
+    organization {
+      name
+    }
+    createdAt
+
+    gitPOAPs {
+      id
+    }
+  }
+}

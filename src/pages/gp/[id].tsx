@@ -89,7 +89,7 @@ const GitPOAP: Page<PageProps> = (props) => {
 export async function getServerSideProps(context: NextPageContext) {
   context.res?.setHeader(
     'Cache-Control',
-    `public, s-maxage=${ONE_DAY}, stale-while-revalidate=${ONE_DAY}`,
+    `public, s-maxage=${ONE_DAY}, stale-while-revalidate=${2 * ONE_DAY}`,
   );
 
   const ssrCache = ssrExchange({ isClient: false });
