@@ -282,6 +282,7 @@ query repoData($repoId: Float!) {
       id
     }
     contributorCount
+    mintedGitPOAPCount
   }
 }
 
