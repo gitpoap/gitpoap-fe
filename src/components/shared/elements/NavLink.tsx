@@ -3,16 +3,10 @@ import { rem } from 'polished';
 import { ExtraHover, ExtraPressed, TextDarkGray, TextGray } from '../../../colors';
 import Link from 'next/link';
 
-export const LinkStyles = css`
-  font-size: ${rem(12)};
-  font-weight: 700;
-  letter-spacing: ${rem(2)};
-  text-transform: uppercase;
-  color: ${TextGray};
+export const LinkHoverStyles = css`
   transition: 150ms color ease;
 
   > * {
-    color: ${TextGray};
     transition: 150ms color ease;
   }
 
@@ -34,6 +28,22 @@ export const LinkStyles = css`
       color: ${TextDarkGray};
     }
   }
+`;
+
+export const LinkStyles = css`
+  font-size: ${rem(12)};
+  font-weight: 700;
+  letter-spacing: ${rem(2)};
+  text-transform: uppercase;
+  color: ${TextGray};
+  transition: 150ms color ease;
+
+  > * {
+    color: ${TextGray};
+    transition: 150ms color ease;
+  }
+
+  ${LinkHoverStyles}
 `;
 
 const StyledLink = styled.a`
