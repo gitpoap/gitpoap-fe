@@ -28,6 +28,10 @@ const pages = [
     title: 'Claims Dashboard',
     href: '/admin/gitpoap/claims',
   },
+  {
+    title: 'Repos Dashboard',
+    href: '/admin/repos',
+  },
 ];
 
 const HeaderLink = styled(Header)`
