@@ -40,7 +40,7 @@ const ClaimsDashboard: NextPage = () => {
       'Claim ID': { value: claim.id },
       'Github User': { value: claim.user.githubHandle },
       'User ID': { value: claim.user.id },
-      Repo: { value: truncateString(claim.gitPOAP.repo.name, 18) },
+      Repo: { value: truncateString(claim.gitPOAP.repo.name, 22) },
       Org: { value: claim.gitPOAP.repo.organization.name },
       Status: { value: claim.status },
       'Poap Token ID': { value: claim.poapTokenId ?? '' },
