@@ -1845,7 +1845,14 @@ export type AdminClaimsQuery = {
     createdAt: any;
     claimedAt?: any | null;
     user: { __typename?: 'User'; id: number; githubHandle: string };
-    gitPOAP: { __typename?: 'GitPOAP'; repo: { __typename?: 'Repo'; name: string } };
+    gitPOAP: {
+      __typename?: 'GitPOAP';
+      repo: {
+        __typename?: 'Repo';
+        name: string;
+        organization: { __typename?: 'Organization'; name: string };
+      };
+    };
   }>;
 };
 
@@ -2267,6 +2274,9 @@ export const AdminClaimsDocument = gql`
       gitPOAP {
         repo {
           name
+          organization {
+            name
+          }
         }
       }
     }
