@@ -7,6 +7,10 @@ export const truncateAddress = (address: string, startChars: number = 14): strin
   return address.slice(0, startChars) + '...' + address.slice(-4);
 };
 
+export const truncateString = (str: string, maxLength: number): string => {
+  return str.length > maxLength ? str.slice(0, maxLength) + '...' : str;
+};
+
 export const isValidURL = (str: string): boolean => {
   const pattern = new RegExp(
     '^(https?:\\/\\/)' + // protocol

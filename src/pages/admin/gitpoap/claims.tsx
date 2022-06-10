@@ -7,7 +7,7 @@ import { useAuthContext } from '../../../components/github/AuthContext';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { useAdminClaimsQuery, useGetAllStatsQuery } from '../../../graphql/generated-gql';
 import { DateTime } from 'luxon';
-import { truncateAddress } from '../../../helpers';
+import { truncateAddress, truncateString } from '../../../helpers';
 import TableDashboard, { TD } from '../../../components/admin/TableDashboard';
 
 type RowData = {
@@ -40,7 +40,7 @@ const ClaimsDashboard: NextPage = () => {
       'Claim ID': { value: claim.id },
       'Github User': { value: claim.user.githubHandle },
       'User ID': { value: claim.user.id },
-      Repo: { value: claim.gitPOAP.repo.name },
+      Repo: { value: truncateString(claim.gitPOAP.repo.name, 18) },
       Org: { value: claim.gitPOAP.repo.organization.name },
       Status: { value: claim.status },
       'Poap Token ID': { value: claim.poapTokenId ?? '' },
