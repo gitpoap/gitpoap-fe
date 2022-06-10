@@ -1868,6 +1868,7 @@ export type RepoDataQuery = {
     name: string;
     githubRepoId: number;
     contributorCount: number;
+    mintedGitPOAPCount: number;
     organization: {
       __typename?: 'Organization';
       id: number;
@@ -2304,6 +2305,7 @@ export const RepoDataDocument = gql`
         id
       }
       contributorCount
+      mintedGitPOAPCount
     }
   }
 `;

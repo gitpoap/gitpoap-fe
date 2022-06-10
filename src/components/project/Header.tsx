@@ -159,11 +159,11 @@ export const Header = ({ repoId }: Props) => {
             <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
           </SubHeaderItem>
         )}
-        {repo?.gitPOAPs && (
+        {repo?.mintedGitPOAPCount && (
           <SubHeaderItem>
             <GitPOAP />
-            <SubHeaderItemCount>{repo?.gitPOAPs.length}</SubHeaderItemCount>
-            <SubHeaderItemLabel>{'GitPOAPs'}</SubHeaderItemLabel>
+            <SubHeaderItemCount>{repo?.mintedGitPOAPCount}</SubHeaderItemCount>
+            <SubHeaderItemLabel>{'Minted'}</SubHeaderItemLabel>
           </SubHeaderItem>
         )}
         {repoStarCount !== undefined && (
