@@ -309,3 +309,26 @@ query allRepos($count: Int!) {
     }
   }
 }
+
+query organizationData($orgId: Float!) {
+  organizationData(orgId: $orgId) {
+    id
+    name
+    description
+    twitterHandle
+    url
+    contributorCount
+    gitPOAPCount
+    mintedGitPOAPCount
+    projectCount
+  }
+}
+
+query organizationRepos($orgId: Float!, $sort: String, $page: Float, $perPage: Float) {
+  organizationRepos(orgId: $orgId, sort: $sort, page: $page, perPage: $perPage) {
+    id
+    name
+    contributorCount
+    mintedGitPOAPCount
+  }
+}

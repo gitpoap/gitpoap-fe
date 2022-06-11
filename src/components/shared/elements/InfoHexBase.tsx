@@ -61,7 +61,7 @@ export const Body = styled.div<{ hoverEffects?: boolean }>`
   `}
 `;
 
-const Hex = styled.div`
+export const Hex = styled.div`
   display: inline-flex;
   flex-direction: column;
   min-width: ${rem(250)};
