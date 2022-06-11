@@ -1,12 +1,9 @@
 import { rem } from 'polished';
 import React from 'react';
 import styled from 'styled-components';
-
-import { TextAccent, TextGray } from '../../colors';
 import { LinkStyles } from '../../components/shared/elements/NavLink';
 import { OrganizationDataQuery } from '../../graphql/generated-gql';
 import { Wrapper } from '../gitpoap/Header';
-import { Link } from '../Link';
 import { Header as HeaderText } from '../shared/elements/Header';
 import { GitHub, GitPOAP, Globe, Minted, People, Project, Twitter } from '../shared/elements/icons';
 import { Text } from '../shared/elements/Text';
