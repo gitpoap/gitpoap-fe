@@ -38,7 +38,7 @@ type Props = {
 export const ProjectList = ({ orgId }: Props) => {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortOptions>('alphabetical');
-  const [repoItems, setRepoItems] = useState<ProjectResponse[]>([]);
+  const [projectItems, setProjectItems] = useState<ProjectResponse[]>([]);
   const [total, setTotal] = useState<number>();
   const [searchValue, setSearchValue] = useState('');
   const perPage = 10;
@@ -54,12 +54,12 @@ export const ProjectList = ({ orgId }: Props) => {
 
   /* If the address of the profile being looked at changes, clear the data we've saved */
   useEffect(() => {
-    setRepoItems([]);
+    setProjectItems([]);
   }, []);
 
   /* Hook to append new data onto existing list of gitPOAPs */
   useEffect(() => {
-    setRepoItems((prev: ProjectResponse[]) => {
+    setProjectItems((prev: ProjectResponse[]) => {
       if (result.data?.organizationRepos) {
         return [...prev, ...result.data.organizationRepos];
       }
@@ -86,12 +86,12 @@ export const ProjectList = ({ orgId }: Props) => {
       onSelectChange={(sortValue) => {
         if (sortValue !== sort) {
           setSort(sortValue as SortOptions);
-          setRepoItems([]);
+          setProjectItems([]);
           setPage(1);
         }
       }}
       isLoading={result.fetching}
-      hasShowMoreButton={!!total && repoItems.length < total && repoItems.length > 0}
+      hasShowMoreButton={!!total && projectItems.length < total && projectItems.length > 0}
       showMoreOnClick={() => {
         if (!result.fetching) {
           setPage(page + 1);
@@ -106,35 +106,19 @@ export const ProjectList = ({ orgId }: Props) => {
       <GitPOAPList>
         {result.fetching && !result.operation && (
           <>
-            {[...Array(5)].map((_, i) => {
-              return (
-                <POAPBadgeSkeleton key={i} style={{ marginTop: rem(30), marginRight: rem(40) }} />
-              );
-            })}
+            {[...Array(5)].map((_, i) => (
+              <POAPBadgeSkeleton key={i} style={{ marginTop: rem(30), marginRight: rem(40) }} />
+            ))}
           </>
         )}
-        {/* {result.operation && repoItems.length === 0 && (
-            <EmptyState icon={<FaTrophy color={TextDarkGray} size={rem(74)} />}>
-              <a href={'https://gitpoap.io/discord'} target="_blank" rel="noopener noreferrer">
-                <Title style={{ marginTop: rem(20) }}>
-                  {'Get contributing! Head over to our Discord to get started.'}
-                </Title>
-              </a>
-            </EmptyState>
-          )} */}
-
-        {/* Fully Claimed GitPOAPs rendered next */}
-        {repoItems &&
-          repoItems
-            .filter((repoItem) => {
-              if (searchValue) {
-                return repoItem.name.toLowerCase().includes(searchValue.toLowerCase());
-              }
-              return true;
-            })
-            .map((repoItem, i) => {
-              return <ProjectHex key={'repo-' + i} project={repoItem} />;
-            })}
+        {projectItems &&
+          projectItems
+            .filter((projectItem) =>
+              searchValue
+                ? projectItem.name.toLowerCase().includes(searchValue.toLowerCase())
+                : true,
+            )
+            .map((projectItem, i) => <ProjectHex key={'project-' + i} project={projectItem} />)}
       </GitPOAPList>
     </ItemList>
   );
