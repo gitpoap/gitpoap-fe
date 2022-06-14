@@ -18,25 +18,23 @@ const Content = styled.div`
   margin: ${rem(10)} ${rem(20)};
 `;
 
-// 224 112
-// 198 099
-let h = 20;
+let hexVerticalPadding = 20;
 
 const BodyStyled = styled(Body)`
   display: flex;
   align-items: center;
   justify-content: center;
 
-  margin-top: ${rem(h)};
-  margin-bottom: ${rem(h)};
+  margin-top: ${rem(hexVerticalPadding)};
+  margin-bottom: ${rem(hexVerticalPadding)};
 
   &:before {
-    height: ${rem(h)};
-    top: ${rem(-h)};
+    height: ${rem(hexVerticalPadding)};
+    top: ${rem(-hexVerticalPadding)};
   }
   &:after {
-    height: ${rem(h)};
-    bottom: ${rem(-h)};
+    height: ${rem(hexVerticalPadding)};
+    bottom: ${rem(-hexVerticalPadding)};
   }
 `;
 

@@ -19,7 +19,7 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'minted-count', label: 'Minted Count' },
 ];
 
-const GitPOAPList = styled.div`
+const List = styled.div`
   display: grid;
   column-gap: ${rem(30)};
   row-gap: ${rem(32)};
@@ -52,12 +52,12 @@ export const ProjectList = ({ orgId }: Props) => {
     },
   });
 
-  /* If the address of the profile being looked at changes, clear the data we've saved */
+  /* If the id of the organization being looked at changes, clear the data we've saved */
   useEffect(() => {
     setProjectItems([]);
-  }, []);
+  }, [orgId]);
 
-  /* Hook to append new data onto existing list of gitPOAPs */
+  /* Hook to append new data onto existing list of projects */
   useEffect(() => {
     setProjectItems((prev: ProjectResponse[]) => {
       if (result.data?.organizationRepos) {
@@ -67,7 +67,7 @@ export const ProjectList = ({ orgId }: Props) => {
     });
   }, [result.data]);
 
-  /* Hook to set total number of GitPOAPs */
+  /* Hook to set total number of projects */
   useEffect(() => {
     if (result.data?.organizationRepos) {
       setTotal(result.data.organizationRepos.length);
@@ -103,7 +103,7 @@ export const ProjectList = ({ orgId }: Props) => {
         setSearchValue(e.target.value)
       }
     >
-      <GitPOAPList>
+      <List>
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => (
@@ -119,7 +119,7 @@ export const ProjectList = ({ orgId }: Props) => {
                 : true,
             )
             .map((projectItem, i) => <ProjectHex key={'project-' + i} project={projectItem} />)}
-      </GitPOAPList>
+      </List>
     </ItemList>
   );
 };
