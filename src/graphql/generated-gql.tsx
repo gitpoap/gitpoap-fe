@@ -25,11 +25,11 @@ export type BoolFilter = {
 export type Claim = {
   __typename?: 'Claim';
   address?: Maybe<Scalars['String']>;
-  claimedAt?: Maybe<Scalars['DateTime']>;
   createdAt: Scalars['DateTime'];
   gitPOAP: GitPoap;
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
+  mintedAt?: Maybe<Scalars['DateTime']>;
   poapTokenId?: Maybe<Scalars['String']>;
   pullRequestEarned?: Maybe<GithubPullRequest>;
   pullRequestEarnedId?: Maybe<Scalars['Int']>;
@@ -56,11 +56,11 @@ export type ClaimOrderByRelationAggregateInput = {
 
 export type ClaimOrderByWithRelationInput = {
   address?: InputMaybe<SortOrder>;
-  claimedAt?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   gitPOAP?: InputMaybe<GitPoapOrderByWithRelationInput>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mintedAt?: InputMaybe<SortOrder>;
   poapTokenId?: InputMaybe<SortOrder>;
   pullRequestEarned?: InputMaybe<GithubPullRequestOrderByWithRelationInput>;
   pullRequestEarnedId?: InputMaybe<SortOrder>;
@@ -72,10 +72,10 @@ export type ClaimOrderByWithRelationInput = {
 
 export enum ClaimScalarFieldEnum {
   Address = 'address',
-  ClaimedAt = 'claimedAt',
   CreatedAt = 'createdAt',
   GitPoapId = 'gitPOAPId',
   Id = 'id',
+  MintedAt = 'mintedAt',
   PoapTokenId = 'poapTokenId',
   PullRequestEarnedId = 'pullRequestEarnedId',
   QrHash = 'qrHash',
@@ -102,11 +102,11 @@ export type ClaimWhereInput = {
   NOT?: InputMaybe<Array<ClaimWhereInput>>;
   OR?: InputMaybe<Array<ClaimWhereInput>>;
   address?: InputMaybe<StringNullableFilter>;
-  claimedAt?: InputMaybe<DateTimeNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   gitPOAP?: InputMaybe<GitPoapRelationFilter>;
   gitPOAPId?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
+  mintedAt?: InputMaybe<DateTimeNullableFilter>;
   poapTokenId?: InputMaybe<StringNullableFilter>;
   pullRequestEarned?: InputMaybe<GithubPullRequestRelationFilter>;
   pullRequestEarnedId?: InputMaybe<IntNullableFilter>;
@@ -302,13 +302,14 @@ export type GitPoap = {
   event?: Maybe<Event>;
   eventId?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
-  lastPRUpdatedAt: Scalars['DateTime'];
+  level: Scalars['Int'];
   ongoing: Scalars['Boolean'];
   poapEventId: Scalars['Int'];
   redeemCodes: Array<RedeemCode>;
   repo: Repo;
   repoId: Scalars['Int'];
   status: GitPoapStatus;
+  threshold: Scalars['Int'];
   type: ClaimType;
   updatedAt: Scalars['DateTime'];
   year: Scalars['Int'];
@@ -354,13 +355,14 @@ export type GitPoapOrderByWithRelationInput = {
   event?: InputMaybe<EventOrderByWithRelationInput>;
   eventId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  lastPRUpdatedAt?: InputMaybe<SortOrder>;
+  level?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
   poapEventId?: InputMaybe<SortOrder>;
   redeemCodes?: InputMaybe<RedeemCodeOrderByRelationAggregateInput>;
   repo?: InputMaybe<RepoOrderByWithRelationInput>;
   repoId?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
+  threshold?: InputMaybe<SortOrder>;
   type?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   year?: InputMaybe<SortOrder>;
@@ -375,12 +377,13 @@ export enum GitPoapScalarFieldEnum {
   CreatedAt = 'createdAt',
   EventId = 'eventId',
   Id = 'id',
-  LastPrUpdatedAt = 'lastPRUpdatedAt',
+  Level = 'level',
   Ongoing = 'ongoing',
   PoapEventId = 'poapEventId',
   PoapSecret = 'poapSecret',
   RepoId = 'repoId',
   Status = 'status',
+  Threshold = 'threshold',
   Type = 'type',
   UpdatedAt = 'updatedAt',
   Year = 'year',
@@ -401,13 +404,14 @@ export type GitPoapWhereInput = {
   event?: InputMaybe<EventRelationFilter>;
   eventId?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<IntFilter>;
-  lastPRUpdatedAt?: InputMaybe<DateTimeFilter>;
+  level?: InputMaybe<IntFilter>;
   ongoing?: InputMaybe<BoolFilter>;
   poapEventId?: InputMaybe<IntFilter>;
   redeemCodes?: InputMaybe<RedeemCodeListRelationFilter>;
   repo?: InputMaybe<RepoRelationFilter>;
   repoId?: InputMaybe<IntFilter>;
   status?: InputMaybe<EnumGitPoapStatusFilter>;
+  threshold?: InputMaybe<IntFilter>;
   type?: InputMaybe<EnumClaimTypeFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   year?: InputMaybe<IntFilter>;
@@ -709,6 +713,33 @@ export type OrganizationCount = {
   repos: Scalars['Int'];
 };
 
+export type OrganizationData = {
+  __typename?: 'OrganizationData';
+  _count?: Maybe<OrganizationCount>;
+  contributorCount: Scalars['Float'];
+  createdAt: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  gitPOAPCount: Scalars['Float'];
+  githubOrgId: Scalars['Int'];
+  id: Scalars['Int'];
+  mintedGitPOAPCount: Scalars['Float'];
+  name: Scalars['String'];
+  projectCount: Scalars['Float'];
+  repos: Array<Repo>;
+  twitterHandle?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['DateTime'];
+  url?: Maybe<Scalars['String']>;
+};
+
+export type OrganizationDataReposArgs = {
+  cursor?: InputMaybe<RepoWhereUniqueInput>;
+  distinct?: InputMaybe<Array<RepoScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<RepoOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RepoWhereInput>;
+};
+
 export type OrganizationOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
@@ -912,6 +943,7 @@ export type Query = {
   mostClaimedGitPOAPs?: Maybe<Array<GitPoapWithClaimsCount>>;
   mostHonoredContributors: Array<ProfileWithClaimsCount>;
   organization?: Maybe<Organization>;
+  organizationData?: Maybe<OrganizationData>;
   organizations: Array<Organization>;
   profile?: Maybe<Profile>;
   profileData?: Maybe<NullableProfile>;
@@ -1094,6 +1126,11 @@ export type QueryOrganizationArgs = {
   where: OrganizationWhereUniqueInput;
 };
 
+export type QueryOrganizationDataArgs = {
+  orgId?: InputMaybe<Scalars['Float']>;
+  orgName?: InputMaybe<Scalars['String']>;
+};
+
 export type QueryOrganizationsArgs = {
   cursor?: InputMaybe<OrganizationWhereUniqueInput>;
   distinct?: InputMaybe<Array<OrganizationScalarFieldEnum>>;
@@ -1133,7 +1170,9 @@ export type QueryRepoArgs = {
 };
 
 export type QueryRepoDataArgs = {
-  repoId: Scalars['Float'];
+  orgName?: InputMaybe<Scalars['String']>;
+  repoId?: InputMaybe<Scalars['Float']>;
+  repoName?: InputMaybe<Scalars['String']>;
 };
 
 export type QueryRepoGitPoaPsArgs = {
@@ -1246,6 +1285,7 @@ export type Repo = {
   gitPOAPs: Array<GitPoap>;
   githubRepoId: Scalars['Int'];
   id: Scalars['Int'];
+  lastPRUpdatedAt: Scalars['DateTime'];
   name: Scalars['String'];
   organization: Organization;
   organizationId: Scalars['Int'];
@@ -1285,6 +1325,7 @@ export type RepoData = {
   gitPOAPs: Array<GitPoap>;
   githubRepoId: Scalars['Int'];
   id: Scalars['Int'];
+  lastPRUpdatedAt: Scalars['DateTime'];
   mintedGitPOAPCount: Scalars['Float'];
   name: Scalars['String'];
   organization: Organization;
@@ -1332,6 +1373,7 @@ export type RepoOrderByWithRelationInput = {
   gitPOAPs?: InputMaybe<GitPoapOrderByRelationAggregateInput>;
   githubRepoId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  lastPRUpdatedAt?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   organization?: InputMaybe<OrganizationOrderByWithRelationInput>;
   organizationId?: InputMaybe<SortOrder>;
@@ -1347,6 +1389,7 @@ export enum RepoScalarFieldEnum {
   CreatedAt = 'createdAt',
   GithubRepoId = 'githubRepoId',
   Id = 'id',
+  LastPrUpdatedAt = 'lastPRUpdatedAt',
   Name = 'name',
   OrganizationId = 'organizationId',
   UpdatedAt = 'updatedAt',
@@ -1361,6 +1404,7 @@ export type RepoWhereInput = {
   gitPOAPs?: InputMaybe<GitPoapListRelationFilter>;
   githubRepoId?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
+  lastPRUpdatedAt?: InputMaybe<DateTimeFilter>;
   name?: InputMaybe<StringFilter>;
   organization?: InputMaybe<OrganizationRelationFilter>;
   organizationId?: InputMaybe<IntFilter>;
@@ -1843,7 +1887,7 @@ export type AdminClaimsQuery = {
     address?: string | null;
     updatedAt: any;
     createdAt: any;
-    claimedAt?: any | null;
+    mintedAt?: any | null;
     user: { __typename?: 'User'; id: number; githubHandle: string };
     gitPOAP: {
       __typename?: 'GitPOAP';
@@ -2259,7 +2303,7 @@ export function useFeaturedPoapsQuery(
 }
 export const AdminClaimsDocument = gql`
   query adminClaims($count: Int!) {
-    claims(take: $count, orderBy: { claimedAt: desc }, where: { status: { equals: CLAIMED } }) {
+    claims(take: $count, orderBy: { mintedAt: desc }, where: { status: { equals: CLAIMED } }) {
       id
       user {
         id
@@ -2270,7 +2314,7 @@ export const AdminClaimsDocument = gql`
       address
       updatedAt
       createdAt
-      claimedAt
+      mintedAt
       gitPOAP {
         repo {
           name

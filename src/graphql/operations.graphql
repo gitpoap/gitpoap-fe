@@ -246,7 +246,7 @@ query featuredPoaps($address: String!) {
 }
 
 query adminClaims($count: Int!) {
-  claims(take: $count, orderBy: { claimedAt: desc }, where: { status: { equals: CLAIMED } }) {
+  claims(take: $count, orderBy: { mintedAt: desc }, where: { status: { equals: CLAIMED } }) {
     id
     user {
       id
@@ -257,7 +257,7 @@ query adminClaims($count: Int!) {
     address
     updatedAt
     createdAt
-    claimedAt
+    mintedAt
     gitPOAP {
       repo {
         name
