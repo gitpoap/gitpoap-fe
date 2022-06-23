@@ -60,7 +60,11 @@ export const ClaimBlock = ({
   isConnected,
 }: Props) => {
   const rewardId = 'rewardId-' + gitPOAPId;
-  const { reward } = useReward(rewardId, 'confetti');
+  const { reward } = useReward(rewardId, 'confetti', {
+    colors: ['#307AE8', '#5CCA69', '#E1C232', '#E7A729', '#E54747'],
+    elementCount: 100,
+    spread: 60,
+  });
   return (
     <Wrapper>
       <GitPOAP
