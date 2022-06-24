@@ -7,7 +7,7 @@ import { TextAccent, TextGray } from '../../colors';
 import { Link } from '../Link';
 import { SEO } from '../../components/SEO';
 import { Wrapper } from '../gitpoap/Header';
-import { People, GitPOAP, Globe, GitHub, Project, Twitter } from '../shared/elements/icons';
+import { GitHub, GitPOAP, Globe, Minted, People, Project, Twitter } from '../shared/elements/icons';
 import { useOrganizationDataQuery } from '../../graphql/generated-gql';
 import { LinkStyles } from '../../components/shared/elements/NavLink';
 
@@ -134,7 +134,7 @@ export const Header = ({ orgId }: Props) => {
             )}
             {org.mintedGitPOAPCount && (
               <SubHeaderItem>
-                <GitPOAP />
+                <Minted />
                 <SubHeaderItemCount>{org.mintedGitPOAPCount}</SubHeaderItemCount>
                 <SubHeaderItemLabel>{'Minted'}</SubHeaderItemLabel>
               </SubHeaderItem>
