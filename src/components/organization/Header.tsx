@@ -1,15 +1,15 @@
 import { rem } from 'polished';
 import React from 'react';
 import styled from 'styled-components';
-import { Header as HeaderText } from '../shared/elements/Header';
-import { Text } from '../shared/elements/Text';
+
 import { TextAccent, TextGray } from '../../colors';
-import { Link } from '../Link';
-import { SEO } from '../../components/SEO';
-import { Wrapper } from '../gitpoap/Header';
-import { GitHub, GitPOAP, Globe, Minted, People, Project, Twitter } from '../shared/elements/icons';
-import { useOrganizationDataQuery } from '../../graphql/generated-gql';
 import { LinkStyles } from '../../components/shared/elements/NavLink';
+import { OrganizationDataQuery } from '../../graphql/generated-gql';
+import { Wrapper } from '../gitpoap/Header';
+import { Link } from '../Link';
+import { Header as HeaderText } from '../shared/elements/Header';
+import { GitHub, GitPOAP, Globe, Minted, People, Project, Twitter } from '../shared/elements/icons';
+import { Text } from '../shared/elements/Text';
 
 const HeaderWrapper = styled(Wrapper)`
   height: ${rem(600)};
@@ -73,82 +73,64 @@ const OrganizationTag = styled.div`
 `;
 
 type Props = {
-  orgId: number;
+  org: Exclude<OrganizationDataQuery['organizationData'], null | undefined>;
 };
 
-export const Header = ({ orgId }: Props) => {
-  const [result] = useOrganizationDataQuery({ variables: { orgId } });
-
-  let org = result?.data?.organizationData;
-
-  return (
-    <HeaderWrapper>
-      <SEO
-        title={`${org?.name} | GitPOAP`}
-        description={
-          'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
-        }
-        image={'https://gitpoap.io/og-image-512x512.png'}
-        url={`https://gitpoap.io/o/${orgId}`}
-      />
-      {org && (
-        <div>
-          <OrganizationTag>{'Organization'}</OrganizationTag>
-          <HeaderText>{org.name}</HeaderText>
-          {org.description && <Text style={{ paddingTop: rem(13) }}>{org.description}</Text>}
-          <Social>
-            {org.twitterHandle && (
-              <IconLink
-                href={`https://twitter.com/${org.twitterHandle}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Twitter />
-              </IconLink>
-            )}
-            {org.name && (
-              <IconLink href={`https://github.com/${org.name}`} target="_blank" rel="noreferrer">
-                <GitHub />
-              </IconLink>
-            )}
-            {org.url && (
-              <IconLink href={org.url} target="_blank" rel="noreferrer">
-                <Globe />
-              </IconLink>
-            )}
-          </Social>
-          <SubHeader>
-            {org.contributorCount && (
-              <SubHeaderItem>
-                <People />
-                <SubHeaderItemCount>{org.contributorCount}</SubHeaderItemCount>
-                <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
-              </SubHeaderItem>
-            )}
-            {org.gitPOAPCount && (
-              <SubHeaderItem>
-                <GitPOAP />
-                <SubHeaderItemCount>{org.gitPOAPCount}</SubHeaderItemCount>
-                <SubHeaderItemLabel>{'GitPOAPs'}</SubHeaderItemLabel>
-              </SubHeaderItem>
-            )}
-            {org.mintedGitPOAPCount && (
-              <SubHeaderItem>
-                <Minted />
-                <SubHeaderItemCount>{org.mintedGitPOAPCount}</SubHeaderItemCount>
-                <SubHeaderItemLabel>{'Minted'}</SubHeaderItemLabel>
-              </SubHeaderItem>
-            )}
-            {org.projectCount && (
-              <SubHeaderItem>
-                <Project />
-                <SubHeaderItemCount>{org.projectCount}</SubHeaderItemCount>
-                <SubHeaderItemLabel>{'Projects'}</SubHeaderItemLabel>
-              </SubHeaderItem>
-            )}
-          </SubHeader>
-        </div>
+export const Header = ({ org }: Props) => (
+  <HeaderWrapper>
+    <OrganizationTag>{'Organization'}</OrganizationTag>
+    <HeaderText>{org.name}</HeaderText>
+    {org.description && <Text style={{ paddingTop: rem(13) }}>{org.description}</Text>}
+    <Social>
+      {org.twitterHandle && (
+        <IconLink
+          href={`https://twitter.com/${org.twitterHandle}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Twitter />
+        </IconLink>
       )}
-    </HeaderWrapper>
-  );
-};
+      {org.name && (
+        <IconLink href={`https://github.com/${org.name}`} target="_blank" rel="noreferrer">
+          <GitHub />
+        </IconLink>
+      )}
+      {org.url && (
+        <IconLink href={org.url} target="_blank" rel="noreferrer">
+          <Globe />
+        </IconLink>
+      )}
+    </Social>
+    <SubHeader>
+      {org.contributorCount && (
+        <SubHeaderItem>
+          <People />
+          <SubHeaderItemCount>{org.contributorCount}</SubHeaderItemCount>
+          <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
+        </SubHeaderItem>
+      )}
+      {org.gitPOAPCount && (
+        <SubHeaderItem>
+          <GitPOAP />
+          <SubHeaderItemCount>{org.gitPOAPCount}</SubHeaderItemCount>
+          <SubHeaderItemLabel>{'GitPOAPs'}</SubHeaderItemLabel>
+        </SubHeaderItem>
+      )}
+      {org.mintedGitPOAPCount && (
+        <SubHeaderItem>
+          <Minted />
+          <SubHeaderItemCount>{org.mintedGitPOAPCount}</SubHeaderItemCount>
+          <SubHeaderItemLabel>{'Minted'}</SubHeaderItemLabel>
+        </SubHeaderItem>
+      )}
+      {org.projectCount && (
+        <SubHeaderItem>
+          <Project />
+          <SubHeaderItemCount>{org.projectCount}</SubHeaderItemCount>
+          <SubHeaderItemLabel>{'Projects'}</SubHeaderItemLabel>
+        </SubHeaderItem>
+      )}
+    </SubHeader>
+  </HeaderWrapper>
+);
