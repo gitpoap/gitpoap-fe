@@ -22,7 +22,7 @@ Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
   /* Do not send errors to sentry if app is in development mode */
-  enabled: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT === 'development',
+  enabled: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT !== 'development',
   // Set tracesSampleRate to 1.0 to capture 100%
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
