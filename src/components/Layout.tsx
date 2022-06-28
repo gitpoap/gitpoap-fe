@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Navbar } from './Navbar';
-import { Footer } from './FooterNew';
+import { Footer } from './Footer';
 import { MidnightBlue } from '../colors';
 
 type Props = {
