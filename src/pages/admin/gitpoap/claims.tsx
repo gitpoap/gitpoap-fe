@@ -43,13 +43,13 @@ const ClaimsDashboard: NextPage = () => {
         href: `https://github.com/${claim.user.githubHandle}`,
       },
       'User ID': { value: claim.user.id },
-      Repo: {
-        value: truncateString(claim.gitPOAP.repo.name, 22),
-        href: `https://github.com/${claim.gitPOAP.repo.organization.name}/${claim.gitPOAP.repo.name}`,
-      },
       Org: {
         value: claim.gitPOAP.repo.organization.name,
         href: `https://github.com/${claim.gitPOAP.repo.organization.name}`,
+      },
+      Repo: {
+        value: truncateString(claim.gitPOAP.repo.name, 22),
+        href: `https://github.com/${claim.gitPOAP.repo.organization.name}/${claim.gitPOAP.repo.name}`,
       },
       Status: { value: claim.status },
       'Poap Token ID': { value: claim.poapTokenId ?? '' },
