@@ -20,3 +20,40 @@ export const POAPBadgeSkeleton = (props: React.ComponentProps<typeof Skeleton>) 
     />
   );
 };
+
+export const ProfileImageSkeleton = (props: React.ComponentProps<typeof Skeleton>) => {
+  return (
+    <Skeleton
+      height={rem(160)}
+      width={rem(160)}
+      circle
+      sx={(_) => ({
+        '&::after': {
+          backgroundColor: BackgroundPanel,
+        },
+        '&::before': {
+          backgroundColor: BackgroundPanel2,
+        },
+      })}
+      {...props}
+    />
+  );
+};
+
+export const TextSkeleton = (props: React.ComponentProps<typeof Skeleton>) => {
+  return (
+    <Skeleton
+      height={rem(20)}
+      width={rem(200)}
+      sx={(_) => ({
+        '&::after': {
+          backgroundColor: BackgroundPanel,
+        },
+        '&::before': {
+          backgroundColor: BackgroundPanel2,
+        },
+      })}
+      {...props}
+    />
+  );
+};
