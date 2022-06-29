@@ -15,6 +15,7 @@ export const WithProjects: ComponentStory<typeof InfoHexBase> = (args) => {
   return (
     <InfoHexProfileDetail
       {...args}
+      isLoading={false}
       imgSrc={profileImg6 as unknown as string}
       name="miguelmota.eth"
       address="0xe4feb387cb1daff4bf9108581b116e5fa737bea2"
@@ -33,6 +34,7 @@ export const WithoutProjects: ComponentStory<typeof InfoHexBase> = (args) => {
   return (
     <InfoHexProfileDetail
       {...args}
+      isLoading={false}
       imgSrc={profileImg6 as unknown as string}
       name="miguelmota.eth"
       address="0xe4feb387cb1daff4bf9108581b116e5fa737bea2"

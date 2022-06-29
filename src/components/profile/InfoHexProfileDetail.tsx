@@ -5,27 +5,32 @@ import { Divider as DividerUI, Text } from '@mantine/core';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { DividerGray1, TextAccent, TextLight } from '../../colors';
 import { InfoHexBase } from '../shared/elements/InfoHexBase';
-import { Avatar as AvatarUI } from '../shared/elements/Avatar';
-import { CollapsibleAddress } from '../shared/elements/CollapsibleAddress';
 import { Project } from '../../types';
 import { ProjectHex } from '../shared/compounds/ProjectHex';
 import { Globe, GitHub, Twitter } from '../shared/elements/icons';
-import { Button } from '../shared/elements/Button';
-import { Share } from '../shared/elements/Share';
 import { useFeatures } from '../FeaturesContext';
+import {
+  ProfileImageSkeleton,
+  TextSkeleton,
+  Avatar as AvatarUI,
+  CollapsibleAddress,
+  Button,
+  Share,
+} from '../shared/elements';
 
 type Props = {
   imgSrc: string | null;
-  name: string;
-  address: string;
+  name: string | null;
+  address: string | null;
   ensName?: string | null;
-  bio?: string | null;
+  bio: string | null;
   twitterHref?: string;
   githubHref?: string;
   websiteHref?: string | null;
   projects?: Project[];
   onClickEditProfile: () => void;
   showEditProfileButton: boolean;
+  isLoading: boolean;
 };
 
 const Content = styled.div`
@@ -37,8 +42,11 @@ const Content = styled.div`
   padding: 0 ${rem(17)};
 `;
 
-const Avatar = styled(AvatarUI)`
+const ImageWrapper = styled.div`
   margin-bottom: ${rem(14)};
+`;
+
+const Avatar = styled(AvatarUI)`
   width: ${rem(160)};
   height: ${rem(160)};
 `;
@@ -46,7 +54,6 @@ const Avatar = styled(AvatarUI)`
 const JazzIcon = styled(JazzIconReact)`
   height: ${rem(160)};
   width: ${rem(160)};
-  margin-bottom: ${rem(14)};
 `;
 
 const Name = styled.div`
@@ -128,6 +135,7 @@ const ShareStyled = styled(Share)`
 `;
 
 export const InfoHexProfileDetail = ({
+  isLoading,
   imgSrc,
   name,
   address,
@@ -145,13 +153,27 @@ export const InfoHexProfileDetail = ({
   return (
     <StyledInfoHex>
       <Content>
-        {imgSrc && hasEnsAvatar ? (
-          <Avatar src={imgSrc} useDefaultImageTag />
+        <ImageWrapper>
+          {isLoading ? (
+            <ProfileImageSkeleton />
+          ) : imgSrc && hasEnsAvatar ? (
+            <Avatar src={imgSrc} useDefaultImageTag />
+          ) : address ? (
+            <JazzIcon address={address} />
+          ) : null}
+        </ImageWrapper>
+
+        {name ? (
+          <Name title={name}>{name}</Name>
         ) : (
-          <JazzIcon address={address} />
+          <TextSkeleton height={rem(36)} style={{ marginBottom: rem(17) }} />
         )}
-        <Name title={name}>{name}</Name>
-        <Address address={address} isCollapsed />
+
+        {address ? (
+          <Address address={address} isCollapsed />
+        ) : (
+          <TextSkeleton style={{ marginBottom: rem(17) }} />
+        )}
         {bio && <Bio>{bio}</Bio>}
         <Social>
           {twitterHref && (
@@ -192,7 +214,7 @@ export const InfoHexProfileDetail = ({
             })}
           </>
         )}
-        <ShareStyled textToCopy={textToCopy} />
+        {address && <ShareStyled textToCopy={textToCopy} />}
       </Content>
     </StyledInfoHex>
   );
