@@ -45,3 +45,18 @@ export const WithoutProjects: ComponentStory<typeof InfoHexBase> = (args) => {
     />
   );
 };
+
+export const Loading: ComponentStory<typeof InfoHexBase> = (args) => {
+  return (
+    <InfoHexProfileDetail
+      {...args}
+      isLoading={true}
+      imgSrc={null}
+      name={null}
+      address={null}
+      bio={null}
+      onClickEditProfile={() => console.warn('onClickEditProfile')}
+      showEditProfileButton={false}
+    />
+  );
+};
