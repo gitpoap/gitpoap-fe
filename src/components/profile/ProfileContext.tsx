@@ -32,6 +32,7 @@ type ProfileContext = {
   showEditProfileButton: boolean;
   isSaveSuccessful: boolean;
   setIsSaveSuccessful: Dispatch<SetStateAction<boolean>>;
+  isLoading: boolean;
 };
 
 const ProfileContext = createContext<ProfileContext>({} as ProfileContext);
@@ -147,6 +148,7 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
         setIsUpdateModalOpen,
         isSaveSuccessful,
         setIsSaveSuccessful,
+        isLoading: result.fetching,
       }}
     >
       {children}
