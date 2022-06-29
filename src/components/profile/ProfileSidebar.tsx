@@ -3,23 +3,32 @@ import { InfoHexProfileDetail } from './InfoHexProfileDetail';
 import { truncateAddress } from '../../helpers';
 import { useProfileContext } from './ProfileContext';
 
-export const ProfileSidebar = () => {
-  const { profileData, avatarURI, showEditProfileButton, setIsUpdateModalOpen } =
-    useProfileContext();
-
-  const sidebarAddress = profileData?.address;
-  const ensName = profileData?.ensName;
-
-  if (!sidebarAddress) {
+const getName = (ensName: string | null, address: string | null) => {
+  if (ensName) {
+    return ensName;
+  } else if (address) {
+    return truncateAddress(address, 10);
+  } else {
     return null;
   }
+};
+
+export const ProfileSidebar = () => {
+  const { profileData, avatarURI, showEditProfileButton, setIsUpdateModalOpen, isLoading } =
+    useProfileContext();
+
+  const sidebarAddress = profileData?.address ?? null;
+  const ensName = profileData?.ensName ?? null;
+  const bio = profileData?.bio ?? null;
+  const name = getName(ensName, sidebarAddress);
 
   return (
     <InfoHexProfileDetail
+      isLoading={isLoading}
       imgSrc={avatarURI}
-      name={ensName ?? truncateAddress(sidebarAddress, 10)}
+      name={name}
       address={sidebarAddress}
-      bio={profileData?.bio}
+      bio={bio}
       twitterHref={
         profileData?.twitterHandle ? `https://twitter.com/${profileData.twitterHandle}` : undefined
       }
