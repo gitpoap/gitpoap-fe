@@ -166,7 +166,7 @@ export const InfoHexProfileDetail = ({
         {name ? (
           <Name title={name}>{name}</Name>
         ) : (
-          <TextSkeleton height={rem(36)} style={{ marginBottom: rem(17) }} />
+          <TextSkeleton height={rem(42)} style={{ marginBottom: rem(10) }} />
         )}
 
         {address ? (
