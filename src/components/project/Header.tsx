@@ -11,11 +11,11 @@ import { OrgName, OrgLink, Wrapper } from '../gitpoap/Header';
 import { People, GitPOAP, Star, Globe, GitHub, Twitter } from '../shared/elements/icons';
 import { useRepoDataQuery, useRepoStarCountQuery } from '../../graphql/generated-gql';
 
-const Social = styled.div`
+export const Social = styled.div`
   margin: ${rem(23)} auto 0;
 `;
 
-const IconLink = styled(Link)`
+export const IconLink = styled(Link)`
   text-decoration: none;
   margin: 0 ${rem(8)};
 
@@ -25,7 +25,7 @@ const IconLink = styled(Link)`
   }
 `;
 
-const SubHeader = styled.div`
+export const SubHeader = styled.div`
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
@@ -33,7 +33,7 @@ const SubHeader = styled.div`
   min-height: ${rem(48)};
 `;
 
-const SubHeaderItem = styled.div`
+export const SubHeaderItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,14 +51,14 @@ const SubHeaderItem = styled.div`
 `;
 
 // reference to InfoHexProfileDetail - Name
-const SubHeaderItemCount = styled.div`
+export const SubHeaderItemCount = styled.div`
   font-family: VT323;
   font-size: ${rem(36)};
   line-height: ${rem(42)};
   color: ${TextAccent};
 `;
 
-const SubHeaderItemLabel = styled(Text)`
+export const SubHeaderItemLabel = styled(Text)`
   font-size: ${rem(15)};
   color: ${TextGray};
 `;

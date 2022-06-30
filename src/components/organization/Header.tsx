@@ -10,61 +10,17 @@ import { Link } from '../Link';
 import { Header as HeaderText } from '../shared/elements/Header';
 import { GitHub, GitPOAP, Globe, Minted, People, Project, Twitter } from '../shared/elements/icons';
 import { Text } from '../shared/elements/Text';
+import {
+  Social,
+  IconLink,
+  SubHeader,
+  SubHeaderItem,
+  SubHeaderItemCount,
+  SubHeaderItemLabel,
+} from '../project/Header';
 
 const HeaderWrapper = styled(Wrapper)`
   height: ${rem(600)};
-`;
-
-const Social = styled.div`
-  margin: ${rem(23)} auto 0;
-`;
-
-const IconLink = styled(Link)`
-  text-decoration: none;
-  margin: 0 ${rem(8)};
-
-  & > svg {
-    width: ${rem(24)};
-    height: ${rem(24)};
-  }
-`;
-
-const SubHeader = styled.div`
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  margin-top: ${rem(48)};
-  min-height: ${rem(48)};
-`;
-
-const SubHeaderItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0 ${rem(6)};
-
-  & > svg {
-    width: ${rem(30)};
-    height: ${rem(30)};
-  }
-
-  & > * {
-    margin-top: ${rem(4)};
-  }
-`;
-
-// reference to InfoHexProfileDetail - Name
-const SubHeaderItemCount = styled.div`
-  font-family: VT323;
-  font-size: ${rem(36)};
-  line-height: ${rem(42)};
-  color: ${TextAccent};
-`;
-
-const SubHeaderItemLabel = styled(Text)`
-  font-size: ${rem(15)};
-  color: ${TextGray};
 `;
 
 const OrganizationTag = styled.div`
