@@ -944,6 +944,7 @@ export type Query = {
   mostHonoredContributors: Array<ProfileWithClaimsCount>;
   organization?: Maybe<Organization>;
   organizationData?: Maybe<OrganizationData>;
+  organizationRepos?: Maybe<Array<RepoData>>;
   organizations: Array<Organization>;
   profile?: Maybe<Profile>;
   profileData?: Maybe<NullableProfile>;
@@ -1129,6 +1130,13 @@ export type QueryOrganizationArgs = {
 export type QueryOrganizationDataArgs = {
   orgId?: InputMaybe<Scalars['Float']>;
   orgName?: InputMaybe<Scalars['String']>;
+};
+
+export type QueryOrganizationReposArgs = {
+  orgId: Scalars['Float'];
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+  sort?: InputMaybe<Scalars['String']>;
 };
 
 export type QueryOrganizationsArgs = {
@@ -1891,6 +1899,8 @@ export type AdminClaimsQuery = {
     user: { __typename?: 'User'; id: number; githubHandle: string };
     gitPOAP: {
       __typename?: 'GitPOAP';
+      id: number;
+      year: number;
       repo: {
         __typename?: 'Repo';
         name: string;
@@ -2316,6 +2326,8 @@ export const AdminClaimsDocument = gql`
       createdAt
       mintedAt
       gitPOAP {
+        id
+        year
         repo {
           name
           organization {

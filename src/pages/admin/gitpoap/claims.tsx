@@ -52,6 +52,8 @@ const ClaimsDashboard: NextPage = () => {
         href: `https://github.com/${claim.gitPOAP.repo.organization.name}/${claim.gitPOAP.repo.name}`,
       },
       Status: { value: claim.status },
+      'GitPOAP ID': { value: claim.gitPOAP.id, href: `/gp/${claim.gitPOAP.id}` },
+      Year: { value: claim.gitPOAP.year },
       'Poap Token ID': { value: claim.poapTokenId ?? '' },
       Address: {
         value: truncateAddress(claim.address ?? '', 6) ?? '',

@@ -259,6 +259,8 @@ query adminClaims($count: Int!) {
     createdAt
     mintedAt
     gitPOAP {
+      id
+      year
       repo {
         name
         organization {
