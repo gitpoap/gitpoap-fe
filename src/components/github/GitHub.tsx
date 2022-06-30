@@ -127,7 +127,7 @@ export const GitHub = ({ className }: Props) => {
   ]);
 
   const claimGitPOAP = useCallback(
-    async (claimIds: number[], reward?: () => void) => {
+    async (claimIds: number[]) => {
       setLoadingClaimIds(claimIds);
       const address = await signer?.getAddress();
       const timestamp = Date.now();
@@ -168,7 +168,6 @@ export const GitHub = ({ className }: Props) => {
           setClaimedIds((prevClaimedIds) => [...prevClaimedIds, ...data.claimed]);
           refetch();
           setLoadingClaimIds([]);
-          reward && reward();
         }
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
