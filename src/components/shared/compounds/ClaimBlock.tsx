@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Button } from '../elements/Button';
+import { RewardBlue, RewardGold, RewardGreen, RewardRed, RewardYellow } from '../../../colors';
 import { GitPOAP } from './GitPOAP';
 import { FaCheckCircle, FaCoins, FaEthereum } from 'react-icons/fa';
 import { useReward } from 'react-rewards';
@@ -62,7 +63,7 @@ export const ClaimBlock = ({
   const [isClaimedPrev, setIsClaimedPrev] = useState<boolean>(!!isClaimed);
   const rewardId = 'rewardId-' + gitPOAPId;
   const { reward } = useReward(rewardId, 'confetti', {
-    colors: ['#307AE8', '#5CCA69', '#E1C232', '#E7A729', '#E54747'],
+    colors: [RewardBlue, RewardGold, RewardGreen, RewardRed, RewardYellow],
     elementCount: 100,
     spread: 60,
   });
