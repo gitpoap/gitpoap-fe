@@ -97,8 +97,10 @@ export const Header = ({ repoId }: Props) => {
   const [result] = useRepoDataQuery({ variables: { repoId } });
   const [resultStarCount] = useRepoStarCountQuery({ variables: { repoId } });
 
-  let repo = result?.data?.repoData;
-  let repoStarCount = resultStarCount?.data?.repoStarCount;
+  const repo = result?.data?.repoData;
+  const repoStarCount = resultStarCount?.data?.repoStarCount ?? null;
+  const contributorCount = repo?.contributorCount ?? null;
+  const mintedGitPOAPCount = repo?.mintedGitPOAPCount ?? null;
 
   return (
     <Wrapper>
@@ -152,21 +154,21 @@ export const Header = ({ repoId }: Props) => {
         )}
       </HexagonWrapper>
       <SubHeader>
-        {repo?.contributorCount && (
+        {contributorCount !== null && (
           <SubHeaderItem>
             <People />
-            <SubHeaderItemCount>{repo.contributorCount}</SubHeaderItemCount>
+            <SubHeaderItemCount>{contributorCount}</SubHeaderItemCount>
             <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
           </SubHeaderItem>
         )}
-        {repo?.mintedGitPOAPCount && (
+        {mintedGitPOAPCount !== null && (
           <SubHeaderItem>
             <GitPOAP />
-            <SubHeaderItemCount>{repo?.mintedGitPOAPCount}</SubHeaderItemCount>
+            <SubHeaderItemCount>{mintedGitPOAPCount}</SubHeaderItemCount>
             <SubHeaderItemLabel>{'Minted'}</SubHeaderItemLabel>
           </SubHeaderItem>
         )}
-        {repoStarCount !== undefined && (
+        {repoStarCount !== null && (
           <SubHeaderItem>
             <Star />
             <SubHeaderItemCount>{repoStarCount}</SubHeaderItemCount>
