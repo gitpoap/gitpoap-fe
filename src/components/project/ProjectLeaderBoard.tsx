@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Header } from '../shared/elements/Header';
+import { MdEmojiPeople } from 'react-icons/md';
+import { Group } from '@mantine/core';
+import { Header, InfoHexBase, Text as TextUI } from '../shared/elements';
 import { BREAKPOINTS } from '../../constants';
-import { InfoHexBase } from '../shared/elements/InfoHexBase';
 import { LeaderBoardItem } from '../home/LeaderBoardItem';
 import { useRepoLeadersQuery } from '../../graphql/generated-gql';
+import { TextDarkGray } from '../../colors';
 
 const Wrapper = styled(InfoHexBase)`
   display: inline-flex;
@@ -38,6 +40,26 @@ const List = styled.div`
   margin-top: ${rem(30)};
 `;
 
+type EmptyStateProps = {
+  icon?: React.ReactNode;
+  children: React.ReactNode;
+};
+
+export const EmptyState = ({ children, icon }: EmptyStateProps) => {
+  return (
+    <Group
+      direction="column"
+      position="center"
+      align="center"
+      grow
+      style={{ padding: rem(30), flex: '1' }}
+    >
+      {icon && icon}
+      {children}
+    </Group>
+  );
+};
+
 export type ProjectLeaderBoardProps = {
   repoId: number;
 };
@@ -50,14 +72,22 @@ export const ProjectLeaderBoard = ({ repoId }: ProjectLeaderBoardProps) => {
     },
   });
 
+  const contributors = result.data?.repoMostHonoredContributors;
+
   return (
     <Wrapper>
       <Content>
         <HeaderStyled>{'Top contributors'}</HeaderStyled>
         <List>
-          {result.data?.repoMostHonoredContributors.map((item) => (
-            <LeaderBoardItem key={item.profile.id} {...item} />
-          ))}
+          {contributors && contributors?.length > 0 ? (
+            contributors.map((contributor) => {
+              return <LeaderBoardItem key={contributor.profile.id} {...contributor} />;
+            })
+          ) : (
+            <EmptyState icon={<MdEmojiPeople color={TextDarkGray} size={rem(74)} />}>
+              <TextUI style={{ marginTop: rem(20) }}>{`Nobody's here yet..`}</TextUI>
+            </EmptyState>
+          )}
         </List>
       </Content>
     </Wrapper>
