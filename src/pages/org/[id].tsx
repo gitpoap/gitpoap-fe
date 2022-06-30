@@ -140,10 +140,10 @@ export async function getServerSideProps(context: NextPageContext) {
     },
     false,
   );
-  const id = parseInt(context.query.id as string);
+  const orgId = parseInt(context.query.id as string);
   const results = await client!
     .query<OrganizationDataQuery>(OrganizationDataDocument, {
-      id,
+      orgId,
     })
     .toPromise();
 
