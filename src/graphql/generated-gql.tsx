@@ -1957,6 +1957,44 @@ export type AllReposQuery = {
   }>;
 };
 
+export type OrganizationDataQueryVariables = Exact<{
+  orgId: Scalars['Float'];
+}>;
+
+export type OrganizationDataQuery = {
+  __typename?: 'Query';
+  organizationData?: {
+    __typename?: 'OrganizationData';
+    id: number;
+    name: string;
+    description?: string | null;
+    twitterHandle?: string | null;
+    url?: string | null;
+    contributorCount: number;
+    gitPOAPCount: number;
+    mintedGitPOAPCount: number;
+    projectCount: number;
+  } | null;
+};
+
+export type OrganizationReposQueryVariables = Exact<{
+  orgId: Scalars['Float'];
+  sort?: InputMaybe<Scalars['String']>;
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+}>;
+
+export type OrganizationReposQuery = {
+  __typename?: 'Query';
+  organizationRepos?: Array<{
+    __typename?: 'RepoData';
+    id: number;
+    name: string;
+    contributorCount: number;
+    mintedGitPOAPCount: number;
+  }> | null;
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -2402,4 +2440,41 @@ export function useAllReposQuery(
   options: Omit<Urql.UseQueryArgs<AllReposQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<AllReposQuery>({ query: AllReposDocument, ...options });
+}
+export const OrganizationDataDocument = gql`
+  query organizationData($orgId: Float!) {
+    organizationData(orgId: $orgId) {
+      id
+      name
+      description
+      twitterHandle
+      url
+      contributorCount
+      gitPOAPCount
+      mintedGitPOAPCount
+      projectCount
+    }
+  }
+`;
+
+export function useOrganizationDataQuery(
+  options: Omit<Urql.UseQueryArgs<OrganizationDataQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<OrganizationDataQuery>({ query: OrganizationDataDocument, ...options });
+}
+export const OrganizationReposDocument = gql`
+  query organizationRepos($orgId: Float!, $sort: String, $page: Float, $perPage: Float) {
+    organizationRepos(orgId: $orgId, sort: $sort, page: $page, perPage: $perPage) {
+      id
+      name
+      contributorCount
+      mintedGitPOAPCount
+    }
+  }
+`;
+
+export function useOrganizationReposQuery(
+  options: Omit<Urql.UseQueryArgs<OrganizationReposQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<OrganizationReposQuery>({ query: OrganizationReposDocument, ...options });
 }

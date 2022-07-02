@@ -8,6 +8,7 @@ export * from './GitPOAPLogoTransparent';
 export { GitPOAPLogo as GitPOAPLogoWhite } from './GitPOAPLogoWhite';
 export * from './Globe';
 export * from './MetaMaskLogo';
+export * from './Minted';
 export * from './Moon';
 export * from './People';
 export * from './Project';
