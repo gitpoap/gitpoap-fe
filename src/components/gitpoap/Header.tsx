@@ -107,7 +107,6 @@ export const Header = ({ gitPOAPId }: Props) => {
               <OrgLink>{`${repo.organization.name}`}</OrgLink>
             </Link>
             {`/`}
-
             <Link href={`/rp/${repo.id}`} passHref>
               <OrgLink>{repo.name}</OrgLink>
             </Link>

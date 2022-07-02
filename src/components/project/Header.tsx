@@ -2,8 +2,7 @@ import { rem } from 'polished';
 import React from 'react';
 import styled from 'styled-components';
 import { ProjectHeaderHexagon } from './ProjectHeaderHexagon';
-import { Header as HeaderText } from '../shared/elements/Header';
-import { Text } from '../shared/elements/Text';
+import { Header as HeaderText, Text } from '../shared/elements';
 import { TextAccent, TextGray } from '../../colors';
 import { Link } from '../Link';
 import { SEO } from '../../components/SEO';
@@ -119,11 +118,10 @@ export const Header = ({ repoId }: Props) => {
             <HeaderText>{repo.name}</HeaderText>
             {/* {repo?.description && <Text style={{ paddingTop: rem(13) }}>{repo.description}</Text>} */}
             <OrgNameStyled>
-              {'by ' + repo.organization.name}
-              {/* TODO: Add link when organization page is complete */}
-              {/* <Link href={`/o/${repo.organization.id}`} passHref>
+              {'by '}
+              <Link href={`/org/${repo.organization.id}`} passHref>
                 <OrgLink>{repo.organization.name}</OrgLink>
-              </Link> */}
+              </Link>
             </OrgNameStyled>
             <Social>
               {repo.organization.twitterHandle && (
