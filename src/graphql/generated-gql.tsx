@@ -1330,6 +1330,7 @@ export type RepoData = {
   _count?: Maybe<RepoCount>;
   contributorCount: Scalars['Float'];
   createdAt: Scalars['DateTime'];
+  gitPOAPCount: Scalars['Float'];
   gitPOAPs: Array<GitPoap>;
   githubRepoId: Scalars['Int'];
   id: Scalars['Int'];
@@ -1903,8 +1904,9 @@ export type AdminClaimsQuery = {
       year: number;
       repo: {
         __typename?: 'Repo';
+        id: number;
         name: string;
-        organization: { __typename?: 'Organization'; name: string };
+        organization: { __typename?: 'Organization'; id: number; name: string };
       };
     };
   }>;
@@ -2367,8 +2369,10 @@ export const AdminClaimsDocument = gql`
         id
         year
         repo {
+          id
           name
           organization {
+            id
             name
           }
         }

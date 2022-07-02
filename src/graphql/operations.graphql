@@ -262,8 +262,10 @@ query adminClaims($count: Int!) {
       id
       year
       repo {
+        id
         name
         organization {
+          id
           name
         }
       }
