@@ -47,11 +47,9 @@ export const Header = ({ org }: Props) => (
           <Twitter />
         </IconLink>
       )}
-      {org.name && (
-        <IconLink href={`https://github.com/${org.name}`} target="_blank" rel="noreferrer">
-          <GitHub />
-        </IconLink>
-      )}
+      <IconLink href={`https://github.com/${org.name}`} target="_blank" rel="noreferrer">
+        <GitHub />
+      </IconLink>
       {org.url && (
         <IconLink href={org.url} target="_blank" rel="noreferrer">
           <Globe />
@@ -59,34 +57,26 @@ export const Header = ({ org }: Props) => (
       )}
     </Social>
     <SubHeader>
-      {org.contributorCount && (
-        <SubHeaderItem>
-          <People />
-          <SubHeaderItemCount>{org.contributorCount}</SubHeaderItemCount>
-          <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
-        </SubHeaderItem>
-      )}
-      {org.gitPOAPCount && (
-        <SubHeaderItem>
-          <GitPOAP />
-          <SubHeaderItemCount>{org.gitPOAPCount}</SubHeaderItemCount>
-          <SubHeaderItemLabel>{'GitPOAPs'}</SubHeaderItemLabel>
-        </SubHeaderItem>
-      )}
-      {org.mintedGitPOAPCount && (
-        <SubHeaderItem>
-          <Minted />
-          <SubHeaderItemCount>{org.mintedGitPOAPCount}</SubHeaderItemCount>
-          <SubHeaderItemLabel>{'Minted'}</SubHeaderItemLabel>
-        </SubHeaderItem>
-      )}
-      {org.projectCount && (
-        <SubHeaderItem>
-          <Project />
-          <SubHeaderItemCount>{org.projectCount}</SubHeaderItemCount>
-          <SubHeaderItemLabel>{'Projects'}</SubHeaderItemLabel>
-        </SubHeaderItem>
-      )}
+      <SubHeaderItem>
+        <People />
+        <SubHeaderItemCount>{org.contributorCount}</SubHeaderItemCount>
+        <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
+      </SubHeaderItem>
+      <SubHeaderItem>
+        <GitPOAP />
+        <SubHeaderItemCount>{org.gitPOAPCount}</SubHeaderItemCount>
+        <SubHeaderItemLabel>{'GitPOAPs'}</SubHeaderItemLabel>
+      </SubHeaderItem>
+      <SubHeaderItem>
+        <Minted />
+        <SubHeaderItemCount>{org.mintedGitPOAPCount}</SubHeaderItemCount>
+        <SubHeaderItemLabel>{'Minted'}</SubHeaderItemLabel>
+      </SubHeaderItem>
+      <SubHeaderItem>
+        <Project />
+        <SubHeaderItemCount>{org.projectCount}</SubHeaderItemCount>
+        <SubHeaderItemLabel>{'Projects'}</SubHeaderItemLabel>
+      </SubHeaderItem>
     </SubHeader>
   </HeaderWrapper>
 );
