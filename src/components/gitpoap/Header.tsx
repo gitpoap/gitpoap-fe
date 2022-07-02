@@ -4,13 +4,9 @@ import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { Button } from '../shared/elements/Button';
-import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
-import { Header as HeaderText } from '../shared/elements/Header';
-import { Text } from '../shared/elements/Text';
+import { Text, Button, Header as HeaderText, Title, GitPOAPBadge } from '../shared/elements';
 import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { useFeatures } from '../../components/FeaturesContext';
-import { Title } from '../shared/elements/Title';
 import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
 
@@ -53,6 +49,7 @@ export const OrgName = styled(Text)`
 `;
 
 export const OrgLink = styled(Title)`
+  font-size: ${rem(16)};
   color: ${TextAccent};
 `;
 
@@ -90,8 +87,9 @@ export const Header = ({ gitPOAPId }: Props) => {
       id: gitPOAPId,
     },
   });
-  let event = result?.data?.gitPOAPEvent?.event;
-  let repo = result?.data?.gitPOAPEvent?.gitPOAP.repo;
+  const event = result?.data?.gitPOAPEvent?.event;
+  const repo = result?.data?.gitPOAPEvent?.gitPOAP.repo;
+  const org = result?.data?.gitPOAPEvent?.gitPOAP.repo.organization;
 
   const { setIsOpen } = useClaimModalContext();
   const features = useFeatures();
@@ -101,10 +99,15 @@ export const Header = ({ gitPOAPId }: Props) => {
       <Badge size="lg" imgUrl={event?.image_url ?? ''} />
       <TitleStyled>{event?.name.replace('GitPOAP: ', '')}</TitleStyled>
       <Description>{event?.description}</Description>
-      {repo && (
+      {repo && org && (
         <>
           <OrgName>
-            {`by ${repo.organization.name}/`}
+            {`by `}
+            <Link href={`/org/${org.id}`} passHref>
+              <OrgLink>{`${repo.organization.name}`}</OrgLink>
+            </Link>
+            {`/`}
+
             <Link href={`/rp/${repo.id}`} passHref>
               <OrgLink>{repo.name}</OrgLink>
             </Link>
