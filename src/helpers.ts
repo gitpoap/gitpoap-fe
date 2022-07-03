@@ -3,8 +3,12 @@ export function shortenAddress(address: string, chars = 4): string {
   return `${address.substring(0, chars + 2)}...${address.substring(42 - chars)}`;
 }
 
-export const truncateAddress = (address: string, startChars: number = 14): string => {
-  return address.slice(0, startChars) + '...' + address.slice(-4);
+export const truncateAddress = (
+  address: string,
+  startChars: number = 14,
+  endChars: number = 4,
+): string => {
+  return address.slice(0, startChars) + '...' + address.slice(-endChars);
 };
 
 export const truncateString = (str: string, maxLength: number): string => {
