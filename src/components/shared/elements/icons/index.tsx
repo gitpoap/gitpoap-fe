@@ -1,6 +1,7 @@
 export * from './BaseIcon';
 export * from './CaretDown';
 export * from './CaretUp';
+export * from './Forked';
 export * from './GitHub';
 export * from './GitPOAP';
 export * from './GitPOAPLogo';
