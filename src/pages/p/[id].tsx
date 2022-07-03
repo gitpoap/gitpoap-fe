@@ -42,17 +42,14 @@ type PageProps = {
 };
 
 const Profile: Page<PageProps> = (props) => {
+  const seoTitle = isAddress(props.addressOrEns)
+    ? truncateAddress(props.addressOrEns ?? '', 8, 4)
+    : props.addressOrEns;
   return (
     <>
       <SEO
-        title={`${
-          isAddress(props.addressOrEns)
-            ? truncateAddress(props.addressOrEns ?? '', 4)
-            : props.addressOrEns
-        } | GitPOAP`}
-        description={
-          'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
-        }
+        title={`${seoTitle} | GitPOAP`}
+        description={`View ${seoTitle}'s profile on GitPOAP - a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.`}
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/p/${props.addressOrEns}`}
       />
