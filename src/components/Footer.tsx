@@ -117,10 +117,6 @@ const Subscribe = styled(Box)`
   }
 `;
 
-const SmallFooterText = styled(FooterText)`
-  font-size: ${rem(11)};
-`;
-
 const LinkColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -264,9 +260,6 @@ export const Footer = () => {
               "We're memorializing software contributions as POAPs to help usher in new era of #web3"
             }
           </FooterText>
-          <SmallFooterText style={{ marginTop: rem(14) }}>
-            {'Last product update: May 2022'}
-          </SmallFooterText>
         </GitPOAPContent>
 
         <FooterLinks>
