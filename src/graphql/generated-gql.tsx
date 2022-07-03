@@ -1913,7 +1913,9 @@ export type AdminClaimsQuery = {
 };
 
 export type RepoDataQueryVariables = Exact<{
-  repoId: Scalars['Float'];
+  repoId?: InputMaybe<Scalars['Float']>;
+  orgName?: InputMaybe<Scalars['String']>;
+  repoName?: InputMaybe<Scalars['String']>;
 }>;
 
 export type RepoDataQuery = {
@@ -1960,7 +1962,8 @@ export type AllReposQuery = {
 };
 
 export type OrganizationDataQueryVariables = Exact<{
-  orgId: Scalars['Float'];
+  orgId?: InputMaybe<Scalars['Float']>;
+  orgName?: InputMaybe<Scalars['String']>;
 }>;
 
 export type OrganizationDataQuery = {
@@ -2387,8 +2390,8 @@ export function useAdminClaimsQuery(
   return Urql.useQuery<AdminClaimsQuery>({ query: AdminClaimsDocument, ...options });
 }
 export const RepoDataDocument = gql`
-  query repoData($repoId: Float!) {
-    repoData(repoId: $repoId) {
+  query repoData($repoId: Float, $orgName: String, $repoName: String) {
+    repoData(repoId: $repoId, orgName: $orgName, repoName: $repoName) {
       id
       name
       githubRepoId
@@ -2409,7 +2412,7 @@ export const RepoDataDocument = gql`
 `;
 
 export function useRepoDataQuery(
-  options: Omit<Urql.UseQueryArgs<RepoDataQueryVariables>, 'query'>,
+  options?: Omit<Urql.UseQueryArgs<RepoDataQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<RepoDataQuery>({ query: RepoDataDocument, ...options });
 }
@@ -2446,8 +2449,8 @@ export function useAllReposQuery(
   return Urql.useQuery<AllReposQuery>({ query: AllReposDocument, ...options });
 }
 export const OrganizationDataDocument = gql`
-  query organizationData($orgId: Float!) {
-    organizationData(orgId: $orgId) {
+  query organizationData($orgId: Float, $orgName: String) {
+    organizationData(orgId: $orgId, orgName: $orgName) {
       id
       name
       description
@@ -2462,7 +2465,7 @@ export const OrganizationDataDocument = gql`
 `;
 
 export function useOrganizationDataQuery(
-  options: Omit<Urql.UseQueryArgs<OrganizationDataQueryVariables>, 'query'>,
+  options?: Omit<Urql.UseQueryArgs<OrganizationDataQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<OrganizationDataQuery>({ query: OrganizationDataDocument, ...options });
 }

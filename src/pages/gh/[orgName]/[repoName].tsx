@@ -8,17 +8,17 @@ import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 
 import { Grid } from '@mantine/core';
 
-import { Page } from '../_app';
-import { MidnightBlue } from '../../colors';
-import { BackgroundHexes } from '../../components/project/BackgroundHexes';
-import { GitPOAPs } from '../../components/project/GitPOAPs';
-import { ProjectLeaderBoard } from '../../components/project/ProjectLeaderBoard';
-import { Header as PageHeader } from '../../components/project/Header';
-import { SEO } from '../../components/SEO';
-import { Layout } from '../../components/Layout';
-import { Header } from '../../components/shared/elements/Header';
-import { BREAKPOINTS, ONE_DAY } from '../../constants';
-import { RepoDataQuery, RepoDataDocument } from '../../graphql/generated-gql';
+import { Page } from '../../_app';
+import { MidnightBlue } from '../../../colors';
+import { BackgroundHexes } from '../../../components/project/BackgroundHexes';
+import { GitPOAPs } from '../../../components/project/GitPOAPs';
+import { ProjectLeaderBoard } from '../../../components/project/ProjectLeaderBoard';
+import { Header as PageHeader } from '../../../components/project/Header';
+import { Layout } from '../../../components/Layout';
+import { Header } from '../../../components/shared/elements/Header';
+import { BREAKPOINTS, ONE_DAY } from '../../../constants';
+import { RepoDataQuery, RepoDataDocument } from '../../../graphql/generated-gql';
+import { SEO } from '../../../components/SEO';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;
@@ -68,10 +68,6 @@ const GitPOAPsWrapper = styled.div`
   }
 `;
 
-const ProjectNotFound = styled(Header)`
-  margin-top: ${rem(284)};
-`;
-
 const ProjectLeaderBoardWrapper = styled.div`
   width: ${rem(348)};
 
@@ -84,22 +80,20 @@ const ProjectLeaderBoardWrapper = styled.div`
   }
 `;
 
+const ProjectNotFound = styled(Header)`
+  margin-top: ${rem(284)};
+`;
+
 type PageProps = {
   data: RepoDataQuery;
 };
 
 const Project: Page<PageProps> = (props) => {
   const router = useRouter();
-  const { id } = router.query;
+  const { orgName, repoName } = router.query;
 
-  if (typeof id !== 'string') {
+  if (typeof orgName !== 'string' || typeof repoName !== 'string') {
     return <></>;
-  }
-
-  const repoId = parseInt(id);
-
-  if (isNaN(repoId)) {
-    return <Error>{'404'}</Error>;
   }
 
   const repo = props.data.repoData;
@@ -107,12 +101,12 @@ const Project: Page<PageProps> = (props) => {
   return (
     <Grid justify="center" style={{ zIndex: 1 }}>
       <SEO
-        title={`${repo?.name ?? 'GitPOAP'} | GitPOAP`}
+        title={`${repoName} | GitPOAP`}
         description={
           'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
         }
         image={'https://gitpoap.io/og-image-512x512.png'}
-        url={`https://gitpoap.io/rp/${repoId}`}
+        url={`https://gitpoap.io/gh/${orgName}/${repoName}`}
       />
       <Background />
       {repo ? (
@@ -124,10 +118,10 @@ const Project: Page<PageProps> = (props) => {
           <Grid.Col>
             <ContentWrapper>
               <GitPOAPsWrapper>
-                <GitPOAPs repoId={repoId} />
+                <GitPOAPs repoId={repo.id} />
               </GitPOAPsWrapper>
               <ProjectLeaderBoardWrapper>
-                <ProjectLeaderBoard repoId={repoId} />
+                <ProjectLeaderBoard repoId={repo.id} />
               </ProjectLeaderBoardWrapper>
             </ContentWrapper>
           </Grid.Col>
@@ -153,10 +147,12 @@ export async function getServerSideProps(context: NextPageContext) {
     },
     false,
   );
-  const repoId = parseInt(context.query.id as string);
+  const orgName = context.query.orgName;
+  const repoName = context.query.repoName;
   const results = await client!
     .query<RepoDataQuery>(RepoDataDocument, {
-      repoId,
+      orgName,
+      repoName,
     })
     .toPromise();
 

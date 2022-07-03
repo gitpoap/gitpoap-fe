@@ -5,10 +5,9 @@ import { ProjectHeaderHexagon } from './ProjectHeaderHexagon';
 import { Header as HeaderText, Text } from '../shared/elements';
 import { TextAccent, TextGray } from '../../colors';
 import { Link } from '../Link';
-import { SEO } from '../../components/SEO';
 import { OrgName, OrgLink, Wrapper } from '../gitpoap/Header';
 import { People, GitPOAP, Star, Globe, GitHub, Twitter } from '../shared/elements/icons';
-import { useRepoDataQuery, useRepoStarCountQuery } from '../../graphql/generated-gql';
+import { RepoDataQuery, useRepoStarCountQuery } from '../../graphql/generated-gql';
 
 export const Social = styled.div`
   margin: ${rem(23)} auto 0;
@@ -89,90 +88,63 @@ const OrgNameStyled = styled(OrgName)`
 `;
 
 type Props = {
-  repoId: number;
+  repo: Exclude<RepoDataQuery['repoData'], null | undefined>;
 };
 
-export const Header = ({ repoId }: Props) => {
-  const [result] = useRepoDataQuery({ variables: { repoId } });
-  const [resultStarCount] = useRepoStarCountQuery({ variables: { repoId } });
-
-  const repo = result?.data?.repoData;
-  const repoStarCount = resultStarCount?.data?.repoStarCount ?? null;
-  const contributorCount = repo?.contributorCount ?? null;
-  const mintedGitPOAPCount = repo?.mintedGitPOAPCount ?? null;
+export const Header = ({ repo }: Props) => {
+  const [resultStarCount] = useRepoStarCountQuery({ variables: { repoId: repo.id } });
 
   return (
     <Wrapper>
-      <SEO
-        title={`${repo?.name.replace('GitPOAP: ', '') ?? 'GitPOAP'} | GitPOAP`}
-        description={
-          'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
-        }
-        image={'https://gitpoap.io/og-image-512x512.png'}
-        url={`https://gitpoap.io/rp/${repoId}`}
-      />
       <HexagonWrapper>
         <StyledHeaderHexagon />
-        {repo && (
-          <div>
-            <HeaderText>{repo.name}</HeaderText>
-            {/* {repo?.description && <Text style={{ paddingTop: rem(13) }}>{repo.description}</Text>} */}
-            <OrgNameStyled>
-              {'by '}
-              <Link href={`/org/${repo.organization.id}`} passHref>
-                <OrgLink>{repo.organization.name}</OrgLink>
-              </Link>
-            </OrgNameStyled>
-            <Social>
-              {repo.organization.twitterHandle && (
-                <IconLink
-                  href={`https://twitter.com/${repo.organization.twitterHandle}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Twitter />
-                </IconLink>
-              )}
-              {repo.organization.name && (
-                <IconLink
-                  href={`https://github.com/${repo.organization.name}/${repo.name}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <GitHub />
-                </IconLink>
-              )}
-              {repo.organization.url && (
-                <IconLink href={repo.organization.url} target="_blank" rel="noreferrer">
-                  <Globe />
-                </IconLink>
-              )}
-            </Social>
-          </div>
-        )}
+        <HeaderText>{repo.name}</HeaderText>
+        <OrgNameStyled>
+          {'by '}
+          <Link href={`/org/${repo.organization.id}`} passHref>
+            <OrgLink>{repo.organization.name}</OrgLink>
+          </Link>
+        </OrgNameStyled>
+        <Social>
+          {repo.organization.twitterHandle && (
+            <IconLink
+              href={`https://twitter.com/${repo.organization.twitterHandle}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Twitter />
+            </IconLink>
+          )}
+          <IconLink
+            href={`https://github.com/${repo.organization.name}/${repo.name}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <GitHub />
+          </IconLink>
+          {repo.organization.url && (
+            <IconLink href={repo.organization.url} target="_blank" rel="noreferrer">
+              <Globe />
+            </IconLink>
+          )}
+        </Social>
       </HexagonWrapper>
       <SubHeader>
-        {contributorCount !== null && (
-          <SubHeaderItem>
-            <People />
-            <SubHeaderItemCount>{contributorCount}</SubHeaderItemCount>
-            <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
-          </SubHeaderItem>
-        )}
-        {mintedGitPOAPCount !== null && (
-          <SubHeaderItem>
-            <GitPOAP />
-            <SubHeaderItemCount>{mintedGitPOAPCount}</SubHeaderItemCount>
-            <SubHeaderItemLabel>{'Minted'}</SubHeaderItemLabel>
-          </SubHeaderItem>
-        )}
-        {repoStarCount !== null && (
-          <SubHeaderItem>
-            <Star />
-            <SubHeaderItemCount>{repoStarCount}</SubHeaderItemCount>
-            <SubHeaderItemLabel>{'Stars'}</SubHeaderItemLabel>
-          </SubHeaderItem>
-        )}
+        <SubHeaderItem>
+          <People />
+          <SubHeaderItemCount>{repo.contributorCount}</SubHeaderItemCount>
+          <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
+        </SubHeaderItem>
+        <SubHeaderItem>
+          <GitPOAP />
+          <SubHeaderItemCount>{repo.mintedGitPOAPCount}</SubHeaderItemCount>
+          <SubHeaderItemLabel>{'Minted'}</SubHeaderItemLabel>
+        </SubHeaderItem>
+        <SubHeaderItem>
+          <Star />
+          <SubHeaderItemCount>{resultStarCount?.data?.repoStarCount ?? 0}</SubHeaderItemCount>
+          <SubHeaderItemLabel>{'Stars'}</SubHeaderItemLabel>
+        </SubHeaderItem>
       </SubHeader>
     </Wrapper>
   );

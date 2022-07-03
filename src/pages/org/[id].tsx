@@ -8,7 +8,7 @@ import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 
 import { Page } from '../_app';
 import { Layout } from '../../components/Layout';
-import { Grid, Loader } from '@mantine/core';
+import { Grid } from '@mantine/core';
 import { MidnightBlue } from '../../colors';
 import { SEO } from '../../components/SEO';
 import { BREAKPOINTS } from '../../constants';
@@ -43,10 +43,6 @@ const OrgNotFound = styled(Header)`
   margin-top: ${rem(284)};
 `;
 
-const Loading = styled(Loader)`
-  margin-top: ${rem(284)};
-`;
-
 const ContentWrapper = styled.div`
   margin: ${rem(100)} ${rem(48)};
   display: flex;
@@ -78,7 +74,7 @@ type PageProps = {
   data: OrganizationDataQuery;
 };
 
-const Project: Page<PageProps> = (props) => {
+const Organization: Page<PageProps> = (props) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -158,7 +154,7 @@ export async function getServerSideProps(context: NextPageContext) {
 }
 
 /* Custom layout function for this page */
-Project.getLayout = (page: React.ReactNode) => {
+Organization.getLayout = (page: React.ReactNode) => {
   return <Layout>{page}</Layout>;
 };
 
@@ -167,4 +163,4 @@ export default withUrqlClient(
     url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
   }),
   { ssr: false }, // Important so we don't wrap our component in getInitialProps
-)(Project);
+)(Organization);

@@ -273,8 +273,8 @@ query adminClaims($count: Int!) {
   }
 }
 
-query repoData($repoId: Float!) {
-  repoData(repoId: $repoId) {
+query repoData($repoId: Float, $orgName: String, $repoName: String) {
+  repoData(repoId: $repoId, orgName: $orgName, repoName: $repoName) {
     id
     name
     githubRepoId
@@ -312,8 +312,8 @@ query allRepos($count: Int!) {
   }
 }
 
-query organizationData($orgId: Float!) {
-  organizationData(orgId: $orgId) {
+query organizationData($orgId: Float, $orgName: String) {
+  organizationData(orgId: $orgId, orgName: $orgName) {
     id
     name
     description
