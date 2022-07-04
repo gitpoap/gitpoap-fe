@@ -305,7 +305,23 @@ query allRepos($count: Int!) {
       name
     }
     createdAt
+    gitPOAPs {
+      id
+    }
+  }
+}
 
+# Query primarily used on the Repos page
+query allReposOnRepoPage($sort: String, $page: Float, $perPage: Float) {
+  allRepos(sort: $sort, page: $page, perPage: $perPage) {
+    id
+    name
+    githubRepoId
+    # claimCount - use once backend changes are in
+    # uniqueContributorCount - use once backend changes are in
+    organization {
+      name
+    }
     gitPOAPs {
       id
     }
@@ -333,4 +349,8 @@ query organizationRepos($orgId: Float!, $sort: String, $page: Float, $perPage: F
     contributorCount
     mintedGitPOAPCount
   }
+}
+
+query totalRepoCount {
+  totalRepos
 }
