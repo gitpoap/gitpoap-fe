@@ -33,7 +33,7 @@ const List = styled.div`
 export const LeaderBoard = () => {
   const [result] = useLeadersQuery({
     variables: {
-      count: 6,
+      count: 8,
     },
   });
 
