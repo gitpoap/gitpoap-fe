@@ -15,7 +15,11 @@ const Content = styled.div`
   color: white;
 `;
 
-export const Wallet = () => {
+type Props = {
+  hideText?: boolean;
+};
+
+export const Wallet = ({ hideText }: Props) => {
   const { connectionStatus, address, connect, disconnect, ensName } = useWeb3Context();
   const [isHovering, setIsHovering] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -49,11 +53,14 @@ export const Wallet = () => {
               }}
               address={address}
               ensName={ensName}
+              hideText={hideText}
             />
           }
         />
       ) : (
-        <Button onClick={() => connect()}>{'Connect Wallet'}</Button>
+        <Button onClick={() => connect()}>
+          {!hideText ? 'Connect Wallet' : <FaEthereum size={16} />}
+        </Button>
       )}
     </Content>
   );
