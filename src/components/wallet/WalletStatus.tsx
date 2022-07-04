@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { Button } from '../shared/elements/Button';
@@ -8,6 +8,7 @@ type Props = {
   address: string;
   onClick: React.MouseEventHandler<HTMLDivElement>;
   ensName: string | null;
+  hideText?: boolean;
 };
 
 const Container = styled(Button)`
@@ -15,18 +16,32 @@ const Container = styled(Button)`
   flex-direction: row;
   align-items: center;
   cursor: pointer;
+  min-height: ${rem(34)};
 `;
 
-const JazzIcon = styled(JazzIconReact)`
+const JazzIconStyles = css`
   border-radius: 50%;
-  margin-left: ${rem(5)};
   height: ${rem(16)};
   width: ${rem(16)};
 `;
 
-export const WalletStatus = (props: Props) => {
-  const { address, onClick, ensName } = props;
+const JazzIcon = styled(JazzIconReact)`
+  ${JazzIconStyles}
+  margin-left: ${rem(5)};
+`;
 
+const JazzIconNoText = styled(JazzIconReact)`
+  ${JazzIconStyles}
+`;
+
+export const WalletStatus = ({ address, onClick, ensName, hideText }: Props) => {
+  if (hideText) {
+    return (
+      <Container onClick={onClick} variant="outline">
+        <JazzIconNoText address={address} />
+      </Container>
+    );
+  }
   return (
     <Container leftIcon={<JazzIcon address={address} />} onClick={onClick} variant="outline">
       {ensName ? ensName : shortenAddress(address)}
