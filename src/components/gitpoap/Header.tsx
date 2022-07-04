@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
-import { Link } from '../Link';
+import { Link, IconLink } from '../Link';
 import { Text, Button, Header as HeaderText, Title, GitPOAPBadge } from '../shared/elements';
 import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { useFeatures } from '../../components/FeaturesContext';
@@ -68,13 +68,8 @@ const Links = styled.div`
   margin-top: ${rem(18)};
 `;
 
-const StyledLink = styled(Link)`
-  color: ${TextGray};
+const StyledLink = styled(IconLink)`
   margin: 0 ${rem(12)};
-
-  svg {
-    fill: currentColor;
-  }
 `;
 
 const CheckEligibilityButton = styled(Button)`

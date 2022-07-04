@@ -9,7 +9,7 @@ import { GitHub, GitPOAP, Globe, Minted, People, Project, Twitter } from '../sha
 import { Text } from '../shared/elements/Text';
 import {
   Social,
-  IconLink,
+  StyledLink,
   SubHeader,
   SubHeaderItem,
   SubHeaderItemCount,
@@ -36,21 +36,26 @@ export const Header = ({ org }: Props) => (
     {org.description && <Text style={{ paddingTop: rem(13) }}>{org.description}</Text>}
     <Social>
       {org.twitterHandle && (
-        <IconLink
+        <StyledLink
           href={`https://twitter.com/${org.twitterHandle}`}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           <Twitter />
-        </IconLink>
+        </StyledLink>
       )}
-      <IconLink href={`https://github.com/${org.name}`} target="_blank" rel="noreferrer">
+      <StyledLink
+        href={`https://github.com/${org.name}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        passHref
+      >
         <GitHub />
-      </IconLink>
+      </StyledLink>
       {org.url && (
-        <IconLink href={org.url} target="_blank" rel="noreferrer">
+        <StyledLink href={org.url} target="_blank" rel="noopener noreferrer" passHref>
           <Globe />
-        </IconLink>
+        </StyledLink>
       )}
     </Social>
     <SubHeader>

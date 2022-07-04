@@ -22,3 +22,8 @@ export const Globe = styled(FiGlobe)`
     }
   }
 `;
+
+export const GlobeNoHover = styled(Globe)`
+  ${IconStyles};
+  stroke: ${TextGray};
+`;
