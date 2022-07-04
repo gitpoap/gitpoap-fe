@@ -68,7 +68,7 @@ const Home: Page = () => {
         </Grid.Col>
       </Grid>
 
-      <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(100) }}>
+      <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}>
         <Grid.Col xs={22} md={13} xl={14} style={{ zIndex: 0 }}>
           <MostClaimed />
         </Grid.Col>
@@ -78,7 +78,7 @@ const Home: Page = () => {
       </Grid>
 
       {features.hasHomePageRecentProjects && (
-        <Grid justify="center" style={{ zIndex: 0, marginBottom: rem(100) }}>
+        <Grid justify="center" style={{ zIndex: 0, marginBottom: rem(50) }}>
           <Grid.Col span={10}>
             <RecentlyAdded />
           </Grid.Col>
