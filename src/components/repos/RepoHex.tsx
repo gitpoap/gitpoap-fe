@@ -4,10 +4,10 @@ import { rem } from 'polished';
 import { ExtraHover, ExtraPressed, Slate1, TextGray } from '../../colors';
 import { Body, BodyAsAnchor, Hex, InfoHexBase } from '../shared/elements/InfoHexBase';
 import { GitPOAP, Minted, People, Star } from '../shared/elements/icons';
-import { Text } from '../shared/elements/Text';
 import { TitleNoHover } from '../shared/elements/Title';
 import { Repo } from './RepoList';
-import { TextSkeleton } from '../shared/elements';
+import { TextSkeleton, Text } from '../shared/elements';
+import { textEllipses } from '../shared/styles';
 
 const Content = styled.div`
   display: flex;
@@ -21,20 +21,14 @@ const Content = styled.div`
 const RepoName = styled(TitleNoHover)`
   font-size: ${rem(20)};
   line-height: ${rem(26)};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: ${rem(230)};
+  ${textEllipses(230)}
 `;
 
 const OrgName = styled(TitleNoHover)`
   font-size: ${rem(14)};
   line-height: ${rem(26)};
   color: ${TextGray};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: ${rem(180)};
+  ${textEllipses(180)}
 `;
 
 const Stats = styled.div`
@@ -56,6 +50,7 @@ const Stats = styled.div`
 const BODY_HEIGHT = 20;
 
 const InfoHexBaseStyled = styled(InfoHexBase)`
+  width: ${rem(280)};
   ${Body}, ${BodyAsAnchor} {
     display: flex;
     align-items: center;
@@ -85,10 +80,6 @@ const InfoHexBaseStyled = styled(InfoHexBase)`
         color: ${ExtraPressed};
       }
     }
-  }
-
-  ${Hex} {
-    width: ${rem(280)};
   }
 `;
 
