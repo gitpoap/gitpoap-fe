@@ -14,4 +14,4 @@ const Template: ComponentStory<typeof IconCount> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = { count: 10, icon: <GitPOAP />, href: 'gitpoap.io' };
+Default.args = { count: 10, icon: <GitPOAP /> };
