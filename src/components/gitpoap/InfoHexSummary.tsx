@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Text, TextProps } from '@mantine/core';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { TextAccent, TextLight, ExtraHover, ExtraPressed } from '../../colors';
-import { Globe, GitPOAP, Twitter } from '../shared/elements/icons';
+import { Globe, GitPOAP, Twitter, GitHub } from '../shared/elements/icons';
 import { InfoHexBase, Body } from '../shared/elements/InfoHexBase';
 import { Avatar as AvatarUI } from '../shared/elements/Avatar';
 import { IconCount } from '../shared/elements/IconCount';
@@ -134,38 +134,36 @@ export const InfoHexSummary = ({
   const { hasEnsAvatar } = useFeatures();
 
   return (
-    <Link href={`/p/${ensName ?? address}`} passHref>
-      <StyledInfoHex className={className} hoverEffects>
-        <Content>
-          {avatarURI && hasEnsAvatar ? (
-            <Avatar src={avatarURI} useDefaultImageTag />
-          ) : (
-            <JazzIcon address={address} />
+    <StyledInfoHex className={className} hoverEffects href={`/p/${ensName ?? address}`}>
+      <Content>
+        {avatarURI && hasEnsAvatar ? (
+          <Avatar src={avatarURI} useDefaultImageTag />
+        ) : (
+          <JazzIcon address={address} />
+        )}
+        <Name>{ensName ?? truncateAddress(address, 10)}</Name>
+        {bio && <Bio lineClamp={3}>{bio}</Bio>}
+        <Social>
+          {twitterHandle && (
+            <Link href={`https://twitter.com/${twitterHandle}`} passHref>
+              <Twitter />
+            </Link>
           )}
-          <Name>{ensName ?? truncateAddress(address, 10)}</Name>
-          {bio && <Bio lineClamp={3}>{bio}</Bio>}
-          <Social>
-            {twitterHandle && (
-              <Link href={`https://twitter.com/${twitterHandle}`} passHref>
-                <Twitter />
-              </Link>
-            )}
-            {/* {githubHandle && (
-              <Link href={`https://github.com/${githubHandle}`} passHref>
-                <GitHub />
-              </Link>
-            )} */}
-            {personalSiteUrl && (
-              <Link href={personalSiteUrl} passHref>
-                <Globe />
-              </Link>
-            )}
-            {gitpoapId && (
-              <IconCount icon={<GitPOAP href={getGitPOAPHref(gitpoapId)} />} count={numGitPOAPs} />
-            )}
-          </Social>
-        </Content>
-      </StyledInfoHex>
-    </Link>
+          {githubHandle && (
+            <Link href={`https://github.com/${githubHandle}`} passHref>
+              <GitHub />
+            </Link>
+          )}
+          {personalSiteUrl && (
+            <Link href={personalSiteUrl} passHref>
+              <Globe />
+            </Link>
+          )}
+          {gitpoapId && (
+            <IconCount icon={<GitPOAP href={getGitPOAPHref(gitpoapId)} />} count={numGitPOAPs} />
+          )}
+        </Social>
+      </Content>
+    </StyledInfoHex>
   );
 };
