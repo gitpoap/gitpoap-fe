@@ -88,7 +88,7 @@ export const ClaimBlock = ({
         gitPOAPId={gitPOAPId}
         imgSrc={imgSrc}
         name={name}
-        orgName={orgName}
+        repoName={orgName}
         description={description}
         onClick={onClickBadge}
       />

@@ -143,7 +143,7 @@ export const GitPOAPs = ({ address }: Props) => {
                 <GitPOAPBadge
                   key={gitPOAPItem.claim.poapTokenId ?? `${gitPOAPItem.claim.gitPOAP.id}-minting`}
                   gitPOAPId={gitPOAPItem.claim.gitPOAP.id}
-                  orgName={gitPOAPItem.claim.gitPOAP.repo.name}
+                  repoName={gitPOAPItem.claim.gitPOAP.repo.name}
                   name={gitPOAPItem.event.name}
                   imgSrc={gitPOAPItem.event.image_url}
                   poapTokenId={gitPOAPItem.claim.poapTokenId}

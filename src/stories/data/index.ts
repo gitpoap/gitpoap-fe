@@ -47,49 +47,49 @@ export const gitPOAPs: GitPOAP[] = [
     id: 1,
     imgSrc: badge2 as unknown as string,
     name: 'Polygon Genesis Creator',
-    orgName: 'Polygon',
+    repoName: 'Polygon',
     description: 'To the creators of Polygon Network',
   },
   {
     id: 2,
     imgSrc: badge3 as unknown as string,
     name: 'AAVE Contributor 2021',
-    orgName: 'AAVE',
+    repoName: 'AAVE',
     description: 'For all our valuable contributors in 2021',
   },
   {
     id: 3,
     imgSrc: badge1 as unknown as string,
     name: 'AAVE Core Contributor',
-    orgName: 'AAVE',
+    repoName: 'AAVE',
     description: 'Issued to core contributors of AAVE protocol',
   },
   {
     id: 4,
     imgSrc: badge4 as unknown as string,
     name: 'Contributor 2021',
-    orgName: 'SUBSPACE',
+    repoName: 'SUBSPACE',
     description: 'For all Subspace contributors in 2021',
   },
   {
     id: 5,
     imgSrc: badge5 as unknown as string,
     name: 'Contributor 2020',
-    orgName: 'SUBSPACE',
+    repoName: 'SUBSPACE',
     description: 'For all Subspace contributors in 2020',
   },
   {
     id: 6,
     imgSrc: badge6 as unknown as string,
     name: 'Contributor 2019',
-    orgName: 'AAVE',
+    repoName: 'AAVE',
     description: 'For all Subspace contributors in 2019',
   },
   {
     id: 7,
     imgSrc: badge7 as unknown as string,
     name: 'AAVE Contributor 2019',
-    orgName: 'AAVE',
+    repoName: 'AAVE',
     description: 'Everyone who helped us progressing in 2019',
   },
 ];
@@ -397,6 +397,7 @@ export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
     gitPOAP: {
       id: 1,
       repo: {
+        id: 1,
         name: 'Polygon',
       },
     },
@@ -410,6 +411,7 @@ export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
     gitPOAP: {
       id: 2,
       repo: {
+        id: 2,
         name: 'AAVE',
       },
     },
@@ -423,6 +425,7 @@ export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
     gitPOAP: {
       id: 3,
       repo: {
+        id: 3,
         name: 'AAVE',
       },
     },
