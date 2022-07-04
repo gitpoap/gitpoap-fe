@@ -1660,7 +1660,11 @@ export type MostClaimedGitPoapsQuery = {
   mostClaimedGitPOAPs?: Array<{
     __typename?: 'GitPOAPWithClaimsCount';
     claimsCount: number;
-    gitPOAP: { __typename?: 'GitPOAP'; id: number; repo: { __typename?: 'Repo'; name: string } };
+    gitPOAP: {
+      __typename?: 'GitPOAP';
+      id: number;
+      repo: { __typename?: 'Repo'; id: number; name: string };
+    };
     event: { __typename?: 'POAPEvent'; name: string; image_url: string };
   }> | null;
 };
@@ -2138,6 +2142,7 @@ export const MostClaimedGitPoapsDocument = gql`
       gitPOAP {
         id
         repo {
+          id
           name
         }
       }
