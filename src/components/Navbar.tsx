@@ -104,14 +104,14 @@ export const Navbar = () => {
   const title = opened ? 'Close navigation' : 'Open navigation';
 
   const showPOAPsPage = false;
-  const showProjectsPage = false;
+  const showReposPage = true;
   const showContributorsPage = false;
 
   const navItems = (
     <>
       <SearchBox />
       {showPOAPsPage && <NavLink href="/poaps">{'POAPS'}</NavLink>}
-      {showProjectsPage && <NavLink href="/projects">{'Projects'}</NavLink>}
+      {showReposPage && <NavLink href="/repos">{'Repos'}</NavLink>}
       {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
