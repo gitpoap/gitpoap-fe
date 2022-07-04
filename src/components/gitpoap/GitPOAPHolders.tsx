@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FaUsers } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useListState } from '@mantine/hooks';
-import { useGitPoapHoldersQuery } from '../../graphql/generated-gql';
+import { GitPoapHoldersQueryVariables, useGitPoapHoldersQuery } from '../../graphql/generated-gql';
 import { InfoHexSummary } from './InfoHexSummary';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
@@ -42,26 +42,32 @@ type SortOptions = 'claim-date' | 'claim-count';
 
 const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'claim-date', label: 'Mint Date' },
-  { value: 'claim-count', label: 'Total Poaps' },
+  { value: 'claim-count', label: 'Total GitPoaps' },
 ];
 
-export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
-  const [page, setPage] = useState(1);
-  const [sort, setSort] = useState<SortOptions>('claim-count');
-  const [holders, handlers] = useListState<Holder>([]);
-  const perPage = 12;
+type QueryVars = {
+  page: number;
+  perPage: number;
+  sort: SortOptions;
+  gitPOAPId: number;
+};
 
-  const [result] = useGitPoapHoldersQuery({
-    variables: {
-      gitPOAPId,
-      page,
-      perPage,
-      sort,
-    },
+export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
+  const [variables, setVariables] = useState<QueryVars>({
+    page: 1,
+    perPage: 20,
+    sort: 'claim-count',
+    gitPOAPId,
   });
+  const [holders, handlers] = useListState<Holder>([]);
+  const [result] = useGitPoapHoldersQuery({ variables });
 
   const gitPOAPHolders = result?.data?.gitPOAPHolders;
   const total = gitPOAPHolders?.totalHolders;
+
+  // Assert type until following issue is resolved:
+  // https://github.com/dotansimha/graphql-code-generator/issues/7976
+  const queryVariables = result.operation?.variables as GitPoapHoldersQueryVariables | undefined;
 
   /* Hook to clear list of holders when the gitPOAPId changes */
   useEffect(() => {
@@ -70,11 +76,16 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
 
   /* Hook to append new data onto existing list of holders */
   useEffect(() => {
+    const resultPage = queryVariables?.page;
     if (gitPOAPHolders) {
       const newHolders = gitPOAPHolders.holders;
-      handlers.append(...newHolders);
+      if (resultPage === 1) {
+        handlers.setState(newHolders);
+      } else {
+        handlers.append(...newHolders);
+      }
     }
-  }, [gitPOAPHolders]);
+  }, [gitPOAPHolders, queryVariables]);
 
   if (result.error) {
     return null;
@@ -84,18 +95,24 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
     <StyledItemList
       title={`${total ?? ''} holders`}
       selectOptions={selectOptions}
-      selectValue={sort}
+      selectValue={variables.sort}
       onSelectChange={(sortValue) => {
-        if (sortValue !== sort) {
-          setSort(sortValue as SortOptions);
-          setPage(1);
+        if (sortValue !== variables.sort) {
+          setVariables({
+            ...variables,
+            sort: sortValue as SortOptions,
+            page: 1,
+          });
         }
       }}
       isLoading={result.fetching}
       hasShowMoreButton={!!total && holders.length < total}
       showMoreOnClick={() => {
         if (!result.fetching) {
-          setPage(page + 1);
+          setVariables({
+            ...variables,
+            page: variables.page + 1,
+          });
         }
       }}
     >
