@@ -1959,6 +1959,24 @@ export type AllReposQuery = {
   }>;
 };
 
+export type AllReposOnRepoPageQueryVariables = Exact<{
+  sort?: InputMaybe<Scalars['String']>;
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+}>;
+
+export type AllReposOnRepoPageQuery = {
+  __typename?: 'Query';
+  allRepos?: Array<{
+    __typename?: 'Repo';
+    id: number;
+    name: string;
+    githubRepoId: number;
+    organization: { __typename?: 'Organization'; name: string };
+    gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number }>;
+  }> | null;
+};
+
 export type OrganizationDataQueryVariables = Exact<{
   orgId: Scalars['Float'];
 }>;
@@ -1996,6 +2014,10 @@ export type OrganizationReposQuery = {
     mintedGitPOAPCount: number;
   }> | null;
 };
+
+export type TotalRepoCountQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalRepoCountQuery = { __typename?: 'Query'; totalRepos: number };
 
 export const GetAllStatsDocument = gql`
   query getAllStats {
@@ -2445,6 +2467,27 @@ export function useAllReposQuery(
 ) {
   return Urql.useQuery<AllReposQuery>({ query: AllReposDocument, ...options });
 }
+export const AllReposOnRepoPageDocument = gql`
+  query allReposOnRepoPage($sort: String, $page: Float, $perPage: Float) {
+    allRepos(sort: $sort, page: $page, perPage: $perPage) {
+      id
+      name
+      githubRepoId
+      organization {
+        name
+      }
+      gitPOAPs {
+        id
+      }
+    }
+  }
+`;
+
+export function useAllReposOnRepoPageQuery(
+  options?: Omit<Urql.UseQueryArgs<AllReposOnRepoPageQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AllReposOnRepoPageQuery>({ query: AllReposOnRepoPageDocument, ...options });
+}
 export const OrganizationDataDocument = gql`
   query organizationData($orgId: Float!) {
     organizationData(orgId: $orgId) {
@@ -2481,4 +2524,15 @@ export function useOrganizationReposQuery(
   options: Omit<Urql.UseQueryArgs<OrganizationReposQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<OrganizationReposQuery>({ query: OrganizationReposDocument, ...options });
+}
+export const TotalRepoCountDocument = gql`
+  query totalRepoCount {
+    totalRepos
+  }
+`;
+
+export function useTotalRepoCountQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalRepoCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalRepoCountQuery>({ query: TotalRepoCountDocument, ...options });
 }
