@@ -161,7 +161,7 @@ query openClaims($githubId: Float!) {
   }
 }
 
-query recentProjects($count: Float!) {
+query recentRepos($count: Float!) {
   recentlyAddedProjects(count: $count) {
     id
     name
