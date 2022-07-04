@@ -2,6 +2,7 @@ import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { FaUsers } from 'react-icons/fa';
 import styled from 'styled-components';
+import { useListState } from '@mantine/hooks';
 import { useGitPoapHoldersQuery } from '../../graphql/generated-gql';
 import { InfoHexSummary } from './InfoHexSummary';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
@@ -24,7 +25,7 @@ export type Holder = {
 };
 
 const StyledItemList = styled(ItemList)`
-  margin-bottom: ${rem(20)};
+  margin-bottom: ${rem(50)};
 `;
 
 const HoldersWrapper = styled.div`
@@ -47,8 +48,7 @@ const selectOptions: SelectOption<SortOptions>[] = [
 export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortOptions>('claim-count');
-  const [holders, setHolders] = useState<Holder[]>([]);
-  const [total, setTotal] = useState<number>();
+  const [holders, handlers] = useListState<Holder>([]);
   const perPage = 12;
 
   const [result] = useGitPoapHoldersQuery({
@@ -60,31 +60,21 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
     },
   });
 
+  const gitPOAPHolders = result?.data?.gitPOAPHolders;
+  const total = gitPOAPHolders?.totalHolders;
+
   /* Hook to clear list of holders when the gitPOAPId changes */
   useEffect(() => {
-    setHolders([]);
+    handlers.setState([]);
   }, [gitPOAPId]);
 
   /* Hook to append new data onto existing list of holders */
   useEffect(() => {
-    setHolders((prev: Holder[]) => {
-      if (result.data?.gitPOAPHolders) {
-        if (page === 1) {
-          return [...result.data.gitPOAPHolders.holders];
-        } else {
-          return [...prev, ...result.data.gitPOAPHolders.holders];
-        }
-      }
-      return prev;
-    });
-  }, [page, result.data]);
-
-  /* Hook to set total number of poaps */
-  useEffect(() => {
-    if (result.data?.gitPOAPHolders) {
-      setTotal(result.data.gitPOAPHolders.totalHolders);
+    if (gitPOAPHolders) {
+      const newHolders = gitPOAPHolders.holders;
+      handlers.append(...newHolders);
     }
-  }, [result.data]);
+  }, [gitPOAPHolders]);
 
   if (result.error) {
     return null;
@@ -92,7 +82,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
 
   return (
     <StyledItemList
-      title={`${total ?? 0} holders`}
+      title={`${total ?? ''} holders`}
       selectOptions={selectOptions}
       selectValue={sort}
       onSelectChange={(sortValue) => {
@@ -113,7 +103,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
         <HoldersWrapper>
           {holders.map((holder: Holder) => (
             <InfoHexSummary
-              key={holder.githubHandle}
+              key={`${holder.githubHandle}-${holder.address}`}
               address={holder.address}
               bio={holder.bio}
               gitpoapId={gitPOAPId}
