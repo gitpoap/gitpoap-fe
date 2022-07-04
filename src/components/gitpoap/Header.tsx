@@ -68,7 +68,7 @@ const Links = styled.div`
   margin-top: ${rem(18)};
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
   color: ${TextGray};
   margin: 0 ${rem(12)};
 
