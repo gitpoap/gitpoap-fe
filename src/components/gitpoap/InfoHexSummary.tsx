@@ -108,10 +108,6 @@ const StyledInfoHex = styled(InfoHexBase)`
   }
 `;
 
-const getGitPOAPHref = (gitpoapId: string | number) => {
-  return `https://gitpoap.io/@${gitpoapId}`;
-};
-
 const JazzIcon = styled(JazzIconReact)`
   height: ${rem(80)};
   width: ${rem(80)};
@@ -159,9 +155,7 @@ export const InfoHexSummary = ({
               <Globe />
             </Link>
           )}
-          {gitpoapId && (
-            <IconCount icon={<GitPOAP href={getGitPOAPHref(gitpoapId)} />} count={numGitPOAPs} />
-          )}
+          {gitpoapId && <IconCount icon={<GitPOAP />} count={numGitPOAPs} />}
         </Social>
       </Content>
     </StyledInfoHex>
