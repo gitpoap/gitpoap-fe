@@ -1997,6 +1997,27 @@ export type OrganizationDataQuery = {
   } | null;
 };
 
+export type OrganizationsListQueryVariables = Exact<{
+  sort?: InputMaybe<Scalars['String']>;
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+}>;
+
+export type OrganizationsListQuery = {
+  __typename?: 'Query';
+  allOrganizations?: Array<{
+    __typename?: 'Organization';
+    id: number;
+    name: string;
+    githubOrgId: number;
+    repos: Array<{
+      __typename?: 'Repo';
+      id: number;
+      gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number }>;
+    }>;
+  }> | null;
+};
+
 export type OrganizationReposQueryVariables = Exact<{
   orgId: Scalars['Float'];
   sort?: InputMaybe<Scalars['String']>;
@@ -2508,6 +2529,27 @@ export function useOrganizationDataQuery(
   options: Omit<Urql.UseQueryArgs<OrganizationDataQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<OrganizationDataQuery>({ query: OrganizationDataDocument, ...options });
+}
+export const OrganizationsListDocument = gql`
+  query organizationsList($sort: String, $page: Float, $perPage: Float) {
+    allOrganizations(sort: $sort, page: $page, perPage: $perPage) {
+      id
+      name
+      githubOrgId
+      repos {
+        id
+        gitPOAPs {
+          id
+        }
+      }
+    }
+  }
+`;
+
+export function useOrganizationsListQuery(
+  options?: Omit<Urql.UseQueryArgs<OrganizationsListQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<OrganizationsListQuery>({ query: OrganizationsListDocument, ...options });
 }
 export const OrganizationReposDocument = gql`
   query organizationRepos($orgId: Float!, $sort: String, $page: Float, $perPage: Float) {

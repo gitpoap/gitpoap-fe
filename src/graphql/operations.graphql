@@ -342,6 +342,20 @@ query organizationData($orgId: Float!) {
   }
 }
 
+query organizationsList($sort: String, $page: Float, $perPage: Float) {
+  allOrganizations(sort: $sort, page: $page, perPage: $perPage) {
+    id
+    name
+    githubOrgId
+    repos {
+      id
+      gitPOAPs {
+        id
+      }
+    }
+  }
+}
+
 query organizationRepos($orgId: Float!, $sort: String, $page: Float, $perPage: Float) {
   organizationRepos(orgId: $orgId, sort: $sort, page: $page, perPage: $perPage) {
     id
