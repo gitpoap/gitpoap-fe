@@ -72,7 +72,7 @@ export const Header = ({ org }: Props) => (
       <SubHeaderItem>
         <Project />
         <SubHeaderItemCount>{org.projectCount}</SubHeaderItemCount>
-        <SubHeaderItemLabel>{'Projects'}</SubHeaderItemLabel>
+        <SubHeaderItemLabel>{'Repos'}</SubHeaderItemLabel>
       </SubHeaderItem>
     </SubHeader>
   </HeaderWrapper>

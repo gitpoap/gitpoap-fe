@@ -8,14 +8,14 @@ import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 
 import { Page } from '../_app';
 import { Layout } from '../../components/Layout';
-import { Grid, Loader } from '@mantine/core';
+import { Grid } from '@mantine/core';
 import { MidnightBlue } from '../../colors';
 import { SEO } from '../../components/SEO';
 import { BREAKPOINTS } from '../../constants';
 import { Header } from '../../components/shared/elements/Header';
 import { BackgroundHexes } from '../../components/organization/BackgroundHexes';
 import { Header as PageHeader } from '../../components/organization/Header';
-import { ProjectList } from '../../components/organization/ProjectList';
+import { OrgRepoList } from '../../components/organization/OrgRepoList';
 import { OrganizationDataQuery, OrganizationDataDocument } from '../../graphql/generated-gql';
 import { ONE_DAY } from '../../constants';
 
@@ -43,10 +43,6 @@ const OrgNotFound = styled(Header)`
   margin-top: ${rem(284)};
 `;
 
-const Loading = styled(Loader)`
-  margin-top: ${rem(284)};
-`;
-
 const ContentWrapper = styled.div`
   margin: ${rem(100)} ${rem(48)};
   display: flex;
@@ -57,7 +53,7 @@ const ContentWrapper = styled.div`
   }
 `;
 
-const ProjectsWrapper = styled.div`
+const ReposWrapper = styled.div`
   flex: 1;
 
   @media (max-width: ${BREAKPOINTS.md}px) {
@@ -78,7 +74,7 @@ type PageProps = {
   data: OrganizationDataQuery;
 };
 
-const Project: Page<PageProps> = (props) => {
+const Organization: Page<PageProps> = (props) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -111,11 +107,11 @@ const Project: Page<PageProps> = (props) => {
             <PageHeader org={org} />
           </Grid.Col>
 
-          <Grid.Col>
+          <Grid.Col span={11}>
             <ContentWrapper>
-              <ProjectsWrapper>
-                <ProjectList orgId={orgId} />
-              </ProjectsWrapper>
+              <ReposWrapper>
+                <OrgRepoList orgId={orgId} />
+              </ReposWrapper>
             </ContentWrapper>
           </Grid.Col>
         </>
@@ -158,7 +154,7 @@ export async function getServerSideProps(context: NextPageContext) {
 }
 
 /* Custom layout function for this page */
-Project.getLayout = (page: React.ReactNode) => {
+Organization.getLayout = (page: React.ReactNode) => {
   return <Layout>{page}</Layout>;
 };
 
@@ -167,4 +163,4 @@ export default withUrqlClient(
     url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
   }),
   { ssr: false }, // Important so we don't wrap our component in getInitialProps
-)(Project);
+)(Organization);
