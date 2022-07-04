@@ -3,7 +3,7 @@ import { rem } from 'polished';
 import { Text, TextProps } from '@mantine/core';
 import { ExtraHover, ExtraPressed, TextAccent, TextDarkGray } from '../../../colors';
 
-export const Title = styled(Text)<TextProps<'div'>>`
+export const TitleNoHover = styled(Text)<TextProps<'span'>>`
   display: inline-block;
   font-family: 'PT Mono', monospace;
   font-weight: 700;
@@ -14,7 +14,9 @@ export const Title = styled(Text)<TextProps<'div'>>`
   color: ${TextAccent};
   transition: color 150ms ease-in-out;
   cursor: pointer;
+`;
 
+export const Title = styled(TitleNoHover)`
   &:hover:not([disabled]) {
     color: ${ExtraHover};
   }
