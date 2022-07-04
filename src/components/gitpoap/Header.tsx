@@ -1,9 +1,9 @@
-import { rem } from 'polished';
 import React from 'react';
+import styled from 'styled-components';
+import { rem } from 'polished';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
-import styled from 'styled-components';
-import Link from 'next/link';
+import { Link } from '../Link';
 import { Text, Button, Header as HeaderText, Title, GitPOAPBadge } from '../shared/elements';
 import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { useFeatures } from '../../components/FeaturesContext';
