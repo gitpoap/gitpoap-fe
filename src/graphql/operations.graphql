@@ -59,6 +59,7 @@ query mostClaimedGitPoaps($count: Float!) {
     gitPOAP {
       id
       repo {
+        id
         name
       }
     }
