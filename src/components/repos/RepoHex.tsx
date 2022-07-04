@@ -49,7 +49,7 @@ const Stats = styled.div`
 
 const BODY_HEIGHT = 20;
 
-const InfoHexBaseStyled = styled(InfoHexBase)`
+export const InfoHexBaseStyled = styled(InfoHexBase)`
   width: ${rem(280)};
   ${Body}, ${BodyAsAnchor} {
     display: flex;
