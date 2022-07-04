@@ -12,6 +12,9 @@ export const IconStyles = css`
     transition: 200ms fill ease;
     fill: ${TextGray};
   }
+`;
+
+export const IconStylesHover = css`
   &:hover {
     cursor: pointer;
 

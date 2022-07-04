@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { ExtraHover, ExtraPressed, TextGray, TextLight } from '../../../colors';
+import { TextGray, TextLight } from '../../../colors';
 
 type Props = {
   icon: React.ReactNode;
-  href?: string;
   count: number;
 };
 
@@ -20,7 +19,7 @@ const Count = styled.span`
   margin-left: ${rem(6)};
 `;
 
-const Container = styled.a`
+const Container = styled.div`
   display: inline-flex;
   flex-direction: row;
   justify-content: center;
@@ -30,22 +29,11 @@ const Container = styled.a`
     transition: 200ms fill ease;
     fill: ${TextGray};
   }
-
-  &:hover {
-    path {
-      fill: ${ExtraHover};
-    }
-  }
-  &:active {
-    path {
-      fill: ${ExtraPressed};
-    }
-  }
 `;
 
-export const IconCount = ({ icon, href, count }: Props) => {
+export const IconCount = ({ icon, count }: Props) => {
   return (
-    <Container href={href}>
+    <Container>
       {icon}
       {count && <Count>{count}</Count>}
     </Container>
