@@ -21,12 +21,20 @@ const Content = styled.div`
 const RepoName = styled(TitleNoHover)`
   font-size: ${rem(20)};
   line-height: ${rem(26)};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: ${rem(230)};
 `;
 
 const OrgName = styled(TitleNoHover)`
   font-size: ${rem(14)};
   line-height: ${rem(26)};
   color: ${TextGray};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: ${rem(180)};
 `;
 
 const Stats = styled.div`
