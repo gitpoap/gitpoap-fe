@@ -60,7 +60,6 @@ const BodyStyles = css<{ hoverEffects?: boolean }>`
           background-color: ${BackgroundPanel};
         }
       }
-
   `}
 `;
 

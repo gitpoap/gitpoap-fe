@@ -6,7 +6,7 @@ import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { DividerGray1, TextAccent, TextLight } from '../../colors';
 import { InfoHexBase } from '../shared/elements/InfoHexBase';
 import { Project } from '../../types';
-import { ProjectHex } from '../shared/compounds/ProjectHex';
+import { RepoHexSmall } from '../shared/compounds/RepoHexSmall';
 import { Globe, GitHub, Twitter } from '../shared/elements/icons';
 import { useFeatures } from '../FeaturesContext';
 import {
@@ -205,10 +205,11 @@ export const InfoHexProfileDetail = ({
             </ProjectCount>
             {projects.map((project) => {
               return (
-                <ProjectHex
+                <RepoHexSmall
                   key={project.id}
                   category={project.organization.name}
                   name={project.name}
+                  repoId={project.id}
                 />
               );
             })}

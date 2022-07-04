@@ -1771,11 +1771,11 @@ export type OpenClaimsQuery = {
   }> | null;
 };
 
-export type RecentProjectsQueryVariables = Exact<{
+export type RecentReposQueryVariables = Exact<{
   count: Scalars['Float'];
 }>;
 
-export type RecentProjectsQuery = {
+export type RecentReposQuery = {
   __typename?: 'Query';
   recentlyAddedProjects: Array<{
     __typename?: 'Repo';
@@ -2261,8 +2261,8 @@ export function useOpenClaimsQuery(
 ) {
   return Urql.useQuery<OpenClaimsQuery>({ query: OpenClaimsDocument, ...options });
 }
-export const RecentProjectsDocument = gql`
-  query recentProjects($count: Float!) {
+export const RecentReposDocument = gql`
+  query recentRepos($count: Float!) {
     recentlyAddedProjects(count: $count) {
       id
       name
@@ -2274,10 +2274,10 @@ export const RecentProjectsDocument = gql`
   }
 `;
 
-export function useRecentProjectsQuery(
-  options: Omit<Urql.UseQueryArgs<RecentProjectsQueryVariables>, 'query'>,
+export function useRecentReposQuery(
+  options: Omit<Urql.UseQueryArgs<RecentReposQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<RecentProjectsQuery>({ query: RecentProjectsDocument, ...options });
+  return Urql.useQuery<RecentReposQuery>({ query: RecentReposDocument, ...options });
 }
 export const GitPoapEventDocument = gql`
   query gitPoapEvent($id: Float!) {
