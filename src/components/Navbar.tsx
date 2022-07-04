@@ -33,7 +33,7 @@ const Container = styled(Group)`
   }
 `;
 
-const LogoWrapper = styled.a`
+const LogoWrapper = styled(Link)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -96,16 +96,29 @@ const CollapseMenuContent = styled(Stack)`
   }
 `;
 
+const StyledGitPOAPLogo = styled(GitPOAPLogo)`
+  display: block;
+  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
+    display: none;
+  }
+`;
+
+const StyledGitPOAPLogoNoText = styled(GitPOAPLogoNoText)`
+  display: none;
+  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
+    display: block;
+  }
+`;
+
 export const Navbar = () => {
   const { connectionStatus, address, ensName } = useWeb3Context();
   const matchesBreakpointLg = useMediaQuery(`(min-width: ${rem(1100)})`);
   const matchesBreakpointMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`);
-  const matchesBreakpointSm = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.sm)})`);
   const [opened, setOpened] = useState(false);
   const title = opened ? 'Close navigation' : 'Open navigation';
 
   const showPOAPsPage = false;
-  const showOrgsPage = false;
+  const showOrgsPage = true;
   const showContributorsPage = false;
 
   const navItems = (
@@ -147,9 +160,10 @@ export const Navbar = () => {
   return (
     <Nav>
       <Container position="apart">
-        <Link href="/" passHref>
-          <LogoWrapper>{matchesBreakpointSm ? <GitPOAPLogo /> : <GitPOAPLogoNoText />}</LogoWrapper>
-        </Link>
+        <LogoWrapper href="/" passHref>
+          <StyledGitPOAPLogo />
+          <StyledGitPOAPLogoNoText />
+        </LogoWrapper>
         <ContentRight>{navItems}</ContentRight>
         <MobileBurgerButton opened={opened} onClick={() => setOpened((o) => !o)} title={title} />
       </Container>
