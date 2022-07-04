@@ -10,6 +10,7 @@ type Props = {
   unit: string;
   icon: React.ReactNode;
   className?: string;
+  href?: string;
 };
 
 const Content = styled.div`
@@ -22,9 +23,6 @@ const Content = styled.div`
 
 const Icon = styled.div`
   margin-bottom: ${rem(25)};
-  svg:hover {
-    cursor: default;
-  }
 `;
 
 const Value = styled.div`
@@ -62,9 +60,9 @@ const Rate = styled.div`
   color: ${TextLight};
 `;
 
-export const InfoHexMetric = ({ className, rate, value, unit, icon }: Props) => {
+export const InfoHexMetric = ({ className, rate, value, unit, icon, href }: Props) => {
   return (
-    <InfoHexBase className={className}>
+    <InfoHexBase className={className} href={href} hoverEffects={!!href}>
       <Content>
         <Icon>{icon}</Icon>
         <Value>{value}</Value>

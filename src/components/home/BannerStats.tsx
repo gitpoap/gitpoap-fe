@@ -2,9 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { InfoHexMetric } from './InfoHexMetric';
-import { GitPOAP } from '../shared/elements/icons/GitPOAP';
-import { People } from '../shared/elements/icons/People';
-import { Project } from '../shared/elements/icons/Project';
+import { GitPOAP, People, Project, Forked } from '../shared/elements/icons';
 import { ExtraHover } from '../../colors';
 import { useGetAllStatsQuery } from '../../graphql/generated-gql';
 
@@ -13,6 +11,7 @@ export type Stats = {
   unit: string;
   rate: number;
   icon: string;
+  href?: string;
 };
 
 const CustomIconStyled = css`
@@ -32,11 +31,15 @@ const GitPOAPIcon = styled(GitPOAP)`
 const ProjectIcon = styled(Project)`
   ${CustomIconStyled}
 `;
+const RepoIcon = styled(Forked)`
+  ${CustomIconStyled}
+`;
 
 const ICONS: Record<string, React.ReactNode> = {
   people: <PeopleIcon style={{ height: rem(70), width: rem(70) }} />,
   gitPOAP: <GitPOAPIcon style={{ height: rem(70), width: rem(70) }} />,
   project: <ProjectIcon style={{ height: rem(70), width: rem(70) }} />,
+  repo: <RepoIcon style={{ height: rem(70), width: rem(70) }} />,
 };
 
 const StatsStyled = styled.div`
@@ -73,9 +76,10 @@ export const BannerStats = () => {
     },
     {
       value: result.data.totalRepos,
-      unit: 'projects',
+      unit: 'repos',
       rate: result.data.lastMonthRepos,
       icon: 'project',
+      href: '/repos',
     },
   ];
 
@@ -89,6 +93,7 @@ export const BannerStats = () => {
             unit={stat.unit}
             rate={`${stat.rate >= 0 && '+'}${stat.rate} / past month`}
             icon={ICONS[stat.icon]}
+            href={stat.href}
           />
         );
       })}
