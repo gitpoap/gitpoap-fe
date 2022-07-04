@@ -80,7 +80,7 @@ export const Hex = styled.div`
 `;
 
 export const InfoHexBase = React.forwardRef(
-  ({ className, children, hoverEffects, href, ...props }: Props) => {
+  ({ className, children, hoverEffects, href, ...props }: Props, ref) => {
     if (href) {
       return (
         <Hex className={className} {...props}>

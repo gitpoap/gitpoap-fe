@@ -49,22 +49,24 @@ const StyledItemList = styled(ItemList)`
 
 export type Repo = Exclude<AllReposOnRepoPageQuery['allRepos'], undefined | null>[number];
 
-export const RepoList = () => {
-  const [page, setPage] = useState(1);
-  const [sort, setSort] = useState<SortOptions>('gitpoap-count');
-  const [searchValue, setSearchValue] = useState('');
-  const perPage = 15;
-  const [repoListItems, handlers] = useListState<Repo>([]);
-  const [result] = useAllReposOnRepoPageQuery({
-    variables: {
-      page,
-      perPage,
-      sort,
-    },
-  });
-  const [totalResult] = useTotalRepoCountQuery({});
+type QueryVars = {
+  page: number;
+  perPage: number;
+  sort: SortOptions;
+};
 
+export const RepoList = () => {
+  const [searchValue, setSearchValue] = useState('');
+  const [variables, setVariables] = useState<QueryVars>({
+    page: 1,
+    perPage: 20,
+    sort: 'gitpoap-count',
+  });
+  const [repoListItems, handlers] = useListState<Repo>([]);
+  const [result] = useAllReposOnRepoPageQuery({ variables });
+  const [totalResult] = useTotalRepoCountQuery({});
   const total = totalResult.data?.totalRepos;
+  const allRepos = result.data?.allRepos;
 
   // Assert type until following issue is resolved:
   // https://github.com/dotansimha/graphql-code-generator/issues/7976
@@ -72,16 +74,11 @@ export const RepoList = () => {
     | AllReposOnRepoPageQueryVariables
     | undefined;
 
-  /* Ensure the list of repos is empty on page load */
-  useEffect(() => {
-    handlers.setState([]);
-  }, []);
-
   /* Hook to append new data onto existing list of repos */
   useEffect(() => {
     const resultPage = queryVariables?.page;
-    if (result?.data?.allRepos) {
-      const newRepoListItems = result.data.allRepos;
+    if (allRepos) {
+      const newRepoListItems = allRepos;
       if (resultPage === 1) {
         handlers.setState(newRepoListItems);
       } else {
@@ -89,7 +86,7 @@ export const RepoList = () => {
       }
     }
     /* Do not include handlers below */
-  }, [result?.data?.allRepos, queryVariables]);
+  }, [allRepos, queryVariables]);
 
   if (result.error) {
     return null;
@@ -97,7 +94,7 @@ export const RepoList = () => {
 
   return (
     <Wrapper>
-      <StyledHeader>{`${total ?? ''} repos`}</StyledHeader>
+      <StyledHeader>{`${total ?? ''} Repos`}</StyledHeader>
       <Input
         style={{ marginBottom: rem(40), width: rem(400) }}
         placeholder={'SEARCH FOR A REPO...'}
@@ -106,18 +103,24 @@ export const RepoList = () => {
       />
       <StyledItemList
         selectOptions={selectOptions}
-        selectValue={sort}
+        selectValue={variables.sort}
         onSelectChange={(sortValue) => {
-          if (sortValue !== sort) {
-            setSort(sortValue as SortOptions);
-            setPage(1);
+          if (sortValue !== variables.sort) {
+            setVariables({
+              ...variables,
+              sort: sortValue as SortOptions,
+              page: 1,
+            });
           }
         }}
         isLoading={result.fetching}
         hasShowMoreButton={!!total && repoListItems.length < total && repoListItems.length > 0}
         showMoreOnClick={() => {
           if (!result.fetching) {
-            setPage(page + 1);
+            setVariables({
+              ...variables,
+              page: variables.page + 1,
+            });
           }
         }}
       >
