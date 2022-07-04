@@ -4,14 +4,15 @@ import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { GitPOAPBadge } from '../elements/GitPOAPBadge';
 import { Title } from '../elements/Title';
-import { TextLight } from '../../../colors';
+import { ExtraHover, ExtraPressed, TextLight } from '../../../colors';
 import { FeatureHeart } from './FeatureHeart';
 
 type Props = {
   gitPOAPId: number;
   imgSrc: string;
   name: string;
-  orgName: string;
+  repoName: string;
+  repoId?: number;
   description?: string;
   className?: string;
   poapTokenId?: string | null;
@@ -46,7 +47,7 @@ const TitleStyled = styled(Title)`
   ${LineClamp(3)};
 `;
 
-const OrgName = styled.div`
+const RepoName = styled.div<{ isLink?: boolean }>`
   font-family: PT Mono;
   font-style: normal;
   font-weight: bold;
@@ -57,6 +58,18 @@ const OrgName = styled.div`
   text-transform: uppercase;
   color: ${TextLight};
   margin-top: ${rem(8)};
+  transition: color 200ms ease-in-out;
+
+  ${({ isLink }) =>
+    isLink &&
+    css`
+      &:hover {
+        color: ${ExtraHover};
+      }
+      &:active {
+        color: ${ExtraPressed};
+      }
+    `}
 `;
 
 const Description = styled.div`
@@ -88,7 +101,8 @@ export const GitPOAP = ({
   gitPOAPId,
   imgSrc,
   name,
-  orgName,
+  repoName,
+  repoId,
   description,
   onClick,
 }: Props) => {
@@ -112,7 +126,14 @@ export const GitPOAP = ({
         <Link href={`/gp/${gitPOAPId}`} passHref>
           <TitleStyled>{name.replace('GitPOAP: ', '')}</TitleStyled>
         </Link>
-        <OrgName>{orgName}</OrgName>
+        {repoId ? (
+          <Link href={`/rp/${repoId}`}>
+            <RepoName isLink>{repoName}</RepoName>
+          </Link>
+        ) : (
+          <RepoName>{repoName}</RepoName>
+        )}
+
         {description && <Description>{description}</Description>}
       </Info>
     </Wrapper>
