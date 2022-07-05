@@ -60,7 +60,6 @@ export const OrganizationList = () => {
   const [result] = useOrganizationsListQuery({ variables });
   // @TODO: Add a way to get total org count
   const allOrganizations = result.data?.allOrganizations;
-  console.log(!!allOrganizations ? allOrganizations[0] : allOrganizations);
   const total = allOrganizations?.length;
 
   // Assert type until following issue is resolved:
