@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { MidnightBlue } from '../colors';
+import { FeedbackButton } from './FeedbackButton';
+import { rem } from 'polished';
 
 type Props = {
   children: React.ReactNode;
@@ -22,6 +24,12 @@ const MainContent = styled.main`
   flex: 1;
   display: flex;
   flex-direction: column;
+`;
+
+const StyledFeedbackButton = styled(FeedbackButton)`
+  position: fixed;
+  bottom: ${rem(60)};
+  right: ${rem(60)};
 `;
 
 export const Layout = ({ children }: Props) => {
