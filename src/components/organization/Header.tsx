@@ -40,6 +40,7 @@ export const Header = ({ org }: Props) => (
           href={`https://twitter.com/${org.twitterHandle}`}
           target="_blank"
           rel="noopener noreferrer"
+          passHref
         >
           <Twitter />
         </StyledLink>
