@@ -64,7 +64,7 @@ export const BannerStats = () => {
   const stats: Stats[] = [
     {
       value: result.data.totalContributors,
-      unit: 'contributors',
+      unit: 'Contributors',
       rate: result.data.lastMonthContributors,
       icon: 'people',
     },
@@ -76,7 +76,7 @@ export const BannerStats = () => {
     },
     {
       value: result.data.totalRepos,
-      unit: 'repos',
+      unit: 'Repos',
       rate: result.data.lastMonthRepos,
       icon: 'project',
       href: '/repos',
