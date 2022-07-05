@@ -1,7 +1,7 @@
 import { rem } from 'polished';
 import React from 'react';
 import styled from 'styled-components';
-import { ProjectHeaderHexagon } from './ProjectHeaderHexagon';
+import { RepoHeaderHexagon } from './RepoHeaderHexagon';
 import { Header as HeaderText, Text } from '../shared/elements';
 import { TextAccent, TextGray } from '../../colors';
 import { Link, IconLink } from '../Link';
@@ -77,7 +77,7 @@ const HexagonWrapper = styled.div`
   justify-content: center;
 `;
 
-const StyledHeaderHexagon = styled(ProjectHeaderHexagon)`
+const StyledHeaderHexagon = styled(RepoHeaderHexagon)`
   position: absolute;
   left: 0;
   top: 0;
@@ -142,11 +142,13 @@ export const Header = ({ repo }: Props) => {
           <SubHeaderItemCount>{repo.mintedGitPOAPCount}</SubHeaderItemCount>
           <SubHeaderItemLabel>{'Minted'}</SubHeaderItemLabel>
         </SubHeaderItem>
-        <SubHeaderItem>
-          <Star />
-          <SubHeaderItemCount>{resultStarCount?.data?.repoStarCount ?? 0}</SubHeaderItemCount>
-          <SubHeaderItemLabel>{'Stars'}</SubHeaderItemLabel>
-        </SubHeaderItem>
+        {resultStarCount?.data?.repoStarCount && (
+          <SubHeaderItem>
+            <Star />
+            <SubHeaderItemCount>{resultStarCount.data.repoStarCount}</SubHeaderItemCount>
+            <SubHeaderItemLabel>{'Stars'}</SubHeaderItemLabel>
+          </SubHeaderItem>
+        )}
       </SubHeader>
     </Wrapper>
   );

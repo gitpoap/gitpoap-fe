@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { rgba, rem } from 'polished';
+import { rem } from 'polished';
 import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';
 import { withUrqlClient, initUrqlClient } from 'next-urql';
@@ -9,59 +9,11 @@ import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { Page } from '../_app';
 import { Layout } from '../../components/Layout';
 import { Grid } from '@mantine/core';
-import { MidnightBlue } from '../../colors';
 import { SEO } from '../../components/SEO';
-import { BREAKPOINTS } from '../../constants';
 import { Header } from '../../components/shared/elements/Header';
-import { BackgroundHexes } from '../../components/organization/BackgroundHexes';
-import { Header as PageHeader } from '../../components/organization/Header';
-import { OrgRepoList } from '../../components/organization/OrgRepoList';
+import { OrgPage } from '../../components/organization/OrgPage';
 import { OrganizationDataQuery, OrganizationDataDocument } from '../../graphql/generated-gql';
 import { ONE_DAY } from '../../constants';
-
-const Background = styled(BackgroundHexes)`
-  position: fixed;
-  top: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  z-index: 0;
-  width: ${rem(1840)};
-
-  mask-image: linear-gradient(
-    to right,
-    ${rgba(MidnightBlue, 0)} 0%,
-    ${rgba(MidnightBlue, 1)} 20%,
-    ${rgba(MidnightBlue, 1)} 80%,
-    ${rgba(MidnightBlue, 0)} 100%
-  );
-`;
-
-const OrgNotFound = styled(Header)`
-  margin-top: ${rem(284)};
-`;
-
-const ContentWrapper = styled.div`
-  margin: ${rem(100)} ${rem(48)};
-  display: flex;
-
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    margin: ${rem(50)} ${rem(24)};
-    flex-direction: column-reverse;
-  }
-`;
-
-const ReposWrapper = styled.div`
-  flex: 1;
-
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    justify-content: center;
-    width: 100%;
-    margin: auto;
-  }
-`;
 
 const Error = styled(Header)`
   position: fixed;
@@ -98,26 +50,9 @@ const Organization: Page<PageProps> = (props) => {
           'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
         }
         image={'https://gitpoap.io/og-image-512x512.png'}
-        url={`https://gitpoap.io/org/${orgId}`}
+        url={`https://gitpoap.io/org/${org?.id}`}
       />
-      <Background />
-      {org ? (
-        <>
-          <Grid.Col style={{ zIndex: 1 }}>
-            <PageHeader org={org} />
-          </Grid.Col>
-
-          <Grid.Col span={11}>
-            <ContentWrapper>
-              <ReposWrapper>
-                <OrgRepoList orgId={orgId} />
-              </ReposWrapper>
-            </ContentWrapper>
-          </Grid.Col>
-        </>
-      ) : (
-        <OrgNotFound>Organization Not Found</OrgNotFound>
-      )}
+      <OrgPage org={org} />
     </Grid>
   );
 };
