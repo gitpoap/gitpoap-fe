@@ -59,8 +59,6 @@ export const VitalsDashboard = () => {
     variables: { date: todayMinus7Days },
   });
 
-  const { isLoggedIntoGitHub } = useAuthContext();
-
   return (
     <>
       <Head>
@@ -76,34 +74,27 @@ export const VitalsDashboard = () => {
         }}
       >
         <Grid.Col span={10}>
-          {isLoggedIntoGitHub ? (
-            <Dashboard>
-              <Header>{'Vitals Dashboard'}</Header>
-              <DashboardItem
-                name={'Mints (last 7 days)'}
-                value={claimsResult.data?.claims.length}
-              />
-              <DashboardItem
-                name={'Repos Added (last 7 days)'}
-                value={reposResult.data?.repos.length}
-              />
-              <DashboardItem
-                name={'Orgs Added (last 7 days)'}
-                value={orgsResult.data?.organizations.length}
-              />
-              <DashboardItem
-                name={'GitPOAPs Added (last 7 days)'}
-                value={gitPOAPsResult.data?.gitPOAPS.length}
-              />
-              <DashboardItem
-                name={'Profiles Added (last 7 days)'}
-                value={profilesResult.data?.profiles.length}
-              />
-              <DashboardItem name={'Claim %'} value={'TBD'} />
-            </Dashboard>
-          ) : (
-            <ConnectGitHub />
-          )}
+          <Dashboard>
+            <Header>{'Vitals Dashboard'}</Header>
+            <DashboardItem name={'Mints (last 7 days)'} value={claimsResult.data?.claims.length} />
+            <DashboardItem
+              name={'Repos Added (last 7 days)'}
+              value={reposResult.data?.repos.length}
+            />
+            <DashboardItem
+              name={'Orgs Added (last 7 days)'}
+              value={orgsResult.data?.organizations.length}
+            />
+            <DashboardItem
+              name={'GitPOAPs Added (last 7 days)'}
+              value={gitPOAPsResult.data?.gitPOAPS.length}
+            />
+            <DashboardItem
+              name={'Profiles Added (last 7 days)'}
+              value={profilesResult.data?.profiles.length}
+            />
+            <DashboardItem name={'Claim %'} value={'TBD'} />
+          </Dashboard>
         </Grid.Col>
       </Grid>
     </>
