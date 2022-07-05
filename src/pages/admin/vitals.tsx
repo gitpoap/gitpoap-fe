@@ -18,7 +18,7 @@ const ReposDashboard: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
         <Grid.Col span={10}>
-          {!isLoggedIntoGitHub ? (
+          {isLoggedIntoGitHub ? (
             <>
               <VitalsDashboard />
             </>
