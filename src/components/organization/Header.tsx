@@ -14,7 +14,7 @@ import {
   SubHeaderItem,
   SubHeaderItemCount,
   SubHeaderItemLabel,
-} from '../project/Header';
+} from '../repo/Header';
 
 const HeaderWrapper = styled(Wrapper)`
   height: ${rem(600)};
