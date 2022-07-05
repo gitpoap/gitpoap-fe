@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { DateTime } from 'luxon';
-import Head from 'next/head';
 import {
   useClaimsInLastWeekQuery,
   useGitPoaPsAddedInLastWeekQuery,
@@ -10,9 +9,6 @@ import {
   useProfilesAddedInLastWeekQuery,
   useReposAddedInLastWeekQuery,
 } from '../../graphql/generated-gql';
-import { Grid } from '@mantine/core';
-import { useAuthContext } from '../github/AuthContext';
-import { ConnectGitHub } from './ConnectGitHub';
 import { Header } from '../shared/elements';
 
 const ItemContainer = styled.div`
@@ -27,6 +23,11 @@ const ItemValue = styled.div``;
 
 const Dashboard = styled.div`
   max-width: ${rem(500)};
+`;
+
+const HeaderContainer = styled.div`
+  margin-bottom: ${rem(20)};
+  margin-top: ${rem(20)};
 `;
 
 type ItemProps = {
@@ -61,42 +62,26 @@ export const VitalsDashboard = () => {
 
   return (
     <>
-      <Head>
-        <title>{'Vitals | GitPOAP'}</title>
-        <meta name="description" content="GitPOAP Admin" />
-      </Head>
-      <Grid
-        justify="center"
-        style={{
-          flex: 1,
-          marginTop: rem(20),
-          marginBottom: rem(20),
-        }}
-      >
-        <Grid.Col span={10}>
-          <Dashboard>
-            <Header>{'Vitals Dashboard'}</Header>
-            <DashboardItem name={'Mints (last 7 days)'} value={claimsResult.data?.claims.length} />
-            <DashboardItem
-              name={'Repos Added (last 7 days)'}
-              value={reposResult.data?.repos.length}
-            />
-            <DashboardItem
-              name={'Orgs Added (last 7 days)'}
-              value={orgsResult.data?.organizations.length}
-            />
-            <DashboardItem
-              name={'GitPOAPs Added (last 7 days)'}
-              value={gitPOAPsResult.data?.gitPOAPS.length}
-            />
-            <DashboardItem
-              name={'Profiles Added (last 7 days)'}
-              value={profilesResult.data?.profiles.length}
-            />
-            <DashboardItem name={'Claim %'} value={'TBD'} />
-          </Dashboard>
-        </Grid.Col>
-      </Grid>
+      <Dashboard>
+        <HeaderContainer>
+          <Header>{'Vitals Dashboard'}</Header>
+        </HeaderContainer>
+        <DashboardItem name={'Mints (last 7 days)'} value={claimsResult.data?.claims.length} />
+        <DashboardItem name={'Repos Added (last 7 days)'} value={reposResult.data?.repos.length} />
+        <DashboardItem
+          name={'Orgs Added (last 7 days)'}
+          value={orgsResult.data?.organizations.length}
+        />
+        <DashboardItem
+          name={'GitPOAPs Added (last 7 days)'}
+          value={gitPOAPsResult.data?.gitPOAPS.length}
+        />
+        <DashboardItem
+          name={'Profiles Added (last 7 days)'}
+          value={profilesResult.data?.profiles.length}
+        />
+        <DashboardItem name={'Claim %'} value={'TBD'} />
+      </Dashboard>
     </>
   );
 };

@@ -9,6 +9,7 @@ import { VitalsDashboard } from '../../components/admin/VitalsDashboard';
 
 const ReposDashboard: NextPage = () => {
   const { isLoggedIntoGitHub } = useAuthContext();
+  const isClient = typeof window !== 'undefined';
 
   return (
     <>
@@ -18,7 +19,7 @@ const ReposDashboard: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
         <Grid.Col span={10}>
-          {isLoggedIntoGitHub ? (
+          {isLoggedIntoGitHub && isClient ? (
             <>
               <VitalsDashboard />
             </>
