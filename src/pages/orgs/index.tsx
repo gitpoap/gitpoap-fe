@@ -11,7 +11,7 @@ const Orgs: Page = () => {
       <SEO
         title={`Organizations | GitPOAP`}
         description={
-          'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
+          'View all organizations supported on GitPOAP - a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
         }
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/orgs`}

@@ -99,7 +99,7 @@ export const OrgRepoHex = ({ className, repo }: Props) => {
           <GitPOAP />
           <Text>{mintedGitPOAPCount}</Text>
           <Star />
-          <Text>{starCount ?? 0}</Text>
+          <Text>{starCount ?? ''}</Text>
         </Stats>
       </Content>
     </InfoHexBaseStyled>

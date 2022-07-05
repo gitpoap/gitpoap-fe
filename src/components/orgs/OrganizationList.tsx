@@ -128,9 +128,7 @@ export const OrganizationList = () => {
           )}
 
           {orgsToDisplay &&
-            orgsToDisplay.map((org, i) => {
-              return <OrganizationHex key={'organization-' + i} org={org} />;
-            })}
+            orgsToDisplay.map((org, i) => <OrganizationHex key={'organization-' + i} org={org} />)}
         </OrgList>
       </StyledItemList>
     </Wrapper>
