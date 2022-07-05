@@ -15,7 +15,7 @@ import { BREAKPOINTS } from '../../constants';
 import { Header } from '../../components/shared/elements/Header';
 import { BackgroundHexes } from '../../components/organization/BackgroundHexes';
 import { Header as PageHeader } from '../../components/organization/Header';
-import { ProjectList } from '../../components/organization/ProjectList';
+import { OrgRepoList } from '../../components/organization/OrgRepoList';
 import { OrganizationDataQuery, OrganizationDataDocument } from '../../graphql/generated-gql';
 import { ONE_DAY } from '../../constants';
 
@@ -53,7 +53,7 @@ const ContentWrapper = styled.div`
   }
 `;
 
-const ProjectsWrapper = styled.div`
+const ReposWrapper = styled.div`
   flex: 1;
 
   @media (max-width: ${BREAKPOINTS.md}px) {
@@ -107,11 +107,11 @@ const Organization: Page<PageProps> = (props) => {
             <PageHeader org={org} />
           </Grid.Col>
 
-          <Grid.Col>
+          <Grid.Col span={11}>
             <ContentWrapper>
-              <ProjectsWrapper>
-                <ProjectList orgId={orgId} />
-              </ProjectsWrapper>
+              <ReposWrapper>
+                <OrgRepoList orgId={orgId} />
+              </ReposWrapper>
             </ContentWrapper>
           </Grid.Col>
         </>

@@ -10,7 +10,7 @@ import { TextGray } from '../../../colors';
 import { Input } from '../elements/Input';
 
 type Props = {
-  title: string;
+  title?: string;
   className?: string;
   children?: React.ReactNode;
   selectOptions: SelectOption[];

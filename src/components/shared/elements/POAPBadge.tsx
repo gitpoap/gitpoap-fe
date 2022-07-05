@@ -25,15 +25,7 @@ const ImgContainer = styled.a`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // Account for hex height
-  margin: ${rem(6)} 0;
-`;
-
-const POAP = styled(Image)`
-  width: ${rem(150)};
-  height: ${rem(150)};
   border-radius: 50%;
-  background: #ffffff;
   transition: 150ms background-color ease-in-out, 150ms opacity ease-in-out;
 
   &:hover:not([disabled]) {
@@ -43,6 +35,19 @@ const POAP = styled(Image)`
   &:active:not([disabled]) {
     opacity: 0.5;
   }
+
+  /* Prevents the underlying next/image components from being clickable */
+  span,
+  img {
+    pointer-events: none;
+  }
+`;
+
+const POAP = styled(Image)`
+  width: ${rem(150)};
+  height: ${rem(150)};
+  border-radius: 50%;
+  background: #ffffff;
 `;
 
 const Title = styled(TitleUI)`
@@ -59,6 +64,7 @@ const Heart = styled(FeatureHeart)`
 
 const BadgeContainer = styled(Container)`
   position: relative;
+  margin: ${rem(6)} 0;
 `;
 
 export const POAPBadge = ({ className, imgSrc, name, href, poapTokenId }: Props) => {

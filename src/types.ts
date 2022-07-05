@@ -22,7 +22,7 @@ export type GitPOAP = {
   id: number;
   name: string;
   description?: string;
-  orgName: string;
+  repoName: string;
   imgSrc: string;
 };
 

@@ -1660,7 +1660,11 @@ export type MostClaimedGitPoapsQuery = {
   mostClaimedGitPOAPs?: Array<{
     __typename?: 'GitPOAPWithClaimsCount';
     claimsCount: number;
-    gitPOAP: { __typename?: 'GitPOAP'; id: number; repo: { __typename?: 'Repo'; name: string } };
+    gitPOAP: {
+      __typename?: 'GitPOAP';
+      id: number;
+      repo: { __typename?: 'Repo'; id: number; name: string };
+    };
     event: { __typename?: 'POAPEvent'; name: string; image_url: string };
   }> | null;
 };
@@ -1771,11 +1775,11 @@ export type OpenClaimsQuery = {
   }> | null;
 };
 
-export type RecentProjectsQueryVariables = Exact<{
+export type RecentReposQueryVariables = Exact<{
   count: Scalars['Float'];
 }>;
 
-export type RecentProjectsQuery = {
+export type RecentReposQuery = {
   __typename?: 'Query';
   recentlyAddedProjects: Array<{
     __typename?: 'Repo';
@@ -1961,6 +1965,24 @@ export type AllReposQuery = {
   }>;
 };
 
+export type AllReposOnRepoPageQueryVariables = Exact<{
+  sort?: InputMaybe<Scalars['String']>;
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+}>;
+
+export type AllReposOnRepoPageQuery = {
+  __typename?: 'Query';
+  allRepos?: Array<{
+    __typename?: 'Repo';
+    id: number;
+    name: string;
+    githubRepoId: number;
+    organization: { __typename?: 'Organization'; name: string };
+    gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number }>;
+  }> | null;
+};
+
 export type OrganizationDataQueryVariables = Exact<{
   orgId?: InputMaybe<Scalars['Float']>;
   orgName?: InputMaybe<Scalars['String']>;
@@ -1982,6 +2004,27 @@ export type OrganizationDataQuery = {
   } | null;
 };
 
+export type OrganizationsListQueryVariables = Exact<{
+  sort?: InputMaybe<Scalars['String']>;
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+}>;
+
+export type OrganizationsListQuery = {
+  __typename?: 'Query';
+  allOrganizations?: Array<{
+    __typename?: 'Organization';
+    id: number;
+    name: string;
+    githubOrgId: number;
+    repos: Array<{
+      __typename?: 'Repo';
+      id: number;
+      gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number }>;
+    }>;
+  }> | null;
+};
+
 export type OrganizationReposQueryVariables = Exact<{
   orgId: Scalars['Float'];
   sort?: InputMaybe<Scalars['String']>;
@@ -1999,6 +2042,10 @@ export type OrganizationReposQuery = {
     mintedGitPOAPCount: number;
   }> | null;
 };
+
+export type TotalRepoCountQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalRepoCountQuery = { __typename?: 'Query'; totalRepos: number };
 
 export const GetAllStatsDocument = gql`
   query getAllStats {
@@ -2098,6 +2145,7 @@ export const MostClaimedGitPoapsDocument = gql`
       gitPOAP {
         id
         repo {
+          id
           name
         }
       }
@@ -2242,8 +2290,8 @@ export function useOpenClaimsQuery(
 ) {
   return Urql.useQuery<OpenClaimsQuery>({ query: OpenClaimsDocument, ...options });
 }
-export const RecentProjectsDocument = gql`
-  query recentProjects($count: Float!) {
+export const RecentReposDocument = gql`
+  query recentRepos($count: Float!) {
     recentlyAddedProjects(count: $count) {
       id
       name
@@ -2255,10 +2303,10 @@ export const RecentProjectsDocument = gql`
   }
 `;
 
-export function useRecentProjectsQuery(
-  options: Omit<Urql.UseQueryArgs<RecentProjectsQueryVariables>, 'query'>,
+export function useRecentReposQuery(
+  options: Omit<Urql.UseQueryArgs<RecentReposQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<RecentProjectsQuery>({ query: RecentProjectsDocument, ...options });
+  return Urql.useQuery<RecentReposQuery>({ query: RecentReposDocument, ...options });
 }
 export const GitPoapEventDocument = gql`
   query gitPoapEvent($id: Float!) {
@@ -2448,6 +2496,27 @@ export function useAllReposQuery(
 ) {
   return Urql.useQuery<AllReposQuery>({ query: AllReposDocument, ...options });
 }
+export const AllReposOnRepoPageDocument = gql`
+  query allReposOnRepoPage($sort: String, $page: Float, $perPage: Float) {
+    allRepos(sort: $sort, page: $page, perPage: $perPage) {
+      id
+      name
+      githubRepoId
+      organization {
+        name
+      }
+      gitPOAPs {
+        id
+      }
+    }
+  }
+`;
+
+export function useAllReposOnRepoPageQuery(
+  options?: Omit<Urql.UseQueryArgs<AllReposOnRepoPageQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AllReposOnRepoPageQuery>({ query: AllReposOnRepoPageDocument, ...options });
+}
 export const OrganizationDataDocument = gql`
   query organizationData($orgId: Float, $orgName: String) {
     organizationData(orgId: $orgId, orgName: $orgName) {
@@ -2469,6 +2538,27 @@ export function useOrganizationDataQuery(
 ) {
   return Urql.useQuery<OrganizationDataQuery>({ query: OrganizationDataDocument, ...options });
 }
+export const OrganizationsListDocument = gql`
+  query organizationsList($sort: String, $page: Float, $perPage: Float) {
+    allOrganizations(sort: $sort, page: $page, perPage: $perPage) {
+      id
+      name
+      githubOrgId
+      repos {
+        id
+        gitPOAPs {
+          id
+        }
+      }
+    }
+  }
+`;
+
+export function useOrganizationsListQuery(
+  options?: Omit<Urql.UseQueryArgs<OrganizationsListQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<OrganizationsListQuery>({ query: OrganizationsListDocument, ...options });
+}
 export const OrganizationReposDocument = gql`
   query organizationRepos($orgId: Float!, $sort: String, $page: Float, $perPage: Float) {
     organizationRepos(orgId: $orgId, sort: $sort, page: $page, perPage: $perPage) {
@@ -2484,4 +2574,15 @@ export function useOrganizationReposQuery(
   options: Omit<Urql.UseQueryArgs<OrganizationReposQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<OrganizationReposQuery>({ query: OrganizationReposDocument, ...options });
+}
+export const TotalRepoCountDocument = gql`
+  query totalRepoCount {
+    totalRepos
+  }
+`;
+
+export function useTotalRepoCountQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalRepoCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalRepoCountQuery>({ query: TotalRepoCountDocument, ...options });
 }

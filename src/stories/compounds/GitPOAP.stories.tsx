@@ -17,7 +17,7 @@ Default.args = {
   gitPOAPId: gitPOAPs[0].id,
   imgSrc: gitPOAPs[0].imgSrc,
   name: gitPOAPs[0].name,
-  orgName: gitPOAPs[0].orgName,
+  repoName: gitPOAPs[0].repoName,
   description: gitPOAPs[0].description,
 };
 
@@ -26,5 +26,5 @@ NoDescription.args = {
   gitPOAPId: gitPOAPs[0].id,
   imgSrc: gitPOAPs[0].imgSrc,
   name: gitPOAPs[0].name,
-  orgName: gitPOAPs[0].orgName,
+  repoName: gitPOAPs[0].repoName,
 };

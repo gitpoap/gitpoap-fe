@@ -27,7 +27,7 @@ const Poaps = styled.div`
   max-width: ${rem(1000)};
   flex-wrap: wrap;
   margin-top: ${rem(50)};
-  margin-bottom: ${rem(50)};
+  margin-bottom: ${rem(25)};
   column-gap: ${rem(36)};
   row-gap: ${rem(36)};
 
@@ -64,7 +64,8 @@ export const MostClaimed = () => {
               gitPOAPId={item.gitPOAP.id}
               imgSrc={item.event.image_url}
               name={item.event.name}
-              orgName={item.gitPOAP.repo.name}
+              repoName={item.gitPOAP.repo.name}
+              repoId={item.gitPOAP.repo.id}
             />
           );
         })}

@@ -1,14 +1,22 @@
 import React from 'react';
+import styled from 'styled-components';
 import { rem } from 'polished';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Grid } from '@mantine/core';
+import { Grid, Loader } from '@mantine/core';
 import { useAuthContext } from '../../../components/github/AuthContext';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { useAdminClaimsQuery, useGetAllStatsQuery } from '../../../graphql/generated-gql';
 import { DateTime } from 'luxon';
 import { truncateAddress, truncateString } from '../../../helpers';
 import TableDashboard, { TD } from '../../../components/admin/TableDashboard';
+
+const LoaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
 
 type RowData = {
   'Claim ID': TD<number>;
@@ -65,15 +73,27 @@ const ClaimsDashboard: NextPage = () => {
   });
 
   return (
-    <div>
+    <>
       <Head>
         <title>{'Claims Dashboard | GitPOAP'}</title>
         <meta name="description" content="GitPOAP Admin" />
       </Head>
-      <Grid justify="center" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
+      <Grid
+        justify="center"
+        style={{
+          flex: 1,
+          marginTop: rem(20),
+          marginBottom: rem(20),
+        }}
+      >
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
           {isLoggedIntoGitHub ? (
             <>
+              {result.fetching && (
+                <LoaderContainer>
+                  <Loader size="xl" variant="dots" />
+                </LoaderContainer>
+              )}
               {data && (
                 <TableDashboard<RowData[]>
                   name="Admin - Claims Dashboard"
@@ -87,7 +107,7 @@ const ClaimsDashboard: NextPage = () => {
           )}
         </Grid.Col>
       </Grid>
-    </div>
+    </>
   );
 };
 

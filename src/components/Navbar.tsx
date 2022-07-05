@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Link from 'next/link';
+import { Link } from './Link';
 import { rem } from 'polished';
 import { Burger, Collapse, Stack, Group } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { DividerGray1, TextLight, MidnightBlue } from '../colors';
 import { BREAKPOINTS } from '../constants';
 import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
+import { GitPOAPLogoNoText } from './shared/elements/icons';
 import { Wallet } from './wallet/Wallet';
 import { GitHub } from './github/GitHub';
 import { SearchBox as SearchBoxUI } from './search/SearchBox';
@@ -31,7 +33,7 @@ const Container = styled(Group)`
   }
 `;
 
-const LogoWrapper = styled.a`
+const LogoWrapper = styled(Link)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -43,17 +45,13 @@ const ContentRight = styled.div`
   flex-direction: row;
   align-items: center;
 
-  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
     display: none;
   }
 `;
 
 const ClaimButton = styled(GitHub)`
   margin-right: ${rem(12)};
-
-  @media (max-width: ${rem(BREAKPOINTS.md)}) {
-    margin-right: 0;
-  }
 `;
 
 const SearchBox = styled(SearchBoxUI)`
@@ -71,14 +69,14 @@ const SearchBox = styled(SearchBoxUI)`
 
 const MobileBurgerButton = styled(Burger)`
   display: none;
-  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
     display: block;
   }
 `;
 
 const MobileCollapseMenu = styled(Collapse)`
   display: none;
-  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
     display: block;
   }
 `;
@@ -98,20 +96,55 @@ const CollapseMenuContent = styled(Stack)`
   }
 `;
 
+const StyledGitPOAPLogo = styled(GitPOAPLogo)`
+  display: block;
+  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
+    display: none;
+  }
+`;
+
+const StyledGitPOAPLogoNoText = styled(GitPOAPLogoNoText)`
+  display: none;
+  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
+    display: block;
+  }
+`;
+
 export const Navbar = () => {
   const { connectionStatus, address, ensName } = useWeb3Context();
+  const matchesBreakpointLg = useMediaQuery(`(min-width: ${rem(1100)})`);
+  const matchesBreakpointMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`);
   const [opened, setOpened] = useState(false);
   const title = opened ? 'Close navigation' : 'Open navigation';
 
   const showPOAPsPage = false;
-  const showProjectsPage = false;
+  const showOrgsPage = true;
   const showContributorsPage = false;
 
   const navItems = (
     <>
+      {matchesBreakpointMd && <SearchBox />}
+      {showPOAPsPage && <NavLink href="/poaps">{'POAPS'}</NavLink>}
+      <NavLink href="/repos">{'Repos'}</NavLink>
+      {showOrgsPage && <NavLink href="/orgs">{'Orgs'}</NavLink>}
+      {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
+      <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
+        {'Docs'}
+      </NavLinkAnchor>
+      {connectionStatus === 'connected' && matchesBreakpointLg && (
+        <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
+      )}
+      <ClaimButton />
+      <Wallet hideText={!matchesBreakpointLg} />
+    </>
+  );
+
+  const navItemsCollapsed = (
+    <>
       <SearchBox />
       {showPOAPsPage && <NavLink href="/poaps">{'POAPS'}</NavLink>}
-      {showProjectsPage && <NavLink href="/projects">{'Projects'}</NavLink>}
+      <NavLink href="/repos">{'Repos'}</NavLink>
+      {showOrgsPage && <NavLink href="/orgs">{'Orgs'}</NavLink>}
       {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
@@ -127,16 +160,15 @@ export const Navbar = () => {
   return (
     <Nav>
       <Container position="apart">
-        <Link href="/" passHref>
-          <LogoWrapper>
-            <GitPOAPLogo />
-          </LogoWrapper>
-        </Link>
+        <LogoWrapper href="/" passHref>
+          <StyledGitPOAPLogo />
+          <StyledGitPOAPLogoNoText />
+        </LogoWrapper>
         <ContentRight>{navItems}</ContentRight>
         <MobileBurgerButton opened={opened} onClick={() => setOpened((o) => !o)} title={title} />
       </Container>
       <MobileCollapseMenu in={opened}>
-        <CollapseMenuContent spacing="lg">{navItems}</CollapseMenuContent>
+        <CollapseMenuContent spacing="lg">{navItemsCollapsed}</CollapseMenuContent>
       </MobileCollapseMenu>
     </Nav>
   );

@@ -12,7 +12,7 @@ type FeaturesState = {
 };
 
 export const getInitialState = (): FeaturesState => ({
-  hasHomePageRecentProjects: false,
+  hasHomePageRecentProjects: true,
   hasGitPOAPsPage: false,
   hasProjectsPage: true,
   hasCheckIfImEligible: false,

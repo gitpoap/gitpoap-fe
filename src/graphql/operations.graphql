@@ -59,6 +59,7 @@ query mostClaimedGitPoaps($count: Float!) {
     gitPOAP {
       id
       repo {
+        id
         name
       }
     }
@@ -161,7 +162,7 @@ query openClaims($githubId: Float!) {
   }
 }
 
-query recentProjects($count: Float!) {
+query recentRepos($count: Float!) {
   recentlyAddedProjects(count: $count) {
     id
     name
@@ -305,7 +306,23 @@ query allRepos($count: Int!) {
       name
     }
     createdAt
+    gitPOAPs {
+      id
+    }
+  }
+}
 
+# Query primarily used on the Repos page
+query allReposOnRepoPage($sort: String, $page: Float, $perPage: Float) {
+  allRepos(sort: $sort, page: $page, perPage: $perPage) {
+    id
+    name
+    githubRepoId
+    # claimCount - use once backend changes are in
+    # uniqueContributorCount - use once backend changes are in
+    organization {
+      name
+    }
     gitPOAPs {
       id
     }
@@ -326,6 +343,20 @@ query organizationData($orgId: Float, $orgName: String) {
   }
 }
 
+query organizationsList($sort: String, $page: Float, $perPage: Float) {
+  allOrganizations(sort: $sort, page: $page, perPage: $perPage) {
+    id
+    name
+    githubOrgId
+    repos {
+      id
+      gitPOAPs {
+        id
+      }
+    }
+  }
+}
+
 query organizationRepos($orgId: Float!, $sort: String, $page: Float, $perPage: Float) {
   organizationRepos(orgId: $orgId, sort: $sort, page: $page, perPage: $perPage) {
     id
@@ -333,4 +364,8 @@ query organizationRepos($orgId: Float!, $sort: String, $page: Float, $perPage: F
     contributorCount
     mintedGitPOAPCount
   }
+}
+
+query totalRepoCount {
+  totalRepos
 }

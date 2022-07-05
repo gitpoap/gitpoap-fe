@@ -88,7 +88,7 @@ export const FeaturedPOAPs = () => {
                   gitPOAPId={featuredPOAP.claim.gitPOAP.id}
                   name={featuredPOAP.poap.event.name}
                   imgSrc={featuredPOAP.poap.event.image_url}
-                  orgName={featuredPOAP.claim.gitPOAP.repo.organization.name}
+                  repoName={featuredPOAP.claim.gitPOAP.repo.organization.name}
                   description={featuredPOAP.poap.event.description}
                   poapTokenId={featuredPOAP.poap.tokenId}
                 />
