@@ -370,31 +370,31 @@ query totalRepoCount {
   totalRepos
 }
 
-query claimsInLastWeek($date: DateTime) {
+query claimsSince($date: DateTime) {
   claims(where: { status: { equals: CLAIMED }, mintedAt: { gt: $date } }) {
     id
   }
 }
 
-query reposAddedInLastWeek($date: DateTime) {
+query reposSince($date: DateTime) {
   repos(where: { createdAt: { gt: $date } }) {
     id
   }
 }
 
-query gitPOAPsAddedInLastWeek($date: DateTime) {
+query gitPOAPsSince($date: DateTime) {
   gitPOAPS(where: { createdAt: { gt: $date } }) {
     id
   }
 }
 
-query profilesAddedInLastWeek($date: DateTime) {
+query profilesSince($date: DateTime) {
   profiles(where: { createdAt: { gt: $date } }) {
     id
   }
 }
 
-query orgsAddedInLastWeek($date: DateTime) {
+query orgsSince($date: DateTime) {
   organizations(where: { createdAt: { gt: $date } }) {
     id
   }

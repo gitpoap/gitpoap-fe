@@ -2044,47 +2044,47 @@ export type TotalRepoCountQueryVariables = Exact<{ [key: string]: never }>;
 
 export type TotalRepoCountQuery = { __typename?: 'Query'; totalRepos: number };
 
-export type ClaimsInLastWeekQueryVariables = Exact<{
+export type ClaimsSinceQueryVariables = Exact<{
   date?: InputMaybe<Scalars['DateTime']>;
 }>;
 
-export type ClaimsInLastWeekQuery = {
+export type ClaimsSinceQuery = {
   __typename?: 'Query';
   claims: Array<{ __typename?: 'Claim'; id: number }>;
 };
 
-export type ReposAddedInLastWeekQueryVariables = Exact<{
+export type ReposSinceQueryVariables = Exact<{
   date?: InputMaybe<Scalars['DateTime']>;
 }>;
 
-export type ReposAddedInLastWeekQuery = {
+export type ReposSinceQuery = {
   __typename?: 'Query';
   repos: Array<{ __typename?: 'Repo'; id: number }>;
 };
 
-export type GitPoaPsAddedInLastWeekQueryVariables = Exact<{
+export type GitPoaPsSinceQueryVariables = Exact<{
   date?: InputMaybe<Scalars['DateTime']>;
 }>;
 
-export type GitPoaPsAddedInLastWeekQuery = {
+export type GitPoaPsSinceQuery = {
   __typename?: 'Query';
   gitPOAPS: Array<{ __typename?: 'GitPOAP'; id: number }>;
 };
 
-export type ProfilesAddedInLastWeekQueryVariables = Exact<{
+export type ProfilesSinceQueryVariables = Exact<{
   date?: InputMaybe<Scalars['DateTime']>;
 }>;
 
-export type ProfilesAddedInLastWeekQuery = {
+export type ProfilesSinceQuery = {
   __typename?: 'Query';
   profiles: Array<{ __typename?: 'Profile'; id: number }>;
 };
 
-export type OrgsAddedInLastWeekQueryVariables = Exact<{
+export type OrgsSinceQueryVariables = Exact<{
   date?: InputMaybe<Scalars['DateTime']>;
 }>;
 
-export type OrgsAddedInLastWeekQuery = {
+export type OrgsSinceQuery = {
   __typename?: 'Query';
   organizations: Array<{ __typename?: 'Organization'; id: number }>;
 };
@@ -2628,80 +2628,68 @@ export function useTotalRepoCountQuery(
 ) {
   return Urql.useQuery<TotalRepoCountQuery>({ query: TotalRepoCountDocument, ...options });
 }
-export const ClaimsInLastWeekDocument = gql`
-  query claimsInLastWeek($date: DateTime) {
+export const ClaimsSinceDocument = gql`
+  query claimsSince($date: DateTime) {
     claims(where: { status: { equals: CLAIMED }, mintedAt: { gt: $date } }) {
       id
     }
   }
 `;
 
-export function useClaimsInLastWeekQuery(
-  options?: Omit<Urql.UseQueryArgs<ClaimsInLastWeekQueryVariables>, 'query'>,
+export function useClaimsSinceQuery(
+  options?: Omit<Urql.UseQueryArgs<ClaimsSinceQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<ClaimsInLastWeekQuery>({ query: ClaimsInLastWeekDocument, ...options });
+  return Urql.useQuery<ClaimsSinceQuery>({ query: ClaimsSinceDocument, ...options });
 }
-export const ReposAddedInLastWeekDocument = gql`
-  query reposAddedInLastWeek($date: DateTime) {
+export const ReposSinceDocument = gql`
+  query reposSince($date: DateTime) {
     repos(where: { createdAt: { gt: $date } }) {
       id
     }
   }
 `;
 
-export function useReposAddedInLastWeekQuery(
-  options?: Omit<Urql.UseQueryArgs<ReposAddedInLastWeekQueryVariables>, 'query'>,
+export function useReposSinceQuery(
+  options?: Omit<Urql.UseQueryArgs<ReposSinceQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<ReposAddedInLastWeekQuery>({
-    query: ReposAddedInLastWeekDocument,
-    ...options,
-  });
+  return Urql.useQuery<ReposSinceQuery>({ query: ReposSinceDocument, ...options });
 }
-export const GitPoaPsAddedInLastWeekDocument = gql`
-  query gitPOAPsAddedInLastWeek($date: DateTime) {
+export const GitPoaPsSinceDocument = gql`
+  query gitPOAPsSince($date: DateTime) {
     gitPOAPS(where: { createdAt: { gt: $date } }) {
       id
     }
   }
 `;
 
-export function useGitPoaPsAddedInLastWeekQuery(
-  options?: Omit<Urql.UseQueryArgs<GitPoaPsAddedInLastWeekQueryVariables>, 'query'>,
+export function useGitPoaPsSinceQuery(
+  options?: Omit<Urql.UseQueryArgs<GitPoaPsSinceQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<GitPoaPsAddedInLastWeekQuery>({
-    query: GitPoaPsAddedInLastWeekDocument,
-    ...options,
-  });
+  return Urql.useQuery<GitPoaPsSinceQuery>({ query: GitPoaPsSinceDocument, ...options });
 }
-export const ProfilesAddedInLastWeekDocument = gql`
-  query profilesAddedInLastWeek($date: DateTime) {
+export const ProfilesSinceDocument = gql`
+  query profilesSince($date: DateTime) {
     profiles(where: { createdAt: { gt: $date } }) {
       id
     }
   }
 `;
 
-export function useProfilesAddedInLastWeekQuery(
-  options?: Omit<Urql.UseQueryArgs<ProfilesAddedInLastWeekQueryVariables>, 'query'>,
+export function useProfilesSinceQuery(
+  options?: Omit<Urql.UseQueryArgs<ProfilesSinceQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<ProfilesAddedInLastWeekQuery>({
-    query: ProfilesAddedInLastWeekDocument,
-    ...options,
-  });
+  return Urql.useQuery<ProfilesSinceQuery>({ query: ProfilesSinceDocument, ...options });
 }
-export const OrgsAddedInLastWeekDocument = gql`
-  query orgsAddedInLastWeek($date: DateTime) {
+export const OrgsSinceDocument = gql`
+  query orgsSince($date: DateTime) {
     organizations(where: { createdAt: { gt: $date } }) {
       id
     }
   }
 `;
 
-export function useOrgsAddedInLastWeekQuery(
-  options?: Omit<Urql.UseQueryArgs<OrgsAddedInLastWeekQueryVariables>, 'query'>,
+export function useOrgsSinceQuery(
+  options?: Omit<Urql.UseQueryArgs<OrgsSinceQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<OrgsAddedInLastWeekQuery>({
-    query: OrgsAddedInLastWeekDocument,
-    ...options,
-  });
+  return Urql.useQuery<OrgsSinceQuery>({ query: OrgsSinceDocument, ...options });
 }

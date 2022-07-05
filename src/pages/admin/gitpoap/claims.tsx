@@ -26,7 +26,7 @@ type RowData = {
   Status: TD<string>;
   'Poap Token ID': TD<string>;
   Address: TD<string>;
-  'Claimed At': TD<string>;
+  'Minted At': TD<string>;
   'Created At': TD<string>;
 };
 
@@ -67,7 +67,7 @@ const ClaimsDashboard: NextPage = () => {
         value: truncateAddress(claim.address ?? '', 6) ?? '',
         href: `/p/${claim.address}`,
       },
-      'Claimed At': { value: DateTime.fromISO(claim.mintedAt).toFormat('dd LLL yyyy hh:mm') },
+      'Minted At': { value: DateTime.fromISO(claim.mintedAt).toFormat('dd LLL yyyy hh:mm') },
       'Created At': { value: DateTime.fromISO(claim.createdAt).toFormat('dd LLL yyyy hh:mm') },
     };
   });
