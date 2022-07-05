@@ -17,6 +17,7 @@ import {
   Button,
   Share,
 } from '../shared/elements';
+import { IconLink } from '../Link';
 
 type Props = {
   imgSrc: string | null;
@@ -126,10 +127,6 @@ const Divider = styled(DividerUI)`
   width: ${rem(100)};
 `;
 
-const IconLink = styled.a`
-  text-decoration: none;
-`;
-
 const ShareStyled = styled(Share)`
   margin-top: ${rem(20)};
 `;
@@ -177,17 +174,17 @@ export const InfoHexProfileDetail = ({
         {bio && <Bio>{bio}</Bio>}
         <Social>
           {twitterHref && (
-            <IconLink href={twitterHref} target="_blank" rel="noreferrer">
+            <IconLink href={twitterHref} target="_blank" rel="noreferrer" passHref>
               <Twitter />
             </IconLink>
           )}
           {githubHref && (
-            <IconLink href={githubHref} target="_blank" rel="noreferrer">
+            <IconLink href={githubHref} target="_blank" rel="noreferrer" passHref>
               <GitHub />
             </IconLink>
           )}
           {websiteHref && (
-            <IconLink href={websiteHref} target="_blank" rel="noreferrer">
+            <IconLink href={websiteHref} target="_blank" rel="noreferrer" passHref>
               <Globe />
             </IconLink>
           )}
