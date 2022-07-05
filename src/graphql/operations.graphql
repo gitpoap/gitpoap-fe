@@ -369,3 +369,33 @@ query organizationRepos($orgId: Float!, $sort: String, $page: Float, $perPage: F
 query totalRepoCount {
   totalRepos
 }
+
+query claimsInLastWeek($date: DateTime) {
+  claims(where: { status: { equals: CLAIMED }, mintedAt: { gt: $date } }) {
+    id
+  }
+}
+
+query reposAddedInLastWeek($date: DateTime) {
+  repos(where: { createdAt: { gt: $date } }) {
+    id
+  }
+}
+
+query gitPOAPsAddedInLastWeek($date: DateTime) {
+  gitPOAPS(where: { createdAt: { gt: $date } }) {
+    id
+  }
+}
+
+query profilesAddedInLastWeek($date: DateTime) {
+  profiles(where: { createdAt: { gt: $date } }) {
+    id
+  }
+}
+
+query orgsAddedInLastWeek($date: DateTime) {
+  organizations(where: { createdAt: { gt: $date } }) {
+    id
+  }
+}

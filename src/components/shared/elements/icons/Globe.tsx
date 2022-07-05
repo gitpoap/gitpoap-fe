@@ -7,18 +7,18 @@ export const Globe = styled(FiGlobe)`
   ${IconStyles};
   stroke: ${TextGray};
   path {
-    fill: unset;
+    fill: unset !important;
   }
   &:hover {
     stroke: ${ExtraHover};
     path {
-      fill: unset;
+      fill: unset !important;
     }
   }
   &:active {
     stroke: ${ExtraPressed};
     path {
-      fill: unset;
+      fill: unset !important;
     }
   }
 `;
