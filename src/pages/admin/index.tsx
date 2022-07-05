@@ -32,6 +32,10 @@ const pages = [
     title: 'Repos Dashboard',
     href: '/admin/repos',
   },
+  {
+    title: 'Vitals Dashboard',
+    href: '/admin/vitals',
+  },
 ];
 
 const HeaderLink = styled(Header)`
