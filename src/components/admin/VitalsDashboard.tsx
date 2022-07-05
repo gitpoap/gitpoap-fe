@@ -10,11 +10,13 @@ import {
   useReposAddedInLastWeekQuery,
 } from '../../graphql/generated-gql';
 import { Header } from '../shared/elements';
+import { Group } from '@mantine/core';
 
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: ${rem(4)};
 `;
 
 const ItemName = styled.div``;
@@ -22,7 +24,7 @@ const ItemName = styled.div``;
 const ItemValue = styled.div``;
 
 const Dashboard = styled.div`
-  max-width: ${rem(500)};
+  width: ${rem(500)};
 `;
 
 const HeaderContainer = styled.div`
@@ -61,27 +63,32 @@ export const VitalsDashboard = () => {
   });
 
   return (
-    <>
-      <Dashboard>
-        <HeaderContainer>
-          <Header>{'Vitals Dashboard'}</Header>
-        </HeaderContainer>
-        <DashboardItem name={'Mints (last 7 days)'} value={claimsResult.data?.claims.length} />
-        <DashboardItem name={'Repos Added (last 7 days)'} value={reposResult.data?.repos.length} />
-        <DashboardItem
-          name={'Orgs Added (last 7 days)'}
-          value={orgsResult.data?.organizations.length}
-        />
-        <DashboardItem
-          name={'GitPOAPs Added (last 7 days)'}
-          value={gitPOAPsResult.data?.gitPOAPS.length}
-        />
-        <DashboardItem
-          name={'Profiles Added (last 7 days)'}
-          value={profilesResult.data?.profiles.length}
-        />
-        <DashboardItem name={'Claim %'} value={'TBD'} />
-      </Dashboard>
-    </>
+    <Group direction="row" position="center">
+      <Group direction="column">
+        <Dashboard>
+          <HeaderContainer>
+            <Header>{'Vitals Dashboard'}</Header>
+          </HeaderContainer>
+          <DashboardItem name={'Mints (last 7 days)'} value={claimsResult.data?.claims.length} />
+          <DashboardItem
+            name={'Repos Added (last 7 days)'}
+            value={reposResult.data?.repos.length}
+          />
+          <DashboardItem
+            name={'Orgs Added (last 7 days)'}
+            value={orgsResult.data?.organizations.length}
+          />
+          <DashboardItem
+            name={'GitPOAPs Added (last 7 days)'}
+            value={gitPOAPsResult.data?.gitPOAPS.length}
+          />
+          <DashboardItem
+            name={'Profiles Added (last 7 days)'}
+            value={profilesResult.data?.profiles.length}
+          />
+          <DashboardItem name={'Claim %'} value={'TBD'} />
+        </Dashboard>
+      </Group>
+    </Group>
   );
 };

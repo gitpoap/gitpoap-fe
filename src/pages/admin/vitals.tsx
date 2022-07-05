@@ -12,13 +12,13 @@ const ReposDashboard: NextPage = () => {
   const isClient = typeof window !== 'undefined';
 
   return (
-    <>
+    <div>
       <Head>
         <title>{'Vitals Dashboard | GitPOAP'}</title>
         <meta name="description" content="GitPOAP Admin" />
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
-        <Grid.Col span={10}>
+        <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
           {isLoggedIntoGitHub && isClient ? (
             <>
               <VitalsDashboard />
@@ -28,7 +28,7 @@ const ReposDashboard: NextPage = () => {
           )}
         </Grid.Col>
       </Grid>
-    </>
+    </div>
   );
 };
 
