@@ -77,6 +77,8 @@ export const FeedbackButton = ({ className, href }: Props) => {
       target={
         <CircleButton
           href={href}
+          target="_blank"
+          rel="noopener noreferrer"
           onMouseEnter={() => setIsOpen(true)}
           onMouseLeave={() => setIsOpen(false)}
         >

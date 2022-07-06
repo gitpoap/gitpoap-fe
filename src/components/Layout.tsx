@@ -4,6 +4,7 @@ import { Footer } from './Footer';
 import { MidnightBlue } from '../colors';
 import { FeedbackButton } from './FeedbackButton';
 import { rem } from 'polished';
+import { BREAKPOINTS, TYPEFORM_LINKS } from '../constants';
 
 type Props = {
   children: React.ReactNode;
@@ -30,6 +31,9 @@ const StyledFeedbackButton = styled(FeedbackButton)`
   position: fixed;
   bottom: ${rem(60)};
   right: ${rem(60)};
+  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
+    display: none;
+  }
 `;
 
 export const Layout = ({ children }: Props) => {
@@ -38,6 +42,7 @@ export const Layout = ({ children }: Props) => {
       <Navbar />
       <MainContent>{children}</MainContent>
       <Footer />
+      <StyledFeedbackButton href={TYPEFORM_LINKS.feedback} />
     </App>
   );
 };

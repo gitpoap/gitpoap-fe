@@ -21,6 +21,11 @@ export const DEFAULT_START_DATE = DateTime.local(THIS_YEAR, 1, 1).toJSDate();
 export const DEFAULT_END_DATE = DateTime.local(THIS_YEAR, 12, 31).toJSDate();
 export const DEFAULT_EXPIRY = DateTime.local(THIS_YEAR + 1, 4, 1).toJSDate();
 
+/** TypeForm Links **/
+export const TYPEFORM_LINKS = {
+  feedback: 'https://2jxwpvhqb4y.typeform.com/gitpoapfeedback',
+};
+
 interface NativeCurrency {
   name: string;
   symbol: string;

@@ -5,7 +5,7 @@ import { rem } from 'polished';
 import { Burger, Collapse, Stack, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { DividerGray1, TextLight, MidnightBlue } from '../colors';
-import { BREAKPOINTS } from '../constants';
+import { BREAKPOINTS, TYPEFORM_LINKS } from '../constants';
 import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
 import { GitPOAPLogoNoText } from './shared/elements/icons';
 import { Wallet } from './wallet/Wallet';
@@ -152,6 +152,7 @@ export const Navbar = () => {
       {connectionStatus === 'connected' && (
         <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
       )}
+      <NavLink href={TYPEFORM_LINKS.feedback}>{'Add Feedback'}</NavLink>
       <ClaimButton />
       <Wallet />
     </>
