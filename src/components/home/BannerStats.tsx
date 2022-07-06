@@ -6,14 +6,6 @@ import { GitPOAP, People, Project, Forked } from '../shared/elements/icons';
 import { ExtraHover } from '../../colors';
 import { useGetAllStatsQuery } from '../../graphql/generated-gql';
 
-export type Stats = {
-  value: number;
-  unit: string;
-  rate: number;
-  icon: string;
-  href?: string;
-};
-
 const CustomIconStyled = css`
   path,
   &:hover > path,
@@ -54,30 +46,36 @@ const InfoHexMetricStyled = styled(InfoHexMetric)`
   }
 `;
 
+export type Stats = {
+  value?: number;
+  unit: string;
+  rate?: number;
+  icon: string;
+  href?: string;
+};
+
 export const BannerStats = () => {
   const [result] = useGetAllStatsQuery();
 
-  if (result.fetching) return null;
   if (result.error) return null;
-  if (!result.data) return null;
 
   const stats: Stats[] = [
     {
-      value: result.data.totalContributors,
+      value: result.data?.totalContributors,
       unit: 'Contributors',
-      rate: result.data.lastMonthContributors,
+      rate: result.data?.lastMonthContributors,
       icon: 'people',
     },
     {
-      value: result.data.totalClaims,
+      value: result.data?.totalClaims,
       unit: 'GitPOAPs',
-      rate: result.data.lastMonthClaims,
+      rate: result.data?.lastMonthClaims,
       icon: 'gitPOAP',
     },
     {
-      value: result.data.totalRepos,
+      value: result.data?.totalRepos,
       unit: 'Repos',
-      rate: result.data.lastMonthRepos,
+      rate: result.data?.lastMonthRepos,
       icon: 'project',
       href: '/repos',
     },
@@ -86,12 +84,14 @@ export const BannerStats = () => {
   return (
     <StatsStyled>
       {stats.map((stat, i) => {
+        const value = stat.value ? Number(stat.value).toLocaleString() : null;
+        const rate = stat.rate ? `${stat.rate >= 0 && '+'}${stat.rate} / past month` : null;
         return (
           <InfoHexMetricStyled
-            value={Number(stat.value).toLocaleString()}
+            value={value}
             key={stat.unit + '-' + i}
             unit={stat.unit}
-            rate={`${stat.rate >= 0 && '+'}${stat.rate} / past month`}
+            rate={rate}
             icon={ICONS[stat.icon]}
             href={stat.href}
           />

@@ -3,15 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { TextGray, TextLight } from '../../colors';
 import { InfoHexBase } from '../shared/elements/InfoHexBase';
-
-type Props = {
-  value: string;
-  rate: string;
-  unit: string;
-  icon: React.ReactNode;
-  className?: string;
-  href?: string;
-};
+import { TextSkeleton } from '../shared/elements';
 
 const Content = styled.div`
   display: flex;
@@ -27,13 +19,18 @@ const Icon = styled.div`
 
 const Value = styled.div`
   font-family: VT323;
-  font-style: normal;
   font-weight: normal;
   font-size: ${rem(36)};
   line-height: ${rem(42)};
   text-align: center;
   letter-spacing: ${rem(-1)};
   color: ${TextLight};
+  margin-bottom: ${rem(4)};
+`;
+
+const ValueSkeleton = styled(TextSkeleton)`
+  height: ${rem(42)};
+  text-align: center;
   margin-bottom: ${rem(4)};
 `;
 
@@ -60,14 +57,28 @@ const Rate = styled.div`
   color: ${TextLight};
 `;
 
+const RateSkeleton = styled(TextSkeleton)`
+  height: ${rem(20)};
+  text-align: center;
+`;
+
+type Props = {
+  value: string | null;
+  rate: string | null;
+  unit: string;
+  icon: React.ReactNode;
+  className?: string;
+  href?: string;
+};
+
 export const InfoHexMetric = ({ className, rate, value, unit, icon, href }: Props) => {
   return (
     <InfoHexBase className={className} href={href} hoverEffects={!!href}>
       <Content>
         <Icon>{icon}</Icon>
-        <Value>{value}</Value>
+        {value ? <Value>{value}</Value> : <ValueSkeleton width={rem(100)} />}
         <Unit>{unit}</Unit>
-        {/* <Rate>{rate}</Rate> */}
+        {/* {rate ? <Rate>{rate}</Rate> : <RateSkeleton width={rem(50)} />} */}
       </Content>
     </InfoHexBase>
   );
