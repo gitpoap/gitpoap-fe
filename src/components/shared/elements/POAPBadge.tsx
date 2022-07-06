@@ -71,7 +71,7 @@ export const POAPBadge = ({ className, imgSrc, name, href, poapTokenId }: Props)
   return (
     <Container className={className}>
       <BadgeContainer>
-        <ImgContainer href={href} target="_blank" rel="noreferrer">
+        <ImgContainer href={href} target="_blank" rel="noopener noreferrer">
           <POAP quality={100} height={150} width={150} src={imgSrc} />
         </ImgContainer>
         {poapTokenId && <Heart poapTokenId={poapTokenId} />}

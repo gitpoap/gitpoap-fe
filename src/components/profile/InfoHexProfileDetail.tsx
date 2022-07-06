@@ -174,17 +174,17 @@ export const InfoHexProfileDetail = ({
         {bio && <Bio>{bio}</Bio>}
         <Social>
           {twitterHref && (
-            <IconLink href={twitterHref} target="_blank" rel="noreferrer" passHref>
+            <IconLink href={twitterHref} target="_blank" rel="noopener noreferrer" passHref>
               <Twitter />
             </IconLink>
           )}
           {githubHref && (
-            <IconLink href={githubHref} target="_blank" rel="noreferrer" passHref>
+            <IconLink href={githubHref} target="_blank" rel="noopener noreferrer" passHref>
               <GitHub />
             </IconLink>
           )}
           {websiteHref && (
-            <IconLink href={websiteHref} target="_blank" rel="noreferrer" passHref>
+            <IconLink href={websiteHref} target="_blank" rel="noopener noreferrer" passHref>
               <Globe />
             </IconLink>
           )}
