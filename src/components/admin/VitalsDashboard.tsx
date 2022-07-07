@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { DateTime } from 'luxon';
 import {
-  useClaimsInLastWeekQuery,
-  useGitPoaPsAddedInLastWeekQuery,
-  useOrgsAddedInLastWeekQuery,
-  useProfilesAddedInLastWeekQuery,
-  useReposAddedInLastWeekQuery,
+  useClaimsSinceQuery,
+  useGitPoaPsSinceQuery,
+  useOrgsSinceQuery,
+  useProfilesSinceQuery,
+  useReposSinceQuery,
 } from '../../graphql/generated-gql';
 import { Header } from '../shared/elements';
 import { Group } from '@mantine/core';
@@ -48,17 +48,21 @@ const DashboardItem = ({ name, value }: ItemProps) => {
 
 export const VitalsDashboard = () => {
   const todayMinus7Days = DateTime.local().minus({ days: 7 }).toFormat('yyyy-MM-dd');
-  const [claimsResult] = useClaimsInLastWeekQuery({
+  const today = DateTime.local().toFormat('yyyy-MM-dd');
+  const [claimsResult] = useClaimsSinceQuery({
     variables: { date: todayMinus7Days },
   });
-  const [reposResult] = useReposAddedInLastWeekQuery({
+  const [dailyClaimsResult] = useClaimsSinceQuery({
+    variables: { date: today },
+  });
+  const [reposResult] = useReposSinceQuery({
     variables: { date: todayMinus7Days },
   });
-  const [orgsResult] = useOrgsAddedInLastWeekQuery({ variables: { date: todayMinus7Days } });
-  const [gitPOAPsResult] = useGitPoaPsAddedInLastWeekQuery({
+  const [orgsResult] = useOrgsSinceQuery({ variables: { date: todayMinus7Days } });
+  const [gitPOAPsResult] = useGitPoaPsSinceQuery({
     variables: { date: todayMinus7Days },
   });
-  const [profilesResult] = useProfilesAddedInLastWeekQuery({
+  const [profilesResult] = useProfilesSinceQuery({
     variables: { date: todayMinus7Days },
   });
 
@@ -70,6 +74,7 @@ export const VitalsDashboard = () => {
             <Header>{'Vitals Dashboard'}</Header>
           </HeaderContainer>
           <DashboardItem name={'Mints (last 7 days)'} value={claimsResult.data?.claims.length} />
+          <DashboardItem name={'Mints (today)'} value={dailyClaimsResult.data?.claims.length} />
           <DashboardItem
             name={'Repos Added (last 7 days)'}
             value={reposResult.data?.repos.length}

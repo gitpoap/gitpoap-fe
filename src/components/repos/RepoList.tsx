@@ -127,7 +127,7 @@ export const RepoList = () => {
         <RepoListContainer>
           {result.fetching && !result.operation && repoListItems.length === 0 && (
             <>
-              {[...Array(5)].map((_, i) => (
+              {[...Array(15)].map((_, i) => (
                 <RepoHexSkeleton key={i} />
               ))}
             </>
