@@ -1956,12 +1956,7 @@ export type RepoSeoByIdQueryVariables = Exact<{
 
 export type RepoSeoByIdQuery = {
   __typename?: 'Query';
-  repoData?: {
-    __typename?: 'RepoData';
-    id: number;
-    name: string;
-    organization: { __typename?: 'Organization'; name: string };
-  } | null;
+  repoData?: { __typename?: 'RepoData'; id: number; name: string } | null;
 };
 
 export type RepoSeoByNameQueryVariables = Exact<{
@@ -2581,9 +2576,6 @@ export const RepoSeoByIdDocument = gql`
     repoData(repoId: $repoId) {
       id
       name
-      organization {
-        name
-      }
     }
   }
 `;

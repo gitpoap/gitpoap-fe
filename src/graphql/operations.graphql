@@ -304,9 +304,6 @@ query repoSEOById($repoId: Float!) {
   repoData(repoId: $repoId) {
     id
     name
-    organization {
-      name
-    }
   }
 }
 
