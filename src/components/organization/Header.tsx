@@ -2,7 +2,7 @@ import { rem } from 'polished';
 import React from 'react';
 import styled from 'styled-components';
 import { LinkStyles } from '../../components/shared/elements/NavLink';
-import { OrganizationDataQuery } from '../../graphql/generated-gql';
+import { OrganizationDataByIdQuery } from '../../graphql/generated-gql';
 import { Wrapper } from '../gitpoap/Header';
 import { Header as HeaderText } from '../shared/elements/Header';
 import { GitHub, GitPOAP, Globe, Minted, People, Project, Twitter } from '../shared/elements/icons';
@@ -14,7 +14,7 @@ import {
   SubHeaderItem,
   SubHeaderItemCount,
   SubHeaderItemLabel,
-} from '../project/Header';
+} from '../repo/Header';
 
 const HeaderWrapper = styled(Wrapper)`
   height: ${rem(600)};
@@ -26,7 +26,7 @@ const OrganizationTag = styled.div`
 `;
 
 type Props = {
-  org: Exclude<OrganizationDataQuery['organizationData'], null | undefined>;
+  org: Exclude<OrganizationDataByIdQuery['organizationData'], null | undefined>;
 };
 
 export const Header = ({ org }: Props) => (

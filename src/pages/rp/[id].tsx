@@ -1,39 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { rgba, rem } from 'polished';
+import { rem } from 'polished';
 import { useRouter } from 'next/router';
+import { NextPageContext } from 'next';
+import { withUrqlClient, initUrqlClient } from 'next-urql';
+import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 
 import { Grid } from '@mantine/core';
 
 import { Page } from '../_app';
-import { MidnightBlue } from '../../colors';
-import { BackgroundHexes } from '../../components/project/BackgroundHexes';
-import { GitPOAPs } from '../../components/project/GitPOAPs';
-import { ProjectLeaderBoard } from '../../components/project/ProjectLeaderBoard';
-import { Header as PageHeader } from '../../components/project/Header';
+import { RepoPage } from '../../components/repo/RepoPage';
+import { SEO } from '../../components/SEO';
 import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
-import { BREAKPOINTS } from '../../constants';
-
-const Background = styled(BackgroundHexes)`
-  position: fixed;
-  top: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  z-index: 0;
-  width: ${rem(1840)};
-
-  mask-image: linear-gradient(
-    to right,
-    ${rgba(MidnightBlue, 0)} 0%,
-    ${rgba(MidnightBlue, 1)} 20%,
-    ${rgba(MidnightBlue, 1)} 80%,
-    ${rgba(MidnightBlue, 0)} 100%
-  );
-`;
+import { ONE_HOUR } from '../../constants';
+import { RepoDataByIdQuery, RepoDataByIdDocument } from '../../graphql/generated-gql';
 
 const Error = styled(Header)`
   position: fixed;
@@ -42,40 +23,11 @@ const Error = styled(Header)`
   transform: translate(-50%, -50%);
 `;
 
-const ContentWrapper = styled.div`
-  margin: ${rem(100)} ${rem(48)};
-  display: flex;
+type PageProps = {
+  data: RepoDataByIdQuery;
+};
 
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    margin: ${rem(50)} ${rem(24)};
-    flex-direction: column-reverse;
-  }
-`;
-
-const GitPOAPsWrapper = styled.div`
-  flex: 1;
-  margin-right: ${rem(48)};
-
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    justify-content: center;
-    width: 100%;
-    margin: auto;
-  }
-`;
-
-const ProjectLeaderBoardWrapper = styled.div`
-  width: ${rem(348)};
-
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    justify-content: center;
-    width: 100%;
-    margin: auto;
-    margin-bottom: ${rem(100)};
-    max-width: 100%;
-  }
-`;
-
-const Project: Page = () => {
+const Repo: Page<PageProps> = (props) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -89,30 +41,62 @@ const Project: Page = () => {
     return <Error>{'404'}</Error>;
   }
 
+  const repo = props.data.repoData;
+
   return (
     <Grid justify="center" style={{ zIndex: 1 }}>
-      <Background />
-      <Grid.Col style={{ zIndex: 1 }}>
-        <PageHeader repoId={repoId} />
-      </Grid.Col>
-
-      <Grid.Col>
-        <ContentWrapper>
-          <GitPOAPsWrapper>
-            <GitPOAPs repoId={repoId} />
-          </GitPOAPsWrapper>
-          <ProjectLeaderBoardWrapper>
-            <ProjectLeaderBoard repoId={repoId} />
-          </ProjectLeaderBoardWrapper>
-        </ContentWrapper>
-      </Grid.Col>
+      <SEO
+        title={`${repo?.name ?? 'GitPOAP'} | GitPOAP`}
+        description={
+          'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
+        }
+        image={'https://gitpoap.io/og-image-512x512.png'}
+        url={`https://gitpoap.io/rp/${repo?.id}`}
+      />
+      <RepoPage repo={repo} />
     </Grid>
   );
 };
 
+export async function getServerSideProps(context: NextPageContext) {
+  context.res?.setHeader(
+    'Cache-Control',
+    `public, s-maxage=${ONE_HOUR}, stale-while-revalidate=${2 * ONE_HOUR}`,
+  );
+
+  const ssrCache = ssrExchange({ isClient: false });
+  const client = initUrqlClient(
+    {
+      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
+      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+    },
+    false,
+  );
+  const repoId = parseInt(context.query.id as string);
+  const results = await client!
+    .query<RepoDataByIdQuery>(RepoDataByIdDocument, {
+      repoId,
+    })
+    .toPromise();
+
+  return {
+    props: {
+      // urqlState is a keyword here so withUrqlClient can pick it up.
+      urqlState: ssrCache.extractData(),
+      data: results.data,
+      revalidate: 600,
+    },
+  };
+}
+
 /* Custom layout function for this page */
-Project.getLayout = (page: React.ReactNode) => {
+Repo.getLayout = (page: React.ReactNode) => {
   return <Layout>{page}</Layout>;
 };
 
-export default Project;
+export default withUrqlClient(
+  (_) => ({
+    url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
+  }),
+  { ssr: false }, // Important so we don't wrap our component in getInitialProps
+)(Repo);

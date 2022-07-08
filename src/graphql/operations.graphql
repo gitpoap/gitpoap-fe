@@ -274,8 +274,28 @@ query adminClaims($count: Int!) {
   }
 }
 
-query repoData($repoId: Float!) {
+query repoDataById($repoId: Float!) {
   repoData(repoId: $repoId) {
+    id
+    name
+    githubRepoId
+    organization {
+      id
+      name
+      description
+      twitterHandle
+      url
+    }
+    gitPOAPs {
+      id
+    }
+    contributorCount
+    mintedGitPOAPCount
+  }
+}
+
+query repoDataByName($orgName: String!, $repoName: String!) {
+  repoData(orgName: $orgName, repoName: $repoName) {
     id
     name
     githubRepoId
@@ -329,8 +349,22 @@ query allReposOnRepoPage($sort: String, $page: Float, $perPage: Float) {
   }
 }
 
-query organizationData($orgId: Float!) {
+query organizationDataById($orgId: Float!) {
   organizationData(orgId: $orgId) {
+    id
+    name
+    description
+    twitterHandle
+    url
+    contributorCount
+    gitPOAPCount
+    mintedGitPOAPCount
+    projectCount
+  }
+}
+
+query organizationDataByName($orgName: String!) {
+  organizationData(orgName: $orgName) {
     id
     name
     description

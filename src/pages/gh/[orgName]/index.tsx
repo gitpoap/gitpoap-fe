@@ -1,46 +1,30 @@
 import React from 'react';
-import styled from 'styled-components';
-import { rem } from 'polished';
 import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';
 import { withUrqlClient, initUrqlClient } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 
-import { Page } from '../_app';
-import { Layout } from '../../components/Layout';
+import { Page } from '../../_app';
+import { Layout } from '../../../components/Layout';
 import { Grid } from '@mantine/core';
-import { SEO } from '../../components/SEO';
-import { Header } from '../../components/shared/elements/Header';
-import { OrgPage } from '../../components/organization/OrgPage';
+import { SEO } from '../../../components/SEO';
+import { ONE_HOUR } from '../../../constants';
+import { OrgPage } from '../../../components/organization/OrgPage';
 import {
-  OrganizationDataByIdQuery,
-  OrganizationDataByIdDocument,
-} from '../../graphql/generated-gql';
-import { ONE_HOUR } from '../../constants';
-
-const Error = styled(Header)`
-  position: fixed;
-  top: ${rem(333)};
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
+  OrganizationDataByNameQuery,
+  OrganizationDataByNameDocument,
+} from '../../../graphql/generated-gql';
 
 type PageProps = {
-  data: OrganizationDataByIdQuery;
+  data: OrganizationDataByNameQuery;
 };
 
 const Organization: Page<PageProps> = (props) => {
   const router = useRouter();
-  const { id } = router.query;
+  const { orgName } = router.query;
 
-  if (typeof id !== 'string') {
+  if (typeof orgName !== 'string') {
     return <></>;
-  }
-
-  const orgId = parseInt(id);
-
-  if (isNaN(orgId)) {
-    return <Error>{'404'}</Error>;
   }
 
   const org = props.data.organizationData;
@@ -53,7 +37,7 @@ const Organization: Page<PageProps> = (props) => {
           'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
         }
         image={'https://gitpoap.io/og-image-512x512.png'}
-        url={`https://gitpoap.io/org/${org?.id}`}
+        url={`https://gitpoap.io/gh/${org?.name}`}
       />
       <OrgPage org={org} />
     </Grid>
@@ -74,10 +58,10 @@ export async function getServerSideProps(context: NextPageContext) {
     },
     false,
   );
-  const orgId = parseInt(context.query.id as string);
+  const orgName = context.query.orgName;
   const results = await client!
-    .query<OrganizationDataByIdQuery>(OrganizationDataByIdDocument, {
-      orgId,
+    .query<OrganizationDataByNameQuery>(OrganizationDataByNameDocument, {
+      orgName,
     })
     .toPromise();
 

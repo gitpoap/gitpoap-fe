@@ -60,11 +60,11 @@ export const EmptyState = ({ children, icon }: EmptyStateProps) => {
   );
 };
 
-export type ProjectLeaderBoardProps = {
+export type RepoLeaderBoardProps = {
   repoId: number;
 };
 
-export const ProjectLeaderBoard = ({ repoId }: ProjectLeaderBoardProps) => {
+export const RepoLeaderBoard = ({ repoId }: RepoLeaderBoardProps) => {
   const [result] = useRepoLeadersQuery({
     variables: {
       count: 6,

@@ -1916,11 +1916,37 @@ export type AdminClaimsQuery = {
   }>;
 };
 
-export type RepoDataQueryVariables = Exact<{
+export type RepoDataByIdQueryVariables = Exact<{
   repoId: Scalars['Float'];
 }>;
 
-export type RepoDataQuery = {
+export type RepoDataByIdQuery = {
+  __typename?: 'Query';
+  repoData?: {
+    __typename?: 'RepoData';
+    id: number;
+    name: string;
+    githubRepoId: number;
+    contributorCount: number;
+    mintedGitPOAPCount: number;
+    organization: {
+      __typename?: 'Organization';
+      id: number;
+      name: string;
+      description?: string | null;
+      twitterHandle?: string | null;
+      url?: string | null;
+    };
+    gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number }>;
+  } | null;
+};
+
+export type RepoDataByNameQueryVariables = Exact<{
+  orgName: Scalars['String'];
+  repoName: Scalars['String'];
+}>;
+
+export type RepoDataByNameQuery = {
   __typename?: 'Query';
   repoData?: {
     __typename?: 'RepoData';
@@ -1981,11 +2007,31 @@ export type AllReposOnRepoPageQuery = {
   }> | null;
 };
 
-export type OrganizationDataQueryVariables = Exact<{
+export type OrganizationDataByIdQueryVariables = Exact<{
   orgId: Scalars['Float'];
 }>;
 
-export type OrganizationDataQuery = {
+export type OrganizationDataByIdQuery = {
+  __typename?: 'Query';
+  organizationData?: {
+    __typename?: 'OrganizationData';
+    id: number;
+    name: string;
+    description?: string | null;
+    twitterHandle?: string | null;
+    url?: string | null;
+    contributorCount: number;
+    gitPOAPCount: number;
+    mintedGitPOAPCount: number;
+    projectCount: number;
+  } | null;
+};
+
+export type OrganizationDataByNameQueryVariables = Exact<{
+  orgName: Scalars['String'];
+}>;
+
+export type OrganizationDataByNameQuery = {
   __typename?: 'Query';
   organizationData?: {
     __typename?: 'OrganizationData';
@@ -2479,8 +2525,8 @@ export function useAdminClaimsQuery(
 ) {
   return Urql.useQuery<AdminClaimsQuery>({ query: AdminClaimsDocument, ...options });
 }
-export const RepoDataDocument = gql`
-  query repoData($repoId: Float!) {
+export const RepoDataByIdDocument = gql`
+  query repoDataById($repoId: Float!) {
     repoData(repoId: $repoId) {
       id
       name
@@ -2501,10 +2547,37 @@ export const RepoDataDocument = gql`
   }
 `;
 
-export function useRepoDataQuery(
-  options: Omit<Urql.UseQueryArgs<RepoDataQueryVariables>, 'query'>,
+export function useRepoDataByIdQuery(
+  options: Omit<Urql.UseQueryArgs<RepoDataByIdQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<RepoDataQuery>({ query: RepoDataDocument, ...options });
+  return Urql.useQuery<RepoDataByIdQuery>({ query: RepoDataByIdDocument, ...options });
+}
+export const RepoDataByNameDocument = gql`
+  query repoDataByName($orgName: String!, $repoName: String!) {
+    repoData(orgName: $orgName, repoName: $repoName) {
+      id
+      name
+      githubRepoId
+      organization {
+        id
+        name
+        description
+        twitterHandle
+        url
+      }
+      gitPOAPs {
+        id
+      }
+      contributorCount
+      mintedGitPOAPCount
+    }
+  }
+`;
+
+export function useRepoDataByNameQuery(
+  options: Omit<Urql.UseQueryArgs<RepoDataByNameQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<RepoDataByNameQuery>({ query: RepoDataByNameDocument, ...options });
 }
 export const RepoStarCountDocument = gql`
   query repoStarCount($repoId: Float!) {
@@ -2559,8 +2632,8 @@ export function useAllReposOnRepoPageQuery(
 ) {
   return Urql.useQuery<AllReposOnRepoPageQuery>({ query: AllReposOnRepoPageDocument, ...options });
 }
-export const OrganizationDataDocument = gql`
-  query organizationData($orgId: Float!) {
+export const OrganizationDataByIdDocument = gql`
+  query organizationDataById($orgId: Float!) {
     organizationData(orgId: $orgId) {
       id
       name
@@ -2575,10 +2648,37 @@ export const OrganizationDataDocument = gql`
   }
 `;
 
-export function useOrganizationDataQuery(
-  options: Omit<Urql.UseQueryArgs<OrganizationDataQueryVariables>, 'query'>,
+export function useOrganizationDataByIdQuery(
+  options: Omit<Urql.UseQueryArgs<OrganizationDataByIdQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<OrganizationDataQuery>({ query: OrganizationDataDocument, ...options });
+  return Urql.useQuery<OrganizationDataByIdQuery>({
+    query: OrganizationDataByIdDocument,
+    ...options,
+  });
+}
+export const OrganizationDataByNameDocument = gql`
+  query organizationDataByName($orgName: String!) {
+    organizationData(orgName: $orgName) {
+      id
+      name
+      description
+      twitterHandle
+      url
+      contributorCount
+      gitPOAPCount
+      mintedGitPOAPCount
+      projectCount
+    }
+  }
+`;
+
+export function useOrganizationDataByNameQuery(
+  options: Omit<Urql.UseQueryArgs<OrganizationDataByNameQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<OrganizationDataByNameQuery>({
+    query: OrganizationDataByNameDocument,
+    ...options,
+  });
 }
 export const OrganizationsListDocument = gql`
   query organizationsList($sort: String, $page: Float, $perPage: Float) {
