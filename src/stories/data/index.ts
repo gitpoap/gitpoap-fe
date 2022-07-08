@@ -397,8 +397,10 @@ export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
     gitPOAP: {
       id: 1,
       repo: {
-        id: 1,
         name: 'Polygon',
+        organization: {
+          name: 'Polygon',
+        },
       },
     },
     event: {
@@ -411,8 +413,10 @@ export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
     gitPOAP: {
       id: 2,
       repo: {
-        id: 2,
         name: 'AAVE',
+        organization: {
+          name: 'AAVE',
+        },
       },
     },
     event: {
@@ -425,8 +429,10 @@ export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
     gitPOAP: {
       id: 3,
       repo: {
-        id: 3,
         name: 'AAVE',
+        organization: {
+          name: 'AAVE',
+        },
       },
     },
     event: {

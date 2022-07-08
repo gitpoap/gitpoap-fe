@@ -108,7 +108,7 @@ export const RepoHex = ({ repo, starredCount }: Props) => {
   const { id, name, gitPOAPs, organization } = repo;
 
   return (
-    <InfoHexBaseStyled href={`/rp/${id}`} hoverEffects>
+    <InfoHexBaseStyled href={`/gh/${repo.organization.name}/${repo.name}`} hoverEffects>
       <Content>
         <RepoName>{name}</RepoName>
         <OrgName>{organization.name}</OrgName>

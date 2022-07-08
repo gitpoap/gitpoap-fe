@@ -8,13 +8,13 @@ export default {
 } as ComponentMeta<typeof RepoHexSmall>;
 
 const Template: ComponentStory<typeof RepoHexSmall> = (args) => {
-  return <RepoHexSmall {...args} category={'Exchanges'} name={'SushiSwap'} />;
+  return <RepoHexSmall {...args} orgName={'Exchanges'} name={'SushiSwap'} />;
 };
 
 export const Default = Template.bind({});
 Default.args = {
-  category: 'Exchanges',
-  name: 'SushiSwap',
+  orgName: 'SushiSwap',
+  name: 'SushiSwap-web',
   memberCount: 48,
   gitPoapCount: 20,
   stars: 984,

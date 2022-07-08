@@ -121,7 +121,7 @@ export const OrganizationHex = ({ className, org }: Props) => {
   }, 0);
 
   return (
-    <Wrapper className={className} href={`/org/${id}`} passHref>
+    <Wrapper className={className} href={`/gh/${name}`} passHref>
       <Hex />
       <Content>
         <OrgName>{name}</OrgName>

@@ -81,14 +81,7 @@ export const RecentlyAdded = () => {
       </Header>
       <Repos>
         {result.data?.recentlyAddedProjects.map((repo) => {
-          return (
-            <RepoHexSmall
-              key={repo.id}
-              category={repo.organization.name}
-              name={repo.name}
-              repoId={repo.id}
-            />
-          );
+          return <RepoHexSmall key={repo.id} orgName={repo.organization.name} name={repo.name} />;
         })}
       </Repos>
       <Link href="/repos" passHref>

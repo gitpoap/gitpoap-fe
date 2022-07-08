@@ -59,8 +59,10 @@ query mostClaimedGitPoaps($count: Float!) {
     gitPOAP {
       id
       repo {
-        id
         name
+        organization {
+          name
+        }
       }
     }
     event {
@@ -401,6 +403,9 @@ query organizationRepos($orgId: Float!, $sort: String, $page: Float, $perPage: F
     name
     contributorCount
     mintedGitPOAPCount
+    organization {
+      name
+    }
   }
 }
 

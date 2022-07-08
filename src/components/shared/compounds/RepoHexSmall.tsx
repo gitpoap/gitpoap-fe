@@ -90,25 +90,23 @@ const InfoHexBaseStyled = styled(InfoHexBase)`
 
 type Props = {
   className?: string;
-  category: string;
+  orgName: string;
   name: string;
   memberCount?: number;
   gitPoapCount?: number;
   stars?: number;
-  repoId: number;
 };
 
 export const RepoHexSmall = ({
-  category,
+  orgName,
   name,
   memberCount,
   gitPoapCount,
   stars,
-  repoId,
   className,
 }: Props) => {
   return (
-    <InfoHexBaseStyled className={className} href={`/rp/${repoId}`} hoverEffects>
+    <InfoHexBaseStyled className={className} href={`/gh/${orgName}/${name}`} hoverEffects>
       <Content>
         <TitleStyled>{name}</TitleStyled>
         <Icons>
@@ -120,7 +118,7 @@ export const RepoHexSmall = ({
           )}
           {stars && <IconCount count={stars} icon={<Star width="13" height="11" />} />}
         </Icons>
-        <BadgeStyled>{category}</BadgeStyled>
+        <BadgeStyled>{orgName}</BadgeStyled>
       </Content>
     </InfoHexBaseStyled>
   );

@@ -90,7 +90,11 @@ export const OrgRepoHex = ({ className, repo }: Props) => {
   const starCount = resultStarCount?.data?.repoStarCount;
 
   return (
-    <InfoHexBaseStyled href={`/rp/${id}`} hoverEffects className={className}>
+    <InfoHexBaseStyled
+      href={`/gh/${repo.organization.name}/${repo.name}`}
+      hoverEffects
+      className={className}
+    >
       <Content>
         <OrgName>{name}</OrgName>
         <Stats>

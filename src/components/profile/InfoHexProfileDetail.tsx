@@ -204,9 +204,8 @@ export const InfoHexProfileDetail = ({
               return (
                 <RepoHexSmall
                   key={project.id}
-                  category={project.organization.name}
+                  orgName={project.organization.name}
                   name={project.name}
-                  repoId={project.id}
                 />
               );
             })}

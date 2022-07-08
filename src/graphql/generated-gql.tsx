@@ -1663,7 +1663,11 @@ export type MostClaimedGitPoapsQuery = {
     gitPOAP: {
       __typename?: 'GitPOAP';
       id: number;
-      repo: { __typename?: 'Repo'; id: number; name: string };
+      repo: {
+        __typename?: 'Repo';
+        name: string;
+        organization: { __typename?: 'Organization'; name: string };
+      };
     };
     event: { __typename?: 'POAPEvent'; name: string; image_url: string };
   }> | null;
@@ -1752,15 +1756,7 @@ export type RepoGitPoapsQuery = {
     totalGitPOAPs: number;
     gitPOAPs: Array<{
       __typename?: 'FullGitPOAPEventData';
-      gitPOAP: {
-        __typename?: 'GitPOAP';
-        id: number;
-        repo: {
-          __typename?: 'Repo';
-          name: string;
-          organization: { __typename?: 'Organization'; name: string };
-        };
-      };
+      gitPOAP: { __typename?: 'GitPOAP'; id: number; repo: { __typename?: 'Repo'; name: string } };
       event: { __typename?: 'POAPEvent'; name: string; image_url: string; description: string };
     }>;
   } | null;
@@ -2096,6 +2092,7 @@ export type OrganizationReposQuery = {
     name: string;
     contributorCount: number;
     mintedGitPOAPCount: number;
+    organization: { __typename?: 'Organization'; name: string };
   }> | null;
 };
 
@@ -2246,8 +2243,10 @@ export const MostClaimedGitPoapsDocument = gql`
       gitPOAP {
         id
         repo {
-          id
           name
+          organization {
+            name
+          }
         }
       }
       event {
@@ -2349,9 +2348,6 @@ export const RepoGitPoapsDocument = gql`
           id
           repo {
             name
-            organization {
-              name
-            }
           }
         }
         event {
@@ -2728,6 +2724,9 @@ export const OrganizationReposDocument = gql`
       name
       contributorCount
       mintedGitPOAPCount
+      organization {
+        name
+      }
     }
   }
 `;

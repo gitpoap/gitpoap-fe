@@ -103,7 +103,7 @@ export const Header = ({ repo }: Props) => {
         <HeaderText>{repo.name}</HeaderText>
         <OrgNameStyled>
           {'by '}
-          <Link href={`/org/${repo.organization.id}`} passHref>
+          <Link href={`/gh/${repo.organization.name}`} passHref>
             <OrgLink>{repo.organization.name}</OrgLink>
           </Link>
         </OrgNameStyled>
