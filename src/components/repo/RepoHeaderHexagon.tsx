@@ -1,6 +1,6 @@
 import { forwardRef, Ref, SVGAttributes } from 'react';
 
-export const ProjectHeaderHexagon = forwardRef(
+export const RepoHeaderHexagon = forwardRef(
   (props: SVGAttributes<SVGSVGElement>, ref: Ref<SVGSVGElement>) => (
     <svg
       width="628"
