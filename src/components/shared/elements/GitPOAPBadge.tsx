@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 
 import { TextLight, MidnightBlue, ExtraHover, ExtraPressed, TextGray } from '../../../colors';
@@ -11,6 +11,7 @@ type Props = {
   disabled?: boolean;
   size: Sizes;
   onClick?: () => void;
+  disableHoverEffects?: boolean;
 };
 
 type Sizes = 'sm' | 'md' | 'lg';
@@ -55,33 +56,40 @@ const HexBadge = styled(Hexagon)<Props>`
   background: no-repeat center / 100% url('${(props) => props.imgUrl}');
 `;
 
-const HexOuterBorder = styled(Hexagon)<HexProps & { disabled?: boolean }>`
+type HexOuterBorderProps = HexProps & { disabled?: boolean; disableHoverEffects?: boolean };
+
+const HexOuterBorder = styled(Hexagon)<HexOuterBorderProps>`
   position: relative;
   --s: ${(props) => rem(dimensions[props.size].width + 4 * dimensions[props.size].borderSize)};
   width: var(--s);
   height: calc(var(--s) * 1);
-  cursor: pointer;
+
   background-color: ${TextLight};
 
-  &:hover:not([disabled]) {
-    background-color: ${ExtraHover};
-    ${HexBadge} {
-      opacity: 0.7;
-    }
-  }
-  &:active:not([disabled]) {
-    background-color: ${ExtraPressed};
-    ${HexBadge} {
-      opacity: 0.5;
-    }
-  }
-  &[disabled] {
-    cursor: not-allowed;
-    background-color: ${TextGray};
-    ${HexBadge}:before {
-      background: ${MidnightBlue};
-    }
-  }
+  ${(props) =>
+    !props.disableHoverEffects &&
+    css`
+      &:hover:not([disabled]) {
+        cursor: pointer;
+        background-color: ${ExtraHover};
+        ${HexBadge} {
+          opacity: 0.7;
+        }
+      }
+      &:active:not([disabled]) {
+        background-color: ${ExtraPressed};
+        ${HexBadge} {
+          opacity: 0.5;
+        }
+      }
+      &[disabled] {
+        cursor: not-allowed;
+        background-color: ${TextGray};
+        ${HexBadge}:before {
+          background: ${MidnightBlue};
+        }
+      }
+    `}
 `;
 
 const HexInnerBorder = styled(Hexagon)<HexProps>`
@@ -95,10 +103,23 @@ const HexInnerBorder = styled(Hexagon)<HexProps>`
   background: ${MidnightBlue};
 `;
 
-export const GitPOAPBadge = ({ className, imgUrl, disabled, size, onClick }: Props) => {
+export const GitPOAPBadge = ({
+  className,
+  imgUrl,
+  disabled,
+  size,
+  onClick,
+  disableHoverEffects,
+}: Props) => {
   return (
     <>
-      <HexOuterBorder className={className} size={size} disabled={disabled} onClick={onClick}>
+      <HexOuterBorder
+        className={className}
+        size={size}
+        disabled={disabled}
+        onClick={onClick}
+        disableHoverEffects={disableHoverEffects}
+      >
         <HexInnerBorder size={size}>
           <HexBadge imgUrl={imgUrl} size={size} />
         </HexInnerBorder>
