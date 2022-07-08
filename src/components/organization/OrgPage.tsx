@@ -10,7 +10,7 @@ import { BackgroundHexes } from './BackgroundHexes';
 import { OrgRepoList } from './OrgRepoList';
 import { Header as PageHeader } from './Header';
 import { BREAKPOINTS } from '../../constants';
-import { OrganizationDataQuery } from '../../graphql/generated-gql';
+import { OrganizationDataByIdQuery } from '../../graphql/generated-gql';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;
@@ -57,7 +57,7 @@ const ReposWrapper = styled.div`
 `;
 
 type Props = {
-  org: OrganizationDataQuery['organizationData'];
+  org: OrganizationDataByIdQuery['organizationData'];
 };
 
 export const OrgPage = ({ org }: Props) => (

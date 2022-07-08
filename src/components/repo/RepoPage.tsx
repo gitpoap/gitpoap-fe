@@ -11,7 +11,7 @@ import { GitPOAPs } from './GitPOAPs';
 import { RepoLeaderBoard } from './RepoLeaderBoard';
 import { Header as PageHeader } from './Header';
 import { BREAKPOINTS } from '../../constants';
-import { RepoDataQuery } from '../../graphql/generated-gql';
+import { RepoDataByIdQuery } from '../../graphql/generated-gql';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;
@@ -71,7 +71,7 @@ const RepoLeaderBoardWrapper = styled.div`
 `;
 
 type Props = {
-  repo: RepoDataQuery['repoData'];
+  repo: RepoDataByIdQuery['repoData'];
 };
 
 export const RepoPage = ({ repo }: Props) => (
