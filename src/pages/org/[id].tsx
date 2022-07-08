@@ -11,12 +11,9 @@ import { Layout } from '../../components/Layout';
 import { Grid } from '@mantine/core';
 import { SEO } from '../../components/SEO';
 import { Header } from '../../components/shared/elements/Header';
-import { OrgPage } from '../../components/organization/OrgPage';
-import {
-  OrganizationDataByIdQuery,
-  OrganizationDataByIdDocument,
-} from '../../graphql/generated-gql';
-import { ONE_HOUR } from '../../constants';
+import { OrgPage, OrgNotFound } from '../../components/organization/OrgPage';
+import { OrganizationSeoByIdQuery, OrganizationSeoByIdDocument } from '../../graphql/generated-gql';
+import { ONE_YEAR } from '../../constants';
 
 const Error = styled(Header)`
   position: fixed;
@@ -26,7 +23,7 @@ const Error = styled(Header)`
 `;
 
 type PageProps = {
-  data: OrganizationDataByIdQuery;
+  data: OrganizationSeoByIdQuery;
 };
 
 const Organization: Page<PageProps> = (props) => {
@@ -55,16 +52,13 @@ const Organization: Page<PageProps> = (props) => {
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/gh/${org?.name}`}
       />
-      <OrgPage org={org} />
+      {org?.id ? <OrgPage orgId={org.id} /> : <OrgNotFound>{'Organization Not Found'}</OrgNotFound>}
     </Grid>
   );
 };
 
 export async function getServerSideProps(context: NextPageContext) {
-  context.res?.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${ONE_HOUR}, stale-while-revalidate=${2 * ONE_HOUR}`,
-  );
+  context.res?.setHeader('Cache-Control', `public, s-maxage=${ONE_YEAR}`);
 
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
@@ -76,7 +70,7 @@ export async function getServerSideProps(context: NextPageContext) {
   );
   const orgId = parseInt(context.query.id as string);
   const results = await client!
-    .query<OrganizationDataByIdQuery>(OrganizationDataByIdDocument, {
+    .query<OrganizationSeoByIdQuery>(OrganizationSeoByIdDocument, {
       orgId,
     })
     .toPromise();

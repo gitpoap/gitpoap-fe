@@ -10,7 +10,7 @@ import { BackgroundHexes } from './BackgroundHexes';
 import { OrgRepoList } from './OrgRepoList';
 import { Header as PageHeader } from './Header';
 import { BREAKPOINTS } from '../../constants';
-import { OrganizationDataByIdQuery } from '../../graphql/generated-gql';
+import { useOrganizationDataQuery } from '../../graphql/generated-gql';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;
@@ -32,7 +32,7 @@ const Background = styled(BackgroundHexes)`
   );
 `;
 
-const OrgNotFound = styled(Header)`
+export const OrgNotFound = styled(Header)`
   margin-top: ${rem(284)};
 `;
 
@@ -57,28 +57,33 @@ const ReposWrapper = styled.div`
 `;
 
 type Props = {
-  org: OrganizationDataByIdQuery['organizationData'];
+  orgId: number;
 };
 
-export const OrgPage = ({ org }: Props) => (
-  <>
-    <Background />
-    {org ? (
-      <>
-        <Grid.Col style={{ zIndex: 1 }}>
-          <PageHeader org={org} />
-        </Grid.Col>
+export const OrgPage = ({ orgId }: Props) => {
+  const [result] = useOrganizationDataQuery({ variables: { orgId } });
+  const org = result?.data?.organizationData;
 
-        <Grid.Col span={11}>
-          <ContentWrapper>
-            <ReposWrapper>
-              <OrgRepoList orgId={org.id} />
-            </ReposWrapper>
-          </ContentWrapper>
-        </Grid.Col>
-      </>
-    ) : (
-      <OrgNotFound>{'Organization Not Found'}</OrgNotFound>
-    )}
-  </>
-);
+  return (
+    <>
+      <Background />
+      {org ? (
+        <>
+          <Grid.Col style={{ zIndex: 1 }}>
+            <PageHeader org={org} />
+          </Grid.Col>
+
+          <Grid.Col span={11}>
+            <ContentWrapper>
+              <ReposWrapper>
+                <OrgRepoList orgId={org.id} />
+              </ReposWrapper>
+            </ContentWrapper>
+          </Grid.Col>
+        </>
+      ) : (
+        <OrgNotFound>{'Organization Not Found'}</OrgNotFound>
+      )}
+    </>
+  );
+};

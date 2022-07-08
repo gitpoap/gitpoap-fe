@@ -8,15 +8,15 @@ import { Page } from '../../_app';
 import { Layout } from '../../../components/Layout';
 import { Grid } from '@mantine/core';
 import { SEO } from '../../../components/SEO';
-import { ONE_HOUR } from '../../../constants';
-import { OrgPage } from '../../../components/organization/OrgPage';
+import { ONE_YEAR } from '../../../constants';
+import { OrgPage, OrgNotFound } from '../../../components/organization/OrgPage';
 import {
-  OrganizationDataByNameQuery,
-  OrganizationDataByNameDocument,
+  OrganizationSeoByNameQuery,
+  OrganizationSeoByNameDocument,
 } from '../../../graphql/generated-gql';
 
 type PageProps = {
-  data: OrganizationDataByNameQuery;
+  data: OrganizationSeoByNameQuery;
 };
 
 const Organization: Page<PageProps> = (props) => {
@@ -37,18 +37,15 @@ const Organization: Page<PageProps> = (props) => {
           'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
         }
         image={'https://gitpoap.io/og-image-512x512.png'}
-        url={`https://gitpoap.io/gh/${org?.name}`}
+        url={`https://gitpoap.io/${org && `gh/${org.name}`}`}
       />
-      <OrgPage org={org} />
+      {org?.id ? <OrgPage orgId={org.id} /> : <OrgNotFound>{'Organization Not Found'}</OrgNotFound>}
     </Grid>
   );
 };
 
 export async function getServerSideProps(context: NextPageContext) {
-  context.res?.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${ONE_HOUR}, stale-while-revalidate=${2 * ONE_HOUR}`,
-  );
+  context.res?.setHeader('Cache-Control', `public, s-maxage=${ONE_YEAR}`);
 
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
@@ -60,7 +57,7 @@ export async function getServerSideProps(context: NextPageContext) {
   );
   const orgName = context.query.orgName;
   const results = await client!
-    .query<OrganizationDataByNameQuery>(OrganizationDataByNameDocument, {
+    .query<OrganizationSeoByNameQuery>(OrganizationSeoByNameDocument, {
       orgName,
     })
     .toPromise();

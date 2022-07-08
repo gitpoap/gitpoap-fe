@@ -13,8 +13,8 @@ export const BREAKPOINTS = {
 };
 
 export const FIVE_MINUTES = 5 * 60 * 1000; // in seconds
-export const ONE_HOUR = 3600; // in seconds
 export const ONE_DAY = 86400; // in seconds
+export const ONE_YEAR = ONE_DAY * 365; // in seconds
 
 /** Date Constants **/
 export const THIS_YEAR = DateTime.local().year;
