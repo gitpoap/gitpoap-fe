@@ -11,6 +11,8 @@ import { Text as TextUI } from '../shared/elements/Text';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { FaHeartBroken } from 'react-icons/fa';
+import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { useProfileContext } from './ProfileContext';
 
 const Container = styled.div`
   display: inline-flex;
@@ -59,6 +61,16 @@ export const FeaturedPOAPs = () => {
     hasFetched,
     isLoading,
   } = useFeaturedPOAPs();
+  const { profileData } = useProfileContext();
+  const { address: walletAddress } = useWeb3Context();
+
+  const isViewerOwner = profileData?.address === walletAddress.toLowerCase();
+
+  console.log(profileData?.address, walletAddress);
+
+  if (featuredPOAPsFull.length === 0 && !isViewerOwner) {
+    return null;
+  }
 
   return (
     <Container>
