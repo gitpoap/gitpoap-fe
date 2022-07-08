@@ -13,7 +13,7 @@ import { RepoPage } from '../../components/repo/RepoPage';
 import { SEO } from '../../components/SEO';
 import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
-import { ONE_DAY } from '../../constants';
+import { ONE_HOUR } from '../../constants';
 import { RepoDataByIdQuery, RepoDataByIdDocument } from '../../graphql/generated-gql';
 
 const Error = styled(Header)`
@@ -61,7 +61,7 @@ const Repo: Page<PageProps> = (props) => {
 export async function getServerSideProps(context: NextPageContext) {
   context.res?.setHeader(
     'Cache-Control',
-    `public, s-maxage=${ONE_DAY}, stale-while-revalidate=${2 * ONE_DAY}`,
+    `public, s-maxage=${ONE_HOUR}, stale-while-revalidate=${2 * ONE_HOUR}`,
   );
 
   const ssrCache = ssrExchange({ isClient: false });

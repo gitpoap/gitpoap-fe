@@ -9,7 +9,7 @@ import { Grid } from '@mantine/core';
 import { Page } from '../../_app';
 import { RepoPage } from '../../../components/repo/RepoPage';
 import { Layout } from '../../../components/Layout';
-import { ONE_DAY } from '../../../constants';
+import { ONE_HOUR } from '../../../constants';
 import { RepoDataByNameQuery, RepoDataByNameDocument } from '../../../graphql/generated-gql';
 import { SEO } from '../../../components/SEO';
 
@@ -45,7 +45,7 @@ const Project: Page<PageProps> = (props) => {
 export async function getServerSideProps(context: NextPageContext) {
   context.res?.setHeader(
     'Cache-Control',
-    `public, s-maxage=${ONE_DAY}, stale-while-revalidate=${2 * ONE_DAY}`,
+    `public, s-maxage=${ONE_HOUR}, stale-while-revalidate=${2 * ONE_HOUR}`,
   );
 
   const ssrCache = ssrExchange({ isClient: false });
