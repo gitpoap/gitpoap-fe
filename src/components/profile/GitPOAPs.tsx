@@ -144,10 +144,10 @@ export const GitPOAPs = ({ address }: Props) => {
                   key={gitPOAPItem.claim.poapTokenId ?? `${gitPOAPItem.claim.gitPOAP.id}-minting`}
                   gitPOAPId={gitPOAPItem.claim.gitPOAP.id}
                   repoName={gitPOAPItem.claim.gitPOAP.repo.name}
+                  orgName={gitPOAPItem.claim.gitPOAP.repo.organization.name}
                   name={gitPOAPItem.event.name}
                   imgSrc={gitPOAPItem.event.image_url}
                   poapTokenId={gitPOAPItem.claim.poapTokenId}
-                  description={gitPOAPItem.event.description}
                 />
               );
             })}

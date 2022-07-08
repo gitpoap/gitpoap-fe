@@ -1726,7 +1726,11 @@ export type GitPoapsQuery = {
         gitPOAP: {
           __typename?: 'GitPOAP';
           id: number;
-          repo: { __typename?: 'Repo'; name: string };
+          repo: {
+            __typename?: 'Repo';
+            name: string;
+            organization: { __typename?: 'Organization'; name: string };
+          };
         };
       };
       event: { __typename?: 'POAPEvent'; name: string; image_url: string; description: string };
@@ -1748,7 +1752,15 @@ export type RepoGitPoapsQuery = {
     totalGitPOAPs: number;
     gitPOAPs: Array<{
       __typename?: 'FullGitPOAPEventData';
-      gitPOAP: { __typename?: 'GitPOAP'; id: number; repo: { __typename?: 'Repo'; name: string } };
+      gitPOAP: {
+        __typename?: 'GitPOAP';
+        id: number;
+        repo: {
+          __typename?: 'Repo';
+          name: string;
+          organization: { __typename?: 'Organization'; name: string };
+        };
+      };
       event: { __typename?: 'POAPEvent'; name: string; image_url: string; description: string };
     }>;
   } | null;
@@ -1856,6 +1868,7 @@ export type FeaturedPoapsQuery = {
           id: number;
           repo: {
             __typename?: 'Repo';
+            name: string;
             organization: { __typename?: 'Organization'; name: string };
           };
         };
@@ -2304,6 +2317,9 @@ export const GitPoapsDocument = gql`
             id
             repo {
               name
+              organization {
+                name
+              }
             }
           }
           status
@@ -2333,6 +2349,9 @@ export const RepoGitPoapsDocument = gql`
           id
           repo {
             name
+            organization {
+              name
+            }
           }
         }
         event {
@@ -2456,6 +2475,7 @@ export const FeaturedPoapsDocument = gql`
           gitPOAP {
             id
             repo {
+              name
               organization {
                 name
               }

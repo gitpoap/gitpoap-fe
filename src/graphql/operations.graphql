@@ -108,6 +108,9 @@ query gitPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) 
           id
           repo {
             name
+            organization {
+              name
+            }
           }
         }
         status
@@ -218,6 +221,7 @@ query featuredPoaps($address: String!) {
         gitPOAP {
           id
           repo {
+            name
             organization {
               name
             }

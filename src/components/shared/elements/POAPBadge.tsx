@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Title as TitleUI } from '../elements/Title';
 import { TextLight } from '../../../colors';
 import { FeatureHeart } from '../compounds/FeatureHeart';
+import { Link } from '../../Link';
 
 type Props = {
   className?: string;
@@ -76,7 +77,9 @@ export const POAPBadge = ({ className, imgSrc, name, href, poapTokenId }: Props)
         </ImgContainer>
         {poapTokenId && <Heart poapTokenId={poapTokenId} />}
       </BadgeContainer>
-      <Title>{name}</Title>
+      <Link href={href} target="_blank" rel="noopener noreferrer">
+        <Title>{name}</Title>
+      </Link>
     </Container>
   );
 };

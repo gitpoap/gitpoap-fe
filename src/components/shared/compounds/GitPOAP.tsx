@@ -13,6 +13,7 @@ type Props = {
   name: string;
   repoName: string;
   repoId?: number;
+  orgName?: string;
   description?: string;
   className?: string;
   poapTokenId?: string | null;
@@ -105,6 +106,7 @@ export const GitPOAP = ({
   repoId,
   description,
   onClick,
+  orgName,
 }: Props) => {
   return (
     <Wrapper className={className}>
@@ -126,7 +128,12 @@ export const GitPOAP = ({
         <Link href={`/gp/${gitPOAPId}`} passHref>
           <TitleStyled>{name.replace('GitPOAP: ', '')}</TitleStyled>
         </Link>
-        {repoId ? (
+
+        {orgName && repoName ? (
+          <Link href={`/gh/${orgName}/${repoName}`}>
+            <RepoName isLink>{repoName}</RepoName>
+          </Link>
+        ) : repoId ? (
           <Link href={`/rp/${repoId}`}>
             <RepoName isLink>{repoName}</RepoName>
           </Link>
