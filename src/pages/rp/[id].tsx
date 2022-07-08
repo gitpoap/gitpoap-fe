@@ -14,7 +14,7 @@ import { SEO } from '../../components/SEO';
 import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
 import { ONE_DAY } from '../../constants';
-import { RepoDataQuery, RepoDataDocument } from '../../graphql/generated-gql';
+import { RepoDataByIdQuery, RepoDataByIdDocument } from '../../graphql/generated-gql';
 
 const Error = styled(Header)`
   position: fixed;
@@ -24,7 +24,7 @@ const Error = styled(Header)`
 `;
 
 type PageProps = {
-  data: RepoDataQuery;
+  data: RepoDataByIdQuery;
 };
 
 const Repo: Page<PageProps> = (props) => {
@@ -74,7 +74,7 @@ export async function getServerSideProps(context: NextPageContext) {
   );
   const repoId = parseInt(context.query.id as string);
   const results = await client!
-    .query<RepoDataQuery>(RepoDataDocument, {
+    .query<RepoDataByIdQuery>(RepoDataByIdDocument, {
       repoId,
     })
     .toPromise();

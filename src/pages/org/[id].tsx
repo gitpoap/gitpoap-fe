@@ -12,7 +12,10 @@ import { Grid } from '@mantine/core';
 import { SEO } from '../../components/SEO';
 import { Header } from '../../components/shared/elements/Header';
 import { OrgPage } from '../../components/organization/OrgPage';
-import { OrganizationDataQuery, OrganizationDataDocument } from '../../graphql/generated-gql';
+import {
+  OrganizationDataByIdQuery,
+  OrganizationDataByIdDocument,
+} from '../../graphql/generated-gql';
 import { ONE_DAY } from '../../constants';
 
 const Error = styled(Header)`
@@ -23,7 +26,7 @@ const Error = styled(Header)`
 `;
 
 type PageProps = {
-  data: OrganizationDataQuery;
+  data: OrganizationDataByIdQuery;
 };
 
 const Organization: Page<PageProps> = (props) => {
@@ -73,7 +76,7 @@ export async function getServerSideProps(context: NextPageContext) {
   );
   const orgId = parseInt(context.query.id as string);
   const results = await client!
-    .query<OrganizationDataQuery>(OrganizationDataDocument, {
+    .query<OrganizationDataByIdQuery>(OrganizationDataByIdDocument, {
       orgId,
     })
     .toPromise();

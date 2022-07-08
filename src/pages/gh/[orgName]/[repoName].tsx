@@ -10,11 +10,11 @@ import { Page } from '../../_app';
 import { RepoPage } from '../../../components/repo/RepoPage';
 import { Layout } from '../../../components/Layout';
 import { ONE_DAY } from '../../../constants';
-import { RepoDataQuery, RepoDataDocument } from '../../../graphql/generated-gql';
+import { RepoDataByNameQuery, RepoDataByNameDocument } from '../../../graphql/generated-gql';
 import { SEO } from '../../../components/SEO';
 
 type PageProps = {
-  data: RepoDataQuery;
+  data: RepoDataByNameQuery;
 };
 
 const Project: Page<PageProps> = (props) => {
@@ -59,7 +59,7 @@ export async function getServerSideProps(context: NextPageContext) {
   const orgName = context.query.orgName;
   const repoName = context.query.repoName;
   const results = await client!
-    .query<RepoDataQuery>(RepoDataDocument, {
+    .query<RepoDataByNameQuery>(RepoDataByNameDocument, {
       orgName,
       repoName,
     })

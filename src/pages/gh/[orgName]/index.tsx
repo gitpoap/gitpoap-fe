@@ -10,10 +10,13 @@ import { Grid } from '@mantine/core';
 import { SEO } from '../../../components/SEO';
 import { ONE_DAY } from '../../../constants';
 import { OrgPage } from '../../../components/organization/OrgPage';
-import { OrganizationDataQuery, OrganizationDataDocument } from '../../../graphql/generated-gql';
+import {
+  OrganizationDataByNameQuery,
+  OrganizationDataByNameDocument,
+} from '../../../graphql/generated-gql';
 
 type PageProps = {
-  data: OrganizationDataQuery;
+  data: OrganizationDataByNameQuery;
 };
 
 const Organization: Page<PageProps> = (props) => {
@@ -57,7 +60,7 @@ export async function getServerSideProps(context: NextPageContext) {
   );
   const orgName = context.query.orgName;
   const results = await client!
-    .query<OrganizationDataQuery>(OrganizationDataDocument, {
+    .query<OrganizationDataByNameQuery>(OrganizationDataByNameDocument, {
       orgName,
     })
     .toPromise();
