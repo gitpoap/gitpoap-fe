@@ -112,7 +112,8 @@ export const Header = ({ repo }: Props) => {
             <StyledLink
               href={`https://twitter.com/${repo.organization.twitterHandle}`}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
+              passHref
             >
               <Twitter />
             </StyledLink>
@@ -120,12 +121,18 @@ export const Header = ({ repo }: Props) => {
           <StyledLink
             href={`https://github.com/${repo.organization.name}/${repo.name}`}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            passHref
           >
             <GitHub />
           </StyledLink>
           {repo.organization.url && (
-            <StyledLink href={repo.organization.url} target="_blank" rel="noreferrer">
+            <StyledLink
+              href={repo.organization.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              passHref
+            >
               <Globe />
             </StyledLink>
           )}
@@ -142,13 +149,11 @@ export const Header = ({ repo }: Props) => {
           <SubHeaderItemCount>{repo.mintedGitPOAPCount}</SubHeaderItemCount>
           <SubHeaderItemLabel>{'Minted'}</SubHeaderItemLabel>
         </SubHeaderItem>
-        {resultStarCount?.data?.repoStarCount && (
-          <SubHeaderItem>
-            <Star />
-            <SubHeaderItemCount>{resultStarCount.data.repoStarCount}</SubHeaderItemCount>
-            <SubHeaderItemLabel>{'Stars'}</SubHeaderItemLabel>
-          </SubHeaderItem>
-        )}
+        <SubHeaderItem>
+          <Star />
+          <SubHeaderItemCount>{resultStarCount?.data?.repoStarCount ?? 0}</SubHeaderItemCount>
+          <SubHeaderItemLabel>{'Stars'}</SubHeaderItemLabel>
+        </SubHeaderItem>
       </SubHeader>
     </Wrapper>
   );
