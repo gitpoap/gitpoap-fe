@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 import { Link } from './Link';
 import { rem } from 'polished';
 import { Burger, Collapse, Stack, Group } from '@mantine/core';
@@ -111,6 +112,7 @@ const StyledGitPOAPLogoNoText = styled(GitPOAPLogoNoText)`
 `;
 
 export const Navbar = () => {
+  const router = useRouter();
   const { connectionStatus, address, ensName } = useWeb3Context();
   const matchesBreakpointLg = useMediaQuery(`(min-width: ${rem(1100)})`);
   const matchesBreakpointMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`);
@@ -120,6 +122,12 @@ export const Navbar = () => {
   const showPOAPsPage = false;
   const showOrgsPage = true;
   const showContributorsPage = false;
+
+  useEffect(() => {
+    if (opened) {
+      setOpened(false);
+    }
+  }, [router.asPath]);
 
   const navItems = (
     <>
