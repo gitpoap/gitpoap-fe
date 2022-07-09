@@ -122,7 +122,7 @@ export const getStaticProps = async (context: GetStaticPropsContext<{ id: string
 /* Statically generate all GitPOAP pages at build time - collect all sets of unique paths
  * paths: { params: { id: string } }[]
  */
-export async function getStaticPaths() {
+export const getStaticPaths = async () => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     {
@@ -141,7 +141,7 @@ export async function getStaticPaths() {
     paths,
     fallback: 'blocking',
   };
-}
+};
 
 /* Custom layout function for this page */
 GitPOAP.getLayout = (page: React.ReactNode) => {

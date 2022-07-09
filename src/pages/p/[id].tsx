@@ -91,9 +91,9 @@ export const getStaticProps = (context: GetStaticPropsContext<{ id: string }>) =
 // This function gets called at build time on server-side.
 // It may be called again, on a serverless function, if
 // the path has not been generated.
-export async function getStaticPaths() {
+export const getStaticPaths = () => {
   return { paths: [], fallback: 'blocking' };
-}
+};
 
 /* Custom layout function for this page */
 Profile.getLayout = (page: React.ReactNode) => {
