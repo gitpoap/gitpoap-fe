@@ -66,8 +66,6 @@ export const FeaturedPOAPs = () => {
 
   const isViewerOwner = profileData?.address === walletAddress.toLowerCase();
 
-  console.log(profileData?.address, walletAddress);
-
   if (featuredPOAPsFull.length === 0 && !isViewerOwner) {
     return null;
   }
