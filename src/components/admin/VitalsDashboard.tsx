@@ -9,14 +9,17 @@ import {
   useProfilesSinceQuery,
   useReposSinceQuery,
 } from '../../graphql/generated-gql';
-import { Header } from '../shared/elements';
+import { Header, LinkHoverStyles } from '../shared/elements';
 import { Group } from '@mantine/core';
+import { Link } from '../Link';
+import { TextLight } from '../../colors';
 
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: ${rem(4)};
+  color: ${TextLight};
 `;
 
 const ItemName = styled.div``;
@@ -27,6 +30,12 @@ const Dashboard = styled.div`
   width: ${rem(500)};
 `;
 
+const StyledLink = styled(Link)`
+  ${LinkHoverStyles}
+  color: ${TextLight};
+  text-decoration: none;
+`;
+
 const HeaderContainer = styled.div`
   margin-bottom: ${rem(20)};
   margin-top: ${rem(20)};
@@ -35,12 +44,19 @@ const HeaderContainer = styled.div`
 type ItemProps = {
   name: string;
   value?: string | number;
+  href?: string;
 };
 
-const DashboardItem = ({ name, value }: ItemProps) => {
+const DashboardItem = ({ name, value, href }: ItemProps) => {
   return (
     <ItemContainer>
-      <ItemName>{`${name}: `}</ItemName>
+      {href ? (
+        <StyledLink href={href} passHref>
+          <ItemName>{`${name}: `}</ItemName>
+        </StyledLink>
+      ) : (
+        <ItemName>{`${name}: `}</ItemName>
+      )}
       <ItemValue>{value}</ItemValue>
     </ItemContainer>
   );
@@ -73,8 +89,16 @@ export const VitalsDashboard = () => {
           <HeaderContainer>
             <Header>{'Vitals Dashboard'}</Header>
           </HeaderContainer>
-          <DashboardItem name={'Mints (last 7 days)'} value={claimsResult.data?.claims.length} />
-          <DashboardItem name={'Mints (today)'} value={dailyClaimsResult.data?.claims.length} />
+          <DashboardItem
+            name={'Mints (last 7 days)'}
+            value={claimsResult.data?.claims.length}
+            href={'/admin/gitpoap/claims'}
+          />
+          <DashboardItem
+            name={'Mints (today)'}
+            value={dailyClaimsResult.data?.claims.length}
+            href={'/admin/gitpoap/claims'}
+          />
           <DashboardItem
             name={'Repos Added (last 7 days)'}
             value={reposResult.data?.repos.length}
