@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
-import { OrganizationHex, OrganizationHexSkeleton } from './OrganizationHex';
+import { OrganizationHex, OrganizationHexSkeleton } from './OrgHex';
 import {
   OrganizationsListQuery,
   OrganizationsListQueryVariables,
   useOrganizationsListQuery,
 } from '../../graphql/generated-gql';
 import { useListState } from '@mantine/hooks';
-import { Header, Input } from '../shared/elements';
+import { Header, Input, TextSkeleton } from '../shared/elements';
 
 type SortOptions = 'alphabetical' | 'date';
 
@@ -18,7 +18,7 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'date', label: 'Creation Date' },
 ];
 
-const OrgList = styled.div`
+const List = styled.div`
   display: grid;
   column-gap: ${rem(30)};
   row-gap: ${rem(32)};
@@ -34,9 +34,18 @@ const StyledHeader = styled(Header)`
   margin-bottom: ${rem(40)};
 `;
 
+const HeaderSkeleton = styled(TextSkeleton)`
+  display: block;
+  margin-bottom: ${rem(40)};
+  width: ${rem(280)};
+`;
+
 const Wrapper = styled.div`
   margin-top: ${rem(80)};
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const StyledItemList = styled(ItemList)`
@@ -49,7 +58,7 @@ type QueryVars = {
   sort: SortOptions;
 };
 
-export const OrganizationList = () => {
+export const OrgList = () => {
   const [searchValue, setSearchValue] = useState('');
   const [page, setPage] = useState(1);
   const perPage = 15;
@@ -90,7 +99,11 @@ export const OrganizationList = () => {
 
   return (
     <Wrapper>
-      <StyledHeader>{`${total ?? ''} Organizations`}</StyledHeader>
+      {total ? (
+        <StyledHeader>{`${total} Organizations`}</StyledHeader>
+      ) : (
+        <HeaderSkeleton height={rem(48)} />
+      )}
       <Input
         style={{ marginBottom: rem(40), width: rem(400) }}
         placeholder={'SEARCH FOR AN ORGANIZATION...'}
@@ -117,7 +130,7 @@ export const OrganizationList = () => {
           }
         }}
       >
-        <OrgList>
+        <List>
           {result.fetching && !result.operation && (
             <>
               {[...Array(10)].map((_, i) => (
@@ -128,7 +141,7 @@ export const OrganizationList = () => {
 
           {orgsToDisplay &&
             orgsToDisplay.map((org, i) => <OrganizationHex key={'organization-' + i} org={org} />)}
-        </OrgList>
+        </List>
       </StyledItemList>
     </Wrapper>
   );

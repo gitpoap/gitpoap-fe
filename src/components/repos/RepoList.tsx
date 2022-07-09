@@ -4,7 +4,7 @@ import { rem } from 'polished';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { Header } from '../shared/elements/Header';
 import { RepoHex, RepoHexSkeleton } from './RepoHex';
-import { Input } from '../shared/elements';
+import { Input, TextSkeleton } from '../shared/elements';
 import {
   AllReposOnRepoPageQuery,
   useAllReposOnRepoPageQuery,
@@ -38,9 +38,18 @@ const StyledHeader = styled(Header)`
   margin-bottom: ${rem(40)};
 `;
 
+const HeaderSkeleton = styled(TextSkeleton)`
+  display: block;
+  margin-bottom: ${rem(40)};
+  width: ${rem(280)};
+`;
+
 const Wrapper = styled.div`
   margin-top: ${rem(80)};
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const StyledItemList = styled(ItemList)`
@@ -94,7 +103,11 @@ export const RepoList = () => {
 
   return (
     <Wrapper>
-      <StyledHeader>{`${total ?? ''} Repos`}</StyledHeader>
+      {total ? (
+        <StyledHeader>{`${total} Repos`}</StyledHeader>
+      ) : (
+        <HeaderSkeleton height={rem(48)} />
+      )}
       <Input
         style={{ marginBottom: rem(40), width: rem(400) }}
         placeholder={'SEARCH FOR A REPO...'}

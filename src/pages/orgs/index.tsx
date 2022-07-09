@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mantine/core';
 import { Page } from '../_app';
-import { OrganizationList } from '../../components/orgs/OrganizationList';
+import { OrgList } from '../../components/orgs/OrgList';
 import { Layout } from '../../components/Layout';
 import { SEO } from '../../components/SEO';
 
@@ -19,7 +19,7 @@ const Orgs: Page = () => {
 
       <Grid justify="center">
         <Grid.Col span={10}>
-          <OrganizationList />
+          <OrgList />
         </Grid.Col>
       </Grid>
     </>

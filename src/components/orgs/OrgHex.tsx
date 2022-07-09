@@ -6,7 +6,7 @@ import { Forked, GitPOAP } from '../shared/elements/icons';
 import { Text } from '../shared/elements/Text';
 import { Title } from '../shared/elements/Title';
 import { Link } from '../Link';
-import { Org } from './OrganizationList';
+import { Org } from './OrgList';
 import { textEllipses } from '../shared/styles';
 import { TextSkeleton } from '../shared/elements';
 
