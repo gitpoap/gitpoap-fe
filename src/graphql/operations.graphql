@@ -304,6 +304,9 @@ query repoSEOById($repoId: Float!) {
   repoData(repoId: $repoId) {
     id
     name
+    organization {
+      name
+    }
   }
 }
 
@@ -441,7 +444,17 @@ query orgsSince($date: DateTime) {
 }
 
 query allGitPOAPIds {
-  gitPOAPS(orderBy: { createdAt: desc }) {
+  gitPOAPS {
     id
+  }
+}
+
+query reposGetStaticPaths {
+  repos {
+    id
+    name
+    organization {
+      name
+    }
   }
 }

@@ -1956,7 +1956,12 @@ export type RepoSeoByIdQueryVariables = Exact<{
 
 export type RepoSeoByIdQuery = {
   __typename?: 'Query';
-  repoData?: { __typename?: 'RepoData'; id: number; name: string } | null;
+  repoData?: {
+    __typename?: 'RepoData';
+    id: number;
+    name: string;
+    organization: { __typename?: 'Organization'; name: string };
+  } | null;
 };
 
 export type RepoSeoByNameQueryVariables = Exact<{
@@ -2146,6 +2151,18 @@ export type AllGitPoapIdsQueryVariables = Exact<{ [key: string]: never }>;
 export type AllGitPoapIdsQuery = {
   __typename?: 'Query';
   gitPOAPS: Array<{ __typename?: 'GitPOAP'; id: number }>;
+};
+
+export type ReposGetStaticPathsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ReposGetStaticPathsQuery = {
+  __typename?: 'Query';
+  repos: Array<{
+    __typename?: 'Repo';
+    id: number;
+    name: string;
+    organization: { __typename?: 'Organization'; name: string };
+  }>;
 };
 
 export const GetAllStatsDocument = gql`
@@ -2576,6 +2593,9 @@ export const RepoSeoByIdDocument = gql`
     repoData(repoId: $repoId) {
       id
       name
+      organization {
+        name
+      }
     }
   }
 `;
@@ -2828,7 +2848,7 @@ export function useOrgsSinceQuery(
 }
 export const AllGitPoapIdsDocument = gql`
   query allGitPOAPIds {
-    gitPOAPS(orderBy: { createdAt: desc }) {
+    gitPOAPS {
       id
     }
   }
@@ -2838,4 +2858,24 @@ export function useAllGitPoapIdsQuery(
   options?: Omit<Urql.UseQueryArgs<AllGitPoapIdsQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<AllGitPoapIdsQuery>({ query: AllGitPoapIdsDocument, ...options });
+}
+export const ReposGetStaticPathsDocument = gql`
+  query reposGetStaticPaths {
+    repos {
+      id
+      name
+      organization {
+        name
+      }
+    }
+  }
+`;
+
+export function useReposGetStaticPathsQuery(
+  options?: Omit<Urql.UseQueryArgs<ReposGetStaticPathsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<ReposGetStaticPathsQuery>({
+    query: ReposGetStaticPathsDocument,
+    ...options,
+  });
 }
