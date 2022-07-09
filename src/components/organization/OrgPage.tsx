@@ -82,7 +82,7 @@ export const OrgPage = ({ orgId }: Props) => {
           </Grid.Col>
         </>
       ) : (
-        <OrgNotFound>{'Organization Not Found'}</OrgNotFound>
+        !org && !result.fetching && <OrgNotFound>{'Organization Not Found'}</OrgNotFound>
       )}
     </>
   );

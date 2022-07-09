@@ -99,7 +99,7 @@ export const RepoPage = ({ repoId }: Props) => {
           </Grid.Col>
         </>
       ) : (
-        <RepoNotFound>{'Repo Not Found'}</RepoNotFound>
+        !repo && !result.fetching && <RepoNotFound>{'Repo Not Found'}</RepoNotFound>
       )}
     </>
   );
