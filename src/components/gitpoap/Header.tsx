@@ -98,11 +98,11 @@ export const Header = ({ gitPOAPId }: Props) => {
         <>
           <OrgName>
             {`by `}
-            <Link href={`/org/${org.id}`} passHref>
+            <Link href={`/gh/${org.name}`} passHref>
               <OrgLink>{`${repo.organization.name}`}</OrgLink>
             </Link>
             {`/`}
-            <Link href={`/rp/${repo.id}`} passHref>
+            <Link href={`/gh/${org.name}/${repo.name}`} passHref>
               <OrgLink>{repo.name}</OrgLink>
             </Link>
           </OrgName>

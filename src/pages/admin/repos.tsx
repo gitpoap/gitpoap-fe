@@ -32,7 +32,7 @@ const ReposDashboard: NextPage = () => {
 
   const data = result.data?.repos.map((repo) => {
     return {
-      'Repo ID': { value: repo.id, href: `/rp/${repo.id}` },
+      'Repo ID': { value: repo.id, href: `/gh/${repo.organization.name}/${repo.name}` },
       Name: { value: repo.name },
       Organization: { value: repo.organization.name },
       GitPOAPs: { value: repo.gitPOAPs.length },
