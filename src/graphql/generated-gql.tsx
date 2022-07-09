@@ -2165,6 +2165,13 @@ export type ReposGetStaticPathsQuery = {
   }>;
 };
 
+export type OrgsGetStaticPathsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type OrgsGetStaticPathsQuery = {
+  __typename?: 'Query';
+  organizations: Array<{ __typename?: 'Organization'; id: number; name: string }>;
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -2878,4 +2885,18 @@ export function useReposGetStaticPathsQuery(
     query: ReposGetStaticPathsDocument,
     ...options,
   });
+}
+export const OrgsGetStaticPathsDocument = gql`
+  query orgsGetStaticPaths {
+    organizations {
+      id
+      name
+    }
+  }
+`;
+
+export function useOrgsGetStaticPathsQuery(
+  options?: Omit<Urql.UseQueryArgs<OrgsGetStaticPathsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<OrgsGetStaticPathsQuery>({ query: OrgsGetStaticPathsDocument, ...options });
 }

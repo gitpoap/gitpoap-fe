@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { useRouter } from 'next/router';
-import { NextPageContext } from 'next';
+import { GetStaticPropsContext } from 'next';
 import { withUrqlClient, initUrqlClient } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 
@@ -12,8 +12,12 @@ import { Grid } from '@mantine/core';
 import { SEO } from '../../components/SEO';
 import { Header } from '../../components/shared/elements/Header';
 import { OrgPage, OrgNotFound } from '../../components/organization/OrgPage';
-import { OrganizationSeoByIdQuery, OrganizationSeoByIdDocument } from '../../graphql/generated-gql';
-import { ONE_YEAR } from '../../constants';
+import {
+  OrganizationSeoByIdQuery,
+  OrganizationSeoByIdDocument,
+  OrgsGetStaticPathsQuery,
+  OrgsGetStaticPathsDocument,
+} from '../../graphql/generated-gql';
 
 const Error = styled(Header)`
   position: fixed;
@@ -57,9 +61,10 @@ const Organization: Page<PageProps> = (props) => {
   );
 };
 
-export async function getServerSideProps(context: NextPageContext) {
-  context.res?.setHeader('Cache-Control', `public, s-maxage=${ONE_YEAR}`);
-
+/* Based on the path objects generated in getStaticPaths, statically generate pages for all
+ * unique org ids at built time.
+ */
+export const getStaticProps = async (context: GetStaticPropsContext<{ id: string }>) => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     {
@@ -68,7 +73,7 @@ export async function getServerSideProps(context: NextPageContext) {
     },
     false,
   );
-  const orgId = parseInt(context.query.id as string);
+  const orgId = parseInt(context.params?.id as string);
   const results = await client!
     .query<OrganizationSeoByIdQuery>(OrganizationSeoByIdDocument, {
       orgId,
@@ -77,13 +82,38 @@ export async function getServerSideProps(context: NextPageContext) {
 
   return {
     props: {
-      // urqlState is a keyword here so withUrqlClient can pick it up.
       urqlState: ssrCache.extractData(),
       data: results.data,
-      revalidate: 600,
     },
   };
-}
+};
+
+/* Statically generate all repo pages at build time - collect all sets of unique paths
+ * paths: { params: { id: string } }[]
+ */
+export const getStaticPaths = async () => {
+  const ssrCache = ssrExchange({ isClient: false });
+  const client = initUrqlClient(
+    {
+      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
+      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+    },
+    false,
+  );
+
+  const results = await client!
+    .query<OrgsGetStaticPathsQuery>(OrgsGetStaticPathsDocument)
+    .toPromise();
+
+  const paths = results.data?.organizations.map((org) => ({
+    params: { id: org.id.toString() },
+  }));
+
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+};
 
 /* Custom layout function for this page */
 Organization.getLayout = (page: React.ReactNode) => {

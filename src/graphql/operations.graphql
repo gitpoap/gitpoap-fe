@@ -458,3 +458,10 @@ query reposGetStaticPaths {
     }
   }
 }
+
+query orgsGetStaticPaths {
+  organizations {
+    id
+    name
+  }
+}
