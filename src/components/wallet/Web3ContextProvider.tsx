@@ -10,7 +10,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-let providerOptions: IProviderOptions = {
+const providerOptions: IProviderOptions = {
   walletlink: {
     package: CoinbaseWalletSDK,
     options: {
