@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import jwtDecode from 'jwt-decode';
-import { REACT_APP_CLIENT_ID, GITPOAP_API_URL, FIVE_MINUTES } from '../../constants';
+import { REACT_APP_CLIENT_ID, GITPOAP_API_URL, FIVE_MINUTES_IN_MS } from '../../constants';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { useLocalStorage } from '@mantine/hooks';
@@ -182,7 +182,7 @@ export const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     if (accessToken && refreshToken && isPageVisible) {
-      timeout = setTimeout(() => performRefresh(), FIVE_MINUTES);
+      timeout = setTimeout(() => performRefresh(), FIVE_MINUTES_IN_MS);
     }
 
     return () => {
