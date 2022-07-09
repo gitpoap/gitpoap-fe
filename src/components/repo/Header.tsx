@@ -7,7 +7,7 @@ import { TextAccent, TextGray } from '../../colors';
 import { Link, IconLink } from '../Link';
 import { OrgName, OrgLink, Wrapper } from '../gitpoap/Header';
 import { People, GitPOAP, Star, Globe, Twitter } from '../shared/elements/icons';
-import { RepoDataByIdQuery, useRepoStarCountQuery } from '../../graphql/generated-gql';
+import { RepoDataQuery, useRepoStarCountQuery } from '../../graphql/generated-gql';
 import { FaGithub as GitHub } from 'react-icons/fa';
 
 export const Social = styled.div`
@@ -90,7 +90,7 @@ const OrgNameStyled = styled(OrgName)`
 `;
 
 type Props = {
-  repo: Exclude<RepoDataByIdQuery['repoData'], null | undefined>;
+  repo: Exclude<RepoDataQuery['repoData'], null | undefined>;
 };
 
 export const Header = ({ repo }: Props) => {

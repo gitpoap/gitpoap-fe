@@ -280,7 +280,7 @@ query adminClaims($count: Int!) {
   }
 }
 
-query repoDataById($repoId: Float!) {
+query repoData($repoId: Float!) {
   repoData(repoId: $repoId) {
     id
     name
@@ -300,23 +300,23 @@ query repoDataById($repoId: Float!) {
   }
 }
 
-query repoDataByName($orgName: String!, $repoName: String!) {
+query repoSEOById($repoId: Float!) {
+  repoData(repoId: $repoId) {
+    id
+    name
+    organization {
+      name
+    }
+  }
+}
+
+query repoSEOByName($orgName: String!, $repoName: String!) {
   repoData(orgName: $orgName, repoName: $repoName) {
     id
     name
-    githubRepoId
     organization {
-      id
       name
-      description
-      twitterHandle
-      url
     }
-    gitPOAPs {
-      id
-    }
-    contributorCount
-    mintedGitPOAPCount
   }
 }
 
@@ -355,7 +355,7 @@ query allReposOnRepoPage($sort: String, $page: Float, $perPage: Float) {
   }
 }
 
-query organizationDataById($orgId: Float!) {
+query organizationData($orgId: Float!) {
   organizationData(orgId: $orgId) {
     id
     name
@@ -369,17 +369,17 @@ query organizationDataById($orgId: Float!) {
   }
 }
 
-query organizationDataByName($orgName: String!) {
+query organizationSEOById($orgId: Float!) {
+  organizationData(orgId: $orgId) {
+    id
+    name
+  }
+}
+
+query organizationSEOByName($orgName: String!) {
   organizationData(orgName: $orgName) {
     id
     name
-    description
-    twitterHandle
-    url
-    contributorCount
-    gitPOAPCount
-    mintedGitPOAPCount
-    projectCount
   }
 }
 
@@ -444,7 +444,24 @@ query orgsSince($date: DateTime) {
 }
 
 query allGitPOAPIds {
-  gitPOAPS(orderBy: { createdAt: desc }) {
+  gitPOAPS {
     id
+  }
+}
+
+query reposGetStaticPaths {
+  repos {
+    id
+    name
+    organization {
+      name
+    }
+  }
+}
+
+query orgsGetStaticPaths {
+  organizations {
+    id
+    name
   }
 }

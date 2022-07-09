@@ -11,7 +11,7 @@ import { GitPOAPs } from './GitPOAPs';
 import { RepoLeaderBoard } from './RepoLeaderBoard';
 import { Header as PageHeader } from './Header';
 import { BREAKPOINTS } from '../../constants';
-import { RepoDataByIdQuery } from '../../graphql/generated-gql';
+import { useRepoDataQuery } from '../../graphql/generated-gql';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;
@@ -33,7 +33,7 @@ const Background = styled(BackgroundHexes)`
   );
 `;
 
-const RepoNotFound = styled(Header)`
+export const RepoNotFound = styled(Header)`
   margin-top: ${rem(284)};
 `;
 
@@ -71,31 +71,36 @@ const RepoLeaderBoardWrapper = styled.div`
 `;
 
 type Props = {
-  repo: RepoDataByIdQuery['repoData'];
+  repoId: number;
 };
 
-export const RepoPage = ({ repo }: Props) => (
-  <>
-    <Background />
-    {repo ? (
-      <>
-        <Grid.Col style={{ zIndex: 1 }}>
-          <PageHeader repo={repo} />
-        </Grid.Col>
+export const RepoPage = ({ repoId }: Props) => {
+  const [result] = useRepoDataQuery({ variables: { repoId } });
+  const repo = result?.data?.repoData;
 
-        <Grid.Col>
-          <ContentWrapper>
-            <GitPOAPsWrapper>
-              <GitPOAPs repoId={repo.id} />
-            </GitPOAPsWrapper>
-            <RepoLeaderBoardWrapper>
-              <RepoLeaderBoard repoId={repo.id} />
-            </RepoLeaderBoardWrapper>
-          </ContentWrapper>
-        </Grid.Col>
-      </>
-    ) : (
-      <RepoNotFound>{'Repo Not Found'}</RepoNotFound>
-    )}
-  </>
-);
+  return (
+    <>
+      <Background />
+      {repo ? (
+        <>
+          <Grid.Col style={{ zIndex: 1 }}>
+            <PageHeader repo={repo} />
+          </Grid.Col>
+
+          <Grid.Col>
+            <ContentWrapper>
+              <GitPOAPsWrapper>
+                <GitPOAPs repoId={repo.id} />
+              </GitPOAPsWrapper>
+              <RepoLeaderBoardWrapper>
+                <RepoLeaderBoard repoId={repo.id} />
+              </RepoLeaderBoardWrapper>
+            </ContentWrapper>
+          </Grid.Col>
+        </>
+      ) : (
+        <RepoNotFound>{'Repo Not Found'}</RepoNotFound>
+      )}
+    </>
+  );
+};

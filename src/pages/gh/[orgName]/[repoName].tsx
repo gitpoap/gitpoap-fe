@@ -1,23 +1,25 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { NextPageContext } from 'next';
+import { GetStaticPropsContext } from 'next';
 import { withUrqlClient, initUrqlClient } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
-
 import { Grid } from '@mantine/core';
-
 import { Page } from '../../_app';
-import { RepoPage } from '../../../components/repo/RepoPage';
+import { RepoPage, RepoNotFound } from '../../../components/repo/RepoPage';
 import { Layout } from '../../../components/Layout';
-import { ONE_HOUR } from '../../../constants';
-import { RepoDataByNameQuery, RepoDataByNameDocument } from '../../../graphql/generated-gql';
+import {
+  RepoSeoByNameQuery,
+  RepoSeoByNameDocument,
+  ReposGetStaticPathsQuery,
+  ReposGetStaticPathsDocument,
+} from '../../../graphql/generated-gql';
 import { SEO } from '../../../components/SEO';
 
 type PageProps = {
-  data: RepoDataByNameQuery;
+  data: RepoSeoByNameQuery;
 };
 
-const Project: Page<PageProps> = (props) => {
+const Repo: Page<PageProps> = (props) => {
   const router = useRouter();
   const { orgName, repoName } = router.query;
 
@@ -35,19 +37,21 @@ const Project: Page<PageProps> = (props) => {
           'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
         }
         image={'https://gitpoap.io/og-image-512x512.png'}
-        url={`https://gitpoap.io/gh/${repo?.organization?.name}/${repo?.name}`}
+        url={`https://gitpoap.io/${repo && `gh/${repo.organization.name}/${repo.name}`}`}
       />
-      <RepoPage repo={repo} />
+      {repo?.id ? <RepoPage repoId={repo.id} /> : <RepoNotFound>{'Repo Not Found'}</RepoNotFound>}
     </Grid>
   );
 };
 
-export async function getServerSideProps(context: NextPageContext) {
-  context.res?.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${ONE_HOUR}, stale-while-revalidate=${2 * ONE_HOUR}`,
-  );
-
+/* Based on the path objects generated in getStaticPaths, statically generate pages for all
+ * unique repo pages id at built time.
+ *
+ * Revalidation isn't necessary since metadata is not changing - namely the id, repo name & organization name.
+ */
+export const getStaticProps = async (
+  context: GetStaticPropsContext<{ orgName: string; repoName: string }>,
+) => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     {
@@ -56,10 +60,10 @@ export async function getServerSideProps(context: NextPageContext) {
     },
     false,
   );
-  const orgName = context.query.orgName;
-  const repoName = context.query.repoName;
+  const orgName = context.params?.orgName as string;
+  const repoName = context.params?.repoName as string;
   const results = await client!
-    .query<RepoDataByNameQuery>(RepoDataByNameDocument, {
+    .query<RepoSeoByNameQuery>(RepoSeoByNameDocument, {
       orgName,
       repoName,
     })
@@ -67,16 +71,41 @@ export async function getServerSideProps(context: NextPageContext) {
 
   return {
     props: {
-      // urqlState is a keyword here so withUrqlClient can pick it up.
       urqlState: ssrCache.extractData(),
       data: results.data,
-      revalidate: 600,
     },
   };
-}
+};
+
+/* Statically generate all repo pages at build time - collect all sets of unique paths
+ * paths: { params: { orgName: string, repoName: string } }[]
+ */
+export const getStaticPaths = async () => {
+  const ssrCache = ssrExchange({ isClient: false });
+  const client = initUrqlClient(
+    {
+      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
+      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+    },
+    false,
+  );
+
+  const results = await client!
+    .query<ReposGetStaticPathsQuery>(ReposGetStaticPathsDocument)
+    .toPromise();
+
+  const paths = results.data?.repos.map((repo) => ({
+    params: { orgName: repo.organization.name, repoName: repo.name },
+  }));
+
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+};
 
 /* Custom layout function for this page */
-Project.getLayout = (page: React.ReactNode) => {
+Repo.getLayout = (page: React.ReactNode) => {
   return <Layout>{page}</Layout>;
 };
 
@@ -85,4 +114,4 @@ export default withUrqlClient(
     url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
   }),
   { ssr: false }, // Important so we don't wrap our component in getInitialProps
-)(Project);
+)(Repo);

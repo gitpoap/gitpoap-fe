@@ -2,19 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { useRouter } from 'next/router';
-import { NextPageContext } from 'next';
+import { GetStaticPropsContext } from 'next';
 import { withUrqlClient, initUrqlClient } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
-
 import { Grid } from '@mantine/core';
-
 import { Page } from '../_app';
-import { RepoPage } from '../../components/repo/RepoPage';
+import { RepoPage, RepoNotFound } from '../../components/repo/RepoPage';
 import { SEO } from '../../components/SEO';
 import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
-import { ONE_HOUR } from '../../constants';
-import { RepoDataByIdQuery, RepoDataByIdDocument } from '../../graphql/generated-gql';
+import {
+  RepoSeoByIdQuery,
+  RepoSeoByIdDocument,
+  ReposGetStaticPathsQuery,
+  ReposGetStaticPathsDocument,
+} from '../../graphql/generated-gql';
 
 const Error = styled(Header)`
   position: fixed;
@@ -24,7 +26,7 @@ const Error = styled(Header)`
 `;
 
 type PageProps = {
-  data: RepoDataByIdQuery;
+  data: RepoSeoByIdQuery;
 };
 
 const Repo: Page<PageProps> = (props) => {
@@ -53,17 +55,17 @@ const Repo: Page<PageProps> = (props) => {
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/gh/${repo?.organization.name}/${repo?.name}`}
       />
-      <RepoPage repo={repo} />
+      {repo?.id ? <RepoPage repoId={repo.id} /> : <RepoNotFound>{'Repo Not Found'}</RepoNotFound>}
     </Grid>
   );
 };
 
-export async function getServerSideProps(context: NextPageContext) {
-  context.res?.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${ONE_HOUR}, stale-while-revalidate=${2 * ONE_HOUR}`,
-  );
-
+/* Based on the path objects generated in getStaticPaths, statically generate pages for all
+ * unique repo pages ids at built time.
+ *
+ * Revalidation isn't necessary since metadata is not changing - namely the repo name & organization name.
+ */
+export const getStaticProps = async (context: GetStaticPropsContext<{ id: string }>) => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     {
@@ -72,22 +74,47 @@ export async function getServerSideProps(context: NextPageContext) {
     },
     false,
   );
-  const repoId = parseInt(context.query.id as string);
+  const repoId = parseInt(context.params?.id as string);
   const results = await client!
-    .query<RepoDataByIdQuery>(RepoDataByIdDocument, {
+    .query<RepoSeoByIdQuery>(RepoSeoByIdDocument, {
       repoId,
     })
     .toPromise();
 
   return {
     props: {
-      // urqlState is a keyword here so withUrqlClient can pick it up.
       urqlState: ssrCache.extractData(),
       data: results.data,
-      revalidate: 600,
     },
   };
-}
+};
+
+/* Statically generate all repo pages at build time - collect all sets of unique paths
+ * paths: { params: { id: string } }[]
+ */
+export const getStaticPaths = async () => {
+  const ssrCache = ssrExchange({ isClient: false });
+  const client = initUrqlClient(
+    {
+      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
+      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+    },
+    false,
+  );
+
+  const results = await client!
+    .query<ReposGetStaticPathsQuery>(ReposGetStaticPathsDocument)
+    .toPromise();
+
+  const paths = results.data?.repos.map((repo) => ({
+    params: { id: repo.id.toString() },
+  }));
+
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+};
 
 /* Custom layout function for this page */
 Repo.getLayout = (page: React.ReactNode) => {

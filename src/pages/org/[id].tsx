@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { useRouter } from 'next/router';
-import { NextPageContext } from 'next';
+import { GetStaticPropsContext } from 'next';
 import { withUrqlClient, initUrqlClient } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 
@@ -11,12 +11,13 @@ import { Layout } from '../../components/Layout';
 import { Grid } from '@mantine/core';
 import { SEO } from '../../components/SEO';
 import { Header } from '../../components/shared/elements/Header';
-import { OrgPage } from '../../components/organization/OrgPage';
+import { OrgPage, OrgNotFound } from '../../components/organization/OrgPage';
 import {
-  OrganizationDataByIdQuery,
-  OrganizationDataByIdDocument,
+  OrganizationSeoByIdQuery,
+  OrganizationSeoByIdDocument,
+  OrgsGetStaticPathsQuery,
+  OrgsGetStaticPathsDocument,
 } from '../../graphql/generated-gql';
-import { ONE_HOUR } from '../../constants';
 
 const Error = styled(Header)`
   position: fixed;
@@ -26,7 +27,7 @@ const Error = styled(Header)`
 `;
 
 type PageProps = {
-  data: OrganizationDataByIdQuery;
+  data: OrganizationSeoByIdQuery;
 };
 
 const Organization: Page<PageProps> = (props) => {
@@ -55,17 +56,15 @@ const Organization: Page<PageProps> = (props) => {
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/gh/${org?.name}`}
       />
-      <OrgPage org={org} />
+      {org?.id ? <OrgPage orgId={org.id} /> : <OrgNotFound>{'Organization Not Found'}</OrgNotFound>}
     </Grid>
   );
 };
 
-export async function getServerSideProps(context: NextPageContext) {
-  context.res?.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${ONE_HOUR}, stale-while-revalidate=${2 * ONE_HOUR}`,
-  );
-
+/* Based on the path objects generated in getStaticPaths, statically generate pages for all
+ * unique org ids at built time.
+ */
+export const getStaticProps = async (context: GetStaticPropsContext<{ id: string }>) => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     {
@@ -74,22 +73,47 @@ export async function getServerSideProps(context: NextPageContext) {
     },
     false,
   );
-  const orgId = parseInt(context.query.id as string);
+  const orgId = parseInt(context.params?.id as string);
   const results = await client!
-    .query<OrganizationDataByIdQuery>(OrganizationDataByIdDocument, {
+    .query<OrganizationSeoByIdQuery>(OrganizationSeoByIdDocument, {
       orgId,
     })
     .toPromise();
 
   return {
     props: {
-      // urqlState is a keyword here so withUrqlClient can pick it up.
       urqlState: ssrCache.extractData(),
       data: results.data,
-      revalidate: 600,
     },
   };
-}
+};
+
+/* Statically generate all repo pages at build time - collect all sets of unique paths
+ * paths: { params: { id: string } }[]
+ */
+export const getStaticPaths = async () => {
+  const ssrCache = ssrExchange({ isClient: false });
+  const client = initUrqlClient(
+    {
+      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
+      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+    },
+    false,
+  );
+
+  const results = await client!
+    .query<OrgsGetStaticPathsQuery>(OrgsGetStaticPathsDocument)
+    .toPromise();
+
+  const paths = results.data?.organizations.map((org) => ({
+    params: { id: org.id.toString() },
+  }));
+
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+};
 
 /* Custom layout function for this page */
 Organization.getLayout = (page: React.ReactNode) => {
