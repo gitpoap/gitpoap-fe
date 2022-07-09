@@ -2145,6 +2145,13 @@ export type OrgsSinceQuery = {
   organizations: Array<{ __typename?: 'Organization'; id: number }>;
 };
 
+export type AllGitPoapIdsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type AllGitPoapIdsQuery = {
+  __typename?: 'Query';
+  gitPOAPS: Array<{ __typename?: 'GitPOAP'; id: number }>;
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -2811,4 +2818,17 @@ export function useOrgsSinceQuery(
   options?: Omit<Urql.UseQueryArgs<OrgsSinceQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<OrgsSinceQuery>({ query: OrgsSinceDocument, ...options });
+}
+export const AllGitPoapIdsDocument = gql`
+  query allGitPOAPIds {
+    gitPOAPS(orderBy: { createdAt: desc }) {
+      id
+    }
+  }
+`;
+
+export function useAllGitPoapIdsQuery(
+  options?: Omit<Urql.UseQueryArgs<AllGitPoapIdsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AllGitPoapIdsQuery>({ query: AllGitPoapIdsDocument, ...options });
 }

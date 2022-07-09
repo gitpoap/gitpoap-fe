@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rgba, rem } from 'polished';
-import { NextPageContext } from 'next';
+import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { withUrqlClient, initUrqlClient } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
@@ -14,9 +14,13 @@ import { GitPOAPHolders } from '../../components/gitpoap/GitPOAPHolders';
 import { Header as PageHeader } from '../../components/gitpoap/Header';
 import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
-import { GitPoapEventDocument, GitPoapEventQuery } from '../../graphql/generated-gql';
+import {
+  AllGitPoapIdsDocument,
+  AllGitPoapIdsQuery,
+  GitPoapEventDocument,
+  GitPoapEventQuery,
+} from '../../graphql/generated-gql';
 import { SEO } from '../../components/SEO';
-import { ONE_DAY } from '../../constants';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;
@@ -86,12 +90,12 @@ const GitPOAP: Page<PageProps> = (props) => {
   );
 };
 
-export async function getServerSideProps(context: NextPageContext) {
-  context.res?.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${ONE_DAY}, stale-while-revalidate=${2 * ONE_DAY}`,
-  );
-
+/* Based on the path objects generated in getStaticPaths, statically generate pages for all
+ * unique GitPOAP ids at built time.
+ *
+ * Revalidation isn't necessary since metadata is not changing - namely the name, description, and img_url.
+ */
+export const getStaticProps = async (context: GetStaticPropsContext<{ id: string }>) => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     {
@@ -100,7 +104,7 @@ export async function getServerSideProps(context: NextPageContext) {
     },
     false,
   );
-  const id = parseInt(context.query.id as string);
+  const id = parseInt(context.params?.id as string);
   const results = await client!
     .query<GitPoapEventQuery>(GitPoapEventDocument, {
       id,
@@ -109,11 +113,33 @@ export async function getServerSideProps(context: NextPageContext) {
 
   return {
     props: {
-      // urqlState is a keyword here so withUrqlClient can pick it up.
       urqlState: ssrCache.extractData(),
       gitpoap: results.data,
-      revalidate: 600,
     },
+  };
+};
+
+/* Statically generate all GitPOAP pages at build time - collect all sets of unique paths
+ * paths: { params: { id: string } }[]
+ */
+export async function getStaticPaths() {
+  const ssrCache = ssrExchange({ isClient: false });
+  const client = initUrqlClient(
+    {
+      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
+      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+    },
+    false,
+  );
+
+  const results = await client!.query<AllGitPoapIdsQuery>(AllGitPoapIdsDocument).toPromise();
+  const paths = results.data?.gitPOAPS.map((gitpoap) => ({
+    params: { id: gitpoap.id.toString() },
+  }));
+
+  return {
+    paths,
+    fallback: 'blocking',
   };
 }
 

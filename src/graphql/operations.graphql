@@ -442,3 +442,9 @@ query orgsSince($date: DateTime) {
     id
   }
 }
+
+query allGitPOAPIds {
+  gitPOAPS(orderBy: { createdAt: desc }) {
+    id
+  }
+}
