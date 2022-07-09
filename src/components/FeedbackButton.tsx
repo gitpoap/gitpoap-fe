@@ -24,6 +24,7 @@ const CircleButton = styled.a`
   background-color: ${BackgroundPanel};
   transition: background-color 200ms ease-in-out, transform 200ms ease-in-out;
   border-radius: 50%;
+  border: ${rem(3)} solid ${BackgroundPanel2};
   &:hover {
     background-color: ${BackgroundPanel2};
     transform: scale(1.1);
