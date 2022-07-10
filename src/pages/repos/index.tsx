@@ -31,16 +31,3 @@ Repos.getLayout = (page: React.ReactNode) => {
 };
 
 export default Repos;
-
-/*
-todo:
-
-lata:
-1. add back gitpoaps, contributors, & claims to RepoHex
-9. fix issue with search on repo page?
-1. add minted gitpoap count as a sort option for repos.
-13. change icons so that if they're not clickable, they don't have hover effects.
-14. add sorting by contributor count & gitpoap count for organizations
-15. create query for totalOrgs
-16. create search route for orgs too.
-*/

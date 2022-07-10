@@ -9,6 +9,7 @@ import { GitPOAP, People, Star } from '../../shared/elements/icons';
 import { textEllipses } from '../styles';
 import { ExtraHover, ExtraPressed } from '../../../colors';
 import { Body, BodyAsAnchor, InfoHexBase } from '../../shared/elements/InfoHexBase';
+import { BREAKPOINTS } from '../../../constants';
 
 const Icons = styled.div`
   display: flex;
@@ -85,6 +86,11 @@ const InfoHexBaseStyled = styled(InfoHexBase)`
         color: ${ExtraPressed};
       }
     }
+  }
+
+  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+    width: ${rem(180)};
+    min-width: ${rem(180)};
   }
 `;
 

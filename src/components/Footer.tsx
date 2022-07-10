@@ -266,9 +266,9 @@ export const Footer = () => {
           <LinkColumn>
             <FooterHeader>{'Explore'}</FooterHeader>
             <InternalLink href="/">{'Home'}</InternalLink>
-            {/* <InternalLink href="/gitpoaps">{'GitPOAPs'}</InternalLink>
-            <InternalLink href="/projects">{'Projects'}</InternalLink>
-            <InternalLink href="/events">{'Events'}</InternalLink> */}
+            <InternalLink href="/repos">{'Repos'}</InternalLink>
+            <InternalLink href="/orgs">{'Orgs'}</InternalLink>
+            {/* <InternalLink href="/events">{'Events'}</InternalLink> */}
           </LinkColumn>
           <LinkColumn>
             <FooterHeader>{'Community'}</FooterHeader>

@@ -1,7 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 
 type FeaturesState = {
-  hasHomePageRecentProjects: boolean;
   /* Whether user should see a page showing all gitpoaps */
   hasGitPOAPsPage: boolean;
   hasProjectsPage: boolean;
@@ -12,7 +11,6 @@ type FeaturesState = {
 };
 
 export const getInitialState = (): FeaturesState => ({
-  hasHomePageRecentProjects: true,
   hasGitPOAPsPage: false,
   hasProjectsPage: true,
   hasCheckIfImEligible: false,
