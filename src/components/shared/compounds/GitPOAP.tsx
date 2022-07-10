@@ -130,11 +130,11 @@ export const GitPOAP = ({
         </Link>
 
         {orgName && repoName ? (
-          <Link href={`/gh/${orgName}/${repoName}`}>
+          <Link href={`/gh/${orgName}/${repoName}`} passHref>
             <RepoName isLink>{repoName}</RepoName>
           </Link>
         ) : repoId ? (
-          <Link href={`/rp/${repoId}`}>
+          <Link href={`/rp/${repoId}`} passHref>
             <RepoName isLink>{repoName}</RepoName>
           </Link>
         ) : (

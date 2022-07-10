@@ -7,3 +7,10 @@ export const textEllipses = (maxWidth: number) => css`
   text-overflow: ellipsis;
   max-width: ${rem(maxWidth)};
 `;
+
+export const LineClamp = (lines: number) => css`
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: ${lines};
+  -webkit-box-orient: vertical;
+`;
