@@ -9,6 +9,7 @@ type Props = {
   className?: string;
   hoverEffects?: boolean;
   href?: string;
+  onClick?: () => void;
 };
 
 const BodyStyles = css<{ hoverEffects?: boolean }>`
@@ -79,11 +80,11 @@ export const Hex = styled.div`
 `;
 
 export const InfoHexBase = React.forwardRef(
-  ({ className, children, hoverEffects, href, ...props }: Props, ref) => {
+  ({ className, children, hoverEffects, href, onClick, ...props }: Props, ref) => {
     if (href) {
       return (
         <Hex className={className} {...props}>
-          <BodyAsAnchor href={href} hoverEffects={hoverEffects}>
+          <BodyAsAnchor href={href} onClick={onClick} hoverEffects={hoverEffects}>
             {children}
           </BodyAsAnchor>
         </Hex>
@@ -92,7 +93,9 @@ export const InfoHexBase = React.forwardRef(
 
     return (
       <Hex className={className} {...props}>
-        <Body hoverEffects={hoverEffects}>{children}</Body>
+        <Body hoverEffects={hoverEffects} onClick={onClick}>
+          {children}
+        </Body>
       </Hex>
     );
   },

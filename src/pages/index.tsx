@@ -11,9 +11,10 @@ import { LeaderBoard } from '../components/home/LeaderBoard';
 import { RecentlyAdded } from '../components/home/RecentlyAdded';
 import { SuggestionForm } from '../components/home/SuggestionForm';
 import { BackgroundHexes } from '../components/home/BackgroundHexes';
-import { useFeatures } from '../components/FeaturesContext';
 import { Divider } from '@mantine/core';
 import { SEO } from '../components/SEO';
+import { FurtherInfoFor } from '../components/home/FurtherInfoFor';
+import { FurtherInfoHow } from '../components/home/FurtherInfoHow';
 
 const HeaderStyled = styled.span`
   position: relative;
@@ -45,8 +46,6 @@ const Background = styled(BackgroundHexes)`
 `;
 
 const Home: Page = () => {
-  const features = useFeatures();
-
   return (
     <>
       <SEO
@@ -77,14 +76,21 @@ const Home: Page = () => {
         </Grid.Col>
       </Grid>
 
-      {features.hasHomePageRecentProjects && (
-        <Grid justify="center" style={{ zIndex: 0, marginBottom: rem(50) }}>
-          <Grid.Col span={10}>
-            <RecentlyAdded />
-          </Grid.Col>
-        </Grid>
-      )}
-      <Grid align="center" justify="center" style={{ zIndex: 0, marginBottom: rem(100) }}>
+      <Grid justify="center" style={{ zIndex: 0, marginBottom: rem(50) }}>
+        <Grid.Col span={10}>
+          <RecentlyAdded />
+        </Grid.Col>
+      </Grid>
+
+      <Grid justify="center" gutter={40} style={{ zIndex: 0, marginBottom: rem(75) }}>
+        <FurtherInfoHow />
+      </Grid>
+
+      <Grid justify="center" gutter={40} style={{ zIndex: 0, marginBottom: rem(75) }}>
+        <FurtherInfoFor />
+      </Grid>
+
+      <Grid align="center" justify="center" style={{ zIndex: 0, marginBottom: rem(50) }}>
         <Grid.Col span={10}>
           <Group direction="column" position="center" align="center">
             <Divider style={{ width: '75%', borderTopColor: BackgroundPanel2 }} />

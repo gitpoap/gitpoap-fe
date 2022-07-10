@@ -10,6 +10,7 @@ import { TextGray, TextLight } from '../../colors';
 import { RecentlyAddedPopover } from './RecentlyAddedPopover';
 import { useRecentReposQuery } from '../../graphql/generated-gql';
 import { Link } from '../Link';
+import { BREAKPOINTS } from '../../constants';
 
 const Container = styled.div`
   display: inline-flex;
@@ -30,6 +31,11 @@ const Repos = styled.div`
 const RepoHexSmall = styled(RepoHexSmallUI)`
   margin-right: ${rem(40)};
   margin-bottom: ${rem(35)};
+
+  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+    margin-right: ${rem(15)};
+    margin-bottom: ${rem(15)};
+  }
 `;
 
 const Question = styled.div`
