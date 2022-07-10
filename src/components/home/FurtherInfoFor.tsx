@@ -17,7 +17,7 @@ const InfoHexHeader = styled(Header)`
 
 const InfoHexText = styled(Text)`
   letter-spacing: -0.1px;
-  font-size: ${rem(18)};
+  font-size: ${rem(16)};
   line-height: ${rem(24)};
 `;
 

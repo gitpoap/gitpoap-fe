@@ -16,13 +16,8 @@ const GraphicContainer = styled.div`
 
 const StyledText = styled(Text)`
   letter-spacing: -0.1px;
-  font-size: ${rem(18)};
-  line-height: ${rem(28)};
-
-  @media (max-width: ${rem(BREAKPOINTS.lg)}) {
-    font-size: ${rem(16)};
-    line-height: ${rem(22)};
-  }
+  font-size: ${rem(16)};
+  line-height: ${rem(24)};
 `;
 
 const HowGraphicStyled = styled(HowGraphic)`

@@ -26,11 +26,20 @@ const Repos = styled.div`
   flex-wrap: wrap;
   margin-top: ${rem(50)};
   margin-bottom: ${rem(20)};
+
+  @media (max-width: ${rem(BREAKPOINTS.lg)}) {
+    max-width: 100%;
+  }
 `;
 
 const RepoHexSmall = styled(RepoHexSmallUI)`
   margin-right: ${rem(40)};
   margin-bottom: ${rem(35)};
+
+  @media (max-width: ${rem(BREAKPOINTS.lg)}) {
+    margin-right: ${rem(20)};
+    margin-bottom: ${rem(20)};
+  }
 
   @media (max-width: ${rem(BREAKPOINTS.md)}) {
     margin-right: ${rem(15)};
