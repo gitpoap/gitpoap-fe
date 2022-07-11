@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { FaSearch } from 'react-icons/fa';
+import { useDebouncedValue, useListState } from '@mantine/hooks';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { Header } from '../shared/elements/Header';
 import { RepoHex, RepoHexSkeleton } from './RepoHex';
-import { Input, TextSkeleton } from '../shared/elements';
+import { Input, Loader, TextSkeleton } from '../shared/elements';
 import {
   AllReposOnRepoPageQuery,
   useAllReposOnRepoPageQuery,
   useTotalRepoCountQuery,
   AllReposOnRepoPageQueryVariables,
+  useRepoSearchOnRepoPageQuery,
 } from '../../graphql/generated-gql';
-import { useListState } from '@mantine/hooks';
 
 type SortOptions = 'alphabetical' | 'date' | 'gitpoap-count' | 'organization';
 
@@ -66,6 +68,7 @@ type QueryVars = {
 
 export const RepoList = () => {
   const [searchValue, setSearchValue] = useState('');
+  const [debouncedSearch] = useDebouncedValue(searchValue, 200);
   const [variables, setVariables] = useState<QueryVars>({
     page: 1,
     perPage: 20,
@@ -73,6 +76,9 @@ export const RepoList = () => {
   });
   const [repoListItems, handlers] = useListState<Repo>([]);
   const [result] = useAllReposOnRepoPageQuery({ variables });
+  const [searchResult] = useRepoSearchOnRepoPageQuery({
+    variables: { search: debouncedSearch, take: 20 },
+  });
   const [totalResult] = useTotalRepoCountQuery({});
   const total = totalResult.data?.totalRepos;
   const allRepos = result.data?.allRepos;
@@ -113,6 +119,7 @@ export const RepoList = () => {
         placeholder={'SEARCH FOR A REPO...'}
         value={searchValue}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
+        icon={searchResult.fetching ? <Loader size={18} /> : <FaSearch />}
       />
       <StyledItemList
         selectOptions={selectOptions}
@@ -127,7 +134,12 @@ export const RepoList = () => {
           }
         }}
         isLoading={result.fetching}
-        hasShowMoreButton={!!total && repoListItems.length < total && repoListItems.length > 0}
+        hasShowMoreButton={
+          !!total &&
+          repoListItems.length < total &&
+          repoListItems.length > 0 &&
+          searchValue.length === 0
+        }
         showMoreOnClick={() => {
           if (!result.fetching) {
             setVariables({
@@ -145,16 +157,12 @@ export const RepoList = () => {
               ))}
             </>
           )}
-
-          {repoListItems &&
-            repoListItems
-              .filter((repo) => {
-                if (searchValue) {
-                  return repo.name.toLowerCase().includes(searchValue.toLowerCase());
-                }
-                return true;
+          {searchResult.data?.repos && searchValue
+            ? searchResult.data.repos.map((repo, i) => {
+                return <RepoHex key={'repo-' + i} repo={repo} />;
               })
-              .map((repo, i) => {
+            : repoListItems &&
+              repoListItems.map((repo, i) => {
                 return <RepoHex key={'repo-' + i} repo={repo} />;
               })}
         </RepoListContainer>

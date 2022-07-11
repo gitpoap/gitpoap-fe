@@ -2019,6 +2019,23 @@ export type AllReposOnRepoPageQuery = {
   }> | null;
 };
 
+export type RepoSearchOnRepoPageQueryVariables = Exact<{
+  take?: InputMaybe<Scalars['Int']>;
+  search?: InputMaybe<Scalars['String']>;
+}>;
+
+export type RepoSearchOnRepoPageQuery = {
+  __typename?: 'Query';
+  repos: Array<{
+    __typename?: 'Repo';
+    id: number;
+    name: string;
+    githubRepoId: number;
+    organization: { __typename?: 'Organization'; name: string };
+    gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number }>;
+  }>;
+};
+
 export type OrganizationDataQueryVariables = Exact<{
   orgId: Scalars['Float'];
 }>;
@@ -2681,6 +2698,38 @@ export function useAllReposOnRepoPageQuery(
   options?: Omit<Urql.UseQueryArgs<AllReposOnRepoPageQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<AllReposOnRepoPageQuery>({ query: AllReposOnRepoPageDocument, ...options });
+}
+export const RepoSearchOnRepoPageDocument = gql`
+  query repoSearchOnRepoPage($take: Int, $search: String) {
+    repos(
+      take: $take
+      where: {
+        OR: [
+          { name: { contains: $search, mode: insensitive } }
+          { organization: { is: { name: { contains: $search, mode: insensitive } } } }
+        ]
+      }
+    ) {
+      id
+      name
+      githubRepoId
+      organization {
+        name
+      }
+      gitPOAPs {
+        id
+      }
+    }
+  }
+`;
+
+export function useRepoSearchOnRepoPageQuery(
+  options?: Omit<Urql.UseQueryArgs<RepoSearchOnRepoPageQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<RepoSearchOnRepoPageQuery>({
+    query: RepoSearchOnRepoPageDocument,
+    ...options,
+  });
 }
 export const OrganizationDataDocument = gql`
   query organizationData($orgId: Float!) {

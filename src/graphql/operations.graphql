@@ -355,6 +355,28 @@ query allReposOnRepoPage($sort: String, $page: Float, $perPage: Float) {
   }
 }
 
+query repoSearchOnRepoPage($take: Int, $search: String) {
+  repos(
+    take: $take
+    where: {
+      OR: [
+        { name: { contains: $search, mode: insensitive } }
+        { organization: { is: { name: { contains: $search, mode: insensitive } } } }
+      ]
+    }
+  ) {
+    id
+    name
+    githubRepoId
+    organization {
+      name
+    }
+    gitPOAPs {
+      id
+    }
+  }
+}
+
 query organizationData($orgId: Float!) {
   organizationData(orgId: $orgId) {
     id
