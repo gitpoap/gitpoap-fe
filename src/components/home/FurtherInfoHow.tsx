@@ -33,11 +33,11 @@ export const FurtherInfoHow = () => {
         <Header>{'How does it work'}</Header>
         <StyledText style={{ marginTop: rem(35) }}>
           <b>{'A POAP '}</b>
-          {`is a digital collectible created as a NFT powered by the blockchain. Each time they take part on an event, POAP collectors get a unique badge that is supported by a cryptographic record.`}
+          {`is a digital collectible created as an NFT that represents an action taken by the owner. POAPs exist with cryptographic provability on the blockchain and are displayable as badges &  viewable by anyone.`}
         </StyledText>
         <StyledText style={{ marginTop: rem(25), marginBottom: rem(35) }}>
           <b>{`A GitPOAP `}</b>
-          {`is an expansion of this concept into the space of open source contributions. For specific meaningful contribution patterns (ex. PR merged), repo owners  automatically distribute (and manually too) GitPOAPs to the contributors as recognition of their work.
+          {`is a regular POAP (with an extra spin) that is minted through the GitPOAP platform for specified meaningful contribution to open source projects. Repo owners automatically distribute GitPOAPs to their contributors as recognition of their work.
           `}
         </StyledText>
         <Link href="https://docs.gitpoap.io" rel="noopener noreferrer" target="_blank">

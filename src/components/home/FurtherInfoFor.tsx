@@ -89,7 +89,7 @@ export const FurtherInfoFor = () => {
           <Content>
             <InfoHexHeader>{'For Contributors'}</InfoHexHeader>
             <InfoHexText>
-              {`Collect GitPOAPs for your meaningful contributions to open source community & unbiased reputation for your work visible via your profile page.`}
+              {`Create a public, immutable, & unbiased record of your contributions to the open source community & show it off via your profile.`}
             </InfoHexText>
             <ButtonStyled style={{ marginTop: rem(40) }} leftIcon={<GoMarkGithub size={16} />}>
               {'Claim POAPs'}
@@ -102,7 +102,7 @@ export const FurtherInfoFor = () => {
           <Content>
             <InfoHexHeader>{'For Repo Owners'}</InfoHexHeader>
             <InfoHexText>
-              {`Distribute GitPOAPs to contributors for their meaningful contributions to the open source community & build an unbiased reputation for your work visible via your profile page.`}
+              {`Recognize, nurture, and grow your community of contributors through the distribution of GitPOAPs & help them build an unbiased record of their work.`}
             </InfoHexText>
             <ButtonStyled style={{ marginTop: rem(40) }} rightIcon={<FaArrowRight />}>
               {'View Repos'}
