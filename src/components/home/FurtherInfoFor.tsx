@@ -7,6 +7,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import { GoMarkGithub } from 'react-icons/go';
 import { BREAKPOINTS } from '../../constants';
 import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
+import { ExtraHover, ExtraPressed } from '../../colors';
 
 const InfoHexHeader = styled(Header)`
   margin-bottom: ${rem(20)};
@@ -30,6 +31,10 @@ const Content = styled.div`
   min-height: ${rem(100)};
   padding: ${rem(10)} ${rem(60)};
   text-align: center;
+`;
+
+const ButtonStyled = styled(Button)`
+  pointer-events: none;
 `;
 
 const BODY_HEIGHT = 20;
@@ -58,6 +63,17 @@ const InfoHex = styled(InfoHexBase)`
     }
   }
 
+  &:hover {
+    ${ButtonStyled} {
+      background-color: ${ExtraHover};
+    }
+  }
+  &:active {
+    ${ButtonStyled} {
+      background-color: ${ExtraPressed};
+    }
+  }
+
   @media (max-width: ${rem(BREAKPOINTS.lg)}) {
     ${Content} {
       padding: ${rem(10)} ${rem(20)};
@@ -73,10 +89,6 @@ const Container = styled(Grid.Col)`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const ButtonStyled = styled(Button)`
-  pointer-events: none;
 `;
 
 export const FurtherInfoFor = () => {
