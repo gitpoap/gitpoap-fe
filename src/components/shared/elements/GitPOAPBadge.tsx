@@ -1,9 +1,16 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { rem } from 'polished';
-
-import { TextLight, MidnightBlue, ExtraHover, ExtraPressed, TextGray } from '../../../colors';
+import {
+  TextLight,
+  MidnightBlue,
+  ExtraHover,
+  ExtraPressed,
+  TextGray,
+  BackgroundPanel2,
+} from '../../../colors';
 import { HexagonPath } from './HexagonPath';
+import Image from 'next/image';
 
 type Props = {
   className?: string;
@@ -53,7 +60,7 @@ const HexBadge = styled(Hexagon)<Props>`
   height: calc(var(--s) * 1);
   display: inline-block;
   font-size: initial; /* we reset the font-size if we want to add some content */
-  background: no-repeat center / 100% url('${(props) => props.imgUrl}');
+  background: ${BackgroundPanel2};
 `;
 
 type HexOuterBorderProps = HexProps & { disabled?: boolean; disableHoverEffects?: boolean };
@@ -121,7 +128,14 @@ export const GitPOAPBadge = ({
         disableHoverEffects={disableHoverEffects}
       >
         <HexInnerBorder size={size}>
-          <HexBadge imgUrl={imgUrl} size={size} />
+          <HexBadge imgUrl={imgUrl} size={size}>
+            <Image
+              alt="gitpoap badge"
+              height={dimensions[size].width}
+              width={dimensions[size].width}
+              src={imgUrl}
+            />
+          </HexBadge>
         </HexInnerBorder>
       </HexOuterBorder>
       <HexagonPath />
