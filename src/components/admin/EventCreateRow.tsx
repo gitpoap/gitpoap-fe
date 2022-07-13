@@ -202,7 +202,7 @@ export const EventCreateRow = (props: Props) => {
       for (const key in formValues) {
         if (formValues.hasOwnProperty(key)) {
           if (formValues[key] instanceof Date) {
-            const dateStr = DateTime.fromJSDate(formValues[key]).toFormat('yyyy-MM-dd');
+            const dateStr = DateTime.fromJSDate(formValues[key]).toFormat('MM-DD-YYYY');
             formData.append(key, dateStr);
           } else {
             formData.append(key, formValues[key]);
