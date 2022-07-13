@@ -432,7 +432,19 @@ query organizationRepos($orgId: Float!, $sort: String, $page: Float, $perPage: F
 }
 
 query totalRepoCount {
-  totalRepos
+  aggregateRepo {
+    _count {
+      id
+    }
+  }
+}
+
+query totalOrganizationCount {
+  aggregateOrganization {
+    _count {
+      id
+    }
+  }
 }
 
 query claimsSince($date: DateTime) {
@@ -462,6 +474,22 @@ query profilesSince($date: DateTime) {
 query orgsSince($date: DateTime) {
   organizations(where: { createdAt: { gt: $date } }) {
     id
+  }
+}
+
+query claimsCount {
+  aggregateClaim {
+    _count {
+      id
+    }
+  }
+}
+
+query mintedClaimsCount {
+  aggregateClaim(where: { status: { equals: CLAIMED } }) {
+    _count {
+      id
+    }
   }
 }
 
