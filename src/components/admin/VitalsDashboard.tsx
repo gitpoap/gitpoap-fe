@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { DateTime } from 'luxon';
 import {
+  useClaimsCountQuery,
   useClaimsSinceQuery,
   useGitPoaPsSinceQuery,
+  useMintedClaimsCountQuery,
   useOrgsSinceQuery,
   useProfilesSinceQuery,
   useReposSinceQuery,
@@ -82,6 +84,9 @@ export const VitalsDashboard = () => {
     variables: { date: todayMinus7Days },
   });
 
+  const [totalClaimsResult] = useClaimsCountQuery();
+  const [mintedClaimsResult] = useMintedClaimsCountQuery();
+
   return (
     <Group direction="row" position="center">
       <Group direction="column">
@@ -115,7 +120,19 @@ export const VitalsDashboard = () => {
             name={'Profiles Added (last 7 days)'}
             value={profilesResult.data?.profiles.length}
           />
-          <DashboardItem name={'Claim %'} value={'TBD'} />
+          <DashboardItem
+            name={'Claim Conversion (%)'}
+            value={
+              totalClaimsResult.data?.aggregateClaim._count &&
+              mintedClaimsResult.data?.aggregateClaim._count
+                ? (
+                    (mintedClaimsResult.data.aggregateClaim._count.id /
+                      totalClaimsResult.data.aggregateClaim._count.id) *
+                    100
+                  ).toFixed(2) + '%'
+                : ''
+            }
+          />
         </Dashboard>
       </Group>
     </Group>

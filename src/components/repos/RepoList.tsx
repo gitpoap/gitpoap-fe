@@ -80,7 +80,7 @@ export const RepoList = () => {
     variables: { search: debouncedSearch, take: 20 },
   });
   const [totalResult] = useTotalRepoCountQuery({});
-  const total = totalResult.data?.totalRepos;
+  const total = totalResult.data?.aggregateRepo._count?.id;
   const allRepos = result.data?.allRepos;
 
   // Assert type until following issue is resolved:

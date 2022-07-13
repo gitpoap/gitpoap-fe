@@ -7,6 +7,7 @@ import {
   OrganizationsListQuery,
   OrganizationsListQueryVariables,
   useOrganizationsListQuery,
+  useTotalOrganizationCountQuery,
 } from '../../graphql/generated-gql';
 import { useListState } from '@mantine/hooks';
 import { Header, Input, TextSkeleton } from '../shared/elements';
@@ -67,9 +68,9 @@ export const OrgList = () => {
   });
   const [orgListItems, handlers] = useListState<Org>([]);
   const [result] = useOrganizationsListQuery({ variables });
-  // @TODO: Add a way to get total org count
   const allOrganizations = result.data?.allOrganizations;
-  const total = allOrganizations?.length;
+  const [totalResult] = useTotalOrganizationCountQuery({});
+  const total = totalResult.data?.aggregateOrganization._count?.id;
 
   // Assert type until following issue is resolved:
   // https://github.com/dotansimha/graphql-code-generator/issues/7976
