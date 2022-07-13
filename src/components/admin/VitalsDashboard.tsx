@@ -95,13 +95,13 @@ export const VitalsDashboard = () => {
             <Header>{'Vitals Dashboard'}</Header>
           </HeaderContainer>
           <DashboardItem
-            name={'Mints (last 7 days)'}
-            value={claimsResult.data?.claims.length}
+            name={'Mints (today)'}
+            value={dailyClaimsResult.data?.claims.length}
             href={'/admin/gitpoap/claims'}
           />
           <DashboardItem
-            name={'Mints (today)'}
-            value={dailyClaimsResult.data?.claims.length}
+            name={'Mints (last 7 days)'}
+            value={claimsResult.data?.claims.length}
             href={'/admin/gitpoap/claims'}
           />
           <DashboardItem
