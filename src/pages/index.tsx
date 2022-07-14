@@ -60,7 +60,7 @@ const Home: Page = () => {
       <Grid justify="center" style={{ zIndex: 0, position: 'relative' }}>
         <Background />
         <Grid.Col span={8} style={{ zIndex: 0 }}>
-          <HeaderStyled>{'Mint POAPs for open source contributions'}</HeaderStyled>
+          <HeaderStyled>{'Build your decentralized professional identity'}</HeaderStyled>
         </Grid.Col>
         <Grid.Col span={8}>
           <BannerStats />
