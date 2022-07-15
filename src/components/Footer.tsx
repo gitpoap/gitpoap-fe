@@ -210,7 +210,7 @@ export const Footer = () => {
   const [loadingState, setLoadingState] = useState<LoadingState>('initial');
   const [email, setEmail] = useState<string>('');
   const [formStatus, setFormStatus] = useState<string>('');
-  const matchesBreakpointSm = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.sm)})`);
+  const matchesBreakpointSm = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.sm)})`, false);
 
   const isDisabled = !validate(email) || email.length === 0;
 
