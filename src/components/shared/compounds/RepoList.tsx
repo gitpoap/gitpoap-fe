@@ -5,7 +5,6 @@ import { BREAKPOINTS } from '../../../constants';
 export const RepoList = styled.div`
   display: grid;
   width: 100%;
-  max-width: ${rem(1200)};
   margin-top: ${rem(50)};
   margin-bottom: ${rem(55)};
 
@@ -25,7 +24,6 @@ export const RepoList = styled.div`
 export const RepoListSmall = styled.div`
   display: grid;
   width: 100%;
-  max-width: ${rem(1200)};
   margin-top: ${rem(50)};
   margin-bottom: ${rem(55)};
 

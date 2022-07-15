@@ -28,12 +28,14 @@ const selectOptions: SelectOption<SortOptions>[] = [
 const StyledHeader = styled(Header)`
   display: block;
   margin-bottom: ${rem(40)};
+  max-width: 100%;
 `;
 
 const HeaderSkeleton = styled(TextSkeleton)`
   display: block;
   margin-bottom: ${rem(40)};
   width: ${rem(280)};
+  max-width: 100%;
 `;
 
 const Wrapper = styled.div`
@@ -46,6 +48,12 @@ const Wrapper = styled.div`
 
 const StyledItemList = styled(ItemList)`
   margin-bottom: ${rem(50)};
+`;
+
+const StyledSearch = styled(Input)`
+  margin-bottom: ${rem(40)};
+  width: ${rem(400)};
+  max-width: 100%;
 `;
 
 export type Repo = Exclude<AllReposOnRepoPageQuery['allRepos'], undefined | null>[number];
@@ -104,7 +112,7 @@ export const RepoList = () => {
       ) : (
         <HeaderSkeleton height={rem(48)} />
       )}
-      <Input
+      <StyledSearch
         style={{ marginBottom: rem(40), width: rem(400) }}
         placeholder={'SEARCH FOR A REPO...'}
         value={searchValue}

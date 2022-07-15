@@ -23,12 +23,14 @@ const selectOptions: SelectOption<SortOptions>[] = [
 const StyledHeader = styled(Header)`
   display: block;
   margin-bottom: ${rem(40)};
+  max-width: 100%;
 `;
 
 const HeaderSkeleton = styled(TextSkeleton)`
   display: block;
   margin-bottom: ${rem(40)};
   width: ${rem(280)};
+  max-width: 100%;
 `;
 
 const Wrapper = styled.div`
@@ -41,6 +43,12 @@ const Wrapper = styled.div`
 
 const StyledItemList = styled(ItemList)`
   margin-bottom: ${rem(50)};
+`;
+
+const StyledSearch = styled(Input)`
+  margin-bottom: ${rem(40)};
+  width: ${rem(400)};
+  max-width: 100%;
 `;
 
 export type Org = Exclude<OrganizationsListQuery['allOrganizations'], undefined | null>[number];
@@ -95,8 +103,7 @@ export const OrgList = () => {
       ) : (
         <HeaderSkeleton height={rem(48)} />
       )}
-      <Input
-        style={{ marginBottom: rem(40), width: rem(400) }}
+      <StyledSearch
         placeholder={'SEARCH FOR AN ORGANIZATION...'}
         value={searchValue}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}

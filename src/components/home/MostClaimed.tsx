@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { useMediaQuery } from '@mantine/hooks';
 import { Header } from '../shared/elements/Header';
 import { GitPOAP } from '../shared/compounds/GitPOAP';
 import { POAPList } from '../shared/compounds/POAPList';
@@ -29,6 +30,7 @@ const Poaps = styled(POAPList)`
 
 export const MostClaimed = () => {
   const { hasGitPOAPsPage } = useFeatures();
+  const matchesBreakpointSm = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.sm)})`, false);
   const [result] = useMostClaimedGitPoapsQuery({
     variables: {
       count: 10,
@@ -48,7 +50,7 @@ export const MostClaimed = () => {
             })}
           </>
         )}
-        {result.data?.mostClaimedGitPOAPs?.map((item, i) => {
+        {result.data?.mostClaimedGitPOAPs?.slice(0, matchesBreakpointSm ? 10 : 6).map((item, i) => {
           return (
             <GitPOAP
               key={item.gitPOAP.id + '-' + i}

@@ -52,7 +52,7 @@ const Header = styled(HeaderUI)`
 `;
 
 const StyledLink = styled(Link)`
-  @media (max-width: ${BREAKPOINTS.md}px) {
+  @media (max-width: ${BREAKPOINTS.sm}px) {
     margin: auto;
   }
 `;
