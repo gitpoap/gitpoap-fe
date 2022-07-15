@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import Image from 'next/image';
 import { Title as TitleUI } from '../elements/Title';
-import { TextLight } from '../../../colors';
+import { BackgroundPanel2, TextLight } from '../../../colors';
 import { FeatureHeart } from '../compounds/FeatureHeart';
 import { Link } from '../../Link';
 
@@ -48,7 +48,7 @@ const POAP = styled(Image)`
   width: ${rem(150)};
   height: ${rem(150)};
   border-radius: 50%;
-  background: #ffffff;
+  background: ${BackgroundPanel2};
 `;
 
 const Title = styled(TitleUI)`

@@ -131,6 +131,15 @@ const ShareStyled = styled(Share)`
   margin-top: ${rem(20)};
 `;
 
+const getWebsiteHref = (url: string | undefined | null) => {
+  if (url) {
+    if (url.startsWith('http')) {
+      return url;
+    }
+    return `https://${url}`;
+  }
+};
+
 export const InfoHexProfileDetail = ({
   isLoading,
   imgSrc,
@@ -146,6 +155,8 @@ export const InfoHexProfileDetail = ({
 }: Props) => {
   const textToCopy = typeof window !== 'undefined' ? window.location.href : '';
   const { hasEnsAvatar } = useFeatures();
+
+  const processedWebsiteHref = getWebsiteHref(websiteHref);
 
   return (
     <StyledInfoHex>
@@ -183,8 +194,13 @@ export const InfoHexProfileDetail = ({
               <GitHub />
             </IconLink>
           )}
-          {websiteHref && (
-            <IconLink href={websiteHref} target="_blank" rel="noopener noreferrer" passHref>
+          {processedWebsiteHref && (
+            <IconLink
+              href={processedWebsiteHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              passHref
+            >
               <Globe />
             </IconLink>
           )}

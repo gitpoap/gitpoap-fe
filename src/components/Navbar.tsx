@@ -97,27 +97,13 @@ const CollapseMenuContent = styled(Stack)`
   }
 `;
 
-const StyledGitPOAPLogo = styled(GitPOAPLogo)`
-  display: block;
-  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
-    display: none;
-  }
-`;
-
-const StyledGitPOAPLogoNoText = styled(GitPOAPLogoNoText)`
-  display: none;
-  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
-    display: block;
-  }
-`;
-
 export const Navbar = () => {
   const router = useRouter();
   const { connectionStatus, address, ensName } = useWeb3Context();
-  const matchesBreakpointLg = useMediaQuery(`(min-width: ${rem(1100)})`);
-  const matchesBreakpointMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`);
-  const [opened, setOpened] = useState(false);
-  const title = opened ? 'Close navigation' : 'Open navigation';
+  const matchesBreakpointLg = useMediaQuery(`(min-width: ${rem(1100)})`, false);
+  const matchesBreakpointMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`, false);
+  const [isOpen, setIsOpen] = useState(false);
+  const title = isOpen ? 'Close navigation' : 'Open navigation';
 
   const showPOAPsPage = false;
   const showOrgsPage = true;
@@ -170,15 +156,21 @@ export const Navbar = () => {
     <Nav>
       <Container position="apart">
         <LogoWrapper href="/" passHref>
-          <StyledGitPOAPLogo />
-          <StyledGitPOAPLogoNoText />
+          <GitPOAPLogo />
         </LogoWrapper>
         <ContentRight>{navItems}</ContentRight>
-        <MobileBurgerButton opened={opened} onClick={() => setOpened((o) => !o)} title={title} />
+        <MobileBurgerButton
+          opened={isOpen}
+          onClick={() => setIsOpen((isOpen) => !isOpen)}
+          title={title}
+        />
       </Container>
-      <MobileCollapseMenu in={opened}>
-        <CollapseMenuContent spacing="lg">{navItemsCollapsed}</CollapseMenuContent>
-      </MobileCollapseMenu>
+      {/* Conditional prevents SSR hydration issue */}
+      {typeof window !== 'undefined' && (
+        <MobileCollapseMenu in={isOpen}>
+          <CollapseMenuContent spacing="lg">{navItemsCollapsed}</CollapseMenuContent>
+        </MobileCollapseMenu>
+      )}
     </Nav>
   );
 };

@@ -33,8 +33,11 @@ const ReposDashboard: NextPage = () => {
   const data = result.data?.repos.map((repo) => {
     return {
       'Repo ID': { value: repo.id, href: `/gh/${repo.organization.name}/${repo.name}` },
-      Name: { value: repo.name },
-      Organization: { value: repo.organization.name },
+      Name: { value: repo.name, href: `https://github.com/${repo.organization.name}/${repo.name}` },
+      Organization: {
+        value: repo.organization.name,
+        href: `https://github.com/${repo.organization.name}/`,
+      },
       GitPOAPs: { value: repo.gitPOAPs.length },
       'Created At': { value: DateTime.fromISO(repo.createdAt).toFormat('dd LLL yyyy hh:mm') },
     };

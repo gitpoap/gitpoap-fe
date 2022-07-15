@@ -3,18 +3,20 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { DateTime } from 'luxon';
 import {
+  useClaimsCountQuery,
   useClaimsSinceQuery,
   useGitPoaPsSinceQuery,
+  useMintedClaimsCountQuery,
   useOrgsSinceQuery,
   useProfilesSinceQuery,
   useReposSinceQuery,
 } from '../../graphql/generated-gql';
 import { Header, LinkHoverStyles } from '../shared/elements';
-import { Group } from '@mantine/core';
+import { Box, Group, BoxProps } from '@mantine/core';
 import { Link } from '../Link';
 import { TextLight } from '../../colors';
 
-const ItemContainer = styled.div`
+const ItemContainer = styled(Box)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -41,15 +43,15 @@ const HeaderContainer = styled.div`
   margin-top: ${rem(20)};
 `;
 
-type ItemProps = {
+type ItemProps = BoxProps<'div'> & {
   name: string;
   value?: string | number;
   href?: string;
 };
 
-const DashboardItem = ({ name, value, href }: ItemProps) => {
+const DashboardItem = ({ name, value, href, ...restProps }: ItemProps) => {
   return (
-    <ItemContainer>
+    <ItemContainer {...restProps}>
       {href ? (
         <StyledLink href={href} passHref>
           <ItemName>{`${name}: `}</ItemName>
@@ -64,12 +66,20 @@ const DashboardItem = ({ name, value, href }: ItemProps) => {
 
 export const VitalsDashboard = () => {
   const todayMinus7Days = DateTime.local().minus({ days: 7 }).toFormat('yyyy-MM-dd');
+  const todayMinus30Days = DateTime.local().minus({ days: 30 }).toFormat('yyyy-MM-dd');
+  const todayMinus90Days = DateTime.local().minus({ days: 90 }).toFormat('yyyy-MM-dd');
   const today = DateTime.local().toFormat('yyyy-MM-dd');
   const [claimsResult] = useClaimsSinceQuery({
     variables: { date: todayMinus7Days },
   });
   const [dailyClaimsResult] = useClaimsSinceQuery({
     variables: { date: today },
+  });
+  const [monthlyClaimsResult] = useClaimsSinceQuery({
+    variables: { date: todayMinus30Days },
+  });
+  const [threeMonthClaimsResult] = useClaimsSinceQuery({
+    variables: { date: todayMinus90Days },
   });
   const [reposResult] = useReposSinceQuery({
     variables: { date: todayMinus7Days },
@@ -82,6 +92,9 @@ export const VitalsDashboard = () => {
     variables: { date: todayMinus7Days },
   });
 
+  const [totalClaimsResult] = useClaimsCountQuery();
+  const [mintedClaimsResult] = useMintedClaimsCountQuery();
+
   return (
     <Group direction="row" position="center">
       <Group direction="column">
@@ -90,14 +103,25 @@ export const VitalsDashboard = () => {
             <Header>{'Vitals Dashboard'}</Header>
           </HeaderContainer>
           <DashboardItem
+            name={'Mints (today)'}
+            value={dailyClaimsResult.data?.claims.length}
+            href={'/admin/gitpoap/claims'}
+          />
+          <DashboardItem
             name={'Mints (last 7 days)'}
             value={claimsResult.data?.claims.length}
             href={'/admin/gitpoap/claims'}
           />
           <DashboardItem
-            name={'Mints (today)'}
-            value={dailyClaimsResult.data?.claims.length}
+            name={'Mints (last 30 days)'}
+            value={monthlyClaimsResult.data?.claims.length}
             href={'/admin/gitpoap/claims'}
+          />
+          <DashboardItem
+            name={'Mints (last 90 days)'}
+            value={threeMonthClaimsResult.data?.claims.length}
+            href={'/admin/gitpoap/claims'}
+            style={{ marginBottom: rem(15) }}
           />
           <DashboardItem
             name={'Repos Added (last 7 days)'}
@@ -114,8 +138,21 @@ export const VitalsDashboard = () => {
           <DashboardItem
             name={'Profiles Added (last 7 days)'}
             value={profilesResult.data?.profiles.length}
+            style={{ marginBottom: rem(15) }}
           />
-          <DashboardItem name={'Claim %'} value={'TBD'} />
+          <DashboardItem
+            name={'Claim Conversion (%)'}
+            value={
+              totalClaimsResult.data?.aggregateClaim._count &&
+              mintedClaimsResult.data?.aggregateClaim._count
+                ? (
+                    (mintedClaimsResult.data.aggregateClaim._count.id /
+                      totalClaimsResult.data.aggregateClaim._count.id) *
+                    100
+                  ).toFixed(2) + '%'
+                : ''
+            }
+          />
         </Dashboard>
       </Group>
     </Group>

@@ -215,14 +215,14 @@ export const Footer = () => {
   const submitEmail = useCallback(async () => {
     try {
       setLoadingState('loading');
-      const resJwt = await fetch('https://api.gitpoap.io/jwt/', {
+      const resJwt = await fetch(`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/jwt/`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       });
       const data = await (resJwt.json() as Promise<{ access_token: string }>);
-      await fetch('https://api.gitpoap.io/subscribe', {
+      await fetch(`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/subscribe`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -266,9 +266,9 @@ export const Footer = () => {
           <LinkColumn>
             <FooterHeader>{'Explore'}</FooterHeader>
             <InternalLink href="/">{'Home'}</InternalLink>
-            {/* <InternalLink href="/gitpoaps">{'GitPOAPs'}</InternalLink>
-            <InternalLink href="/projects">{'Projects'}</InternalLink>
-            <InternalLink href="/events">{'Events'}</InternalLink> */}
+            <InternalLink href="/repos">{'Repos'}</InternalLink>
+            <InternalLink href="/orgs">{'Orgs'}</InternalLink>
+            {/* <InternalLink href="/events">{'Events'}</InternalLink> */}
           </LinkColumn>
           <LinkColumn>
             <FooterHeader>{'Community'}</FooterHeader>

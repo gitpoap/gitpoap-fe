@@ -3,7 +3,6 @@ import { MidnightBlue } from '../colors';
 
 export const GlobalStyles = createGlobalStyle`
   html {
-    overflow: hidden;
     height: 100%;
   }
 

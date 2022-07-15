@@ -27,6 +27,7 @@ const moduleExports = {
       'githubusercontent.com',
       'avatars.githubusercontent.com',
       'lh3.googleusercontent.com',
+      's3.us-east-2.amazonaws.com',
       '*',
     ],
   },
