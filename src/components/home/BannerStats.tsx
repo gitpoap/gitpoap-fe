@@ -4,6 +4,7 @@ import { rem } from 'polished';
 import { InfoHexMetric } from './InfoHexMetric';
 import { GitPOAP, People, Project, Forked } from '../shared/elements/icons';
 import { ExtraHover } from '../../colors';
+import { BREAKPOINTS } from '../../constants';
 import { useGetAllStatsQuery } from '../../graphql/generated-gql';
 
 const CustomIconStyled = css`
@@ -38,11 +39,19 @@ const StatsStyled = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  width: 100%;
 `;
 
 const InfoHexMetricStyled = styled(InfoHexMetric)`
   &:not(:last-child) {
     margin-right: ${rem(30)};
+  }
+  @media (max-width: ${BREAKPOINTS.md}px) {
+    width: 30%;
+    min-width: unset;
+    &:not(:last-child) {
+      margin-right: 5%;
+    }
   }
 `;
 

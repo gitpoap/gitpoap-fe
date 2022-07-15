@@ -4,6 +4,7 @@ import { rem } from 'polished';
 import { FaSearch } from 'react-icons/fa';
 import { useDebouncedValue, useListState } from '@mantine/hooks';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
+import { RepoList as RepoListContainer } from '../shared/compounds/RepoList';
 import { Header } from '../shared/elements/Header';
 import { RepoHex, RepoHexSkeleton } from './RepoHex';
 import { Input, Loader, TextSkeleton } from '../shared/elements';
@@ -23,17 +24,6 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'gitpoap-count', label: 'GitPOAP Count' },
   { value: 'organization', label: 'Organization' },
 ];
-
-const RepoListContainer = styled.div`
-  display: grid;
-  column-gap: ${rem(30)};
-  row-gap: ${rem(32)};
-  grid-template-columns: repeat(auto-fill, ${rem(280)});
-  justify-content: center;
-  align-content: center;
-  margin: ${rem(50)} 0;
-  align-items: flex-start;
-`;
 
 const StyledHeader = styled(Header)`
   display: block;

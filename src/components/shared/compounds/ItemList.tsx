@@ -37,6 +37,7 @@ const Heading = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: ${rem(30)};
 `;
 
 const ListTitle = styled(Header)`

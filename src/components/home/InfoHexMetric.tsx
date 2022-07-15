@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { TextGray, TextLight } from '../../colors';
 import { InfoHexBase } from '../shared/elements/InfoHexBase';
+import { BREAKPOINTS } from '../../constants';
 import { TextSkeleton } from '../shared/elements';
 
 const Content = styled.div`
@@ -11,10 +12,20 @@ const Content = styled.div`
   align-items: center;
   justify-content: center;
   height: ${rem(190)};
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    height: unset;
+  }
 `;
 
 const Icon = styled.div`
   margin-bottom: ${rem(25)};
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    margin-bottom: unset;
+    svg {
+      height: ${rem(48)} !important;
+      width: ${rem(48)} !important;
+    }
+  }
 `;
 
 const Value = styled.div`

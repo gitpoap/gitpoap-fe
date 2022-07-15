@@ -17,7 +17,7 @@ const Repos: Page = () => {
         url={`https://gitpoap.io/repos`}
       />
       <Grid justify="center">
-        <Grid.Col span={10}>
+        <Grid.Col xs={11} md={10}>
           <RepoList />
         </Grid.Col>
       </Grid>

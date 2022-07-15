@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { POAP } from '../../types';
-import { POAPBadge as POAPBadgeUI } from '../shared/elements/POAPBadge';
+import { POAPBadge } from '../shared/elements/POAPBadge';
+import { POAPList } from '../shared/compounds/POAPList';
 import { TextAccent, TextDarkGray } from '../../colors';
 import { GitPOAP } from '../shared/compounds/GitPOAP';
 import { useFeaturedPOAPs, GitPOAP as GitPOAPType } from './FeaturedPOAPsContext';
@@ -18,19 +19,6 @@ const Container = styled.div`
   display: inline-flex;
   flex-direction: column;
   width: 100%;
-`;
-
-const POAPs = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: ${rem(50)};
-  align-items: flex-start;
-  flex: 1;
-`;
-
-const POAPBadge = styled(POAPBadgeUI)`
-  margin-top: ${rem(30)};
 `;
 
 const SectionTitle = styled(Text)`
@@ -73,7 +61,7 @@ export const FeaturedPOAPs = () => {
   return (
     <Container>
       <SectionTitle>{'Featured POAPs'}</SectionTitle>
-      <POAPs>
+      <POAPList>
         {isLoading && !hasFetched && (
           <>
             {[...Array(5)].map((_, i) => {
@@ -115,7 +103,7 @@ export const FeaturedPOAPs = () => {
               />
             );
           })}
-      </POAPs>
+      </POAPList>
     </Container>
   );
 };

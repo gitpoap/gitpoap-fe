@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { rem } from 'polished';
-import { GitPOAP as GitPOAPBadgeUI } from '../shared/compounds/GitPOAP';
+import { GitPOAP as GitPOAPBadge } from '../shared/compounds/GitPOAP';
+import { POAPList } from '../shared/compounds/POAPList';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { Title } from '../shared/elements/Title';
@@ -20,18 +20,6 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'date', label: 'Mint Date' },
   { value: 'alphabetical', label: 'Alphabetical' },
 ];
-
-const GitPOAPList = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: ${rem(50)};
-  align-items: flex-start;
-`;
-
-const GitPOAPBadge = styled(GitPOAPBadgeUI)`
-  margin: ${rem(30)} ${rem(20)} 0;
-`;
 
 type GitPOAPItems = Exclude<GitPoapsQuery['userPOAPs'], undefined | null>['gitPOAPs'];
 
@@ -103,7 +91,7 @@ export const GitPOAPs = ({ address }: Props) => {
         setSearchValue(e.target.value)
       }
     >
-      <GitPOAPList>
+      <POAPList>
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => {
@@ -151,7 +139,7 @@ export const GitPOAPs = ({ address }: Props) => {
                 />
               );
             })}
-      </GitPOAPList>
+      </POAPList>
     </ItemList>
   );
 };

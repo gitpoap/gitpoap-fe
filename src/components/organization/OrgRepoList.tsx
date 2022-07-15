@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
+import { RepoList } from '../shared/compounds/RepoList';
 import { RepoHexSkeleton } from '../repos/RepoHex';
 import { OrgRepoHex } from './OrgRepoHex';
 import { OrganizationReposQuery, useOrganizationReposQuery } from '../../graphql/generated-gql';
@@ -103,7 +104,7 @@ export const OrgRepoList = ({ orgId }: Props) => {
         setSearchValue(e.target.value)
       }
     >
-      <List>
+      <RepoList>
         {result.fetching && !result.operation && (
           <>
             {[...Array(3)].map((_, i) => (
@@ -117,7 +118,7 @@ export const OrgRepoList = ({ orgId }: Props) => {
               searchValue ? repo.name.toLowerCase().includes(searchValue.toLowerCase()) : true,
             )
             .map((repo, i) => <OrgRepoHex key={'org-repo-' + i} repo={repo} />)}
-      </List>
+      </RepoList>
     </ItemList>
   );
 };

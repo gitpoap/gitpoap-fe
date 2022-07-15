@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
+import { OrgList as OrgListContainer } from '../shared/compounds/OrgList';
 import { OrganizationHex, OrganizationHexSkeleton } from './OrgHex';
 import {
   OrganizationsListQuery,
@@ -18,17 +19,6 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'alphabetical', label: 'Alphabetical' },
   { value: 'date', label: 'Creation Date' },
 ];
-
-const List = styled.div`
-  display: grid;
-  column-gap: ${rem(30)};
-  row-gap: ${rem(32)};
-  grid-template-columns: repeat(auto-fill, ${rem(260)});
-  justify-content: center;
-  align-content: center;
-  margin: ${rem(50)};
-  align-items: flex-start;
-`;
 
 const StyledHeader = styled(Header)`
   display: block;
@@ -131,7 +121,7 @@ export const OrgList = () => {
           }
         }}
       >
-        <List>
+        <OrgListContainer>
           {result.fetching && !result.operation && (
             <>
               {[...Array(10)].map((_, i) => (
@@ -142,7 +132,7 @@ export const OrgList = () => {
 
           {orgsToDisplay &&
             orgsToDisplay.map((org, i) => <OrganizationHex key={'organization-' + i} org={org} />)}
-        </List>
+        </OrgListContainer>
       </StyledItemList>
     </Wrapper>
   );

@@ -7,6 +7,7 @@ import { Link, IconLink } from '../Link';
 import { Text, Button, Header as HeaderText, Title, GitPOAPBadge } from '../shared/elements';
 import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { useFeatures } from '../../components/FeaturesContext';
+import { BREAKPOINTS } from '../../constants';
 import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
 
@@ -30,6 +31,13 @@ export const Wrapper = styled.div`
       color: ${ExtraHover};
       cursor: pointer;
     }
+  }
+
+  @media (max-width: ${BREAKPOINTS.md}px) {
+    margin-bottom: ${rem(24)};
+  }
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    margin-bottom: ${rem(48)};
   }
 `;
 

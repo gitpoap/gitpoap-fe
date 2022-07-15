@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { POAP } from '../../types';
-import { POAPBadge as POAPBadgeUI } from '../shared/elements/POAPBadge';
+import { POAPBadge } from '../shared/elements/POAPBadge';
+import { POAPList } from '../shared/compounds/POAPList';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { TextDarkGray } from '../../colors';
+import { BREAKPOINTS } from '../../constants';
 import { FaRegGrinStars } from 'react-icons/fa';
 import { Text } from '../shared/elements/Text';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
@@ -21,17 +23,6 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'date', label: 'Mint Date' },
   { value: 'alphabetical', label: 'Alphabetical' },
 ];
-
-const POAPs = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: ${rem(50)};
-`;
-
-const POAPBadge = styled(POAPBadgeUI)`
-  margin: ${rem(30)} ${rem(20)} 0;
-`;
 
 export const AllPOAPs = ({ address }: Props) => {
   const [page, setPage] = useState(1);
@@ -95,7 +86,7 @@ export const AllPOAPs = ({ address }: Props) => {
         }
       }}
     >
-      <POAPs>
+      <POAPList>
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => {
@@ -130,7 +121,7 @@ export const AllPOAPs = ({ address }: Props) => {
                 />
               );
             })}
-      </POAPs>
+      </POAPList>
     </ItemList>
   );
 };
