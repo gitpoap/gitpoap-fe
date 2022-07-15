@@ -110,8 +110,8 @@ export const Navbar = () => {
   const showContributorsPage = false;
 
   useEffect(() => {
-    if (opened) {
-      setOpened(false);
+    if (isOpen) {
+      setIsOpen(false);
     }
   }, [router.asPath]);
 
