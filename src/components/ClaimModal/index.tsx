@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Modal, Center, Group } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { Pagination } from '../shared/elements/Pagination';
 import { BackgroundPanel, TextDarkGray, TextGray, TextLight } from '../../colors';
@@ -11,6 +12,7 @@ import { ClaimBlock } from '../shared/compounds/ClaimBlock';
 import { UserClaim } from '../../types';
 import { useFeatures } from '../FeaturesContext';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { BREAKPOINTS } from '../../constants';
 
 type Props = {
   isConnected: boolean;
@@ -27,11 +29,18 @@ const StyledModal = styled(Modal)`
   .mantine-Modal-modal {
     background-color: ${BackgroundPanel};
   }
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    width: 100%;
+  }
 `;
 
 const Content = styled(Center)`
   flex-direction: column;
-  padding: ${rem(30)} ${rem(70)};
+  padding: ${rem(30)} ${rem(30)};
+
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    padding: ${rem(30)} ${rem(0)};
+  }
 `;
 
 const Header = styled.div`
@@ -96,7 +105,9 @@ export const ClaimModal = ({
 }: Props) => {
   const [page, setPage] = useState(1);
   const { hasClaimAllButton } = useFeatures();
-  const perPage = 3;
+  const matchesBreakpoint750 = useMediaQuery(`(min-width: ${rem(750)})`, false);
+  const matchesBreakpoint500 = useMediaQuery(`(min-width: ${rem(500)})`, false);
+  const perPage = matchesBreakpoint750 ? 3 : matchesBreakpoint500 ? 2 : 1;
   const numPages = Math.ceil(claims.length / perPage);
   const start = (page - 1) * perPage;
   const end = start + perPage;
