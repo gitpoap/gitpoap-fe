@@ -11,6 +11,7 @@ import {
 } from '../../../colors';
 import { HexagonPath } from './HexagonPath';
 import Image from 'next/image';
+import { Link } from '../../Link';
 
 type Props = {
   className?: string;
@@ -19,6 +20,7 @@ type Props = {
   size: Sizes;
   onClick?: () => void;
   disableHoverEffects?: boolean;
+  href?: string;
 };
 
 type Sizes = 'sm' | 'md' | 'lg';
@@ -39,7 +41,7 @@ const dimensions: Dimensions = {
   lg: { width: 350, borderSize: 5 },
 };
 
-const Hexagon = styled.div`
+const HexagonStyles = css`
   transition: 150ms background-color ease-in-out, 150ms opacity ease-in-out;
   clip-path: url('#hexagonPath');
 
@@ -48,6 +50,14 @@ const Hexagon = styled.div`
 
   // forces webkit browser visual refresh
   transform: translateZ(0);
+`;
+
+const Hexagon = styled.div`
+  ${HexagonStyles}
+`;
+
+const HexagonLink = styled(Link)`
+  ${HexagonStyles}
 `;
 
 const HexBadge = styled(Hexagon)<Props>`
@@ -110,6 +120,12 @@ const HexInnerBorder = styled(Hexagon)<HexProps>`
   background: ${MidnightBlue};
 `;
 
+const HexLink = styled(HexagonLink)<HexProps>`
+  --s: ${(props) => rem(dimensions[props.size].width + 4 * dimensions[props.size].borderSize)};
+  width: var(--s);
+  height: calc(var(--s) * 1);
+`;
+
 export const GitPOAPBadge = ({
   className,
   imgUrl,
@@ -117,8 +133,9 @@ export const GitPOAPBadge = ({
   size,
   onClick,
   disableHoverEffects,
+  href,
 }: Props) => {
-  return (
+  const badgeCore = (
     <>
       <HexOuterBorder
         className={className}
@@ -141,4 +158,16 @@ export const GitPOAPBadge = ({
       <HexagonPath />
     </>
   );
+
+  if (href) {
+    return (
+      <>
+        <HexLink href={href} passHref size={size}>
+          {badgeCore}
+        </HexLink>
+      </>
+    );
+  }
+
+  return <>{badgeCore}</>;
 };

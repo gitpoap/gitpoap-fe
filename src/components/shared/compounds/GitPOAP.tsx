@@ -111,17 +111,16 @@ export const GitPOAP = ({
   return (
     <Wrapper className={className}>
       <BadgeWrapper>
-        <Link href={`/gp/${gitPOAPId}`} passHref>
-          <GitPOAPBadge
-            size="sm"
-            imgUrl={imgSrc}
-            onClick={() => {
-              if (onClick) {
-                onClick();
-              }
-            }}
-          />
-        </Link>
+        <GitPOAPBadge
+          href={`/gp/${gitPOAPId}`}
+          size="sm"
+          imgUrl={imgSrc}
+          onClick={() => {
+            if (onClick) {
+              onClick();
+            }
+          }}
+        />
         {poapTokenId && <Heart poapTokenId={poapTokenId} />}
       </BadgeWrapper>
       <Info>
