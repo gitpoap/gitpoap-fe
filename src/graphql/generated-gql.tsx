@@ -3587,6 +3587,7 @@ export type AdminClaimsQuery = {
     createdAt: any;
     mintedAt?: any | null;
     user: { __typename?: 'User'; id: number; githubHandle: string };
+    pullRequestEarned?: { __typename?: 'GithubPullRequest'; githubPullNumber: number } | null;
     gitPOAP: {
       __typename?: 'GitPOAP';
       id: number;
@@ -4269,6 +4270,9 @@ export const AdminClaimsDocument = gql`
       user {
         id
         githubHandle
+      }
+      pullRequestEarned {
+        githubPullNumber
       }
       status
       poapTokenId

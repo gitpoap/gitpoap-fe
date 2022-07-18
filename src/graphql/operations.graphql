@@ -259,6 +259,9 @@ query adminClaims($count: Int!) {
       id
       githubHandle
     }
+    pullRequestEarned {
+      githubPullNumber
+    }
     status
     poapTokenId
     address
