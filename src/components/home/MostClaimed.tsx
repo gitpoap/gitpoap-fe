@@ -64,8 +64,8 @@ export const MostClaimed = () => {
               gitPOAPId={item.gitPOAP.id}
               imgSrc={item.event.image_url}
               name={item.event.name}
-              repoName={item.gitPOAP.repo.name}
-              orgName={item.gitPOAP.repo.organization.name}
+              repoName={item.gitPOAP.project.repos[0].name}
+              orgName={item.gitPOAP.project.repos[0].organization.name}
             />
           );
         })}
