@@ -85,11 +85,6 @@ export const Header = ({ gitPOAPId }: Props) => {
   });
   const event = result?.data?.gitPOAPEvent?.event;
   const repos = result?.data?.gitPOAPEvent?.gitPOAP.project.repos;
-
-  if (repos) {
-    repos[1] = repos[0];
-  }
-
   const { setIsOpen } = useClaimModalContext();
   const features = useFeatures();
 
