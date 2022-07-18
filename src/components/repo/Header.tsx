@@ -5,10 +5,16 @@ import { RepoHeaderHexagon } from './RepoHeaderHexagon';
 import { Header as HeaderText, Text } from '../shared/elements';
 import { TextAccent, TextGray } from '../../colors';
 import { Link, IconLink } from '../Link';
-import { OrgName, OrgLink, Wrapper } from '../gitpoap/Header';
+import { OrgLink, Wrapper } from '../gitpoap/Header';
 import { People, GitPOAP, Star, Globe, Twitter } from '../shared/elements/icons';
 import { RepoDataQuery, useRepoStarCountQuery } from '../../graphql/generated-gql';
 import { FaGithub as GitHub } from 'react-icons/fa';
+
+const OrgName = styled(Text)`
+  margin-top: ${rem(30)};
+  font-weight: 700;
+  color: ${TextGray};
+`;
 
 export const Social = styled.div`
   margin: ${rem(23)} auto 0;
