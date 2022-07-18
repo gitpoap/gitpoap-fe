@@ -1,23 +1,27 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { ClaimModal } from '../../components/ClaimModal';
-import { UserClaim } from '../../types';
 import badgeImg1 from '../assets/gitPOAPs/badge1.png';
 import badgeImg2 from '../assets/gitPOAPs/badge2.png';
 import badgeImg3 from '../assets/gitPOAPs/badge3.png';
 import badgeImg4 from '../assets/gitPOAPs/badge4.png';
+import { OpenClaimsQuery } from '../../graphql/generated-gql';
 
+type UserClaim = Exclude<OpenClaimsQuery['userClaims'], null | undefined>[number];
 const claims: UserClaim[] = [
   {
     claim: {
       id: 1,
-      gitPOAP: {
-        id: 1,
+      pullRequestEarned: {
         repo: {
+          name: 'Polygon',
           organization: {
             name: 'Polygon',
           },
         },
+      },
+      gitPOAP: {
+        id: 1,
       },
     },
     event: {
@@ -29,13 +33,16 @@ const claims: UserClaim[] = [
   {
     claim: {
       id: 2,
-      gitPOAP: {
-        id: 2,
+      pullRequestEarned: {
         repo: {
+          name: 'AAVE',
           organization: {
             name: 'AAVE',
           },
         },
+      },
+      gitPOAP: {
+        id: 2,
       },
     },
     event: {
@@ -47,13 +54,16 @@ const claims: UserClaim[] = [
   {
     claim: {
       id: 3,
-      gitPOAP: {
-        id: 3,
+      pullRequestEarned: {
         repo: {
+          name: 'AAVE',
           organization: {
             name: 'AAVE',
           },
         },
+      },
+      gitPOAP: {
+        id: 3,
       },
     },
     event: {
@@ -65,13 +75,16 @@ const claims: UserClaim[] = [
   {
     claim: {
       id: 4,
-      gitPOAP: {
-        id: 4,
+      pullRequestEarned: {
         repo: {
+          name: 'Swype Protocol',
           organization: {
             name: 'Swype Protocol',
           },
         },
+      },
+      gitPOAP: {
+        id: 4,
       },
     },
     event: {

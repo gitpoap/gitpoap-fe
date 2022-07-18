@@ -44,8 +44,8 @@ const ClaimsDashboard: NextPage = () => {
   };
 
   const data: RowData[] | undefined = result.data?.claims.map((claim) => {
-    const repo = claim.gitPOAP.repo;
-    const org = repo.organization;
+    const repo = claim.pullRequestEarned?.repo;
+    const org = repo?.organization;
     const ghPullNumber = claim.pullRequestEarned?.githubPullNumber;
 
     return {
@@ -57,17 +57,17 @@ const ClaimsDashboard: NextPage = () => {
       PR: {
         value: ghPullNumber ? `#${ghPullNumber}` : '',
         href: ghPullNumber
-          ? `https://github.com/${org.name}/${repo.name}/pull/${claim.pullRequestEarned?.githubPullNumber}`
+          ? `https://github.com/${org?.name}/${repo?.name}/pull/${claim.pullRequestEarned?.githubPullNumber}`
           : '',
       },
       'User ID': { value: claim.user.id },
       Org: {
-        value: org.name,
-        href: `https://gitpoap.io/org/${org.id}`,
+        value: org?.name,
+        href: `https://gitpoap.io/org/${org?.id}`,
       },
       Repo: {
-        value: truncateString(repo.name, 22),
-        href: `https://gitpoap.io/rp/${repo.id}`,
+        value: truncateString(repo?.name ?? '', 22),
+        href: `https://gitpoap.io/rp/${repo?.id}`,
       },
       Status: { value: claim.status },
       'GitPOAP ID': { value: claim.gitPOAP.id, href: `/gp/${claim.gitPOAP.id}` },

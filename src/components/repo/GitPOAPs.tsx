@@ -130,7 +130,9 @@ export const GitPOAPs = ({ repoId }: Props) => {
               if (searchValue) {
                 return (
                   gitPOAPItem.event.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-                  gitPOAPItem.gitPOAP.repo.name.toLowerCase().includes(searchValue.toLowerCase())
+                  gitPOAPItem.gitPOAP.project.repos[0].name
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase())
                 );
               }
 
@@ -141,7 +143,7 @@ export const GitPOAPs = ({ repoId }: Props) => {
                 <GitPOAPBadge
                   key={`${gitPOAPItem.gitPOAP.id}-minting`}
                   gitPOAPId={gitPOAPItem.gitPOAP.id}
-                  repoName={gitPOAPItem.gitPOAP.repo.name}
+                  repoName={gitPOAPItem.gitPOAP.project.repos[0].name}
                   name={gitPOAPItem.event.name}
                   imgSrc={gitPOAPItem.event.image_url}
                 />

@@ -40,12 +40,13 @@ const TitleStyled = styled(HeaderText)`
 const Description = styled(Text)`
   margin-top: ${rem(16)};
   font-size: ${rem(16)};
+  margin-bottom: ${rem(30)};
 `;
 
 export const OrgName = styled(Text)`
-  margin-top: ${rem(30)};
   font-weight: 700;
   color: ${TextGray};
+  margin-bottom: ${rem(7)};
 `;
 
 export const OrgLink = styled(Title)`
@@ -53,10 +54,10 @@ export const OrgLink = styled(Title)`
   color: ${TextAccent};
 `;
 
-const OrgDescription = styled(Text)`
-  font-size: ${rem(12)};
-  margin-top: ${rem(12)};
-  color: ${TextGray};
+const Repos = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `;
 
 const Badge = styled(GitPOAPBadge)`
@@ -83,9 +84,7 @@ export const Header = ({ gitPOAPId }: Props) => {
     },
   });
   const event = result?.data?.gitPOAPEvent?.event;
-  const repo = result?.data?.gitPOAPEvent?.gitPOAP.repo;
-  const org = result?.data?.gitPOAPEvent?.gitPOAP.repo.organization;
-
+  const repos = result?.data?.gitPOAPEvent?.gitPOAP.project.repos;
   const { setIsOpen } = useClaimModalContext();
   const features = useFeatures();
 
@@ -94,37 +93,39 @@ export const Header = ({ gitPOAPId }: Props) => {
       <Badge size="lg" disableHoverEffects imgUrl={event?.image_url ?? ''} />
       <TitleStyled>{event?.name.replace('GitPOAP: ', '')}</TitleStyled>
       <Description>{event?.description}</Description>
-      {repo && org && (
+      {repos && (
         <>
-          <OrgName>
-            {`by `}
-            <Link href={`/gh/${org.name}`} passHref>
-              <OrgLink>{`${repo.organization.name}`}</OrgLink>
-            </Link>
-            {`/`}
-            <Link href={`/gh/${org.name}/${repo.name}`} passHref>
-              <OrgLink>{repo.name}</OrgLink>
-            </Link>
-          </OrgName>
+          <Repos>
+            {repos.map((repo, i) => (
+              <OrgName key={repo.id}>
+                {i === 0 && `by `}
+                <Link href={`/gh/${repo.organization.name}`} passHref>
+                  <OrgLink>{`${repo.organization.name}`}</OrgLink>
+                </Link>
+                {`/`}
+                <Link href={`/gh/${repo.organization.name}/${repo.name}`} passHref>
+                  <OrgLink>{repo.name}</OrgLink>
+                </Link>
+              </OrgName>
+            ))}
+          </Repos>
+
           <Links>
-            {features.hasOrganizations && repo.organization.twitterHandle && (
+            {features.hasOrganizations && repos[0].organization.twitterHandle && (
               <StyledLink
-                href={`https://twitter.com/${repo.organization.twitterHandle}`}
+                href={`https://twitter.com/${repos[0].organization.twitterHandle}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <TwitterIcon size={24} />
               </StyledLink>
             )}
-            <StyledLink
-              href={`https://github.com/${repo.organization.name}/${repo.name}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <GithubIcon size={24} />
-            </StyledLink>
-            {features.hasOrganizations && repo.organization.url && (
-              <StyledLink href={repo.organization.url} target="_blank" rel="noopener noreferrer">
+            {features.hasOrganizations && repos[0].organization.url && (
+              <StyledLink
+                href={repos[0].organization.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <GlobeIcon size={24} />
               </StyledLink>
             )}

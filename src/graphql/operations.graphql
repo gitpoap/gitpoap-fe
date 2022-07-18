@@ -32,8 +32,10 @@ query gitpoapByPoapEventId($poapEventId: Int!) {
     id
     poapEventId
     status
-    repo {
-      name
+    project {
+      repos {
+        name
+      }
     }
   }
 }
@@ -58,10 +60,12 @@ query mostClaimedGitPoaps($count: Float!) {
     claimsCount
     gitPOAP {
       id
-      repo {
-        name
-        organization {
+      project {
+        repos {
           name
+          organization {
+            name
+          }
         }
       }
     }
@@ -106,7 +110,7 @@ query gitPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) 
     totalGitPOAPs
     gitPOAPs {
       claim {
-        gitPOAP {
+        pullRequestEarned {
           id
           repo {
             name
@@ -114,6 +118,9 @@ query gitPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) 
               name
             }
           }
+        }
+        gitPOAP {
+          id
         }
         status
         poapTokenId
@@ -133,8 +140,10 @@ query repoGitPoaps($repoId: Float!, $sort: String, $page: Float, $perPage: Float
     gitPOAPs {
       gitPOAP {
         id
-        repo {
-          name
+        project {
+          repos {
+            name
+          }
         }
       }
       event {
@@ -150,13 +159,16 @@ query openClaims($githubId: Float!) {
   userClaims(githubId: $githubId) {
     claim {
       id
-      gitPOAP {
-        id
+      pullRequestEarned {
         repo {
+          name
           organization {
             name
           }
         }
+      }
+      gitPOAP {
+        id
       }
     }
     event {
@@ -168,7 +180,7 @@ query openClaims($githubId: Float!) {
 }
 
 query recentRepos($count: Float!) {
-  recentlyAddedProjects(count: $count) {
+  recentlyAddedRepos(count: $count) {
     id
     name
     createdAt
@@ -181,15 +193,17 @@ query recentRepos($count: Float!) {
 query gitPoapEvent($id: Float!) {
   gitPOAPEvent(id: $id) {
     gitPOAP {
-      repo {
-        id
-        name
-        organization {
+      project {
+        repos {
           id
           name
-          description
-          twitterHandle
-          url
+          organization {
+            id
+            name
+            description
+            twitterHandle
+            url
+          }
         }
       }
     }
@@ -220,7 +234,7 @@ query featuredPoaps($address: String!) {
     gitPOAPs {
       claim {
         id
-        gitPOAP {
+        pullRequestEarned {
           id
           repo {
             name
@@ -228,6 +242,9 @@ query featuredPoaps($address: String!) {
               name
             }
           }
+        }
+        gitPOAP {
+          id
         }
       }
       poap {
@@ -268,9 +285,7 @@ query adminClaims($count: Int!) {
     updatedAt
     createdAt
     mintedAt
-    gitPOAP {
-      id
-      year
+    pullRequestEarned {
       repo {
         id
         name
@@ -279,6 +294,10 @@ query adminClaims($count: Int!) {
           name
         }
       }
+    }
+    gitPOAP {
+      id
+      year
     }
   }
 }
@@ -295,8 +314,10 @@ query repoData($repoId: Float!) {
       twitterHandle
       url
     }
-    gitPOAPs {
-      id
+    project {
+      gitPOAPs {
+        id
+      }
     }
     contributorCount
     mintedGitPOAPCount
@@ -335,8 +356,10 @@ query allRepos($count: Int!) {
       name
     }
     createdAt
-    gitPOAPs {
-      id
+    project {
+      gitPOAPs {
+        id
+      }
     }
   }
 }
@@ -352,8 +375,10 @@ query allReposOnRepoPage($sort: String, $page: Float, $perPage: Float) {
     organization {
       name
     }
-    gitPOAPs {
-      id
+    project {
+      gitPOAPs {
+        id
+      }
     }
   }
 }
@@ -374,8 +399,10 @@ query repoSearchOnRepoPage($take: Int, $search: String) {
     organization {
       name
     }
-    gitPOAPs {
-      id
+    project {
+      gitPOAPs {
+        id
+      }
     }
   }
 }
@@ -390,7 +417,7 @@ query organizationData($orgId: Float!) {
     contributorCount
     gitPOAPCount
     mintedGitPOAPCount
-    projectCount
+    repoCount
   }
 }
 
@@ -415,8 +442,10 @@ query organizationsList($sort: String, $page: Float, $perPage: Float) {
     githubOrgId
     repos {
       id
-      gitPOAPs {
-        id
+      project {
+        gitPOAPs {
+          id
+        }
       }
     }
   }

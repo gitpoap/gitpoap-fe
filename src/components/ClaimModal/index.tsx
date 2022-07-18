@@ -9,16 +9,16 @@ import { BackgroundPanel, TextDarkGray, TextGray, TextLight } from '../../colors
 import { Button } from '../shared/elements/Button';
 import { TwitterShareButton } from '../shared/elements/TwitterShareButton';
 import { ClaimBlock } from '../shared/compounds/ClaimBlock';
-import { UserClaim } from '../../types';
 import { useFeatures } from '../FeaturesContext';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { BREAKPOINTS } from '../../constants';
+import { OpenClaimsQuery } from '../../graphql/generated-gql';
 
 type Props = {
   isConnected: boolean;
   isLoggedIntoGitHub: boolean;
   isOpen: boolean;
-  claims: UserClaim[];
+  claims: Exclude<OpenClaimsQuery['userClaims'], null | undefined>;
   claimedIds: number[];
   loadingClaimIds?: number[];
   onClose: () => void;
@@ -133,14 +133,14 @@ export const ClaimModal = ({
         {claims.length > 0 && (
           <>
             <GitPOAPClaims>
-              {claims.slice(start, end).map((userClaim: UserClaim) => {
+              {claims.slice(start, end).map((userClaim) => {
                 return (
                   <ClaimBlock
                     key={userClaim.claim.id}
                     gitPOAPId={userClaim.claim.gitPOAP.id}
                     imgSrc={userClaim.event.image_url}
                     name={userClaim.event.name}
-                    orgName={userClaim.claim.gitPOAP.repo.organization.name}
+                    orgName={userClaim.claim.pullRequestEarned?.repo.organization.name}
                     description={userClaim.event.description}
                     onClickClaim={() =>
                       isConnected ? onClickClaim([userClaim.claim.id]) : connect()

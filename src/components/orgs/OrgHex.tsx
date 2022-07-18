@@ -114,10 +114,10 @@ type Props = {
 };
 
 export const OrganizationHex = ({ className, org }: Props) => {
-  const { id, name, repos } = org;
+  const { name, repos } = org;
 
   const totalGitPOAPs = repos.reduce((acc, repo) => {
-    return acc + repo.gitPOAPs.length;
+    return acc + repo.project.gitPOAPs.length;
   }, 0);
 
   return (
