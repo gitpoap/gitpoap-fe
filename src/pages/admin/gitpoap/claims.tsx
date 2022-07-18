@@ -57,7 +57,7 @@ const ClaimsDashboard: NextPage = () => {
       PR: {
         value: ghPullNumber ? `#${ghPullNumber}` : '',
         href: ghPullNumber
-          ? `github.com/${org.name}/${repo.name}/pull/${claim.pullRequestEarned?.githubPullNumber}`
+          ? `https://github.com/${org.name}/${repo.name}/pull/${claim.pullRequestEarned?.githubPullNumber}`
           : '',
       },
       'User ID': { value: claim.user.id },
