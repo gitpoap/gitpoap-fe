@@ -1,23 +1,3 @@
-export type UserClaim = {
-  claim: {
-    id: number;
-    gitPOAP: {
-      id: number;
-      repo: {
-        name?: string;
-        organization: {
-          name: string;
-        };
-      };
-    };
-  };
-  event: {
-    name: string;
-    image_url: string;
-    description: string;
-  };
-};
-
 export type GitPOAP = {
   id: number;
   name: string;

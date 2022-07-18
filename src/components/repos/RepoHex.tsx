@@ -105,7 +105,12 @@ type Props = {
 
 export const RepoHex = ({ repo, starredCount }: Props) => {
   // @TODO: Add back claimCount, uniqueContributorCount once backend changes are in
-  const { id, name, gitPOAPs, organization } = repo;
+  const {
+    id,
+    name,
+    project: { gitPOAPs },
+    organization,
+  } = repo;
 
   return (
     <InfoHexBaseStyled href={`/gh/${repo.organization.name}/${repo.name}`} hoverEffects>

@@ -95,7 +95,7 @@ export const RecentlyAdded = () => {
         )}
       </Header>
       <Repos>
-        {result.data?.recentlyAddedProjects.map((repo) => {
+        {result.data?.recentlyAddedRepos.map((repo) => {
           return <RepoHexSmall key={repo.id} orgName={repo.organization.name} name={repo.name} />;
         })}
       </Repos>

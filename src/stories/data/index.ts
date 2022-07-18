@@ -396,11 +396,15 @@ export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
     claimsCount: 35,
     gitPOAP: {
       id: 1,
-      repo: {
-        name: 'Polygon',
-        organization: {
-          name: 'Polygon',
-        },
+      project: {
+        repos: [
+          {
+            name: 'Polygon',
+            organization: {
+              name: 'Polygon',
+            },
+          },
+        ],
       },
     },
     event: {
@@ -412,11 +416,15 @@ export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
     claimsCount: 22,
     gitPOAP: {
       id: 2,
-      repo: {
-        name: 'AAVE',
-        organization: {
-          name: 'AAVE',
-        },
+      project: {
+        repos: [
+          {
+            name: 'AAVE',
+            organization: {
+              name: 'AAVE',
+            },
+          },
+        ],
       },
     },
     event: {
@@ -428,11 +436,15 @@ export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
     claimsCount: 10,
     gitPOAP: {
       id: 3,
-      repo: {
-        name: 'AAVE',
-        organization: {
-          name: 'AAVE',
-        },
+      project: {
+        repos: [
+          {
+            name: 'AAVE',
+            organization: {
+              name: 'AAVE',
+            },
+          },
+        ],
       },
     },
     event: {
@@ -475,17 +487,21 @@ export const gitPOAPHolders: Holder[] = [
 export const gitPOAPEvent: GitPoapEventQuery = {
   gitPOAPEvent: {
     gitPOAP: {
-      repo: {
-        id: 1,
-        name: 'gitpoap-fe',
-        organization: {
-          id: 4,
-          name: 'gitpoap',
-          description:
-            'A recognition platform for recognizing and rewarding your contributors through POAPs.',
-          twitterHandle: 'gitpoap',
-          url: 'http://gitpoap.io',
-        },
+      project: {
+        repos: [
+          {
+            id: 1,
+            name: 'gitpoap-fe',
+            organization: {
+              id: 4,
+              name: 'gitpoap',
+              description:
+                'A recognition platform for recognizing and rewarding your contributors through POAPs.',
+              twitterHandle: 'gitpoap',
+              url: 'http://gitpoap.io',
+            },
+          },
+        ],
       },
     },
     event: {

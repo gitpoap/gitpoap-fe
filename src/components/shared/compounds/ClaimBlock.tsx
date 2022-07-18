@@ -11,7 +11,7 @@ type Props = {
   gitPOAPId: number;
   imgSrc: string;
   name: string;
-  orgName: string;
+  orgName?: string;
   description: string;
   onClickClaim: () => void;
   onClickBadge?: () => void;
