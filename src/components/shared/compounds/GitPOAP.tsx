@@ -11,7 +11,7 @@ type Props = {
   gitPOAPId: number;
   imgSrc: string;
   name: string;
-  repoName: string;
+  repoName?: string;
   repoId?: number;
   orgName?: string;
   description?: string;
@@ -115,19 +115,16 @@ export const GitPOAP = ({
           href={`/gp/${gitPOAPId}`}
           size="sm"
           imgUrl={imgSrc}
-          onClick={() => {
-            if (onClick) {
-              onClick();
-            }
-          }}
+          onClick={() => onClick && onClick()}
         />
         {poapTokenId && <Heart poapTokenId={poapTokenId} />}
       </BadgeWrapper>
       <Info>
         <Link href={`/gp/${gitPOAPId}`} passHref>
-          <TitleStyled>{name.replace('GitPOAP: ', '')}</TitleStyled>
+          <TitleStyled onClick={() => onClick && onClick()}>
+            {name.replace('GitPOAP: ', '')}
+          </TitleStyled>
         </Link>
-
         {orgName && repoName ? (
           <Link href={`/gh/${orgName}/${repoName}`} passHref>
             <RepoName isLink>{repoName}</RepoName>
@@ -139,7 +136,6 @@ export const GitPOAP = ({
         ) : (
           <RepoName>{repoName}</RepoName>
         )}
-
         {description && <Description>{description}</Description>}
       </Info>
     </Wrapper>
