@@ -319,7 +319,7 @@ export const Footer = () => {
             >
               {'Team'}
             </OutboundLink>
-            <InternalLink href="mailto:team@gitpoap.io">{'Contact Us'}</InternalLink>
+            <InternalLink href="mailto:team@gitpoap.io">{'Contact'}</InternalLink>
           </LinkColumn>
         </FooterLinks>
 

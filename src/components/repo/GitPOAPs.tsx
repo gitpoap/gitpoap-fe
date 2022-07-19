@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { rem } from 'polished';
-import { GitPOAP as GitPOAPBadgeUI } from '../shared/compounds/GitPOAP';
+import { GitPOAP as GitPOAPBadge } from '../shared/compounds/GitPOAP';
+import { POAPList } from '../shared/compounds/POAPList';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { Title } from '../shared/elements/Title';
@@ -21,18 +21,6 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'alphabetical', label: 'Alphabetical' },
 ];
 
-const GitPOAPList = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: ${rem(50)};
-  align-items: flex-start;
-`;
-
-const GitPOAPBadge = styled(GitPOAPBadgeUI)`
-  margin: ${rem(30)} ${rem(20)} 0;
-`;
-
 type RepoGitPOAPItems = Exclude<RepoGitPoapsQuery['repoGitPOAPs'], undefined | null>['gitPOAPs'];
 
 export const GitPOAPs = ({ repoId }: Props) => {
@@ -40,7 +28,6 @@ export const GitPOAPs = ({ repoId }: Props) => {
   const [sort, setSort] = useState<SortOptions>('date');
   const [gitPOAPItems, setGitPOAPItems] = useState<RepoGitPOAPItems>([]);
   const [total, setTotal] = useState<number>();
-  const [searchValue, setSearchValue] = useState('');
   const perPage = 10;
 
   const [result] = useRepoGitPoapsQuery({
@@ -97,13 +84,8 @@ export const GitPOAPs = ({ repoId }: Props) => {
           setPage(page + 1);
         }
       }}
-      searchInputPlaceholder={'QUICK SEARCH...'}
-      searchInputValue={searchValue}
-      onSearchInputChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-        setSearchValue(e.target.value)
-      }
     >
-      <GitPOAPList>
+      <POAPList>
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => {
@@ -124,32 +106,16 @@ export const GitPOAPs = ({ repoId }: Props) => {
         )}
 
         {/* Fully Claimed GitPOAPs rendered next */}
-        {gitPOAPItems &&
-          gitPOAPItems
-            .filter((gitPOAPItem) => {
-              if (searchValue) {
-                return (
-                  gitPOAPItem.event.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-                  gitPOAPItem.gitPOAP.project.repos[0].name
-                    .toLowerCase()
-                    .includes(searchValue.toLowerCase())
-                );
-              }
-
-              return true;
-            })
-            .map((gitPOAPItem) => {
-              return (
-                <GitPOAPBadge
-                  key={`${gitPOAPItem.gitPOAP.id}-minting`}
-                  gitPOAPId={gitPOAPItem.gitPOAP.id}
-                  repoName={gitPOAPItem.gitPOAP.project.repos[0].name}
-                  name={gitPOAPItem.event.name}
-                  imgSrc={gitPOAPItem.event.image_url}
-                />
-              );
-            })}
-      </GitPOAPList>
+        {gitPOAPItems.map((gitPOAPItem) => (
+          <GitPOAPBadge
+            key={`${gitPOAPItem.gitPOAP.id}-minting`}
+            gitPOAPId={gitPOAPItem.gitPOAP.id}
+            repoName={gitPOAPItem.gitPOAP.project.repos[0].name}
+            name={gitPOAPItem.event.name}
+            imgSrc={gitPOAPItem.event.image_url}
+          />
+        ))}
+      </POAPList>
     </ItemList>
   );
 };

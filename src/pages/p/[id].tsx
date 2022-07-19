@@ -62,13 +62,13 @@ const Profile: Page<PageProps> = (props) => {
             </ProfileSidebarWrapper>
             <Grid.Col lg={8} style={{ zIndex: 1 }}>
               <Grid justify="center">
-                <Grid.Col span={10} style={{ marginTop: rem(60) }}>
+                <Grid.Col xs={11} md={10} style={{ marginTop: rem(60) }}>
                   <FeaturedPOAPs />
                 </Grid.Col>
-                <Grid.Col span={10}>
+                <Grid.Col xs={11} md={10}>
                   <GitPOAPs address={props.addressOrEns} />
                 </Grid.Col>
-                <Grid.Col span={10} style={{ marginBottom: rem(150) }}>
+                <Grid.Col xs={11} md={10} style={{ marginBottom: rem(50) }}>
                   <AllPOAPs address={props.addressOrEns} />
                 </Grid.Col>
               </Grid>

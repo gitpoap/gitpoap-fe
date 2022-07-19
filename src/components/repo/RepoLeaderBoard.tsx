@@ -13,6 +13,7 @@ const Wrapper = styled(InfoHexBase)`
   display: inline-flex;
   flex-direction: column;
   width: ${rem(348)};
+  max-width: 100%;
 
   @media (max-width: ${BREAKPOINTS.md}px) {
     display: flex;

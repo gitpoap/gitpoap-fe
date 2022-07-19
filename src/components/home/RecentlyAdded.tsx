@@ -4,47 +4,29 @@ import { rem } from 'polished';
 import { FaArrowRight } from 'react-icons/fa';
 import { FaQuestion } from 'react-icons/fa';
 import { RepoHexSmall as RepoHexSmallUI } from '../shared/compounds/RepoHexSmall';
+import { RepoListSmall } from '../shared/compounds/RepoList';
 import { Header as HeaderUI } from '../shared/elements/Header';
 import { Button } from '../shared/elements/Button';
 import { TextGray, TextLight } from '../../colors';
 import { RecentlyAddedPopover } from './RecentlyAddedPopover';
 import { useRecentReposQuery } from '../../graphql/generated-gql';
-import { Link } from '../Link';
 import { BREAKPOINTS } from '../../constants';
+import { Link } from '../Link';
 
 const Container = styled.div`
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
   padding: ${rem(10)};
-`;
-
-const Repos = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  max-width: ${rem(1200)};
-  flex-wrap: wrap;
-  margin-top: ${rem(50)};
-  margin-bottom: ${rem(20)};
-
-  @media (max-width: ${rem(BREAKPOINTS.lg)}) {
-    max-width: 100%;
+  @media (max-width: ${BREAKPOINTS.md}px) {
+    padding: 0;
   }
 `;
 
 const RepoHexSmall = styled(RepoHexSmallUI)`
-  margin-right: ${rem(40)};
-  margin-bottom: ${rem(35)};
-
-  @media (max-width: ${rem(BREAKPOINTS.lg)}) {
-    margin-right: ${rem(20)};
-    margin-bottom: ${rem(20)};
-  }
-
-  @media (max-width: ${rem(BREAKPOINTS.md)}) {
-    margin-right: ${rem(15)};
-    margin-bottom: ${rem(15)};
-  }
+  min-width: unset;
+  width: unset;
 `;
 
 const Question = styled.div`
@@ -67,6 +49,12 @@ const Header = styled(HeaderUI)`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+`;
+
+const StyledLink = styled(Link)`
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    margin: auto;
+  }
 `;
 
 export const RecentlyAdded = () => {
@@ -94,16 +82,16 @@ export const RecentlyAdded = () => {
           />
         )}
       </Header>
-      <Repos>
+      <RepoListSmall>
         {result.data?.recentlyAddedRepos.map((repo) => {
           return <RepoHexSmall key={repo.id} orgName={repo.organization.name} name={repo.name} />;
         })}
-      </Repos>
-      <Link href="/repos" passHref>
+      </RepoListSmall>
+      <StyledLink href="/repos" passHref>
         <Button variant="outline" rightIcon={<FaArrowRight />}>
           {'All Repos'}
         </Button>
-      </Link>
+      </StyledLink>
     </Container>
   );
 };

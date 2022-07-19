@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { POAP } from '../../types';
-import { POAPBadge as POAPBadgeUI } from '../shared/elements/POAPBadge';
+import { POAPBadge } from '../shared/elements/POAPBadge';
+import { POAPList } from '../shared/compounds/POAPList';
 import { TextAccent, TextDarkGray } from '../../colors';
 import { GitPOAP } from '../shared/compounds/GitPOAP';
 import { useFeaturedPOAPs, GitPOAP as GitPOAPType } from './FeaturedPOAPsContext';
@@ -20,19 +21,6 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const POAPs = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: ${rem(50)};
-  align-items: flex-start;
-  flex: 1;
-`;
-
-const POAPBadge = styled(POAPBadgeUI)`
-  margin-top: ${rem(30)};
-`;
-
 const SectionTitle = styled(Text)`
   font-family: VT323;
   font-style: normal;
@@ -41,14 +29,7 @@ const SectionTitle = styled(Text)`
   line-height: ${rem(42)};
   letter-spacing: ${rem(-1)};
   color: ${TextAccent};
-`;
-
-const StyledGitPOAP = styled(GitPOAP)`
-  margin: ${rem(30)} ${rem(20)} 0;
-`;
-
-const StyledPOAP = styled(POAPBadge)`
-  margin: ${rem(30)} ${rem(20)} 0;
+  margin-bottom: ${rem(30)};
 `;
 
 const isGitPOAP = (poap: POAP | GitPOAPType): poap is GitPOAPType => {
@@ -73,7 +54,7 @@ export const FeaturedPOAPs = () => {
   return (
     <Container>
       <SectionTitle>{'Featured POAPs'}</SectionTitle>
-      <POAPs>
+      <POAPList>
         {isLoading && !hasFetched && (
           <>
             {[...Array(5)].map((_, i) => {
@@ -93,7 +74,7 @@ export const FeaturedPOAPs = () => {
           featuredPOAPsFull.map((featuredPOAP) => {
             if (isGitPOAP(featuredPOAP)) {
               return (
-                <StyledGitPOAP
+                <GitPOAP
                   key={featuredPOAP.claim.id}
                   gitPOAPId={featuredPOAP.claim.gitPOAP.id}
                   name={featuredPOAP.poap.event.name}
@@ -106,7 +87,7 @@ export const FeaturedPOAPs = () => {
             }
 
             return (
-              <StyledPOAP
+              <POAPBadge
                 key={featuredPOAP.tokenId}
                 poapTokenId={featuredPOAP.tokenId}
                 name={featuredPOAP.event.name}
@@ -115,7 +96,7 @@ export const FeaturedPOAPs = () => {
               />
             );
           })}
-      </POAPs>
+      </POAPList>
     </Container>
   );
 };

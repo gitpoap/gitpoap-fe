@@ -4,6 +4,7 @@ import { rem } from 'polished';
 import { FaSearch } from 'react-icons/fa';
 import { useDebouncedValue, useListState } from '@mantine/hooks';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
+import { RepoList as RepoListContainer } from '../shared/compounds/RepoList';
 import { Header } from '../shared/elements/Header';
 import { RepoHex, RepoHexSkeleton } from './RepoHex';
 import { Input, Loader, TextSkeleton } from '../shared/elements';
@@ -24,26 +25,17 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'organization', label: 'Organization' },
 ];
 
-const RepoListContainer = styled.div`
-  display: grid;
-  column-gap: ${rem(30)};
-  row-gap: ${rem(32)};
-  grid-template-columns: repeat(auto-fill, ${rem(280)});
-  justify-content: center;
-  align-content: center;
-  margin: ${rem(50)} 0;
-  align-items: flex-start;
-`;
-
 const StyledHeader = styled(Header)`
   display: block;
   margin-bottom: ${rem(40)};
+  max-width: 100%;
 `;
 
 const HeaderSkeleton = styled(TextSkeleton)`
   display: block;
   margin-bottom: ${rem(40)};
   width: ${rem(280)};
+  max-width: 100%;
 `;
 
 const Wrapper = styled.div`
@@ -56,6 +48,12 @@ const Wrapper = styled.div`
 
 const StyledItemList = styled(ItemList)`
   margin-bottom: ${rem(50)};
+`;
+
+const StyledSearch = styled(Input)`
+  margin-bottom: ${rem(40)};
+  width: ${rem(400)};
+  max-width: 100%;
 `;
 
 export type Repo = Exclude<AllReposOnRepoPageQuery['allRepos'], undefined | null>[number];
@@ -114,7 +112,7 @@ export const RepoList = () => {
       ) : (
         <HeaderSkeleton height={rem(48)} />
       )}
-      <Input
+      <StyledSearch
         style={{ marginBottom: rem(40), width: rem(400) }}
         placeholder={'SEARCH FOR A REPO...'}
         value={searchValue}

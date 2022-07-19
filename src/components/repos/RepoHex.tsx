@@ -50,7 +50,6 @@ const Stats = styled.div`
 const BODY_HEIGHT = 20;
 
 export const InfoHexBaseStyled = styled(InfoHexBase)`
-  width: ${rem(280)};
   ${Body}, ${BodyAsAnchor} {
     display: flex;
     align-items: center;

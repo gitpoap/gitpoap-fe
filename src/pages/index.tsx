@@ -59,10 +59,10 @@ const Home: Page = () => {
 
       <Grid justify="center" style={{ zIndex: 0, position: 'relative' }}>
         <Background />
-        <Grid.Col span={8} style={{ zIndex: 0 }}>
+        <Grid.Col xs={11} md={8} style={{ zIndex: 0 }}>
           <HeaderStyled>{'Build your decentralized professional identity'}</HeaderStyled>
         </Grid.Col>
-        <Grid.Col span={8}>
+        <Grid.Col xs={11} md={8}>
           <BannerStats />
         </Grid.Col>
       </Grid>
@@ -77,7 +77,7 @@ const Home: Page = () => {
       </Grid>
 
       <Grid justify="center" style={{ zIndex: 0, marginBottom: rem(50) }}>
-        <Grid.Col span={10}>
+        <Grid.Col xs={10} span={10}>
           <RecentlyAdded />
         </Grid.Col>
       </Grid>
@@ -91,7 +91,7 @@ const Home: Page = () => {
       </Grid>
 
       <Grid align="center" justify="center" style={{ zIndex: 0, marginBottom: rem(50) }}>
-        <Grid.Col span={10}>
+        <Grid.Col xs={11} md={10}>
           <Group direction="column" position="center" align="center">
             <Divider style={{ width: '75%', borderTopColor: BackgroundPanel2 }} />
             <Center style={{ marginTop: rem(30) }}>

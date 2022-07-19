@@ -8,6 +8,8 @@ import { Select } from '../elements/Select';
 import { Text } from '../elements/Text';
 import { TextGray } from '../../../colors';
 import { Input } from '../elements/Input';
+import { useMediaQuery } from '@mantine/hooks';
+import { BREAKPOINTS } from '../../../constants';
 
 type Props = {
   title?: string;
@@ -37,11 +39,17 @@ const Heading = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: ${rem(30)};
 `;
 
 const ListTitle = styled(Header)`
   font-size: ${rem(30)};
   line-height: ${rem(42)};
+
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    font-size: ${rem(26)};
+    line-height: ${rem(32)};
+  }
 `;
 
 const Sorting = styled.div`
@@ -83,19 +91,21 @@ export const ItemList = ({
   searchInputValue,
   onSearchInputChange,
 }: Props) => {
+  const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
+
   return (
     <Container className={className}>
       <Heading>
         <ListTitle>{title}</ListTitle>
         <Sorting>
-          {searchInputValue !== undefined && onSearchInputChange && (
+          {!matchesBreakpointSmall && searchInputValue !== undefined && onSearchInputChange && (
             <SearchInput
               placeholder={searchInputPlaceholder}
               value={searchInputValue}
               onChange={onSearchInputChange}
             />
           )}
-          <SortBy>{'Sort By: '}</SortBy>
+          {!matchesBreakpointSmall && <SortBy>{'Sort By: '}</SortBy>}
           <Select data={selectOptions} value={selectValue} onChange={onSelectChange} />
         </Sorting>
       </Heading>

@@ -9,6 +9,7 @@ import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { Text } from '../shared/elements/Text';
 import { TextDarkGray } from '../../colors';
+import { BREAKPOINTS } from '../../constants';
 
 type Props = {
   gitPOAPId: number;
@@ -36,6 +37,18 @@ const HoldersWrapper = styled.div`
   row-gap: ${rem(40)};
   grid-template-columns: repeat(auto-fit, ${rem(215)});
   justify-content: center;
+
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    grid-template-columns: repeat(auto-fit, 48%);
+    justify-content: center;
+    column-gap: 4%;
+  }
+`;
+
+const StyledInfoHexSummary = styled(InfoHexSummary)`
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    min-width: unset;
+  }
 `;
 
 type SortOptions = 'claim-date' | 'claim-count';
@@ -119,7 +132,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       {total ? (
         <HoldersWrapper>
           {holders.map((holder: Holder) => (
-            <InfoHexSummary
+            <StyledInfoHexSummary
               key={`${holder.githubHandle}-${holder.address}`}
               address={holder.address}
               bio={holder.bio}

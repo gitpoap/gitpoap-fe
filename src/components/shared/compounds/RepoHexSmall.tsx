@@ -31,6 +31,7 @@ const TitleStyled = styled(TitleNoHover)`
   text-align: center;
   letter-spacing: ${rem(0.2)};
   color: ${TextAccent};
+  width: 100%;
   ${textEllipses(170)};
 `;
 
@@ -44,6 +45,7 @@ const Content = styled.div`
   align-items: center;
   justify-content: center;
   padding: ${rem(15)} ${rem(20)};
+  width: 100%;
 `;
 
 const RepoName = styled(TitleNoHover)`
@@ -55,9 +57,6 @@ const RepoName = styled(TitleNoHover)`
 const BODY_HEIGHT = 10;
 
 const InfoHexBaseStyled = styled(InfoHexBase)`
-  width: ${rem(200)};
-  min-width: ${rem(200)};
-
   ${Body}, ${BodyAsAnchor} {
     display: flex;
     align-items: center;
@@ -86,11 +85,6 @@ const InfoHexBaseStyled = styled(InfoHexBase)`
         color: ${ExtraPressed};
       }
     }
-  }
-
-  @media (max-width: ${rem(BREAKPOINTS.md)}) {
-    width: ${rem(180)};
-    min-width: ${rem(180)};
   }
 `;
 

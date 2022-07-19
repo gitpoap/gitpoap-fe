@@ -15,6 +15,8 @@ import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { useEns } from '../../hooks/useEns';
 import { useEnsAvatar } from '../../hooks/useEnsAvatar';
 import { useFeatures } from '../FeaturesContext';
+import { BREAKPOINTS } from '../../constants';
+import { textEllipses } from '../shared/styles';
 
 const Name = styled(Title)`
   font-family: VT323;
@@ -22,6 +24,10 @@ const Name = styled(Title)`
   font-weight: normal;
   font-size: ${rem(22)};
   margin-left: ${rem(10)};
+
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    ${textEllipses(145)}
+  }
 `;
 
 const AvatarStyled = styled(Avatar)`

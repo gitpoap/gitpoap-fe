@@ -18,7 +18,7 @@ const Orgs: Page = () => {
       />
 
       <Grid justify="center">
-        <Grid.Col span={10}>
+        <Grid.Col xs={11} md={9}>
           <OrgList />
         </Grid.Col>
       </Grid>

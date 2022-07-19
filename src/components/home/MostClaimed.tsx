@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { useMediaQuery } from '@mantine/hooks';
 import { Header } from '../shared/elements/Header';
-import { GitPOAP as GitPOAPBadge } from '../shared/compounds/GitPOAP';
+import { GitPOAP } from '../shared/compounds/GitPOAP';
+import { POAPList } from '../shared/compounds/POAPList';
 import { Button } from '../shared/elements/Button';
 import { FaArrowRight } from 'react-icons/fa';
 import { useFeatures } from '../FeaturesContext';
@@ -11,33 +13,24 @@ import { BREAKPOINTS } from '../../constants';
 import { useMostClaimedGitPoapsQuery } from '../../graphql/generated-gql';
 
 const Container = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
   padding: ${rem(10)};
 
   @media (max-width: ${BREAKPOINTS.md}px) {
     align-items: center;
+    padding: 0;
+    max-width: 100%;
   }
 `;
 
-const Poaps = styled.div`
-  display: inline-flex;
-  flex-direction: row;
+const Poaps = styled(POAPList)`
   max-width: ${rem(1000)};
-  flex-wrap: wrap;
   margin-top: ${rem(50)};
   margin-bottom: ${rem(25)};
-  column-gap: ${rem(36)};
-  row-gap: ${rem(36)};
-
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    justify-content: center;
-  }
 `;
 
 export const MostClaimed = () => {
   const { hasGitPOAPsPage } = useFeatures();
+  const matchesBreakpointSm = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.sm)})`, false);
   const [result] = useMostClaimedGitPoapsQuery({
     variables: {
       count: 10,
@@ -57,9 +50,9 @@ export const MostClaimed = () => {
             })}
           </>
         )}
-        {result.data?.mostClaimedGitPOAPs?.map((item, i) => {
+        {result.data?.mostClaimedGitPOAPs?.slice(0, matchesBreakpointSm ? 10 : 6).map((item, i) => {
           return (
-            <GitPOAPBadge
+            <GitPOAP
               key={item.gitPOAP.id + '-' + i}
               gitPOAPId={item.gitPOAP.id}
               imgSrc={item.event.image_url}

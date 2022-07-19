@@ -48,10 +48,10 @@ const ContentWrapper = styled.div`
 
 const ReposWrapper = styled.div`
   flex: 1;
+  width: 100%;
 
   @media (max-width: ${BREAKPOINTS.md}px) {
     justify-content: center;
-    width: 100%;
     margin: auto;
   }
 `;
