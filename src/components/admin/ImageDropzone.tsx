@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Group, MantineTheme, Popover } from '@mantine/core';
@@ -53,12 +53,7 @@ const ImageUploadIcon = ({
   return <HiOutlinePhotograph {...props} />;
 };
 
-export const dropzoneChildren = (
-  status: DropzoneStatus,
-  theme: MantineTheme,
-  file?: File | null,
-  error?: React.ReactNode,
-) => (
+export const DropzoneChildren = ({ status, theme, file, error }: DropzoneChildrenProps) => (
   <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
     <ImageUploadIcon status={status} style={{ color: getIconColor(status, theme) }} size={80} />
     {!!file ? (
@@ -99,19 +94,14 @@ export const dropzoneChildren = (
   </Group>
 );
 
-type DropzoneChildrenSmallProps = {
+type DropzoneChildrenProps = {
   status: DropzoneStatus;
   theme: MantineTheme;
   file: File | null;
   error: React.ReactNode;
 };
 
-export const DropzoneChildrenSmall = ({
-  status,
-  theme,
-  file,
-  error,
-}: DropzoneChildrenSmallProps) => {
+export const DropzoneChildrenSmall = ({ status, theme, file, error }: DropzoneChildrenProps) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   return (
     <Group

@@ -51,7 +51,7 @@ const ClaimsDashboard: NextPage = () => {
     return {
       'Claim ID': { value: claim.id },
       'Github User': {
-        value: claim.user.githubHandle,
+        value: truncateString(claim.user.githubHandle, 12),
         href: `https://github.com/${claim.user.githubHandle}`,
       },
       PR: {
@@ -77,8 +77,8 @@ const ClaimsDashboard: NextPage = () => {
         value: truncateAddress(claim.address ?? '', 6) ?? '',
         href: `/p/${claim.address}`,
       },
-      'Minted At': { value: DateTime.fromISO(claim.mintedAt).toFormat('dd LLL yyyy HH:mm') },
-      'Created At': { value: DateTime.fromISO(claim.createdAt).toFormat('dd LLL yyyy HH:mm') },
+      'Minted At': { value: DateTime.fromISO(claim.mintedAt).toFormat('dd LLL yy HH:mm') },
+      'Created At': { value: DateTime.fromISO(claim.createdAt).toFormat('dd LLL yy HH:mm') },
     };
   });
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import type { NextPage } from 'next';
@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { HiPlus } from 'react-icons/hi';
 import { Grid, Group } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
+import { v4 as uuidv4 } from 'uuid';
 import { DateTime } from 'luxon';
 import { Input, Button, NumberInput, Header, Checkbox } from '../../../components/shared/elements';
 import { Divider } from '../../../components/shared/elements';
@@ -46,9 +47,11 @@ const DEFAULT_START_DATE = DateTime.local().toJSDate();
 const DEFAULT_END_DATE = DateTime.local().toJSDate();
 const DEFAULT_EXPIRY_DATE = DateTime.local(THIS_YEAR + 1, 4, 1).toJSDate();
 
+type Row = { id: string };
+
 const CreateMultipleEvent: NextPage = () => {
-  const { isLoggedIntoGitHub } = useAuthContext();
-  const [rowCount, setRowCount] = useState<number>(1);
+  const { isLoggedIntoGitHub, tokens } = useAuthContext();
+  const [rows, setRows] = useState<Row[]>([{ id: uuidv4() }]);
   const { values, setFieldValue, getInputProps } = useForm<z.infer<typeof schema>>({
     schema: zodResolver(schema),
     initialValues: {
@@ -62,6 +65,11 @@ const CreateMultipleEvent: NextPage = () => {
       country: undefined,
     },
   });
+
+  const deleteRow = useCallback(
+    (id: string) => setRows(rows.filter((row) => row.id !== id)),
+    [rows],
+  );
 
   /* Hook to update the expiry date if the start date changes */
   useEffect(() => {
@@ -84,7 +92,7 @@ const CreateMultipleEvent: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isLoggedIntoGitHub ? (
+          {isLoggedIntoGitHub && tokens ? (
             <Group direction="row" position="center">
               <Group direction="column">
                 <Header style={{ alignSelf: 'start' }}>
@@ -95,8 +103,11 @@ const CreateMultipleEvent: NextPage = () => {
                   <Header style={{ alignSelf: 'start', fontSize: rem(24) }}>
                     {'Enter values below to automatically generate values in the form'}
                   </Header>
-                  <Button leftIcon={<HiPlus size={18} />} onClick={() => setRowCount(rowCount + 1)}>
-                    {`Add Row (${rowCount})`}
+                  <Button
+                    leftIcon={<HiPlus size={18} />}
+                    onClick={() => setRows([...rows, { id: uuidv4() }])}
+                  >
+                    {`Add Row (${rows.length})`}
                   </Button>
                 </Group>
 
@@ -165,10 +176,13 @@ const CreateMultipleEvent: NextPage = () => {
                 </Group>
                 <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
 
-                {[...Array(rowCount)].map((_, index) => {
+                {rows.map((row, index) => {
                   return (
                     <EventCreateRow
-                      key={index}
+                      key={row.id}
+                      rowId={row.id}
+                      onDelete={deleteRow}
+                      token={tokens.accessToken}
                       rowNumber={index + 1}
                       eventName={values.eventName}
                       eventStartDate={values.startDate}
@@ -184,10 +198,10 @@ const CreateMultipleEvent: NextPage = () => {
               </Group>
               <Button
                 leftIcon={<HiPlus size={18} />}
-                onClick={() => setRowCount(rowCount + 1)}
+                onClick={() => setRows([...rows, { id: uuidv4() }])}
                 style={{ marginTop: rem(20), marginBottom: rem(35) }}
               >
-                {`Add Row (${rowCount})`}
+                {`Add Row (${rows.length})`}
               </Button>
             </Group>
           ) : (

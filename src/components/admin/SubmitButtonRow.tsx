@@ -18,6 +18,7 @@ type Props<F extends Record<string, AcceptedDataTypes>> = {
   clearData: () => void;
   buttonStatus: ButtonStatus;
   onSubmit: () => void;
+  onDelete?: () => void;
 };
 
 export const SubmitButtonRow = <F extends Record<string, AcceptedDataTypes>>({
@@ -25,6 +26,7 @@ export const SubmitButtonRow = <F extends Record<string, AcceptedDataTypes>>({
   buttonStatus,
   data,
   onSubmit,
+  onDelete,
 }: Props<F>) => {
   return (
     <Group
@@ -33,6 +35,15 @@ export const SubmitButtonRow = <F extends Record<string, AcceptedDataTypes>>({
       align="center"
       style={{ marginTop: rem(20), marginBottom: rem(20) }}
     >
+      {onDelete && (
+        <Button
+          onClick={onDelete}
+          disabled={[ButtonStatus.LOADING].includes(buttonStatus)}
+          variant="outline"
+        >
+          {'Delete'}
+        </Button>
+      )}
       <Button
         onClick={clearData}
         disabled={[ButtonStatus.LOADING].includes(buttonStatus)}

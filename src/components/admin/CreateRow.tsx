@@ -1,31 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Box, Group, useMantineTheme, Divider } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
-import { showNotification } from '@mantine/notifications';
 import { z } from 'zod';
-import { DateTime } from 'luxon';
-import { NotificationFactory } from '../../notifications';
 import { Input, InputWrapper, TextArea, Text, DateInput, Checkbox } from '../shared/elements';
 import { NumberInput } from '../shared/elements';
 import { useGetGHRepoId } from '../../hooks/useGetGHRepoId';
 import { ImageDropzone, DropzoneChildrenSmall } from './ImageDropzone';
-import {
-  THIS_YEAR,
-  DEFAULT_START_DATE,
-  DEFAULT_END_DATE,
-  GITPOAP_API_URL,
-  DEFAULT_EXPIRY,
-} from '../../constants';
-import { useAuthContext } from '../github/AuthContext';
+import { THIS_YEAR, DEFAULT_START_DATE, DEFAULT_END_DATE, DEFAULT_EXPIRY } from '../../constants';
 import { BackgroundPanel2 } from '../../colors';
 import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
 import { Errors } from './ErrorText';
-
-type Props = {
-  rowNumber: number;
-};
+import { createGitPOAP } from '../../lib/gitpoap';
 
 const FormInput = styled(Input)`
   width: ${rem(375)};
@@ -50,6 +37,17 @@ const RowContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
+`;
+
+const RowHeader = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  min-width: ${rem(30)};
+  margin-bottom: ${rem(10)};
+  flex: 1;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 /* Validates on Submit */
@@ -68,13 +66,22 @@ const schema = z.object({
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),
 });
 
+type FormValues = z.infer<typeof schema>;
+
+type Props = {
+  rowNumber: number;
+  token: string;
+  onDelete: (id: string) => void;
+  rowId: string;
+};
+
 export const CreateRow = (props: Props) => {
-  const { tokens } = useAuthContext();
   const [repoUrlSeed, setRepoUrlSeed] = useState<string>('');
   const [projectNameSeed, setProjectNameSeed] = useState<string>('');
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const theme = useMantineTheme();
+  const firstUpdate = useRef(true);
 
   const { values, setFieldValue, getInputProps, onSubmit, errors, setErrors } = useForm<
     z.infer<typeof schema>
@@ -91,19 +98,27 @@ export const CreateRow = (props: Props) => {
       eventUrl: '',
       email: 'issuer@gitpoap.io',
       numRequestedCodes: 20,
-      ongoing: true,
+      ongoing: false,
       image: null,
     },
   });
 
-  /* Update Ongoing boolean when end date changes */
+  /* Update Ongoing boolean when year changes */
   useEffect(() => {
-    setFieldValue('ongoing', values.endDate.getTime() > Date.now());
-  }, [values.endDate]);
+    if (!firstUpdate.current) {
+      const isThisYearOrLater = values.year >= THIS_YEAR;
+      setFieldValue('ongoing', isThisYearOrLater);
+    } else {
+      firstUpdate.current = false;
+    }
+  }, [values.year]);
 
   /* Update the year field based on the start date */
   useEffect(() => {
-    setFieldValue('year', values.startDate.getFullYear());
+    const startDateYear = values.startDate?.getFullYear();
+    if (startDateYear && values.year !== startDateYear) {
+      setFieldValue('year', values.startDate.getFullYear());
+    }
   }, [values.startDate]);
 
   /* Set GitHubRepoID when values are returned from the hook */
@@ -154,62 +169,54 @@ export const CreateRow = (props: Props) => {
     /* do not include setFieldValue below */
   }, []);
 
-  const submitCreateGitPOAP = useCallback(
-    async (formValues: Record<string, any>) => {
-      setButtonStatus(ButtonStatus.LOADING);
-      const formData = new FormData();
+  const submitCreateGitPOAP = useCallback(async (formValues: FormValues, token: string) => {
+    setButtonStatus(ButtonStatus.LOADING);
+    if (formValues['image'] === null || formValues.githubRepoId === undefined) {
+      setButtonStatus(ButtonStatus.ERROR);
+      return;
+    }
 
-      for (const key in formValues) {
-        if (formValues.hasOwnProperty(key)) {
-          if (formValues[key] instanceof Date) {
-            const dateStr = DateTime.fromJSDate(formValues[key]).toFormat('yyyy-MM-dd');
-            formData.append(key, dateStr);
-          } else {
-            formData.append(key, formValues[key]);
-          }
-        }
-      }
+    const data = await createGitPOAP(
+      {
+        project: { githubRepoIds: [formValues.githubRepoId] },
+        name: formValues.name,
+        description: formValues.description,
+        startDate: formValues.startDate,
+        endDate: formValues.endDate,
+        expiryDate: formValues.expiryDate,
+        year: formValues.year,
+        eventUrl: formValues.eventUrl,
+        email: formValues.email,
+        numRequestedCodes: formValues.numRequestedCodes,
+        ongoing: formValues.ongoing,
+        image: formValues.image,
+      },
+      token,
+    );
 
-      try {
-        const res = await fetch(`${GITPOAP_API_URL}/gitpoaps`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${tokens?.accessToken}`,
-          },
-          body: formData,
-        });
-        if (!res.ok) {
-          throw new Error(res.statusText);
-        }
-        setButtonStatus(ButtonStatus.SUCCESS);
-        showNotification(
-          NotificationFactory.createSuccess(
-            `Success - GitPOAP Created - ${projectNameSeed}`,
-            'Thanks! 🤓',
-          ),
-        );
-      } catch (err) {
-        console.error(err);
-        showNotification(
-          NotificationFactory.createError(
-            `Error - Request Failed for ${projectNameSeed}`,
-            'Oops, something went wrong! 🤥',
-          ),
-        );
-        setButtonStatus(ButtonStatus.ERROR);
-      }
-    },
-    [tokens?.accessToken, projectNameSeed],
-  );
+    if (data === null) {
+      setButtonStatus(ButtonStatus.ERROR);
+      return;
+    }
+
+    setButtonStatus(ButtonStatus.SUCCESS);
+  }, []);
 
   return (
     <RowContainer>
-      {/* Row Number Section */}
-      <Box style={{ minWidth: rem(30), marginBottom: rem(10) }}>
-        <Text>{`${props.rowNumber}.`}</Text>
-      </Box>
+      <RowHeader>
+        <Text style={{ fontSize: rem(24), fontWeight: 'bold' }}>{`${props.rowNumber}.`}</Text>
+        <Text style={{ fontSize: rem(12) }}>{`Row ID: ${props.rowId.slice(0, 8)}`}</Text>
+      </RowHeader>
       <Group>
         <Group>
+          <FormNumberInput
+            required
+            label={'Year'}
+            name={'year'}
+            hideControls
+            {...getInputProps('year')}
+          />
           <FormDatePicker
             required
             clearable={false}
@@ -230,13 +237,6 @@ export const CreateRow = (props: Props) => {
             label={'POAP Expiration Date'}
             name={'expiryDate'}
             {...getInputProps('expiryDate')}
-          />
-          <FormNumberInput
-            required
-            label={'Year'}
-            name={'year'}
-            hideControls
-            {...getInputProps('year')}
           />
         </Group>
         <Group>
@@ -315,7 +315,8 @@ export const CreateRow = (props: Props) => {
         data={values}
         clearData={clearData}
         buttonStatus={buttonStatus}
-        onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}
+        onSubmit={onSubmit((values) => submitCreateGitPOAP(values, props.token))}
+        onDelete={() => props.onDelete(props.rowId)}
       />
       {/* Errors Section */}
       <Errors errors={errors} />

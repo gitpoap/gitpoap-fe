@@ -1,18 +1,26 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { rem } from 'polished';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { HiPlus } from 'react-icons/hi';
 import { Grid, Group } from '@mantine/core';
+import { v4 as uuidv4 } from 'uuid';
 import { Button, Header } from '../../../components/shared/elements';
 import { Divider } from '../../../components/shared/elements';
 import { useAuthContext } from '../../../components/github/AuthContext';
 import { CreateRow } from '../../../components/admin/CreateRow';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 
+type Row = { id: string };
+
 const CreateMultiple: NextPage = () => {
-  const { isLoggedIntoGitHub } = useAuthContext();
-  const [rowCount, setRowCount] = useState<number>(1);
+  const { isLoggedIntoGitHub, tokens } = useAuthContext();
+  const [rows, setRows] = useState<Row[]>([{ id: uuidv4() }]);
+
+  const deleteRow = useCallback(
+    (id: string) => setRows(rows.filter((row) => row.id !== id)),
+    [rows],
+  );
 
   return (
     <div>
@@ -22,32 +30,38 @@ const CreateMultiple: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isLoggedIntoGitHub ? (
+          {isLoggedIntoGitHub && tokens ? (
             <Group direction="row" position="center">
-              <Group direction="column">
+              <Group direction="column" style={{ width: '100%' }}>
                 <Group position="apart" style={{ width: '100%' }}>
                   <Header style={{ alignSelf: 'start' }}>{'Admin - Create New  GitPOAPs'}</Header>
                   <Button
                     leftIcon={<HiPlus size={18} />}
-                    onClick={() => setRowCount(rowCount + 1)}
+                    onClick={() => setRows([...rows, { id: uuidv4() }])}
                     style={{}}
                   >
-                    {`Add Row (${rowCount})`}
+                    {`Add Row (${rows.length})`}
                   </Button>
                 </Group>
-
                 <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
-
-                {[...Array(rowCount)].map((_, index) => {
-                  return <CreateRow key={index} rowNumber={index + 1} />;
+                {rows.map((row, index) => {
+                  return (
+                    <CreateRow
+                      key={row.id}
+                      rowNumber={index + 1}
+                      token={tokens.accessToken}
+                      onDelete={deleteRow}
+                      rowId={row.id}
+                    />
+                  );
                 })}
               </Group>
               <Button
                 leftIcon={<HiPlus size={18} />}
-                onClick={() => setRowCount(rowCount + 1)}
+                onClick={() => setRows([...rows, { id: uuidv4() }])}
                 style={{ marginTop: rem(20), marginBottom: rem(35) }}
               >
-                {`Add Row (${rowCount})`}
+                {`Add Row (${rows.length})`}
               </Button>
             </Group>
           ) : (
