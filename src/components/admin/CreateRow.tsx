@@ -3,29 +3,16 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Box, Group, useMantineTheme, Divider } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
-import { showNotification } from '@mantine/notifications';
 import { z } from 'zod';
-import { DateTime } from 'luxon';
-import { NotificationFactory } from '../../notifications';
 import { Input, InputWrapper, TextArea, Text, DateInput, Checkbox } from '../shared/elements';
 import { NumberInput } from '../shared/elements';
 import { useGetGHRepoId } from '../../hooks/useGetGHRepoId';
 import { ImageDropzone, DropzoneChildrenSmall } from './ImageDropzone';
-import {
-  THIS_YEAR,
-  DEFAULT_START_DATE,
-  DEFAULT_END_DATE,
-  GITPOAP_API_URL,
-  DEFAULT_EXPIRY,
-} from '../../constants';
-import { useAuthContext } from '../github/AuthContext';
+import { THIS_YEAR, DEFAULT_START_DATE, DEFAULT_END_DATE, DEFAULT_EXPIRY } from '../../constants';
 import { BackgroundPanel2 } from '../../colors';
 import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
 import { Errors } from './ErrorText';
-
-type Props = {
-  rowNumber: number;
-};
+import { createGitPOAP } from '../../lib/gitpoap';
 
 const FormInput = styled(Input)`
   width: ${rem(375)};
@@ -68,8 +55,14 @@ const schema = z.object({
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),
 });
 
+type FormValues = z.infer<typeof schema>;
+
+type Props = {
+  rowNumber: number;
+  token: string;
+};
+
 export const CreateRow = (props: Props) => {
-  const { tokens } = useAuthContext();
   const [repoUrlSeed, setRepoUrlSeed] = useState<string>('');
   const [projectNameSeed, setProjectNameSeed] = useState<string>('');
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
@@ -154,53 +147,38 @@ export const CreateRow = (props: Props) => {
     /* do not include setFieldValue below */
   }, []);
 
-  const submitCreateGitPOAP = useCallback(
-    async (formValues: Record<string, any>) => {
-      setButtonStatus(ButtonStatus.LOADING);
-      const formData = new FormData();
+  const submitCreateGitPOAP = useCallback(async (formValues: FormValues, token: string) => {
+    setButtonStatus(ButtonStatus.LOADING);
+    if (formValues['image'] === null || formValues.githubRepoId === undefined) {
+      setButtonStatus(ButtonStatus.ERROR);
+      return;
+    }
 
-      for (const key in formValues) {
-        if (formValues.hasOwnProperty(key)) {
-          if (formValues[key] instanceof Date) {
-            const dateStr = DateTime.fromJSDate(formValues[key]).toFormat('yyyy-MM-dd');
-            formData.append(key, dateStr);
-          } else {
-            formData.append(key, formValues[key]);
-          }
-        }
-      }
+    const data = await createGitPOAP(
+      {
+        project: { githubRepoIds: [formValues.githubRepoId] },
+        name: formValues.name,
+        description: formValues.description,
+        startDate: formValues.startDate,
+        endDate: formValues.endDate,
+        expiryDate: formValues.expiryDate,
+        year: formValues.year,
+        eventUrl: formValues.eventUrl,
+        email: formValues.email,
+        numRequestedCodes: formValues.numRequestedCodes,
+        ongoing: formValues.ongoing,
+        image: formValues.image,
+      },
+      token,
+    );
 
-      try {
-        const res = await fetch(`${GITPOAP_API_URL}/gitpoaps`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${tokens?.accessToken}`,
-          },
-          body: formData,
-        });
-        if (!res.ok) {
-          throw new Error(res.statusText);
-        }
-        setButtonStatus(ButtonStatus.SUCCESS);
-        showNotification(
-          NotificationFactory.createSuccess(
-            `Success - GitPOAP Created - ${projectNameSeed}`,
-            'Thanks! 🤓',
-          ),
-        );
-      } catch (err) {
-        console.error(err);
-        showNotification(
-          NotificationFactory.createError(
-            `Error - Request Failed for ${projectNameSeed}`,
-            'Oops, something went wrong! 🤥',
-          ),
-        );
-        setButtonStatus(ButtonStatus.ERROR);
-      }
-    },
-    [tokens?.accessToken, projectNameSeed],
-  );
+    if (data === null) {
+      setButtonStatus(ButtonStatus.ERROR);
+      return;
+    }
+
+    setButtonStatus(ButtonStatus.SUCCESS);
+  }, []);
 
   return (
     <RowContainer>
@@ -315,7 +293,7 @@ export const CreateRow = (props: Props) => {
         data={values}
         clearData={clearData}
         buttonStatus={buttonStatus}
-        onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}
+        onSubmit={onSubmit((values) => submitCreateGitPOAP(values, props.token))}
       />
       {/* Errors Section */}
       <Errors errors={errors} />
