@@ -11,6 +11,7 @@ import {
   useProfilesSinceQuery,
   useReposSinceQuery,
 } from '../../graphql/generated-gql';
+import useSWR from 'swr';
 import { Header, LinkHoverStyles } from '../shared/elements';
 import { Box, Group, BoxProps } from '@mantine/core';
 import { Link } from '../Link';
@@ -64,7 +65,11 @@ const DashboardItem = ({ name, value, href, ...restProps }: ItemProps) => {
   );
 };
 
-export const VitalsDashboard = () => {
+type Props = {
+  accessToken: string | null;
+};
+
+export const VitalsDashboard = (props: Props) => {
   const todayMinus7Days = DateTime.local().minus({ days: 7 }).toFormat('yyyy-MM-dd');
   const todayMinus30Days = DateTime.local().minus({ days: 30 }).toFormat('yyyy-MM-dd');
   const todayMinus90Days = DateTime.local().minus({ days: 90 }).toFormat('yyyy-MM-dd');
@@ -94,6 +99,16 @@ export const VitalsDashboard = () => {
 
   const [totalClaimsResult] = useClaimsCountQuery();
   const [mintedClaimsResult] = useMintedClaimsCountQuery();
+
+  const { data: ongoingIssuanceResult } = useSWR<{ lastRun: string }>(
+    `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/vitals/ongoing-issuance`,
+    (url) =>
+      fetch(url, {
+        headers: {
+          Authorization: `Bearer ${props.accessToken}`,
+        },
+      }).then((res) => res.json()),
+  );
 
   return (
     <Group direction="row" position="center">
@@ -150,6 +165,15 @@ export const VitalsDashboard = () => {
                       totalClaimsResult.data.aggregateClaim._count.id) *
                     100
                   ).toFixed(2) + '%'
+                : ''
+            }
+            style={{ marginBottom: rem(15) }}
+          />
+          <DashboardItem
+            name={'Ongoing Issuance Last Run'}
+            value={
+              ongoingIssuanceResult?.lastRun
+                ? DateTime.fromISO(ongoingIssuanceResult?.lastRun).toFormat('dd-LLL-yy HH:mm')
                 : ''
             }
           />

@@ -77,8 +77,8 @@ const ClaimsDashboard: NextPage = () => {
         value: truncateAddress(claim.address ?? '', 6) ?? '',
         href: `/p/${claim.address}`,
       },
-      'Minted At': { value: DateTime.fromISO(claim.mintedAt).toFormat('dd LLL yyyy hh:mm') },
-      'Created At': { value: DateTime.fromISO(claim.createdAt).toFormat('dd LLL yyyy hh:mm') },
+      'Minted At': { value: DateTime.fromISO(claim.mintedAt).toFormat('dd LLL yyyy HH:mm') },
+      'Created At': { value: DateTime.fromISO(claim.createdAt).toFormat('dd LLL yyyy HH:mm') },
     };
   });
 

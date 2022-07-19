@@ -39,7 +39,7 @@ const ReposDashboard: NextPage = () => {
         href: `https://github.com/${repo.organization.name}/`,
       },
       GitPOAPs: { value: repo.project.gitPOAPs.length },
-      'Created At': { value: DateTime.fromISO(repo.createdAt).toFormat('dd LLL yyyy hh:mm') },
+      'Created At': { value: DateTime.fromISO(repo.createdAt).toFormat('dd LLL yyyy HH:mm') },
     };
   });
 
