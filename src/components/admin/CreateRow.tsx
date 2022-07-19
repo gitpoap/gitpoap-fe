@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Box, Group, useMantineTheme, Divider } from '@mantine/core';
@@ -37,6 +37,17 @@ const RowContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
+`;
+
+const RowHeader = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  min-width: ${rem(30)};
+  margin-bottom: ${rem(10)};
+  flex: 1;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 /* Validates on Submit */
@@ -60,6 +71,8 @@ type FormValues = z.infer<typeof schema>;
 type Props = {
   rowNumber: number;
   token: string;
+  onDelete: (id: string) => void;
+  rowId: string;
 };
 
 export const CreateRow = (props: Props) => {
@@ -68,6 +81,7 @@ export const CreateRow = (props: Props) => {
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const theme = useMantineTheme();
+  const firstUpdate = useRef(true);
 
   const { values, setFieldValue, getInputProps, onSubmit, errors, setErrors } = useForm<
     z.infer<typeof schema>
@@ -84,19 +98,27 @@ export const CreateRow = (props: Props) => {
       eventUrl: '',
       email: 'issuer@gitpoap.io',
       numRequestedCodes: 20,
-      ongoing: true,
+      ongoing: false,
       image: null,
     },
   });
 
-  /* Update Ongoing boolean when end date changes */
+  /* Update Ongoing boolean when year changes */
   useEffect(() => {
-    setFieldValue('ongoing', values.endDate.getTime() > Date.now());
-  }, [values.endDate]);
+    if (!firstUpdate.current) {
+      const isThisYearOrLater = values.year >= THIS_YEAR;
+      setFieldValue('ongoing', isThisYearOrLater);
+    } else {
+      firstUpdate.current = false;
+    }
+  }, [values.year]);
 
   /* Update the year field based on the start date */
   useEffect(() => {
-    setFieldValue('year', values.startDate.getFullYear());
+    const startDateYear = values.startDate?.getFullYear();
+    if (startDateYear && values.year !== startDateYear) {
+      setFieldValue('year', values.startDate.getFullYear());
+    }
   }, [values.startDate]);
 
   /* Set GitHubRepoID when values are returned from the hook */
@@ -182,12 +204,19 @@ export const CreateRow = (props: Props) => {
 
   return (
     <RowContainer>
-      {/* Row Number Section */}
-      <Box style={{ minWidth: rem(30), marginBottom: rem(10) }}>
-        <Text>{`${props.rowNumber}.`}</Text>
-      </Box>
+      <RowHeader>
+        <Text style={{ fontSize: rem(24), fontWeight: 'bold' }}>{`${props.rowNumber}.`}</Text>
+        <Text style={{ fontSize: rem(12) }}>{`Row ID: ${props.rowId.slice(0, 8)}`}</Text>
+      </RowHeader>
       <Group>
         <Group>
+          <FormNumberInput
+            required
+            label={'Year'}
+            name={'year'}
+            hideControls
+            {...getInputProps('year')}
+          />
           <FormDatePicker
             required
             clearable={false}
@@ -208,13 +237,6 @@ export const CreateRow = (props: Props) => {
             label={'POAP Expiration Date'}
             name={'expiryDate'}
             {...getInputProps('expiryDate')}
-          />
-          <FormNumberInput
-            required
-            label={'Year'}
-            name={'year'}
-            hideControls
-            {...getInputProps('year')}
           />
         </Group>
         <Group>
@@ -294,6 +316,7 @@ export const CreateRow = (props: Props) => {
         clearData={clearData}
         buttonStatus={buttonStatus}
         onSubmit={onSubmit((values) => submitCreateGitPOAP(values, props.token))}
+        onDelete={() => props.onDelete(props.rowId)}
       />
       {/* Errors Section */}
       <Errors errors={errors} />
