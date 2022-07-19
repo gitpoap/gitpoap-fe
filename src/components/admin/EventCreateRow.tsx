@@ -14,6 +14,8 @@ import { Errors } from './ErrorText';
 import { createGitPOAP } from '../../lib/gitpoap';
 
 type Props = {
+  rowId: string;
+  onDelete: (rowId: string) => void;
   token: string;
   eventName: string;
   eventStartDate: Date;
@@ -39,6 +41,17 @@ const RowContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
+`;
+
+const RowHeader = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  min-width: ${rem(30)};
+  margin-bottom: ${rem(10)};
+  flex: 1;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 /* Validates on Submit */
@@ -227,9 +240,10 @@ export const EventCreateRow = (props: Props) => {
   return (
     <RowContainer>
       {/* Row Number Section */}
-      <Box style={{ minWidth: rem(30), marginBottom: rem(10) }}>
-        <Text>{`${props.rowNumber}.`}</Text>
-      </Box>
+      <RowHeader>
+        <Text style={{ fontSize: rem(24), fontWeight: 'bold' }}>{`${props.rowNumber}.`}</Text>
+        <Text style={{ fontSize: rem(12) }}>{`Row ID: ${props.rowId.slice(0, 8)}`}</Text>
+      </RowHeader>
 
       {/* Form Inputs Section */}
       <Group direction="row" align="start" spacing="md">
@@ -296,6 +310,7 @@ export const EventCreateRow = (props: Props) => {
         clearData={clearData}
         buttonStatus={buttonStatus}
         onSubmit={onSubmit((values) => submitCreateGitPOAP(values, props.token))}
+        onDelete={() => props.onDelete(props.rowId)}
       />
 
       {/* Errors Section */}
