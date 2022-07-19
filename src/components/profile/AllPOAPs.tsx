@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { rem } from 'polished';
 import { POAP } from '../../types';
 import { POAPBadge } from '../shared/elements/POAPBadge';
@@ -7,7 +6,6 @@ import { POAPList } from '../shared/compounds/POAPList';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { TextDarkGray } from '../../colors';
-import { BREAKPOINTS } from '../../constants';
 import { FaRegGrinStars } from 'react-icons/fa';
 import { Text } from '../shared/elements/Text';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
@@ -29,7 +27,6 @@ export const AllPOAPs = ({ address }: Props) => {
   const [sort, setSort] = useState<SortOptions>('date');
   const [poaps, setPoaps] = useState<POAP[]>([]);
   const [total, setTotal] = useState<number>();
-  const [searchValue, setSearchValue] = useState('');
   const perPage = 10;
   const [result] = useAllPoapsQuery({
     variables: {
@@ -102,25 +99,17 @@ export const AllPOAPs = ({ address }: Props) => {
           </EmptyState>
         )}
         {poaps &&
-          poaps
-            .filter((poap) => {
-              if (searchValue) {
-                return poap.event.name.toLowerCase().includes(searchValue.toLowerCase());
-              }
-
-              return true;
-            })
-            .map((poap) => {
-              return (
-                <POAPBadge
-                  key={poap.tokenId}
-                  name={poap.event.name}
-                  imgSrc={poap.event.image_url}
-                  poapTokenId={poap.tokenId}
-                  href={`https://poap.gallery/event/${poap.event.id}`}
-                />
-              );
-            })}
+          poaps.map((poap) => {
+            return (
+              <POAPBadge
+                key={poap.tokenId}
+                name={poap.event.name}
+                imgSrc={poap.event.image_url}
+                poapTokenId={poap.tokenId}
+                href={`https://poap.gallery/event/${poap.event.id}`}
+              />
+            );
+          })}
       </POAPList>
     </ItemList>
   );

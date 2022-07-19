@@ -68,7 +68,7 @@ const Profile: Page<PageProps> = (props) => {
                 <Grid.Col xs={11} md={10}>
                   <GitPOAPs address={props.addressOrEns} />
                 </Grid.Col>
-                <Grid.Col xs={11} md={10} style={{ marginBottom: rem(150) }}>
+                <Grid.Col xs={11} md={10} style={{ marginBottom: rem(50) }}>
                   <AllPOAPs address={props.addressOrEns} />
                 </Grid.Col>
               </Grid>

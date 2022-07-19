@@ -29,14 +29,7 @@ const SectionTitle = styled(Text)`
   line-height: ${rem(42)};
   letter-spacing: ${rem(-1)};
   color: ${TextAccent};
-`;
-
-const StyledGitPOAP = styled(GitPOAP)`
-  margin: ${rem(30)} ${rem(20)} 0;
-`;
-
-const StyledPOAP = styled(POAPBadge)`
-  margin: ${rem(30)} ${rem(20)} 0;
+  margin-bottom: ${rem(30)};
 `;
 
 const isGitPOAP = (poap: POAP | GitPOAPType): poap is GitPOAPType => {
@@ -81,7 +74,7 @@ export const FeaturedPOAPs = () => {
           featuredPOAPsFull.map((featuredPOAP) => {
             if (isGitPOAP(featuredPOAP)) {
               return (
-                <StyledGitPOAP
+                <GitPOAP
                   key={featuredPOAP.claim.id}
                   gitPOAPId={featuredPOAP.claim.gitPOAP.id}
                   name={featuredPOAP.poap.event.name}
@@ -94,7 +87,7 @@ export const FeaturedPOAPs = () => {
             }
 
             return (
-              <StyledPOAP
+              <POAPBadge
                 key={featuredPOAP.tokenId}
                 poapTokenId={featuredPOAP.tokenId}
                 name={featuredPOAP.event.name}
