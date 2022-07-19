@@ -47,7 +47,7 @@ const DEFAULT_END_DATE = DateTime.local().toJSDate();
 const DEFAULT_EXPIRY_DATE = DateTime.local(THIS_YEAR + 1, 4, 1).toJSDate();
 
 const CreateMultipleEvent: NextPage = () => {
-  const { isLoggedIntoGitHub } = useAuthContext();
+  const { isLoggedIntoGitHub, tokens } = useAuthContext();
   const [rowCount, setRowCount] = useState<number>(1);
   const { values, setFieldValue, getInputProps } = useForm<z.infer<typeof schema>>({
     schema: zodResolver(schema),
@@ -84,7 +84,7 @@ const CreateMultipleEvent: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isLoggedIntoGitHub ? (
+          {isLoggedIntoGitHub && tokens ? (
             <Group direction="row" position="center">
               <Group direction="column">
                 <Header style={{ alignSelf: 'start' }}>
@@ -169,6 +169,7 @@ const CreateMultipleEvent: NextPage = () => {
                   return (
                     <EventCreateRow
                       key={index}
+                      token={tokens.accessToken}
                       rowNumber={index + 1}
                       eventName={values.eventName}
                       eventStartDate={values.startDate}

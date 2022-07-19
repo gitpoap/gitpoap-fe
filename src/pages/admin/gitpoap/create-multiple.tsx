@@ -11,7 +11,7 @@ import { CreateRow } from '../../../components/admin/CreateRow';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 
 const CreateMultiple: NextPage = () => {
-  const { isLoggedIntoGitHub } = useAuthContext();
+  const { isLoggedIntoGitHub, tokens } = useAuthContext();
   const [rowCount, setRowCount] = useState<number>(1);
 
   return (
@@ -22,7 +22,7 @@ const CreateMultiple: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isLoggedIntoGitHub ? (
+          {isLoggedIntoGitHub && tokens ? (
             <Group direction="row" position="center">
               <Group direction="column">
                 <Group position="apart" style={{ width: '100%' }}>
@@ -39,7 +39,7 @@ const CreateMultiple: NextPage = () => {
                 <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
 
                 {[...Array(rowCount)].map((_, index) => {
-                  return <CreateRow key={index} rowNumber={index + 1} />;
+                  return <CreateRow key={index} rowNumber={index + 1} token={tokens.accessToken} />;
                 })}
               </Group>
               <Button
