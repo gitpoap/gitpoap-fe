@@ -4,6 +4,7 @@ import { rem } from 'polished';
 import { FaDiscord, FaTwitter, FaMedium, FaGithub, FaCheckCircle } from 'react-icons/fa';
 import { MdOutlineError, MdSend } from 'react-icons/md';
 import { Box, BoxProps, Divider, Text, TextProps, Loader } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { validate } from 'email-validator';
 import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
 import {
@@ -209,6 +210,7 @@ export const Footer = () => {
   const [loadingState, setLoadingState] = useState<LoadingState>('initial');
   const [email, setEmail] = useState<string>('');
   const [formStatus, setFormStatus] = useState<string>('');
+  const matchesBreakpointSm = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.sm)})`, false);
 
   const isDisabled = !validate(email) || email.length === 0;
 
@@ -323,7 +325,7 @@ export const Footer = () => {
 
         <Subscribe>
           <FooterHeader>{'Sign up for updates'}</FooterHeader>
-          <Box style={{ marginTop: rem(12) }}>
+          <Box style={{ marginTop: rem(12), display: 'flex' }}>
             <Input
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               placeholder={'Email'}
@@ -338,6 +340,12 @@ export const Footer = () => {
                 }
               }}
               disabled={isDisabled}
+              style={{ height: rem(36) }}
+              styles={() => ({
+                rightIcon: {
+                  marginLeft: matchesBreakpointSm ? 10 : 0,
+                },
+              })}
               rightIcon={
                 loadingState === 'loading' ? (
                   <Loader color="white" size={14} />
@@ -350,7 +358,7 @@ export const Footer = () => {
                 )
               }
             >
-              {'Sign Up'}
+              {matchesBreakpointSm && 'Sign Up'}
             </Button>
           </Box>
         </Subscribe>
