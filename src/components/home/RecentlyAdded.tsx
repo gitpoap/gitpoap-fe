@@ -60,7 +60,7 @@ const StyledLink = styled(Link)`
 export const RecentlyAdded = () => {
   const [result] = useRecentReposQuery({
     variables: {
-      count: 15,
+      count: 14,
     },
   });
   const [isOpen, setIsOpen] = useState(false);
