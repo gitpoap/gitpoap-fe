@@ -75,12 +75,14 @@ const TextFileUploadIcon = ({
   return <HiDocumentText {...props} />;
 };
 
-export const dropzoneChildren = (
-  status: DropzoneStatus,
-  theme: MantineTheme,
-  file?: File | null,
-  error?: React.ReactNode,
-) => (
+type DropzoneChildrenProps = {
+  status: DropzoneStatus;
+  theme: MantineTheme;
+  file: File | null;
+  error: React.ReactNode;
+};
+
+export const DropzoneChildren = ({ status, theme, file, error }: DropzoneChildrenProps) => (
   <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
     <TextFileUploadIcon status={status} style={{ color: getIconColor(status, theme) }} size={80} />
     {!!file ? (
@@ -259,7 +261,14 @@ const AddCodesPage: NextPage = () => {
                   maxSize={3 * 1024 ** 2}
                   accept={['text/*']}
                 >
-                  {(status) => dropzoneChildren(status, theme, values.codes, errors.codes)}
+                  {(status) => (
+                    <DropzoneChildren
+                      status={status}
+                      theme={theme}
+                      file={values.codes}
+                      error={errors.codes}
+                    />
+                  )}
                 </Dropzone>
               </AddCodesForm>
 
