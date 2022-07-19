@@ -5,6 +5,7 @@ import { TextGray, TextLight } from '../../colors';
 import { InfoHexBase } from '../shared/elements/InfoHexBase';
 import { BREAKPOINTS } from '../../constants';
 import { TextSkeleton } from '../shared/elements';
+import { textEllipses } from '../shared/styles';
 
 const Content = styled.div`
   display: flex;
@@ -55,6 +56,10 @@ const Unit = styled.div`
   letter-spacing: ${rem(-0.5)};
   color: ${TextGray};
   margin-bottom: ${rem(20)};
+
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    ${textEllipses(85)}
+  }
 `;
 
 const Rate = styled.div`

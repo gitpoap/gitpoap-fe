@@ -21,8 +21,7 @@ const HeaderStyled = styled(Header)`
   line-height: ${rem(48)};
 
   @media (max-width: ${BREAKPOINTS.md}px) {
-    font-size: ${rem(48)};
-    margin: auto;
+    font-size: ${rem(40)};
   }
 `;
 
