@@ -128,16 +128,15 @@ const AddCodesPage: NextPage = () => {
   const { tokens, isLoggedIntoGitHub } = useAuthContext();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const theme = useMantineTheme();
-  const { setFieldValue, values, errors, onSubmit, getInputProps, setErrors } = useForm<FormValues>(
-    {
+  const { setFieldValue, values, errors, onSubmit, getInputProps, setErrors, setValues } =
+    useForm<FormValues>({
       schema: zodResolver(schema),
       initialValues: {
         id: undefined!,
         poapEventId: undefined!,
         codes: null,
       },
-    },
-  );
+    });
 
   const [result] = useGitpoapByPoapEventIdQuery({
     variables: {
@@ -160,12 +159,14 @@ const AddCodesPage: NextPage = () => {
   }, [setFieldValue, result.data?.gitPOAP, values.id]);
 
   const clearData = useCallback(() => {
+    setValues({
+      id: undefined!,
+      poapEventId: undefined!,
+      codes: null,
+    });
     setButtonStatus(ButtonStatus.INITIAL);
-    setFieldValue('id', undefined!);
-    setFieldValue('poapEventId', undefined!);
-    setFieldValue('codes', null);
     setErrors({});
-    /* do not include setFieldValue or setErrors below */
+    /* do not include setValues or setErrors below */
   }, []);
 
   const submitCodes = useCallback(
@@ -193,14 +194,15 @@ const AddCodesPage: NextPage = () => {
           throw new Error(res.statusText);
         }
         setButtonStatus(ButtonStatus.SUCCESS);
-        showNotification(NotificationFactory.createSuccess('Success - Codes Added'));
+        showNotification(NotificationFactory.createSuccess('✨ Success - Codes Added '));
+        clearData();
       } catch (err) {
         console.error(err);
-        showNotification(NotificationFactory.createError('Error - Request Failed'));
+        showNotification(NotificationFactory.createError('🚫 Error - Request Failed'));
         setButtonStatus(ButtonStatus.ERROR);
       }
     },
-    [tokens?.accessToken],
+    [tokens?.accessToken, clearData],
   );
 
   /* Get poapEventID from the uploaded file name */
