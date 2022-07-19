@@ -4,27 +4,24 @@ import { rem } from 'polished';
 import { z } from 'zod';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { DateTime } from 'luxon';
 import { useForm, zodResolver } from '@mantine/form';
 import { Group, useMantineTheme, Grid } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
 import { Input, NumberInput, Header } from '../../../components/shared/elements';
 import { TextArea, Divider, Checkbox } from '../../../components/shared/elements';
 import { useAuthContext } from '../../../components/github/AuthContext';
-import { NotificationFactory } from '../../../notifications';
-import { ImageDropzone, dropzoneChildren } from '../../../components/admin/ImageDropzone';
+import { ImageDropzone, DropzoneChildren } from '../../../components/admin/ImageDropzone';
 import { DateInput } from '../../../components/shared/elements/DateInput';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import {
   THIS_YEAR,
   DEFAULT_START_DATE,
   DEFAULT_END_DATE,
-  GITPOAP_API_URL,
   DEFAULT_EXPIRY,
 } from '../../../constants';
 import { useGetGHRepoId } from '../../../hooks/useGetGHRepoId';
 import { SubmitButtonRow, ButtonStatus } from '../../../components/admin/SubmitButtonRow';
 import { Errors } from '../../../components/admin/ErrorText';
+import { createGitPOAP } from '../../../lib/gitpoap';
 
 const CreationForm = styled.form`
   display: inline-flex;
@@ -184,53 +181,39 @@ const CreateGitPOAP: NextPage = () => {
     /* do not include setFieldValue or setErrors below */
   }, []);
 
-  const submitCreateGitPOAP = useCallback(
-    async (formValues: Record<string, any>) => {
-      setButtonStatus(ButtonStatus.LOADING);
-      const formData = new FormData();
+  const submitCreateGitPOAP = useCallback(async (formValues: FormValues, accessToken: string) => {
+    setButtonStatus(ButtonStatus.LOADING);
 
-      for (const key in formValues) {
-        if (formValues.hasOwnProperty(key)) {
-          if (formValues[key] instanceof Date) {
-            const dateStr = DateTime.fromJSDate(formValues[key]).toFormat('yyyy-MM-dd');
-            formData.append(key, dateStr);
-          } else {
-            formData.append(key, formValues[key]);
-          }
-        }
-      }
+    if (formValues['image'] === null || formValues.githubRepoId === undefined) {
+      setButtonStatus(ButtonStatus.ERROR);
+      return;
+    }
 
-      try {
-        const res = await fetch(`${GITPOAP_API_URL}/gitpoaps`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${tokens?.accessToken}`,
-          },
-          body: formData,
-        });
-        if (!res.ok) {
-          throw new Error(res.statusText);
-        }
-        setButtonStatus(ButtonStatus.SUCCESS);
-        showNotification(
-          NotificationFactory.createSuccess(
-            `Success - GitPOAP Created - ${projectNameSeed}`,
-            'Thanks! 🤓',
-          ),
-        );
-      } catch (err) {
-        console.error(err);
-        showNotification(
-          NotificationFactory.createError(
-            `Error - Request Failed for ${projectNameSeed}`,
-            'Oops, something went wrong! 🤥',
-          ),
-        );
-        setButtonStatus(ButtonStatus.ERROR);
-      }
-    },
-    [tokens?.accessToken, projectNameSeed],
-  );
+    const data = await createGitPOAP(
+      {
+        project: { githubRepoIds: [formValues.githubRepoId] },
+        name: formValues.name,
+        description: formValues.description,
+        startDate: formValues.startDate,
+        endDate: formValues.endDate,
+        expiryDate: formValues.expiryDate,
+        year: formValues.year,
+        eventUrl: formValues.eventUrl,
+        email: formValues.email,
+        numRequestedCodes: formValues.numRequestedCodes,
+        ongoing: formValues.ongoing,
+        image: formValues.image,
+      },
+      accessToken,
+    );
+
+    if (data === null) {
+      setButtonStatus(ButtonStatus.ERROR);
+      return;
+    }
+
+    setButtonStatus(ButtonStatus.SUCCESS);
+  }, []);
 
   return (
     <div>
@@ -240,10 +223,12 @@ const CreateGitPOAP: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col span={10}>
-          {isLoggedIntoGitHub ? (
+          {isLoggedIntoGitHub && tokens?.accessToken ? (
             <section>
               <FormContainer>
-                <CreationForm onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}>
+                <CreationForm
+                  onSubmit={onSubmit((values) => submitCreateGitPOAP(values, tokens.accessToken))}
+                >
                   <Header style={{ alignSelf: 'start', marginBottom: rem(20) }}>
                     {'Admin - Create new GitPOAP'}
                   </Header>
@@ -351,7 +336,14 @@ const CreateGitPOAP: NextPage = () => {
                     onReject={(files) => console.error('rejected files', files)}
                     maxSize={3 * 1024 ** 2}
                   >
-                    {(status) => dropzoneChildren(status, theme, values.image, errors.image)}
+                    {(status) => (
+                      <DropzoneChildren
+                        status={status}
+                        theme={theme}
+                        file={values.image}
+                        error={errors.image}
+                      />
+                    )}
                   </ImageDropzone>
                 </CreationForm>
               </FormContainer>
@@ -360,7 +352,7 @@ const CreateGitPOAP: NextPage = () => {
                 data={values}
                 clearData={clearData}
                 buttonStatus={buttonStatus}
-                onSubmit={onSubmit((values) => submitCreateGitPOAP(values))}
+                onSubmit={onSubmit((values) => submitCreateGitPOAP(values, tokens.accessToken))}
               />
               {/* Errors Section */}
               <Errors errors={errors} />
