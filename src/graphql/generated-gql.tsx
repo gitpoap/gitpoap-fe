@@ -4127,6 +4127,16 @@ export type OrgsGetStaticPathsQuery = {
   organizations: Array<{ __typename?: 'Organization'; id: number; name: string }>;
 };
 
+export type CountClaimsWithPullRequestEarnedQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CountClaimsWithPullRequestEarnedQuery = {
+  __typename?: 'Query';
+  aggregateClaim: {
+    __typename?: 'AggregateClaim';
+    _count?: { __typename?: 'ClaimCountAggregate'; id: number } | null;
+  };
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -4970,4 +4980,22 @@ export function useOrgsGetStaticPathsQuery(
   options?: Omit<Urql.UseQueryArgs<OrgsGetStaticPathsQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<OrgsGetStaticPathsQuery>({ query: OrgsGetStaticPathsDocument, ...options });
+}
+export const CountClaimsWithPullRequestEarnedDocument = gql`
+  query countClaimsWithPullRequestEarned {
+    aggregateClaim(where: { pullRequestEarned: { isNot: null } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useCountClaimsWithPullRequestEarnedQuery(
+  options?: Omit<Urql.UseQueryArgs<CountClaimsWithPullRequestEarnedQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<CountClaimsWithPullRequestEarnedQuery>({
+    query: CountClaimsWithPullRequestEarnedDocument,
+    ...options,
+  });
 }

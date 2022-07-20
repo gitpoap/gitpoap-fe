@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import {
   useClaimsCountQuery,
   useClaimsSinceQuery,
+  useCountClaimsWithPullRequestEarnedQuery,
   useGitPoaPsSinceQuery,
   useMintedClaimsCountQuery,
   useOrgsSinceQuery,
@@ -99,6 +100,7 @@ export const VitalsDashboard = (props: Props) => {
 
   const [totalClaimsResult] = useClaimsCountQuery();
   const [mintedClaimsResult] = useMintedClaimsCountQuery();
+  const [totalClaimsWithPullRequestEarnedResult] = useCountClaimsWithPullRequestEarnedQuery();
 
   const { data: ongoingIssuanceResult } = useSWR<{ lastRun: string }>(
     `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/vitals/ongoing-issuance`,
@@ -109,6 +111,11 @@ export const VitalsDashboard = (props: Props) => {
         },
       }).then((res) => res.json()),
   );
+
+  const totalClaims = totalClaimsResult.data?.aggregateClaim._count?.id;
+  const mintedClaims = mintedClaimsResult.data?.aggregateClaim._count?.id;
+  const totalClaimsWithPREarned =
+    totalClaimsWithPullRequestEarnedResult.data?.aggregateClaim._count?.id;
 
   return (
     <Group direction="row" position="center">
@@ -156,15 +163,18 @@ export const VitalsDashboard = (props: Props) => {
             style={{ marginBottom: rem(15) }}
           />
           <DashboardItem
+            name={'Claims With PR Earned (%)'}
+            value={
+              totalClaimsWithPREarned &&
+              totalClaims &&
+              ((totalClaimsWithPREarned / totalClaims) * 100).toFixed(2) + '%'
+            }
+          />
+          <DashboardItem
             name={'Claim Conversion (%)'}
             value={
-              totalClaimsResult.data?.aggregateClaim._count &&
-              mintedClaimsResult.data?.aggregateClaim._count
-                ? (
-                    (mintedClaimsResult.data.aggregateClaim._count.id /
-                      totalClaimsResult.data.aggregateClaim._count.id) *
-                    100
-                  ).toFixed(2) + '%'
+              totalClaims && mintedClaims
+                ? ((mintedClaims / totalClaims) * 100).toFixed(2) + '%'
                 : ''
             }
             style={{ marginBottom: rem(15) }}
