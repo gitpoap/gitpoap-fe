@@ -21,10 +21,12 @@ const LoaderContainer = styled.div`
 type RowData = {
   'Claim ID': TD<number>;
   'Github User': TD<string>;
+  'PR #': TD<string>;
   'User ID': TD<number>;
   Repo: TD<string>;
-  Status: TD<string>;
-  'Poap Token ID': TD<string>;
+  GitPOAP: TD<number>;
+  Year: TD<number>;
+  'Poap ID': TD<string>;
   Address: TD<string>;
   'Minted At': TD<string>;
   'Created At': TD<string>;
@@ -54,7 +56,7 @@ const ClaimsDashboard: NextPage = () => {
         value: truncateString(claim.user.githubHandle, 12),
         href: `https://github.com/${claim.user.githubHandle}`,
       },
-      PR: {
+      'PR #': {
         value: ghPullNumber ? `#${ghPullNumber}` : '',
         href: ghPullNumber
           ? `https://github.com/${org?.name}/${repo?.name}/pull/${claim.pullRequestEarned?.githubPullNumber}`
@@ -62,17 +64,16 @@ const ClaimsDashboard: NextPage = () => {
       },
       'User ID': { value: claim.user.id },
       Org: {
-        value: org?.name,
+        value: truncateString(org?.name ?? '', 12),
         href: `https://gitpoap.io/org/${org?.id}`,
       },
       Repo: {
-        value: truncateString(repo?.name ?? '', 22),
+        value: truncateString(repo?.name ?? '', 18),
         href: `https://gitpoap.io/rp/${repo?.id}`,
       },
-      Status: { value: claim.status },
-      'GitPOAP ID': { value: claim.gitPOAP.id, href: `/gp/${claim.gitPOAP.id}` },
+      GitPOAP: { value: claim.gitPOAP.id, href: `/gp/${claim.gitPOAP.id}` },
       Year: { value: claim.gitPOAP.year },
-      'Poap Token ID': { value: claim.poapTokenId ?? '' },
+      'Poap ID': { value: claim.poapTokenId ?? '' },
       Address: {
         value: truncateAddress(claim.address ?? '', 6) ?? '',
         href: `/p/${claim.address}`,
@@ -96,8 +97,8 @@ const ClaimsDashboard: NextPage = () => {
           marginBottom: rem(20),
         }}
       >
-        <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isLoggedIntoGitHub ? (
+        <Grid.Col xs={12} sm={12} md={12} lg={12} xl={12}>
+          {!isLoggedIntoGitHub ? (
             <>
               {result.fetching && (
                 <LoaderContainer>
