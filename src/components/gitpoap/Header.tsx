@@ -51,10 +51,16 @@ const Description = styled(Text)`
   margin-bottom: ${rem(30)};
 `;
 
-export const OrgName = styled(Text)`
+export const RepoName = styled(Text)`
   font-weight: 700;
   color: ${TextGray};
   margin-bottom: ${rem(7)};
+`;
+
+const By = styled(Text)`
+  font-weight: 700;
+  color: ${TextGray};
+  margin-right: ${rem(7)};
 `;
 
 export const OrgLink = styled(Title)`
@@ -64,8 +70,7 @@ export const OrgLink = styled(Title)`
 
 const Repos = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  flex-direction: row;
 `;
 
 const Badge = styled(GitPOAPBadge)`
@@ -83,6 +88,17 @@ const StyledLink = styled(IconLink)`
 
 const CheckEligibilityButton = styled(Button)`
   margin-top: ${rem(40)};
+`;
+
+const ReposContentLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ReposContentRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
 export const Header = ({ gitPOAPId }: Props) => {
@@ -104,18 +120,22 @@ export const Header = ({ gitPOAPId }: Props) => {
       {repos && (
         <>
           <Repos>
-            {repos.map((repo, i) => (
-              <OrgName key={repo.id}>
-                {i === 0 && `by `}
-                <Link href={`/gh/${repo.organization.name}`} passHref>
-                  <OrgLink>{`${repo.organization.name}`}</OrgLink>
-                </Link>
-                {`/`}
-                <Link href={`/gh/${repo.organization.name}/${repo.name}`} passHref>
-                  <OrgLink>{repo.name}</OrgLink>
-                </Link>
-              </OrgName>
-            ))}
+            <ReposContentLeft>
+              <By>{`by `}</By>
+            </ReposContentLeft>
+            <ReposContentRight>
+              {repos.slice(0, 6).map((repo, i) => (
+                <RepoName key={repo.id}>
+                  <Link href={`/gh/${repo.organization.name}`} passHref>
+                    <OrgLink>{`${repo.organization.name}`}</OrgLink>
+                  </Link>
+                  {`/`}
+                  <Link href={`/gh/${repo.organization.name}/${repo.name}`} passHref>
+                    <OrgLink>{repo.name}</OrgLink>
+                  </Link>
+                </RepoName>
+              ))}
+            </ReposContentRight>
           </Repos>
 
           <Links>

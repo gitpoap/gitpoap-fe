@@ -21,6 +21,7 @@ import {
   GitPoapEventQuery,
 } from '../../graphql/generated-gql';
 import { SEO } from '../../components/SEO';
+import { ONE_WEEK_IN_S } from '../../constants';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;
@@ -116,6 +117,7 @@ export const getStaticProps = async (context: GetStaticPropsContext<{ id: string
       urqlState: ssrCache.extractData(),
       gitpoap: results.data,
     },
+    revalidate: ONE_WEEK_IN_S,
   };
 };
 
