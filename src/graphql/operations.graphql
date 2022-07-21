@@ -555,3 +555,31 @@ query countClaimsWithPullRequestEarned {
     }
   }
 }
+
+# For the search bar
+query repoSearchByName($search: String!) {
+  repos(
+    take: 4
+    where: { name: { contains: $search, mode: insensitive } }
+    orderBy: { lastPRUpdatedAt: desc }
+  ) {
+    id
+    name
+    organization {
+      name
+    }
+  }
+}
+
+# For the search bar
+query orgSearchByName($search: String!) {
+  organizations(take: 4, where: { name: { contains: $search, mode: insensitive } }) {
+    id
+    name
+    repos(orderBy: { lastPRUpdatedAt: desc }) {
+      id
+      name
+      lastPRUpdatedAt
+    }
+  }
+}
