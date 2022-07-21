@@ -8,10 +8,9 @@ import { useMediaQuery } from '@mantine/hooks';
 import { DividerGray1, TextLight, MidnightBlue } from '../colors';
 import { BREAKPOINTS, TYPEFORM_LINKS } from '../constants';
 import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
-import { GitPOAPLogoNoText } from './shared/elements/icons';
 import { Wallet } from './wallet/Wallet';
 import { GitHub } from './github/GitHub';
-import { SearchBox as SearchBoxUI } from './search/SearchBox';
+import { SearchBox } from './search/SearchBox';
 import { useWeb3Context } from './wallet/Web3ContextProvider';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
 
@@ -55,19 +54,6 @@ const ClaimButton = styled(GitHub)`
   margin-right: ${rem(12)};
 `;
 
-const SearchBox = styled(SearchBoxUI)`
-  margin-right: ${rem(25)};
-  width: ${rem(300)};
-
-  @media (max-width: ${rem(BREAKPOINTS.lg)}) {
-    width: ${rem(240)};
-  }
-
-  @media (max-width: ${rem(BREAKPOINTS.md)}) {
-    width: 100%;
-  }
-`;
-
 const MobileBurgerButton = styled(Burger)`
   display: none;
   @media (max-width: ${rem(BREAKPOINTS.sm)}) {
@@ -100,7 +86,7 @@ const CollapseMenuContent = styled(Stack)`
 export const Navbar = () => {
   const router = useRouter();
   const { connectionStatus, address, ensName } = useWeb3Context();
-  const matchesBreakpointLg = useMediaQuery(`(min-width: ${rem(1100)})`, false);
+  const matchesBreakpointLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
   const matchesBreakpointMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`, false);
   const [isOpen, setIsOpen] = useState(false);
   const title = isOpen ? 'Close navigation' : 'Open navigation';
@@ -110,9 +96,7 @@ export const Navbar = () => {
   const showContributorsPage = false;
 
   useEffect(() => {
-    if (isOpen) {
-      setIsOpen(false);
-    }
+    setIsOpen(false);
   }, [router.asPath]);
 
   const navItems = (

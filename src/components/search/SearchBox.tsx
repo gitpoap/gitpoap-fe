@@ -1,31 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useDebouncedValue } from '@mantine/hooks';
-import { isAddress } from 'ethers/lib/utils';
+import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
 import { FaSearch } from 'react-icons/fa';
 import { Loader } from '../shared/elements/Loader';
 import { rem } from 'polished';
 import { Input } from '../shared/elements/Input';
-import { SearchItem } from './SearchItem';
-import { BackgroundPanel, TextGray } from '../../colors';
+import { GitPOAPBadgeSearchItem, NoResultsSearchItem, ProfileSearchItem } from './SearchItem';
+import { BackgroundPanel2, TextGray } from '../../colors';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
-import { useSearchForStringQuery } from '../../graphql/generated-gql';
+import {
+  useOrgSearchByNameQuery,
+  useRepoSearchByNameQuery,
+  useSearchForStringQuery,
+} from '../../graphql/generated-gql';
+import { Text } from '@mantine/core';
+import { BREAKPOINTS } from '../../constants';
+import { isAddress } from 'ethers/lib/utils';
 
-type Props = {
-  className?: string;
-};
-
-type Result = {
-  id: number;
-  text: string;
-  href: string;
-  name?: string;
-};
-
-const Container = styled.div`
+const Container = styled.div<{ isActive: boolean }>`
+  margin-right: ${rem(25)};
+  width: ${rem(300)};
   position: relative;
   min-width: ${rem(240)};
+  transition: width 200ms ease-in-out;
+
+  @media (max-width: ${rem(BREAKPOINTS.lg)}) {
+    width: ${rem(240)};
+  }
+
+  @media (max-width: ${rem(BREAKPOINTS.md)}) {
+    width: 100%;
+  }
+
+  /* Any screen width ABOVE breakpoint XL */
+  @media (min-width: ${rem(BREAKPOINTS.xl)}) {
+    ${({ isActive }) => (isActive ? `width: ${rem(400)};` : null)}
+  }
 `;
 
 const SearchInput = styled(Input)`
@@ -40,6 +51,7 @@ const SearchInput = styled(Input)`
 `;
 
 const Results = styled.div`
+  padding: ${rem(10)} 0;
   position: absolute;
   display: inline-flex;
   flex-direction: column;
@@ -47,41 +59,84 @@ const Results = styled.div`
   left: 0;
   width: inherit;
   min-width: inherit;
-  padding: ${rem(6)} ${rem(6)} ${rem(6)} ${rem(6)};
-  background-color: ${BackgroundPanel};
+  background-color: ${BackgroundPanel2};
   z-index: 1;
   border-radius: ${rem(6)};
 `;
 
+const ResultsSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  &:not(:first-child) {
+    margin-top: ${rem(15)};
+  }
+`;
+
+const SectionTitle = styled(Text)`
+  padding-left: ${rem(10)};
+  font-family: 'PT Mono';
+  line-height: ${rem(15)};
+  color: ${TextGray};
+  font-size: ${rem(11)};
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: ${rem(5)};
+  letter-spacing: ${rem(2)};
+`;
+
+type ProfileResult = {
+  id: number;
+  address: string;
+  href: string;
+  ensName?: string;
+};
+
+type Props = {
+  className?: string;
+};
+
 export const SearchBox = ({ className }: Props) => {
-  const maxResults = 5;
   const [query, setQuery] = useState('');
   const { web3Provider, infuraProvider } = useWeb3Context();
   const [debouncedQuery] = useDebouncedValue(query, 200);
-  const [searchResults, setSearchResults] = useState<Result[]>([]);
+  const [searchResults, setSearchResults] = useState<ProfileResult[]>([]);
   const [areResultsLoading, setAreResultsLoading] = useState(false);
-  const [areResultsVisible, setAreResultsVisible] = useState<boolean>(false);
-  const [result, refetch] = useSearchForStringQuery({
+  const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside([inputRef, resultsRef], () => setIsSearchActive(false));
+  const [result, refetchProfiles] = useSearchForStringQuery({
     pause: true,
     variables: {
       text: debouncedQuery,
     },
   });
+  const [repoResults] = useRepoSearchByNameQuery({
+    variables: { search: debouncedQuery },
+  });
+  const [orgResults, refetchOrgs] = useOrgSearchByNameQuery({
+    pause: true,
+    variables: { search: debouncedQuery },
+  });
 
-  const inputRef = useRef<HTMLInputElement>(null);
-  const resultsRef = useRef<HTMLDivElement>(null);
-  useOnClickOutside([inputRef, resultsRef], () => setAreResultsVisible(false));
+  const repos = repoResults.data?.repos;
+  const orgs = orgResults.data?.organizations;
+  const isLoading =
+    result.fetching || repoResults.fetching || orgResults.fetching || areResultsLoading;
+  const hasAnyResults =
+    searchResults.length > 0 || (repos && repos?.length > 0) || (orgs && orgs?.length > 0);
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
     const prepareResults = async () => {
       if (debouncedQuery.length > 0) {
         setAreResultsLoading(true);
-        let results: Result[] = [];
+        let results: ProfileResult[] = [];
         if (result.data?.search.profilesByAddress) {
           const profilesByAddress = result.data.search.profilesByAddress.map((profile) => ({
             id: profile.id,
-            text: profile.address,
+            address: profile.address,
             href: `/p/${profile.address}`,
           }));
 
@@ -91,33 +146,36 @@ export const SearchBox = ({ className }: Props) => {
           const profileByENSData = result.data?.search.profileByENS;
           const profileByENS = {
             id: profileByENSData.profile.id,
-            text: profileByENSData.profile.address,
+            address: profileByENSData.profile.address,
             href: `/p/${profileByENSData.ens}`,
-            name: profileByENSData.ens,
+            ensName: profileByENSData.ens,
           };
 
           results = [profileByENS, ...results];
         }
 
+        /* Deal with the situation of an .eth name OR address that isn't explicitly found in the search results */
         if (results.length === 0) {
           if (debouncedQuery.endsWith('.eth')) {
             const address = await (web3Provider ?? infuraProvider)?.resolveName(debouncedQuery);
+            const ensName = debouncedQuery;
             if (address) {
               results = [
                 {
                   id: 0,
-                  text: debouncedQuery,
-                  name: debouncedQuery,
-                  href: `/p/${debouncedQuery}`,
+                  address,
+                  ensName: ensName,
+                  href: `/p/${ensName}`,
                 },
               ];
             }
           } else if (isAddress(debouncedQuery)) {
+            const address = debouncedQuery;
             results = [
               {
                 id: 0,
-                text: debouncedQuery,
-                href: `/p/${debouncedQuery}`,
+                address,
+                href: `/p/${address}`,
               },
             ];
           }
@@ -130,12 +188,17 @@ export const SearchBox = ({ className }: Props) => {
     prepareResults();
   }, [debouncedQuery, result.data, web3Provider, infuraProvider]);
 
-  /* This hook is used to refetch data when the debounced query changes */
+  /* This hook is used to refetch search data when the debounced query changes */
   useEffect(() => {
-    if (debouncedQuery.length > 1 && refetch) {
-      refetch();
+    if (debouncedQuery.length >= 1) {
+      if (refetchProfiles) {
+        refetchProfiles();
+      }
+      if (refetchOrgs) {
+        refetchOrgs();
+      }
     }
-  }, [debouncedQuery, refetch]);
+  }, [debouncedQuery, refetchProfiles, refetchOrgs]);
 
   /* This hook is used to clear stored results to ensure no random autocomplete flashes - urql caches results ~ so 🤪 */
   useEffect(() => {
@@ -143,31 +206,96 @@ export const SearchBox = ({ className }: Props) => {
   }, [query, debouncedQuery]);
 
   return (
-    <Container className={className} onFocus={() => setAreResultsVisible(true)}>
+    <Container
+      className={className}
+      onFocus={() => setIsSearchActive(true)}
+      onKeyDown={getHotkeyHandler([
+        [
+          'Escape',
+          () => {
+            setIsSearchActive(false);
+            inputRef.current?.blur();
+          },
+        ],
+      ])}
+      isActive={isSearchActive}
+    >
       <SearchInput
         inputRef={inputRef}
         placeholder={'POAP.ETH OR 0xf6B6...'}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        icon={result.fetching || areResultsLoading ? <Loader size={18} /> : <FaSearch />}
+        icon={isLoading ? <Loader size={18} /> : <FaSearch />}
       />
 
-      {areResultsVisible && searchResults.length > 0 && debouncedQuery.length > 0 && (
+      {isSearchActive && (
         <Results ref={resultsRef}>
-          {searchResults.slice(0, maxResults).map((profile, i) => {
-            return (
-              <SearchItem
-                key={i}
-                href={profile.href}
-                text={profile.name ?? profile.text}
-                onClick={() => {
-                  setQuery('');
-                  setAreResultsVisible(false);
-                  setSearchResults([]);
-                }}
-              />
-            );
-          })}
+          {searchResults.length > 0 && (
+            <ResultsSection>
+              <SectionTitle>{'Profiles:'}</SectionTitle>
+              {searchResults.slice(0, 4).map((profile) => {
+                return (
+                  <ProfileSearchItem
+                    key={profile.id}
+                    href={profile.href}
+                    address={profile.address}
+                    ensName={profile.ensName}
+                    onClick={() => {
+                      setQuery('');
+                      setIsSearchActive(false);
+                      setSearchResults([]);
+                    }}
+                  />
+                );
+              })}
+            </ResultsSection>
+          )}
+          {repos && repos?.length > 0 && (
+            <ResultsSection>
+              <SectionTitle>{'Repos:'}</SectionTitle>
+              {repos.map((repo) => {
+                return (
+                  <GitPOAPBadgeSearchItem
+                    key={repo.id}
+                    href={`/gh/${repo.organization.name}/${repo.name}`}
+                    text={repo.name}
+                    subText={repo.organization.name}
+                    repoId={repo.id}
+                    onClick={() => {
+                      setQuery('');
+                      setIsSearchActive(false);
+                      setSearchResults([]);
+                    }}
+                  />
+                );
+              })}
+            </ResultsSection>
+          )}
+          {orgs && orgs?.length > 0 && (
+            <ResultsSection>
+              <SectionTitle>{'Orgs:'}</SectionTitle>
+              {orgs.map((org) => {
+                return (
+                  <GitPOAPBadgeSearchItem
+                    key={org.id}
+                    href={`/gh/${org.name}`}
+                    text={org.name}
+                    onClick={() => {
+                      setQuery('');
+                      setIsSearchActive(false);
+                      setSearchResults([]);
+                    }}
+                    repoId={org.repos[0].id}
+                  />
+                );
+              })}
+            </ResultsSection>
+          )}
+          {!isLoading && !hasAnyResults && debouncedQuery.length > 1 && (
+            <ResultsSection>
+              <NoResultsSearchItem />
+            </ResultsSection>
+          )}
         </Results>
       )}
     </Container>

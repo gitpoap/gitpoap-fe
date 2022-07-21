@@ -2,27 +2,28 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { SearchItem } from '../../components/search/SearchItem';
+import { ProfileSearchItem } from '../../components/search/SearchItem';
 
 export default {
   title: 'Compounds/SearchItem',
-  component: SearchItem,
-} as ComponentMeta<typeof SearchItem>;
+  component: ProfileSearchItem,
+} as ComponentMeta<typeof ProfileSearchItem>;
 
 const Container = styled.div`
   width: ${rem(150)};
 `;
 
-const Template: ComponentStory<typeof SearchItem> = (args) => {
+const Template: ComponentStory<typeof ProfileSearchItem> = (args) => {
   return (
     <Container>
-      <SearchItem {...args} />;
+      <ProfileSearchItem {...args} />;
     </Container>
   );
 };
 
 export const Default = Template.bind({});
 Default.args = {
-  text: 'Search text',
+  address: '0x4uqvt3uh4otvqn3u4htvqou3ih4tvmqih34t',
+  ensName: 'hello.eth',
   href: 'https://example.com',
 };

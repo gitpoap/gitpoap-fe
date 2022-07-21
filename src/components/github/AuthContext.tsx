@@ -19,6 +19,7 @@ type AuthState = {
 type AuthContextData = {
   tokens: Tokens | null;
   isLoggedIntoGitHub: boolean;
+  isDev: boolean;
   user: StoredGHUserData | null;
   handleLogout: () => void;
   authorizeGitHub: () => void;
@@ -218,6 +219,7 @@ export const AuthProvider = ({ children }: Props) => {
         user,
         handleLogout,
         authorizeGitHub,
+        isDev: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT === 'development',
       }}
     >
       {children}

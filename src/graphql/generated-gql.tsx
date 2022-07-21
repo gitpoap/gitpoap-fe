@@ -4137,6 +4137,34 @@ export type CountClaimsWithPullRequestEarnedQuery = {
   };
 };
 
+export type RepoSearchByNameQueryVariables = Exact<{
+  search: Scalars['String'];
+}>;
+
+export type RepoSearchByNameQuery = {
+  __typename?: 'Query';
+  repos: Array<{
+    __typename?: 'Repo';
+    id: number;
+    name: string;
+    organization: { __typename?: 'Organization'; name: string };
+  }>;
+};
+
+export type OrgSearchByNameQueryVariables = Exact<{
+  search: Scalars['String'];
+}>;
+
+export type OrgSearchByNameQuery = {
+  __typename?: 'Query';
+  organizations: Array<{
+    __typename?: 'Organization';
+    id: number;
+    name: string;
+    repos: Array<{ __typename?: 'Repo'; id: number; name: string; lastPRUpdatedAt: any }>;
+  }>;
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -4998,4 +5026,44 @@ export function useCountClaimsWithPullRequestEarnedQuery(
     query: CountClaimsWithPullRequestEarnedDocument,
     ...options,
   });
+}
+export const RepoSearchByNameDocument = gql`
+  query repoSearchByName($search: String!) {
+    repos(
+      take: 4
+      where: { name: { contains: $search, mode: insensitive } }
+      orderBy: { lastPRUpdatedAt: desc }
+    ) {
+      id
+      name
+      organization {
+        name
+      }
+    }
+  }
+`;
+
+export function useRepoSearchByNameQuery(
+  options: Omit<Urql.UseQueryArgs<RepoSearchByNameQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<RepoSearchByNameQuery>({ query: RepoSearchByNameDocument, ...options });
+}
+export const OrgSearchByNameDocument = gql`
+  query orgSearchByName($search: String!) {
+    organizations(take: 4, where: { name: { contains: $search, mode: insensitive } }) {
+      id
+      name
+      repos(orderBy: { lastPRUpdatedAt: desc }) {
+        id
+        name
+        lastPRUpdatedAt
+      }
+    }
+  }
+`;
+
+export function useOrgSearchByNameQuery(
+  options: Omit<Urql.UseQueryArgs<OrgSearchByNameQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<OrgSearchByNameQuery>({ query: OrgSearchByNameDocument, ...options });
 }
