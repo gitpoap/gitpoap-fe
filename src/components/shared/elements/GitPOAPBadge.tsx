@@ -23,12 +23,10 @@ type Props = {
   href?: string;
 };
 
-type Sizes = 'sm' | 'md' | 'lg';
+type Sizes = 'xxxs' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
 
 type Dimensions = {
-  sm: { width: number; borderSize: number };
-  md: { width: number; borderSize: number };
-  lg: { width: number; borderSize: number };
+  [size in Sizes]: { width: number; borderSize: number };
 };
 
 type HexProps = {
@@ -36,6 +34,9 @@ type HexProps = {
 };
 
 const dimensions: Dimensions = {
+  xxxs: { width: 30, borderSize: 2 },
+  xxs: { width: 50, borderSize: 2 },
+  xs: { width: 100, borderSize: 2 },
   sm: { width: 150, borderSize: 3 },
   md: { width: 200, borderSize: 4 },
   lg: { width: 350, borderSize: 5 },
