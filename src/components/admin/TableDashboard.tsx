@@ -4,7 +4,7 @@ import { rem } from 'polished';
 import { Group, Table as TableUI } from '@mantine/core';
 import { Header, Text } from '../../components/shared/elements';
 import { Divider } from '../../components/shared/elements';
-import { TextLight } from '../../colors';
+import { BackgroundPanel2, TextLight } from '../../colors';
 import { Link } from '../Link';
 import { LinkHoverStyles } from '../shared/elements/NavLink';
 
@@ -45,6 +45,12 @@ const Table = styled(TableUI)`
   }
 `;
 
+const TableRow = styled.tr`
+  &:hover {
+    background-color: ${BackgroundPanel2};
+  }
+`;
+
 /* Table Data Type */
 export type TD<V> = {
   value: V;
@@ -82,7 +88,7 @@ export const TableDashboard = <T extends Record<string, TD<string | number>>[]>(
           </thead>
           <tbody>
             {data.map((row: T[number], i: number) => (
-              <tr key={i}>
+              <TableRow key={i}>
                 {Object.entries(row).map(([key, td], i: number) => {
                   /* If it's a link, render with Link */
                   if (td.href) {
@@ -95,7 +101,7 @@ export const TableDashboard = <T extends Record<string, TD<string | number>>[]>(
 
                   return <RowItem key={`${key}-${i}`}>{td.value}</RowItem>;
                 })}
-              </tr>
+              </TableRow>
             ))}
           </tbody>
         </Table>
