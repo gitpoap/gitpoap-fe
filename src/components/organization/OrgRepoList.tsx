@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { rem } from 'polished';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { RepoList } from '../shared/compounds/RepoList';
 import { RepoHexSkeleton } from '../repos/RepoHex';
 import { OrgRepoHex } from './OrgRepoHex';
-import { OrganizationReposQuery, useOrganizationReposQuery } from '../../graphql/generated-gql';
+import {
+  OrganizationReposQuery,
+  OrganizationReposQueryVariables,
+  useOrganizationReposQuery,
+} from '../../graphql/generated-gql';
+import { useListState } from '@mantine/hooks';
 
 type SortOptions = 'alphabetical' | 'date' | 'contributor-count' | 'minted-count';
 export type OrgRepo = Exclude<
@@ -20,82 +23,88 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'minted-count', label: 'Minted Count' },
 ];
 
-const List = styled.div`
-  display: grid;
-  column-gap: ${rem(30)};
-  row-gap: ${rem(32)};
-  grid-template-columns: repeat(auto-fill, ${rem(280)});
-  justify-content: center;
-  align-content: center;
-
-  margin: ${rem(50)} 0;
-  align-items: flex-start;
-`;
+type QueryVars = {
+  page: number;
+  perPage: number;
+  sort: SortOptions;
+};
 
 type Props = {
   orgId: number;
 };
 
 export const OrgRepoList = ({ orgId }: Props) => {
-  const [page, setPage] = useState(1);
-  const [sort, setSort] = useState<SortOptions>('alphabetical');
-  const [repoItems, setRepoItems] = useState<OrgRepo[]>([]);
-  const [total, setTotal] = useState<number>();
+  const [variables, setVariables] = useState<QueryVars>({
+    page: 1,
+    perPage: 20,
+    sort: 'alphabetical',
+  });
+  const [repoItems, handlers] = useListState<OrgRepo>([]);
   const [searchValue, setSearchValue] = useState('');
-  const perPage = 10;
 
   const [result] = useOrganizationReposQuery({
     variables: {
       orgId,
-      page,
-      perPage,
-      sort,
+      ...variables,
     },
   });
 
+  const [resultForCount] = useOrganizationReposQuery({
+    variables: {
+      orgId,
+    },
+  });
+
+  const allRepoItems = result?.data?.organizationRepos;
+  const repoCount = resultForCount.data?.organizationRepos?.length;
+
+  // Assert type until following issue is resolved:
+  // https://github.com/dotansimha/graphql-code-generator/issues/7976
+  const queryVariables = result.operation?.variables as OrganizationReposQueryVariables | undefined;
+
+  /* Hook to append new data onto existing list of repos */
+  useEffect(() => {
+    const resultPage = queryVariables?.page;
+    if (allRepoItems) {
+      const newRepoItems = allRepoItems;
+      if (resultPage === 1) {
+        handlers.setState(newRepoItems);
+      } else {
+        handlers.append(...newRepoItems);
+      }
+    }
+    /* Do not include handlers below */
+  }, [allRepoItems, queryVariables]);
+
   /* If the id of the organization being looked at changes, clear the data we've saved */
   useEffect(() => {
-    setRepoItems([]);
+    handlers.setState([]);
   }, [orgId]);
-
-  /* Hook to append new data onto existing list of projects */
-  useEffect(() => {
-    setRepoItems((prev: OrgRepo[]) => {
-      if (result.data?.organizationRepos) {
-        return [...prev, ...result.data.organizationRepos];
-      }
-      return prev;
-    });
-  }, [result.data]);
-
-  /* Hook to set total number of repos */
-  useEffect(() => {
-    if (result.data?.organizationRepos) {
-      setTotal(result.data.organizationRepos.length);
-    }
-  }, [result.data]);
-
-  if (result.error) {
-    return null;
-  }
 
   return (
     <ItemList
-      title={`Repos: ` + total}
+      title={`Repos: ` + repoCount}
       selectOptions={selectOptions}
-      selectValue={sort}
+      selectValue={variables.sort}
       onSelectChange={(sortValue) => {
-        if (sortValue !== sort) {
-          setSort(sortValue as SortOptions);
-          setRepoItems([]);
-          setPage(1);
+        if (sortValue !== variables.sort) {
+          setVariables({
+            ...variables,
+            page: 1,
+            sort: sortValue as SortOptions,
+          });
         }
       }}
       isLoading={result.fetching}
-      hasShowMoreButton={!!total && repoItems.length < total && repoItems.length > 0}
+      hasShowMoreButton={
+        !!repoCount && repoItems.length < repoCount && repoItems.length > 0 && searchValue === ''
+      }
       showMoreOnClick={() => {
         if (!result.fetching) {
-          setPage(page + 1);
+          setVariables({
+            ...variables,
+            page: variables.page + 1,
+          });
         }
       }}
       searchInputPlaceholder={'QUICK SEARCH...'}
