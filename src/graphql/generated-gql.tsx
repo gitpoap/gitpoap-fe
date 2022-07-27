@@ -4091,6 +4091,23 @@ export type ClaimsCountQuery = {
   };
 };
 
+export type TotalUsersQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalUsersQuery = {
+  __typename?: 'Query';
+  aggregateUser: {
+    __typename?: 'AggregateUser';
+    _count?: { __typename?: 'UserCountAggregate'; githubHandle: number } | null;
+  };
+};
+
+export type TotalDistinctUsersWithClaimsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalDistinctUsersWithClaimsQuery = {
+  __typename?: 'Query';
+  claims: Array<{ __typename?: 'Claim'; id: number }>;
+};
+
 export type MintedClaimsCountQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MintedClaimsCountQuery = {
@@ -4946,6 +4963,37 @@ export function useClaimsCountQuery(
   options?: Omit<Urql.UseQueryArgs<ClaimsCountQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<ClaimsCountQuery>({ query: ClaimsCountDocument, ...options });
+}
+export const TotalUsersDocument = gql`
+  query totalUsers {
+    aggregateUser(where: { githubHandle: { not: { equals: "" } } }) {
+      _count {
+        githubHandle
+      }
+    }
+  }
+`;
+
+export function useTotalUsersQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalUsersQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalUsersQuery>({ query: TotalUsersDocument, ...options });
+}
+export const TotalDistinctUsersWithClaimsDocument = gql`
+  query totalDistinctUsersWithClaims {
+    claims(distinct: userId, where: { status: { equals: CLAIMED } }) {
+      id
+    }
+  }
+`;
+
+export function useTotalDistinctUsersWithClaimsQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalDistinctUsersWithClaimsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalDistinctUsersWithClaimsQuery>({
+    query: TotalDistinctUsersWithClaimsDocument,
+    ...options,
+  });
 }
 export const MintedClaimsCountDocument = gql`
   query mintedClaimsCount {

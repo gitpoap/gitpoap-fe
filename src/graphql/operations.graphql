@@ -370,8 +370,6 @@ query allReposOnRepoPage($sort: String, $page: Float, $perPage: Float) {
     id
     name
     githubRepoId
-    # claimCount - use once backend changes are in
-    # uniqueContributorCount - use once backend changes are in
     organization {
       name
     }
@@ -514,6 +512,20 @@ query claimsCount {
     _count {
       id
     }
+  }
+}
+
+query totalUsers {
+  aggregateUser(where: { githubHandle: { not: { equals: "" } } }) {
+    _count {
+      githubHandle
+    }
+  }
+}
+
+query totalDistinctUsersWithClaims {
+  claims(distinct: userId, where: { status: { equals: CLAIMED } }) {
+    id
   }
 }
 
