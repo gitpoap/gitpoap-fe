@@ -127,6 +127,17 @@ export const SearchBox = ({ className }: Props) => {
   const hasAnyResults =
     searchResults.length > 0 || (repos && repos?.length > 0) || (orgs && orgs?.length > 0);
 
+  /* Sort orgs based on the most recent repo update time */
+  const sortedOrgs = orgs?.sort((a, b) => {
+    if (a.repos[0].lastPRUpdatedAt < b.repos[0].lastPRUpdatedAt) {
+      return 1;
+    }
+    if (a.repos[0].lastPRUpdatedAt > b.repos[0].lastPRUpdatedAt) {
+      return -1;
+    }
+    return 0;
+  });
+
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
     const prepareResults = async () => {
@@ -271,10 +282,10 @@ export const SearchBox = ({ className }: Props) => {
               })}
             </ResultsSection>
           )}
-          {orgs && orgs?.length > 0 && (
+          {sortedOrgs && sortedOrgs?.length > 0 && (
             <ResultsSection>
               <SectionTitle>{'Orgs:'}</SectionTitle>
-              {orgs.map((org) => {
+              {sortedOrgs.map((org) => {
                 return (
                   <GitPOAPBadgeSearchItem
                     key={org.id}
