@@ -38,9 +38,11 @@ const isGitPOAP = (poap: POAP | GitPOAPType): poap is GitPOAPType => {
 
 export const FeaturedPOAPs = () => {
   const {
-    featuredPOAPsState: { featuredPOAPsFull },
+    featuredPOAPsState: { featuredPOAPsFull, featuredPOAPTokenIDs },
     hasFetched,
     isLoading,
+    loadingIds,
+    showHearts,
   } = useFeaturedPOAPs();
   const { profileData } = useProfileContext();
   const { address: walletAddress } = useWeb3Context();
@@ -93,6 +95,9 @@ export const FeaturedPOAPs = () => {
                 name={featuredPOAP.event.name}
                 imgSrc={featuredPOAP.event.image_url}
                 href={`https://poap.gallery/event/${featuredPOAP.event.id}`}
+                isFeatured={!!featuredPOAPTokenIDs[featuredPOAP.tokenId]}
+                isFeaturedLoading={!!loadingIds[featuredPOAP.tokenId]}
+                showHeart={showHearts}
               />
             );
           })}

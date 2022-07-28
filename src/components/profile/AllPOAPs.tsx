@@ -10,6 +10,7 @@ import { FaRegGrinStars } from 'react-icons/fa';
 import { Text } from '../shared/elements/Text';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { useAllPoapsQuery } from '../../graphql/generated-gql';
+import { useFeaturedPOAPs } from './FeaturedPOAPsContext';
 
 type Props = {
   address: string;
@@ -36,6 +37,11 @@ export const AllPOAPs = ({ address }: Props) => {
       sort,
     },
   });
+  const {
+    featuredPOAPsState: { featuredPOAPTokenIDs },
+    showHearts,
+    loadingIds,
+  } = useFeaturedPOAPs();
 
   /* If the address of the profile being looked at changes, clear the data we've saved */
   useEffect(() => {
@@ -107,6 +113,9 @@ export const AllPOAPs = ({ address }: Props) => {
                 imgSrc={poap.event.image_url}
                 poapTokenId={poap.tokenId}
                 href={`https://poap.gallery/event/${poap.event.id}`}
+                isFeatured={!!featuredPOAPTokenIDs[poap.tokenId]}
+                isFeaturedLoading={!!loadingIds[poap.tokenId]}
+                showHeart={showHearts}
               />
             );
           })}

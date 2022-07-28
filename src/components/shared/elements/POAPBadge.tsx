@@ -4,7 +4,7 @@ import { rem } from 'polished';
 import Image from 'next/image';
 import { Title as TitleUI } from '../elements/Title';
 import { BackgroundPanel2, TextLight } from '../../../colors';
-import { FeatureHeart } from '../compounds/FeatureHeart';
+import { FeaturedHeartPOAPBadge as FeatureHeartUI } from '../compounds/FeatureHeartPOAPBadge';
 import { Link } from '../../Link';
 
 type Props = {
@@ -13,6 +13,9 @@ type Props = {
   name: string;
   href: string;
   poapTokenId?: string;
+  isFeatured: boolean;
+  isFeaturedLoading: boolean;
+  showHeart: boolean;
 };
 
 const Container = styled.div`
@@ -57,7 +60,7 @@ const Title = styled(TitleUI)`
   width: ${rem(162)};
 `;
 
-const Heart = styled(FeatureHeart)`
+const Heart = styled(FeatureHeartUI)`
   position: absolute;
   bottom: ${rem(0)};
   right: ${rem(0)};
@@ -68,14 +71,29 @@ const BadgeContainer = styled(Container)`
   margin: ${rem(6)} 0;
 `;
 
-export const POAPBadge = ({ className, imgSrc, name, href, poapTokenId }: Props) => {
+export const POAPBadge = ({
+  className,
+  imgSrc,
+  name,
+  href,
+  poapTokenId,
+  isFeatured,
+  isFeaturedLoading,
+  showHeart,
+}: Props) => {
   return (
     <Container className={className}>
       <BadgeContainer>
         <ImgContainer href={href} target="_blank" rel="noopener noreferrer">
           <POAP quality={100} height={150} width={150} src={imgSrc} />
         </ImgContainer>
-        {poapTokenId && <Heart poapTokenId={poapTokenId} />}
+        {poapTokenId && showHeart && (
+          <Heart
+            poapTokenId={poapTokenId}
+            isFeatured={isFeatured}
+            isFeaturedLoading={isFeaturedLoading}
+          />
+        )}
       </BadgeContainer>
       <Link href={href} target="_blank" rel="noopener noreferrer">
         <Title>{name}</Title>

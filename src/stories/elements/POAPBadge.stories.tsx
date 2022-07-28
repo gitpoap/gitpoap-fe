@@ -17,4 +17,7 @@ Default.args = {
   imgSrc: poap4 as unknown as string,
   name: 'Float Capital AMA',
   poapTokenId: '1234',
+  isFeatured: false,
+  isFeaturedLoading: false,
+  showHeart: false,
 };

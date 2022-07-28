@@ -11,13 +11,13 @@ type Props = {
   poapTokenId: string;
 };
 
-const HeartWrapper = styled.div<{ isFeatured: boolean }>`
+export const HeartWrapper = styled.div<{ isFeatured: boolean }>`
   > svg {
     fill: ${({ isFeatured }) => (isFeatured ? TextAccent : TextLight)};
   }
 `;
 
-const FeatureHeartStyled = styled(FaHeart)`
+export const FeatureHeartStyled = styled(FaHeart)`
   color: ${TextLight};
   height: ${rem(18)};
   width: ${rem(18)};
