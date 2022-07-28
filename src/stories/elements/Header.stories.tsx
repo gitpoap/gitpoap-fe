@@ -8,7 +8,7 @@ export default {
 } as ComponentMeta<typeof Header>;
 
 const Template: ComponentStory<typeof Header> = (args) => {
-  return <Header {...args}>{'Most claimed POAPs last week'}</Header>;
+  return <Header {...args}>{'Most claimed GitPOAPs last week'}</Header>;
 };
 
 export const Default = Template.bind({});

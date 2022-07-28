@@ -102,7 +102,7 @@ export const Navbar = () => {
   const navItems = (
     <>
       {matchesBreakpointMd && <SearchBox />}
-      {showPOAPsPage && <NavLink href="/poaps">{'POAPS'}</NavLink>}
+      {showPOAPsPage && <NavLink href="/gitpoaps">{'GitPOAPs'}</NavLink>}
       <NavLink href="/repos">{'Repos'}</NavLink>
       {showOrgsPage && <NavLink href="/orgs">{'Orgs'}</NavLink>}
       {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
@@ -120,7 +120,7 @@ export const Navbar = () => {
   const navItemsCollapsed = (
     <>
       <SearchBox />
-      {showPOAPsPage && <NavLink href="/poaps">{'POAPS'}</NavLink>}
+      {showPOAPsPage && <NavLink href="/gitpoaps">{'GitPOAPs'}</NavLink>}
       <NavLink href="/repos">{'Repos'}</NavLink>
       {showOrgsPage && <NavLink href="/orgs">{'Orgs'}</NavLink>}
       {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}

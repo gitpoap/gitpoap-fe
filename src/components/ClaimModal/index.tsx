@@ -85,12 +85,12 @@ const getClaimText = (
   if (!isConnected && netClaims > 0) return 'Connect your wallet to mint!';
 
   if (netClaims < 1) {
-    return 'You have no new POAPs to mint.';
+    return 'You have no new GitPOAPs to mint.';
   } else if (netClaims === 1) {
-    return 'You have a new POAP to mint!';
+    return 'You have a new GitPOAP to mint!';
   }
 
-  return `You have ${netClaims} new POAPs to mint!`;
+  return `You have ${netClaims} new GitPOAPs to mint!`;
 };
 
 export const ClaimModal = ({

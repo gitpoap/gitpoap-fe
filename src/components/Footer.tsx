@@ -259,7 +259,7 @@ export const Footer = () => {
           </GitPOAPLink>
           <FooterText style={{ marginTop: rem(20) }}>
             {
-              "We're memorializing software contributions as POAPs to help usher in new era of #web3"
+              "We're memorializing software contributions as GitPOAPs to help usher in new era of #web3"
             }
           </FooterText>
         </GitPOAPContent>

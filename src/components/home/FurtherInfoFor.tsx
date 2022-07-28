@@ -104,7 +104,7 @@ export const FurtherInfoFor = () => {
               {`Create a public, immutable, & unbiased record of your contributions to the open source community & show it off via your profile.`}
             </InfoHexText>
             <ButtonStyled style={{ marginTop: rem(40) }} leftIcon={<GoMarkGithub size={16} />}>
-              {'Claim POAPs'}
+              {'Claim GitPOAPs'}
             </ButtonStyled>
           </Content>
         </InfoHex>
