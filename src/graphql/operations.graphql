@@ -86,6 +86,7 @@ query profile($address: String!) {
     personalSiteUrl
     address
     ensName
+    isVisibleOnLeaderboard
   }
 }
 

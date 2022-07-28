@@ -20,7 +20,7 @@ import { MetaMaskError, MetaMaskErrors } from '../../types';
 export type EditableProfileData = Partial<
   Pick<
     Exclude<ProfileQuery['profileData'], null | undefined>,
-    'bio' | 'githubHandle' | 'personalSiteUrl' | 'twitterHandle'
+    'bio' | 'githubHandle' | 'personalSiteUrl' | 'twitterHandle' | 'isVisibleOnLeaderboard'
   >
 >;
 
@@ -81,11 +81,12 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
     async (newProfileData: EditableProfileData) => {
       setIsSaveLoading(true);
       const timestamp = Date.now();
-      const data = {
+      const data: EditableProfileData = {
         bio: newProfileData.bio,
         personalSiteUrl: newProfileData.personalSiteUrl,
         githubHandle: newProfileData.githubHandle,
         twitterHandle: newProfileData.twitterHandle,
+        isVisibleOnLeaderboard: newProfileData.isVisibleOnLeaderboard,
       };
 
       try {
@@ -158,6 +159,7 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
           personalSiteUrl={profileData?.personalSiteUrl}
           githubHandle={profileData?.githubHandle}
           twitterHandle={profileData?.twitterHandle}
+          isVisibleOnLeaderboard={profileData?.isVisibleOnLeaderboard}
           isOpen={isUpdateModalOpen}
           onClose={() => setIsUpdateModalOpen(false)}
           onClickSave={updateProfile}

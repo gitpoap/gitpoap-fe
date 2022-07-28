@@ -1628,6 +1628,7 @@ export type NullableProfile = {
   featuredPOAPs: Array<FeaturedPoap>;
   githubHandle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Float']>;
+  isVisibleOnLeaderboard: Scalars['Boolean'];
   name?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
   profileImageUrl?: Maybe<Scalars['String']>;
@@ -1913,6 +1914,7 @@ export type Profile = {
   featuredPOAPs: Array<FeaturedPoap>;
   githubHandle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
+  isVisibleOnLeaderboard: Scalars['Boolean'];
   name?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
   profileImageUrl?: Maybe<Scalars['String']>;
@@ -1952,6 +1954,7 @@ export type ProfileCountAggregate = {
   createdAt: Scalars['Int'];
   githubHandle: Scalars['Int'];
   id: Scalars['Int'];
+  isVisibleOnLeaderboard: Scalars['Int'];
   name: Scalars['Int'];
   personalSiteUrl: Scalars['Int'];
   profileImageUrl: Scalars['Int'];
@@ -1966,6 +1969,7 @@ export type ProfileCountOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   personalSiteUrl?: InputMaybe<SortOrder>;
   profileImageUrl?: InputMaybe<SortOrder>;
@@ -1986,6 +1990,7 @@ export type ProfileGroupBy = {
   createdAt: Scalars['DateTime'];
   githubHandle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
+  isVisibleOnLeaderboard: Scalars['Boolean'];
   name?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
   profileImageUrl?: Maybe<Scalars['String']>;
@@ -2001,6 +2006,7 @@ export type ProfileMaxAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   githubHandle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  isVisibleOnLeaderboard?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
   profileImageUrl?: Maybe<Scalars['String']>;
@@ -2015,6 +2021,7 @@ export type ProfileMaxOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   personalSiteUrl?: InputMaybe<SortOrder>;
   profileImageUrl?: InputMaybe<SortOrder>;
@@ -2030,6 +2037,7 @@ export type ProfileMinAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   githubHandle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  isVisibleOnLeaderboard?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
   profileImageUrl?: Maybe<Scalars['String']>;
@@ -2044,6 +2052,7 @@ export type ProfileMinOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   personalSiteUrl?: InputMaybe<SortOrder>;
   profileImageUrl?: InputMaybe<SortOrder>;
@@ -2063,6 +2072,7 @@ export type ProfileOrderByWithAggregationInput = {
   createdAt?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   personalSiteUrl?: InputMaybe<SortOrder>;
   profileImageUrl?: InputMaybe<SortOrder>;
@@ -2078,6 +2088,7 @@ export type ProfileOrderByWithRelationInput = {
   featuredPOAPs?: InputMaybe<FeaturedPoapOrderByRelationAggregateInput>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   personalSiteUrl?: InputMaybe<SortOrder>;
   profileImageUrl?: InputMaybe<SortOrder>;
@@ -2097,6 +2108,7 @@ export enum ProfileScalarFieldEnum {
   CreatedAt = 'createdAt',
   GithubHandle = 'githubHandle',
   Id = 'id',
+  IsVisibleOnLeaderboard = 'isVisibleOnLeaderboard',
   Name = 'name',
   PersonalSiteUrl = 'personalSiteUrl',
   ProfileImageUrl = 'profileImageUrl',
@@ -2114,6 +2126,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   githubHandle?: InputMaybe<StringNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
+  isVisibleOnLeaderboard?: InputMaybe<BoolWithAggregatesFilter>;
   name?: InputMaybe<StringNullableWithAggregatesFilter>;
   personalSiteUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
   profileImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
@@ -2141,6 +2154,7 @@ export type ProfileWhereInput = {
   featuredPOAPs?: InputMaybe<FeaturedPoapListRelationFilter>;
   githubHandle?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
+  isVisibleOnLeaderboard?: InputMaybe<BoolFilter>;
   name?: InputMaybe<StringNullableFilter>;
   personalSiteUrl?: InputMaybe<StringNullableFilter>;
   profileImageUrl?: InputMaybe<StringNullableFilter>;
@@ -3578,6 +3592,7 @@ export type ProfileQuery = {
     personalSiteUrl?: string | null;
     address: string;
     ensName?: string | null;
+    isVisibleOnLeaderboard: boolean;
   } | null;
 };
 
@@ -4317,6 +4332,7 @@ export const ProfileDocument = gql`
       personalSiteUrl
       address
       ensName
+      isVisibleOnLeaderboard
     }
   }
 `;

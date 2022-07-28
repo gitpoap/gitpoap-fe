@@ -3,10 +3,13 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Modal, Center } from '@mantine/core';
 import { BackgroundPanel, BackgroundPanel2, TextLight } from '../../colors';
-import { Button } from '../shared/elements/Button';
-import { Input as InputUI } from '../shared/elements/Input';
-import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
-import { Text } from '../shared/elements/Text';
+import {
+  Button,
+  Input as InputUI,
+  TextArea as TextAreaUI,
+  Text,
+  Checkbox,
+} from '../shared/elements';
 import { ExtraHover, ExtraPressed, MidnightBlue, TextGray } from '../../colors';
 import { EditableProfileData, useProfileContext } from './ProfileContext';
 import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
@@ -19,6 +22,7 @@ type Props = {
   bio?: string | null;
   githubHandle?: string | null;
   twitterHandle?: string | null;
+  isVisibleOnLeaderboard?: boolean;
   personalSiteUrl?: string | null;
   onClickSave: (newProfileData: EditableProfileData) => void;
   isSaveLoading: boolean;
@@ -57,13 +61,13 @@ const SettingSection = styled.div`
 `;
 
 const GithubHandle = styled(SettingSection)``;
-
 const TwitterHandle = styled(SettingSection)``;
-
 const PersonalWebsite = styled(SettingSection)``;
+const LeaderboardVisibility = styled(SettingSection)``;
 
 const ProfileBio = styled.div`
   display: flex;
+  margin-bottom: ${rem(30)};
 `;
 
 const Input = styled(InputUI)`
@@ -103,6 +107,7 @@ export const EditProfileModal = ({
   onClose,
   githubHandle,
   twitterHandle,
+  isVisibleOnLeaderboard,
   bio,
   personalSiteUrl,
   onClickSave,
@@ -117,6 +122,8 @@ export const EditProfileModal = ({
     useState<string | undefined | null>(githubHandle);
   const [twitterHandleValue, setTwitterHandleValue] =
     useState<string | undefined | null>(twitterHandle);
+  const [isVisibleOnLeaderboardValue, setIsVisibleOnLeaderboardValue] =
+    useState<boolean | undefined>(isVisibleOnLeaderboard);
 
   useEffect(() => {
     setPersonalSiteUrlValue(personalSiteUrl);
@@ -133,6 +140,10 @@ export const EditProfileModal = ({
   useEffect(() => {
     setTwitterHandleValue(twitterHandle);
   }, [twitterHandle]);
+
+  useEffect(() => {
+    setIsVisibleOnLeaderboardValue(isVisibleOnLeaderboard);
+  }, [isVisibleOnLeaderboard]);
 
   return (
     <StyledModal
@@ -193,6 +204,13 @@ export const EditProfileModal = ({
               maxRows={4}
             />
           </ProfileBio>
+          <LeaderboardVisibility>
+            <Checkbox
+              label={'Is visible on leaderboard?'}
+              checked={isVisibleOnLeaderboardValue}
+              onChange={(e) => setIsVisibleOnLeaderboardValue(e.target.checked)}
+            />
+          </LeaderboardVisibility>
         </ProfileFields>
 
         <Button
@@ -202,6 +220,7 @@ export const EditProfileModal = ({
               bio: bioValue,
               personalSiteUrl: personSiteUrlValue,
               githubHandle: githubHandleValue,
+              isVisibleOnLeaderboard: isVisibleOnLeaderboardValue,
             })
           }
           loading={isSaveLoading}
