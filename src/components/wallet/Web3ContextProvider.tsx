@@ -1,5 +1,5 @@
 import React, { useContext, useState, useCallback, createContext, useMemo, useEffect } from 'react';
-import Web3Modal, { IProviderOptions } from 'web3modal';
+import Web3Modal, { IProviderOptions, getInjectedProviderName } from 'web3modal';
 import { JsonRpcProvider, Web3Provider, InfuraProvider } from '@ethersproject/providers';
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 import { NETWORKS } from '../../constants';
@@ -123,23 +123,23 @@ export const Web3ContextProvider = (props: Props) => {
       provider.on('accountsChanged', async (accounts: string[]) => {
         if (accounts.length > 0 && address !== accounts[0]) {
           const provider = await web3Modal.connect();
-          initialize(provider);
+          await initialize(provider);
         } else {
-          disconnect();
+          await disconnect();
         }
       });
 
-      provider.on('chainChanged', (chainId: number) => {
-        initialize(provider);
+      provider.on('chainChanged', async (chainId: number) => {
+        await initialize(provider);
       });
 
-      provider.on('disconnect', (error: { code: number; message: string }) => {
-        disconnect();
+      provider.on('disconnect', async (error: { code: number; message: string }) => {
+        await disconnect();
       });
 
-      provider.on('connect', (info: { chainId: number }) => {
+      provider.on('connect', async (info: { chainId: number }) => {
         if (connectionStatus === 'disconnected') {
-          initialize(provider);
+          await initialize(provider);
         }
       });
     },
@@ -168,15 +168,34 @@ export const Web3ContextProvider = (props: Props) => {
     return true;
   }, [web3Modal]);
 
-  /* Hook to check whether a cached provider exists. If it does, connect to provider */
+  /**
+   * Hook to check whether a cached provider exists. If it does, connect to provider. It also
+   * prevents MetaMask from prompting login on page load if the wallet is cached, but locked.
+   */
   useEffect(() => {
+    const connectToCachedProvider = async () => {
+      if (
+        web3Modal.cachedProvider === 'injected' &&
+        getInjectedProviderName()?.toLowerCase() === 'metamask'
+      ) {
+        if (window.ethereum.request) {
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          if (!accounts.length) {
+            console.warn('MetaMask is not enabled');
+            return;
+          }
+        }
+      }
+      await connect();
+    };
+
     const isCached = hasCachedProvider();
 
     /* Attempt to connect to cached provider */
     if (connectionStatus === 'disconnected' && isCached && infuraProvider) {
-      connect();
+      connectToCachedProvider();
     }
-  }, [hasCachedProvider, connectionStatus, connect, infuraProvider]);
+  }, [hasCachedProvider, connectionStatus, connect, infuraProvider, web3Modal]);
 
   useEffect(() => {
     /* Always initialize a backup provider for when no wallet is connected */

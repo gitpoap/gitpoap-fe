@@ -1,4 +1,7 @@
 declare global {
+  interface Window {
+    ethereum: import('ethers').providers.ExternalProvider;
+  }
   namespace NodeJS {
     interface ProcessEnv {
       NEXT_PUBLIC_SENTRY_DSN: string;
