@@ -66,20 +66,14 @@ export const OrgRepoList = ({ orgId }: Props) => {
   useEffect(() => {
     const resultPage = queryVariables?.page;
     if (allRepoItems) {
-      const newRepoItems = allRepoItems;
       if (resultPage === 1) {
-        handlers.setState(newRepoItems);
+        handlers.setState(allRepoItems);
       } else {
-        handlers.append(...newRepoItems);
+        handlers.append(...allRepoItems);
       }
     }
     /* Do not include handlers below */
   }, [allRepoItems, queryVariables]);
-
-  /* If the id of the organization being looked at changes, clear the data we've saved */
-  useEffect(() => {
-    handlers.setState([]);
-  }, [orgId]);
 
   return (
     <ItemList
