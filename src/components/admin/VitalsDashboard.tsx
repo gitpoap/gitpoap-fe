@@ -12,6 +12,7 @@ import {
   useProfilesSinceQuery,
   useReposSinceQuery,
   useTotalDistinctUsersWithClaimsQuery,
+  useTotalProfilesQuery,
   useTotalUsersQuery,
 } from '../../graphql/generated-gql';
 import useSWR from 'swr';
@@ -100,6 +101,7 @@ export const VitalsDashboard = (props: Props) => {
     variables: { date: todayMinus7Days },
   });
 
+  const [totalProfilesResults] = useTotalProfilesQuery({});
   const [totalClaimsResult] = useClaimsCountQuery();
   const [mintedClaimsResult] = useMintedClaimsCountQuery();
   const [totalUsersResult] = useTotalUsersQuery();
@@ -116,6 +118,7 @@ export const VitalsDashboard = (props: Props) => {
       }).then((res) => res.json()),
   );
 
+  const totalProfiles = totalProfilesResults?.data?.aggregateProfile?._count?.id;
   const totalClaims = totalClaimsResult.data?.aggregateClaim._count?.id;
   const mintedClaims = mintedClaimsResult.data?.aggregateClaim._count?.id;
   const totalUsers = totalUsersResult.data?.aggregateUser._count?.githubHandle;
@@ -130,6 +133,8 @@ export const VitalsDashboard = (props: Props) => {
           <HeaderContainer>
             <Header>{'Vitals Dashboard'}</Header>
           </HeaderContainer>
+
+          {/* Mints Section */}
           <DashboardItem
             name={'Mints (today)'}
             value={dailyClaimsResult.data?.claims.length}
@@ -151,6 +156,8 @@ export const VitalsDashboard = (props: Props) => {
             href={'/admin/gitpoap/claims'}
             style={{ marginBottom: rem(15) }}
           />
+
+          {/* Entities Added Section */}
           <DashboardItem
             name={'Repos Added (last 7 days)'}
             value={reposResult.data?.repos.length}
@@ -197,6 +204,15 @@ export const VitalsDashboard = (props: Props) => {
             }
             style={{ marginBottom: rem(15) }}
           />
+
+          {/* Profiles Section */}
+          <DashboardItem
+            name={'Total profiles'}
+            value={totalProfiles}
+            style={{ marginBottom: rem(15) }}
+          />
+
+          {/* Users Section */}
           <DashboardItem name={'Total users with mints'} value={totalUsersWithClaims} />
           <DashboardItem name={'Total users'} value={totalUsers} />
           <DashboardItem
@@ -209,6 +225,7 @@ export const VitalsDashboard = (props: Props) => {
             style={{ marginBottom: rem(15) }}
           />
 
+          {/* Ongoing issuance section */}
           <DashboardItem
             name={'Ongoing Issuance Last Run'}
             value={

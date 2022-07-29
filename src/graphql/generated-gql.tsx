@@ -4116,6 +4116,16 @@ export type TotalUsersQuery = {
   };
 };
 
+export type TotalProfilesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalProfilesQuery = {
+  __typename?: 'Query';
+  aggregateProfile: {
+    __typename?: 'AggregateProfile';
+    _count?: { __typename?: 'ProfileCountAggregate'; id: number } | null;
+  };
+};
+
 export type TotalDistinctUsersWithClaimsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type TotalDistinctUsersWithClaimsQuery = {
@@ -4994,6 +5004,21 @@ export function useTotalUsersQuery(
   options?: Omit<Urql.UseQueryArgs<TotalUsersQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<TotalUsersQuery>({ query: TotalUsersDocument, ...options });
+}
+export const TotalProfilesDocument = gql`
+  query totalProfiles {
+    aggregateProfile {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalProfilesQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalProfilesQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalProfilesQuery>({ query: TotalProfilesDocument, ...options });
 }
 export const TotalDistinctUsersWithClaimsDocument = gql`
   query totalDistinctUsersWithClaims {

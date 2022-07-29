@@ -524,6 +524,14 @@ query totalUsers {
   }
 }
 
+query totalProfiles {
+  aggregateProfile {
+    _count {
+      id
+    }
+  }
+}
+
 query totalDistinctUsersWithClaims {
   claims(distinct: userId, where: { status: { equals: CLAIMED } }) {
     id
