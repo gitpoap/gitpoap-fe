@@ -3,13 +3,9 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Modal, Center } from '@mantine/core';
 import { BackgroundPanel, BackgroundPanel2, TextLight } from '../../colors';
-import {
-  Button,
-  Input as InputUI,
-  TextArea as TextAreaUI,
-  Text,
-  Checkbox,
-} from '../shared/elements';
+import { Button, Input as InputUI, Checkbox } from '../shared/elements';
+import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
+import { Text } from '../shared/elements/Text';
 import { ExtraHover, ExtraPressed, MidnightBlue, TextGray } from '../../colors';
 import { EditableProfileData, useProfileContext } from './ProfileContext';
 import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
