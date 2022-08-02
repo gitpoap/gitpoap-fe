@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { Text, TextProps } from '@mantine/core';
 import { ExtraHover, ExtraPressed, TextAccent, TextDarkGray } from '../../../colors';
 
-export const TitleNoHover = styled(Text)<TextProps<'span'>>`
+export const TitleStyles = css`
   display: inline-block;
   font-family: 'PT Mono', monospace;
   font-weight: 700;
@@ -14,6 +14,10 @@ export const TitleNoHover = styled(Text)<TextProps<'span'>>`
   color: ${TextAccent};
   transition: color 150ms ease-in-out;
   cursor: pointer;
+`;
+
+export const TitleNoHover = styled(Text)<TextProps<'span'>>`
+  ${TitleStyles};
 `;
 
 export const Title = styled(TitleNoHover)`

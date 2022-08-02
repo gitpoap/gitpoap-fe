@@ -4,7 +4,7 @@ import { rem } from 'polished';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import { Link, IconLink } from '../Link';
-import { Text, Button, Header as HeaderText, Title, GitPOAPBadge } from '../shared/elements';
+import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleStyles } from '../shared/elements';
 import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { useFeatures } from '../../components/FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
@@ -65,10 +65,11 @@ const By = styled(Text)`
   margin-right: ${rem(7)};
 `;
 
-export const OrgLink = styled(Title)`
+export const OrgLink = styled(Link)`
+  ${TitleStyles}
   font-size: ${rem(16)};
   color: ${TextAccent};
-  ${textEllipses(350)}
+  ${textEllipses(350)};
 
   @media (max-width: ${rem(BREAKPOINTS.sm)}) {
     ${textEllipses(250)}
@@ -139,13 +140,11 @@ export const Header = ({ gitPOAPId }: Props) => {
             <ReposContentRight>
               {repos.slice(0, 6).map((repo, i) => (
                 <RepoName key={repo.id}>
-                  <Link href={`/gh/${repo.organization.name}`} passHref>
-                    <OrgLink>{`${repo.organization.name}`}</OrgLink>
-                  </Link>
+                  <OrgLink
+                    href={`/gh/${repo.organization.name}`}
+                  >{`${repo.organization.name}`}</OrgLink>
                   {`/`}
-                  <Link href={`/gh/${repo.organization.name}/${repo.name}`} passHref>
-                    <OrgLink>{repo.name}</OrgLink>
-                  </Link>
+                  <OrgLink href={`/gh/${repo.organization.name}/${repo.name}`}>{repo.name}</OrgLink>
                 </RepoName>
               ))}
             </ReposContentRight>

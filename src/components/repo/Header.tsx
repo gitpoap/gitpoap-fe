@@ -2,13 +2,14 @@ import { rem } from 'polished';
 import React from 'react';
 import styled from 'styled-components';
 import { RepoHeaderHexagon } from './RepoHeaderHexagon';
-import { Header as HeaderText, Text } from '../shared/elements';
+import { Header as HeaderText, Text, TitleStyles } from '../shared/elements';
 import { TextAccent, TextGray } from '../../colors';
 import { Link, IconLink } from '../Link';
-import { OrgLink, Wrapper } from '../gitpoap/Header';
+import { Wrapper } from '../gitpoap/Header';
 import { People, GitPOAP, Star, Globe, Twitter } from '../shared/elements/icons';
 import { RepoDataQuery, useRepoStarCountQuery } from '../../graphql/generated-gql';
 import { FaGithub as GitHub } from 'react-icons/fa';
+import { textEllipses } from '../shared/styles';
 
 const OrgName = styled(Text)`
   margin-top: ${rem(30)};
@@ -69,6 +70,14 @@ export const SubHeaderItemLabel = styled(Text)`
   color: ${TextGray};
 `;
 
+const OrgLink = styled(Link)`
+  ${TitleStyles};
+  font-size: ${rem(16)};
+  color: ${TextAccent};
+  ${textEllipses(350)};
+  margin-left: ${rem(8)};
+`;
+
 const HexagonWrapper = styled.div`
   height: ${rem(348)};
   width: ${rem(628)};
@@ -92,7 +101,12 @@ const StyledHeaderHexagon = styled(RepoHeaderHexagon)`
 `;
 
 const OrgNameStyled = styled(OrgName)`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: flex-start;
   font-size: ${rem(16)};
+  line-height: ${rem(18)};
 `;
 
 type Props = {
@@ -109,9 +123,7 @@ export const Header = ({ repo }: Props) => {
         <HeaderText>{repo.name}</HeaderText>
         <OrgNameStyled>
           {'by '}
-          <Link href={`/gh/${repo.organization.name}`} passHref>
-            <OrgLink>{repo.organization.name}</OrgLink>
-          </Link>
+          <OrgLink href={`/gh/${repo.organization.name}`}>{repo.organization.name}</OrgLink>
         </OrgNameStyled>
         <Social>
           {repo.organization.twitterHandle && (
