@@ -5,7 +5,7 @@ export const GITPOAP_API_URL = process.env.NEXT_PUBLIC_GITPOAP_API_URL;
 
 /* CSS Breakpoints */
 export const BREAKPOINTS = {
-  xs: 0,
+  xs: 400,
   sm: 600,
   md: 900,
   lg: 1200,

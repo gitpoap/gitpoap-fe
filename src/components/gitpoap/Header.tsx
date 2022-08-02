@@ -10,6 +10,7 @@ import { useFeatures } from '../../components/FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
 import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
+import { textEllipses } from '../shared/styles';
 
 type Props = {
   gitPOAPId: number;
@@ -52,6 +53,7 @@ const Description = styled(Text)`
 `;
 
 export const RepoName = styled(Text)`
+  display: flex;
   font-weight: 700;
   color: ${TextGray};
   margin-bottom: ${rem(7)};
@@ -66,6 +68,17 @@ const By = styled(Text)`
 export const OrgLink = styled(Title)`
   font-size: ${rem(16)};
   color: ${TextAccent};
+  ${textEllipses(350)}
+
+  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
+    ${textEllipses(250)}
+  }
+  @media (max-width: ${rem(BREAKPOINTS.xs)}) {
+    ${textEllipses(175)}
+  }
+  @media (max-width: ${rem(350)}) {
+    ${textEllipses(125)}
+  }
 `;
 
 const Repos = styled.div`
