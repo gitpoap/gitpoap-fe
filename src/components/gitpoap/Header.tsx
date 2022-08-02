@@ -57,6 +57,7 @@ export const RepoName = styled(Text)`
   font-weight: 700;
   color: ${TextGray};
   margin-bottom: ${rem(7)};
+  align-items: center;
 `;
 
 const By = styled(Text)`
