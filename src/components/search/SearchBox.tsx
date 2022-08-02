@@ -109,15 +109,15 @@ export const SearchBox = ({ className }: Props) => {
   const [result, refetchProfiles] = useSearchForStringQuery({
     pause: true,
     variables: {
-      text: debouncedQuery,
+      text: debouncedQuery.trim(),
     },
   });
   const [repoResults] = useRepoSearchByNameQuery({
-    variables: { search: debouncedQuery },
+    variables: { search: debouncedQuery.trim() },
   });
   const [orgResults, refetchOrgs] = useOrgSearchByNameQuery({
     pause: true,
-    variables: { search: debouncedQuery },
+    variables: { search: debouncedQuery.trim() },
   });
 
   const repos = repoResults.data?.repos;
