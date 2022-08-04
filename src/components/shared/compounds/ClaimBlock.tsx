@@ -15,8 +15,8 @@ type Props = {
   description: string;
   onClickClaim: () => void;
   onClickBadge?: () => void;
+  isClaimingAll: boolean;
   isClaimed?: boolean;
-  isClaimAll?: boolean;
   isLoading?: boolean;
   isConnected?: boolean;
 };
@@ -59,7 +59,7 @@ export const ClaimBlock = ({
   onClickBadge,
   isClaimed,
   isLoading,
-  isClaimAll,
+  isClaimingAll,
   isConnected,
 }: Props) => {
   const [isClaimedPrev, setIsClaimedPrev] = useState<boolean>(!!isClaimed);
@@ -100,7 +100,7 @@ export const ClaimBlock = ({
           onClick={onClickClaim}
           loading={isLoading}
           leftIcon={isClaimed ? <FaCheckCircle /> : !isConnected ? <FaEthereum /> : <FaCoins />}
-          disabled={isClaimed || isClaimAll}
+          disabled={isClaimed || isClaimingAll}
         >
           {getButtonText(isClaimed, isConnected)}
         </Button>

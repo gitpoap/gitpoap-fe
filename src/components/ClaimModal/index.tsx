@@ -114,7 +114,7 @@ export const ClaimModal = ({
 
   const { connect } = useWeb3Context();
   const hasClaimedAll = claimedIds.length === claims.length;
-  const isClaimingAll = loadingClaimIds && loadingClaimIds.length === claims.length;
+  const isClaimingAll = !!loadingClaimIds && loadingClaimIds.length === claims.length;
   const claimText = getClaimText(isConnected, claims.length, claimedIds.length, isLoggedIntoGitHub);
   const allClaimIds = claims.map((userClaim) => userClaim.claim.id);
 
@@ -145,7 +145,7 @@ export const ClaimModal = ({
                     }
                     onClickBadge={onClose}
                     isClaimed={claimedIds?.includes(userClaim.claim.id)}
-                    isClaimAll={isClaimingAll}
+                    isClaimingAll={isClaimingAll}
                     isLoading={!isClaimingAll && loadingClaimIds?.includes(userClaim.claim.id)}
                     isConnected={isConnected}
                   />
