@@ -116,9 +116,7 @@ export const ClaimModal = ({
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = loadingClaimIds && loadingClaimIds.length === claims.length;
   const claimText = getClaimText(isConnected, claims.length, claimedIds.length, isLoggedIntoGitHub);
-
-  /* All claimIds in view, not all */
-  const allClaimIds = claims.slice(start, end).map((userClaim) => userClaim.claim.id);
+  const allClaimIds = claims.map((userClaim) => userClaim.claim.id);
 
   return (
     <StyledModal
