@@ -14,7 +14,7 @@ export const getInitialState = (): FeaturesState => ({
   hasGitPOAPsPage: false,
   hasProjectsPage: true,
   hasCheckIfImEligible: false,
-  hasClaimAllButton: false,
+  hasClaimAllButton: true,
   hasOrganizations: false,
   hasEnsAvatar: false,
 });
