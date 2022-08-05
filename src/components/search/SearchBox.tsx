@@ -103,7 +103,7 @@ export const SearchBox = ({ className }: Props) => {
   const [query, setQuery] = useState('');
   const { web3Provider, infuraProvider } = useWeb3Context();
   const [debouncedQuery] = useDebouncedValue(query, 200);
-  const [searchResults, setSearchResults] = useState<ProfileResult[]>([]);
+  const [profileResults, setProfileResults] = useState<ProfileResult[]>([]);
   const [areResultsLoading, setAreResultsLoading] = useState(false);
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
   const [cursor, setCursor] = useState<number>(-1);
@@ -131,7 +131,7 @@ export const SearchBox = ({ className }: Props) => {
   const isLoading =
     result.fetching || repoResults.fetching || orgResults.fetching || areResultsLoading;
   const hasAnyResults =
-    searchResults.length > 0 || (repos && repos?.length > 0) || (orgs && orgs?.length > 0);
+    profileResults.length > 0 || (repos && repos?.length > 0) || (orgs && orgs?.length > 0);
 
   /* Sort orgs based on the most recent repo update time */
   const sortedOrgs = orgs?.sort((a, b) => {
@@ -145,7 +145,7 @@ export const SearchBox = ({ className }: Props) => {
   });
 
   /* auto complete list counts */
-  const searchResultCount = searchResults.length < 4 ? searchResults.length : 4;
+  const searchResultCount = profileResults.length < 4 ? profileResults.length : 4;
   const reposCount = repos?.length ?? 0;
   const orgsCount = orgs?.length ?? 0;
   const orgStartIndex = searchResultCount + reposCount;
@@ -205,7 +205,7 @@ export const SearchBox = ({ className }: Props) => {
           }
         }
         setAreResultsLoading(false);
-        setSearchResults(results);
+        setProfileResults(results);
       }
     };
 
@@ -226,13 +226,14 @@ export const SearchBox = ({ className }: Props) => {
 
   /* This hook is used to clear stored results to ensure no random autocomplete flashes - urql caches results ~ so 🤪 */
   useEffect(() => {
-    setSearchResults([]);
+    setProfileResults([]);
     setCursor(-1);
   }, [query, debouncedQuery]);
 
   /* This hook is used to set focus on search input */
   useEffect(() => {
     if (isSlashPressed) {
+      setCursor(-1);
       inputRef.current?.focus();
     }
   }, [isSlashPressed]);
@@ -241,24 +242,27 @@ export const SearchBox = ({ className }: Props) => {
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       // arrow up/down button should select next/previous list element
-      if (e.code === 'ArrowUp' && cursor > 0) {
+      if (e.code === 'ArrowUp' && cursor > -1) {
         setCursor((prevCursor) => prevCursor - 1);
       } else if (e.code === 'ArrowDown' && cursor < totalCount - 1) {
         setCursor((prevCursor) => prevCursor + 1);
       } else if (e.code === 'Enter') {
         setQuery('');
         setIsSearchActive(false);
-        setSearchResults([]);
+        setProfileResults([]);
 
         /* profile is selected */
         if (cursor < searchResultCount) {
-          router.push(searchResults[cursor].href);
+          inputRef.current?.blur();
+          router.push(profileResults[cursor].href);
         } else if (cursor < orgStartIndex) {
+          inputRef.current?.blur();
           /* repo is selected */
           const repoIndex = cursor - searchResultCount;
           const repo = repos && repos[repoIndex];
           router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
         } else {
+          inputRef.current?.blur();
           /* org is selected */
           const orgIndex = cursor - orgStartIndex;
           const org = orgs && orgs[orgIndex];
@@ -295,10 +299,10 @@ export const SearchBox = ({ className }: Props) => {
 
       {isSearchActive && (
         <Results ref={resultsRef}>
-          {searchResults.length > 0 && (
+          {profileResults.length > 0 && (
             <ResultsSection>
               <SectionTitle>{'Profiles:'}</SectionTitle>
-              {searchResults.slice(0, 4).map((profile, index) => {
+              {profileResults.slice(0, 4).map((profile, index) => {
                 return (
                   <ProfileSearchItem
                     key={profile.id}
@@ -308,7 +312,7 @@ export const SearchBox = ({ className }: Props) => {
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);
-                      setSearchResults([]);
+                      setProfileResults([]);
                     }}
                     isSelected={cursor === index}
                   />
@@ -330,7 +334,7 @@ export const SearchBox = ({ className }: Props) => {
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);
-                      setSearchResults([]);
+                      setProfileResults([]);
                     }}
                     isSelected={cursor === searchResultCount + index}
                   />
@@ -350,7 +354,7 @@ export const SearchBox = ({ className }: Props) => {
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);
-                      setSearchResults([]);
+                      setProfileResults([]);
                     }}
                     repoId={org.repos[0].id}
                     isSelected={cursor === orgStartIndex + index}

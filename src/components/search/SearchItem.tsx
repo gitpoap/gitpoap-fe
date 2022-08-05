@@ -35,7 +35,7 @@ const Item = styled.div<ItemProps>`
   transition: 150ms background-color ease;
   height: ${rem(50)};
   width: 100%;
-  border: ${(props) => (props.isSelected ? '1px solid' : 'none')};
+  background-color: ${(props) => (props.isSelected ? BackgroundPanel : 'transparent')};
   &:hover {
     background-color: ${BackgroundPanel};
   }
