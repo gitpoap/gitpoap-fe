@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
 import { useRouter } from 'next/router';
@@ -107,7 +107,7 @@ export const SearchBox = ({ className }: Props) => {
   const [areResultsLoading, setAreResultsLoading] = useState(false);
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
   const [cursor, setCursor] = useState<number>(-1);
-  const slashPress = useKeyPress('/');
+  const isSlashPressed = useKeyPress({ targetKey: '/' });
 
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -144,11 +144,11 @@ export const SearchBox = ({ className }: Props) => {
     return 0;
   });
 
-  // auto complete list counts
+  /* auto complete list counts */
   const searchResultCount = searchResults.length < 4 ? searchResults.length : 4;
-  const reposCount = repos?.length || 0;
-  const orgsCount = orgs?.length || 0;
-  const orgInitIndex = searchResultCount + reposCount;
+  const reposCount = repos?.length ?? 0;
+  const orgsCount = orgs?.length ?? 0;
+  const orgStartIndex = searchResultCount + reposCount;
   const totalCount = searchResultCount + reposCount + orgsCount;
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
@@ -232,39 +232,42 @@ export const SearchBox = ({ className }: Props) => {
 
   /* This hook is used to set focus on search input */
   useEffect(() => {
-    if (slashPress) {
+    if (isSlashPressed) {
       inputRef.current?.focus();
     }
-  }, [slashPress]);
+  }, [isSlashPressed]);
 
   /* Handle keydown on search input box */
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // arrow up/down button should select next/previous list element
-    if (e.code === 'ArrowUp' && cursor > 0) {
-      setCursor((prevCursor) => prevCursor - 1);
-    } else if (e.code === 'ArrowDown' && cursor < totalCount - 1) {
-      setCursor((prevCursor) => prevCursor + 1);
-    } else if (e.code === 'Enter') {
-      setQuery('');
-      setIsSearchActive(false);
-      setSearchResults([]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      // arrow up/down button should select next/previous list element
+      if (e.code === 'ArrowUp' && cursor > 0) {
+        setCursor((prevCursor) => prevCursor - 1);
+      } else if (e.code === 'ArrowDown' && cursor < totalCount - 1) {
+        setCursor((prevCursor) => prevCursor + 1);
+      } else if (e.code === 'Enter') {
+        setQuery('');
+        setIsSearchActive(false);
+        setSearchResults([]);
 
-      /* profile is selected */
-      if (cursor < searchResultCount) {
-        router.push(searchResults[cursor].href);
-      } else if (cursor < orgInitIndex) {
-        /* repo is selected */
-        const repoIndex = cursor - searchResultCount;
-        const repo = repos && repos[repoIndex];
-        router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
-      } else {
-        /* org is selected */
-        const orgIndex = cursor - orgInitIndex;
-        const org = orgs && orgs[orgIndex];
-        router.push(`/gh/${org?.name}`);
+        /* profile is selected */
+        if (cursor < searchResultCount) {
+          router.push(searchResults[cursor].href);
+        } else if (cursor < orgStartIndex) {
+          /* repo is selected */
+          const repoIndex = cursor - searchResultCount;
+          const repo = repos && repos[repoIndex];
+          router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
+        } else {
+          /* org is selected */
+          const orgIndex = cursor - orgStartIndex;
+          const org = orgs && orgs[orgIndex];
+          router.push(`/gh/${org?.name}`);
+        }
       }
-    }
-  };
+    },
+    [cursor],
+  );
 
   return (
     <Container
@@ -350,7 +353,7 @@ export const SearchBox = ({ className }: Props) => {
                       setSearchResults([]);
                     }}
                     repoId={org.repos[0].id}
-                    isSelected={cursor === orgInitIndex + index}
+                    isSelected={cursor === orgStartIndex + index}
                   />
                 );
               })}

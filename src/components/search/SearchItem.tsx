@@ -31,6 +31,7 @@ const Item = styled.div`
   transition: 150ms background-color ease;
   height: ${rem(50)};
   width: 100%;
+  border: ${(props) => (props.isConnected ? '1px solid' : 'none')};
   &:hover {
     background-color: ${BackgroundPanel};
   }
