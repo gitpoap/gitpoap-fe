@@ -238,33 +238,36 @@ export const SearchBox = ({ className }: Props) => {
   }, [isSlashPressed]);
 
   /* Handle keydown on search input box */
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // arrow up/down button should select next/previous list element
-    if (e.code === 'ArrowUp' && cursor > 0) {
-      setCursor((prevCursor) => prevCursor - 1);
-    } else if (e.code === 'ArrowDown' && cursor < totalCount - 1) {
-      setCursor((prevCursor) => prevCursor + 1);
-    } else if (e.code === 'Enter') {
-      setQuery('');
-      setIsSearchActive(false);
-      setSearchResults([]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      // arrow up/down button should select next/previous list element
+      if (e.code === 'ArrowUp' && cursor > 0) {
+        setCursor((prevCursor) => prevCursor - 1);
+      } else if (e.code === 'ArrowDown' && cursor < totalCount - 1) {
+        setCursor((prevCursor) => prevCursor + 1);
+      } else if (e.code === 'Enter') {
+        setQuery('');
+        setIsSearchActive(false);
+        setSearchResults([]);
 
-      /* profile is selected */
-      if (cursor < searchResultCount) {
-        router.push(searchResults[cursor].href);
-      } else if (cursor < orgStartIndex) {
-        /* repo is selected */
-        const repoIndex = cursor - searchResultCount;
-        const repo = repos && repos[repoIndex];
-        router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
-      } else {
-        /* org is selected */
-        const orgIndex = cursor - orgStartIndex;
-        const org = orgs && orgs[orgIndex];
-        router.push(`/gh/${org?.name}`);
+        /* profile is selected */
+        if (cursor < searchResultCount) {
+          router.push(searchResults[cursor].href);
+        } else if (cursor < orgStartIndex) {
+          /* repo is selected */
+          const repoIndex = cursor - searchResultCount;
+          const repo = repos && repos[repoIndex];
+          router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
+        } else {
+          /* org is selected */
+          const orgIndex = cursor - orgStartIndex;
+          const org = orgs && orgs[orgIndex];
+          router.push(`/gh/${org?.name}`);
+        }
       }
-    }
-  };
+    },
+    [cursor, searchResultCount, orgStartIndex, totalCount],
+  );
 
   return (
     <Container
