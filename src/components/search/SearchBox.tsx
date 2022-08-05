@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
+import { useRouter } from 'next/router';
 import { FaSearch } from 'react-icons/fa';
 import { Loader } from '../shared/elements/Loader';
 import { rem } from 'polished';
@@ -8,6 +9,7 @@ import { Input } from '../shared/elements/Input';
 import { GitPOAPBadgeSearchItem, NoResultsSearchItem, ProfileSearchItem } from './SearchItem';
 import { BackgroundPanel2, TextGray } from '../../colors';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
+import { useKeyPress } from '../../hooks/useKeyPress';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import {
   useOrgSearchByNameQuery,
@@ -97,12 +99,16 @@ type Props = {
 };
 
 export const SearchBox = ({ className }: Props) => {
+  const router = useRouter();
   const [query, setQuery] = useState('');
   const { web3Provider, infuraProvider } = useWeb3Context();
   const [debouncedQuery] = useDebouncedValue(query, 200);
   const [searchResults, setSearchResults] = useState<ProfileResult[]>([]);
   const [areResultsLoading, setAreResultsLoading] = useState(false);
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
+  const [cursor, setCursor] = useState<number>(-1);
+  const slashPress = useKeyPress('/');
+
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   useOnClickOutside([inputRef, resultsRef], () => setIsSearchActive(false));
@@ -137,6 +143,13 @@ export const SearchBox = ({ className }: Props) => {
     }
     return 0;
   });
+
+  // auto complete list counts
+  const searchResultCount = searchResults.length < 4 ? searchResults.length : 4;
+  const reposCount = repos?.length || 0;
+  const orgsCount = orgs?.length || 0;
+  const orgInitIndex = searchResultCount + reposCount;
+  const totalCount = searchResultCount + reposCount + orgsCount;
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
@@ -214,7 +227,44 @@ export const SearchBox = ({ className }: Props) => {
   /* This hook is used to clear stored results to ensure no random autocomplete flashes - urql caches results ~ so 🤪 */
   useEffect(() => {
     setSearchResults([]);
+    setCursor(-1);
   }, [query, debouncedQuery]);
+
+  /* This hook is used to set focus on search input */
+  useEffect(() => {
+    if (slashPress) {
+      inputRef.current?.focus();
+    }
+  }, [slashPress]);
+
+  /* Handle keydown on search input box */
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // arrow up/down button should select next/previous list element
+    if (e.code === 'ArrowUp' && cursor > 0) {
+      setCursor((prevCursor) => prevCursor - 1);
+    } else if (e.code === 'ArrowDown' && cursor < totalCount - 1) {
+      setCursor((prevCursor) => prevCursor + 1);
+    } else if (e.code === 'Enter') {
+      setQuery('');
+      setIsSearchActive(false);
+      setSearchResults([]);
+
+      /* profile is selected */
+      if (cursor < searchResultCount) {
+        router.push(searchResults[cursor].href);
+      } else if (cursor < orgInitIndex) {
+        /* repo is selected */
+        const repoIndex = cursor - searchResultCount;
+        const repo = repos && repos[repoIndex];
+        router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
+      } else {
+        /* org is selected */
+        const orgIndex = cursor - orgInitIndex;
+        const org = orgs && orgs[orgIndex];
+        router.push(`/gh/${org?.name}`);
+      }
+    }
+  };
 
   return (
     <Container
@@ -237,6 +287,7 @@ export const SearchBox = ({ className }: Props) => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         icon={isLoading ? <Loader size={18} /> : <FaSearch />}
+        onKeyDown={handleKeyDown}
       />
 
       {isSearchActive && (
@@ -244,7 +295,7 @@ export const SearchBox = ({ className }: Props) => {
           {searchResults.length > 0 && (
             <ResultsSection>
               <SectionTitle>{'Profiles:'}</SectionTitle>
-              {searchResults.slice(0, 4).map((profile) => {
+              {searchResults.slice(0, 4).map((profile, index) => {
                 return (
                   <ProfileSearchItem
                     key={profile.id}
@@ -256,6 +307,7 @@ export const SearchBox = ({ className }: Props) => {
                       setIsSearchActive(false);
                       setSearchResults([]);
                     }}
+                    isSelected={cursor === index}
                   />
                 );
               })}
@@ -264,7 +316,7 @@ export const SearchBox = ({ className }: Props) => {
           {repos && repos?.length > 0 && (
             <ResultsSection>
               <SectionTitle>{'Repos:'}</SectionTitle>
-              {repos.map((repo) => {
+              {repos.map((repo, index) => {
                 return (
                   <GitPOAPBadgeSearchItem
                     key={repo.id}
@@ -277,6 +329,7 @@ export const SearchBox = ({ className }: Props) => {
                       setIsSearchActive(false);
                       setSearchResults([]);
                     }}
+                    isSelected={cursor === searchResultCount + index}
                   />
                 );
               })}
@@ -285,7 +338,7 @@ export const SearchBox = ({ className }: Props) => {
           {sortedOrgs && sortedOrgs?.length > 0 && (
             <ResultsSection>
               <SectionTitle>{'Orgs:'}</SectionTitle>
-              {sortedOrgs.map((org) => {
+              {sortedOrgs.map((org, index) => {
                 return (
                   <GitPOAPBadgeSearchItem
                     key={org.id}
@@ -297,6 +350,7 @@ export const SearchBox = ({ className }: Props) => {
                       setSearchResults([]);
                     }}
                     repoId={org.repos[0].id}
+                    isSelected={cursor === orgInitIndex + index}
                   />
                 );
               })}
