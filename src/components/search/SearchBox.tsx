@@ -244,9 +244,11 @@ export const SearchBox = ({ className }: Props) => {
       // arrow up/down button should select next/previous list element
       if (e.code === 'ArrowUp' && cursor > -1) {
         setCursor((prevCursor) => prevCursor - 1);
+        e.preventDefault();
       } else if (e.code === 'ArrowDown' && cursor < totalCount - 1) {
         setCursor((prevCursor) => prevCursor + 1);
-      } else if (e.code === 'Enter') {
+        e.preventDefault();
+      } else if (e.code === 'Enter' && cursor > -1) {
         setQuery('');
         setIsSearchActive(false);
         setProfileResults([]);
@@ -268,6 +270,7 @@ export const SearchBox = ({ className }: Props) => {
           const org = orgs && orgs[orgIndex];
           router.push(`/gh/${org?.name}`);
         }
+        e.preventDefault();
       }
     },
     [cursor, searchResultCount, orgStartIndex, totalCount],
