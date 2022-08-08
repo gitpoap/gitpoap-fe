@@ -18,13 +18,13 @@ import { Text } from '../shared/elements';
 
 /* Validates on Submit */
 const schema = [
-  // Page 0 - Select Repos
+  // Step 0 - Select Repos
   z.object({}),
-  // Page 1 - Upload Designs
+  // Step 1 - Upload Designs
   z.object({
     whoShouldDesign: z.string(),
   }),
-  // Page 2 - Contact Details
+  // Step 2 - Contact Details
   z.object({
     name: z.string(),
     email: z.string().email({ message: 'Invalid email' }).min(1, { message: 'Email is required' }),
