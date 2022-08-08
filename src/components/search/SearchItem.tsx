@@ -16,9 +16,14 @@ type BaseSearchItemProps = {
   href: string;
   className?: string;
   onClick?: React.MouseEventHandler;
+  isSelected: boolean;
 };
 
-const Item = styled.div`
+type ItemProps = {
+  isSelected?: boolean;
+};
+
+const Item = styled.div<ItemProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -30,6 +35,7 @@ const Item = styled.div`
   transition: 150ms background-color ease;
   height: ${rem(50)};
   width: 100%;
+  background-color: ${(props) => (props.isSelected ? BackgroundPanel : 'transparent')};
   &:hover {
     background-color: ${BackgroundPanel};
   }
@@ -97,6 +103,7 @@ type ProfileSearchItemProps = {
   href: string;
   className?: string;
   onClick?: React.MouseEventHandler;
+  isSelected: boolean;
 };
 
 export const ProfileSearchItem = ({
@@ -105,10 +112,11 @@ export const ProfileSearchItem = ({
   href,
   address,
   ensName,
+  isSelected,
 }: ProfileSearchItemProps) => {
   return (
     <Link passHref href={href}>
-      <Item className={className} onClick={onClick}>
+      <Item className={className} onClick={onClick} isSelected={isSelected}>
         <JazzIcon address={address} />
         <TextContent>
           <ItemText>{ensName ?? truncateAddress(address, 10)}</ItemText>
@@ -126,6 +134,7 @@ export const GitPOAPBadgeSearchItem = ({
   subText,
   href,
   repoId,
+  isSelected,
 }: BaseSearchItemProps & {
   repoId: number;
 }) => {
@@ -140,7 +149,7 @@ export const GitPOAPBadgeSearchItem = ({
   const gitPOAPItem = result.data?.repoGitPOAPs?.gitPOAPs[0];
   return (
     <Link passHref href={href} style={{ width: '100%' }}>
-      <Item className={className} onClick={onClick}>
+      <Item className={className} onClick={onClick} isSelected={isSelected}>
         <Art>
           {gitPOAPItem ? (
             <GitPOAPBadge size="xxxs" imgUrl={gitPOAPItem.event.image_url} disableHoverEffects />

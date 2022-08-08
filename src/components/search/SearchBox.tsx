@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
+import { useRouter } from 'next/router';
 import { FaSearch } from 'react-icons/fa';
 import { Loader } from '../shared/elements/Loader';
 import { rem } from 'polished';
@@ -8,6 +9,7 @@ import { Input } from '../shared/elements/Input';
 import { GitPOAPBadgeSearchItem, NoResultsSearchItem, ProfileSearchItem } from './SearchItem';
 import { BackgroundPanel2, TextGray } from '../../colors';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
+import { useKeyPress } from '../../hooks/useKeyPress';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import {
   useOrgSearchByNameQuery,
@@ -97,12 +99,16 @@ type Props = {
 };
 
 export const SearchBox = ({ className }: Props) => {
+  const router = useRouter();
   const [query, setQuery] = useState('');
   const { web3Provider, infuraProvider } = useWeb3Context();
   const [debouncedQuery] = useDebouncedValue(query, 200);
-  const [searchResults, setSearchResults] = useState<ProfileResult[]>([]);
+  const [profileResults, setProfileResults] = useState<ProfileResult[]>([]);
   const [areResultsLoading, setAreResultsLoading] = useState(false);
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
+  const [cursor, setCursor] = useState<number>(-1);
+  const isSlashPressed = useKeyPress({ targetKey: '/' });
+
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   useOnClickOutside([inputRef, resultsRef], () => setIsSearchActive(false));
@@ -125,7 +131,7 @@ export const SearchBox = ({ className }: Props) => {
   const isLoading =
     result.fetching || repoResults.fetching || orgResults.fetching || areResultsLoading;
   const hasAnyResults =
-    searchResults.length > 0 || (repos && repos?.length > 0) || (orgs && orgs?.length > 0);
+    profileResults.length > 0 || (repos && repos?.length > 0) || (orgs && orgs?.length > 0);
 
   /* Sort orgs based on the most recent repo update time */
   const sortedOrgs = orgs?.sort((a, b) => {
@@ -137,6 +143,13 @@ export const SearchBox = ({ className }: Props) => {
     }
     return 0;
   });
+
+  /* auto complete list counts */
+  const profilesCount = profileResults.length < 4 ? profileResults.length : 4;
+  const reposCount = repos?.length ?? 0;
+  const orgsCount = orgs?.length ?? 0;
+  const orgStartIndex = profilesCount + reposCount;
+  const totalCount = profilesCount + reposCount + orgsCount;
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
@@ -192,7 +205,7 @@ export const SearchBox = ({ className }: Props) => {
           }
         }
         setAreResultsLoading(false);
-        setSearchResults(results);
+        setProfileResults(results);
       }
     };
 
@@ -213,8 +226,55 @@ export const SearchBox = ({ className }: Props) => {
 
   /* This hook is used to clear stored results to ensure no random autocomplete flashes - urql caches results ~ so 🤪 */
   useEffect(() => {
-    setSearchResults([]);
+    setProfileResults([]);
+    setCursor(-1);
   }, [query, debouncedQuery]);
+
+  /* This hook is used to set focus on search input */
+  useEffect(() => {
+    if (isSlashPressed) {
+      setCursor(-1);
+      inputRef.current?.focus();
+    }
+  }, [isSlashPressed]);
+
+  /* Handle keydown on search input box */
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      // arrow up/down button should select next/previous list element
+      if (e.code === 'ArrowUp' && cursor > -1) {
+        setCursor((prevCursor) => prevCursor - 1);
+        e.preventDefault();
+      } else if (e.code === 'ArrowDown' && cursor < totalCount - 1) {
+        setCursor((prevCursor) => prevCursor + 1);
+        e.preventDefault();
+      } else if (e.code === 'Enter' && cursor > -1) {
+        setQuery('');
+        setIsSearchActive(false);
+        setProfileResults([]);
+
+        /* profile is selected */
+        if (cursor < profilesCount) {
+          inputRef.current?.blur();
+          router.push(profileResults[cursor].href);
+        } else if (cursor < orgStartIndex) {
+          inputRef.current?.blur();
+          /* repo is selected */
+          const repoIndex = cursor - profilesCount;
+          const repo = repos && repos[repoIndex];
+          router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
+        } else {
+          inputRef.current?.blur();
+          /* org is selected */
+          const orgIndex = cursor - orgStartIndex;
+          const org = orgs && orgs[orgIndex];
+          router.push(`/gh/${org?.name}`);
+        }
+        e.preventDefault();
+      }
+    },
+    [cursor, profilesCount, orgStartIndex, totalCount],
+  );
 
   return (
     <Container
@@ -237,14 +297,15 @@ export const SearchBox = ({ className }: Props) => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         icon={isLoading ? <Loader size={18} /> : <FaSearch />}
+        onKeyDown={handleKeyDown}
       />
 
       {isSearchActive && (
         <Results ref={resultsRef}>
-          {searchResults.length > 0 && (
+          {profileResults.length > 0 && (
             <ResultsSection>
               <SectionTitle>{'Profiles:'}</SectionTitle>
-              {searchResults.slice(0, 4).map((profile) => {
+              {profileResults.slice(0, 4).map((profile, index) => {
                 return (
                   <ProfileSearchItem
                     key={profile.id}
@@ -254,8 +315,9 @@ export const SearchBox = ({ className }: Props) => {
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);
-                      setSearchResults([]);
+                      setProfileResults([]);
                     }}
+                    isSelected={cursor === index}
                   />
                 );
               })}
@@ -264,7 +326,7 @@ export const SearchBox = ({ className }: Props) => {
           {repos && repos?.length > 0 && (
             <ResultsSection>
               <SectionTitle>{'Repos:'}</SectionTitle>
-              {repos.map((repo) => {
+              {repos.map((repo, index) => {
                 return (
                   <GitPOAPBadgeSearchItem
                     key={repo.id}
@@ -275,8 +337,9 @@ export const SearchBox = ({ className }: Props) => {
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);
-                      setSearchResults([]);
+                      setProfileResults([]);
                     }}
+                    isSelected={cursor === profilesCount + index}
                   />
                 );
               })}
@@ -285,7 +348,7 @@ export const SearchBox = ({ className }: Props) => {
           {sortedOrgs && sortedOrgs?.length > 0 && (
             <ResultsSection>
               <SectionTitle>{'Orgs:'}</SectionTitle>
-              {sortedOrgs.map((org) => {
+              {sortedOrgs.map((org, index) => {
                 return (
                   <GitPOAPBadgeSearchItem
                     key={org.id}
@@ -294,9 +357,10 @@ export const SearchBox = ({ className }: Props) => {
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);
-                      setSearchResults([]);
+                      setProfileResults([]);
                     }}
                     repoId={org.repos[0].id}
+                    isSelected={cursor === orgStartIndex + index}
                   />
                 );
               })}
