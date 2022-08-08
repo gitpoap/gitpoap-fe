@@ -145,11 +145,11 @@ export const SearchBox = ({ className }: Props) => {
   });
 
   /* auto complete list counts */
-  const searchResultCount = profileResults.length < 4 ? profileResults.length : 4;
+  const profilesCount = profileResults.length < 4 ? profileResults.length : 4;
   const reposCount = repos?.length ?? 0;
   const orgsCount = orgs?.length ?? 0;
-  const orgStartIndex = searchResultCount + reposCount;
-  const totalCount = searchResultCount + reposCount + orgsCount;
+  const orgStartIndex = profilesCount + reposCount;
+  const totalCount = profilesCount + reposCount + orgsCount;
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
@@ -254,13 +254,13 @@ export const SearchBox = ({ className }: Props) => {
         setProfileResults([]);
 
         /* profile is selected */
-        if (cursor < searchResultCount) {
+        if (cursor < profilesCount) {
           inputRef.current?.blur();
           router.push(profileResults[cursor].href);
         } else if (cursor < orgStartIndex) {
           inputRef.current?.blur();
           /* repo is selected */
-          const repoIndex = cursor - searchResultCount;
+          const repoIndex = cursor - profilesCount;
           const repo = repos && repos[repoIndex];
           router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
         } else {
@@ -273,7 +273,7 @@ export const SearchBox = ({ className }: Props) => {
         e.preventDefault();
       }
     },
-    [cursor, searchResultCount, orgStartIndex, totalCount],
+    [cursor, profilesCount, orgStartIndex, totalCount],
   );
 
   return (
@@ -339,7 +339,7 @@ export const SearchBox = ({ className }: Props) => {
                       setIsSearchActive(false);
                       setProfileResults([]);
                     }}
-                    isSelected={cursor === searchResultCount + index}
+                    isSelected={cursor === profilesCount + index}
                   />
                 );
               })}
