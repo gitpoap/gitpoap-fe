@@ -1,20 +1,12 @@
 import { useState } from 'react';
-import {
-  Button,
-  Center,
-  Code,
-  Container,
-  Group,
-  Radio,
-  RadioGroup,
-  Stepper,
-  Textarea,
-  TextInput,
-} from '@mantine/core';
+import { Center, Code, Container, Group, Radio, Stepper, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 
+import { Button } from '../shared/elements';
+import { RadioGroup } from '../shared/elements';
 import { Text } from '../shared/elements';
+import { TextArea } from '../shared/elements';
 
 /* Validates on Submit */
 const schema = [
@@ -78,7 +70,7 @@ export const SubmitReposForm = () => {
         <Stepper.Step label="Contact Details">
           <TextInput label="Name" placeholder="Name" {...getInputProps('name')} />
           <TextInput mt="md" label="Email *" placeholder="Email" {...getInputProps('email')} />
-          <Textarea mt="md" label="Notes" placeholder="Notes" {...getInputProps('notes')} />
+          <TextArea mt="md" label="Notes" placeholder="Notes" {...getInputProps('notes')} />
         </Stepper.Step>
 
         <Stepper.Completed>
@@ -87,7 +79,7 @@ export const SubmitReposForm = () => {
               'Thank you you’re #X in the queue. If you’d like to get in touch sooner, shoot an email over to contact team@gitpoap.io'
             }
           </Text>
-          {/* Left in for testing */}
+          {/* Left in for testing! */}
           Completed! Form values:
           <Code block mt="xl">
             {JSON.stringify(values, null, 2)}
