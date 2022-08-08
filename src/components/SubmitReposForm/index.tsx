@@ -26,8 +26,8 @@ const schema = [
   }),
   // Page 2 - Contact Details
   z.object({
-    name: z.string().min(2, { message: 'Name must include at least 2 characters' }),
-    email: z.string().email({ message: 'Invalid email' }),
+    name: z.string(),
+    email: z.string().email({ message: 'Invalid email' }).min(1, { message: 'Email is required' }),
     notes: z.string(),
   }),
 ];
@@ -77,7 +77,7 @@ export const SubmitReposForm = () => {
 
         <Stepper.Step label="Contact Details">
           <TextInput label="Name" placeholder="Name" {...getInputProps('name')} />
-          <TextInput mt="md" label="Email" placeholder="Email" {...getInputProps('email')} />
+          <TextInput mt="md" label="Email *" placeholder="Email" {...getInputProps('email')} />
           <Textarea mt="md" label="Notes" placeholder="Notes" {...getInputProps('notes')} />
         </Stepper.Step>
 
