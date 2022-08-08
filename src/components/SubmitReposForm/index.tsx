@@ -88,11 +88,7 @@ export const SubmitReposForm = () => {
       </Stepper>
 
       <Group position="right" mt="xl">
-        {active !== 0 && (
-          <Button variant="default" onClick={prevStep}>
-            Back
-          </Button>
-        )}
+        {active !== 0 && <Button onClick={prevStep}>Back</Button>}
         {active !== 3 && <Button onClick={nextStep}>Next</Button>}
       </Group>
     </Container>
