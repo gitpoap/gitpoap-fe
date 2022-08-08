@@ -123,7 +123,7 @@ const repos = [
   { repoData: repo4, checked: false, orgName: repo4.organization.name, key: repo4.githubRepoId },
 ];
 
-export const ProjectForm = () => {
+export const SubmitReposForm = () => {
   const [active, setActive] = useState(0);
   const [designValue, setDesignValue] = useState('gitpoap');
 
@@ -163,7 +163,7 @@ export const ProjectForm = () => {
       }
       return current < 3 ? current + 1 : current;
     });
-
+  B;
   const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
   useEffect(() => console.log(form.values), [form.values]);
