@@ -60,7 +60,7 @@ const Home: Page = () => {
       <Grid justify="center" style={{ zIndex: 0, position: 'relative' }}>
         <Background />
         <Grid.Col xs={11} md={8} style={{ zIndex: 0 }}>
-          <HeaderStyled>{'Build your decentralized professional identity'}</HeaderStyled>
+          <HeaderStyled>{'Build your decentralized professional reputation'}</HeaderStyled>
         </Grid.Col>
         <Grid.Col xs={11} md={8}>
           <BannerStats />
