@@ -98,7 +98,9 @@ Migrations are granular sets of database schema changes that track the evolution
 
 When setting up a development environment, migrations are applied sequentially to a new, untouched DB. Iterating through all the migrations associated with a database will result in a database with a schema that reflects its current form.
 
-To run migrations within the `gitpoap-backend` repository, do the following. First, make your schema change within `schema.prisma`, then run `npx prisma migrate dev --name <name>` to generate the migration file. Finally, commit these changes to a version control system.
+To create a new migration within the `gitpoap-backend` repository, do the following. First, make your schema change within `schema.prisma`, then run `npx prisma migrate dev --name <name>` to generate the migration file. Finally, commit these changes to a version control system.
+
+To run all migrations, run `npx prisma migrate dev`.
 
 For more information, refer to the prisma [documentation on migrations](https://www.prisma.io/docs/concepts/components/prisma-migrate).
 
