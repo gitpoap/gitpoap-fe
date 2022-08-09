@@ -15,7 +15,7 @@ import {
   useOrgSearchByNameQuery,
   useRepoSearchByNameQuery,
   useSearchForStringQuery,
-  useGitPOAPSearchByNameQuery,
+  useGitPoapSearchByNameQuery,
 } from '../../graphql/generated-gql';
 import { Text } from '@mantine/core';
 import { BREAKPOINTS } from '../../constants';
@@ -126,7 +126,7 @@ export const SearchBox = ({ className }: Props) => {
     pause: true,
     variables: { search: debouncedQuery.trim() },
   });
-  const [gitPOAPResults, refetchGitPoaps] = useGitPOAPSearchByNameQuery({
+  const [gitPOAPResults, refetchGitPoaps] = useGitPoapSearchByNameQuery({
     pause: true,
     variables: {
       search: debouncedQuery.trim(),
