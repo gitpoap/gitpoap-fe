@@ -359,7 +359,7 @@ export const SearchBox = ({ className }: Props) => {
                     href={`/gh/${repo.organization.name}/${repo.name}`}
                     text={repo.name}
                     subText={repo.organization.name}
-                    repoId={repo.id}
+                    imageUrl={repo.project.gitPOAPs[0].imageUrl}
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);
@@ -385,7 +385,7 @@ export const SearchBox = ({ className }: Props) => {
                       setIsSearchActive(false);
                       setProfileResults([]);
                     }}
-                    repoId={org.repos[0].id}
+                    imageUrl={org.repos[0].project.gitPOAPs[0].imageUrl}
                     isSelected={cursor === orgStartIndex + index}
                   />
                 );
@@ -401,12 +401,13 @@ export const SearchBox = ({ className }: Props) => {
                     key={gitPOAP.id}
                     href={`/gp/${gitPOAP.id}`}
                     text={gitPOAP.name}
+                    subText={gitPOAP.description}
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);
                       setProfileResults([]);
                     }}
-                    repoId={gitPOAP.project.repos[0].id}
+                    imageUrl={gitPOAP.imageUrl}
                     isSelected={cursor === gitPOAPStartIndex + index}
                   />
                 );

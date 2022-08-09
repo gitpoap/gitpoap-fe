@@ -4191,12 +4191,12 @@ export type RepoSearchByNameQuery = {
     name: string;
     organization: { __typename?: 'Organization'; name: string };
     project: {
-      gitPOAPs: {
+      gitPOAPs: Array<{
         id: number;
         name: string;
         description: string;
         imageUrl: string;
-      };
+      }>;
     };
   }>;
 };
@@ -4217,12 +4217,12 @@ export type OrgSearchByNameQuery = {
       name: string;
       lastPRUpdatedAt: any;
       project: {
-        gitPOAPs: {
+        gitPOAPs: Array<{
           id: number;
           name: string;
           description: string;
           imageUrl: string;
-        };
+        }>;
       };
     }>;
   }>;
