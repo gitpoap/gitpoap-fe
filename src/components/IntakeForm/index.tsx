@@ -14,7 +14,7 @@ const schema = [
   z.object({}),
   // Step 1 - Upload Designs
   z.object({
-    whoShouldDesign: z.string(),
+    shouldGitPOAPDesign: z.string(),
   }),
   // Step 2 - Contact Details
   z.object({
@@ -24,13 +24,13 @@ const schema = [
   }),
 ];
 
-export const SubmitReposForm = () => {
+export const IntakeForm = () => {
   const [active, setActive] = useState(0);
 
   const { values, getInputProps, validate } = useForm({
     schema: zodResolver(schema[active]),
     initialValues: {
-      whoShouldDesign: 'gitpoap',
+      shouldGitPOAPDesign: 'true',
       name: '',
       email: '',
       notes: '',
@@ -40,7 +40,6 @@ export const SubmitReposForm = () => {
   const nextStep = () =>
     setActive((current) => {
       if (validate().hasErrors) {
-        console.log('has Errors');
         return current;
       }
       return current < 3 ? current + 1 : current;
@@ -56,13 +55,13 @@ export const SubmitReposForm = () => {
 
         <Stepper.Step label="Upload Designs">
           <Center mt="xl" mb="xl">
-            <RadioGroup orientation="vertical" required {...getInputProps('whoShouldDesign')}>
+            <RadioGroup orientation="vertical" required {...getInputProps('shouldGitPOAPDesign')}>
               <Radio
-                value="gitpoap"
+                value="true"
                 label={<Text>{'Have our designers create your GitPOAPs'}</Text>}
                 defaultChecked
               />
-              <Radio value="user" label={<Text>{'Submit your own designs'}</Text>} />
+              <Radio value="false" label={<Text>{'Submit your own designs'}</Text>} />
             </RadioGroup>
           </Center>
         </Stepper.Step>
@@ -76,7 +75,7 @@ export const SubmitReposForm = () => {
         <Stepper.Completed>
           <Text>
             {
-              'Thank you you’re #X in the queue. If you’d like to get in touch sooner, shoot an email over to contact team@gitpoap.io'
+              'Thank you you’re #X in the queue. If you’d like to get in touch sooner, shoot an email over to team@gitpoap.io'
             }
           </Text>
           {/* Left in for testing! */}
