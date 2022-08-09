@@ -15,6 +15,7 @@ import {
   useOrgSearchByNameQuery,
   useRepoSearchByNameQuery,
   useSearchForStringQuery,
+  useGitPOAPSearchByNameQuery,
 } from '../../graphql/generated-gql';
 import { Text } from '@mantine/core';
 import { BREAKPOINTS } from '../../constants';
@@ -125,13 +126,27 @@ export const SearchBox = ({ className }: Props) => {
     pause: true,
     variables: { search: debouncedQuery.trim() },
   });
+  const [gitPOAPResults, refetchGitPoaps] = useGitPOAPSearchByNameQuery({
+    pause: true,
+    variables: {
+      search: debouncedQuery.trim(),
+    },
+  });
 
   const repos = repoResults.data?.repos;
   const orgs = orgResults.data?.organizations;
+  const gitPOAPs = gitPOAPResults.data?.gitPOAPS;
   const isLoading =
-    result.fetching || repoResults.fetching || orgResults.fetching || areResultsLoading;
+    result.fetching ||
+    repoResults.fetching ||
+    orgResults.fetching ||
+    gitPOAPResults.fetching ||
+    areResultsLoading;
   const hasAnyResults =
-    profileResults.length > 0 || (repos && repos?.length > 0) || (orgs && orgs?.length > 0);
+    profileResults.length > 0 ||
+    (repos && repos?.length > 0) ||
+    (orgs && orgs?.length > 0) ||
+    (gitPOAPs && gitPOAPs?.length > 0);
 
   /* Sort orgs based on the most recent repo update time */
   const sortedOrgs = orgs?.sort((a, b) => {
@@ -148,8 +163,10 @@ export const SearchBox = ({ className }: Props) => {
   const profilesCount = profileResults.length < 4 ? profileResults.length : 4;
   const reposCount = repos?.length ?? 0;
   const orgsCount = orgs?.length ?? 0;
+  const gitPOAPCount = gitPOAPs?.length ?? 0;
   const orgStartIndex = profilesCount + reposCount;
-  const totalCount = profilesCount + reposCount + orgsCount;
+  const gitPOAPStartIndex = profilesCount + reposCount + orgsCount;
+  const totalCount = profilesCount + reposCount + orgsCount + gitPOAPCount;
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
@@ -221,8 +238,11 @@ export const SearchBox = ({ className }: Props) => {
       if (refetchOrgs) {
         refetchOrgs();
       }
+      if (refetchGitPoaps) {
+        refetchGitPoaps();
+      }
     }
-  }, [debouncedQuery, refetchProfiles, refetchOrgs]);
+  }, [debouncedQuery, refetchProfiles, refetchOrgs, refetchGitPoaps]);
 
   /* This hook is used to clear stored results to ensure no random autocomplete flashes - urql caches results ~ so 🤪 */
   useEffect(() => {
@@ -263,12 +283,18 @@ export const SearchBox = ({ className }: Props) => {
           const repoIndex = cursor - profilesCount;
           const repo = repos && repos[repoIndex];
           router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
-        } else {
+        } else if (cursor < gitPOAPStartIndex) {
           inputRef.current?.blur();
           /* org is selected */
           const orgIndex = cursor - orgStartIndex;
           const org = orgs && orgs[orgIndex];
           router.push(`/gh/${org?.name}`);
+        } else {
+          inputRef.current?.blur();
+          /* gitPOAP is selected */
+          const gitPOAPIndex = cursor - gitPOAPStartIndex;
+          const gitPOAP = gitPOAPs && gitPOAPs[gitPOAPIndex];
+          router.push(`/gp/${gitPOAP?.id}`);
         }
         e.preventDefault();
       }
@@ -361,6 +387,27 @@ export const SearchBox = ({ className }: Props) => {
                     }}
                     repoId={org.repos[0].id}
                     isSelected={cursor === orgStartIndex + index}
+                  />
+                );
+              })}
+            </ResultsSection>
+          )}
+          {gitPOAPs && gitPOAPs?.length > 0 && (
+            <ResultsSection>
+              <SectionTitle>{'GitPOAPs:'}</SectionTitle>
+              {gitPOAPs.map((gitPOAP, index) => {
+                return (
+                  <GitPOAPBadgeSearchItem
+                    key={gitPOAP.id}
+                    href={`/gp/${gitPOAP.id}`}
+                    text={gitPOAP.name}
+                    onClick={() => {
+                      setQuery('');
+                      setIsSearchActive(false);
+                      setProfileResults([]);
+                    }}
+                    repoId={gitPOAP.project.repos[0].id}
+                    isSelected={cursor === gitPOAPStartIndex + index}
                   />
                 );
               })}

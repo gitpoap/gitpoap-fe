@@ -604,3 +604,18 @@ query orgSearchByName($search: String!) {
     }
   }
 }
+
+# For the search bar
+query gitPOAPSearchByName($search: String!) {
+  gitPOAPS(take: 4, where: { name: { contains: $search, mode: insensitive } }) {
+    id
+    name
+    project {
+      repos(orderBy: { lastPRUpdatedAt: desc }) {
+        id
+        name
+        lastPRUpdatedAt
+      }
+    }
+  }
+}

@@ -4207,6 +4207,22 @@ export type OrgSearchByNameQuery = {
   }>;
 };
 
+export type GitPOAPSearchByNameQueryVariables = Exact<{
+  search: Scalars['String'];
+}>;
+
+export type GitPOAPSearchByNameQuery = {
+  __typename?: 'Query';
+  gitPOAPS: Array<{
+    __typename?: 'GitPOAP';
+    id: number;
+    name: string;
+    project: {
+      repos: Array<{ __typename?: 'Repo'; id: number; name: string; lastPRUpdatedAt: any }>;
+    };
+  }>;
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -5155,4 +5171,29 @@ export function useOrgSearchByNameQuery(
   options: Omit<Urql.UseQueryArgs<OrgSearchByNameQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<OrgSearchByNameQuery>({ query: OrgSearchByNameDocument, ...options });
+}
+
+export const GitPOAPSearchByNameDocument = gql`
+  query gitPOAPSearchByName($search: String!) {
+    gitPOAPS(take: 4, where: { name: { contains: $search, mode: insensitive } }) {
+      id
+      name
+      project {
+        repos(orderBy: { lastPRUpdatedAt: desc }) {
+          id
+          name
+          lastPRUpdatedAt
+        }
+      }
+    }
+  }
+`;
+
+export function useGitPOAPSearchByNameQuery(
+  options: Omit<Urql.UseQueryArgs<GitPOAPSearchByNameQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<GitPOAPSearchByNameQuery>({
+    query: GitPOAPSearchByNameDocument,
+    ...options,
+  });
 }
