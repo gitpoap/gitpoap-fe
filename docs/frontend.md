@@ -25,7 +25,7 @@ That said, we'll start by offering a set of best practices and answers to genera
 
 
 ### TypeScript
-All code related to frontend applications, and the vast majority of code in general at GitPOAP should be written in TypeScript with `strict-mode` enabled and use meaningful type declarations.
+All code related to frontend applications, and the vast majority of code in general at GitPOAP should be written in TypeScript with `strict-mode` enabled and should use meaningful type declarations.
 
 
 ### Code Formatting
@@ -33,7 +33,7 @@ All code should be formatted by prettier in the `gitpoap-fe` & `gitpoap-backend`
 
 
 ### Code Style & Preferences
-All code should be written in a consistent style. This is a very important part of the team's culture, and we expect all code to be written in a consistent style to reduce the amount of work needed to maintain the codebase & vastly minimize the amount of time & attention wasted on debating code style.
+All code should be written in a consistent style - this is an important part of the team's culture that result in the reduction of the amount of work needed to maintain the codebase & also vastly minimizes the amount of time & attention wasted on debating code style.
 
 1. Write comments with the style `/* comment body */`.
 
@@ -88,10 +88,10 @@ The first command `yarn docker:background` starts all services in the backend st
 
 The second command `./.dockerfiles/run-server.sh` runs the initial DB migrations, seed script, and then starts the server.
 
-Since the seed script can't be run twice, run `yarn dev --level debug` instead of `run-server.sh` in order to start the backend after running `run-server.sh` once.
+Since the seed script can't be run twice, run `yarn dev --level debug` instead of `run-server.sh` in order to start the backend after running `run-server.sh` that first initial time.
 
 ### How to run the frontend server?
-To start an instance of the server found in `gitpoap-fe`, simply run `yarn` to install all packages, and then run `yarn dev`.
+To start an instance of the server found in `gitpoap-fe`, simply run `yarn` to install dependencies, and then run `yarn dev`. To test whether the frontend builds properly, run `yarn build` and inspect the output.
 
 ### How do migrations work?
 Migrations are granular sets of database schema changes that track the evolution of the schema over time. A benefit of this practice is the ability to track schema changes over time within a version control system such as Git.
