@@ -18,7 +18,7 @@ That said, we'll start by offering a set of best practices and answers to genera
   - [How to run the frontend server?](#how-to-run-the-frontend-server)
   - [How do migrations work?](#how-do-migrations-work)
   - [How do you connect to the production DB client?](#how-do-you-connect-to-the-production-db-client)
-  - [How do you automatically generate GraphQL types & React hooks on the frontend?](#how-do-you-automatically-generate-graphql-types-react-hooks-on-the-frontend)
+  - [How do you generate GraphQL types and React hooks on the frontend?](#how-do-you-generate-graphql-types-and-react-hooks-on-the-frontend)
 
 
 ## Best Practices
@@ -110,7 +110,7 @@ To connect to the production DB client, ask a senior member of the team for the 
 ssh -i .ssh/db-client-key-pair.pem ubuntu@ec2-18-220-67-80.us-east-2.compute.amazonaws.com
 ```
 
-### How do you generate GraphQL types & React hooks on the frontend?
+### How do you generate GraphQL types and React hooks on the frontend?
 To run the graphql code generation tool, run `yarn gql:generate` - this generates code based on the schema found at `api.gitpoap.io/graphql` that is based on the `main` branch.
 
 To run the tool for development purposes, run `yarn gql:generate-dev`. Ensure that `gitpoap-backend` is located in the same parent directory as `gitpoap-fe`. This generates code based on the query definitions found in `../gitpoap-fe/operations.gql` & validates the queries against the schema found at `../gitpoap-backend/schema.graphql`.
