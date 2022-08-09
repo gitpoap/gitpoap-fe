@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Center, Code, Container, Group, Radio, Stepper, TextInput } from '@mantine/core';
+import { Center, Code, Container, Group, Radio, Stepper } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 
 import { Button } from '../shared/elements';
+import { Input } from '../shared/elements';
 import { RadioGroup } from '../shared/elements';
 import { Text } from '../shared/elements';
 import { TextArea } from '../shared/elements';
@@ -67,9 +68,26 @@ export const IntakeForm = () => {
         </Stepper.Step>
 
         <Stepper.Step label="Contact Details">
-          <TextInput label="Name" placeholder="Name" {...getInputProps('name')} />
-          <TextInput mt="md" label="Email *" placeholder="Email" {...getInputProps('email')} />
-          <TextArea mt="md" label="Notes" placeholder="Notes" {...getInputProps('notes')} />
+          <Input
+            style={{ width: '100%' }}
+            label="Name"
+            placeholder="Name"
+            {...getInputProps('name')}
+          />
+          <Input
+            style={{ width: '100%' }}
+            mt="md"
+            label="Email *"
+            placeholder="Email"
+            {...getInputProps('email')}
+          />
+          <TextArea
+            style={{ width: '100%' }}
+            mt="md"
+            label="Notes"
+            placeholder="Notes"
+            {...getInputProps('notes')}
+          />
         </Stepper.Step>
 
         <Stepper.Completed>
