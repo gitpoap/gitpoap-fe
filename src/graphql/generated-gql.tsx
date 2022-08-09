@@ -5153,9 +5153,9 @@ export function useCountClaimsWithPullRequestEarnedQuery(
   });
 }
 export const RepoSearchByNameDocument = gql`
-  query repoSearchByName($search: String!) {
+  query repoSearchByName($search: String!, $take: Int = 4) {
     repos(
-      take: 4
+      take: $take
       where: { name: { contains: $search, mode: insensitive } }
       orderBy: { lastPRUpdatedAt: desc }
     ) {
@@ -5182,8 +5182,8 @@ export function useRepoSearchByNameQuery(
   return Urql.useQuery<RepoSearchByNameQuery>({ query: RepoSearchByNameDocument, ...options });
 }
 export const OrgSearchByNameDocument = gql`
-  query orgSearchByName($search: String!) {
-    organizations(take: 4, where: { name: { contains: $search, mode: insensitive } }) {
+  query orgSearchByName($search: String!, $take: Int = 4) {
+    organizations(take: $take, where: { name: { contains: $search, mode: insensitive } }) {
       id
       name
       repos(orderBy: { lastPRUpdatedAt: desc }) {
@@ -5210,8 +5210,16 @@ export function useOrgSearchByNameQuery(
 }
 
 export const GitPOAPSearchByNameDocument = gql`
-  query gitPOAPSearchByName($search: String!) {
-    gitPOAPS(take: 4, where: { name: { contains: $search, mode: insensitive } }) {
+  query gitPOAPSearchByName($search: String!, $take: Int = 4) {
+    gitPOAPS(
+      take: $take
+      where: {
+        OR: [
+          { name: { contains: $search, mode: insensitive } }
+          { description: { contains: $search, mode: insensitive } }
+        ]
+      }
+    ) {
       id
       name
       description

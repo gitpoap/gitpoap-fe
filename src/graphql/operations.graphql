@@ -578,7 +578,7 @@ query countClaimsWithPullRequestEarned {
 }
 
 # For the search bar
-query repoSearchByName($search: String!, $take: Number = 4) {
+query repoSearchByName($search: String!, $take: Int = 4) {
   repos(
     take: $take
     where: { name: { contains: $search, mode: insensitive } }
@@ -601,7 +601,7 @@ query repoSearchByName($search: String!, $take: Number = 4) {
 }
 
 # For the search bar
-query orgSearchByName($search: String!, $take: Number = 4) {
+query orgSearchByName($search: String!, $take: Int = 4) {
   organizations(take: $take, where: { name: { contains: $search, mode: insensitive } }) {
     id
     name
@@ -622,8 +622,8 @@ query orgSearchByName($search: String!, $take: Number = 4) {
 }
 
 # For the search bar
-query gitPOAPSearchByName($search: String!, $take: Number = 4) {
-  gitPOAPS(take: $take, where: { name: { contains: $search, mode: insensitive } }) {
+query gitPOAPSearchByName($search: String!, $take: Int = 4) {
+  gitPOAPS(take: $take, where: { OR: [{name: { contains: $search, mode: insensitive }}, {description: { contains: $search, mode: insensitive } }]}) {
     id
     name
     description
