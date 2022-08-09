@@ -589,6 +589,14 @@ query repoSearchByName($search: String!) {
     organization {
       name
     }
+    project {
+      gitPOAPs {
+        id
+        name
+        description
+        imageUrl
+      }
+    }
   }
 }
 
@@ -601,6 +609,14 @@ query orgSearchByName($search: String!) {
       id
       name
       lastPRUpdatedAt
+      project {
+        gitPOAPs {
+          id
+          name
+          description
+          imageUrl
+        }
+      }
     }
   }
 }
@@ -610,12 +626,7 @@ query gitPOAPSearchByName($search: String!) {
   gitPOAPS(take: 4, where: { name: { contains: $search, mode: insensitive } }) {
     id
     name
-    project {
-      repos(orderBy: { lastPRUpdatedAt: desc }) {
-        id
-        name
-        lastPRUpdatedAt
-      }
-    }
+    description
+    imageUrl
   }
 }

@@ -4190,6 +4190,14 @@ export type RepoSearchByNameQuery = {
     id: number;
     name: string;
     organization: { __typename?: 'Organization'; name: string };
+    project: {
+      gitPOAPs: {
+        id: number;
+        name: string;
+        description: string;
+        imageUrl: string;
+      };
+    };
   }>;
 };
 
@@ -4203,7 +4211,20 @@ export type OrgSearchByNameQuery = {
     __typename?: 'Organization';
     id: number;
     name: string;
-    repos: Array<{ __typename?: 'Repo'; id: number; name: string; lastPRUpdatedAt: any }>;
+    repos: Array<{
+      __typename?: 'Repo';
+      id: number;
+      name: string;
+      lastPRUpdatedAt: any;
+      project: {
+        gitPOAPs: {
+          id: number;
+          name: string;
+          description: string;
+          imageUrl: string;
+        };
+      };
+    }>;
   }>;
 };
 
@@ -4217,9 +4238,8 @@ export type GitPOAPSearchByNameQuery = {
     __typename?: 'GitPOAP';
     id: number;
     name: string;
-    project: {
-      repos: Array<{ __typename?: 'Repo'; id: number; name: string; lastPRUpdatedAt: any }>;
-    };
+    description: string;
+    imageUrl: string;
   }>;
 };
 
@@ -5144,6 +5164,14 @@ export const RepoSearchByNameDocument = gql`
       organization {
         name
       }
+      project {
+        gitPOAPs {
+          id
+          name
+          description
+          imageUrl
+        }
+      }
     }
   }
 `;
@@ -5162,6 +5190,14 @@ export const OrgSearchByNameDocument = gql`
         id
         name
         lastPRUpdatedAt
+        project {
+          gitPOAPs {
+            id
+            name
+            description
+            imageUrl
+          }
+        }
       }
     }
   }
@@ -5178,13 +5214,8 @@ export const GitPOAPSearchByNameDocument = gql`
     gitPOAPS(take: 4, where: { name: { contains: $search, mode: insensitive } }) {
       id
       name
-      project {
-        repos(orderBy: { lastPRUpdatedAt: desc }) {
-          id
-          name
-          lastPRUpdatedAt
-        }
-      }
+      description
+      imageUrl
     }
   }
 `;
