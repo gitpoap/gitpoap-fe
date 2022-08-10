@@ -84,6 +84,7 @@
     "react-test-renderer": "^17.0.2",
     "sb": "^6.4.14",
     "source-map-explorer": "^2.5.2",
+    "storybook-addon-mock": "^2.4.1",
     "storybook-addon-next-router": "^3.1.1",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
