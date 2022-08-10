@@ -31,9 +31,7 @@ IntakeForm.parameters = {
       url: 'http://localhost:3001/onboarding/github/repos',
       method: 'GET',
       status: 200,
-      response: {
-        ReposResponse,
-      },
+      response: ReposResponse,
     },
   ],
 };
@@ -47,9 +45,7 @@ IntakeFormNoRepos.parameters = {
       url: 'http://localhost:3001/onboarding/github/repos',
       method: 'GET',
       status: 200,
-      response: {
-        ReposResponse: [],
-      },
+      response: [],
     },
   ],
 };
@@ -63,9 +59,7 @@ IntakeFormNoAdminRepos.parameters = {
       url: 'http://localhost:3001/onboarding/github/repos',
       method: 'GET',
       status: 200,
-      response: {
-        ReposResponse: [ReposResponse[0]],
-      },
+      response: [ReposResponse[0]],
     },
   ],
 };

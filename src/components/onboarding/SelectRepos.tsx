@@ -1,5 +1,6 @@
-import { Checkbox, Container, Divider, Group, List } from '@mantine/core';
+import { Container, Divider, Group, List } from '@mantine/core';
 
+import { Checkbox } from '../shared/elements';
 import { ExtraRed } from '../../colors';
 import { Text } from '../shared/elements';
 import { Repo } from './util';

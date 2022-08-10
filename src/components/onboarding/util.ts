@@ -46,8 +46,8 @@ const ImageFileSchema = z
     '.jpg, .jpeg, .png and .webp files are accepted.',
   );
 
-export const createSchema = (active: number, shouldGitPOAPDesign: boolean) => {
-  switch (active) {
+export const createSchema = (stage: number, shouldGitPOAPDesign: boolean) => {
+  switch (stage) {
     case 0:
       return z.object({
         repos: z.array(repoSchema).min(1, { message: 'Select at least once repo' }),
