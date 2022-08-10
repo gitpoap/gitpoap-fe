@@ -5217,7 +5217,7 @@ export const RepoSearchByNameDocument = gql`
         name
       }
       project {
-        gitPOAPs {
+        gitPOAPs(take: 1) {
           id
           name
           description
@@ -5243,7 +5243,7 @@ export const OrgSearchByNameDocument = gql`
         name
         lastPRUpdatedAt
         project {
-          gitPOAPs {
+          gitPOAPs(take: 1) {
             id
             name
             description
