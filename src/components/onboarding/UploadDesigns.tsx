@@ -1,9 +1,26 @@
-import { Container, Image, Radio, SimpleGrid } from '@mantine/core';
+import { Container, CloseButton, Image, Radio, SimpleGrid } from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
+import styled from 'styled-components';
 
 import { ExtraRed } from '../../colors';
 import { RadioGroup, Text } from '../shared/elements';
 import { ACCEPTED_IMAGE_TYPES } from './util';
+
+const RemoveImageButton = styled(CloseButton)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 100;
+  color: ${ExtraRed};
+  display: none;
+`;
+
+const ImageContainer = styled.div`
+  position: relative;
+  &:hover ${RemoveImageButton} {
+    display: block;
+  }
+`;
 
 type Props = {
   errors: any;
@@ -19,11 +36,19 @@ export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: 
   const previews = values.images.map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
     return (
-      <Image
-        key={index}
-        src={imageUrl}
-        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
-      />
+      <ImageContainer key={'image-' + index}>
+        <RemoveImageButton
+          iconSize={20}
+          size="md"
+          onClick={() =>
+            setFieldValue(
+              `images`,
+              values.images.filter((f, i) => i !== index),
+            )
+          }
+        />
+        <Image src={imageUrl} imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }} />
+      </ImageContainer>
     );
   });
 
