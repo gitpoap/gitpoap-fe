@@ -15,6 +15,7 @@ import {
   useOrgSearchByNameQuery,
   useRepoSearchByNameQuery,
   useSearchForStringQuery,
+  useGitPoapSearchByNameQuery,
 } from '../../graphql/generated-gql';
 import { Text } from '@mantine/core';
 import { BREAKPOINTS } from '../../constants';
@@ -125,13 +126,27 @@ export const SearchBox = ({ className }: Props) => {
     pause: true,
     variables: { search: debouncedQuery.trim() },
   });
+  const [gitPOAPResults, refetchGitPoaps] = useGitPoapSearchByNameQuery({
+    pause: true,
+    variables: {
+      search: debouncedQuery.trim(),
+    },
+  });
 
   const repos = repoResults.data?.repos;
   const orgs = orgResults.data?.organizations;
+  const gitPOAPs = gitPOAPResults.data?.gitPOAPS;
   const isLoading =
-    result.fetching || repoResults.fetching || orgResults.fetching || areResultsLoading;
+    result.fetching ||
+    repoResults.fetching ||
+    orgResults.fetching ||
+    gitPOAPResults.fetching ||
+    areResultsLoading;
   const hasAnyResults =
-    profileResults.length > 0 || (repos && repos?.length > 0) || (orgs && orgs?.length > 0);
+    profileResults.length > 0 ||
+    (repos && repos?.length > 0) ||
+    (orgs && orgs?.length > 0) ||
+    (gitPOAPs && gitPOAPs?.length > 0);
 
   /* Sort orgs based on the most recent repo update time */
   const sortedOrgs = orgs?.sort((a, b) => {
@@ -148,8 +163,10 @@ export const SearchBox = ({ className }: Props) => {
   const profilesCount = profileResults.length < 4 ? profileResults.length : 4;
   const reposCount = repos?.length ?? 0;
   const orgsCount = orgs?.length ?? 0;
-  const orgStartIndex = profilesCount + reposCount;
-  const totalCount = profilesCount + reposCount + orgsCount;
+  const gitPOAPCount = gitPOAPs?.length ?? 0;
+  const repoStartIndex = profilesCount + gitPOAPCount;
+  const orgStartIndex = profilesCount + gitPOAPCount + reposCount;
+  const totalCount = profilesCount + gitPOAPCount + reposCount + orgsCount;
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
@@ -221,8 +238,11 @@ export const SearchBox = ({ className }: Props) => {
       if (refetchOrgs) {
         refetchOrgs();
       }
+      if (refetchGitPoaps) {
+        refetchGitPoaps();
+      }
     }
-  }, [debouncedQuery, refetchProfiles, refetchOrgs]);
+  }, [debouncedQuery, refetchProfiles, refetchOrgs, refetchGitPoaps]);
 
   /* This hook is used to clear stored results to ensure no random autocomplete flashes - urql caches results ~ so 🤪 */
   useEffect(() => {
@@ -257,10 +277,16 @@ export const SearchBox = ({ className }: Props) => {
         if (cursor < profilesCount) {
           inputRef.current?.blur();
           router.push(profileResults[cursor].href);
+        } else if (cursor < repoStartIndex) {
+          inputRef.current?.blur();
+          /* gitPOAP is selected */
+          const gitPOAPIndex = cursor - profilesCount;
+          const gitPOAP = gitPOAPs && gitPOAPs[gitPOAPIndex];
+          router.push(`/gp/${gitPOAP?.id}`);
         } else if (cursor < orgStartIndex) {
           inputRef.current?.blur();
           /* repo is selected */
-          const repoIndex = cursor - profilesCount;
+          const repoIndex = cursor - repoStartIndex;
           const repo = repos && repos[repoIndex];
           router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
         } else {
@@ -323,6 +349,29 @@ export const SearchBox = ({ className }: Props) => {
               })}
             </ResultsSection>
           )}
+          {gitPOAPs && gitPOAPs?.length > 0 && (
+            <ResultsSection>
+              <SectionTitle>{'GitPOAPs:'}</SectionTitle>
+              {gitPOAPs.map((gitPOAP, index) => {
+                return (
+                  <GitPOAPBadgeSearchItem
+                    key={gitPOAP.id}
+                    href={`/gp/${gitPOAP.id}`}
+                    text={
+                      gitPOAP.name.startsWith('GitPOAP: ') ? gitPOAP.name.slice(8) : gitPOAP.name
+                    }
+                    onClick={() => {
+                      setQuery('');
+                      setIsSearchActive(false);
+                      setProfileResults([]);
+                    }}
+                    imageUrl={gitPOAP.imageUrl}
+                    isSelected={cursor === profilesCount + index}
+                  />
+                );
+              })}
+            </ResultsSection>
+          )}
           {repos && repos?.length > 0 && (
             <ResultsSection>
               <SectionTitle>{'Repos:'}</SectionTitle>
@@ -333,13 +382,13 @@ export const SearchBox = ({ className }: Props) => {
                     href={`/gh/${repo.organization.name}/${repo.name}`}
                     text={repo.name}
                     subText={repo.organization.name}
-                    repoId={repo.id}
+                    imageUrl={repo.project.gitPOAPs[0].imageUrl}
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);
                       setProfileResults([]);
                     }}
-                    isSelected={cursor === profilesCount + index}
+                    isSelected={cursor === repoStartIndex + index}
                   />
                 );
               })}
@@ -359,7 +408,7 @@ export const SearchBox = ({ className }: Props) => {
                       setIsSearchActive(false);
                       setProfileResults([]);
                     }}
-                    repoId={org.repos[0].id}
+                    imageUrl={org.repos[0].project.gitPOAPs[0].imageUrl}
                     isSelected={cursor === orgStartIndex + index}
                   />
                 );

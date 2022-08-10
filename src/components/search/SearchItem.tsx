@@ -17,6 +17,7 @@ type BaseSearchItemProps = {
   className?: string;
   onClick?: React.MouseEventHandler;
   isSelected: boolean;
+  imageUrl: string;
 };
 
 type ItemProps = {
@@ -133,26 +134,15 @@ export const GitPOAPBadgeSearchItem = ({
   text,
   subText,
   href,
-  repoId,
   isSelected,
-}: BaseSearchItemProps & {
-  repoId: number;
-}) => {
-  const [result] = useRepoGitPoapsQuery({
-    variables: {
-      repoId,
-      page: 1,
-      perPage: 1,
-    },
-  });
-
-  const gitPOAPItem = result.data?.repoGitPOAPs?.gitPOAPs[0];
+  imageUrl,
+}: BaseSearchItemProps) => {
   return (
     <Link passHref href={href} style={{ width: '100%' }}>
       <Item className={className} onClick={onClick} isSelected={isSelected}>
         <Art>
-          {gitPOAPItem ? (
-            <GitPOAPBadge size="xxxs" imgUrl={gitPOAPItem.event.image_url} disableHoverEffects />
+          {imageUrl ? (
+            <GitPOAPBadge size="xxxs" imgUrl={imageUrl} disableHoverEffects />
           ) : (
             <BaseSkeleton height={rem(38)} circle />
           )}
