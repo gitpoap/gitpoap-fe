@@ -357,7 +357,9 @@ export const SearchBox = ({ className }: Props) => {
                   <GitPOAPBadgeSearchItem
                     key={gitPOAP.id}
                     href={`/gp/${gitPOAP.id}`}
-                    text={gitPOAP.name.replace('GitPOAP: ', '')}
+                    text={
+                      gitPOAP.name.startsWith('GitPOAP: ') ? gitPOAP.name.slice(8) : gitPOAP.name
+                    }
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);
