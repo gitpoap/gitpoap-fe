@@ -5262,15 +5262,7 @@ export function useOrgSearchByNameQuery(
 }
 export const GitPoapSearchByNameDocument = gql`
   query gitPOAPSearchByName($search: String!, $take: Int = 4) {
-    gitPOAPS(
-      take: $take
-      where: {
-        OR: [
-          { name: { contains: $search, mode: insensitive } }
-          { description: { contains: $search, mode: insensitive } }
-        ]
-      }
-    ) {
+    gitPOAPS(take: $take, where: { name: { contains: $search, mode: insensitive } }) {
       id
       name
       description

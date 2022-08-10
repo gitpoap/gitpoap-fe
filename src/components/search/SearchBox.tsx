@@ -164,9 +164,9 @@ export const SearchBox = ({ className }: Props) => {
   const reposCount = repos?.length ?? 0;
   const orgsCount = orgs?.length ?? 0;
   const gitPOAPCount = gitPOAPs?.length ?? 0;
-  const orgStartIndex = profilesCount + reposCount;
-  const gitPOAPStartIndex = profilesCount + reposCount + orgsCount;
-  const totalCount = profilesCount + reposCount + orgsCount + gitPOAPCount;
+  const repoStartIndex = profilesCount + gitPOAPCount;
+  const orgStartIndex = profilesCount + gitPOAPCount + reposCount;
+  const totalCount = profilesCount + gitPOAPCount + reposCount + orgsCount;
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
@@ -277,24 +277,24 @@ export const SearchBox = ({ className }: Props) => {
         if (cursor < profilesCount) {
           inputRef.current?.blur();
           router.push(profileResults[cursor].href);
+        } else if (cursor < repoStartIndex) {
+          inputRef.current?.blur();
+          /* gitPOAP is selected */
+          const gitPOAPIndex = cursor - profilesCount;
+          const gitPOAP = gitPOAPs && gitPOAPs[gitPOAPIndex];
+          router.push(`/gp/${gitPOAP?.id}`);
         } else if (cursor < orgStartIndex) {
           inputRef.current?.blur();
           /* repo is selected */
-          const repoIndex = cursor - profilesCount;
+          const repoIndex = cursor - repoStartIndex;
           const repo = repos && repos[repoIndex];
           router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
-        } else if (cursor < gitPOAPStartIndex) {
+        } else {
           inputRef.current?.blur();
           /* org is selected */
           const orgIndex = cursor - orgStartIndex;
           const org = orgs && orgs[orgIndex];
           router.push(`/gh/${org?.name}`);
-        } else {
-          inputRef.current?.blur();
-          /* gitPOAP is selected */
-          const gitPOAPIndex = cursor - gitPOAPStartIndex;
-          const gitPOAP = gitPOAPs && gitPOAPs[gitPOAPIndex];
-          router.push(`/gp/${gitPOAP?.id}`);
         }
         e.preventDefault();
       }
@@ -349,6 +349,27 @@ export const SearchBox = ({ className }: Props) => {
               })}
             </ResultsSection>
           )}
+          {gitPOAPs && gitPOAPs?.length > 0 && (
+            <ResultsSection>
+              <SectionTitle>{'GitPOAPs:'}</SectionTitle>
+              {gitPOAPs.map((gitPOAP, index) => {
+                return (
+                  <GitPOAPBadgeSearchItem
+                    key={gitPOAP.id}
+                    href={`/gp/${gitPOAP.id}`}
+                    text={gitPOAP.name.replace('GitPOAP: ', '')}
+                    onClick={() => {
+                      setQuery('');
+                      setIsSearchActive(false);
+                      setProfileResults([]);
+                    }}
+                    imageUrl={gitPOAP.imageUrl}
+                    isSelected={cursor === profilesCount + index}
+                  />
+                );
+              })}
+            </ResultsSection>
+          )}
           {repos && repos?.length > 0 && (
             <ResultsSection>
               <SectionTitle>{'Repos:'}</SectionTitle>
@@ -365,7 +386,7 @@ export const SearchBox = ({ className }: Props) => {
                       setIsSearchActive(false);
                       setProfileResults([]);
                     }}
-                    isSelected={cursor === profilesCount + index}
+                    isSelected={cursor === repoStartIndex + index}
                   />
                 );
               })}
@@ -387,28 +408,6 @@ export const SearchBox = ({ className }: Props) => {
                     }}
                     imageUrl={org.repos[0].project.gitPOAPs[0].imageUrl}
                     isSelected={cursor === orgStartIndex + index}
-                  />
-                );
-              })}
-            </ResultsSection>
-          )}
-          {gitPOAPs && gitPOAPs?.length > 0 && (
-            <ResultsSection>
-              <SectionTitle>{'GitPOAPs:'}</SectionTitle>
-              {gitPOAPs.map((gitPOAP, index) => {
-                return (
-                  <GitPOAPBadgeSearchItem
-                    key={gitPOAP.id}
-                    href={`/gp/${gitPOAP.id}`}
-                    text={gitPOAP.name}
-                    subText={gitPOAP.description}
-                    onClick={() => {
-                      setQuery('');
-                      setIsSearchActive(false);
-                      setProfileResults([]);
-                    }}
-                    imageUrl={gitPOAP.imageUrl}
-                    isSelected={cursor === gitPOAPStartIndex + index}
                   />
                 );
               })}
