@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 
-export interface IsOnline {
+export type IsOnlineOutput = {
   isOnline: boolean;
-  error: null | string;
-}
+  error: string | null;
+};
 
-export const useIsOnline = (): IsOnline => {
+export const useIsOnline = (): IsOnlineOutput => {
   const isBrowserEnv = typeof window !== 'undefined';
   const isNavigatorPresent = typeof navigator !== 'undefined';
   const NOT_BROWSER_ENV_ERROR = 'useIsOnline only works in a browser environment.';
