@@ -19,5 +19,5 @@ const Template: ComponentStory<typeof OnboardingPage> = () => {
   );
 };
 
-export const Default = Template.bind({});
-Default.args = {};
+export const ConnectGithub = Template.bind({});
+ConnectGithub.args = {};

@@ -22,6 +22,27 @@ type Repo = {
 
 export const ReposResponse = [
   {
+    name: 'gitpoap-landing',
+    full_name: 'gitpoap/gitpoap-landing',
+    githubRepoId: 3,
+    description: 'Docs',
+    url: 'github.com/gitpoap/gitpoap-landing',
+    owner: {
+      id: 1,
+      type: 'public',
+      name: 'gitpoap',
+      avatar_url: '',
+      url: '',
+    },
+    permissions: {
+      admin: false, // YES
+      maintain: false, // YES
+      push: false, // YES
+      triage: true,
+      pull: true,
+    },
+  },
+  {
     name: 'gitpoap-fe',
     full_name: 'gitpoap/gitpoap-fe',
     githubRepoId: 1,

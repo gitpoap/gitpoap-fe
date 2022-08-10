@@ -1,68 +1,25 @@
-import { useState } from 'react';
-import { Code, Container, Group, Stepper } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import { Code, Group, Stepper } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import useSWR from 'swr';
-import { z } from 'zod';
 
-import { Button } from '../shared/elements';
-import { Input } from '../shared/elements';
-import { Text } from '../shared/elements';
-import { TextArea } from '../shared/elements';
-
+import { Button, Loader, Text } from '../shared/elements';
+import { Completed } from './Completed';
+import { ContactDetails } from './ContactDetails';
 import { SelectReposList } from './SelectRepos';
 import { UploadDesigns } from './UploadDesigns';
-import { ExtraRed } from '../../colors';
-
-const repoSchema = z.object({
-  full_name: z.string(),
-  githubRepoId: z.number(),
-  permissions: z.object({
-    admin: z.boolean(),
-    maintain: z.boolean(),
-    push: z.boolean(),
-    triage: z.boolean(),
-    pull: z.boolean(),
-  }),
-});
-
-const MAX_FILE_SIZE = 500000;
-const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-
-const ImageFileSchema = z
-  .any()
-  .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
-  .refine(
-    (file) => ACCEPTED_IMAGE_TYPES.includes(file?.mimetype),
-    '.jpg, .jpeg, .png and .webp files are accepted.',
-  );
-
-/* Validates on Submit */
-const schema = [
-  // Step 0 - Select Repos
-  z.object({
-    repos: z.array(repoSchema).min(1),
-  }),
-  // Step 1 - Upload Designs
-  z.object({
-    shouldGitPOAPDesign: z.string(),
-    files: z.array(ImageFileSchema),
-  }),
-  // Step 2 - Contact Details
-  z.object({
-    name: z.string(),
-    email: z.string().email({ message: 'Invalid email' }).min(1, { message: 'Email is required' }),
-    notes: z.string(),
-  }),
-];
+import { createSchema, Repo } from './util';
 
 type Props = {
   accessToken: string;
+  githubHandle: string;
 };
 
-export const IntakeForm = ({ accessToken }: Props) => {
+export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   const [active, setActive] = useState(0);
+  const [shouldGitPOAPDesign, setShouldGitPOAPDesign] = useState(true);
 
-  const { data, error, isValidating } = useSWR(
+  const { data, error, isValidating } = useSWR<{ ReposResponse: Repo[] }>(
     `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`,
     (url) =>
       fetch(url, {
@@ -72,17 +29,24 @@ export const IntakeForm = ({ accessToken }: Props) => {
       }).then((res) => res.json()),
   );
 
-  const { errors, values, getInputProps, setFieldValue, validate } = useForm({
-    schema: zodResolver(schema[active]),
+  const { clearErrors, errors, values, getInputProps, setFieldValue, validate } = useForm({
+    schema: zodResolver(createSchema(active, shouldGitPOAPDesign)),
     initialValues: {
+      githubHandle: githubHandle,
       repos: [],
       shouldGitPOAPDesign: 'true',
+      isOneGitPOAPPerRepo: 'true',
       images: [],
       name: '',
       email: '',
       notes: '',
     },
   });
+
+  useEffect(() => {
+    clearErrors();
+    setShouldGitPOAPDesign(values.shouldGitPOAPDesign === 'true');
+  }, [values.shouldGitPOAPDesign]);
 
   const nextStep = () =>
     setActive((current) => {
@@ -93,27 +57,65 @@ export const IntakeForm = ({ accessToken }: Props) => {
     });
   const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
+  const handleSubmit = () => {
+    if (!validate().hasErrors) {
+      fetch(`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/intake-form`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+      setActive(3);
+    }
+  };
+
+  if (!data && !error && isValidating) {
+    return <Loader />;
+  }
+
+  // The user doesn't have any repos
+  if (!data?.ReposResponse || data?.ReposResponse.length === 0) {
+    return (
+      <Text>
+        {
+          "It looks like you don't have any public repos connected to your github account, use our suggestion form instead"
+        }
+      </Text>
+    );
+  }
+
+  const ReposResponse = data.ReposResponse.filter(
+    (repo: Repo) => repo.permissions.admin || repo.permissions.maintain || repo.permissions.push,
+  );
+
+  // The user doesn't have high enough permissions on any of their repos
+  if (ReposResponse.length === 0) {
+    return (
+      <Text>
+        {
+          "It looks like you don't have high enough access on any of your repos, use our suggestion form instead"
+        }
+      </Text>
+    );
+  }
+
   return (
-    <Container>
+    <>
       <Stepper active={active} breakpoint="sm">
         <Stepper.Step label="Select Repos">
-          <Text>{"Select the repos you'd like to create gitpoaps for!"}</Text>
-          {data && data.ReposResponse.length > 0 && (
-            <SelectReposList
-              repos={data.ReposResponse}
-              setFieldValue={setFieldValue}
-              values={values}
-            />
-          )}
-          {errors.repos && (
-            <Text style={{ color: ExtraRed, width: '100%' }} size="xl" mt="xl" inline>
-              {'Select at least once repo'}
-            </Text>
-          )}
+          <SelectReposList
+            errors={errors}
+            repos={ReposResponse}
+            setFieldValue={setFieldValue}
+            values={values}
+          />
         </Stepper.Step>
 
         <Stepper.Step label="Upload Designs">
           <UploadDesigns
+            errors={errors}
             getInputProps={getInputProps}
             setFieldValue={setFieldValue}
             values={values}
@@ -121,47 +123,24 @@ export const IntakeForm = ({ accessToken }: Props) => {
         </Stepper.Step>
 
         <Stepper.Step label="Contact Details">
-          <Input
-            style={{ width: '100%' }}
-            label="Name"
-            placeholder="Name"
-            {...getInputProps('name')}
-          />
-          <Input
-            style={{ width: '100%' }}
-            mt="md"
-            label="Email"
-            placeholder="Email"
-            required
-            {...getInputProps('email')}
-          />
-          <TextArea
-            style={{ width: '100%' }}
-            mt="md"
-            label="Notes"
-            placeholder="Notes"
-            {...getInputProps('notes')}
-          />
+          <ContactDetails getInputProps={getInputProps} />
         </Stepper.Step>
 
         <Stepper.Completed>
-          <Text>
-            {
-              'Thank you you’re #X in the queue. If you’d like to get in touch sooner, shoot an email over to team@gitpoap.io'
-            }
-          </Text>
+          <Completed />
         </Stepper.Completed>
       </Stepper>
 
       <Group position="right" mt="xl">
-        {active !== 0 && <Button onClick={prevStep}>Back</Button>}
-        {active !== 3 && <Button onClick={nextStep}>Next</Button>}
+        {active > 0 && active < 3 && <Button onClick={prevStep}>Back</Button>}
+        {active < 2 && <Button onClick={nextStep}>Next</Button>}
+        {active === 2 && <Button onClick={handleSubmit}>Submit</Button>}
       </Group>
 
       {/* Left in for testing! */}
       <Code block mt="xl">
         {JSON.stringify(values, null, 2)}
       </Code>
-    </Container>
+    </>
   );
 };

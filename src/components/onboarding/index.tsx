@@ -1,24 +1,23 @@
-import { useState } from 'react';
-import { Center, Code, Container, Group, Radio, Stack, Stepper } from '@mantine/core';
-import { useForm, zodResolver } from '@mantine/form';
+import { Center, Container, Stack } from '@mantine/core';
 import { GoMarkGithub } from 'react-icons/go';
-import { z } from 'zod';
-
-import { Button } from '../shared/elements';
-import { Text } from '../shared/elements';
 
 import { useAuthContext } from '../github/AuthContext';
+import { Button, Text } from '../shared/elements';
 import { IntakeForm } from './IntakeForm';
 
 export const OnboardingPage = () => {
-  const { tokens, handleLogout, authorizeGitHub, isLoggedIntoGitHub, user } = useAuthContext();
+  const { tokens, authorizeGitHub, isLoggedIntoGitHub, user } = useAuthContext();
 
-  if (isLoggedIntoGitHub && tokens) {
-    return <IntakeForm accessToken={tokens.accessToken} />;
+  if (isLoggedIntoGitHub && tokens && user) {
+    return (
+      <Container mt="xl">
+        <IntakeForm accessToken={tokens.accessToken} githubHandle={user.githubHandle} />
+      </Container>
+    );
   }
 
   return (
-    <Container>
+    <Container mt="xl">
       <Center>
         <Stack>
           <Text>{'Connect your GitHub to onboard your Repos!'}</Text>

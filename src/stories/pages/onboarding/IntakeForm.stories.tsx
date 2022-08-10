@@ -16,7 +16,7 @@ const Template: ComponentStory<typeof Component> = () => {
   return (
     <Layout>
       <Container size={800} mt="xl" style={{ width: '100%' }}>
-        <Component accessToken="1234567890" />
+        <Component accessToken="1234567890" githubHandle="aldolamb" />
       </Container>
     </Layout>
   );
@@ -33,6 +33,38 @@ IntakeForm.parameters = {
       status: 200,
       response: {
         ReposResponse,
+      },
+    },
+  ],
+};
+
+export const IntakeFormNoRepos = Template.bind({});
+IntakeFormNoRepos.args = {};
+
+IntakeFormNoRepos.parameters = {
+  mockData: [
+    {
+      url: 'http://localhost:3001/onboarding/github/repos',
+      method: 'GET',
+      status: 200,
+      response: {
+        ReposResponse: [],
+      },
+    },
+  ],
+};
+
+export const IntakeFormNoAdminRepos = Template.bind({});
+IntakeFormNoAdminRepos.args = {};
+
+IntakeFormNoAdminRepos.parameters = {
+  mockData: [
+    {
+      url: 'http://localhost:3001/onboarding/github/repos',
+      method: 'GET',
+      status: 200,
+      response: {
+        ReposResponse: [ReposResponse[0]],
       },
     },
   ],

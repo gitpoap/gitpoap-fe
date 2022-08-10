@@ -1,10 +1,12 @@
-import { Image, Radio, Center, SimpleGrid } from '@mantine/core';
-import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Container, Image, Radio, SimpleGrid } from '@mantine/core';
+import { Dropzone } from '@mantine/dropzone';
 
-import { Text } from '../shared/elements';
-import { RadioGroup } from '../shared/elements';
+import { ExtraRed } from '../../colors';
+import { RadioGroup, Text } from '../shared/elements';
+import { ACCEPTED_IMAGE_TYPES } from './util';
 
 type Props = {
+  errors: any;
   getInputProps: any;
   setFieldValue: any;
   values: {
@@ -13,7 +15,7 @@ type Props = {
   };
 };
 
-export const UploadDesigns = ({ getInputProps, setFieldValue, values }: Props) => {
+export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: Props) => {
   const previews = values.images.map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
     return (
@@ -26,20 +28,27 @@ export const UploadDesigns = ({ getInputProps, setFieldValue, values }: Props) =
   });
 
   return (
-    <>
-      <Center mt="xl" mb="xl">
+    <Container mt="xl">
+      <Container mt="xl" mb="xl">
         <RadioGroup orientation="vertical" required {...getInputProps('shouldGitPOAPDesign')}>
           <Radio value="true" label={<Text>{'Have our designers create your GitPOAPs'}</Text>} />
           <Radio value="false" label={<Text>{'Submit your own designs'}</Text>} />
         </RadioGroup>
-      </Center>
+      </Container>
 
       {values.shouldGitPOAPDesign === 'false' && (
         <>
+          <Container mt="xl">
+            <RadioGroup orientation="vertical" required {...getInputProps('isOneGitPOAPPerRepo')}>
+              <Radio value="true" label={<Text>{'Separate GitPOAPS for each Repo'}</Text>} />
+              <Radio value="false" label={<Text>{'Shared GitPOAP across Repos'}</Text>} />
+            </RadioGroup>
+          </Container>
+
           <Dropzone
             mt="xl"
-            accept={IMAGE_MIME_TYPE}
-            onDrop={(files) => setFieldValue(`images`, files)}
+            accept={ACCEPTED_IMAGE_TYPES}
+            onDrop={(files) => setFieldValue(`images`, [...values.images, ...files])}
           >
             {(status) => <Text align="center">Drop images here</Text>}
           </Dropzone>
@@ -51,8 +60,16 @@ export const UploadDesigns = ({ getInputProps, setFieldValue, values }: Props) =
           >
             {previews}
           </SimpleGrid>
+
+          {Object.keys(errors).find((error) => /^images/.test(error)) && (
+            <Text style={{ color: ExtraRed, width: '100%' }} size="xl" mt="xl" inline>
+              {Object.keys(errors)
+                .filter((error) => /^images/.test(error))
+                .map((key) => errors[key])}
+            </Text>
+          )}
         </>
       )}
-    </>
+    </Container>
   );
 };
