@@ -6,6 +6,7 @@ import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { useLocalStorage } from '@mantine/hooks';
 import { usePageVisibility } from '../../hooks/usePageVisibility';
+import { useIsOnline } from '../../hooks/useIsOnline';
 
 type StoredGHUserData = {
   githubId: number;
@@ -75,6 +76,7 @@ export const AuthProvider = ({ children }: Props) => {
     defaultValue: null,
   });
   const router = useRouter();
+  const isOnline = useIsOnline();
   const redirectUri = typeof window !== 'undefined' ? window.location.href : '';
   const githubAuthURL = `https://github.com/login/oauth/authorize?scope=read&client_id=${REACT_APP_CLIENT_ID}&redirect_uri=${redirectUri}`;
 
@@ -86,7 +88,7 @@ export const AuthProvider = ({ children }: Props) => {
   }, []);
 
   const performRefresh = useCallback(async () => {
-    if (refreshToken) {
+    if (refreshToken && isOnline) {
       try {
         const res = await fetch(`${GITPOAP_API_URL}/github/refresh`, {
           method: 'POST',
@@ -114,7 +116,7 @@ export const AuthProvider = ({ children }: Props) => {
         console.warn(err);
       }
     }
-  }, [handleLogout, refreshToken]);
+  }, [handleLogout, refreshToken, isOnline]);
 
   /* Redirect to github to authorize if not connected / logged in */
   const authorizeGitHub = useCallback(() => router.push(githubAuthURL), [githubAuthURL, router]);
