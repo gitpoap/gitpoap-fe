@@ -54,6 +54,15 @@ type ItemProps = BoxProps<'div'> & {
   href?: string;
 };
 
+const fetchWithToken = async (url: string, token: string | null) => {
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return await response.json();
+};
+
 const DashboardItem = ({ name, value, href, ...restProps }: ItemProps) => {
   return (
     <ItemContainer {...restProps}>
@@ -109,13 +118,12 @@ export const VitalsDashboard = (props: Props) => {
   const [totalClaimsWithPullRequestEarnedResult] = useCountClaimsWithPullRequestEarnedQuery();
 
   const { data: ongoingIssuanceResult } = useSWR<{ lastRun: string }>(
-    `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/vitals/ongoing-issuance`,
-    (url) =>
-      fetch(url, {
-        headers: {
-          Authorization: `Bearer ${props.accessToken}`,
-        },
-      }).then((res) => res.json()),
+    [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/vitals/ongoing-issuance`, props.accessToken],
+    fetchWithToken,
+  );
+  const { data: checkForCodesResult } = useSWR<{ lastRun: string }>(
+    [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/vitals/check-for-codes`, props.accessToken],
+    fetchWithToken,
   );
 
   const totalProfiles = totalProfilesResults?.data?.aggregateProfile?._count?.id;
@@ -225,12 +233,20 @@ export const VitalsDashboard = (props: Props) => {
             style={{ marginBottom: rem(15) }}
           />
 
-          {/* Ongoing issuance section */}
+          {/* Last Run Vitals */}
           <DashboardItem
             name={'Ongoing Issuance Last Run'}
             value={
               ongoingIssuanceResult?.lastRun
                 ? DateTime.fromISO(ongoingIssuanceResult?.lastRun).toFormat('dd-LLL-yy HH:mm')
+                : ''
+            }
+          />
+          <DashboardItem
+            name={'Check for Codes Last Run'}
+            value={
+              checkForCodesResult?.lastRun
+                ? DateTime.fromISO(checkForCodesResult?.lastRun).toFormat('dd-LLL-yy HH:mm')
                 : ''
             }
           />
