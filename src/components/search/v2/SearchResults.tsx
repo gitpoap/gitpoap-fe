@@ -25,26 +25,34 @@ const SortingTabs = styled.div``;
 const SortSection = styled.div``;
 
 type Props = {
+  searchQuery: string;
   className?: string;
 };
 
-export const SearchResults = (props: Props) => {
-  const [searchValue, setSearchValue] = useState('');
-  const [debouncedSearch] = useDebouncedValue(searchValue, 200);
-
+export const SearchResults = ({ searchQuery }: Props) => {
   const router = useRouter();
 
-  useEffect(() => {
-    if (router.query.q !== debouncedSearch) {
-      router.push({
-        query: {
-          q: debouncedSearch,
-        },
-      });
-    }
-  }, [debouncedSearch, router]);
+  console.log('searchQuery', searchQuery);
 
-  const searchQuery = router.query.q as string;
+  const [searchValue, setSearchValue] = useState(searchQuery);
+  const [debouncedSearch] = useDebouncedValue(searchValue, 200);
+
+  useEffect(() => {
+    setSearchValue(searchQuery);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    console.log('debouncedSearch', searchValue, debouncedSearch);
+    if (searchQuery !== debouncedSearch) {
+      router.push(`/s/${debouncedSearch}`);
+    }
+  }, [debouncedSearch]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+    console.log('test');
+    e.preventDefault();
+  };
 
   return (
     <>
@@ -55,7 +63,7 @@ export const SearchResults = (props: Props) => {
         <SearchBox
           placeholder={'SEARCH FOR REPOS, GITPOAPS, PEOPLE, & ORGS...'}
           value={searchValue}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
+          onChange={handleChange}
           icon={<FaSearch />}
         />
       </SearchHeading>
