@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { ExtraRed } from '../../colors';
 import { RadioGroup, Text } from '../shared/elements';
-import { ACCEPTED_IMAGE_TYPES } from './util';
+import { ACCEPTED_IMAGE_TYPES, FormReturnTypes } from './util';
 
 const RemoveImageButton = styled(CloseButton)`
   position: absolute;
@@ -13,6 +13,9 @@ const RemoveImageButton = styled(CloseButton)`
   z-index: 100;
   color: ${ExtraRed};
   display: none;
+  svg {
+    vertical-align: middle;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -23,13 +26,10 @@ const ImageContainer = styled.div`
 `;
 
 type Props = {
-  errors: any;
-  getInputProps: any;
-  setFieldValue: any;
-  values: {
-    images: File[];
-    shouldGitPOAPDesign: string;
-  };
+  errors: FormReturnTypes['errors'];
+  getInputProps: FormReturnTypes['getInputProps'];
+  setFieldValue: FormReturnTypes['setFieldValue'];
+  values: FormReturnTypes['values'];
 };
 
 export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: Props) => {
@@ -46,6 +46,7 @@ export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: 
               values.images.filter((f, i) => i !== index),
             )
           }
+          variant="filled"
         />
         <Image src={imageUrl} imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }} />
       </ImageContainer>

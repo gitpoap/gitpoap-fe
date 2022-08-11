@@ -1,9 +1,10 @@
 import { Container } from '@mantine/core';
 
 import { Input, TextArea } from '../shared/elements';
+import { FormReturnTypes } from './util';
 
 type Props = {
-  getInputProps: any;
+  getInputProps: FormReturnTypes['getInputProps'];
 };
 
 export const ContactDetails = ({ getInputProps }: Props) => (

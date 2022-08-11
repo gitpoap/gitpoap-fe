@@ -1,3 +1,4 @@
+import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 
 export type Repo = {
@@ -22,6 +23,7 @@ export type Repo = {
   };
   key: string;
 };
+export type SimpleRepo = Pick<Repo, 'full_name' | 'githubRepoId' | 'permissions'>;
 
 const repoSchema = z.object({
   full_name: z.string(),
@@ -74,3 +76,30 @@ export const createSchema = (stage: number, shouldGitPOAPDesign: boolean) => {
       });
   }
 };
+
+export type FormFields = {
+  githubHandle: string;
+  repos: SimpleRepo[];
+  shouldGitPOAPDesign: 'true' | 'false';
+  isOneGitPOAPPerRepo: 'true' | 'false';
+  images: File[];
+  name: string;
+  email: string;
+  notes: string;
+};
+
+export const useMantineForm = (stage: number, shouldGitPOAPDesign: boolean, githubHandle: string) =>
+  useForm<FormFields>({
+    schema: zodResolver(createSchema(stage, shouldGitPOAPDesign)),
+    initialValues: {
+      githubHandle: githubHandle,
+      repos: [],
+      shouldGitPOAPDesign: 'true',
+      isOneGitPOAPPerRepo: 'true',
+      images: [],
+      name: '',
+      email: '',
+      notes: '',
+    },
+  });
+export type FormReturnTypes = ReturnType<typeof useMantineForm>;

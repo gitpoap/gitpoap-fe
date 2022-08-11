@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Anchor, Code, Group, Stepper } from '@mantine/core';
-import { useForm, zodResolver } from '@mantine/form';
+import { useEffect, useState } from 'react';
+import { Anchor, Group, Stepper } from '@mantine/core';
 import styled from 'styled-components';
 import useSWR from 'swr';
 
@@ -10,7 +9,7 @@ import { Completed } from './Completed';
 import { ContactDetails } from './ContactDetails';
 import { SelectReposList } from './SelectRepos';
 import { UploadDesigns } from './UploadDesigns';
-import { createSchema, Repo } from './util';
+import { useMantineForm, Repo } from './util';
 
 export const StyledAnchor = styled(Anchor)`
   font-family: inherit;
@@ -37,19 +36,11 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
       }).then((res) => res.json()),
   );
 
-  const { clearErrors, errors, values, getInputProps, setFieldValue, validate } = useForm({
-    schema: zodResolver(createSchema(stage, shouldGitPOAPDesign)),
-    initialValues: {
-      githubHandle: githubHandle,
-      repos: [],
-      shouldGitPOAPDesign: 'true',
-      isOneGitPOAPPerRepo: 'true',
-      images: [],
-      name: '',
-      email: '',
-      notes: '',
-    },
-  });
+  const { clearErrors, errors, values, getInputProps, setFieldValue, validate } = useMantineForm(
+    stage,
+    shouldGitPOAPDesign,
+    githubHandle,
+  );
 
   useEffect(() => {
     clearErrors();

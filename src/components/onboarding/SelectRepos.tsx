@@ -1,17 +1,14 @@
 import { Container, Divider, Group, List } from '@mantine/core';
 
-import { Checkbox } from '../shared/elements';
 import { ExtraRed } from '../../colors';
-import { Text } from '../shared/elements';
-import { Repo } from './util';
+import { Checkbox, Text } from '../shared/elements';
+import { FormReturnTypes, Repo } from './util';
 
 type Props = {
-  errors: any;
+  errors: FormReturnTypes['errors'];
   repos: Repo[];
-  setFieldValue: (field: any, value: any) => void;
-  values: {
-    repos: Repo[];
-  };
+  setFieldValue: FormReturnTypes['setFieldValue'];
+  values: FormReturnTypes['values'];
 };
 
 const formatRepoForDB = (repo: Repo) => ({
