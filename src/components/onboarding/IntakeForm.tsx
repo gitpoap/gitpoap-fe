@@ -64,6 +64,24 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
 
   const handleSubmit = async () => {
     if (!validate().hasErrors) {
+      const formData = new FormData();
+      const mappedRepos = values.repos.map((repo) => ({
+        ...repo,
+        githubRepoId: repo.githubRepoId.toString(),
+      }));
+
+      formData.append('name', values.name);
+      formData.append('email', values.email);
+      formData.append('githubHandle', values.githubHandle);
+      formData.append('notes', values.notes);
+
+      formData.append('shouldGitPOAPDesign', values.shouldGitPOAPDesign);
+      formData.append('isOneGitPOAPPerRepo', values.isOneGitPOAPPerRepo);
+      formData.append('repos', JSON.stringify(mappedRepos));
+      values.images.forEach((image, index) => {
+        formData.append('images', image, `image-${index}`);
+      });
+
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/intake-form`,
@@ -71,12 +89,16 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
             method: 'POST',
             headers: {
               Accept: 'application/json',
-              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`,
             },
-            body: JSON.stringify(values),
+            body: formData,
           },
         );
         const data = await response.json();
+        if (response.status >= 400) {
+          throw new Error(JSON.stringify(data));
+        }
+
         setQueueNumber(data.queueNumber);
         setStage(3);
       } catch (error) {
