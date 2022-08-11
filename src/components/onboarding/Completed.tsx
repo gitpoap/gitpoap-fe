@@ -1,11 +1,17 @@
 import { Container } from '@mantine/core';
 import styled from 'styled-components';
 
-import { PrimaryBlue } from '../../colors';
+import { ExtraHover, PrimaryBlue } from '../../colors';
 import { Text } from '../shared/elements';
 
 const StyledLink = styled.a`
   color: ${PrimaryBlue};
+  &:hover {
+    text-decoration: underline;
+    &:not(:active) {
+      color: ${ExtraHover};
+    }
+  }
 `;
 
 type Props = {

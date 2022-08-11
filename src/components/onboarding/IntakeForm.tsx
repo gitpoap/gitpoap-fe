@@ -1,12 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { HiOutlineMailOpen } from 'react-icons/hi';
 import { Container, Group, Stepper } from '@mantine/core';
+import { rem } from 'polished';
 import styled from 'styled-components';
 import useSWR from 'swr';
 
-import { PrimaryBlue } from '../../colors';
+import { ExtraHover, PrimaryBlue } from '../../colors';
 import { fetchWithToken } from '../../helpers';
 import { Link } from '../Link';
 import { Button, Loader, Text } from '../shared/elements';
+import { GitHub, GitPOAP } from '../shared/elements/icons';
 import { Completed } from './Completed';
 import { ContactDetails } from './ContactDetails';
 import { SelectReposList } from './SelectRepos';
@@ -16,6 +19,17 @@ import useMantineForm from './useMantineForm';
 
 export const StyledLink = styled(Link)`
   color: ${PrimaryBlue};
+  &:hover {
+    text-decoration: underline;
+    &:not(:active) {
+      color: ${ExtraHover};
+    }
+  }
+`;
+
+const StyledLoader = styled(Loader)`
+  display: block;
+  margin: ${rem(112)} auto;
 `;
 
 type Props = {
@@ -26,7 +40,6 @@ type Props = {
 export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   const [stage, setStage] = useState(0);
   const [queueNumber, setQueueNumber] = useState(0);
-  const [shouldGitPOAPDesign, setShouldGitPOAPDesign] = useState(true);
 
   const { data, error, isValidating } = useSWR<Repo[]>(
     [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`, accessToken],
@@ -42,16 +55,10 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     [data],
   );
 
-  const { clearErrors, errors, values, getInputProps, setFieldValue, validate } = useMantineForm(
+  const { errors, values, getInputProps, setFieldValue, validate } = useMantineForm(
     stage,
-    shouldGitPOAPDesign,
     githubHandle,
   );
-
-  useEffect(() => {
-    clearErrors();
-    setShouldGitPOAPDesign(values.shouldGitPOAPDesign === 'true');
-  }, [values.shouldGitPOAPDesign]);
 
   const nextStep = () =>
     setStage((current) => {
@@ -108,7 +115,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   };
 
   if (!data && !error && isValidating) {
-    return <Loader />;
+    return <StyledLoader />;
   }
 
   // The user doesn't have any repos
@@ -135,8 +142,8 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
 
   return (
     <Container my="xl">
-      <Stepper active={stage} breakpoint="sm">
-        <Stepper.Step label="Select Repos">
+      <Stepper active={stage} breakpoint="sm" color={PrimaryBlue}>
+        <Stepper.Step icon={<GitHub style={{ color: 'white' }} />} label="Select Repos">
           <SelectReposList
             errors={errors}
             repos={repos}
@@ -145,7 +152,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
           />
         </Stepper.Step>
 
-        <Stepper.Step label="Upload Designs">
+        <Stepper.Step icon={<GitPOAP />} label="GitPOAP Details">
           <UploadDesigns
             errors={errors}
             getInputProps={getInputProps}
@@ -154,7 +161,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
           />
         </Stepper.Step>
 
-        <Stepper.Step label="Contact Details">
+        <Stepper.Step icon={<HiOutlineMailOpen />} label="Contact Details">
           <ContactDetails getInputProps={getInputProps} />
         </Stepper.Step>
 

@@ -2,10 +2,19 @@ import { Container, CloseButton, Image, Radio, SimpleGrid } from '@mantine/core'
 import { Dropzone } from '@mantine/dropzone';
 import styled from 'styled-components';
 
-import { ExtraRed } from '../../colors';
+import { BackgroundPanel, BackgroundPanel2, ExtraRed, PrimaryBlue } from '../../colors';
 import { RadioGroup, Text } from '../shared/elements';
 import { ACCEPTED_IMAGE_TYPES } from './schema';
 import { FormReturnTypes } from './types';
+
+const StyledDropzone = styled(Dropzone)`
+  background: inherit;
+  &:hover {
+    background: inherit;
+    border-color: ${PrimaryBlue};
+  }
+  transition: 150ms border ease;
+`;
 
 const RemoveImageButton = styled(CloseButton)`
   position: absolute;
@@ -14,6 +23,10 @@ const RemoveImageButton = styled(CloseButton)`
   z-index: 100;
   color: ${ExtraRed};
   display: none;
+  background-color: ${BackgroundPanel};
+  &:hover:not(:active) {
+    background-color: ${BackgroundPanel2};
+  }
   svg {
     vertical-align: middle;
   }
@@ -41,12 +54,13 @@ export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: 
         <RemoveImageButton
           iconSize={20}
           size="md"
-          onClick={() =>
+          onClick={(e) => {
             setFieldValue(
               `images`,
               values.images.filter((f, i) => i !== index),
-            )
-          }
+            );
+            e.stopPropagation();
+          }}
           variant="filled"
         />
         <Image
@@ -62,44 +76,47 @@ export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: 
     <Container mt="xl">
       <Container mt="xl" mb="xl">
         <RadioGroup orientation="vertical" required {...getInputProps('shouldGitPOAPDesign')}>
-          <Radio value="true" label={<Text>{'Have our designers create your GitPOAPs'}</Text>} />
-          <Radio value="false" label={<Text>{'Submit your own designs'}</Text>} />
+          <Radio
+            value="true"
+            label={<Text>{'Have GitPOAP’s design team create POAP designs”'}</Text>}
+          />
+          <Radio value="false" label={<Text>{'Bring your own designs'}</Text>} />
         </RadioGroup>
       </Container>
 
-      {values.shouldGitPOAPDesign === 'false' && (
-        <>
-          <Container mt="xl">
-            <RadioGroup orientation="vertical" required {...getInputProps('isOneGitPOAPPerRepo')}>
-              <Radio value="true" label={<Text>{'Separate GitPOAPS for each Repo'}</Text>} />
-              <Radio value="false" label={<Text>{'Shared GitPOAP across Repos'}</Text>} />
-            </RadioGroup>
-          </Container>
+      <Container mt="xl">
+        <RadioGroup orientation="vertical" required {...getInputProps('isOneGitPOAPPerRepo')}>
+          <Radio value="true" label={<Text>{'Separate GitPOAPS for each Repo'}</Text>} />
+          <Radio value="false" label={<Text>{'Shared GitPOAP across Repos'}</Text>} />
+        </RadioGroup>
+      </Container>
 
-          <Dropzone
-            mt="xl"
-            accept={ACCEPTED_IMAGE_TYPES}
-            onDrop={(files) => setFieldValue(`images`, [...values.images, ...files])}
-          >
-            {(status) => <Text align="center">Drop images here</Text>}
-          </Dropzone>
+      <StyledDropzone
+        mt="xl"
+        accept={ACCEPTED_IMAGE_TYPES}
+        onDrop={(files) => setFieldValue(`images`, [...values.images, ...files])}
+      >
+        {(status) =>
+          previews.length > 0 ? (
+            <SimpleGrid
+              cols={4}
+              breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+              // mt={previews.length > 0 ? 'xl' : 0}
+            >
+              {previews}
+            </SimpleGrid>
+          ) : (
+            <Text align="center">Drop your inspiration here to help us get started</Text>
+          )
+        }
+      </StyledDropzone>
 
-          <SimpleGrid
-            cols={4}
-            breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
-            mt={previews.length > 0 ? 'xl' : 0}
-          >
-            {previews}
-          </SimpleGrid>
-
-          {Object.keys(errors).find((error) => /^images/.test(error)) && (
-            <Text style={{ color: ExtraRed, width: '100%' }} size="xl" mt="xl" inline>
-              {Object.keys(errors)
-                .filter((error) => /^images/.test(error))
-                .map((key) => errors[key])}
-            </Text>
-          )}
-        </>
+      {Object.keys(errors).find((error) => /^images/.test(error)) && (
+        <Text style={{ color: ExtraRed, width: '100%' }} size="xl" mt="xl" inline>
+          {Object.keys(errors)
+            .filter((error) => /^images/.test(error))
+            .map((key) => errors[key])}
+        </Text>
       )}
     </Container>
   );

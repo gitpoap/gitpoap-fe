@@ -23,23 +23,18 @@ const ImageFileSchema = z
     '.jpg, .jpeg, .png and .webp files are accepted.',
   );
 
-export const createSchema = (stage: number, shouldGitPOAPDesign: boolean) => {
+export const createSchema = (stage: number) => {
   switch (stage) {
     case 0:
       return z.object({
         repos: z.array(repoSchema).min(1, { message: 'Select at least once repo' }),
       });
     case 1:
-      const design = z.object({
+      return z.object({
         shouldGitPOAPDesign: z.string(),
         isOneGitPOAPPerRepo: z.string(),
+        images: z.array(ImageFileSchema),
       });
-      const images = z.object({
-        images: z.array(ImageFileSchema).min(1, { message: 'Upload at least one image' }),
-      });
-      // We only validate the images if the user has chosen to upload their own
-      // This method allows the images to be perserved if the user switches between the options
-      return shouldGitPOAPDesign ? design : design.merge(images);
     case 2:
       return z.object({
         name: z.string(),
