@@ -4308,6 +4308,14 @@ export type GitPoapSearchByNameQuery = {
     name: string;
     description: string;
     imageUrl: string;
+    project: {
+      __typename?: 'Project';
+      repos: Array<{
+        __typename?: 'Repo';
+        name: string;
+        organization: { __typename?: 'Organization'; name: string };
+      }>;
+    };
   }>;
 };
 
@@ -5286,6 +5294,14 @@ export const GitPoapSearchByNameDocument = gql`
       name
       description
       imageUrl
+      project {
+        repos(take: 1) {
+          name
+          organization {
+            name
+          }
+        }
+      }
     }
   }
 `;

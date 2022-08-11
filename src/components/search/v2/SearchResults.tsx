@@ -5,8 +5,10 @@ import { useDebouncedValue } from '@mantine/hooks';
 import { useRouter } from 'next/router';
 import { FaSearch } from 'react-icons/fa';
 import { Header, Input } from '../../shared/elements';
+import { ProfileResults } from './ProfileResults';
 import { RepoResults } from './RepoResults';
 import { OrgResults } from './OrgResults';
+import { GitPOAPResults } from './GitPOAPResults';
 
 const SearchHeading = styled.div`
   margin-bottom: ${rem(20)};
@@ -32,8 +34,6 @@ type Props = {
 export const SearchResults = ({ searchQuery }: Props) => {
   const router = useRouter();
 
-  console.log('searchQuery', searchQuery);
-
   const [searchValue, setSearchValue] = useState(searchQuery);
   const [debouncedSearch] = useDebouncedValue(searchValue, 200);
 
@@ -42,7 +42,6 @@ export const SearchResults = ({ searchQuery }: Props) => {
   }, [searchQuery]);
 
   useEffect(() => {
-    console.log('debouncedSearch', searchValue, debouncedSearch);
     if (searchQuery !== debouncedSearch) {
       router.push(`/s/${debouncedSearch}`);
     }
@@ -50,7 +49,6 @@ export const SearchResults = ({ searchQuery }: Props) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
-    console.log('test');
     e.preventDefault();
   };
 
@@ -70,12 +68,17 @@ export const SearchResults = ({ searchQuery }: Props) => {
       <SearchResultsContainer>
         <SortingTabs>
           <SortSection>
+            <ProfileResults searchQuery={debouncedSearch} />
+          </SortSection>
+          <SortSection>
             <RepoResults searchQuery={debouncedSearch} />
           </SortSection>
           <SortSection>
             <OrgResults searchQuery={debouncedSearch} />
           </SortSection>
-          <SortSection></SortSection>
+          <SortSection>
+            <GitPOAPResults searchQuery={debouncedSearch} />
+          </SortSection>
         </SortingTabs>
       </SearchResultsContainer>
     </>

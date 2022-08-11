@@ -631,5 +631,13 @@ query gitPOAPSearchByName($search: String!, $take: Int = 4) {
     name
     description
     imageUrl
+    project {
+      repos(take: 1) {
+        name
+        organization {
+          name
+        }
+      }
+    }
   }
 }

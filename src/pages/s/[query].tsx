@@ -10,8 +10,6 @@ const Search: Page = () => {
   const router = useRouter();
   const searchQuery = router.query.query as string;
 
-  console.log('query', searchQuery);
-
   return (
     <>
       <SEO
