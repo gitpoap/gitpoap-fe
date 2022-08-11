@@ -44,6 +44,10 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   const { data, error, isValidating } = useSWR<Repo[]>(
     [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`, accessToken],
     fetchWithToken,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    },
   );
 
   const repos = useMemo(
