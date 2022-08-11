@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Anchor, Group, Stepper } from '@mantine/core';
+import { Group, Stepper } from '@mantine/core';
 import styled from 'styled-components';
 import useSWR from 'swr';
 

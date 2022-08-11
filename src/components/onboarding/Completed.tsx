@@ -1,8 +1,12 @@
 import { Container } from '@mantine/core';
+import styled from 'styled-components';
 
-import { Link } from '../Link';
+import { PrimaryBlue } from '../../colors';
 import { Text } from '../shared/elements';
-import { StyledLink } from './IntakeForm';
+
+const StyledLink = styled.a`
+  color: ${PrimaryBlue};
+`;
 
 type Props = {
   queueNumber: number;
