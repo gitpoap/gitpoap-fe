@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Group, Stepper } from '@mantine/core';
+import { Container, Group, Stepper } from '@mantine/core';
 import styled from 'styled-components';
 import useSWR from 'swr';
 
@@ -109,7 +109,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   }
 
   return (
-    <>
+    <Container my="xl">
       <Stepper active={stage} breakpoint="sm">
         <Stepper.Step label="Select Repos">
           <SelectReposList
@@ -143,6 +143,6 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
         {stage < 2 && <Button onClick={nextStep}>Next</Button>}
         {stage === 2 && <Button onClick={handleSubmit}>Submit</Button>}
       </Group>
-    </>
+    </Container>
   );
 };

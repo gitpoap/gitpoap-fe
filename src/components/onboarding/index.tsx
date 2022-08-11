@@ -10,7 +10,7 @@ export const OnboardingPage = () => {
 
   if (!isLoggedIntoGitHub || !tokens || !user) {
     return (
-      <Container mt="xl">
+      <Container my="xl">
         <Center>
           <Stack>
             <Text>{'Connect your GitHub to onboard your Repos!'}</Text>
@@ -23,9 +23,5 @@ export const OnboardingPage = () => {
     );
   }
 
-  return (
-    <Container mt="xl">
-      <IntakeForm accessToken={tokens.accessToken} githubHandle={user.githubHandle} />
-    </Container>
-  );
+  return <IntakeForm accessToken={tokens.accessToken} githubHandle={user.githubHandle} />;
 };
