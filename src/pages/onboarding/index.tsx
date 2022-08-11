@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { IntakeForm } from '../../components/IntakeForm';
+import { OnboardingPage } from '../../components/onboarding';
 import { Container } from '@mantine/core';
 
 const SubmitRepos: NextPage = () => {
@@ -14,7 +14,7 @@ const SubmitRepos: NextPage = () => {
         />
       </Head>
       <Container size={800} mt="xl">
-        <IntakeForm />
+        <OnboardingPage />
       </Container>
     </div>
   );
