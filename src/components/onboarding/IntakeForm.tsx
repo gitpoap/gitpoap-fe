@@ -4,13 +4,14 @@ import styled from 'styled-components';
 import useSWR from 'swr';
 
 import { PrimaryBlue } from '../../colors';
+import { fetchWithToken } from '../../helpers';
 import { Link } from '../Link';
 import { Button, Loader, Text } from '../shared/elements';
 import { Completed } from './Completed';
 import { ContactDetails } from './ContactDetails';
 import { SelectReposList } from './SelectRepos';
-import { UploadDesigns } from './UploadDesigns';
 import { Repo } from './types';
+import { UploadDesigns } from './UploadDesigns';
 import useMantineForm from './useMantineForm';
 
 export const StyledLink = styled(Link)`
@@ -26,15 +27,6 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   const [stage, setStage] = useState(0);
   const [queueNumber, setQueueNumber] = useState(0);
   const [shouldGitPOAPDesign, setShouldGitPOAPDesign] = useState(true);
-
-  const fetchWithToken = async (url: string, token: string | null) => {
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return await response.json();
-  };
 
   const { data, error, isValidating } = useSWR<Repo[]>(
     [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`, accessToken],
@@ -72,19 +64,24 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
 
   const handleSubmit = async () => {
     if (!validate().hasErrors) {
-      await fetch(`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/intake-form`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setQueueNumber(data.queueNumber);
-          setStage(3);
-        });
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/intake-form`,
+          {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+          },
+        );
+        const data = await response.json();
+        setQueueNumber(data.queueNumber);
+        setStage(3);
+      } catch (error) {
+        // TODO: handle error somehow
+      }
     }
   };
 
