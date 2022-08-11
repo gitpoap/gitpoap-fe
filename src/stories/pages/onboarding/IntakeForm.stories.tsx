@@ -27,10 +27,10 @@ IntakeForm.args = {};
 IntakeForm.parameters = {
   msw: {
     handlers: [
-      rest.get('http://localhost:3001/onboarding/github/repos', (req, res, ctx) => {
+      rest.get('*/onboarding/github/repos', (req, res, ctx) => {
         return res(ctx.json(ReposResponse));
       }),
-      rest.post('http://localhost:3001/onboarding/intake-form', (req, res, ctx) => {
+      rest.post('*/onboarding/intake-form', (req, res, ctx) => {
         return res(
           ctx.json({
             formData: req.body,
@@ -49,7 +49,7 @@ IntakeFormNoRepos.args = {};
 IntakeFormNoRepos.parameters = {
   msw: {
     handlers: [
-      rest.get('http://localhost:3001/onboarding/github/repos', (req, res, ctx) => {
+      rest.get('*/onboarding/github/repos', (req, res, ctx) => {
         return res(ctx.json([]));
       }),
     ],
@@ -62,7 +62,7 @@ IntakeFormNoAdminRepos.args = {};
 IntakeFormNoAdminRepos.parameters = {
   msw: {
     handlers: [
-      rest.get('http://localhost:3001/onboarding/github/repos', (req, res, ctx) => {
+      rest.get('*/onboarding/github/repos', (req, res, ctx) => {
         return res(ctx.json([ReposResponse[0]]));
       }),
     ],
