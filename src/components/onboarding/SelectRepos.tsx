@@ -2,7 +2,7 @@ import { Container, Divider, Group, List } from '@mantine/core';
 
 import { ExtraRed } from '../../colors';
 import { Checkbox, Text } from '../shared/elements';
-import { FormReturnTypes, Repo } from './util';
+import { FormReturnTypes, Repo } from './types';
 
 type Props = {
   errors: FormReturnTypes['errors'];

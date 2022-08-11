@@ -10,7 +10,8 @@ import { Completed } from './Completed';
 import { ContactDetails } from './ContactDetails';
 import { SelectReposList } from './SelectRepos';
 import { UploadDesigns } from './UploadDesigns';
-import { useMantineForm, Repo } from './util';
+import { Repo } from './types';
+import useMantineForm from './useMantineForm';
 
 export const StyledLink = styled(Link)`
   color: ${PrimaryBlue};

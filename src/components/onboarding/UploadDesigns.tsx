@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 import { ExtraRed } from '../../colors';
 import { RadioGroup, Text } from '../shared/elements';
-import { ACCEPTED_IMAGE_TYPES, FormReturnTypes } from './util';
+import { ACCEPTED_IMAGE_TYPES } from './schema';
+import { FormReturnTypes } from './types';
 
 const RemoveImageButton = styled(CloseButton)`
   position: absolute;
