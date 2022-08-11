@@ -3,6 +3,7 @@ import { Anchor, Group, Stepper } from '@mantine/core';
 import styled from 'styled-components';
 import useSWR from 'swr';
 
+import { PrimaryBlue } from '../../colors';
 import { Link } from '../Link';
 import { Button, Loader, Text } from '../shared/elements';
 import { Completed } from './Completed';
@@ -11,9 +12,8 @@ import { SelectReposList } from './SelectRepos';
 import { UploadDesigns } from './UploadDesigns';
 import { useMantineForm, Repo } from './util';
 
-export const StyledAnchor = styled(Anchor)`
-  font-family: inherit;
-  font-size: inherit;
+export const StyledLink = styled(Link)`
+  color: ${PrimaryBlue};
 `;
 
 type Props = {
@@ -26,14 +26,18 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   const [queueNumber, setQueueNumber] = useState(0);
   const [shouldGitPOAPDesign, setShouldGitPOAPDesign] = useState(true);
 
+  const fetchWithToken = async (url: string, token: string | null) => {
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+  };
+
   const { data, error, isValidating } = useSWR<Repo[]>(
-    `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`,
-    (url) =>
-      fetch(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }).then((res) => res.json()),
+    [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`, accessToken],
+    fetchWithToken,
   );
 
   const { clearErrors, errors, values, getInputProps, setFieldValue, validate } = useMantineForm(
@@ -83,9 +87,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     return (
       <Text>
         {`It looks like you don't have any public repos connected to your GitHub account, use our `}
-        <Link href="/#suggest">
-          <StyledAnchor>suggestion form</StyledAnchor>
-        </Link>
+        <StyledLink href="/#suggest">suggestion form</StyledLink>
         {` instead`}
       </Text>
     );
@@ -100,9 +102,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     return (
       <Text>
         {`It looks like you don't have high enough access on any of your repos, use our `}
-        <Link href="/#suggest">
-          <StyledAnchor>suggestion form</StyledAnchor>
-        </Link>
+        <StyledLink href="/#suggest">suggestion form</StyledLink>
         {` instead`}
       </Text>
     );
