@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Container, Group, Stepper } from '@mantine/core';
 import styled from 'styled-components';
 import useSWR from 'swr';
@@ -38,6 +38,15 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   const { data, error, isValidating } = useSWR<Repo[]>(
     [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`, accessToken],
     fetchWithToken,
+  );
+
+  const repos = useMemo(
+    () =>
+      data?.filter(
+        (repo: Repo) =>
+          repo.permissions.admin || repo.permissions.maintain || repo.permissions.push,
+      ),
+    [data],
   );
 
   const { clearErrors, errors, values, getInputProps, setFieldValue, validate } = useMantineForm(
@@ -83,7 +92,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   }
 
   // The user doesn't have any repos
-  if (!data || data?.length === 0) {
+  if (!data || data.length === 0) {
     return (
       <Text>
         {`It looks like you don't have any public repos connected to your GitHub account, use our `}
@@ -93,12 +102,8 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     );
   }
 
-  const repos = data.filter(
-    (repo: Repo) => repo.permissions.admin || repo.permissions.maintain || repo.permissions.push,
-  );
-
   // The user doesn't have high enough permissions on any of their repos
-  if (repos.length === 0) {
+  if (!repos || repos.length === 0) {
     return (
       <Text>
         {`It looks like you don't have high enough access on any of your repos, use our `}
