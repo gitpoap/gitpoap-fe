@@ -1,7 +1,7 @@
 import { Container } from '@mantine/core';
 
 import { Input, TextArea } from '../shared/elements';
-import { FormReturnTypes } from './util';
+import { FormReturnTypes } from './types';
 
 type Props = {
   getInputProps: FormReturnTypes['getInputProps'];
