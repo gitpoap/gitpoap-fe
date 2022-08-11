@@ -80,7 +80,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
         setQueueNumber(data.queueNumber);
         setStage(3);
       } catch (error) {
-        // TODO: handle error somehow
+        console.warn(error);
       }
     }
   };
