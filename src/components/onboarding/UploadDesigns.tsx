@@ -49,7 +49,11 @@ export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: 
           }
           variant="filled"
         />
-        <Image src={imageUrl} imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }} />
+        <Image
+          alt={file.name}
+          src={imageUrl}
+          imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
+        />
       </ImageContainer>
     );
   });

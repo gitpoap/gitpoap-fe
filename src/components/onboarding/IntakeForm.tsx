@@ -51,7 +51,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   useEffect(() => {
     clearErrors();
     setShouldGitPOAPDesign(values.shouldGitPOAPDesign === 'true');
-  }, [values.shouldGitPOAPDesign]);
+  }, [values.shouldGitPOAPDesign]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const nextStep = () =>
     setStage((current) => {
