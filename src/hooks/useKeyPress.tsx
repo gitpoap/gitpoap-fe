@@ -9,8 +9,8 @@ export const useKeyPress = ({ targetKey }: UseKeyPressOptions) => {
   const [keyPressed, setKeyPressed] = useState<boolean>(false);
   /* If pressed key is our target key then set to true */
   const downHandler = useCallback(
-    ({ key }) => {
-      if (key === targetKey) {
+    ({ key, target }) => {
+      if (key === targetKey && !(target instanceof HTMLInputElement)) {
         setKeyPressed(true);
       }
     },
