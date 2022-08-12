@@ -127,3 +127,28 @@ export const ReposResponse = [
     },
   },
 ];
+
+export const generateListOfRepos = (length: number) =>
+  Array.from(Array(length).keys()).map((i) => {
+    return {
+      name: 'repo',
+      full_name: `org/repo${i}`,
+      githubRepoId: i,
+      description: 'Docs',
+      url: `github.com/org/repo${i}`,
+      owner: {
+        id: 1,
+        type: 'public',
+        name: 'org',
+        avatar_url: '',
+        url: '',
+      },
+      permissions: {
+        admin: true,
+        maintain: true,
+        push: true,
+        triage: true,
+        pull: true,
+      },
+    };
+  });

@@ -1,7 +1,8 @@
 import { Container, Divider, Group, List, ScrollArea } from '@mantine/core';
 
-import { ExtraRed } from '../../colors';
+import { ExtraRed, TextGray } from '../../colors';
 import { Checkbox, Text } from '../shared/elements';
+import { StyledLink } from './IntakeForm';
 import { FormReturnTypes, Repo } from './types';
 
 type Props = {
@@ -19,7 +20,7 @@ const formatRepoForDB = (repo: Repo) => ({
 
 export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props) => (
   <Container mt="xl">
-    <Text>{"Select the repos you'd like to create gitpoaps for!"}</Text>
+    <Text>{"Select the repos you'd like to create GitPOAPs for!"}</Text>
     <Container mt="xl">
       <Group mb="xs">
         <Checkbox
@@ -63,5 +64,11 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
         {errors.repos}
       </Text>
     )}
+
+    <Text mt="md" style={{ color: TextGray }}>
+      {`This list only includes public repos you have a minimum of maintainer access too. If there are other repos you'd like to submit for consideration, use our `}
+      <StyledLink href="/#suggest">suggestion form</StyledLink>
+      {` instead!`}
+    </Text>
   </Container>
 );
