@@ -86,7 +86,10 @@ export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: 
             label={
               <Text>
                 {'Bring your own designs ('}
-                <StyledLink href="https://www.notion.so/gitpoap/GitPOAP-Design-Guide-Requirements-9a843acfe1c7490bbfcdab2d1a47e8af">
+                <StyledLink
+                  href="https://www.notion.so/gitpoap/GitPOAP-Design-Guide-Requirements-9a843acfe1c7490bbfcdab2d1a47e8af"
+                  target="_blank"
+                >
                   Design Guide
                 </StyledLink>
                 {')'}
