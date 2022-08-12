@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { OnboardingPage } from '../../components/onboarding';
+import { OnboardingPage } from '../../components/onboard';
 import { Container } from '@mantine/core';
 
 const SubmitRepos: NextPage = () => {

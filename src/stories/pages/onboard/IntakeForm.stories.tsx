@@ -3,11 +3,11 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Container } from '@mantine/core';
 import { rest } from 'msw';
 import { Layout } from '../../../components/Layout';
-import { IntakeForm as Component } from '../../../components/onboarding/IntakeForm';
+import { IntakeForm as Component } from '../../../components/onboard/IntakeForm';
 import { ReposResponse } from './data';
 
 export default {
-  title: 'Pages/Onboarding',
+  title: 'Pages/Onboard',
   component: Component,
 } as ComponentMeta<typeof Component>;
 
