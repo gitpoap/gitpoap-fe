@@ -1,8 +1,8 @@
-import { Container } from '@mantine/core';
+import { Container, Stack } from '@mantine/core';
 import styled from 'styled-components';
 
 import { ExtraHover, PrimaryBlue } from '../../colors';
-import { Text } from '../shared/elements';
+import { Header, Text } from '../shared/elements';
 
 export const StyledLink = styled.a`
   color: ${PrimaryBlue};
@@ -20,9 +20,13 @@ type Props = {
 
 export const Completed = ({ queueNumber }: Props) => (
   <Container mt="xl">
-    <Text>
-      {`Thank you you're #${queueNumber} in the queue. If you'd like to get in touch sooner, shoot an email over to `}
-      <StyledLink href="mailto:team@gitpoap.io">team@gitpoap.io</StyledLink>
-    </Text>
+    <Stack spacing="xl">
+      <Header>Thank you!</Header>
+      <Text>{`You're #${queueNumber} in the queue.`}</Text>
+      <Text>
+        {`If you'd like to get in touch sooner, shoot an email over to `}
+        <StyledLink href="mailto:team@gitpoap.io">team@gitpoap.io</StyledLink>
+      </Text>
+    </Stack>
   </Container>
 );
