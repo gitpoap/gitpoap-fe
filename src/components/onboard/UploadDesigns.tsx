@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { BackgroundPanel, BackgroundPanel2, ExtraRed, PrimaryBlue } from '../../colors';
 import { RadioGroup, Text, TextArea } from '../shared/elements';
+import { StyledLink } from './Completed';
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from './schema';
 import { FormReturnTypes } from './types';
 
@@ -80,7 +81,18 @@ export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: 
             value="true"
             label={<Text>{'Have GitPOAP’s design team create POAP designs'}</Text>}
           />
-          <Radio value="false" label={<Text>{'Bring your own designs'}</Text>} />
+          <Radio
+            value="false"
+            label={
+              <Text>
+                {'Bring your own designs ('}
+                <StyledLink href="https://www.notion.so/gitpoap/GitPOAP-Design-Guide-Requirements-9a843acfe1c7490bbfcdab2d1a47e8af">
+                  Design Guide
+                </StyledLink>
+                {')'}
+              </Text>
+            }
+          />
         </RadioGroup>
       </Container>
 

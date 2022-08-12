@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { ExtraHover, PrimaryBlue } from '../../colors';
 import { Text } from '../shared/elements';
 
-const StyledLink = styled.a`
+export const StyledLink = styled.a`
   color: ${PrimaryBlue};
   &:hover {
     text-decoration: underline;
