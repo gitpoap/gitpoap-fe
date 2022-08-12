@@ -153,7 +153,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   return (
     <Container my="xl" p={0}>
       <Stepper active={stage} breakpoint="sm" color={PrimaryBlue}>
-        <Stepper.Step icon={<GitHub />} label="Select Repos">
+        <Stepper.Step icon={<GitHub />} label={<Text>Select Repos</Text>}>
           <SelectReposList
             errors={errors}
             repos={repos}
@@ -162,7 +162,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
           />
         </Stepper.Step>
 
-        <Stepper.Step icon={<GitPOAP />} label="GitPOAP Details">
+        <Stepper.Step icon={<GitPOAP />} label={<Text>GitPOAP Details</Text>}>
           <UploadDesigns
             errors={errors}
             getInputProps={getInputProps}
@@ -171,7 +171,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
           />
         </Stepper.Step>
 
-        <Stepper.Step icon={<HiOutlineMailOpen />} label="Contact Details">
+        <Stepper.Step icon={<HiOutlineMailOpen />} label={<Text>Contact Details</Text>}>
           <ContactDetails getInputProps={getInputProps} />
         </Stepper.Step>
 

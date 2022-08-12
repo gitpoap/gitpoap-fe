@@ -74,7 +74,7 @@ export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: 
   });
 
   return (
-    <Container mt="xl">
+    <Container mt="sm">
       <Container mt="xl" mb="xl">
         <RadioGroup orientation="vertical" required {...getInputProps('shouldGitPOAPDesign')}>
           <Radio

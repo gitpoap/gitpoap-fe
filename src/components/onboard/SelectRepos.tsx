@@ -19,7 +19,7 @@ const formatRepoForDB = (repo: Repo) => ({
 });
 
 export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props) => (
-  <Container mt="xl">
+  <Container mt="sm">
     <Text>{"Select the repos you'd like to create GitPOAPs for!"}</Text>
     <Container mt="xl">
       <Group mb="xs">

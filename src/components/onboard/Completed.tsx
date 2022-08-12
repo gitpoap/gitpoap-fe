@@ -19,7 +19,7 @@ type Props = {
 };
 
 export const Completed = ({ queueNumber }: Props) => (
-  <Container mt="xl">
+  <Container mt="sm">
     <Stack spacing="xl">
       <Header>Thank you!</Header>
       <Text>{`You're #${queueNumber} in the queue.`}</Text>

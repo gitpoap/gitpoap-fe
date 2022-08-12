@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const ContactDetails = ({ getInputProps }: Props) => (
-  <Container mt="xl">
+  <Container mt="sm">
     <Input style={{ width: '100%' }} label="Name" placeholder="Name" {...getInputProps('name')} />
     <Input
       style={{ width: '100%' }}
