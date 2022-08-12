@@ -1,4 +1,4 @@
-import { Container, Divider, Group, List } from '@mantine/core';
+import { Container, Divider, Group, List, ScrollArea } from '@mantine/core';
 
 import { ExtraRed } from '../../colors';
 import { Checkbox, Text } from '../shared/elements';
@@ -31,27 +31,31 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
         />
       </Group>
       <Divider my="sm" />
-      <List listStyleType="none">
-        {repos.map((repo, i) => (
-          <List.Item key={repo.githubRepoId + 'list-item'}>
-            <Group key={repo.githubRepoId} mt="xs">
-              <Checkbox
-                checked={values.repos.some((r) => r.githubRepoId === repo.githubRepoId)}
-                onChange={(e) => {
-                  let newRepoList = [];
-                  if (e.target.checked) {
-                    newRepoList = [...values.repos, formatRepoForDB(repo)];
-                  } else {
-                    newRepoList = values.repos.filter((r) => r.githubRepoId !== repo.githubRepoId);
-                  }
-                  setFieldValue('repos', newRepoList);
-                }}
-                label={<Text> {repo.full_name}</Text>}
-              />
-            </Group>
-          </List.Item>
-        ))}
-      </List>
+      <ScrollArea style={{ height: 300, maxHeight: '80vh' }}>
+        <List listStyleType="none">
+          {repos.map((repo, i) => (
+            <List.Item key={repo.githubRepoId + 'list-item'}>
+              <Group key={repo.githubRepoId} mt="xs">
+                <Checkbox
+                  checked={values.repos.some((r) => r.githubRepoId === repo.githubRepoId)}
+                  onChange={(e) => {
+                    let newRepoList = [];
+                    if (e.target.checked) {
+                      newRepoList = [...values.repos, formatRepoForDB(repo)];
+                    } else {
+                      newRepoList = values.repos.filter(
+                        (r) => r.githubRepoId !== repo.githubRepoId,
+                      );
+                    }
+                    setFieldValue('repos', newRepoList);
+                  }}
+                  label={<Text> {repo.full_name}</Text>}
+                />
+              </Group>
+            </List.Item>
+          ))}
+        </List>
+      </ScrollArea>
     </Container>
 
     {errors.repos && (
