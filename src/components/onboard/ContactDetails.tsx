@@ -1,6 +1,6 @@
 import { Container } from '@mantine/core';
 
-import { Input, TextArea } from '../shared/elements';
+import { Input } from '../shared/elements';
 import { FormReturnTypes } from './types';
 
 type Props = {
@@ -17,13 +17,6 @@ export const ContactDetails = ({ getInputProps }: Props) => (
       placeholder="Email"
       required
       {...getInputProps('email')}
-    />
-    <TextArea
-      style={{ width: '100%' }}
-      mt="md"
-      label="Notes"
-      placeholder="Notes"
-      {...getInputProps('notes')}
     />
   </Container>
 );

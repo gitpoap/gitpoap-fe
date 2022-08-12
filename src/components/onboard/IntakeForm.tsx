@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { HiOutlineMailOpen } from 'react-icons/hi';
 import { Container, Group, Stepper } from '@mantine/core';
+import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import useSWR from 'swr';
@@ -38,8 +39,13 @@ type Props = {
 };
 
 export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
-  const [stage, setStage] = useState(0);
   const [queueNumber, setQueueNumber] = useState(0);
+  // const [queueNumber, setQueueNumber] = useLocalStorage<number | undefined>(
+  //   {
+  //     key: `onboarding-${githubHandle}`,
+  //   },
+  // );
+  const [stage, setStage] = useState(queueNumber ? 3 : 0);
 
   const { data, error, isValidating } = useSWR<Repo[]>(
     [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`, accessToken],
@@ -145,9 +151,9 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   }
 
   return (
-    <Container my="xl">
+    <Container my="xl" p={0}>
       <Stepper active={stage} breakpoint="sm" color={PrimaryBlue}>
-        <Stepper.Step icon={<GitHub style={{ color: 'white' }} />} label="Select Repos">
+        <Stepper.Step icon={<GitHub />} label="Select Repos">
           <SelectReposList
             errors={errors}
             repos={repos}

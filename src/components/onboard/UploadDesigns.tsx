@@ -3,8 +3,8 @@ import { Dropzone } from '@mantine/dropzone';
 import styled from 'styled-components';
 
 import { BackgroundPanel, BackgroundPanel2, ExtraRed, PrimaryBlue } from '../../colors';
-import { RadioGroup, Text } from '../shared/elements';
-import { ACCEPTED_IMAGE_TYPES } from './schema';
+import { RadioGroup, Text, TextArea } from '../shared/elements';
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from './schema';
 import { FormReturnTypes } from './types';
 
 const StyledDropzone = styled(Dropzone)`
@@ -78,7 +78,7 @@ export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: 
         <RadioGroup orientation="vertical" required {...getInputProps('shouldGitPOAPDesign')}>
           <Radio
             value="true"
-            label={<Text>{'Have GitPOAP’s design team create POAP designs”'}</Text>}
+            label={<Text>{'Have GitPOAP’s design team create POAP designs'}</Text>}
           />
           <Radio value="false" label={<Text>{'Bring your own designs'}</Text>} />
         </RadioGroup>
@@ -94,21 +94,21 @@ export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: 
       <StyledDropzone
         mt="xl"
         accept={ACCEPTED_IMAGE_TYPES}
+        maxSize={MAX_FILE_SIZE}
         onDrop={(files) => setFieldValue(`images`, [...values.images, ...files])}
       >
-        {(status) =>
-          previews.length > 0 ? (
-            <SimpleGrid
-              cols={4}
-              breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
-              // mt={previews.length > 0 ? 'xl' : 0}
-            >
-              {previews}
-            </SimpleGrid>
-          ) : (
-            <Text align="center">Drop your inspiration here to help us get started</Text>
-          )
-        }
+        {(status) => (
+          <>
+            <Text align="center">
+              Drop your inspiration or branding here to help us get started
+            </Text>
+            {previews.length > 0 && (
+              <SimpleGrid cols={4} breakpoints={[{ maxWidth: 'sm', cols: 1 }]} mt={16}>
+                {previews}
+              </SimpleGrid>
+            )}
+          </>
+        )}
       </StyledDropzone>
 
       {Object.keys(errors).find((error) => /^images/.test(error)) && (
@@ -118,6 +118,9 @@ export const UploadDesigns = ({ errors, getInputProps, setFieldValue, values }: 
             .map((key) => errors[key])}
         </Text>
       )}
+
+      <Text mt="xl">{"Anything else you'd like to share?"}</Text>
+      <TextArea style={{ width: '100%' }} mt="md" placeholder="Notes" {...getInputProps('notes')} />
     </Container>
   );
 };

@@ -12,7 +12,7 @@ const repoSchema = z.object({
   }),
 });
 
-const MAX_FILE_SIZE = 5000000;
+export const MAX_FILE_SIZE = 5000000;
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
 
 const ImageFileSchema = z
@@ -34,6 +34,7 @@ export const createSchema = (stage: number) => {
         shouldGitPOAPDesign: z.string(),
         isOneGitPOAPPerRepo: z.string(),
         images: z.array(ImageFileSchema),
+        notes: z.string(),
       });
     case 2:
       return z.object({
@@ -42,7 +43,6 @@ export const createSchema = (stage: number) => {
           .string()
           .email({ message: 'Invalid email' })
           .min(1, { message: 'Email is required' }),
-        notes: z.string(),
       });
   }
 };
