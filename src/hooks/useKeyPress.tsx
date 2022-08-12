@@ -18,8 +18,8 @@ export const useKeyPress = ({ targetKey }: UseKeyPressOptions) => {
   );
   /* If released key is our target key then set to false */
   const upHandler = useCallback(
-    ({ key, target }) => {
-      if (key === targetKey && !(target instanceof HTMLInputElement)) {
+    ({ key }) => {
+      if (key === targetKey) {
         setKeyPressed(false);
       }
     },
