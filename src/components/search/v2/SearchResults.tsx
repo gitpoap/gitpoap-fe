@@ -68,9 +68,6 @@ export const SearchResults = ({ searchQuery }: Props) => {
       <SearchResultsContainer>
         <SortingTabs>
           <SortSection>
-            <ProfileResults searchQuery={debouncedSearch} />
-          </SortSection>
-          <SortSection>
             <RepoResults searchQuery={debouncedSearch} />
           </SortSection>
           <SortSection>
@@ -78,6 +75,9 @@ export const SearchResults = ({ searchQuery }: Props) => {
           </SortSection>
           <SortSection>
             <GitPOAPResults searchQuery={debouncedSearch} />
+          </SortSection>
+          <SortSection>
+            <ProfileResults searchQuery={debouncedSearch} />
           </SortSection>
         </SortingTabs>
       </SearchResultsContainer>

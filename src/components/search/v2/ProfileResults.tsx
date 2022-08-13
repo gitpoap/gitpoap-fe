@@ -103,7 +103,7 @@ export const ProfileResults = ({ searchQuery }: Props) => {
 
   return (
     <Wrapper>
-      <SearchResultList title={`${profileResults?.length ?? ''} profiles`}>
+      <SearchResultList title={`${profileResults?.length ?? ''} contributors`}>
         <OrgListContainer>
           {/* {result.fetching && !result.operation && (
             <>
