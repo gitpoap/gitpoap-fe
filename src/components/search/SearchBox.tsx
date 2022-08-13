@@ -273,25 +273,25 @@ export const SearchBox = ({ className }: Props) => {
         setIsSearchActive(false);
         setProfileResults([]);
 
-        /* profile is selected */
         if (cursor < profilesCount) {
+          /* profile is selected */
           inputRef.current?.blur();
           router.push(profileResults[cursor].href);
         } else if (cursor < repoStartIndex) {
-          inputRef.current?.blur();
           /* gitPOAP is selected */
+          inputRef.current?.blur();
           const gitPOAPIndex = cursor - profilesCount;
           const gitPOAP = gitPOAPs && gitPOAPs[gitPOAPIndex];
           router.push(`/gp/${gitPOAP?.id}`);
         } else if (cursor < orgStartIndex) {
-          inputRef.current?.blur();
           /* repo is selected */
+          inputRef.current?.blur();
           const repoIndex = cursor - repoStartIndex;
           const repo = repos && repos[repoIndex];
           router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
         } else {
-          inputRef.current?.blur();
           /* org is selected */
+          inputRef.current?.blur();
           const orgIndex = cursor - orgStartIndex;
           const org = orgs && orgs[orgIndex];
           router.push(`/gh/${org?.name}`);
@@ -312,6 +312,14 @@ export const SearchBox = ({ className }: Props) => {
           () => {
             setIsSearchActive(false);
             inputRef.current?.blur();
+          },
+        ],
+        [
+          'Enter',
+          () => {
+            setIsSearchActive(false);
+            inputRef.current?.blur();
+            router.push(`/s/${debouncedQuery}`);
           },
         ],
       ])}

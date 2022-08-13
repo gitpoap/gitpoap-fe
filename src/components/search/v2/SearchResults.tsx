@@ -68,10 +68,10 @@ export const SearchResults = ({ searchQuery }: Props) => {
       <SearchResultsContainer>
         <SortingTabs>
           <SortSection>
-            <RepoResults searchQuery={debouncedSearch} />
+            <OrgResults searchQuery={debouncedSearch} />
           </SortSection>
           <SortSection>
-            <OrgResults searchQuery={debouncedSearch} />
+            <RepoResults searchQuery={debouncedSearch} />
           </SortSection>
           <SortSection>
             <GitPOAPResults searchQuery={debouncedSearch} />
