@@ -29,6 +29,7 @@ const BodyStyles = css<{ hoverEffects?: boolean }>`
     background-color: ${BackgroundPanel};
     top: ${rem(-49.5)};
     transition: 150ms background-color ease;
+    left: 0;
   }
   &:after {
     content: '';
@@ -39,6 +40,7 @@ const BodyStyles = css<{ hoverEffects?: boolean }>`
     background-color: ${BackgroundPanel};
     bottom: ${rem(-50)};
     transition: 150ms background-color ease;
+    left: 0;
   }
 
   ${(props) =>

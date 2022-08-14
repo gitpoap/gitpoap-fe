@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { isAddress } from 'ethers/lib/utils';
-import { OrgList as OrgListContainer } from '../../shared/compounds/OrgList';
+import { RepoList as RepoListContainer } from '../../shared/compounds/RepoList';
 import { useSearchForStringQuery } from '../../../graphql/generated-gql';
 import { SearchResultList } from './SearchResultList';
-import { OrganizationHex, OrganizationHexSkeleton } from '../../orgs/OrgHex';
+import { ProfileResultItem } from './ProfileResultItem';
 import { useWeb3Context } from '../../wallet/Web3ContextProvider';
 
 const Wrapper = styled.div`
@@ -99,24 +99,15 @@ export const ProfileResults = ({ searchQuery }: Props) => {
     return null;
   }
 
-  console.log('profileResults', profileResults);
-
   return (
     <Wrapper>
       <SearchResultList title={`${profileResults?.length ?? ''} contributors`}>
-        <OrgListContainer>
-          {/* {result.fetching && !result.operation && (
-            <>
-              {[...Array(4)].map((_, i) => (
-                <OrganizationHexSkeleton key={i} />
-              ))}
-            </>
-          )}
-          {orgs &&
-            orgs.map((org, i) => {
-              return <OrganizationHex key={'org-' + i} org={org} />;
-            })} */}
-        </OrgListContainer>
+        <RepoListContainer>
+          {profileResults &&
+            profileResults.map((profile, i) => {
+              return <ProfileResultItem key={profile.id} addressOrEns={profile.address} />;
+            })}
+        </RepoListContainer>
       </SearchResultList>
     </Wrapper>
   );

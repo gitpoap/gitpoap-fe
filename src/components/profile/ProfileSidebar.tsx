@@ -17,6 +17,8 @@ export const ProfileSidebar = () => {
   const { profileData, avatarURI, showEditProfileButton, setIsUpdateModalOpen, isLoading } =
     useProfileContext();
 
+  console.log('profileData', profileData);
+
   const sidebarAddress = profileData?.address ?? null;
   const ensName = profileData?.ensName ?? null;
   const bio = profileData?.bio ?? null;
