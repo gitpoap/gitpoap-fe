@@ -7,7 +7,7 @@ import { Loader } from '../shared/elements/Loader';
 import { rem } from 'polished';
 import { Input } from '../shared/elements/Input';
 import { GitPOAPBadgeSearchItem, NoResultsSearchItem, ProfileSearchItem } from './SearchItem';
-import { BackgroundPanel2, TextGray } from '../../colors';
+import { BackgroundPanel2, TextGray, DarkGray } from '../../colors';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
 import { useKeyPress } from '../../hooks/useKeyPress';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
@@ -17,7 +17,7 @@ import {
   useSearchForStringQuery,
   useGitPoapSearchByNameQuery,
 } from '../../graphql/generated-gql';
-import { Text } from '@mantine/core';
+import { Text, Tooltip } from '@mantine/core';
 import { BREAKPOINTS } from '../../constants';
 import { isAddress } from 'ethers/lib/utils';
 
@@ -88,6 +88,17 @@ const SectionTitle = styled(Text)`
   letter-spacing: ${rem(2)};
 `;
 
+const InputHintText = styled(Text)`
+  width: ${rem(25)};
+  text-align: center;
+  font-size: ${rem(12)};
+  border-radius: ${rem(4)};
+  padding: ${rem(3)};
+  background-color: ${DarkGray};
+  color: ${TextGray};
+  cursor: help;
+`;
+
 type ProfileResult = {
   id: number;
   address: string;
@@ -99,6 +110,25 @@ type Props = {
   className?: string;
 };
 
+type InputHintSectionProps = {
+  isFocused: boolean;
+};
+
+const InputHintSection = ({ isFocused }: InputHintSectionProps) => (
+  <Tooltip
+    label={
+      isFocused
+        ? 'Press ESC to get out of the search box'
+        : 'Press / to set focus on the search box'
+    }
+    position="top"
+    withArrow
+    transition="pop-bottom-right"
+  >
+    <InputHintText>{isFocused ? 'ESC' : '/'}</InputHintText>
+  </Tooltip>
+);
+
 export const SearchBox = ({ className }: Props) => {
   const router = useRouter();
   const [query, setQuery] = useState('');
@@ -108,6 +138,7 @@ export const SearchBox = ({ className }: Props) => {
   const [areResultsLoading, setAreResultsLoading] = useState(false);
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
   const [cursor, setCursor] = useState<number>(-1);
+  const [isSearchInputFocused, setIsSearchInputFocused] = useState(false);
   const isSlashPressed = useKeyPress({ targetKey: '/' });
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -332,6 +363,9 @@ export const SearchBox = ({ className }: Props) => {
         onChange={(e) => setQuery(e.target.value)}
         icon={isLoading ? <Loader size={18} /> : <FaSearch />}
         onKeyDown={handleKeyDown}
+        rightSection={<InputHintSection isFocused={isSearchInputFocused} />}
+        onFocus={() => setIsSearchInputFocused(true)}
+        onBlur={() => setIsSearchInputFocused(false)}
       />
 
       {isSearchActive && (
