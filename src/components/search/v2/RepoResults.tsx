@@ -29,7 +29,7 @@ export const RepoResults = ({ searchQuery }: Props) => {
 
   return (
     <Wrapper>
-      <SearchResultList title={`${repos?.length ?? ''} repos`}>
+      <SearchResultList title={`${repos?.length ?? ''} projects`}>
         <RepoListContainer>
           {result.fetching && !result.operation && repos && repos.length === 0 && (
             <>
