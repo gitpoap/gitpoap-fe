@@ -350,7 +350,7 @@ export const SearchBox = ({ className }: Props) => {
           () => {
             setIsSearchActive(false);
             inputRef.current?.blur();
-            router.push(`/s/${debouncedQuery}`);
+            router.push(`/s/${query}`);
           },
         ],
       ])}

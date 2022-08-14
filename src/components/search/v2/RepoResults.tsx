@@ -21,6 +21,7 @@ export const RepoResults = ({ searchQuery }: Props) => {
   const [result] = useRepoSearchByNameQuery({ variables: { search: searchQuery, take: 8 } });
 
   const repos = result.data?.repos;
+  const length = repos?.length ?? 0;
 
   if (result.error) {
     return null;
@@ -28,7 +29,7 @@ export const RepoResults = ({ searchQuery }: Props) => {
 
   return (
     <Wrapper>
-      <SearchResultList title={`${repos?.length ?? ''} projects`}>
+      <SearchResultList title={`${length} ${length == 1 ? 'project' : 'projects'}`}>
         <OrgListContainer>
           {result.fetching && !result.operation && repos && repos.length === 0 && (
             <>

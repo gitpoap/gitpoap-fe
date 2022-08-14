@@ -33,6 +33,7 @@ export const ProfileResults = ({ searchQuery }: Props) => {
   const [areResultsLoading, setAreResultsLoading] = useState(false);
 
   const [result] = useSearchForStringQuery({ variables: { text: searchQuery } });
+  const length = profileResults?.length ?? 0;
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
@@ -101,7 +102,7 @@ export const ProfileResults = ({ searchQuery }: Props) => {
 
   return (
     <Wrapper>
-      <SearchResultList title={`${profileResults?.length ?? ''} contributors`}>
+      <SearchResultList title={`${length} ${length == 1 ? 'contributor' : 'contributors'}`}>
         <OrgListContainer>
           {profileResults &&
             profileResults.map((profile, i) => {

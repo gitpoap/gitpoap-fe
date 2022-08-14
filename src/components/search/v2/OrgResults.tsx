@@ -21,6 +21,7 @@ export const OrgResults = ({ searchQuery }: Props) => {
   const [result] = useOrgSearchByNameQuery({ variables: { search: searchQuery, take: 6 } });
 
   const orgs = result.data?.organizations;
+  const length = orgs?.length ?? 0;
 
   if (result.error) {
     return null;
@@ -28,7 +29,7 @@ export const OrgResults = ({ searchQuery }: Props) => {
 
   return (
     <Wrapper>
-      <SearchResultList title={`${orgs?.length ?? ''} orgs`}>
+      <SearchResultList title={`${length} ${length == 1 ? 'organization' : 'organizations'}`}>
         <OrgListContainer>
           {result.fetching && !result.operation && (
             <>
