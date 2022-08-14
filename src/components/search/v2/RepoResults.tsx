@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { rem } from 'polished';
-import { RepoList as RepoListContainer } from '../../shared/compounds/RepoList';
+import { OrgList as OrgListContainer } from '../../shared/compounds/OrgList';
 import { RepoHex, RepoHexSkeleton } from '../../repos/RepoHex';
 import { useRepoSearchByNameQuery } from '../../../graphql/generated-gql';
 import { SearchResultList } from './SearchResultList';
@@ -30,7 +29,7 @@ export const RepoResults = ({ searchQuery }: Props) => {
   return (
     <Wrapper>
       <SearchResultList title={`${repos?.length ?? ''} projects`}>
-        <RepoListContainer>
+        <OrgListContainer>
           {result.fetching && !result.operation && repos && repos.length === 0 && (
             <>
               {[...Array(4)].map((_, i) => (
@@ -42,7 +41,7 @@ export const RepoResults = ({ searchQuery }: Props) => {
             repos.map((repo, i) => {
               return <RepoHex key={'repo-' + i} repo={repo} />;
             })}
-        </RepoListContainer>
+        </OrgListContainer>
       </SearchResultList>
     </Wrapper>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { isAddress } from 'ethers/lib/utils';
-import { RepoList as RepoListContainer } from '../../shared/compounds/RepoList';
+import { OrgList as OrgListContainer } from '../../shared/compounds/OrgList';
 import { useSearchForStringQuery } from '../../../graphql/generated-gql';
 import { SearchResultList } from './SearchResultList';
 import { ProfileResultItem } from './ProfileResultItem';
@@ -102,12 +102,12 @@ export const ProfileResults = ({ searchQuery }: Props) => {
   return (
     <Wrapper>
       <SearchResultList title={`${profileResults?.length ?? ''} contributors`}>
-        <RepoListContainer>
+        <OrgListContainer>
           {profileResults &&
             profileResults.map((profile, i) => {
               return <ProfileResultItem key={profile.id} addressOrEns={profile.address} />;
             })}
-        </RepoListContainer>
+        </OrgListContainer>
       </SearchResultList>
     </Wrapper>
   );
