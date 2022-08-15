@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
+import { useLocalStorage } from '@mantine/hooks';
 import { Link, IconLink } from '../Link';
 import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleStyles } from '../shared/elements';
 import { TextAccent, TextGray, ExtraHover } from '../../colors';
@@ -129,9 +130,21 @@ export const Header = ({ gitPOAPId }: Props) => {
   const repos = result?.data?.gitPOAPEvent?.gitPOAP.project.repos;
   const { setIsOpen } = useClaimModalContext();
   const features = useFeatures();
+  const [isCheckButtonClicked, setIsCheckButtonClicked] = useLocalStorage<boolean>({
+    key: 'isCheckButtonClicked',
+    defaultValue: false,
+  });
+
+  useEffect(() => {
+    if (isLoggedIntoGitHub && isCheckButtonClicked) {
+      setIsOpen(true);
+      setIsCheckButtonClicked(false);
+    }
+  }, [isLoggedIntoGitHub, isCheckButtonClicked, setIsOpen, setIsCheckButtonClicked]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!isLoggedIntoGitHub) {
+      setIsCheckButtonClicked(true);
       authorizeGitHub();
     } else {
       setIsOpen(true);
@@ -185,7 +198,7 @@ export const Header = ({ gitPOAPId }: Props) => {
         </>
       )}
       <CheckEligibilityButton onClick={handleClick} leftIcon={<GithubIcon size={20} />}>
-        {isLoggedIntoGitHub ? "Check If I'm Eligible" : 'Connect your GitHub to check eligibility'}
+        {"Check If I'm Eligible"}
       </CheckEligibilityButton>
     </Wrapper>
   );
