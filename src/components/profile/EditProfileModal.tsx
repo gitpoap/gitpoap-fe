@@ -203,7 +203,7 @@ export const EditProfileModal = ({
           <LeaderboardVisibility>
             <Checkbox
               label={'Is visible on leaderboard?'}
-              checked={isVisibleOnLeaderboardValue}
+              checked={isVisibleOnLeaderboardValue ?? false}
               onChange={(e) => setIsVisibleOnLeaderboardValue(e.target.checked)}
             />
           </LeaderboardVisibility>

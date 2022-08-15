@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Checkbox as CheckboxUI } from '@mantine/core';
+import { Checkbox as CheckboxUI, CheckboxProps } from '@mantine/core';
 import {
   BackgroundPanel,
   BackgroundPanel2,
@@ -10,7 +10,7 @@ import {
 } from '../../../colors';
 import { TextInputLabelStyles } from './Input';
 
-const StyledCheckbox = styled(CheckboxUI)<{ disabled?: boolean }>`
+const StyledCheckbox = styled(CheckboxUI)<CheckboxProps & { disabled?: boolean }>`
   .mantine-Checkbox-input {
     &:not(:disabled) {
       /* Unchecked Styles */
@@ -50,6 +50,6 @@ const StyledCheckbox = styled(CheckboxUI)<{ disabled?: boolean }>`
   }
 `;
 
-export const Checkbox = (props: React.ComponentProps<typeof CheckboxUI>) => {
+export const Checkbox = (props: CheckboxProps) => {
   return <StyledCheckbox transitionDuration={150} {...props} />;
 };
