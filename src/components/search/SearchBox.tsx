@@ -91,7 +91,7 @@ const SectionTitle = styled(Text)`
 const InputHintText = styled(Text)`
   width: ${rem(25)};
   text-align: center;
-  font-size: ${rem(12)};
+  font-size: ${rem(10)};
   border-radius: ${rem(4)};
   padding: ${rem(3)};
   background-color: ${DarkGray};
