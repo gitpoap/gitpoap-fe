@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Radio, InputWrapper as InputWrapperUI } from '@mantine/core';
+import { Radio, Input as InputUI } from '@mantine/core';
 import { validate } from 'email-validator';
 import { BackgroundPanel2, TextAccent } from '../../colors';
 import { Input, TextInputLabelStyles } from '../shared/elements/Input';
@@ -57,7 +57,7 @@ const FormStatus = styled.div`
   margin-top: ${rem(5)};
 `;
 
-const InputWrapper = styled(InputWrapperUI)`
+const InputWrapper = styled(InputUI.Wrapper)`
   .mantine-InputWrapper-label {
     ${TextInputLabelStyles};
     margin-bottom: ${rem(11)};

@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { ExtraRed } from '../../../colors';
-import { InputWrapper as InputWrapperUI } from '@mantine/core';
+import { Input } from '@mantine/core';
 import { TextInputLabelStyles } from './Input';
 
-type Props = React.ComponentProps<typeof InputWrapperUI>;
+type Props = React.ComponentProps<typeof Input.Wrapper>;
 
-const StyledInputWrapper = styled(InputWrapperUI)<{ disabled?: boolean }>`
+const StyledInputWrapper = styled(Input.Wrapper)<Props & { disabled?: boolean }>`
   display: inline-block;
 
   .mantine-InputWrapper-label {

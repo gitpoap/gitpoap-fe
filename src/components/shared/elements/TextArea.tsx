@@ -35,6 +35,7 @@ const StyledInputBase = styled(Textarea)<{ disabled?: boolean }>`
     background-color: ${BackgroundPanel};
     transition: 150ms background-color ease;
     letter-spacing: ${rem(0.2)};
+    border: ${rem(1)} solid transparent;
 
     &:hover:not(:disabled):not(:focus) {
       background-color: ${BackgroundPanel2};
