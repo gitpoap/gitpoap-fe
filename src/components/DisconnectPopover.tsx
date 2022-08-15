@@ -45,22 +45,30 @@ export const DisconnectPopover = ({
     <Popover
       opened={isOpen}
       onClose={onClose}
-      target={target}
       position="bottom"
-      placement="center"
       closeOnClickOutside
       trapFocus={false}
-      spacing={6}
       withArrow
       radius="md"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      styles={{
+        dropdown: {
+          margin: 0,
+          padding: 5,
+        },
+      }}
     >
-      <Group>
-        <Button variant="outline" onClick={handleOnClick} rightIcon={icon}>
-          {buttonText}
-        </Button>
-      </Group>
+      <Popover.Target>
+        <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+          {target}
+        </div>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Group onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+          <Button variant="outline" onClick={handleOnClick} rightIcon={icon}>
+            {buttonText}
+          </Button>
+        </Group>
+      </Popover.Dropdown>
     </Popover>
   );
 };

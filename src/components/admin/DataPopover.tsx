@@ -73,44 +73,42 @@ export const DataPopover = ({ data }: DataPopoverProps) => {
       opened={isPopoverOpen}
       onClose={() => setIsPopoverOpen(false)}
       position="left"
-      placement="center"
       withArrow
       trapFocus={false}
       closeOnEscape={false}
       transition="pop-top-left"
       styles={{
-        body: {
+        dropdown: {
           pointerEvents: 'none',
           backgroundColor: BackgroundPanel2,
           borderColor: BackgroundPanel2,
         },
-        target: {
-          display: 'flex',
-        },
       }}
       radius="lg"
-      target={
+    >
+      <Popover.Target>
         <StyledFaQuestionCircle
           onMouseEnter={() => setIsPopoverOpen(true)}
           onMouseLeave={() => setIsPopoverOpen(false)}
           size={20}
         />
-      }
-    >
-      <DataContainer>
-        {Object.entries(data).map(([key, value]) => {
-          const hasValue = value !== null && value !== undefined && value !== '';
-          return (
-            <DataEntry key={key}>
-              {/* Account for boolean false being a valid value */}
-              <FieldName hasValue={hasValue}>
-                <b>{`${key}:`}</b>
-              </FieldName>
-              <span>{` ${printValue(value)}`}</span>
-            </DataEntry>
-          );
-        })}
-      </DataContainer>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <DataContainer>
+          {Object.entries(data).map(([key, value]) => {
+            const hasValue = value !== null && value !== undefined && value !== '';
+            return (
+              <DataEntry key={key}>
+                {/* Account for boolean false being a valid value */}
+                <FieldName hasValue={hasValue}>
+                  <b>{`${key}:`}</b>
+                </FieldName>
+                <span>{` ${printValue(value)}`}</span>
+              </DataEntry>
+            );
+          })}
+        </DataContainer>
+      </Popover.Dropdown>
     </Popover>
   );
 };
