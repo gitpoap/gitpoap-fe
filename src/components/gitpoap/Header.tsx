@@ -6,6 +6,7 @@ import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import { Link, IconLink } from '../Link';
 import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleStyles } from '../shared/elements';
 import { TextAccent, TextGray, ExtraHover } from '../../colors';
+import { useAuthContext } from '../../components/github/AuthContext';
 import { useFeatures } from '../../components/FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
 import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
@@ -117,6 +118,8 @@ const ReposContentRight = styled.div`
 `;
 
 export const Header = ({ gitPOAPId }: Props) => {
+  const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
+
   const [result] = useGitPoapEventQuery({
     variables: {
       id: gitPOAPId,
@@ -126,6 +129,14 @@ export const Header = ({ gitPOAPId }: Props) => {
   const repos = result?.data?.gitPOAPEvent?.gitPOAP.project.repos;
   const { setIsOpen } = useClaimModalContext();
   const features = useFeatures();
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!isLoggedIntoGitHub) {
+      authorizeGitHub();
+    } else {
+      setIsOpen(true);
+    }
+  };
 
   return (
     <Wrapper>
@@ -173,8 +184,8 @@ export const Header = ({ gitPOAPId }: Props) => {
           </Links>
         </>
       )}
-      <CheckEligibilityButton onClick={() => setIsOpen(true)} leftIcon={<GithubIcon size={20} />}>
-        {"Check If I'm Eligible"}
+      <CheckEligibilityButton onClick={handleClick} leftIcon={<GithubIcon size={20} />}>
+        {isLoggedIntoGitHub ? "Check If I'm Eligible" : 'Connect your GitHub to check eligibility'}
       </CheckEligibilityButton>
     </Wrapper>
   );
