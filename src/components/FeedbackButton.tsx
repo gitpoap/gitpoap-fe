@@ -26,7 +26,6 @@ const CircleButton = styled.a`
   transition: background-color 200ms ease-in-out, transform 200ms ease-in-out;
   border-radius: 50%;
   border: ${rem(3)} solid ${BackgroundPanel2};
-  z-index: 100;
   &:hover {
     background-color: ${BackgroundPanel2};
     transform: scale(1.1);
@@ -75,6 +74,7 @@ export const FeedbackButton = ({ className, href }: Props) => {
       transitionDuration={200}
       radius="lg"
       withinPortal
+      zIndex={100}
       styles={{
         dropdown: {
           backgroundColor: BackgroundPanel,
@@ -82,7 +82,7 @@ export const FeedbackButton = ({ className, href }: Props) => {
       }}
     >
       <Popover.Target>
-        <Box onMouseEnter={open} onMouseLeave={close} className={className}>
+        <Box onMouseEnter={open} onMouseLeave={close} className={className} style={{ zIndex: 100 }}>
           <CircleButton href={href} target="_blank" rel="noopener noreferrer">
             <StyledLogo />
           </CircleButton>
