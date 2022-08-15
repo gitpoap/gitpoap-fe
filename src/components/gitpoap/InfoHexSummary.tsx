@@ -60,7 +60,7 @@ const Name = styled.div`
   flex-grow: 0;
 `;
 
-const Bio = styled(Text)<TextProps<'div'>>`
+const Bio = styled(Text)<TextProps & React.ComponentPropsWithoutRef<'div'>>`
   font-family: PT Mono;
   font-style: normal;
   font-weight: normal;
