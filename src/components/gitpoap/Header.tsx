@@ -131,7 +131,7 @@ export const Header = ({ gitPOAPId }: Props) => {
   const { setIsOpen } = useClaimModalContext();
   const features = useFeatures();
   const [isCheckButtonClicked, setIsCheckButtonClicked] = useLocalStorage<boolean>({
-    key: 'isCheckButtonClicked',
+    key: 'isCheckEligibilityButtonClicked',
     defaultValue: false,
   });
 
@@ -140,7 +140,7 @@ export const Header = ({ gitPOAPId }: Props) => {
       setIsOpen(true);
       setIsCheckButtonClicked(false);
     }
-  }, [isLoggedIntoGitHub, isCheckButtonClicked, setIsOpen, setIsCheckButtonClicked]);
+  }, [isLoggedIntoGitHub, isCheckButtonClicked]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!isLoggedIntoGitHub) {
