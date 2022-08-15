@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Group, MantineTheme, Popover } from '@mantine/core';
-import { Image } from '@mantine/core';
-import { Dropzone as DropzoneUI, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-import { HiOutlinePhotograph, HiOutlineX, HiUpload } from 'react-icons/hi';
-import { IconType } from 'react-icons';
-import { BackgroundPanel, BackgroundPanel2, ExtraRed } from '../../colors';
+import { Group, Popover } from '@mantine/core';
+import { Image, Stack } from '@mantine/core';
+import { Dropzone as DropzoneUI, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { HiOutlinePhotograph } from 'react-icons/hi';
+import { BackgroundPanel, BackgroundPanel2, ExtraRed, TextLight } from '../../colors';
 import { Text } from '../shared/elements/Text';
 import { LineClamp } from '../shared/compounds/GitPOAP';
 
@@ -28,34 +27,9 @@ const SmallText = styled(Text)`
   ${LineClamp(3)}
 `;
 
-const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
-  return status.accepted
-    ? theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]
-    : status.rejected
-    ? theme.colors.red[theme.colorScheme === 'dark' ? 4 : 6]
-    : theme.colorScheme === 'dark'
-    ? theme.colors.dark[0]
-    : theme.colors.gray[7];
-};
-
-const ImageUploadIcon = ({
-  status,
-  ...props
-}: React.ComponentProps<IconType> & { status: DropzoneStatus }) => {
-  if (status.accepted) {
-    return <HiUpload {...props} />;
-  }
-
-  if (status.rejected) {
-    return <HiOutlineX {...props} />;
-  }
-
-  return <HiOutlinePhotograph {...props} />;
-};
-
-export const DropzoneChildren = ({ status, theme, file, error }: DropzoneChildrenProps) => (
+export const DropzoneChildren = ({ file, error }: DropzoneChildrenProps) => (
   <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
-    <ImageUploadIcon status={status} style={{ color: getIconColor(status, theme) }} size={80} />
+    <HiOutlinePhotograph style={{ color: !!error ? ExtraRed : TextLight }} size={80} />
     {!!file ? (
       <div>
         <Text color="white" size="xl" inline>
@@ -95,13 +69,11 @@ export const DropzoneChildren = ({ status, theme, file, error }: DropzoneChildre
 );
 
 type DropzoneChildrenProps = {
-  status: DropzoneStatus;
-  theme: MantineTheme;
   file: File | null;
   error: React.ReactNode;
 };
 
-export const DropzoneChildrenSmall = ({ status, theme, file, error }: DropzoneChildrenProps) => {
+export const DropzoneChildrenSmall = ({ file, error }: DropzoneChildrenProps) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   return (
     <Group
@@ -110,25 +82,25 @@ export const DropzoneChildrenSmall = ({ status, theme, file, error }: DropzoneCh
       style={{ minWidth: rem(340), maxWidth: rem(400), minHeight: rem(90) }}
     >
       {!!file ? (
-        <Group align="start" position="center" direction="row" spacing={5}>
+        <Group align="start" position="center" spacing={5}>
           <Popover
             opened={isPopoverOpen}
             onClose={() => setIsPopoverOpen(false)}
             position="left"
-            placement="center"
             withArrow
             trapFocus={false}
             closeOnEscape={false}
             transition="pop-top-left"
             styles={{
-              body: {
+              dropdown: {
                 pointerEvents: 'none',
                 backgroundColor: BackgroundPanel2,
                 borderColor: BackgroundPanel2,
               },
             }}
             radius="lg"
-            target={
+          >
+            <Popover.Target>
               <Image
                 width={90}
                 height={90}
@@ -137,34 +109,25 @@ export const DropzoneChildrenSmall = ({ status, theme, file, error }: DropzoneCh
                 onMouseEnter={() => setIsPopoverOpen(true)}
                 onMouseLeave={() => setIsPopoverOpen(false)}
               />
-            }
-          >
-            <div style={{ display: 'flex' }}>
-              <Image width={470} height={470} src={URL.createObjectURL(file)} alt="preview" />
-            </div>
+            </Popover.Target>
+            <Popover.Dropdown>
+              <div style={{ display: 'flex' }}>
+                <Image width={470} height={470} src={URL.createObjectURL(file)} alt="preview" />
+              </div>
+            </Popover.Dropdown>
           </Popover>
-          <Group
-            direction="column"
-            align="start"
-            position="center"
-            spacing={5}
-            style={{ marginLeft: rem(10) }}
-          >
+          <Stack align="start" justify="center" spacing={5} style={{ marginLeft: rem(10) }}>
             <SmallText color="white" size="sm" inline>
               {file.name}
             </SmallText>
             <SmallText size="sm" color="dimmed" inline mt={7}>
               {`${file.size / 1000} KB - ${file.type}`}
             </SmallText>
-          </Group>
+          </Stack>
         </Group>
       ) : !!error ? (
         <>
-          <ImageUploadIcon
-            status={status}
-            style={{ color: getIconColor(status, theme) }}
-            size={24}
-          />
+          <HiOutlinePhotograph style={{ color: ExtraRed }} size={24} />
           <div>
             <Text style={{ color: ExtraRed }} size="md" inline>
               {'Drag image or select file'}
@@ -173,11 +136,7 @@ export const DropzoneChildrenSmall = ({ status, theme, file, error }: DropzoneCh
         </>
       ) : (
         <>
-          <ImageUploadIcon
-            status={status}
-            style={{ color: getIconColor(status, theme) }}
-            size={24}
-          />
+          <HiOutlinePhotograph style={{ color: TextLight }} size={24} />
           <div>
             <Text color="white" size="md" inline>
               {'Drag image or select file'}

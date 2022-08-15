@@ -280,14 +280,7 @@ export const EventCreateRow = (props: Props) => {
             onReject={(files) => console.error('rejected files', files)}
             maxSize={3 * 1024 ** 2}
           >
-            {(status) => (
-              <DropzoneChildrenSmall
-                status={status}
-                theme={theme}
-                file={values.image}
-                error={errors.image}
-              />
-            )}
+            <DropzoneChildrenSmall file={values.image} error={errors.image} />
           </ImageDropzone>
         </InputWrapper>
         {/* Derived Values */}
