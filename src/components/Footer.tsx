@@ -47,7 +47,7 @@ const GitPOAPLink = styled.a`
   align-items: center;
 `;
 
-const FooterText = styled(Text)<TextProps<'div'>>`
+const FooterText = styled(Text)<TextProps & React.ComponentPropsWithoutRef<'div'>>`
   font-family: PT Mono;
   font-style: normal;
   font-weight: normal;
@@ -57,7 +57,7 @@ const FooterText = styled(Text)<TextProps<'div'>>`
   letter-spacing: ${rem(-0.1)};
 `;
 
-const GitPOAPContent = styled(Box)<BoxProps<'div'>>`
+const GitPOAPContent = styled(Box)<BoxProps & React.ComponentPropsWithoutRef<'div'>>`
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
