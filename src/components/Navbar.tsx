@@ -149,12 +149,9 @@ export const Navbar = () => {
           title={title}
         />
       </Container>
-      {/* Conditional prevents SSR hydration issue */}
-      {typeof window !== 'undefined' && (
-        <MobileCollapseMenu in={isOpen}>
-          <CollapseMenuContent spacing="lg">{navItemsCollapsed}</CollapseMenuContent>
-        </MobileCollapseMenu>
-      )}
+      <MobileCollapseMenu in={isOpen}>
+        <CollapseMenuContent spacing="lg">{navItemsCollapsed}</CollapseMenuContent>
+      </MobileCollapseMenu>
     </Nav>
   );
 };
