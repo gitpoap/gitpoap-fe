@@ -1,16 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useWeb3Context } from '../../../components/wallet/Web3ContextProvider';
-import { useProfileQuery, ProfileQuery } from '../../../graphql/generated-gql';
+import { useProfileQuery } from '../../../graphql/generated-gql';
 import { useEnsAvatar } from '../../../hooks/useEnsAvatar';
-import styled from 'styled-components';
-import { rem } from 'polished';
-import {
-  BackgroundPanel,
-  BackgroundPanel2,
-  ExtraHover,
-  ExtraPressed,
-  TextGray,
-} from '../../../colors';
 import { InfoHexProfileDetail } from '../../../components/profile/InfoHexProfileDetail';
 import { truncateAddress } from '../../../helpers';
 
@@ -29,10 +20,8 @@ const getName = (ensName: string | null, address: string | null) => {
 };
 
 export const ProfileResultItem = ({ addressOrEns }: Props) => {
-  const { infuraProvider, web3Provider, address: connectedWalletAddress } = useWeb3Context();
-
-  // const [profileData, setProfileData] = useState<ProfileQuery['profileData']>();
-  const [result, refetch] = useProfileQuery({
+  const { infuraProvider } = useWeb3Context();
+  const [result] = useProfileQuery({
     variables: {
       address: addressOrEns ?? '',
     },
