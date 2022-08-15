@@ -5,6 +5,7 @@ import { Tooltip } from './Tooltip';
 import { FiShare } from 'react-icons/fi';
 import { LinkStyles } from '../../../components/shared/elements/NavLink';
 import { useClipboard } from '@mantine/hooks';
+import { Box } from '@mantine/core';
 
 type Props = {
   className?: string;
@@ -18,7 +19,7 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const ShareText = styled.div`
+const ShareText = styled(Box)`
   ${LinkStyles}
   cursor: pointer;
 `;
@@ -32,13 +33,7 @@ export const Share = ({ className, textToCopy }: Props) => {
 
   return (
     <Container className={className} onClick={() => clipboard.copy(textToCopy)}>
-      <Tooltip
-        opened={clipboard.copied}
-        label="Copied!"
-        withArrow
-        position="right"
-        placement="center"
-      >
+      <Tooltip opened={clipboard.copied} label="Copied!" withArrow position="right">
         <ShareText>
           {'Share'}
           <Icon />
