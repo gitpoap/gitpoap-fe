@@ -26,7 +26,7 @@ type Props = {
 };
 
 export const GitPOAPResults = ({ searchQuery }: Props) => {
-  const [result] = useGitPoapSearchByNameQuery({ variables: { search: searchQuery } });
+  const [result] = useGitPoapSearchByNameQuery({ variables: { search: searchQuery, take: 12 } });
 
   const gitPOAPS = result.data?.gitPOAPS;
   const length = gitPOAPS?.length ?? 0;
@@ -37,7 +37,7 @@ export const GitPOAPResults = ({ searchQuery }: Props) => {
 
   return (
     <Wrapper>
-      <SearchResultList title={`${length} ${length == 1 ? 'GitPOAP' : 'GitPOAPs'}`}>
+      <SearchResultList title={`${length} ${length === 1 ? 'GitPOAP' : 'GitPOAPs'}`}>
         <Poaps>
           {result.fetching && !result.operation && gitPOAPS && gitPOAPS.length === 0 && (
             <>
