@@ -7,6 +7,7 @@ import { Tooltip } from './Tooltip';
 import { Title } from '../../shared/elements/Title';
 import { TextGray } from '../../../colors';
 import { truncateAddress } from '../../../helpers';
+import { Box } from '@mantine/core';
 
 type Props = {
   className?: string;
@@ -15,6 +16,8 @@ type Props = {
 };
 
 const Address = styled(Title)`
+  display: flex;
+  flex-direction: row;
   font-family: PT Mono;
   font-style: normal;
   font-weight: normal;
@@ -31,8 +34,10 @@ export const CollapsibleAddress = ({ className, address, isCollapsed }: Props) =
   return (
     <Address className={className} onClick={() => clipboard.copy(address)}>
       {isCollapsed ? truncatedAddress : address}
-      <Tooltip opened={clipboard.copied} label="Copied!" withArrow position="right" placement="end">
-        <FiCopy style={{ marginLeft: rem(6) }} />
+      <Tooltip opened={clipboard.copied} label="Copied!" withArrow position="right">
+        <Box>
+          <FiCopy style={{ marginLeft: rem(6) }} />
+        </Box>
       </Tooltip>
     </Address>
   );
