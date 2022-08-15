@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Group, Table as TableUI } from '@mantine/core';
+import { Group, Table as TableUI, Stack } from '@mantine/core';
 import { Header, Text } from '../../components/shared/elements';
 import { Divider } from '../../components/shared/elements';
 import { BackgroundPanel2, TextLight } from '../../colors';
@@ -69,8 +69,8 @@ export const TableDashboard = <T extends Record<string, TD<string | number>>[]>(
   name,
 }: Props<T>) => {
   return (
-    <Group direction="row" position="center">
-      <Group direction="column">
+    <Group position="center">
+      <Stack>
         <Group position="apart" align="flex-end" style={{ width: '100%' }}>
           <Header>{name}</Header>
           {Object.entries(topRowData).map(([key, value]) => (
@@ -105,7 +105,7 @@ export const TableDashboard = <T extends Record<string, TD<string | number>>[]>(
             ))}
           </tbody>
         </Table>
-      </Group>
+      </Stack>
     </Group>
   );
 };

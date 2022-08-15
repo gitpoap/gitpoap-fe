@@ -17,7 +17,7 @@ import {
 } from '../../graphql/generated-gql';
 import useSWR from 'swr';
 import { Header, LinkHoverStyles } from '../shared/elements';
-import { Box, Group, BoxProps } from '@mantine/core';
+import { Box, Group, BoxProps, Stack } from '@mantine/core';
 import { Link } from '../Link';
 import { TextLight } from '../../colors';
 
@@ -48,11 +48,12 @@ const HeaderContainer = styled.div`
   margin-top: ${rem(20)};
 `;
 
-type ItemProps = BoxProps<'div'> & {
-  name: string;
-  value?: string | number;
-  href?: string;
-};
+type ItemProps = BoxProps &
+  React.ComponentPropsWithoutRef<'div'> & {
+    name: string;
+    value?: string | number;
+    href?: string;
+  };
 
 const fetchWithToken = async (url: string, token: string | null) => {
   const response = await fetch(url, {
@@ -139,8 +140,8 @@ export const VitalsDashboard = (props: Props) => {
     totalClaimsWithPullRequestEarnedResult.data?.aggregateClaim._count?.id;
 
   return (
-    <Group direction="row" position="center">
-      <Group direction="column">
+    <Group position="center">
+      <Stack>
         <Dashboard>
           <HeaderContainer>
             <Header>{'Vitals Dashboard'}</Header>
@@ -263,7 +264,7 @@ export const VitalsDashboard = (props: Props) => {
             style={{ marginBottom: rem(15) }}
           />
         </Dashboard>
-      </Group>
+      </Stack>
     </Group>
   );
 };

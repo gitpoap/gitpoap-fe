@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Center, Grid, Group } from '@mantine/core';
+import { Center, Grid, Stack } from '@mantine/core';
 import { Page } from './_app';
 import { BackgroundPanel2 } from '../colors';
 import { BannerStats } from '../components/home/BannerStats';
@@ -81,12 +81,12 @@ const Home: Page = () => {
 
       <Grid align="center" justify="center" style={{ zIndex: 0, marginBottom: rem(50) }}>
         <Grid.Col xs={11} md={10}>
-          <Group direction="column" position="center" align="center">
+          <Stack justify="center" align="center">
             <Divider style={{ width: '75%', borderTopColor: BackgroundPanel2 }} />
             <Center style={{ marginTop: rem(30) }}>
               <SuggestionForm />
             </Center>
-          </Group>
+          </Stack>
         </Grid.Col>
       </Grid>
     </>

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { MdEmojiPeople } from 'react-icons/md';
-import { Group } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import { Header, InfoHexBase, Text as TextUI } from '../shared/elements';
 import { BREAKPOINTS } from '../../constants';
 import { LeaderBoardItem } from '../home/LeaderBoardItem';
@@ -48,16 +48,10 @@ type EmptyStateProps = {
 
 export const EmptyState = ({ children, icon }: EmptyStateProps) => {
   return (
-    <Group
-      direction="column"
-      position="center"
-      align="center"
-      grow
-      style={{ padding: rem(30), flex: '1' }}
-    >
+    <Stack justify="center" align="center" style={{ padding: rem(30), flex: '1' }}>
       {icon && icon}
       {children}
-    </Group>
+    </Stack>
   );
 };
 

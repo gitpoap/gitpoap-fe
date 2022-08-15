@@ -17,7 +17,7 @@ type Props<F extends Record<string, AcceptedDataTypes>> = {
   data: F;
   clearData: () => void;
   buttonStatus: ButtonStatus;
-  onSubmit: () => void;
+  onSubmit: React.MouseEventHandler<HTMLFormElement>;
   onDelete?: () => void;
 };
 
@@ -29,12 +29,7 @@ export const SubmitButtonRow = <F extends Record<string, AcceptedDataTypes>>({
   onDelete,
 }: Props<F>) => {
   return (
-    <Group
-      direction="row"
-      position="left"
-      align="center"
-      style={{ marginTop: rem(20), marginBottom: rem(20) }}
-    >
+    <Group position="left" align="center" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
       {onDelete && (
         <Button
           onClick={onDelete}
