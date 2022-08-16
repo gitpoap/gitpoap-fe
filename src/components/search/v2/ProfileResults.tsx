@@ -30,7 +30,6 @@ export const ProfileResults = ({ searchQuery }: Props) => {
   const { web3Provider, infuraProvider } = useWeb3Context();
 
   const [profileResults, setProfileResults] = useState<ProfileResult[]>([]);
-  const [areResultsLoading, setAreResultsLoading] = useState(false);
 
   const [result] = useSearchForStringQuery({ variables: { text: searchQuery } });
   const length = profileResults?.length ?? 0;
@@ -39,7 +38,6 @@ export const ProfileResults = ({ searchQuery }: Props) => {
   useEffect(() => {
     const prepareResults = async () => {
       if (searchQuery?.length > 0) {
-        setAreResultsLoading(true);
         let results: ProfileResult[] = [];
         if (result.data?.search.profilesByAddress) {
           const profilesByAddress = result.data.search.profilesByAddress.map((profile) => ({
@@ -88,7 +86,6 @@ export const ProfileResults = ({ searchQuery }: Props) => {
             ];
           }
         }
-        setAreResultsLoading(false);
         setProfileResults(results);
       }
     };
