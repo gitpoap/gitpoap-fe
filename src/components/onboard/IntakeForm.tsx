@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { HiOutlineMailOpen } from 'react-icons/hi';
 import { Container, Group, Stepper } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
@@ -6,7 +6,7 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 import useSWR from 'swr';
 
-import { BackgroundPanel, ExtraHover, PrimaryBlue, White } from '../../colors';
+import { BackgroundPanel, ExtraHover, PrimaryBlue } from '../../colors';
 import { fetchWithToken } from '../../helpers';
 import { Link } from '../Link';
 import { Button, Loader, Text } from '../shared/elements';
@@ -72,6 +72,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   const [queueNumber, setQueueNumber] = useLocalStorage<number>({
     key: `onboarding-${githubHandle}`,
   });
+  const [shouldGitPOAPDesign, setShouldGitPOAPDesign] = useState<boolean>(true);
   const [stage, setStage] = useState<number>(queueNumber ? 0 : 0);
 
   const { data, error, isValidating } = useSWR<Repo[]>(
@@ -92,9 +93,12 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     [data],
   );
 
-  const { errors, values, getInputProps, reset, setFieldValue, validate } = useMantineForm(
-    stage,
-    githubHandle,
+  const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
+    useMantineForm(shouldGitPOAPDesign, stage, githubHandle);
+
+  useEffect(
+    () => setShouldGitPOAPDesign(values.shouldGitPOAPDesign === 'true'),
+    [values.shouldGitPOAPDesign],
   );
 
   const nextStep = () =>
@@ -122,9 +126,10 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
       formData.append('shouldGitPOAPDesign', values.shouldGitPOAPDesign);
       formData.append('isOneGitPOAPPerRepo', values.isOneGitPOAPPerRepo);
       formData.append('repos', JSON.stringify(mappedRepos));
-      values.images.forEach((image, index) => {
-        formData.append('images', image, `image-${index}`);
-      });
+      shouldGitPOAPDesign &&
+        values.images.forEach((image, index) => {
+          formData.append('images', image, `image-${index}`);
+        });
 
       try {
         const response = await fetch(
@@ -177,8 +182,6 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     );
   }
 
-  console.log(values);
-
   return (
     <Container my="xl" p={0}>
       <StyledStepper active={stage} breakpoint="sm">
@@ -195,6 +198,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
           <UploadDesigns
             errors={errors}
             getInputProps={getInputProps}
+            setFieldError={setFieldError}
             setFieldValue={setFieldValue}
             values={values}
           />

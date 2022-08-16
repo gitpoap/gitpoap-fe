@@ -20,10 +20,10 @@ const ImageFileSchema = z
   .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
   .refine(
     (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-    '.jpg, .jpeg, .png and .webp files are accepted.',
+    'File type must be one of image/jpeg, image/jpg, image/png, image/webp',
   );
 
-export const createSchema = (stage: number) => {
+export const createSchema = (shouldGitPOAPDesign: boolean, stage: number) => {
   switch (stage) {
     case 0:
       return z.object({
@@ -33,7 +33,9 @@ export const createSchema = (stage: number) => {
       return z.object({
         shouldGitPOAPDesign: z.string(),
         isOneGitPOAPPerRepo: z.string(),
-        images: z.array(ImageFileSchema),
+        images: shouldGitPOAPDesign
+          ? z.array(ImageFileSchema)
+          : z.array(ImageFileSchema).optional(),
         notes: z.string(),
       });
     case 2:
