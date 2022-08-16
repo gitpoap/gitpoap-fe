@@ -30,7 +30,7 @@ export const FurtherInfoHow = () => {
   return (
     <>
       <Grid.Col xs={10} sm={10} md={5} lg={5} xl={5}>
-        <Header>{'How does it work'}</Header>
+        <Header>{'How it works'}</Header>
         <StyledText style={{ marginTop: rem(35) }}>
           <b>{'A POAP '}</b>
           {`is a digital collectible created as an NFT that represents an action taken by the owner. POAPs exist with cryptographic provability on the blockchain and are displayable as badges &  viewable by anyone.`}
