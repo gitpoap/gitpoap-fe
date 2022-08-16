@@ -9,6 +9,7 @@ import { ProfileResults } from './ProfileResults';
 import { RepoResults } from './RepoResults';
 import { OrgResults } from './OrgResults';
 import { GitPOAPResults } from './GitPOAPResults';
+import { BREAKPOINTS } from '../../../constants';
 
 const SearchHeading = styled.div`
   margin-bottom: ${rem(20)};
@@ -21,8 +22,14 @@ const SearchHeading = styled.div`
 const SearchBox = styled(Input)`
   margin-top: ${rem(40)};
   width: ${rem(550)};
+
+  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
+    width: ${rem(340)};
+  }
 `;
-const SearchResultsContainer = styled.div``;
+const SearchResultsContainer = styled.div`
+  padding: ${rem(20)};
+`;
 const SortingTabs = styled.div``;
 const SortSection = styled.div``;
 
