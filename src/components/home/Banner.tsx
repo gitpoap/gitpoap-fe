@@ -7,6 +7,7 @@ import { FilledButtonStyles, OutlineButtonStyles } from '../shared/elements/Butt
 import { Button, ButtonProps, Text, TextProps } from '@mantine/core';
 import { FaArrowRight } from 'react-icons/fa';
 import { Link } from '../Link';
+import { useAuthContext } from '../github/AuthContext';
 
 const Container = styled.div`
   display: inline-flex;
@@ -15,7 +16,8 @@ const Container = styled.div`
   justify-content: center;
   flex: 1;
   margin-bottom: ${rem(20)};
-  margin-top: ${rem(75)};
+  margin-top: ${rem(55)};
+  max-width: 100%;
 `;
 
 const HeaderStyled = styled.span`
@@ -75,6 +77,7 @@ const CTAButtons = styled.div`
 `;
 
 export const Banner = () => {
+  const { authorizeGitHub } = useAuthContext();
   return (
     <Container>
       <HeaderStyled>{'Immutable Records of your Contributions'}</HeaderStyled>
@@ -89,7 +92,13 @@ export const Banner = () => {
             {'START ISSUING'}
           </StartIssuingButton>
         </Link>
-        <StartMintingButton radius="md" size="xl" rightIcon={<FaArrowRight />} variant="outline">
+        <StartMintingButton
+          onClick={authorizeGitHub}
+          radius="md"
+          size="xl"
+          rightIcon={<FaArrowRight />}
+          variant="outline"
+        >
           {'START MINTING'}
         </StartMintingButton>
       </CTAButtons>
