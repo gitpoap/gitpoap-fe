@@ -3,9 +3,9 @@ import { useForm, zodResolver } from '@mantine/form';
 import { createSchema } from './schema';
 import { FormFields } from './types';
 
-const useMantineForm = (shouldGitPOAPDesign: boolean, stage: number, githubHandle: string) =>
+const useMantineForm = (stage: number, githubHandle: string) =>
   useForm<FormFields>({
-    schema: zodResolver(createSchema(shouldGitPOAPDesign, stage)),
+    schema: zodResolver(createSchema(stage)),
     initialValues: {
       githubHandle: githubHandle,
       repos: [],

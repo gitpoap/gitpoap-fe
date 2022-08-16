@@ -23,7 +23,7 @@ const ImageFileSchema = z
     'File type must be one of image/jpeg, image/jpg, image/png, image/webp',
   );
 
-export const createSchema = (shouldGitPOAPDesign: boolean, stage: number) => {
+export const createSchema = (stage: number) => {
   switch (stage) {
     case 0:
       return z.object({
@@ -33,9 +33,7 @@ export const createSchema = (shouldGitPOAPDesign: boolean, stage: number) => {
       return z.object({
         shouldGitPOAPDesign: z.string(),
         isOneGitPOAPPerRepo: z.string(),
-        images: shouldGitPOAPDesign
-          ? z.array(ImageFileSchema)
-          : z.array(ImageFileSchema).optional(),
+        images: z.array(ImageFileSchema),
         notes: z.string(),
       });
     case 2:

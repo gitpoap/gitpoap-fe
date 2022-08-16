@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { HiOutlineMailOpen } from 'react-icons/hi';
 import { Container, Group, Stepper } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
@@ -72,7 +72,6 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   const [queueNumber, setQueueNumber] = useLocalStorage<number>({
     key: `onboarding-${githubHandle}`,
   });
-  const [shouldGitPOAPDesign, setShouldGitPOAPDesign] = useState<boolean>(true);
   const [stage, setStage] = useState<number>(queueNumber ? 0 : 0);
 
   const { data, error, isValidating } = useSWR<Repo[]>(
@@ -94,12 +93,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   );
 
   const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
-    useMantineForm(shouldGitPOAPDesign, stage, githubHandle);
-
-  useEffect(
-    () => setShouldGitPOAPDesign(values.shouldGitPOAPDesign === 'true'),
-    [values.shouldGitPOAPDesign],
-  );
+    useMantineForm(stage, githubHandle);
 
   const nextStep = () =>
     setStage((current) => {
@@ -126,7 +120,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
       formData.append('shouldGitPOAPDesign', values.shouldGitPOAPDesign);
       formData.append('isOneGitPOAPPerRepo', values.isOneGitPOAPPerRepo);
       formData.append('repos', JSON.stringify(mappedRepos));
-      shouldGitPOAPDesign &&
+      values.shouldGitPOAPDesign === 'true' &&
         values.images.forEach((image, index) => {
           formData.append('images', image, `image-${index}`);
         });
