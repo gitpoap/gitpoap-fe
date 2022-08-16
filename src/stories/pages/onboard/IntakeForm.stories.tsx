@@ -14,7 +14,7 @@ export default {
 const Template: ComponentStory<typeof Component> = () => {
   return (
     <Layout>
-      <Container size={800} mt="xl" style={{ width: '100%' }}>
+      <Container size={800}>
         <Component accessToken="1234567890" githubHandle="aldolamb" />
       </Container>
     </Layout>

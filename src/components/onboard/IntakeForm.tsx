@@ -158,7 +158,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   if (!data || data.length === 0) {
     return (
       <Text>
-        {`It looks like you don't have any public repos connected to your GitHub account, use our `}
+        {`It looks like you don't have any public repos connected to your GitHub account. use our `}
         <StyledLink href="/#suggest">suggestion form</StyledLink>
         {` instead`}
       </Text>
@@ -169,7 +169,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   if (!repos || repos.length === 0) {
     return (
       <Text>
-        {`It looks like you don't have high enough access on any of your repos, use our `}
+        {`We're currently prioritizing repo submissions made by users with push, maintain, or admin access to repos, use our `}
         <StyledLink href="/#suggest">suggestion form</StyledLink>
         {` instead`}
       </Text>
