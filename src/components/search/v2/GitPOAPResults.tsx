@@ -1,23 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { POAPList } from '../../shared/compounds/POAPList';
 import { SearchResultList } from './SearchResultList';
 import { POAPBadgeSkeleton } from '../../shared/elements/Skeletons';
 import { useGitPoapSearchByNameQuery } from '../../../graphql/generated-gql';
 import { GitPOAP } from '../../shared/compounds/GitPOAP';
+import { OrgList as OrgListContainer } from '../../shared/compounds/OrgList';
 
 const Wrapper = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Poaps = styled(POAPList)`
-  max-width: ${rem(1000)};
-  margin-top: ${rem(50)};
-  margin-bottom: ${rem(25)};
 `;
 
 type Props = {
@@ -38,7 +32,7 @@ export const GitPOAPResults = ({ searchQuery }: Props) => {
   return (
     <Wrapper>
       <SearchResultList title={`${length} ${length === 1 ? 'GitPOAP' : 'GitPOAPs'}`}>
-        <Poaps>
+        <OrgListContainer>
           {result.fetching && !result.operation && gitPOAPS && gitPOAPS.length === 0 && (
             <>
               {[...Array(4)].map((_, i) => (
@@ -57,7 +51,7 @@ export const GitPOAPResults = ({ searchQuery }: Props) => {
                 orgName={gitPOAP.project.repos[0].organization.name}
               />
             ))}
-        </Poaps>
+        </OrgListContainer>
       </SearchResultList>
     </Wrapper>
   );
