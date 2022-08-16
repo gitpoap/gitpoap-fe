@@ -33,7 +33,7 @@ export const OnboardingPage = () => {
                 <List.Item>
                   <Bold>Annual Contributor GitPOAPs:</Bold>
                   {
-                    " We'll award a GitPOAP to anyone who has had a Pull Request merged to your project in each given year"
+                    " We'll award a GitPOAP to anyone who has had a Pull Request merged to your repo in each given year"
                   }
                 </List.Item>
                 <List.Item>
