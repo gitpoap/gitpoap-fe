@@ -27,8 +27,8 @@ const HeaderStyled = styled.span`
   font-family: PT Mono;
   font-style: normal;
   font-weight: bold;
-  font-size: ${rem(28)};
-  line-height: ${rem(30)};
+  font-size: ${rem(32)};
+  line-height: ${rem(34)};
   text-align: center;
   letter-spacing: ${rem(1)};
   color: ${TextLight};
@@ -53,6 +53,7 @@ const StartIssuingButton = styled(Button)<SharedButtonProps>`
   transition: 150ms background ease, 150ms color ease, 150ms border ease;
   margin-bottom: ${rem(30)};
   margin-right: ${rem(20)};
+  min-width: ${rem(275)};
   ${FilledButtonStyles};
 `;
 
@@ -62,6 +63,7 @@ const StartMintingButton = styled(Button)<SharedButtonProps>`
   transition: 150ms background ease, 150ms color ease, 150ms border ease;
   margin-bottom: ${rem(20)};
   margin-left: ${rem(20)};
+  min-width: ${rem(275)};
   ${OutlineButtonStyles};
 `;
 
@@ -74,10 +76,10 @@ const CTAButtons = styled.div`
 export const Banner = () => {
   return (
     <Container>
-      <HeaderStyled>{'Build your decentralized professional reputation'}</HeaderStyled>
+      <HeaderStyled>{'Immutable Records of your Contributions'}</HeaderStyled>
       <BannerSubHeader align="center" size="md">
         {
-          'Recognize, nurture, and grow your community of contributors through the distribution of GitPOAPs & help them build an unbiased record of their work.'
+          'Issue digital badges as a special way to nurture your community. Earn them to build an unbiased track record of your work.'
         }
       </BannerSubHeader>
       <CTAButtons>
