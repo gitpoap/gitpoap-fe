@@ -1,12 +1,16 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { HiOutlineMailOpen } from 'react-icons/hi';
 import { Container, Group, Stepper } from '@mantine/core';
+import { useLocalStorage } from '@mantine/hooks';
+import { rem } from 'polished';
 import styled from 'styled-components';
 import useSWR from 'swr';
 
-import { PrimaryBlue } from '../../colors';
+import { BackgroundPanel, ExtraHover, PrimaryBlue } from '../../colors';
 import { fetchWithToken } from '../../helpers';
 import { Link } from '../Link';
 import { Button, Loader, Text } from '../shared/elements';
+import { GitHub, GitPOAP } from '../shared/elements/icons';
 import { Completed } from './Completed';
 import { ContactDetails } from './ContactDetails';
 import { SelectReposList } from './SelectRepos';
@@ -16,6 +20,47 @@ import useMantineForm from './useMantineForm';
 
 export const StyledLink = styled(Link)`
   color: ${PrimaryBlue};
+  &:hover {
+    text-decoration: underline;
+    &:not(:active) {
+      color: ${ExtraHover};
+    }
+  }
+`;
+
+const StyledLoader = styled(Loader)`
+  display: block;
+  margin: ${rem(112)} auto;
+`;
+
+const StyledStepper = styled(Stepper)`
+  .mantine-Stepper-stepCompleted {
+    .mantine-Stepper-stepIcon {
+      background: ${PrimaryBlue};
+      border-color: ${PrimaryBlue};
+    }
+  }
+  .mantine-Stepper-stepProgress {
+    .mantine-Stepper-stepIcon {
+      background: ${BackgroundPanel};
+      border-color: ${PrimaryBlue};
+    }
+  }
+  .mantine-Stepper-stepIcon {
+    background: ${BackgroundPanel};
+    border-color: ${BackgroundPanel};
+  }
+
+  .mantine-Stepper-separator {
+    background: ${BackgroundPanel};
+  }
+  .mantine-Stepper-separatorActive {
+    background: ${PrimaryBlue};
+  }
+
+  .mantine-Stepper-content {
+    margin-top: ${rem(16)};
+  }
 `;
 
 type Props = {
@@ -24,13 +69,18 @@ type Props = {
 };
 
 export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
-  const [stage, setStage] = useState(0);
-  const [queueNumber, setQueueNumber] = useState(0);
-  const [shouldGitPOAPDesign, setShouldGitPOAPDesign] = useState(true);
+  const [queueNumber, setQueueNumber] = useLocalStorage<number>({
+    key: `onboarding-${githubHandle}`,
+  });
+  const [stage, setStage] = useState<number>(queueNumber ? 0 : 0);
 
   const { data, error, isValidating } = useSWR<Repo[]>(
     [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`, accessToken],
     fetchWithToken,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    },
   );
 
   const repos = useMemo(
@@ -42,16 +92,8 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     [data],
   );
 
-  const { clearErrors, errors, values, getInputProps, setFieldValue, validate } = useMantineForm(
-    stage,
-    shouldGitPOAPDesign,
-    githubHandle,
-  );
-
-  useEffect(() => {
-    clearErrors();
-    setShouldGitPOAPDesign(values.shouldGitPOAPDesign === 'true');
-  }, [values.shouldGitPOAPDesign]);
+  const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
+    useMantineForm(stage, githubHandle);
 
   const nextStep = () =>
     setStage((current) => {
@@ -78,9 +120,10 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
       formData.append('shouldGitPOAPDesign', values.shouldGitPOAPDesign);
       formData.append('isOneGitPOAPPerRepo', values.isOneGitPOAPPerRepo);
       formData.append('repos', JSON.stringify(mappedRepos));
-      values.images.forEach((image, index) => {
-        formData.append('images', image, `image-${index}`);
-      });
+      values.shouldGitPOAPDesign === 'true' &&
+        values.images.forEach((image, index) => {
+          formData.append('images', image, `image-${index}`);
+        });
 
       try {
         const response = await fetch(
@@ -108,7 +151,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   };
 
   if (!data && !error && isValidating) {
-    return <Loader />;
+    return <StyledLoader />;
   }
 
   // The user doesn't have any repos
@@ -134,9 +177,9 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   }
 
   return (
-    <Container my="xl">
-      <Stepper active={stage} breakpoint="sm">
-        <Stepper.Step label="Select Repos">
+    <Container my="xl" p={0}>
+      <StyledStepper active={stage} breakpoint="sm">
+        <Stepper.Step icon={<GitHub />} label={<Text>Select Repos</Text>}>
           <SelectReposList
             errors={errors}
             repos={repos}
@@ -145,23 +188,30 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
           />
         </Stepper.Step>
 
-        <Stepper.Step label="Upload Designs">
+        <Stepper.Step icon={<GitPOAP />} label={<Text>GitPOAP Details</Text>}>
           <UploadDesigns
             errors={errors}
             getInputProps={getInputProps}
+            setFieldError={setFieldError}
             setFieldValue={setFieldValue}
             values={values}
           />
         </Stepper.Step>
 
-        <Stepper.Step label="Contact Details">
+        <Stepper.Step icon={<HiOutlineMailOpen />} label={<Text>Contact Details</Text>}>
           <ContactDetails getInputProps={getInputProps} />
         </Stepper.Step>
 
         <Stepper.Completed>
-          <Completed queueNumber={queueNumber} />
+          <Completed
+            queueNumber={queueNumber ?? 0}
+            resetForm={() => {
+              reset();
+              setStage(0);
+            }}
+          />
         </Stepper.Completed>
-      </Stepper>
+      </StyledStepper>
 
       <Group position="right" mt="xl">
         {stage > 0 && stage < 3 && <Button onClick={prevStep}>Back</Button>}

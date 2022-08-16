@@ -2,10 +2,10 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Container } from '@mantine/core';
 import { Layout } from '../../../components/Layout';
-import { OnboardingPage } from '../../../components/onboarding';
+import { OnboardingPage } from '../../../components/onboard';
 
 export default {
-  title: 'Pages/Onboarding',
+  title: 'Pages/Onboard',
   component: OnboardingPage,
 } as ComponentMeta<typeof OnboardingPage>;
 

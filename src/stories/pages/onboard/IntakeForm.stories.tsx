@@ -3,11 +3,11 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Container } from '@mantine/core';
 import { rest } from 'msw';
 import { Layout } from '../../../components/Layout';
-import { IntakeForm as Component } from '../../../components/onboarding/IntakeForm';
-import { ReposResponse } from './data';
+import { IntakeForm as Component } from '../../../components/onboard/IntakeForm';
+import { generateListOfRepos, ReposResponse } from './data';
 
 export default {
-  title: 'Pages/Onboarding',
+  title: 'Pages/Onboard',
   component: Component,
 } as ComponentMeta<typeof Component>;
 
@@ -29,6 +29,28 @@ IntakeForm.parameters = {
     handlers: [
       rest.get('*/onboarding/github/repos', (req, res, ctx) => {
         return res(ctx.json(ReposResponse));
+      }),
+      rest.post('*/onboarding/intake-form', (req, res, ctx) => {
+        return res(
+          ctx.json({
+            formData: req.body,
+            queueNumber: 22,
+            msg: 'Successfully submitted intake form',
+          }),
+        );
+      }),
+    ],
+  },
+};
+
+export const IntakeFormManyRepos = Template.bind({});
+IntakeFormManyRepos.args = {};
+
+IntakeFormManyRepos.parameters = {
+  msw: {
+    handlers: [
+      rest.get('*/onboarding/github/repos', (req, res, ctx) => {
+        return res(ctx.json(generateListOfRepos(1000)));
       }),
       rest.post('*/onboarding/intake-form', (req, res, ctx) => {
         return res(
