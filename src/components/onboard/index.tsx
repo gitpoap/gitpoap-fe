@@ -15,17 +15,19 @@ export const OnboardingPage = () => {
       <Container>
         <Center>
           <Stack my="xl" spacing="xl">
-            <Header>{'Connect your GitHub to onboard your Repos!'}</Header>
+            <Header>{'GitPOAP Onboarding'}</Header>
             <Text>
               {
-                "We'll award 'Annual Contributor' GitPOAPs to anyone who as had at least one PR merged to your repo. You can award GitPOAPs to individual repos, a group of repos, or your whole org, up to you."
+                "We'll award 'Annual Contributor' GitPOAPs to anyone who has had at least one merged pull request from the founding year to the current year (e.g. '2020 ProjectName Contributor'). You can award GitPOAPs to individual repos, a group of repos, or your whole org - that's up to you."
               }
             </Text>
             <Text>
               {
-                "Offering recognition in the form of GitPOAPs is great as an end on it's own, but there is much more.  There is a whole ecosystem of applications built on top of GitPOAP you can leverage to support and grown your community. Read more about the POAP Ecosystem "
+                "Offering recognition in the form of a GitPOAP is great as an end in itself, but there's also a whole ecosystem of applications built on top of POAPs that you can leverage to support and grow your community. Read more about the POAP Ecosystem "
               }
-              <StyledLink href="https://poap.directory/">here</StyledLink>
+              <StyledLink href="https://poap.directory/" target="_blank">
+                here
+              </StyledLink>
               {'!'}
             </Text>
             <Button

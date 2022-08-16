@@ -1,5 +1,3 @@
-import { Container } from '@mantine/core';
-
 import { Input } from '../shared/elements';
 import { FormReturnTypes } from './types';
 
@@ -8,7 +6,7 @@ type Props = {
 };
 
 export const ContactDetails = ({ getInputProps }: Props) => (
-  <Container mt="sm">
+  <>
     <Input style={{ width: '100%' }} label="Name" placeholder="Name" {...getInputProps('name')} />
     <Input
       style={{ width: '100%' }}
@@ -18,5 +16,5 @@ export const ContactDetails = ({ getInputProps }: Props) => (
       required
       {...getInputProps('email')}
     />
-  </Container>
+  </>
 );

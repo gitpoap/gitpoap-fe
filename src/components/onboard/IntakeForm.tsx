@@ -6,7 +6,7 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 import useSWR from 'swr';
 
-import { ExtraHover, PrimaryBlue } from '../../colors';
+import { BackgroundPanel, ExtraHover, PrimaryBlue, White } from '../../colors';
 import { fetchWithToken } from '../../helpers';
 import { Link } from '../Link';
 import { Button, Loader, Text } from '../shared/elements';
@@ -33,19 +33,46 @@ const StyledLoader = styled(Loader)`
   margin: ${rem(112)} auto;
 `;
 
+const StyledStepper = styled(Stepper)`
+  .mantine-Stepper-stepCompleted {
+    .mantine-Stepper-stepIcon {
+      background: ${PrimaryBlue};
+      border-color: ${PrimaryBlue};
+    }
+  }
+  .mantine-Stepper-stepProgress {
+    .mantine-Stepper-stepIcon {
+      background: ${BackgroundPanel};
+      border-color: ${PrimaryBlue};
+    }
+  }
+  .mantine-Stepper-stepIcon {
+    background: ${BackgroundPanel};
+    border-color: ${BackgroundPanel};
+  }
+
+  .mantine-Stepper-separator {
+    background: ${BackgroundPanel};
+  }
+  .mantine-Stepper-separatorActive {
+    background: ${PrimaryBlue};
+  }
+
+  .mantine-Stepper-content {
+    margin-top: ${rem(16)};
+  }
+`;
+
 type Props = {
   accessToken: string;
   githubHandle: string;
 };
 
 export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
-  const [queueNumber, setQueueNumber] = useState(0);
-  // const [queueNumber, setQueueNumber] = useLocalStorage<number | undefined>(
-  //   {
-  //     key: `onboarding-${githubHandle}`,
-  //   },
-  // );
-  const [stage, setStage] = useState(queueNumber ? 3 : 0);
+  const [queueNumber, setQueueNumber] = useLocalStorage<number>({
+    key: `onboarding-${githubHandle}`,
+  });
+  const [stage, setStage] = useState<number>(queueNumber ? 0 : 0);
 
   const { data, error, isValidating } = useSWR<Repo[]>(
     [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`, accessToken],
@@ -65,7 +92,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     [data],
   );
 
-  const { errors, values, getInputProps, setFieldValue, validate } = useMantineForm(
+  const { errors, values, getInputProps, reset, setFieldValue, validate } = useMantineForm(
     stage,
     githubHandle,
   );
@@ -150,9 +177,11 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     );
   }
 
+  console.log(values);
+
   return (
     <Container my="xl" p={0}>
-      <Stepper active={stage} breakpoint="sm" color={PrimaryBlue}>
+      <StyledStepper active={stage} breakpoint="sm">
         <Stepper.Step icon={<GitHub />} label={<Text>Select Repos</Text>}>
           <SelectReposList
             errors={errors}
@@ -176,9 +205,15 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
         </Stepper.Step>
 
         <Stepper.Completed>
-          <Completed queueNumber={queueNumber} />
+          <Completed
+            queueNumber={queueNumber ?? 0}
+            resetForm={() => {
+              reset();
+              setStage(0);
+            }}
+          />
         </Stepper.Completed>
-      </Stepper>
+      </StyledStepper>
 
       <Group position="right" mt="xl">
         {stage > 0 && stage < 3 && <Button onClick={prevStep}>Back</Button>}

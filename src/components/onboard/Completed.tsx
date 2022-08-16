@@ -12,13 +12,15 @@ export const StyledLink = styled.a`
       color: ${ExtraHover};
     }
   }
+  cursor: pointer;
 `;
 
 type Props = {
   queueNumber: number;
+  resetForm: () => void;
 };
 
-export const Completed = ({ queueNumber }: Props) => (
+export const Completed = ({ queueNumber, resetForm }: Props) => (
   <Container mt="sm">
     <Stack spacing="xl">
       <Header>Thank you!</Header>
@@ -26,6 +28,11 @@ export const Completed = ({ queueNumber }: Props) => (
       <Text>
         {`If you'd like to get in touch sooner, shoot an email over to `}
         <StyledLink href="mailto:team@gitpoap.io">team@gitpoap.io</StyledLink>
+      </Text>
+      <Text>
+        {`Click `}
+        <StyledLink onClick={resetForm}>here</StyledLink>
+        {` to submit another set of repos`}
       </Text>
     </Stack>
   </Container>

@@ -1,9 +1,24 @@
-import { Container, Divider, Group, List, ScrollArea } from '@mantine/core';
+import { Container, Group, List, ScrollArea } from '@mantine/core';
+import { rem } from 'polished';
+import styled from 'styled-components';
 
-import { ExtraRed, TextGray } from '../../colors';
+import { BackgroundPanel2, ExtraRed, TextGray } from '../../colors';
 import { Checkbox, Text } from '../shared/elements';
 import { StyledLink } from './IntakeForm';
 import { FormReturnTypes, Repo } from './types';
+
+const StyledContainer = styled(Container)`
+  padding: ${rem(16)} ${rem(16)} 0;
+  border: ${rem(1)} solid ${BackgroundPanel2};
+`;
+
+const StyledScrollArea = styled(ScrollArea)`
+  padding-left: ${rem(16)};
+  border-top: ${rem(1)} solid ${BackgroundPanel2};
+  .mantine-ScrollArea-scrollbar:hover {
+    background: ${BackgroundPanel2};
+  }
+`;
 
 type Props = {
   errors: FormReturnTypes['errors'];
@@ -19,10 +34,10 @@ const formatRepoForDB = (repo: Repo) => ({
 });
 
 export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props) => (
-  <Container mt="sm">
+  <>
     <Text>{"Select the repos you'd like to create GitPOAPs for!"}</Text>
-    <Container mt="xl">
-      <Group mb="xs">
+    <StyledContainer mt="xl">
+      <Group mb="xs" position="apart">
         <Checkbox
           onChange={(e) => {
             const newRepoList = e.target.checked ? repos.map((repo) => formatRepoForDB(repo)) : [];
@@ -30,9 +45,9 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
           }}
           label={<Text>Select All</Text>}
         />
+        <Text>{`${values.repos.length} Selected`}</Text>
       </Group>
-      <Divider my="sm" />
-      <ScrollArea style={{ height: 300, maxHeight: '80vh' }}>
+      <StyledScrollArea style={{ height: 320, maxHeight: '80vh' }}>
         <List listStyleType="none">
           {repos.map((repo, i) => (
             <List.Item key={repo.githubRepoId + 'list-item'}>
@@ -56,8 +71,8 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
             </List.Item>
           ))}
         </List>
-      </ScrollArea>
-    </Container>
+      </StyledScrollArea>
+    </StyledContainer>
 
     {errors.repos && (
       <Text style={{ color: ExtraRed, width: '100%' }} size="xl" mt="xl" inline>
@@ -70,5 +85,5 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
       <StyledLink href="/#suggest">suggestion form</StyledLink>
       {` instead!`}
     </Text>
-  </Container>
+  </>
 );
