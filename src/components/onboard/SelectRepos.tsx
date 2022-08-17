@@ -68,7 +68,7 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
                 );
               }
             }}
-            label={<Text>{`Select All`}</Text>}
+            label={<Text>{`Select All (${filteredRepos.length})`}</Text>}
           />
           <Text>{`${values.repos.length} Selected`}</Text>
         </Group>
