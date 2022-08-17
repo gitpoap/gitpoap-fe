@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { Text, TextProps } from '@mantine/core';
 import { ExtraHover, ExtraPressed, TextAccent, TextDarkGray } from '../../../colors';
+import { Link } from '../../Link';
 
 export const TitleStyles = css`
   display: inline-block;
@@ -16,11 +17,7 @@ export const TitleStyles = css`
   cursor: pointer;
 `;
 
-export const TitleNoHover = styled(Text)<TextProps<'span'>>`
-  ${TitleStyles};
-`;
-
-export const Title = styled(TitleNoHover)`
+const TitleHoverStyles = css`
   &:hover:not([disabled]) {
     color: ${ExtraHover};
   }
@@ -31,4 +28,21 @@ export const Title = styled(TitleNoHover)`
     color: ${TextDarkGray};
     cursor: not-allowed;
   }
+`;
+
+export const TitleNoHover = styled(Text)<TextProps<'span'>>`
+  ${TitleStyles};
+  font-size: ${rem(16)};
+  color: ${TextAccent};
+`;
+
+export const Title = styled(TitleNoHover)`
+  ${TitleHoverStyles}
+`;
+
+export const TitleLink = styled(Link)`
+  ${TitleStyles};
+  ${TitleHoverStyles};
+  font-size: ${rem(16)};
+  color: ${TextAccent};
 `;

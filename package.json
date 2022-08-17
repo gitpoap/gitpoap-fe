@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:prod-api": "NEXT_PUBLIC_GITPOAP_API_URL=https://api.gitpoap.io next dev",
     "build": "next build",
     "start": "next start",
     "storybook": "start-storybook -p 6006",

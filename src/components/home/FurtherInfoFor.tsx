@@ -17,9 +17,9 @@ const InfoHexHeader = styled(Header)`
 `;
 
 const InfoHexText = styled(Text)`
-  letter-spacing: -0.1px;
+  letter-spacing: ${rem(-0.1)};
   font-size: ${rem(16)};
-  line-height: ${rem(24)};
+  line-height: ${rem(22)};
 `;
 
 const Content = styled.div`
@@ -110,14 +110,14 @@ export const FurtherInfoFor = () => {
         </InfoHex>
       </Container>
       <Container xs={10} sm={10} md={5} lg={5} xl={5}>
-        <InfoHex href="/repos" hoverEffects>
+        <InfoHex href="/onboard" hoverEffects>
           <Content>
             <InfoHexHeader>{'For Repo Owners'}</InfoHexHeader>
             <InfoHexText>
               {`Recognize, nurture, and grow your community of contributors through the distribution of GitPOAPs & help them build an unbiased record of their work.`}
             </InfoHexText>
             <ButtonStyled style={{ marginTop: rem(40) }} rightIcon={<FaArrowRight />}>
-              {'View Repos'}
+              {'Add Repos'}
             </ButtonStyled>
           </Content>
         </InfoHex>

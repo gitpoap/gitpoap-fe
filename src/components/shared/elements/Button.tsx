@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Button as ButtonUI, SharedButtonProps } from '@mantine/core';
 import { rem } from 'polished';
 import { PrimaryBlue, TextGray, ExtraHover, ExtraPressed, DarkGray } from '../../../colors';
@@ -14,22 +14,7 @@ type Props = SharedButtonProps & {
   variant?: 'filled' | 'outline';
 };
 
-const StyledButton = styled(ButtonUI)<React.ComponentProps<typeof Button>>`
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  font-family: 'PT Mono', monospace !important;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: ${rem(12)};
-  line-height: ${rem(18)};
-  letter-spacing: ${rem(2)};
-  transition: 150ms background ease, 150ms color ease, 150ms border ease;
-  border-radius: ${rem(6)};
-  padding: ${rem(8)} ${rem(14)};
-  height: fit-content;
-
+export const FilledButtonStyles = css`
   &.mantine-Button-filled {
     background-color: ${PrimaryBlue};
     border: none;
@@ -53,7 +38,9 @@ const StyledButton = styled(ButtonUI)<React.ComponentProps<typeof Button>>`
       }
     }
   }
+`;
 
+export const OutlineButtonStyles = css`
   &.mantine-Button-outline {
     border: ${rem(2)} solid ${TextGray};
     color: white;
@@ -86,6 +73,26 @@ const StyledButton = styled(ButtonUI)<React.ComponentProps<typeof Button>>`
       }
     }
   }
+`;
+
+const StyledButton = styled(ButtonUI)<React.ComponentProps<typeof Button>>`
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: 'PT Mono', monospace !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: ${rem(12)};
+  line-height: ${rem(18)};
+  letter-spacing: ${rem(2)};
+  transition: 150ms background ease, 150ms color ease, 150ms border ease;
+  border-radius: ${rem(6)};
+  padding: ${rem(8)} ${rem(14)};
+  height: fit-content;
+
+  ${FilledButtonStyles}
+  ${OutlineButtonStyles}
 `;
 
 export const Button = (props: Props) => {

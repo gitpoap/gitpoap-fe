@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Center, Grid, Group } from '@mantine/core';
 import { Page } from './_app';
-import { BackgroundPanel2, TextLight } from '../colors';
+import { BackgroundPanel2 } from '../colors';
 import { BannerStats } from '../components/home/BannerStats';
 import { Layout } from '../components/Layout';
 import { MostClaimed } from '../components/home/MostClaimed';
@@ -15,24 +15,7 @@ import { Divider } from '@mantine/core';
 import { SEO } from '../components/SEO';
 import { FurtherInfoFor } from '../components/home/FurtherInfoFor';
 import { FurtherInfoHow } from '../components/home/FurtherInfoHow';
-
-const HeaderStyled = styled.span`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: bold;
-  font-size: ${rem(24)};
-  line-height: ${rem(30)};
-  text-align: center;
-  letter-spacing: ${rem(1)};
-  color: ${TextLight};
-  margin-bottom: ${rem(60)};
-  margin-top: ${rem(75)};
-`;
+import { Banner } from '../components/home/Banner';
 
 const Background = styled(BackgroundHexes)`
   display: flex;
@@ -43,6 +26,12 @@ const Background = styled(BackgroundHexes)`
   z-index: -1;
   width: 100%;
   min-width: ${rem(1200)};
+`;
+
+const BannerSection = styled(Grid.Col)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Home: Page = () => {
@@ -59,9 +48,9 @@ const Home: Page = () => {
 
       <Grid justify="center" style={{ zIndex: 0, position: 'relative' }}>
         <Background />
-        <Grid.Col xs={11} md={8} style={{ zIndex: 0 }}>
-          <HeaderStyled>{'Build your decentralized professional reputation'}</HeaderStyled>
-        </Grid.Col>
+        <BannerSection xs={11} sm={11} md={11} lg={10} xl={10} style={{ zIndex: 0 }}>
+          <Banner />
+        </BannerSection>
         <Grid.Col xs={11} md={8}>
           <BannerStats />
         </Grid.Col>
