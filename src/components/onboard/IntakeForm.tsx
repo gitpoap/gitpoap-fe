@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { HiOutlineMailOpen } from 'react-icons/hi';
-import { Container, Group, Stepper } from '@mantine/core';
+import { Container, Group, Stack, Stepper } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import styled from 'styled-components';
@@ -147,12 +147,20 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   // The user doesn't have any repos
   if (!repos || repos.length === 0) {
     return (
-      <Container mt="xl" size={500}>
-        <Text>
-          {`It looks like you don't have any public repos connected to your GitHub account. use our `}
-          <StyledLink href="/#suggest">suggestion form</StyledLink>
-          {` instead`}
-        </Text>
+      <Container mt={32} size={500}>
+        <Stack>
+          <Text style={{ fontSize: rem(40), lineHeight: rem(40), textAlign: 'center' }}>
+            {'No Public Repos'}
+          </Text>
+          <Text>
+            {`It looks like you don't have any public repos connected to your GitHub account. At this time, we're currently prioritizing repo submissions made by users with push, maintain, or admin access to repos.`}
+          </Text>
+          <Text>
+            {`If there's another project you would like to see supported on GitPOAP, consider using our `}
+            <StyledLink href="/#suggest">suggestion form</StyledLink>
+            {` instead!`}
+          </Text>
+        </Stack>
       </Container>
     );
   }
@@ -164,12 +172,20 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   // The user doesn't have high enough permissions on any of their repos
   if (!filteredRepos || filteredRepos.length === 0) {
     return (
-      <Container mt="xl" size={500}>
-        <Text>
-          {`We're currently prioritizing repo submissions made by users with push, maintain, or admin access to repos, use our `}
-          <StyledLink href="/#suggest">suggestion form</StyledLink>
-          {` instead`}
-        </Text>
+      <Container mt={32} size={500}>
+        <Stack>
+          <Text style={{ fontSize: rem(40), lineHeight: rem(40), textAlign: 'center' }}>
+            {'Insufficient Access'}
+          </Text>
+          <Text>
+            {`At this time, we're currently prioritizing repo submissions made by users with push, maintain, or admin access to repos.`}
+          </Text>
+          <Text>
+            {`If there's another project you would like to see supported on GitPOAP, consider using our `}
+            <StyledLink href="/#suggest">suggestion form</StyledLink>
+            {` instead!`}
+          </Text>
+        </Stack>
       </Container>
     );
   }
