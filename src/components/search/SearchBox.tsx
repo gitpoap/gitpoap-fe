@@ -348,6 +348,7 @@ export const SearchBox = ({ className }: Props) => {
         [
           'Enter',
           () => {
+            if (!query) return;
             setIsSearchActive(false);
             inputRef.current?.blur();
             router.push(`/s/${query}`);
