@@ -115,8 +115,8 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
       )}
 
       <Text mt="md" style={{ color: TextGray }}>
-        {`This list only includes public repos you've contributed to recently and have maintainer access to. If something's missing, or you'd like to make a suggestion, use `}
-        <StyledLink href="/#suggest">this</StyledLink>
+        {`This list only includes public repos you have a minimum of maintainer access to. If there are other repos you'd like to submit for consideration, use our `}
+        <StyledLink href="/#suggest">suggestion form</StyledLink>
         {` instead!`}
       </Text>
     </>
