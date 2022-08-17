@@ -1,4 +1,4 @@
-import { Container, Grid, List, Stack, Title, Tooltip } from '@mantine/core';
+import { Container, Grid, List, Stack, Title } from '@mantine/core';
 import { rem } from 'polished';
 import { useState } from 'react';
 import { GoMarkGithub } from 'react-icons/go';
@@ -83,9 +83,11 @@ export const OnboardingPage = () => {
               <StyledTitle order={1} style={{ fontSize: rem(42), lineHeight: rem(42) }}>
                 {"Let's start creating your GitPOAPs"}
               </StyledTitle>
-              <Text style={{ fontSize: rem(16) }}>
-                {`Connect your GitHub to onboard eligible repos.`}
-              </Text>
+              {!isLoggedIntoGitHub && (
+                <Text style={{ fontSize: rem(16) }}>
+                  {`Connect your GitHub to onboard eligible repos.`}
+                </Text>
+              )}
               <ConnectButton
                 onClick={async () => {
                   !isLoggedIntoGitHub && (await authorizeGitHub());
@@ -109,34 +111,23 @@ export const OnboardingPage = () => {
                   spacing="sm"
                 >
                   <List.Item>
-                    <Tooltip label="We'll award an annual GitPOAP to anyone who has had a Pull Request merged to your repo">
-                      <Bold>Annual Contributor GitPOAPs</Bold>
-                    </Tooltip>
+                    <Bold>Annual Contributor GitPOAPs: </Bold>
+                    {" We'll award an annual GitPOAP to anyone who has had a PR merged"}
                   </List.Item>
                   <List.Item>
-                    <Tooltip label="You can select which repos are eligible, and can award a separate GitPOAP per repo or one across a group of repos">
-                      <Bold>Custom Repo Grouping</Bold>
-                    </Tooltip>
-                    {/* {
-                      ' You can select which repos are eligible, and can award a separate GitPOAP per repo or one across a group of repos'
-                    } */}
+                    <Bold>Customization: </Bold>
+                    {' You’ll choose what repos we track'}
                   </List.Item>
                   <List.Item>
-                    <Tooltip label="We'll comb through the contribution history on GitHub and award GitPOAPs to everyone who has contributed since the start, as well as everyone going forward">
-                      <Bold>Historical and Ongoing Issuance</Bold>
-                    </Tooltip>
-                    {/* {
-                      " We'll comb through the contribution history on GitHub and award GitPOAPs to everyone who has contributed since the start, as well as everyone going forward"
-                    } */}
+                    <Bold>Historical and Ongoing Issuance: </Bold>
+                    {' We’ll award for historical and ongoing contributions'}
                   </List.Item>
                 </List>
               </Text>
               <Text>
-                {
-                  "There's also an entire ecosystem of applications built on top of POAP that you can leverage to support and grow your community. Read more "
-                }
+                {'GitPOAPs also come with utility - gated access, viewing tools, and a lot '}
                 <StyledLink href="https://poap.directory/" target="_blank">
-                  here
+                  more
                 </StyledLink>
                 {'!'}
               </Text>
