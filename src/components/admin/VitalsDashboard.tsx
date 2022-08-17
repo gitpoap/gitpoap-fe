@@ -130,8 +130,6 @@ export const VitalsDashboard = (props: Props) => {
     (url) => fetch(url).then((res) => res.json()),
   );
 
-  console.log('awfawe fawefa', botInstallResults);
-
   const totalProfiles = totalProfilesResults?.data?.aggregateProfile?._count?.id;
   const totalClaims = totalClaimsResult.data?.aggregateClaim._count?.id;
   const mintedClaims = mintedClaimsResult.data?.aggregateClaim._count?.id;
