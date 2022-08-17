@@ -86,7 +86,9 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   );
 
   useEffect(() => {
-    data && !repos && setRepos(data);
+    if (data && !repos) {
+      setRepos(data);
+    }
   }, [data]);
 
   const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
