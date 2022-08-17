@@ -7,7 +7,7 @@ export type Repo = {
   description: string;
   url: string;
   owner: {
-    id: number;
+    id: number | string;
     type: 'all' | 'owner' | 'public' | 'private' | 'member';
     name: string;
     avatar_url: string;
