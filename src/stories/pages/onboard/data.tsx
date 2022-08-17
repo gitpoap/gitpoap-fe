@@ -1,26 +1,6 @@
-type Repo = {
-  name: string;
-  full_name: string;
-  githubRepoId: string;
-  description: string;
-  url: string;
-  owner: {
-    name: string;
-    type: 'all' | 'owner' | 'public' | 'private' | 'member';
-    githubOrganizationId: string;
-    avatar_url: string;
-    url: string;
-  };
-  permissions: {
-    admin: boolean; // YES
-    maintain: boolean; // YES
-    push: boolean; // YES
-    triage: boolean;
-    pull: boolean;
-  };
-};
+import { Repo } from '../../../components/onboard/types';
 
-export const ReposResponse = [
+export const ReposResponse: Repo[] = [
   {
     name: 'gitpoap-landing',
     full_name: 'gitpoap/gitpoap-landing',
@@ -128,7 +108,7 @@ export const ReposResponse = [
   },
 ];
 
-export const generateListOfRepos = (length: number) =>
+export const generateListOfRepos = (length: number): Repo[] =>
   Array.from(Array(length).keys()).map((i) => {
     return {
       name: 'repo',

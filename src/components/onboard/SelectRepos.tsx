@@ -14,6 +14,8 @@ const StyledContainer = styled(Container)`
 `;
 
 const StyledScrollArea = styled(ScrollArea)`
+  height: ${rem(320)};
+  max-height: 80vh;
   padding-left: ${rem(16)};
   border-top: ${rem(1)} solid ${BackgroundPanel2};
   border-bottom: ${rem(1)} solid ${BackgroundPanel2};
@@ -70,8 +72,8 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
           />
           <Text>{`${values.repos.length} Selected`}</Text>
         </Group>
-        <StyledScrollArea style={{ height: 320, maxHeight: '80vh' }}>
-          <List listStyleType="none">
+        <StyledScrollArea>
+          <List listStyleType="none" style={{ paddingBottom: rem(10) }}>
             {filteredRepos.map((repo: Repo) => (
               <List.Item key={repo.githubRepoId + 'list-item'}>
                 <Group key={repo.githubRepoId} mt="xs">
@@ -113,7 +115,7 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
       )}
 
       <Text mt="md" style={{ color: TextGray }}>
-        {`This list only includes public repos you have a minimum of maintainer access too. If there are other repos you'd like to submit for consideration, use our `}
+        {`This list only includes public repos you have a minimum of maintainer access to. If there are other repos you'd like to submit for consideration, use our `}
         <StyledLink href="/#suggest">suggestion form</StyledLink>
         {` instead!`}
       </Text>

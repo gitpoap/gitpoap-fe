@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HiOutlineMailOpen } from 'react-icons/hi';
 import { Container, Group, Stepper } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
@@ -73,24 +73,23 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     key: `onboarding-${githubHandle}`,
   });
   const [stage, setStage] = useState<number>(queueNumber ? 0 : 0);
+  const [repos, setRepos] = useState<Repo[]>();
 
   const { data, error, isValidating } = useSWR<Repo[]>(
     [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`, accessToken],
     fetchWithToken,
     {
+      revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
     },
   );
 
-  const repos = useMemo(
-    () =>
-      data?.filter(
-        (repo: Repo) =>
-          repo.permissions.admin || repo.permissions.maintain || repo.permissions.push,
-      ),
-    [data],
-  );
+  useEffect(() => {
+    if (data && !repos) {
+      setRepos(data);
+    }
+  }, [data]);
 
   const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
     useMantineForm(stage, githubHandle);
@@ -150,29 +149,37 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     }
   };
 
-  if (!data && !error && isValidating) {
+  if (!repos && !error && isValidating) {
     return <StyledLoader />;
   }
 
   // The user doesn't have any repos
-  if (!data || data.length === 0) {
+  if (!repos || repos.length === 0) {
     return (
-      <Text>
-        {`It looks like you don't have any public repos connected to your GitHub account, use our `}
-        <StyledLink href="/#suggest">suggestion form</StyledLink>
-        {` instead`}
-      </Text>
+      <Container mt="xl" size={500}>
+        <Text>
+          {`It looks like you don't have any public repos connected to your GitHub account. use our `}
+          <StyledLink href="/#suggest">suggestion form</StyledLink>
+          {` instead`}
+        </Text>
+      </Container>
     );
   }
 
+  const filteredRepos = repos?.filter(
+    (repo: Repo) => repo.permissions.admin || repo.permissions.maintain || repo.permissions.push,
+  );
+
   // The user doesn't have high enough permissions on any of their repos
-  if (!repos || repos.length === 0) {
+  if (!filteredRepos || filteredRepos.length === 0) {
     return (
-      <Text>
-        {`It looks like you don't have high enough access on any of your repos, use our `}
-        <StyledLink href="/#suggest">suggestion form</StyledLink>
-        {` instead`}
-      </Text>
+      <Container mt="xl" size={500}>
+        <Text>
+          {`We're currently prioritizing repo submissions made by users with push, maintain, or admin access to repos, use our `}
+          <StyledLink href="/#suggest">suggestion form</StyledLink>
+          {` instead`}
+        </Text>
+      </Container>
     );
   }
 
@@ -182,7 +189,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
         <Stepper.Step icon={<GitHub />} label={<Text>Select Repos</Text>}>
           <SelectReposList
             errors={errors}
-            repos={repos}
+            repos={filteredRepos}
             setFieldValue={setFieldValue}
             values={values}
           />
