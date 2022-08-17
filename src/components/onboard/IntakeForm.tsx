@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { HiOutlineMailOpen } from 'react-icons/hi';
 import { Container, Group, Stepper } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import styled from 'styled-components';
-import useSWR from 'swr';
 
 import { BackgroundPanel, ExtraHover, PrimaryBlue } from '../../colors';
-import { fetchWithToken } from '../../helpers';
+import useFetchWithToken from '../../hooks/useFetchWithToken';
 import { Link } from '../Link';
 import { Button, Loader, Text } from '../shared/elements';
 import { GitHub, GitPOAP } from '../shared/elements/icons';
@@ -73,23 +72,15 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     key: `onboarding-${githubHandle}`,
   });
   const [stage, setStage] = useState<number>(queueNumber ? 0 : 0);
-  const [repos, setRepos] = useState<Repo[]>();
 
-  const { data, error, isValidating } = useSWR<Repo[]>(
-    [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`, accessToken],
-    fetchWithToken,
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    },
+  const {
+    data: repos,
+    loading,
+    error,
+  } = useFetchWithToken<Repo[]>(
+    `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`,
+    accessToken,
   );
-
-  useEffect(() => {
-    if (data && !repos) {
-      setRepos(data);
-    }
-  }, [data]);
 
   const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
     useMantineForm(stage, githubHandle);
@@ -149,7 +140,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     }
   };
 
-  if (!repos && !error && isValidating) {
+  if (!repos && !error && loading) {
     return <StyledLoader />;
   }
 
