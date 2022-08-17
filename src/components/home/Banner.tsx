@@ -1,14 +1,16 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
+import { Button, ButtonProps, Group, Stack, Text, TextProps } from '@mantine/core';
 import { rem } from 'polished';
+import styled, { css } from 'styled-components';
+import React from 'react';
+import { FaArrowRight } from 'react-icons/fa';
+
 import { TextGray, TextLight } from '../../colors';
+import { BREAKPOINTS } from '../../constants';
+import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
+import { useAuthContext } from '../github/AuthContext';
+import { Link } from '../Link';
 import { TitleLink } from '../shared/elements';
 import { FilledButtonStyles, OutlineButtonStyles } from '../shared/elements/Button';
-import { Button, ButtonProps, Group, Stack, Text, TextProps } from '@mantine/core';
-import { FaArrowRight } from 'react-icons/fa';
-import { Link } from '../Link';
-import { useAuthContext } from '../github/AuthContext';
-import { BREAKPOINTS } from '../../constants';
 
 const StyledStack = styled(Stack)`
   justify-content: center;
@@ -70,7 +72,8 @@ const CTAButtons = styled(Group)`
 `;
 
 export const Banner = () => {
-  const { authorizeGitHub } = useAuthContext();
+  const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
+  const { setIsOpen } = useClaimModalContext();
   return (
     <StyledStack spacing={24}>
       <HeaderStyled>{'Immutable Records of your Contributions'}</HeaderStyled>
@@ -86,7 +89,13 @@ export const Banner = () => {
           </StartIssuingButton>
         </Link>
         <StartMintingButton
-          onClick={authorizeGitHub}
+          onClick={() => {
+            if (isLoggedIntoGitHub) {
+              setIsOpen(true);
+            } else {
+              authorizeGitHub();
+            }
+          }}
           radius="md"
           size="md"
           rightIcon={<FaArrowRight />}
