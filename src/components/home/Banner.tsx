@@ -13,8 +13,16 @@ import { TitleLink } from '../shared/elements';
 import { FilledButtonStyles, OutlineButtonStyles } from '../shared/elements/Button';
 
 const StyledStack = styled(Stack)`
-  justify-content: center;
-  min-height: ${rem(440)};
+  margin-bottom: ${rem(48)};
+  margin-top: ${rem(144)};
+
+  @media (max-width: ${rem(BREAKPOINTS.xl)}) {
+    margin-top: ${rem(112)};
+  }
+
+  @media (max-width: ${rem(BREAKPOINTS.lg)}) {
+    margin-top: ${rem(98)};
+  }
 `;
 
 const HeaderStyled = styled.span`
@@ -65,6 +73,7 @@ const StartMintingButton = styled(Button)<ButtonProps<'button'>>`
 
 const CTAButtons = styled(Group)`
   gap: ${rem(40)};
+  margin-top: ${rem(40)};
 
   @media (max-width: ${rem(BREAKPOINTS.sm)}) {
     gap: ${rem(20)};

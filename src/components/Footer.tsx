@@ -250,7 +250,7 @@ export const Footer = () => {
   }, [formStatus]);
 
   return (
-    <Content>
+    <Content id="contact">
       <Divider style={{ borderTopColor: BackgroundPanel2 }} />
       <Container>
         <GitPOAPContent>
