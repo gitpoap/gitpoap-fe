@@ -99,7 +99,9 @@ export const ProfileResults = ({ searchQuery }: Props) => {
 
   return (
     <Wrapper>
-      <SearchResultList title={`${length} ${length === 1 ? 'profile' : 'profiles'}`}>
+      <SearchResultList
+        title={length > 0 ? `${length} ${length === 1 ? 'profile' : 'profiles'}` : ''}
+      >
         <OrgListContainer>
           {profileResults &&
             profileResults.map((profile, i) => {

@@ -35,7 +35,9 @@ export const GitPOAPResults = ({ searchQuery }: Props) => {
 
   return (
     <Wrapper>
-      <SearchResultList title={`${length} ${length === 1 ? 'GitPOAP' : 'GitPOAPs'}`}>
+      <SearchResultList
+        title={length > 0 ? `${length} ${length === 1 ? 'GitPOAP' : 'GitPOAPs'}` : ''}
+      >
         <GitPoapList>
           {result.fetching && !result.operation && gitPOAPS && gitPOAPS.length === 0 && (
             <>
