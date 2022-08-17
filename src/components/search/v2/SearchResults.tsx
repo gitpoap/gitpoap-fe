@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { useDebouncedValue } from '@mantine/hooks';
-import { useRouter } from 'next/router';
-import { FaSearch } from 'react-icons/fa';
-import { Header, Input } from '../../shared/elements';
+import { Header } from '../../shared/elements';
 import { ProfileResults } from './ProfileResults';
 import { RepoResults } from './RepoResults';
 import { OrgResults } from './OrgResults';
 import { GitPOAPResults } from './GitPOAPResults';
-import { BREAKPOINTS } from '../../../constants';
 
 const SearchHeading = styled.div`
   margin-bottom: ${rem(20)};
@@ -19,14 +15,6 @@ const SearchHeading = styled.div`
   align-items: center;
 `;
 
-const SearchBox = styled(Input)`
-  margin-top: ${rem(40)};
-  width: ${rem(550)};
-
-  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
-    width: ${rem(340)};
-  }
-`;
 const SearchResultsContainer = styled.div`
   padding: ${rem(20)};
 `;
@@ -39,52 +27,24 @@ type Props = {
 };
 
 export const SearchResults = ({ searchQuery }: Props) => {
-  const router = useRouter();
-
-  const [searchValue, setSearchValue] = useState(searchQuery);
-  const [debouncedSearch] = useDebouncedValue(searchValue, 200);
-
-  useEffect(() => {
-    setSearchValue(searchQuery);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    if (searchQuery !== debouncedSearch) {
-      router.push(`/s/${debouncedSearch}`);
-    }
-  }, [debouncedSearch]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-    e.preventDefault();
-  };
-
   return (
     <>
       <SearchHeading>
-        <Header>
-          {debouncedSearch ? 'Search results for ' + `"${debouncedSearch}"` : 'Search'}
-        </Header>
-        <SearchBox
-          placeholder={'SEARCH FOR REPOS, GITPOAPS, PEOPLE, & ORGS...'}
-          value={searchValue}
-          onChange={handleChange}
-          icon={<FaSearch />}
-        />
+        <Header>{searchQuery ? 'Search results for ' + `"${searchQuery}"` : 'Search'}</Header>
       </SearchHeading>
       <SearchResultsContainer>
         <SortingTabs>
           <SortSection>
-            <OrgResults searchQuery={debouncedSearch} />
+            <OrgResults searchQuery={searchQuery} />
           </SortSection>
           <SortSection>
-            <RepoResults searchQuery={debouncedSearch} />
+            <RepoResults searchQuery={searchQuery} />
           </SortSection>
           <SortSection>
-            <GitPOAPResults searchQuery={debouncedSearch} />
+            <GitPOAPResults searchQuery={searchQuery} />
           </SortSection>
           <SortSection>
-            <ProfileResults searchQuery={debouncedSearch} />
+            <ProfileResults searchQuery={searchQuery} />
           </SortSection>
         </SortingTabs>
       </SearchResultsContainer>
