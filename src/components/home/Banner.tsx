@@ -76,7 +76,7 @@ export const Banner = () => {
   const { setIsOpen } = useClaimModalContext();
   return (
     <StyledStack spacing={24}>
-      <HeaderStyled>{'Immutable Records of your Contributions'}</HeaderStyled>
+      <HeaderStyled>{'Immutable Records of Your Contributions'}</HeaderStyled>
       <BannerSubHeader align="center" size="md">
         {
           'Issue digital badges as a special way to nurture your community. Earn them to build an unbiased track record of your work.'
