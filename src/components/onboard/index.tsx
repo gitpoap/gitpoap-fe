@@ -1,8 +1,8 @@
 import { Container, Grid, List, Stack, Title, Tooltip } from '@mantine/core';
-import { darken, rem } from 'polished';
+import { rem } from 'polished';
 import { GoMarkGithub } from 'react-icons/go';
 import styled from 'styled-components';
-import { BackgroundPanel2, PrimaryBlue, White } from '../../colors';
+import { BackgroundPanel, BackgroundPanel2, PrimaryBlue, White } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 
 import { useAuthContext } from '../github/AuthContext';
@@ -76,7 +76,7 @@ export const OnboardingPage = () => {
     return (
       <>
         <StyledGrid columns={2} grow>
-          <StyledCol span={2} lg={1} style={{ background: darken(0.0, BackgroundPanel2) }}>
+          <StyledCol span={2} lg={1} style={{ background: BackgroundPanel2 }}>
             <StyledStack spacing="xl">
               <StyledTitle order={1} style={{ fontSize: rem(42), lineHeight: rem(42) }}>
                 {"Let's start creating your GitPOAPs"}
@@ -89,7 +89,7 @@ export const OnboardingPage = () => {
               </ConnectButton>
             </StyledStack>
           </StyledCol>
-          <StyledCol span={2} lg={1} style={{ background: darken(0.05, BackgroundPanel2) }}>
+          <StyledCol span={2} lg={1} style={{ background: BackgroundPanel }}>
             <StyledStack spacing="xl">
               <HowGraphicStyled />
               <StyledTitle order={3} style={{ height: 'auto', maxWidth: '100%' }}>
