@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HiOutlineMailOpen } from 'react-icons/hi';
 import { Container, Group, Stack, Stepper } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
@@ -6,7 +6,7 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 
 import { BackgroundPanel, ExtraHover, PrimaryBlue } from '../../colors';
-import useFetchWithToken from '../../hooks/useFetchWithToken';
+import { fetchWithToken } from '../../helpers';
 import { Link } from '../Link';
 import { Button, Loader, Text } from '../shared/elements';
 import { GitHub, GitPOAP } from '../shared/elements/icons';
@@ -73,14 +73,27 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   });
   const [stage, setStage] = useState<number>(queueNumber ? 0 : 0);
 
-  const {
-    data: repos,
-    loading,
-    error,
-  } = useFetchWithToken<Repo[]>(
-    `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`,
-    accessToken,
-  );
+  const [repos, setRepos] = useState<Repo[]>();
+  const [error, setError] = useState<unknown>();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchWithToken(
+          `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`,
+          accessToken,
+        );
+        setRepos(data);
+      } catch (err: unknown) {
+        setError(err);
+        console.error(err);
+      }
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
 
   const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
     useMantineForm(stage, githubHandle);
