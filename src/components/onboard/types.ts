@@ -7,7 +7,7 @@ export type Repo = {
   description: string;
   url: string;
   owner: {
-    id: string;
+    id: number;
     type: 'all' | 'owner' | 'public' | 'private' | 'member';
     name: string;
     avatar_url: string;
@@ -20,7 +20,6 @@ export type Repo = {
     triage: boolean;
     pull: boolean;
   };
-  key: string;
 };
 
 export type SimpleRepo = Pick<Repo, 'full_name' | 'githubRepoId' | 'permissions'>;

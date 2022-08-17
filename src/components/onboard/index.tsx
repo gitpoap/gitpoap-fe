@@ -1,5 +1,6 @@
 import { Center, Container, List, Stack } from '@mantine/core';
 import { rem } from 'polished';
+import { useState } from 'react';
 import { GoMarkGithub } from 'react-icons/go';
 
 import { useAuthContext } from '../github/AuthContext';
@@ -9,8 +10,9 @@ import { IntakeForm } from './IntakeForm';
 
 export const OnboardingPage = () => {
   const { tokens, authorizeGitHub, isLoggedIntoGitHub, user } = useAuthContext();
+  const [getStarted, setGetStarted] = useState(false);
 
-  if (!isLoggedIntoGitHub || !tokens || !user) {
+  if (!getStarted || !isLoggedIntoGitHub || !tokens || !user) {
     return (
       <Container>
         <Center>
@@ -39,11 +41,14 @@ export const OnboardingPage = () => {
               {'!'}
             </Text>
             <Button
-              onClick={authorizeGitHub}
+              onClick={async () => {
+                !isLoggedIntoGitHub && (await authorizeGitHub());
+                setGetStarted(true);
+              }}
               leftIcon={<GoMarkGithub size={16} />}
               style={{ margin: `${rem(16)} auto`, width: 'fit-content' }}
             >
-              {'CONNECT GITHUB'}
+              {isLoggedIntoGitHub ? 'GET STARTED' : 'CONNECT GITHUB'}
             </Button>
           </Stack>
         </Center>
