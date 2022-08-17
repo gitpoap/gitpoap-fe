@@ -1,9 +1,9 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import { Grid } from '@mantine/core';
 import { Page } from '../_app';
 import { Layout } from '../../components/Layout';
-import { SEO } from '../../components/SEO';
 import { SearchResults } from '../../components/search/v2/SearchResults';
 
 const Search: Page = () => {
@@ -12,14 +12,13 @@ const Search: Page = () => {
 
   return (
     <>
-      <SEO
-        title={`Search | GitPOAP`}
-        description={
-          'GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
-        }
-        image={'https://gitpoap.io/og-image-512x512.png'}
-        url={`https://gitpoap.io/s/${searchQuery}`}
-      />
+      <Head>
+        <title>{`Search - ${searchQuery} | GitPOAP`}</title>
+        <meta
+          name="GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs."
+          content="GitPOAP Search"
+        />
+      </Head>
       <Grid justify="center">
         <Grid.Col xs={11} sm={11} md={11} lg={10} xl={10}>
           <SearchResults searchQuery={searchQuery} />

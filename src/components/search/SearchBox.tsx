@@ -17,7 +17,7 @@ import {
   useSearchForStringQuery,
   useGitPoapSearchByNameQuery,
 } from '../../graphql/generated-gql';
-import { Text, Tooltip } from '@mantine/core';
+import { Text, Tooltip, Kbd } from '@mantine/core';
 import { BREAKPOINTS } from '../../constants';
 import { isAddress } from 'ethers/lib/utils';
 
@@ -88,17 +88,6 @@ const SectionTitle = styled(Text)`
   letter-spacing: ${rem(2)};
 `;
 
-const InputHintText = styled(Text)`
-  width: ${rem(25)};
-  text-align: center;
-  font-size: ${rem(10)};
-  border-radius: ${rem(4)};
-  padding: ${rem(3)};
-  background-color: ${DarkGray};
-  color: ${TextGray};
-  cursor: help;
-`;
-
 type ProfileResult = {
   id: number;
   address: string;
@@ -125,7 +114,7 @@ const InputHintSection = ({ isFocused }: InputHintSectionProps) => (
     withArrow
     transition="pop-bottom-right"
   >
-    <InputHintText>{isFocused ? 'ESC' : '/'}</InputHintText>
+    <Kbd>{isFocused ? 'ESC' : '/'}</Kbd>
   </Tooltip>
 );
 

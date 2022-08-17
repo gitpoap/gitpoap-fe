@@ -18,7 +18,7 @@ type Props = {
 };
 
 export const OrgResults = ({ searchQuery }: Props) => {
-  const [result] = useOrgSearchByNameQuery({ variables: { search: searchQuery, take: 6 } });
+  const [result] = useOrgSearchByNameQuery({ variables: { search: searchQuery, take: 12 } });
 
   const orgs = result.data?.organizations;
   const length = orgs?.length ?? 0;
