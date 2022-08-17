@@ -29,7 +29,7 @@ export const StyledLink = styled(Link)`
 
 const StyledLoader = styled(Loader)`
   display: block;
-  margin: ${rem(112)} auto;
+  margin: ${rem(240)} auto;
 `;
 
 const StyledStepper = styled(Stepper)`
