@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
 import { useRouter } from 'next/router';
 import { FaSearch } from 'react-icons/fa';
-import { Loader } from '../shared/elements/Loader';
+import { isAddress } from 'ethers/lib/utils';
+import { Text } from '@mantine/core';
 import { rem } from 'polished';
-import { Input } from '../shared/elements/Input';
+import { Loader, Input, Tooltip } from '../shared/elements';
 import { GitPOAPBadgeSearchItem, NoResultsSearchItem, ProfileSearchItem } from './SearchItem';
-import { BackgroundPanel2, TextGray } from '../../colors';
+import { BackgroundPanel2, TextGray, DarkGray } from '../../colors';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
 import { useKeyPress } from '../../hooks/useKeyPress';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
@@ -17,9 +18,7 @@ import {
   useSearchForStringQuery,
   useGitPoapSearchByNameQuery,
 } from '../../graphql/generated-gql';
-import { Text } from '@mantine/core';
 import { BREAKPOINTS } from '../../constants';
-import { isAddress } from 'ethers/lib/utils';
 
 const Container = styled.div<{ isActive: boolean }>`
   margin-right: ${rem(25)};
@@ -88,6 +87,17 @@ const SectionTitle = styled(Text)`
   letter-spacing: ${rem(2)};
 `;
 
+const InputHintText = styled(Text)`
+  width: ${rem(25)};
+  text-align: center;
+  font-size: ${rem(10)};
+  border-radius: ${rem(4)};
+  padding: ${rem(3)};
+  background-color: ${DarkGray};
+  color: ${TextGray};
+  cursor: help;
+`;
+
 type ProfileResult = {
   id: number;
   address: string;
@@ -99,6 +109,25 @@ type Props = {
   className?: string;
 };
 
+type InputHintSectionProps = {
+  isFocused: boolean;
+};
+
+const InputHintSection = ({ isFocused }: InputHintSectionProps) => (
+  <Tooltip
+    label={
+      isFocused
+        ? 'Press ESC to get out of the search box'
+        : 'Press / to set focus on the search box'
+    }
+    position="top"
+    withArrow
+    transition="pop-bottom-right"
+  >
+    <InputHintText>{isFocused ? 'ESC' : '/'}</InputHintText>
+  </Tooltip>
+);
+
 export const SearchBox = ({ className }: Props) => {
   const router = useRouter();
   const [query, setQuery] = useState('');
@@ -108,6 +137,7 @@ export const SearchBox = ({ className }: Props) => {
   const [areResultsLoading, setAreResultsLoading] = useState(false);
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
   const [cursor, setCursor] = useState<number>(-1);
+  const [isSearchInputFocused, setIsSearchInputFocused] = useState(false);
   const isSlashPressed = useKeyPress({ targetKey: '/' });
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -273,25 +303,25 @@ export const SearchBox = ({ className }: Props) => {
         setIsSearchActive(false);
         setProfileResults([]);
 
-        /* profile is selected */
         if (cursor < profilesCount) {
+          /* profile is selected */
           inputRef.current?.blur();
           router.push(profileResults[cursor].href);
         } else if (cursor < repoStartIndex) {
-          inputRef.current?.blur();
           /* gitPOAP is selected */
+          inputRef.current?.blur();
           const gitPOAPIndex = cursor - profilesCount;
           const gitPOAP = gitPOAPs && gitPOAPs[gitPOAPIndex];
           router.push(`/gp/${gitPOAP?.id}`);
         } else if (cursor < orgStartIndex) {
-          inputRef.current?.blur();
           /* repo is selected */
+          inputRef.current?.blur();
           const repoIndex = cursor - repoStartIndex;
           const repo = repos && repos[repoIndex];
           router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
         } else {
-          inputRef.current?.blur();
           /* org is selected */
+          inputRef.current?.blur();
           const orgIndex = cursor - orgStartIndex;
           const org = orgs && orgs[orgIndex];
           router.push(`/gh/${org?.name}`);
@@ -314,6 +344,15 @@ export const SearchBox = ({ className }: Props) => {
             inputRef.current?.blur();
           },
         ],
+        [
+          'Enter',
+          () => {
+            if (!query) return;
+            setIsSearchActive(false);
+            inputRef.current?.blur();
+            router.push(`/s/${query}`);
+          },
+        ],
       ])}
       isActive={isSearchActive}
     >
@@ -324,6 +363,9 @@ export const SearchBox = ({ className }: Props) => {
         onChange={(e) => setQuery(e.target.value)}
         icon={isLoading ? <Loader size={18} /> : <FaSearch />}
         onKeyDown={handleKeyDown}
+        rightSection={<InputHintSection isFocused={isSearchInputFocused} />}
+        onFocus={() => setIsSearchInputFocused(true)}
+        onBlur={() => setIsSearchInputFocused(false)}
       />
 
       {isSearchActive && (
