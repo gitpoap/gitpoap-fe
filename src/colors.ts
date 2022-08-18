@@ -29,3 +29,5 @@ export const ExtraRed = '#F77070';
 
 export const TwitterBlue = '#1D9BF0';
 export const TwitterBlueHover = '#0C7ABF';
+
+export const ExtraRedDark = '#890202';
