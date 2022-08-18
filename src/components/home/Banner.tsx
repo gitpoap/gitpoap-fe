@@ -85,7 +85,7 @@ export const Banner = () => {
   const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
   const { setIsOpen } = useClaimModalContext();
   const [isStartMintingButtonClicked, setIsStartMintingButtonClicked] = useLocalStorage<boolean>({
-    key: 'isCheckEligibilityButtonClicked',
+    key: 'isStartMintingButtonClicked',
     defaultValue: false,
   });
 
