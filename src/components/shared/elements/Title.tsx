@@ -32,7 +32,6 @@ const TitleHoverStyles = css`
 
 export const TitleNoHover = styled(Text)<TextProps<'span'>>`
   ${TitleStyles};
-  font-size: ${rem(16)};
   color: ${TextAccent};
 `;
 
@@ -43,6 +42,5 @@ export const Title = styled(TitleNoHover)`
 export const TitleLink = styled(Link)`
   ${TitleStyles};
   ${TitleHoverStyles};
-  font-size: ${rem(16)};
   color: ${TextAccent};
 `;
