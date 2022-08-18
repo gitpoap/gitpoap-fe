@@ -1,8 +1,8 @@
 import React from 'react';
-import { useWeb3Context } from '../../../components/wallet/Web3ContextProvider';
+import { useWeb3Context } from '../..//wallet/Web3ContextProvider';
 import { useProfileQuery } from '../../../graphql/generated-gql';
 import { useEnsAvatar } from '../../../hooks/useEnsAvatar';
-import { InfoHexProfileDetail } from '../../../components/profile/InfoHexProfileDetail';
+import { InfoHexSummary } from '../../gitpoap/InfoHexSummary';
 import { truncateAddress } from '../../../helpers';
 
 type Props = {
@@ -35,21 +35,12 @@ export const ProfileResultItem = ({ addressOrEns }: Props) => {
   const name = getName(ensName, sidebarAddress);
 
   return (
-    <InfoHexProfileDetail
-      isLoading={result.fetching}
-      imgSrc={avatarURI}
-      name={name}
-      address={sidebarAddress}
+    <InfoHexSummary
+      address={sidebarAddress ?? ''}
       bio={bio}
-      twitterHref={
-        profileData?.twitterHandle ? `https://twitter.com/${profileData.twitterHandle}` : undefined
-      }
-      githubHref={
-        profileData?.githubHandle ? `https://github.com/${profileData.githubHandle}` : undefined
-      }
-      websiteHref={profileData?.personalSiteUrl}
-      onClickEditProfile={() => {}}
-      showEditProfileButton={false}
+      twitterHandle={profileData?.twitterHandle}
+      githubHandle={profileData?.githubHandle ?? ''}
+      personalSiteUrl={profileData?.personalSiteUrl}
     />
   );
 };
