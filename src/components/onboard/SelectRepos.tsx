@@ -43,7 +43,13 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
 
   return (
     <>
-      <Text>{"Select the repos you'd like to create GitPOAPs for!"}</Text>
+      <Text style={{ lineHeight: rem(24) }}>
+        {`
+        Here's a list of projects you maintain or have contributed to recently.
+        We work with maintainers to get their consent prior to onboarding, so if that's not you,
+        still submit the repo here and share GitPOAP with the maintainer.
+        We'll reach out to join the conversation soon! ⚡️`}
+      </Text>
       <StyledContainer mt="xl" p="0">
         <Group mb="xs" position="apart">
           <Checkbox
@@ -74,27 +80,30 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
         </Group>
         <StyledScrollArea>
           <List listStyleType="none" style={{ paddingBottom: rem(10) }}>
-            {filteredRepos.map((repo: Repo) => (
-              <List.Item key={repo.githubRepoId + 'list-item'}>
-                <Group key={repo.githubRepoId} mt="xs">
-                  <Checkbox
-                    checked={values.repos.some((r) => r.githubRepoId === repo.githubRepoId)}
-                    onChange={(e) => {
-                      let newRepoList = [];
-                      if (e.target.checked) {
-                        newRepoList = [...values.repos, formatRepoForDB(repo)];
-                      } else {
-                        newRepoList = values.repos.filter(
-                          (r) => r.githubRepoId !== repo.githubRepoId,
-                        );
-                      }
-                      setFieldValue('repos', newRepoList);
-                    }}
-                    label={<Text> {repo.full_name}</Text>}
-                  />
-                </Group>
-              </List.Item>
-            ))}
+            {filteredRepos.map((repo: Repo) => {
+              const formattedName = repo.full_name.replace(/\//g, ' / ');
+              return (
+                <List.Item key={repo.githubRepoId + 'list-item'}>
+                  <Group key={repo.githubRepoId} mt="xs">
+                    <Checkbox
+                      checked={values.repos.some((r) => r.githubRepoId === repo.githubRepoId)}
+                      onChange={(e) => {
+                        let newRepoList = [];
+                        if (e.target.checked) {
+                          newRepoList = [...values.repos, formatRepoForDB(repo)];
+                        } else {
+                          newRepoList = values.repos.filter(
+                            (r) => r.githubRepoId !== repo.githubRepoId,
+                          );
+                        }
+                        setFieldValue('repos', newRepoList);
+                      }}
+                      label={<Text> {formattedName}</Text>}
+                    />
+                  </Group>
+                </List.Item>
+              );
+            })}
           </List>
         </StyledScrollArea>
         <Input
@@ -114,10 +123,10 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
         </Text>
       )}
 
-      <Text mt="md" style={{ color: TextGray }}>
-        {`This list only includes public repos you have a minimum of maintainer access to. If there are other repos you'd like to submit for consideration, use our `}
-        <StyledLink href="/#suggest">suggestion form</StyledLink>
-        {` instead!`}
+      <Text mt="md" style={{ color: TextGray, textAlign: 'center' }}>
+        {`If you'd like to suggest a repo you don't see, submit it `}
+        <StyledLink href="/#suggest">here</StyledLink>
+        {`!`}
       </Text>
     </>
   );
