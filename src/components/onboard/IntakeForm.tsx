@@ -92,8 +92,10 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
       }
       setLoading(false);
     };
-    fetchData();
-  }, []);
+    if (!repos) {
+      fetchData();
+    }
+  }, [accessToken, repos]);
 
   const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
     useMantineForm(stage, githubHandle);
@@ -178,12 +180,8 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     );
   }
 
-  const filteredRepos = repos?.filter(
-    (repo: Repo) => repo.permissions.admin || repo.permissions.maintain || repo.permissions.push,
-  );
-
   // The user doesn't have high enough permissions on any of their repos
-  if (!filteredRepos || filteredRepos.length === 0) {
+  if (!repos || repos.length === 0) {
     return (
       <Container mt={32} size={500}>
         <Stack>
@@ -209,7 +207,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
         <Stepper.Step icon={<GitHub />} label={<Text>Select Repos</Text>}>
           <SelectReposList
             errors={errors}
-            repos={filteredRepos}
+            repos={repos}
             setFieldValue={setFieldValue}
             values={values}
           />

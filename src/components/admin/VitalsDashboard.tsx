@@ -125,6 +125,10 @@ export const VitalsDashboard = (props: Props) => {
     [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/vitals/check-for-codes`, props.accessToken],
     fetchWithToken,
   );
+  const { data: botInstallResults } = useSWR<{ totalInstalls: number }>(
+    [`https://bot.gitpoap.io/api/stats/bot-installs`],
+    (url) => fetch(url).then((res) => res.json()),
+  );
 
   const totalProfiles = totalProfilesResults?.data?.aggregateProfile?._count?.id;
   const totalClaims = totalClaimsResult.data?.aggregateClaim._count?.id;
@@ -249,6 +253,14 @@ export const VitalsDashboard = (props: Props) => {
                 ? DateTime.fromISO(checkForCodesResult?.lastRun).toFormat('dd-LLL-yy HH:mm')
                 : ''
             }
+            style={{ marginBottom: rem(15) }}
+          />
+
+          {/* Bot Vitals  */}
+          <DashboardItem
+            name={'GitPOAP Bot Installs'}
+            value={botInstallResults?.totalInstalls}
+            style={{ marginBottom: rem(15) }}
           />
         </Dashboard>
       </Group>

@@ -1,7 +1,7 @@
 import { Button, ButtonProps, Group, Stack, Text, TextProps } from '@mantine/core';
 import { rem } from 'polished';
 import styled, { css } from 'styled-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 
 import { TextGray, TextLight } from '../../colors';
@@ -11,6 +11,7 @@ import { useAuthContext } from '../github/AuthContext';
 import { Link } from '../Link';
 import { TitleLink } from '../shared/elements';
 import { FilledButtonStyles, OutlineButtonStyles } from '../shared/elements/Button';
+import { useLocalStorage } from '@mantine/hooks';
 
 const StyledStack = styled(Stack)`
   margin-bottom: ${rem(48)};
@@ -83,6 +84,19 @@ const CTAButtons = styled(Group)`
 export const Banner = () => {
   const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
   const { setIsOpen } = useClaimModalContext();
+  const [isStartMintingButtonClicked, setIsStartMintingButtonClicked] = useLocalStorage<boolean>({
+    key: 'isStartMintingButtonClicked',
+    defaultValue: false,
+  });
+
+  /* Hook is used to open the claim modal after github auth */
+  useEffect(() => {
+    if (isLoggedIntoGitHub && isStartMintingButtonClicked) {
+      setIsOpen(true);
+      setIsStartMintingButtonClicked(false);
+    }
+  }, [isLoggedIntoGitHub, isStartMintingButtonClicked]);
+
   return (
     <StyledStack spacing={24}>
       <HeaderStyled>{'Recognition for Your Contributions'}</HeaderStyled>
@@ -99,10 +113,11 @@ export const Banner = () => {
         </Link>
         <StartMintingButton
           onClick={() => {
-            if (isLoggedIntoGitHub) {
-              setIsOpen(true);
-            } else {
+            if (!isLoggedIntoGitHub) {
+              setIsStartMintingButtonClicked(true);
               authorizeGitHub();
+            } else {
+              setIsOpen(true);
             }
           }}
           radius="md"
