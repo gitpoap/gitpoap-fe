@@ -10,7 +10,7 @@ const useMantineForm = (stage: number, githubHandle: string) =>
       githubHandle: githubHandle,
       repos: [],
       shouldGitPOAPDesign: 'true',
-      isOneGitPOAPPerRepo: 'true',
+      isOneGitPOAPPerRepo: 'false',
       images: [],
       name: '',
       email: '',
