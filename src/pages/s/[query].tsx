@@ -13,7 +13,7 @@ const Search: Page = () => {
   return (
     <>
       <Head>
-        <title>{`Search - ${searchQuery} | GitPOAP`}</title>
+        <title>{`${searchQuery} | GitPOAP`}</title>
         <meta
           name="GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs."
           content="GitPOAP Search"
