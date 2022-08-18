@@ -142,15 +142,6 @@ export const Header = ({ gitPOAPId }: Props) => {
     }
   }, [isLoggedIntoGitHub, isCheckButtonClicked]);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!isLoggedIntoGitHub) {
-      setIsCheckButtonClicked(true);
-      authorizeGitHub();
-    } else {
-      setIsOpen(true);
-    }
-  };
-
   return (
     <Wrapper>
       <Badge size="lg" disableHoverEffects imgUrl={event?.image_url ?? ''} />
@@ -197,7 +188,17 @@ export const Header = ({ gitPOAPId }: Props) => {
           </Links>
         </>
       )}
-      <CheckEligibilityButton onClick={handleClick} leftIcon={<GithubIcon size={20} />}>
+      <CheckEligibilityButton
+        onClick={() => {
+          if (!isLoggedIntoGitHub) {
+            setIsCheckButtonClicked(true);
+            authorizeGitHub();
+          } else {
+            setIsOpen(true);
+          }
+        }}
+        leftIcon={<GithubIcon size={20} />}
+      >
         {"Check If I'm Eligible"}
       </CheckEligibilityButton>
     </Wrapper>
