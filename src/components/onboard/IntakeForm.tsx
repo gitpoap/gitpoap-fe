@@ -92,8 +92,10 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
       }
       setLoading(false);
     };
-    fetchData();
-  }, []);
+    if (!repos) {
+      fetchData();
+    }
+  }, [accessToken, repos]);
 
   const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
     useMantineForm(stage, githubHandle);
