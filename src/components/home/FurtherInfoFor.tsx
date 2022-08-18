@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Grid } from '@mantine/core';
@@ -8,6 +8,8 @@ import { GoMarkGithub } from 'react-icons/go';
 import { BREAKPOINTS } from '../../constants';
 import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
 import { ExtraHover, ExtraPressed } from '../../colors';
+import { useAuthContext } from '../github/AuthContext';
+import { useLocalStorage } from '@mantine/hooks';
 
 const InfoHexHeader = styled(Header)`
   margin-bottom: ${rem(20)};
@@ -93,11 +95,34 @@ const Container = styled(Grid.Col)`
 
 export const FurtherInfoFor = () => {
   const { setIsOpen } = useClaimModalContext();
+  const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
+  const [isFurtherInfoClaimButtonClicked, setIsFurtherInfoClaimButtonClicked] =
+    useLocalStorage<boolean>({
+      key: 'isFurtherInfoClaimButtonClicked',
+      defaultValue: false,
+    });
+
+  useEffect(() => {
+    if (isLoggedIntoGitHub && isFurtherInfoClaimButtonClicked) {
+      setIsOpen(true);
+      setIsFurtherInfoClaimButtonClicked(false);
+    }
+  }, [isLoggedIntoGitHub, isFurtherInfoClaimButtonClicked]);
 
   return (
     <>
       <Container xs={10} sm={10} md={5} lg={5} xl={5}>
-        <InfoHex onClick={() => setIsOpen(true)} hoverEffects>
+        <InfoHex
+          onClick={() => {
+            if (!isLoggedIntoGitHub) {
+              setIsFurtherInfoClaimButtonClicked(true);
+              authorizeGitHub();
+            } else {
+              setIsOpen(true);
+            }
+          }}
+          hoverEffects
+        >
           <Content>
             <InfoHexHeader>{'For Contributors'}</InfoHexHeader>
             <InfoHexText>
