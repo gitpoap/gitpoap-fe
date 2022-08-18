@@ -147,7 +147,7 @@ export const SearchResults = ({ searchQuery }: Props) => {
         <Header>
           {!isLoading && !hasAnyResults
             ? `No results found for "${searchQuery}"`
-            : `Search restuls for "${searchQuery}"`}
+            : `Search results for "${searchQuery}"`}
         </Header>
       </SearchHeading>
       <SearchResultsContainer>
@@ -155,43 +155,15 @@ export const SearchResults = ({ searchQuery }: Props) => {
           <SortSection>
             <SearchResultList
               title={
-                orgsLength > 0
-                  ? `${orgsLength} ${orgsLength === 1 ? 'organization' : 'organizations'}`
+                profilesLength > 0
+                  ? `${profilesLength} ${profilesLength === 1 ? 'profile' : 'profiles'}`
                   : ''
               }
             >
               <OrgListContainer>
-                {orgResult.fetching && !orgResult.operation && (
-                  <>
-                    {[...Array(4)].map((_, i) => (
-                      <OrganizationHexSkeleton key={i} />
-                    ))}
-                  </>
-                )}
-                {orgs &&
-                  orgs.map((org, i) => {
-                    return <OrganizationHex key={'org-' + i} org={org} />;
-                  })}
-              </OrgListContainer>
-            </SearchResultList>
-          </SortSection>
-          <SortSection>
-            <SearchResultList
-              title={
-                reposLength > 0 ? `${reposLength} ${reposLength === 1 ? 'repo' : 'repos'}` : ''
-              }
-            >
-              <OrgListContainer>
-                {repoResult.fetching && !repoResult.operation && repos && repos.length === 0 && (
-                  <>
-                    {[...Array(4)].map((_, i) => (
-                      <RepoHexSkeleton key={i} />
-                    ))}
-                  </>
-                )}
-                {repos &&
-                  repos.map((repo, i) => {
-                    return <RepoHex key={'repo-' + i} repo={repo} />;
+                {profileResults &&
+                  profileResults.map((profile, i) => {
+                    return <ProfileResultItem key={profile.id} addressOrEns={profile.address} />;
                   })}
               </OrgListContainer>
             </SearchResultList>
@@ -235,15 +207,43 @@ export const SearchResults = ({ searchQuery }: Props) => {
           <SortSection>
             <SearchResultList
               title={
-                profilesLength > 0
-                  ? `${profilesLength} ${profilesLength === 1 ? 'profile' : 'profiles'}`
+                reposLength > 0 ? `${reposLength} ${reposLength === 1 ? 'repo' : 'repos'}` : ''
+              }
+            >
+              <OrgListContainer>
+                {repoResult.fetching && !repoResult.operation && repos && repos.length === 0 && (
+                  <>
+                    {[...Array(4)].map((_, i) => (
+                      <RepoHexSkeleton key={i} />
+                    ))}
+                  </>
+                )}
+                {repos &&
+                  repos.map((repo, i) => {
+                    return <RepoHex key={'repo-' + i} repo={repo} />;
+                  })}
+              </OrgListContainer>
+            </SearchResultList>
+          </SortSection>
+          <SortSection>
+            <SearchResultList
+              title={
+                orgsLength > 0
+                  ? `${orgsLength} ${orgsLength === 1 ? 'organization' : 'organizations'}`
                   : ''
               }
             >
               <OrgListContainer>
-                {profileResults &&
-                  profileResults.map((profile, i) => {
-                    return <ProfileResultItem key={profile.id} addressOrEns={profile.address} />;
+                {orgResult.fetching && !orgResult.operation && (
+                  <>
+                    {[...Array(4)].map((_, i) => (
+                      <OrganizationHexSkeleton key={i} />
+                    ))}
+                  </>
+                )}
+                {orgs &&
+                  orgs.map((org, i) => {
+                    return <OrganizationHex key={'org-' + i} org={org} />;
                   })}
               </OrgListContainer>
             </SearchResultList>

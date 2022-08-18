@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
 import { useRouter } from 'next/router';
 import { FaSearch } from 'react-icons/fa';
-import { Loader } from '../shared/elements/Loader';
+import { isAddress } from 'ethers/lib/utils';
+import { Text } from '@mantine/core';
 import { rem } from 'polished';
-import { Input } from '../shared/elements/Input';
+import { Loader, Input, Tooltip } from '../shared/elements';
 import { GitPOAPBadgeSearchItem, NoResultsSearchItem, ProfileSearchItem } from './SearchItem';
 import { BackgroundPanel2, TextGray, DarkGray } from '../../colors';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
@@ -17,9 +18,7 @@ import {
   useSearchForStringQuery,
   useGitPoapSearchByNameQuery,
 } from '../../graphql/generated-gql';
-import { Text, Tooltip, Kbd } from '@mantine/core';
 import { BREAKPOINTS } from '../../constants';
-import { isAddress } from 'ethers/lib/utils';
 
 const Container = styled.div<{ isActive: boolean }>`
   margin-right: ${rem(25)};
@@ -88,6 +87,17 @@ const SectionTitle = styled(Text)`
   letter-spacing: ${rem(2)};
 `;
 
+const InputHintText = styled(Text)`
+  width: ${rem(25)};
+  text-align: center;
+  font-size: ${rem(10)};
+  border-radius: ${rem(4)};
+  padding: ${rem(3)};
+  background-color: ${DarkGray};
+  color: ${TextGray};
+  cursor: help;
+`;
+
 type ProfileResult = {
   id: number;
   address: string;
@@ -114,7 +124,7 @@ const InputHintSection = ({ isFocused }: InputHintSectionProps) => (
     withArrow
     transition="pop-bottom-right"
   >
-    <Kbd>{isFocused ? 'ESC' : '/'}</Kbd>
+    <InputHintText>{isFocused ? 'ESC' : '/'}</InputHintText>
   </Tooltip>
 );
 
