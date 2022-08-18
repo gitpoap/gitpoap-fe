@@ -52,7 +52,7 @@ const BannerSubHeader = styled(Text)<TextProps<'div'>>`
 `;
 
 const HowItWorks = styled(TitleLink)`
-  font-size: ${rem(18)};
+  font-size: ${rem(18)} !important;
 `;
 
 const CTAButtonStyles = css`
