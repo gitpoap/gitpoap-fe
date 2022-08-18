@@ -1,9 +1,9 @@
-import { Container, Group, List, ScrollArea } from '@mantine/core';
+import { Badge, BadgeProps, Container, Group, List, ScrollArea } from '@mantine/core';
 import { rem } from 'polished';
 import { useState } from 'react';
 import styled from 'styled-components';
-
-import { BackgroundPanel2, ExtraRed, TextGray } from '../../colors';
+import { BackgroundPanel2, ExtraRed, ExtraRedDark, PrimaryBlue, TextGray } from '../../colors';
+import { useAuthContext } from '../github/AuthContext';
 import { Checkbox, Input, Text } from '../shared/elements';
 import { StyledLink } from './IntakeForm';
 import { FormReturnTypes, Repo } from './types';
@@ -34,7 +34,12 @@ const formatRepoForDB = (repo: Repo) => ({
   permissions: repo.permissions,
 });
 
+const BadgeStyled = styled(Badge)<BadgeProps<'div'>>`
+  font-family: PT Mono;
+`;
+
 export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props) => {
+  const { user } = useAuthContext();
   const [searchValue, setSearchValue] = useState<string>('');
   const [checkedSelectAll, setCheckedSelectAll] = useState(false);
   const filteredRepos = repos.filter((repo) =>
@@ -82,6 +87,9 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
           <List listStyleType="none" style={{ paddingBottom: rem(10) }}>
             {filteredRepos.map((repo: Repo) => {
               const formattedName = repo.full_name.replace(/\//g, ' / ');
+              const hasMaintainerPermissions =
+                repo.permissions.admin || repo.permissions.maintain || repo.permissions.push;
+              const isContributor = repo.permissions.pull && !hasMaintainerPermissions;
               return (
                 <List.Item key={repo.githubRepoId + 'list-item'}>
                   <Group key={repo.githubRepoId} mt="xs">
@@ -98,7 +106,31 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
                         }
                         setFieldValue('repos', newRepoList);
                       }}
-                      label={<Text> {formattedName}</Text>}
+                      label={
+                        <Text>
+                          <Group position="left">
+                            {formattedName}
+                            {isContributor && (
+                              <BadgeStyled
+                                size="sm"
+                                variant="filled"
+                                style={{ backgroundColor: ExtraRedDark, letterSpacing: rem(1) }}
+                              >
+                                {'Contributor'}
+                              </BadgeStyled>
+                            )}
+                            {hasMaintainerPermissions && (
+                              <BadgeStyled
+                                size="sm"
+                                variant="filled"
+                                style={{ backgroundColor: PrimaryBlue, letterSpacing: rem(1) }}
+                              >
+                                {repo.owner.name === user?.githubHandle ? 'Owner' : 'Maintainer'}
+                              </BadgeStyled>
+                            )}
+                          </Group>
+                        </Text>
+                      }
                     />
                   </Group>
                 </List.Item>
@@ -125,8 +157,14 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
 
       <Text mt="md" style={{ color: TextGray, textAlign: 'center' }}>
         {`If you'd like to suggest a repo you don't see, submit it `}
-        <StyledLink href="/#suggest">here</StyledLink>
-        {`!`}
+        <StyledLink href="/#suggest">{'here'}</StyledLink>
+        {`! Please take a look at our eligibility `}
+        <StyledLink
+          href="https://gitpoap.notion.site/Applying-to-issue-GitPOAPs-508a125062d54029b19611f7991144b4"
+          target="_blank"
+        >
+          {'guidelines.'}
+        </StyledLink>
       </Text>
     </>
   );
