@@ -97,15 +97,6 @@ export const Banner = () => {
     }
   }, [isLoggedIntoGitHub, isStartMintingButtonClicked]);
 
-  const handleClick = (_: React.MouseEvent<HTMLButtonElement>) => {
-    if (!isLoggedIntoGitHub) {
-      setIsStartMintingButtonClicked(true);
-      authorizeGitHub();
-    } else {
-      setIsOpen(true);
-    }
-  };
-
   return (
     <StyledStack spacing={24}>
       <HeaderStyled>{'Recognition for Your Contributions'}</HeaderStyled>
@@ -121,7 +112,14 @@ export const Banner = () => {
           </StartIssuingButton>
         </Link>
         <StartMintingButton
-          onClick={handleClick}
+          onClick={() => {
+            if (!isLoggedIntoGitHub) {
+              setIsStartMintingButtonClicked(true);
+              authorizeGitHub();
+            } else {
+              setIsOpen(true);
+            }
+          }}
           radius="md"
           size="md"
           rightIcon={<FaArrowRight />}
