@@ -19,11 +19,11 @@ type Props = {
   className?: string;
   address: string;
   bio?: string | null;
-  gitpoapId: string | number;
+  gitpoapId?: string | number;
   twitterHandle?: string | null;
   githubHandle?: string;
   personalSiteUrl?: string | null;
-  numGitPOAPs: number;
+  numGitPOAPs?: number;
 };
 
 const Content = styled.div`
@@ -155,7 +155,7 @@ export const InfoHexSummary = ({
               <Globe />
             </Link>
           )}
-          {gitpoapId && <IconCount icon={<GitPOAP />} count={numGitPOAPs} />}
+          {gitpoapId && <IconCount icon={<GitPOAP />} count={numGitPOAPs ?? 0} />}
         </Social>
       </Content>
     </StyledInfoHex>
