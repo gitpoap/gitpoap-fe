@@ -48,7 +48,7 @@ const Home: Page = () => {
 
       <Grid justify="center" style={{ zIndex: 0, position: 'relative' }}>
         <Background />
-        <BannerSection xs={11} sm={11} md={11} lg={10} xl={10} style={{ zIndex: 0 }}>
+        <BannerSection span={11} lg={10} xl={10} style={{ zIndex: 0 }}>
           <Banner />
         </BannerSection>
         <Grid.Col xs={11} md={8}>

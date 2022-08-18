@@ -14,7 +14,7 @@ export const OnboardingPage = () => {
 
   if (!getStarted || !isLoggedIntoGitHub || !tokens || !user) {
     return (
-      <Container>
+      <Container mt={32}>
         <Center>
           <Stack my="xl" spacing="xl">
             <Text style={{ fontSize: rem(40), lineHeight: rem(40), textAlign: 'center' }}>

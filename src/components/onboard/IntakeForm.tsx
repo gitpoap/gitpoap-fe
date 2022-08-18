@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { HiOutlineMailOpen } from 'react-icons/hi';
-import { Container, Group, Stepper } from '@mantine/core';
+import { Container, Group, Stack, Stepper } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import styled from 'styled-components';
-import useSWR from 'swr';
 
 import { BackgroundPanel, ExtraHover, PrimaryBlue } from '../../colors';
 import { fetchWithToken } from '../../helpers';
@@ -30,7 +29,7 @@ export const StyledLink = styled(Link)`
 
 const StyledLoader = styled(Loader)`
   display: block;
-  margin: ${rem(112)} auto;
+  margin: ${rem(240)} auto;
 `;
 
 const StyledStepper = styled(Stepper)`
@@ -73,23 +72,28 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     key: `onboarding-${githubHandle}`,
   });
   const [stage, setStage] = useState<number>(queueNumber ? 0 : 0);
-  const [repos, setRepos] = useState<Repo[]>();
 
-  const { data, error, isValidating } = useSWR<Repo[]>(
-    [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`, accessToken],
-    fetchWithToken,
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    },
-  );
+  const [repos, setRepos] = useState<Repo[]>();
+  const [error, setError] = useState<unknown>();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (data && !repos) {
-      setRepos(data);
-    }
-  }, [data]);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchWithToken(
+          `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`,
+          accessToken,
+        );
+        setRepos(data);
+      } catch (err: unknown) {
+        setError(err);
+        console.error(err);
+      }
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
 
   const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
     useMantineForm(stage, githubHandle);
@@ -149,19 +153,27 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     }
   };
 
-  if (!repos && !error && isValidating) {
+  if (!repos && !error && loading) {
     return <StyledLoader />;
   }
 
   // The user doesn't have any repos
   if (!repos || repos.length === 0) {
     return (
-      <Container mt="xl" size={500}>
-        <Text>
-          {`It looks like you don't have any public repos connected to your GitHub account. use our `}
-          <StyledLink href="/#suggest">suggestion form</StyledLink>
-          {` instead`}
-        </Text>
+      <Container mt={32} size={500}>
+        <Stack>
+          <Text style={{ fontSize: rem(40), lineHeight: rem(40), textAlign: 'center' }}>
+            {'No Public Repos'}
+          </Text>
+          <Text>
+            {`It looks like you don't have any public repos connected to your GitHub account. At this time, we're currently prioritizing repo submissions made by users with push, maintain, or admin access to repos.`}
+          </Text>
+          <Text>
+            {`If there's another project you would like to see supported on GitPOAP, consider using our `}
+            <StyledLink href="/#suggest">suggestion form</StyledLink>
+            {` instead!`}
+          </Text>
+        </Stack>
       </Container>
     );
   }
@@ -173,12 +185,20 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
   // The user doesn't have high enough permissions on any of their repos
   if (!filteredRepos || filteredRepos.length === 0) {
     return (
-      <Container mt="xl" size={500}>
-        <Text>
-          {`We're currently prioritizing repo submissions made by users with push, maintain, or admin access to repos, use our `}
-          <StyledLink href="/#suggest">suggestion form</StyledLink>
-          {` instead`}
-        </Text>
+      <Container mt={32} size={500}>
+        <Stack>
+          <Text style={{ fontSize: rem(40), lineHeight: rem(40), textAlign: 'center' }}>
+            {'Insufficient Access'}
+          </Text>
+          <Text>
+            {`At this time, we're currently prioritizing repo submissions made by users with push, maintain, or admin access to repos.`}
+          </Text>
+          <Text>
+            {`If there's another project you would like to see supported on GitPOAP, consider using our `}
+            <StyledLink href="/#suggest">suggestion form</StyledLink>
+            {` instead!`}
+          </Text>
+        </Stack>
       </Container>
     );
   }
