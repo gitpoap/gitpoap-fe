@@ -592,7 +592,7 @@ query repoSearchByName($search: String!, $take: Int = 4) {
     }
     project {
       id
-      gitPOAPs(take: 1) {
+      gitPOAPs(take: 1, where: { isEnabled: { equals: true } }) {
         id
         name
         description
@@ -613,7 +613,7 @@ query orgSearchByName($search: String!, $take: Int = 4) {
       name
       lastPRUpdatedAt
       project {
-        gitPOAPs(take: 1) {
+        gitPOAPs(take: 1, where: { isEnabled: { equals: true } }) {
           id
           name
           description
@@ -626,7 +626,10 @@ query orgSearchByName($search: String!, $take: Int = 4) {
 
 # For the search bar
 query gitPOAPSearchByName($search: String!, $take: Int = 4) {
-  gitPOAPS(take: $take, where: { name: { contains: $search, mode: insensitive } }) {
+  gitPOAPS(
+    take: $take
+    where: { name: { contains: $search, mode: insensitive }, isEnabled: { equals: true } }
+  ) {
     id
     name
     description
