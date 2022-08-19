@@ -3949,7 +3949,7 @@ export type AdminClaimsQuery = {
         organization: { __typename?: 'Organization'; id: number; name: string };
       };
     } | null;
-    gitPOAP: { __typename?: 'GitPOAP'; id: number; year: number };
+    gitPOAP: { __typename?: 'GitPOAP'; id: number; name: string; year: number; imageUrl: string };
   }>;
 };
 
@@ -4799,9 +4799,6 @@ export const AdminClaimsDocument = gql`
         id
         githubHandle
       }
-      pullRequestEarned {
-        githubPullNumber
-      }
       status
       poapTokenId
       address
@@ -4809,6 +4806,7 @@ export const AdminClaimsDocument = gql`
       createdAt
       mintedAt
       pullRequestEarned {
+        githubPullNumber
         repo {
           id
           name
@@ -4820,7 +4818,9 @@ export const AdminClaimsDocument = gql`
       }
       gitPOAP {
         id
+        name
         year
+        imageUrl
       }
     }
   }

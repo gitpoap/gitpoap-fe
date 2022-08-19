@@ -284,9 +284,6 @@ query adminClaims($count: Int!) {
       id
       githubHandle
     }
-    pullRequestEarned {
-      githubPullNumber
-    }
     status
     poapTokenId
     address
@@ -294,6 +291,7 @@ query adminClaims($count: Int!) {
     createdAt
     mintedAt
     pullRequestEarned {
+      githubPullNumber
       repo {
         id
         name
@@ -305,7 +303,9 @@ query adminClaims($count: Int!) {
     }
     gitPOAP {
       id
+      name
       year
+      imageUrl
     }
   }
 }
