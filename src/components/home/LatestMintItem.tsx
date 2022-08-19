@@ -71,7 +71,7 @@ const MintInfo = styled.div`
   display: inline-flex;
   align-items: center;
   flex-direction: row;
-  margin-right: ${rem(30)};
+  margin-right: ${rem(50)};
 `;
 
 const ClaimInfo = styled.div`
@@ -118,6 +118,39 @@ const MintedByText = styled(StyledText)`
   margin-right: ${rem(10)};
 `;
 
+const dateToTimeAgo = (date: string): string => {
+  const past = new Date(date);
+  const now = new Date(Date.now());
+  const difftime = now.getTime() - past.getTime();
+  if (difftime < 0) {
+    return '';
+  }
+  const diffDate = new Date(difftime - 5.5 * 60 * 60 * 1000);
+  const [sec, min, hr, day, month] = [
+    diffDate.getSeconds(),
+    diffDate.getMinutes(),
+    diffDate.getHours(),
+    diffDate.getDate() - 1,
+    diffDate.getMonth(),
+  ];
+
+  const f = (property: number, end: string) => {
+    return `${property} ${end}${property > 1 ? 's' : ''} ago`;
+  };
+
+  return month >= 1
+    ? f(month, 'month')
+    : day >= 1
+    ? f(day, 'day')
+    : hr >= 1
+    ? f(hr, 'hr')
+    : min >= 1
+    ? f(min, 'min')
+    : day >= 1
+    ? f(sec, 'sec')
+    : '';
+};
+
 export const LatestMintItem = ({
   gitPOAP,
   mintedAt,
@@ -157,7 +190,7 @@ export const LatestMintItem = ({
             </UserInfo>
           </ClaimInfo>
         </MintInfo>
-        <StyledText>2 days ago</StyledText>
+        <StyledText>{dateToTimeAgo(mintedAt)}</StyledText>
       </Item>
       <Divider />
     </>
