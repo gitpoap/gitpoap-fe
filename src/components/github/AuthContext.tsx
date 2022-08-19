@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useCallback, useEffect } from 'react';
+import React, { createContext, useState, useContext, useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import jwtDecode from 'jwt-decode';
 import { REACT_APP_CLIENT_ID, GITPOAP_API_URL, FIVE_MINUTES_IN_MS } from '../../constants';
@@ -13,13 +13,10 @@ type StoredGHUserData = {
   githubHandle: string;
 };
 
-type AuthState = {
-  isLoading: boolean;
-};
-
 type AuthContextData = {
   tokens: Tokens | null;
   isLoggedIntoGitHub: boolean;
+  canSeeAdmin: boolean;
   isDev: boolean;
   user: StoredGHUserData | null;
   handleLogout: () => void;
@@ -41,10 +38,6 @@ type AccessTokenPayload = {
   iat: number;
 };
 
-export const getInitialState = (): AuthState => ({
-  isLoading: false,
-});
-
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const useAuthContext = () => {
@@ -56,8 +49,10 @@ type Props = {
 };
 
 export const AuthProvider = ({ children }: Props) => {
-  const [authState, setAuthState] = useState<AuthState>(getInitialState());
+  const [isLoading, setIsLoading] = useState(false);
   const isPageVisible = usePageVisibility();
+  /* A react ref that tracks if GitHub auth is loading */
+  const isGitHubAuthLoading = useRef(false);
   const [trackedIsPageVisible, setTrackedIsPageVisible] = useState<boolean>(false);
   const [refreshToken, setRefreshToken] = useLocalStorage<string | null>({
     key: 'refreshToken',
@@ -75,7 +70,7 @@ export const AuthProvider = ({ children }: Props) => {
     key: 'gitHubUser',
     defaultValue: null,
   });
-  const router = useRouter();
+  const { asPath, push } = useRouter();
   const isOnline = useIsOnline();
   const redirectUri = typeof window !== 'undefined' ? window.location.href : '';
   const scopes = ['read'].join('%20');
@@ -120,7 +115,7 @@ export const AuthProvider = ({ children }: Props) => {
   }, [handleLogout, refreshToken, isOnline]);
 
   /* Redirect to github to authorize if not connected / logged in */
-  const authorizeGitHub = useCallback(() => router.push(githubAuthURL), [githubAuthURL, router]);
+  const authorizeGitHub = useCallback(() => push(githubAuthURL), [githubAuthURL, push]);
 
   const authenticate = useCallback(
     async (code: string) => {
@@ -146,6 +141,7 @@ export const AuthProvider = ({ children }: Props) => {
         setRefreshToken(tokenRes.refreshToken);
         setIsLoggedIntoGitHub(true);
         setUser(selectedUserData);
+        setIsLoading(false);
       } catch (err) {
         console.warn(err);
         showNotification(
@@ -154,33 +150,26 @@ export const AuthProvider = ({ children }: Props) => {
             'Oops, something went wrong! 🤥',
           ),
         );
-        setAuthState({
-          ...authState,
-          isLoading: false,
-        });
+        setIsLoading(false);
       }
     },
-    [authState, setAuthState, setAccessToken, setRefreshToken, setIsLoggedIntoGitHub, setUser],
+    [setAccessToken, setRefreshToken, setIsLoggedIntoGitHub, setUser],
   );
-
   /* After requesting Github access, Github redirects back to your app with a code parameter. */
   useEffect(() => {
-    const url = router.asPath;
+    const url = asPath;
     const hasCode = url.includes('?code=');
 
     /* If Github API returns the code parameter */
-    if (hasCode && authState.isLoading === false) {
+    if (hasCode && isLoading === false && isGitHubAuthLoading.current === false) {
       const newUrl = url.split('?code=');
       const code = newUrl[1];
-      router.push(newUrl[0]);
-      setAuthState({
-        ...authState,
-        isLoading: true,
-      });
-
+      isGitHubAuthLoading.current = true;
+      setIsLoading(true);
+      push(newUrl[0]);
       authenticate(code);
     }
-  }, [authState, authenticate, router]);
+  }, [authenticate, asPath, push]);
 
   /* This hook is used to refresh the access token when it expires */
   useEffect(() => {
@@ -214,15 +203,19 @@ export const AuthProvider = ({ children }: Props) => {
     };
   }
 
+  const isDev = process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT === 'development';
+  const canSeeAdmin = isDev || isLoggedIntoGitHub;
+
   return (
     <AuthContext.Provider
       value={{
         tokens,
         isLoggedIntoGitHub,
+        canSeeAdmin,
         user,
         handleLogout,
         authorizeGitHub,
-        isDev: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT === 'development',
+        isDev,
       }}
     >
       {children}
