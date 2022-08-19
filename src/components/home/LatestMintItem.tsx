@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { AdminClaimsQuery } from '../../graphql/generated-gql';
 import { Link } from '../Link';
-import { BackgroundPanel2 } from '../../colors';
+import { BackgroundPanel2, TextGray } from '../../colors';
 import { Avatar } from '../shared/elements/Avatar';
 import { IconCount } from '../shared/elements/IconCount';
 import { GitPOAP } from '../shared/elements/icons/GitPOAP';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { LineClamp } from '../shared/compounds/GitPOAP';
-import { Divider as DividerUI } from '@mantine/core';
+import { Divider as DividerUI, Text } from '@mantine/core';
 import { Title } from '../shared/elements/Title';
 import { truncateAddress } from '../../helpers';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
@@ -33,19 +33,30 @@ const Name = styled(Title)`
 `;
 
 const AvatarStyled = styled(Avatar)`
-  height: ${rem(40)};
-  width: ${rem(40)};
+  height: ${rem(20)};
+  width: ${rem(20)};
 `;
 
 const JazzIcon = styled(JazzIconReact)`
-  height: ${rem(40)};
-  width: ${rem(40)};
+  height: ${rem(20)};
+  width: ${rem(20)};
 `;
 
 const TitleStyled = styled(Title)`
   margin-top: ${rem(10)};
-  text-align: center;
-  ${LineClamp(3)};
+  text-align: start;
+  font-family: 'PT Mono';
+  font-style: normal;
+  font-weight: bold;
+  font-size: ${rem(15)};
+  letter-spacing: ${rem(0.1)};
+  line-height: ${rem(17)};
+  width: 100%;
+  ${textEllipses(250)};
+
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    ${textEllipses(200)}
+  }
 `;
 
 const Item = styled.div`
@@ -60,12 +71,14 @@ const MintInfo = styled.div`
   display: inline-flex;
   align-items: center;
   flex-direction: row;
+  margin-right: ${rem(30)};
 `;
 
 const ClaimInfo = styled.div`
   display: inline-flex;
   align-items: start;
   flex-direction: column;
+  margin-left: ${rem(20)};
 `;
 
 const UserInfo = styled.div`
@@ -80,6 +93,29 @@ const Divider = styled(DividerUI)`
   &:last-child {
     display: none;
   }
+`;
+
+const Wrapper = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const BadgeWrapper = styled(Wrapper)`
+  position: relative;
+`;
+
+const StyledText = styled(Text)`
+  font-family: VT323;
+  font-style: normal;
+  font-weight: normal;
+  font-size: ${rem(18)};
+`;
+
+const MintedByText = styled(StyledText)`
+  color: ${TextGray};
+  margin-right: ${rem(10)};
 `;
 
 export const LatestMintItem = ({
@@ -97,7 +133,9 @@ export const LatestMintItem = ({
     <>
       <Item>
         <MintInfo>
-          <GitPOAPBadge href={`/gp/${gitPOAP.id}`} size="sm" imgUrl={gitPOAP.imageUrl} />
+          <BadgeWrapper>
+            <GitPOAPBadge href={`/gp/${gitPOAP.id}`} size="xxs" imgUrl={gitPOAP.imageUrl} />
+          </BadgeWrapper>
           <ClaimInfo>
             <Link href={`/gp/${gitPOAP.id}`} passHref>
               <TitleStyled>
@@ -105,7 +143,7 @@ export const LatestMintItem = ({
               </TitleStyled>
             </Link>
             <UserInfo>
-              {'minted by'}
+              <MintedByText>minted by</MintedByText>
               <Link href={`/p/${ensName ?? userAddress}`} passHref>
                 {avatarURI && hasEnsAvatar ? (
                   <AvatarStyled src={avatarURI} useDefaultImageTag />
@@ -119,7 +157,7 @@ export const LatestMintItem = ({
             </UserInfo>
           </ClaimInfo>
         </MintInfo>
-        <p>2 days ago</p>
+        <StyledText>2 days ago</StyledText>
       </Item>
       <Divider />
     </>

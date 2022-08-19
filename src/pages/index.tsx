@@ -92,10 +92,10 @@ const Home: Page = () => {
       </Grid>
 
       <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}>
-        <Grid.Col xs={22} md={13} xl={14} style={{ zIndex: 0 }}>
+        <Grid.Col xs={22} md={11} xl={12} style={{ zIndex: 0 }}>
           <TrendingProject />
         </Grid.Col>
-        <Grid.Col xs={20} md={7} xl={6} style={{ zIndex: 0 }}>
+        <Grid.Col xs={20} md={9} xl={8} style={{ zIndex: 0 }}>
           <LatestMint />
         </Grid.Col>
       </Grid>
