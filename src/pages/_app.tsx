@@ -10,7 +10,7 @@ import { Web3ContextProvider } from '../components/wallet/Web3ContextProvider';
 import { AuthProvider } from '../components/github/AuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
-import { theme } from './theme';
+import { theme } from '../lib/theme';
 import ClaimModalContextProvider from '../components/ClaimModal/ClaimModalContext';
 import { LoadingBar } from '../components/LoadingBar';
 
