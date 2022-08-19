@@ -161,7 +161,6 @@ const CreateMultipleEvent: NextPage = () => {
                     <Checkbox
                       mt="md"
                       label="Include year?"
-                      defaultChecked
                       {...getInputProps('hasYear', { type: 'checkbox' })}
                     />
                   </Group>

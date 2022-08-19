@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Popover } from '@mantine/core';
+import { Center, Popover } from '@mantine/core';
 import { BackgroundPanel2, ExtraHover, ExtraRed, TextLight } from '../../colors';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { DateTime } from 'luxon';
@@ -87,11 +87,13 @@ export const DataPopover = ({ data }: DataPopoverProps) => {
       radius="lg"
     >
       <Popover.Target>
-        <StyledFaQuestionCircle
-          onMouseEnter={() => setIsPopoverOpen(true)}
-          onMouseLeave={() => setIsPopoverOpen(false)}
-          size={20}
-        />
+        <Center>
+          <StyledFaQuestionCircle
+            onMouseEnter={() => setIsPopoverOpen(true)}
+            onMouseLeave={() => setIsPopoverOpen(false)}
+            size={20}
+          />
+        </Center>
       </Popover.Target>
       <Popover.Dropdown>
         <DataContainer>

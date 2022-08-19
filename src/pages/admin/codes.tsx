@@ -97,7 +97,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const AddCodesPage: NextPage = () => {
-  const { tokens, isLoggedIntoGitHub } = useAuthContext();
+  const { tokens, canSeeAdmin } = useAuthContext();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const { setFieldValue, values, errors, onSubmit, getInputProps, setErrors, setValues } =
     useForm<FormValues>({
@@ -200,7 +200,7 @@ const AddCodesPage: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(40) }}>
         <Grid.Col span={10}>
-          {isLoggedIntoGitHub ? (
+          {canSeeAdmin ? (
             <FormContainer>
               <AddCodesForm onSubmit={onSubmit((values) => submitCodes(values))}>
                 <Header style={{ alignSelf: 'start' }}>{'Admin - Add Codes'}</Header>

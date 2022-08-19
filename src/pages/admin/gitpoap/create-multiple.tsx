@@ -14,7 +14,7 @@ import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 type Row = { id: string };
 
 const CreateMultiple: NextPage = () => {
-  const { isLoggedIntoGitHub, tokens } = useAuthContext();
+  const { canSeeAdmin, tokens } = useAuthContext();
   const [rows, setRows] = useState<Row[]>([{ id: uuidv4() }]);
 
   const deleteRow = useCallback(
@@ -30,7 +30,7 @@ const CreateMultiple: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isLoggedIntoGitHub && tokens ? (
+          {canSeeAdmin && tokens ? (
             <Group position="center">
               <Stack style={{ width: '100%' }}>
                 <Group position="apart" style={{ width: '100%' }}>
