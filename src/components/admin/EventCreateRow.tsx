@@ -26,6 +26,7 @@ type Props = {
   hasYear: boolean;
   city?: string;
   country?: string;
+  isEnabled: boolean;
 };
 
 const FormInput = styled(Input)`
@@ -87,6 +88,7 @@ type FormValues = {
   image: File | null;
   city?: string;
   country?: string;
+  isEnabled: boolean;
 };
 
 export const EventCreateRow = (props: Props) => {
@@ -114,6 +116,7 @@ export const EventCreateRow = (props: Props) => {
         image: null,
         city: props.city,
         country: props.country,
+        isEnabled: props.isEnabled,
       },
     },
   );
@@ -151,6 +154,11 @@ export const EventCreateRow = (props: Props) => {
     setFieldValue('country', props.country);
     /* do not include setFieldValue below */
   }, [props.country]);
+
+  useEffect(() => {
+    setFieldValue('isEnabled', props.isEnabled);
+    /* do not include setFieldValue below */
+  }, [props.isEnabled]);
 
   /* Set GitHubRepoID when values are returned from the hook */
   useEffect(() => {
@@ -224,6 +232,7 @@ export const EventCreateRow = (props: Props) => {
         email: formValues.email,
         numRequestedCodes: formValues.numRequestedCodes,
         ongoing: formValues.ongoing,
+        isEnabled: formValues.isEnabled,
         image: formValues.image,
       },
       token,
