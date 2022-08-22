@@ -6,6 +6,8 @@ That said, we'll start by offering a set of best practices and answers to genera
 
 
 ## Table of Contents
+- [Culture & Philosophy](#culture--philosophy)
+  - [All Good Questions](#all-questions-are-good-questions)
 - [Best Practices](#best-practices)
   - [Code Formatting](#code-formatting)
   - [Code Style](#code-style)
@@ -26,6 +28,14 @@ That said, we'll start by offering a set of best practices and answers to genera
   - [How to run the frontend server?](#how-to-run-the-frontend-server)
   - [How do migrations work?](#how-do-migrations-work)
 
+## Culture & Philosophy
+
+### All Questions Are Good Questions
+There's nothing that holds people back more than not being able to ask simple, foundational questions when familiarizing themselves with _something_. Being able to ask questions openly, and without prejudice or judgment is a key component of creating a flatter organization with an open & helpful culture, and also comes with a lot of benefits. Namely, the time & effort cost of asking a simple question, and receiving a quick, simple answer is much lower than that of going through long documentation & getting stuck (not saying documentation is bad, quite the opposite); the time costs associated with people being stuck are completely unnecessary and averted through this practice; you increase team cohesiveness; introduce a culture or spreading knowledge; allow people to build rapport with each other; & get people familiar with who has specialized knowledge on a certain topic.
+
+That said, you should feel free to ask _**ANY**_ question to _**ANYBODY**_ with the caveat that one should put _some_ effort into figuring something out for themselves first.
+
+<br />
 
 ## Best Practices
 
