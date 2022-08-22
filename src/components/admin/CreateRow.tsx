@@ -63,6 +63,7 @@ const schema = z.object({
   email: z.string().email({ message: 'Invalid email' }),
   numRequestedCodes: z.number(),
   ongoing: z.boolean(),
+  isEnabled: z.boolean(),
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),
 });
 
@@ -99,6 +100,7 @@ export const CreateRow = (props: Props) => {
       email: 'issuer@gitpoap.io',
       numRequestedCodes: 20,
       ongoing: false,
+      isEnabled: true,
       image: null,
     },
   });
@@ -189,6 +191,7 @@ export const CreateRow = (props: Props) => {
         email: formValues.email,
         numRequestedCodes: formValues.numRequestedCodes,
         ongoing: formValues.ongoing,
+        isEnabled: formValues.isEnabled,
         image: formValues.image,
       },
       token,
@@ -248,6 +251,11 @@ export const CreateRow = (props: Props) => {
             {...getInputProps('numRequestedCodes')}
           />
           <Checkbox mt="md" label="Ongoing?" {...getInputProps('ongoing', { type: 'checkbox' })} />
+          <Checkbox
+            mt="md"
+            label="Enabled?"
+            {...getInputProps('isEnabled', { type: 'checkbox' })}
+          />
         </Group>
       </Group>
 

@@ -41,6 +41,7 @@ const schema = z.object({
   hasYear: z.boolean(),
   city: z.string().optional(),
   country: z.string().optional(),
+  isEnabled: z.boolean(),
 });
 
 const DEFAULT_START_DATE = DateTime.local().toJSDate();
@@ -63,6 +64,7 @@ const CreateMultipleEvent: NextPage = () => {
       hasYear: true,
       city: undefined,
       country: undefined,
+      isEnabled: true,
     },
   });
 
@@ -126,6 +128,12 @@ const CreateMultipleEvent: NextPage = () => {
                       placeholder={'10'}
                       hideControls
                       {...getInputProps('codeCount')}
+                    />
+                    <Checkbox
+                      mt="md"
+                      label="Enabled?"
+                      defaultChecked
+                      {...getInputProps('isEnabled', { type: 'checkbox' })}
                     />
                   </Group>
                   <Group>
@@ -192,6 +200,7 @@ const CreateMultipleEvent: NextPage = () => {
                       hasYear={values.hasYear}
                       city={values.city}
                       country={values.country}
+                      isEnabled={values.isEnabled}
                     />
                   );
                 })}

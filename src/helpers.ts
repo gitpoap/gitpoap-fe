@@ -47,5 +47,10 @@ export const fetchWithToken = async (url: string, token: string | null) => {
       Authorization: `Bearer ${token}`,
     },
   });
+
+  if (!response.ok || response.status >= 400) {
+    throw new Error(response.statusText);
+  }
+
   return await response.json();
 };
