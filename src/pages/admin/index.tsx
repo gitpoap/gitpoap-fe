@@ -13,11 +13,11 @@ const pages = [
     href: '/admin/codes',
   },
   {
-    title: 'Create GitPOAPs - Multiple',
+    title: 'Create GitPOAPs',
     href: '/admin/gitpoap/create-multiple',
   },
   {
-    title: 'Create GitPOAPs for Events - Multiple',
+    title: 'Create GitPOAPs for Events',
     href: '/admin/gitpoap/create-multiple-event',
   },
   {
