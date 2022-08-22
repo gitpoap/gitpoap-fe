@@ -3,14 +3,13 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { useMediaQuery } from '@mantine/hooks';
 import { Header } from '../shared/elements/Header';
-import { GitPOAP } from '../shared/compounds/GitPOAP';
 import { POAPList } from '../shared/compounds/POAPList';
 import { Button } from '../shared/elements/Button';
 import { FaArrowRight } from 'react-icons/fa';
 import { useFeatures } from '../FeaturesContext';
-import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { BREAKPOINTS } from '../../constants';
-import { useMostClaimedGitPoapsQuery } from '../../graphql/generated-gql';
+import { TrendingProjectItem } from './TrendingProjectItem';
+import { useMostClaimedGitPoapsQuery, useAllReposQuery } from '../../graphql/generated-gql';
 
 const Container = styled.div`
   padding: ${rem(10)};
@@ -28,44 +27,32 @@ const Poaps = styled(POAPList)`
   margin-bottom: ${rem(25)};
 `;
 
+const List = styled.div`
+  margin-top: ${rem(30)};
+`;
+
 export const TrendingProject = () => {
   const { hasGitPOAPsPage } = useFeatures();
   const matchesBreakpointSm = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.sm)})`, false);
-  const [result] = useMostClaimedGitPoapsQuery({
+  const [result] = useAllReposQuery({
     variables: {
       count: 10,
     },
   });
 
+  const repos = result?.data?.repos;
+
   return (
     <Container>
       <Header>{'Trending projects'}</Header>
-      <Poaps>
-        {result.fetching && !result.operation && (
-          <>
-            {[...Array(5)].map((_, i) => {
-              return (
-                <POAPBadgeSkeleton key={i} style={{ marginTop: rem(30), marginRight: rem(40) }} />
-              );
-            })}
-          </>
-        )}
-        {result.data?.mostClaimedGitPOAPs?.slice(0, matchesBreakpointSm ? 10 : 6).map((item, i) => {
-          return (
-            <GitPOAP
-              key={item.gitPOAP.id + '-' + i}
-              gitPOAPId={item.gitPOAP.id}
-              imgSrc={item.event.image_url}
-              name={item.event.name}
-              repoName={item.gitPOAP.project.repos[0].name}
-              orgName={item.gitPOAP.project.repos[0].organization.name}
-            />
-          );
-        })}
-      </Poaps>
+
+      <List>
+        {repos && repos.map((repo) => <TrendingProjectItem key={repo.id} repoId={repo.id} />)}
+      </List>
+
       {hasGitPOAPsPage && (
         <Button variant="outline" rightIcon={<FaArrowRight />}>
-          {'ALL GitPOAPS'}
+          {'More Trending Projects'}
         </Button>
       )}
     </Container>

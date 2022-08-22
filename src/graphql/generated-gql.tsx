@@ -3959,6 +3959,7 @@ export type RepoDataQueryVariables = Exact<{
 
 export type RepoDataQuery = {
   __typename?: 'Query';
+  repoStarCount: number;
   repoData?: {
     __typename?: 'RepoData';
     id: number;
@@ -3974,7 +3975,10 @@ export type RepoDataQuery = {
       twitterHandle?: string | null;
       url?: string | null;
     };
-    project: { __typename?: 'Project'; gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number }> };
+    project: {
+      __typename?: 'Project';
+      gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number; imageUrl: string }>;
+    };
   } | null;
 };
 
@@ -4850,11 +4854,13 @@ export const RepoDataDocument = gql`
       project {
         gitPOAPs {
           id
+          imageUrl
         }
       }
       contributorCount
       mintedGitPOAPCount
     }
+    repoStarCount(repoId: $repoId)
   }
 `;
 

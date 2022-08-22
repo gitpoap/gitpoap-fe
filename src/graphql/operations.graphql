@@ -325,11 +325,13 @@ query repoData($repoId: Float!) {
     project {
       gitPOAPs {
         id
+        imageUrl
       }
     }
     contributorCount
     mintedGitPOAPCount
   }
+  repoStarCount(repoId: $repoId)
 }
 
 query repoSEOById($repoId: Float!) {
