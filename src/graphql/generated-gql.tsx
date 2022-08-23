@@ -5522,5 +5522,8 @@ export const TrendingReposDocument = gql`
 export function useTrendingReposQuery(
   options: Omit<Urql.UseQueryArgs<TrendingReposQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<TrendingReposQuery>({ query: TrendingReposDocument, ...options });
+  return Urql.useQuery<TrendingReposQuery, TrendingReposQueryVariables>({
+    query: TrendingReposDocument,
+    ...options,
+  });
 }
