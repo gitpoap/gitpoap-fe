@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { RadioGroup as RadioGroupUI } from '@mantine/core';
+import { Radio } from '@mantine/core';
 import {
   BackgroundPanel,
   BackgroundPanel2,
@@ -9,7 +9,7 @@ import {
   TextAccent,
 } from '../../../colors';
 
-export const RadioGroup = styled(RadioGroupUI)`
+export const RadioGroup = styled(Radio.Group)`
   .mantine-RadioGroup-radio {
     transition: 150ms border-color ease;
     background-color: ${BackgroundPanel};

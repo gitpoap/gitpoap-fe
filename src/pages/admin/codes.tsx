@@ -4,17 +4,16 @@ import { rem } from 'polished';
 import { z } from 'zod';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { IconType } from 'react-icons';
-import { HiDocumentText, HiOutlineX, HiUpload } from 'react-icons/hi';
+import { HiDocumentText } from 'react-icons/hi';
 import { useForm, zodResolver } from '@mantine/form';
-import { Group, useMantineTheme, MantineTheme, Grid } from '@mantine/core';
+import { Group, Grid } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
-import { DropzoneStatus, Dropzone as DropzoneUI } from '@mantine/dropzone';
+import { Dropzone as DropzoneUI } from '@mantine/dropzone';
 import { useGitpoapByPoapEventIdQuery } from '../../graphql/generated-gql';
 import { NumberInput, Text, Header } from '../../components/shared/elements';
 import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../../components/github/AuthContext';
-import { BackgroundPanel, BackgroundPanel2, ExtraRed } from '../../colors';
+import { BackgroundPanel, BackgroundPanel2, ExtraRed, TextLight } from '../../colors';
 import { NotificationFactory } from '../../notifications';
 import { ConnectGitHub } from '../../components/admin/ConnectGitHub';
 import { ButtonStatus, SubmitButtonRow } from '../../components/admin/SubmitButtonRow';
@@ -50,41 +49,14 @@ const FormNumberInput = styled(NumberInput)`
   width: ${rem(400)};
 `;
 
-const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
-  return status.accepted
-    ? theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]
-    : status.rejected
-    ? theme.colors.red[theme.colorScheme === 'dark' ? 4 : 6]
-    : theme.colorScheme === 'dark'
-    ? theme.colors.dark[0]
-    : theme.colors.gray[7];
-};
-
-const TextFileUploadIcon = ({
-  status,
-  ...props
-}: React.ComponentProps<IconType> & { status: DropzoneStatus }) => {
-  if (status.accepted) {
-    return <HiUpload {...props} />;
-  }
-
-  if (status.rejected) {
-    return <HiOutlineX {...props} />;
-  }
-
-  return <HiDocumentText {...props} />;
-};
-
 type DropzoneChildrenProps = {
-  status: DropzoneStatus;
-  theme: MantineTheme;
   file: File | null;
   error: React.ReactNode;
 };
 
-export const DropzoneChildren = ({ status, theme, file, error }: DropzoneChildrenProps) => (
+export const DropzoneChildren = ({ file, error }: DropzoneChildrenProps) => (
   <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
-    <TextFileUploadIcon status={status} style={{ color: getIconColor(status, theme) }} size={80} />
+    <HiDocumentText style={{ color: !!error ? ExtraRed : TextLight }} size={80} />
     {!!file ? (
       <div>
         <Text color="white" size="xl" inline>
@@ -125,12 +97,11 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const AddCodesPage: NextPage = () => {
-  const { tokens, isLoggedIntoGitHub } = useAuthContext();
+  const { tokens, canSeeAdmin } = useAuthContext();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
-  const theme = useMantineTheme();
   const { setFieldValue, values, errors, onSubmit, getInputProps, setErrors, setValues } =
     useForm<FormValues>({
-      schema: zodResolver(schema),
+      validate: zodResolver(schema),
       initialValues: {
         id: undefined!,
         poapEventId: undefined!,
@@ -229,7 +200,7 @@ const AddCodesPage: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(40) }}>
         <Grid.Col span={10}>
-          {isLoggedIntoGitHub ? (
+          {canSeeAdmin ? (
             <FormContainer>
               <AddCodesForm onSubmit={onSubmit((values) => submitCodes(values))}>
                 <Header style={{ alignSelf: 'start' }}>{'Admin - Add Codes'}</Header>
@@ -263,14 +234,7 @@ const AddCodesPage: NextPage = () => {
                   maxSize={3 * 1024 ** 2}
                   accept={['text/*']}
                 >
-                  {(status) => (
-                    <DropzoneChildren
-                      status={status}
-                      theme={theme}
-                      file={values.codes}
-                      error={errors.codes}
-                    />
-                  )}
+                  <DropzoneChildren file={values.codes} error={errors.codes} />
                 </Dropzone>
               </AddCodesForm>
 

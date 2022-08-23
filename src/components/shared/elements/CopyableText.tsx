@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { useClipboard } from '@mantine/hooks';
+import { Box } from '@mantine/core';
 import { FiCopy } from 'react-icons/fi';
 import { Tooltip } from './Tooltip';
 import { Title } from './Title';
@@ -29,8 +30,10 @@ export const CopyableText = ({ className, text, textToCopy }: Props) => {
   return (
     <CopyableTextStyled className={className} onClick={() => clipboard.copy(textToCopy)}>
       {text}
-      <Tooltip opened={clipboard.copied} label="Copied!" withArrow position="right" placement="end">
-        <FiCopy style={{ marginLeft: rem(6) }} />
+      <Tooltip opened={clipboard.copied} label="Copied!" withArrow position="right-end">
+        <Box>
+          <FiCopy style={{ marginLeft: rem(6) }} />
+        </Box>
       </Tooltip>
     </CopyableTextStyled>
   );

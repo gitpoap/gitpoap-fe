@@ -3,7 +3,7 @@ import { rem } from 'polished';
 import { Text as TextUI, TextProps } from '@mantine/core';
 import { TextLight } from '../../../colors';
 
-export const Text = styled(TextUI)<TextProps<'div'>>`
+export const Text = styled(TextUI)<TextProps & React.ComponentPropsWithoutRef<'div'>>`
   font-family: PT Mono;
   font-style: normal;
   font-weight: normal;

@@ -1,10 +1,10 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { Button as ButtonUI, SharedButtonProps } from '@mantine/core';
+import { Button as ButtonUI, ButtonProps } from '@mantine/core';
 import { rem } from 'polished';
 import { PrimaryBlue, TextGray, ExtraHover, ExtraPressed, DarkGray } from '../../../colors';
 
-type Props = SharedButtonProps & {
+type Props = ButtonProps & {
   className?: string;
   onClick?: React.MouseEventHandler;
   onMouseEnter?: React.MouseEventHandler;
@@ -15,62 +15,58 @@ type Props = SharedButtonProps & {
 };
 
 export const FilledButtonStyles = css`
-  &.mantine-Button-filled {
+  background-color: ${PrimaryBlue};
+  border: none;
+  color: white;
+  &:hover:not(:disabled) {
+    background-color: ${ExtraHover};
+  }
+  &:active:not(:disabled) {
+    background-color: ${ExtraPressed};
+  }
+  &:disabled {
+    background-color: ${DarkGray};
+    .mantine-Button-label {
+      color: ${TextGray};
+    }
+  }
+  &.mantine-Button-loading {
     background-color: ${PrimaryBlue};
-    border: none;
-    color: white;
-    &:hover:not(:disabled) {
-      background-color: ${ExtraHover};
-    }
-    &:active:not(:disabled) {
-      background-color: ${ExtraPressed};
-    }
-    &:disabled {
-      background-color: ${DarkGray};
-      .mantine-Button-label {
-        color: ${TextGray};
-      }
-    }
-    &.mantine-Button-loading {
-      background-color: ${PrimaryBlue};
-      .mantine-Button-label {
-        color: white;
-      }
+    .mantine-Button-label {
+      color: white;
     }
   }
 `;
 
 export const OutlineButtonStyles = css`
-  &.mantine-Button-outline {
-    border: ${rem(2)} solid ${TextGray};
-    color: white;
+  border: ${rem(2)} solid ${TextGray};
+  color: white;
+  background-color: transparent;
+  padding: ${rem(6)} ${rem(12)}; /* Adjusted for border */
+  &:hover:not(:disabled) {
+    border-color: ${ExtraHover};
+    color: ${ExtraHover};
+  }
+  &:active:not(:disabled) {
+    border-color: ${ExtraPressed};
+    color: ${ExtraPressed};
+  }
+  &:disabled {
     background-color: transparent;
-    padding: ${rem(6)} ${rem(12)}; /* Adjusted for border */
-    &:hover:not(:disabled) {
-      border-color: ${ExtraHover};
-      color: ${ExtraHover};
+    border-color: ${TextGray};
+    .mantine-Button-label {
+      color: ${TextGray};
     }
-    &:active:not(:disabled) {
-      border-color: ${ExtraPressed};
-      color: ${ExtraPressed};
+  }
+  &.mantine-Button-loading {
+    &:before {
+      top: ${rem(-2)};
+      left: ${rem(-2)};
+      right: ${rem(-2)};
+      bottom: ${rem(-2)};
     }
-    &:disabled {
-      background-color: transparent;
-      border-color: ${TextGray};
-      .mantine-Button-label {
-        color: ${TextGray};
-      }
-    }
-    &.mantine-Button-loading {
-      &:before {
-        top: ${rem(-2)};
-        left: ${rem(-2)};
-        right: ${rem(-2)};
-        bottom: ${rem(-2)};
-      }
-      .mantine-Button-label {
-        color: white;
-      }
+    .mantine-Button-label {
+      color: white;
     }
   }
 `;
@@ -91,13 +87,13 @@ const StyledButton = styled(ButtonUI)<React.ComponentProps<typeof Button>>`
   padding: ${rem(8)} ${rem(14)};
   height: fit-content;
 
-  ${FilledButtonStyles}
-  ${OutlineButtonStyles}
+  ${(props) => props.variant === 'filled' && FilledButtonStyles}
+  ${(props) => props.variant === 'outline' && OutlineButtonStyles}
 `;
 
-export const Button = (props: Props) => {
+export const Button = ({ variant = 'filled', ...props }: Props) => {
   return (
-    <StyledButton {...props} disabled={props.disabled}>
+    <StyledButton {...props} variant={variant} disabled={props.disabled}>
       {props.children}
     </StyledButton>
   );

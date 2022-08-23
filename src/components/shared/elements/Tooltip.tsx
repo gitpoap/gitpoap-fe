@@ -8,7 +8,7 @@ export const Tooltip = (props: Props) => {
     <TooltipUI
       {...props}
       styles={{
-        body: {
+        tooltip: {
           background: DarkGray,
           color: TextLight,
         },

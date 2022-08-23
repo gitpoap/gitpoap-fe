@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { Popover, Box } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { GitPOAPLogoNoText } from './shared/elements/icons';
 import { BackgroundPanel, BackgroundPanel2, ExtraHover, ExtraPressed } from '../colors';
-import { Popover } from '@mantine/core';
 import { Text } from './shared/elements';
 
 const StyledLogo = styled(GitPOAPLogoNoText)`
@@ -60,36 +61,38 @@ type Props = {
 };
 
 export const FeedbackButton = ({ className, href }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, { open, close }] = useDisclosure(false);
   return (
     <Popover
-      className={className}
-      styles={{ root: { zIndex: 100 } }}
       opened={isOpen}
-      onClose={() => setIsOpen(false)}
+      onClose={close}
       position="top"
-      placement="center"
       withArrow
       trapFocus={false}
       closeOnEscape={false}
       transition="fade"
       transitionDuration={200}
       radius="lg"
-      target={
-        <CircleButton
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          onMouseEnter={() => setIsOpen(true)}
-          onMouseLeave={() => setIsOpen(false)}
-        >
-          <StyledLogo />
-        </CircleButton>
-      }
+      withinPortal
+      zIndex={100}
+      styles={{
+        dropdown: {
+          backgroundColor: BackgroundPanel,
+        },
+      }}
     >
-      <PopoverContainer>
-        <Text>{'Give Feedback'}</Text>
-      </PopoverContainer>
+      <Popover.Target>
+        <Box onMouseEnter={open} onMouseLeave={close} className={className} style={{ zIndex: 100 }}>
+          <CircleButton href={href} target="_blank" rel="noopener noreferrer">
+            <StyledLogo />
+          </CircleButton>
+        </Box>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <PopoverContainer>
+          <Text>{'Give Feedback'}</Text>
+        </PopoverContainer>
+      </Popover.Dropdown>
     </Popover>
   );
 };

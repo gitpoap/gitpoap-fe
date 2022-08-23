@@ -3,7 +3,7 @@ import { rem } from 'polished';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Link } from '../../components/Link';
-import { Grid, Group } from '@mantine/core';
+import { Grid, Stack } from '@mantine/core';
 import { Header } from '../../components/shared/elements';
 import { ExtraHover, ExtraPressed } from '../../colors';
 
@@ -55,7 +55,7 @@ const AdminHome: NextPage = () => {
       </Head>
       <Grid style={{ marginTop: rem(40) }}>
         <Grid.Col span={10} offset={1}>
-          <Group direction="column" align="start" position="left">
+          <Stack align="start" justify="left">
             {pages.map((page) => {
               return (
                 <Link key={page.href} href={page.href} passHref>
@@ -63,7 +63,7 @@ const AdminHome: NextPage = () => {
                 </Link>
               );
             })}
-          </Group>
+          </Stack>
         </Grid.Col>
       </Grid>
     </div>

@@ -100,48 +100,46 @@ export const UploadDesigns = ({
             setFieldError('images', code === 'file-too-large' ? 'Max file size is 5MB.' : message);
           }}
         >
-          {(status) => (
-            <>
-              <Text align="center" style={{ pointerEvents: 'none' }}>
-                {'Drop your inspiration or branding here to help us get started'}
-              </Text>
-              {values.images.length > 0 && (
-                <SimpleGrid
-                  cols={4}
-                  breakpoints={[
-                    { maxWidth: 'sm', cols: 2 },
-                    { maxWidth: 'xs', cols: 1 },
-                  ]}
-                  mt={16}
-                >
-                  {values.images.map((file, index) => {
-                    const imageUrl = URL.createObjectURL(file);
-                    return (
-                      <ImageContainer key={'image-' + index}>
-                        <RemoveImageButton
-                          iconSize={20}
-                          size="md"
-                          onClick={(e) => {
-                            setFieldValue(
-                              `images`,
-                              values.images.filter((f, i) => i !== index),
-                            );
-                            e.stopPropagation();
-                          }}
-                          variant="filled"
-                        />
-                        <Image
-                          alt={file.name}
-                          src={imageUrl}
-                          imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
-                        />
-                      </ImageContainer>
-                    );
-                  })}
-                </SimpleGrid>
-              )}
-            </>
-          )}
+          <>
+            <Text align="center" style={{ pointerEvents: 'none' }}>
+              {'Drop your inspiration or branding here to help us get started'}
+            </Text>
+            {values.images.length > 0 && (
+              <SimpleGrid
+                cols={4}
+                breakpoints={[
+                  { maxWidth: 'sm', cols: 2 },
+                  { maxWidth: 'xs', cols: 1 },
+                ]}
+                mt={16}
+              >
+                {values.images.map((file, index) => {
+                  const imageUrl = URL.createObjectURL(file);
+                  return (
+                    <ImageContainer key={'image-' + index}>
+                      <RemoveImageButton
+                        iconSize={20}
+                        size="md"
+                        onClick={(e) => {
+                          setFieldValue(
+                            `images`,
+                            values.images.filter((f, i) => i !== index),
+                          );
+                          e.stopPropagation();
+                        }}
+                        variant="filled"
+                      />
+                      <Image
+                        alt={file.name}
+                        src={imageUrl}
+                        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
+                      />
+                    </ImageContainer>
+                  );
+                })}
+              </SimpleGrid>
+            )}
+          </>
         </StyledDropzone>
 
         {Object.keys(errors).find((error) => /^images/.test(error)) && (

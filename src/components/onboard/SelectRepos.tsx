@@ -34,7 +34,7 @@ const formatRepoForDB = (repo: Repo) => ({
   permissions: repo.permissions,
 });
 
-const BadgeStyled = styled(Badge)<BadgeProps<'div'>>`
+const BadgeStyled = styled(Badge)<BadgeProps & React.ComponentPropsWithoutRef<'div'>>`
   font-family: PT Mono;
 `;
 

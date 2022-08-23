@@ -3,7 +3,7 @@ import { rem } from 'polished';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { HiPlus } from 'react-icons/hi';
-import { Grid, Group } from '@mantine/core';
+import { Grid, Group, Stack } from '@mantine/core';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, Header } from '../../../components/shared/elements';
 import { Divider } from '../../../components/shared/elements';
@@ -14,7 +14,7 @@ import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 type Row = { id: string };
 
 const CreateMultiple: NextPage = () => {
-  const { isLoggedIntoGitHub, tokens } = useAuthContext();
+  const { canSeeAdmin, tokens } = useAuthContext();
   const [rows, setRows] = useState<Row[]>([{ id: uuidv4() }]);
 
   const deleteRow = useCallback(
@@ -30,9 +30,9 @@ const CreateMultiple: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isLoggedIntoGitHub && tokens ? (
-            <Group direction="row" position="center">
-              <Group direction="column" style={{ width: '100%' }}>
+          {canSeeAdmin && tokens ? (
+            <Group position="center">
+              <Stack style={{ width: '100%' }}>
                 <Group position="apart" style={{ width: '100%' }}>
                   <Header style={{ alignSelf: 'start' }}>{'Admin - Create New  GitPOAPs'}</Header>
                   <Button
@@ -55,7 +55,7 @@ const CreateMultiple: NextPage = () => {
                     />
                   );
                 })}
-              </Group>
+              </Stack>
               <Button
                 leftIcon={<HiPlus size={18} />}
                 onClick={() => setRows([...rows, { id: uuidv4() }])}

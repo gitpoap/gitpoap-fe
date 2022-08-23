@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import Link from 'next/link';
 import { Text, TextProps } from '@mantine/core';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { TextAccent, TextLight, ExtraHover, ExtraPressed } from '../../colors';
-import { Globe, GitPOAP, Twitter, GitHub } from '../shared/elements/icons';
+import { GitPOAP, Twitter, GitHub, GlobeNoHover } from '../shared/elements/icons';
 import { InfoHexBase, Body } from '../shared/elements/InfoHexBase';
 import { Avatar as AvatarUI } from '../shared/elements/Avatar';
 import { IconCount } from '../shared/elements/IconCount';
@@ -60,7 +59,7 @@ const Name = styled.div`
   flex-grow: 0;
 `;
 
-const Bio = styled(Text)<TextProps<'div'>>`
+const Bio = styled(Text)<TextProps & React.ComponentPropsWithoutRef<'div'>>`
   font-family: PT Mono;
   font-style: normal;
   font-weight: normal;
@@ -140,21 +139,9 @@ export const InfoHexSummary = ({
         <Name>{ensName ?? truncateAddress(address, 10)}</Name>
         {bio && <Bio lineClamp={3}>{bio}</Bio>}
         <Social>
-          {twitterHandle && (
-            <Link href={`https://twitter.com/${twitterHandle}`} passHref>
-              <Twitter />
-            </Link>
-          )}
-          {githubHandle && (
-            <Link href={`https://github.com/${githubHandle}`} passHref>
-              <GitHub />
-            </Link>
-          )}
-          {personalSiteUrl && (
-            <Link href={personalSiteUrl} passHref>
-              <Globe />
-            </Link>
-          )}
+          {twitterHandle && <Twitter />}
+          {githubHandle && <GitHub />}
+          {personalSiteUrl && <GlobeNoHover />}
           {gitpoapId && <IconCount icon={<GitPOAP />} count={numGitPOAPs ?? 0} />}
         </Social>
       </Content>

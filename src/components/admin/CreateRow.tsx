@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Box, Group, useMantineTheme, Divider } from '@mantine/core';
+import { Box, Group, Stack, Divider } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import { Input, InputWrapper, TextArea, Text, DateInput, Checkbox } from '../shared/elements';
@@ -81,13 +81,12 @@ export const CreateRow = (props: Props) => {
   const [projectNameSeed, setProjectNameSeed] = useState<string>('');
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
-  const theme = useMantineTheme();
   const firstUpdate = useRef(true);
 
   const { values, setFieldValue, getInputProps, onSubmit, errors, setErrors } = useForm<
     z.infer<typeof schema>
   >({
-    schema: zodResolver(schema),
+    validate: zodResolver(schema),
     initialValues: {
       githubRepoId: undefined!,
       name: '',
@@ -260,9 +259,9 @@ export const CreateRow = (props: Props) => {
       </Group>
 
       {/* Form Inputs Section */}
-      <Group direction="row" align="start" spacing="md">
+      <Group align="start" spacing="md">
         {/* Project Specific Seed values */}
-        <Group direction="column">
+        <Stack>
           <FormInput
             required
             label={'Repo URL Seed (generates githubRepoID)'}
@@ -276,7 +275,7 @@ export const CreateRow = (props: Props) => {
             value={projectNameSeed}
             onChange={(e) => setProjectNameSeed(e.target.value)}
           />
-        </Group>
+        </Stack>
         {/* Image Upload */}
         <InputWrapper label="Image" required>
           <ImageDropzone
@@ -286,14 +285,7 @@ export const CreateRow = (props: Props) => {
             onReject={(files) => console.error('rejected files', files)}
             maxSize={3 * 1024 ** 2}
           >
-            {(status) => (
-              <DropzoneChildrenSmall
-                status={status}
-                theme={theme}
-                file={values.image}
-                error={errors.image}
-              />
-            )}
+            <DropzoneChildrenSmall file={values.image} error={errors.image} />
           </ImageDropzone>
         </InputWrapper>
         {/* Derived Values */}

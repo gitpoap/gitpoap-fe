@@ -1,9 +1,14 @@
+import React from 'react';
 import styled from 'styled-components';
 import { FiGlobe } from 'react-icons/fi';
 import { IconStyles } from './BaseIcon';
 import { ExtraHover, ExtraPressed, TextGray } from '../../../../colors';
 
-export const Globe = styled(FiGlobe)`
+const FiGlobalForwardRef = React.forwardRef((props, ref) => {
+  return <FiGlobe {...props} />;
+});
+
+export const Globe = styled(FiGlobalForwardRef)`
   ${IconStyles};
   stroke: ${TextGray};
   path {

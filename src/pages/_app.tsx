@@ -10,7 +10,7 @@ import { Web3ContextProvider } from '../components/wallet/Web3ContextProvider';
 import { AuthProvider } from '../components/github/AuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
-import { BREAKPOINTS } from '../constants';
+import { theme } from '../lib/theme';
 import ClaimModalContextProvider from '../components/ClaimModal/ClaimModalContext';
 import { LoadingBar } from '../components/LoadingBar';
 
@@ -62,11 +62,7 @@ const TheApp = ({ Component, pageProps }: Props) => {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <Web3ContextProvider>
-        <MantineProvider
-          theme={{ breakpoints: BREAKPOINTS, colorScheme: 'dark' }}
-          withGlobalStyles
-          withNormalizeCSS
-        >
+        <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider autoClose={5000}>
             <URQLProvider value={client}>
               <AuthProvider>

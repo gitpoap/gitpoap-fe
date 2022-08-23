@@ -47,7 +47,6 @@ export const RecentlyAddedPopover = ({ target, isOpen, onClose }: Props) => {
       opened={isOpen}
       onClose={onClose}
       position="bottom"
-      placement="center"
       withArrow
       trapFocus={false}
       closeOnEscape={false}
@@ -55,31 +54,32 @@ export const RecentlyAddedPopover = ({ target, isOpen, onClose }: Props) => {
       width={180}
       radius="md"
       styles={{
-        body: { PointerEvent: 'none', borderColor: DarkGray },
+        dropdown: { PointerEvent: 'none', borderColor: DarkGray },
         arrow: {
           backgroundColor: DarkGray,
           borderColor: DarkGray,
           width: rem(14),
           height: rem(14),
         },
-        popover: { backgroundColor: DarkGray },
       }}
-      target={target}
     >
-      <PopoverContent>
-        <Item>
-          <People height="14" width="14" />
-          {'Contributors'}
-        </Item>
-        <Item>
-          <GitPOAP height="14" width="14" />
-          {'GitPOAPs'}
-        </Item>
-        <Item>
-          <Star height="14" width="14" />
-          {'Stars'}
-        </Item>
-      </PopoverContent>
+      <Popover.Target>{target}</Popover.Target>
+      <Popover.Dropdown>
+        <PopoverContent>
+          <Item>
+            <People height="14" width="14" />
+            {'Contributors'}
+          </Item>
+          <Item>
+            <GitPOAP height="14" width="14" />
+            {'GitPOAPs'}
+          </Item>
+          <Item>
+            <Star height="14" width="14" />
+            {'Stars'}
+          </Item>
+        </PopoverContent>
+      </Popover.Dropdown>
     </Popover>
   );
 };

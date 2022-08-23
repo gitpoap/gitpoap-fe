@@ -30,7 +30,7 @@ const TitleHoverStyles = css`
   }
 `;
 
-export const TitleNoHover = styled(Text)<TextProps<'span'>>`
+export const TitleNoHover = styled(Text)<TextProps & React.ComponentPropsWithoutRef<'span'>>`
   ${TitleStyles};
   color: ${TextAccent};
 `;

@@ -76,14 +76,14 @@ export const Select = (props: Props) => {
           letterSpacing: rem(2),
           textTransform: 'uppercase',
           color: TextLight,
-        },
-        hovered: {
-          backgroundColor: BackgroundPanel2,
-        },
-        selected: {
-          backgroundColor: TextDarkGray,
-          '&:hover': {
+          '&[data-hovered]': {
             backgroundColor: BackgroundPanel2,
+          },
+          '&[data-selected]': {
+            backgroundColor: TextDarkGray,
+            '&:hover': {
+              backgroundColor: BackgroundPanel2,
+            },
           },
         },
       }}

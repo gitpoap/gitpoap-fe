@@ -5,7 +5,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { z } from 'zod';
 import { HiPlus } from 'react-icons/hi';
-import { Grid, Group } from '@mantine/core';
+import { Grid, Group, Stack } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { v4 as uuidv4 } from 'uuid';
 import { DateTime } from 'luxon';
@@ -54,7 +54,7 @@ const CreateMultipleEvent: NextPage = () => {
   const { isLoggedIntoGitHub, tokens } = useAuthContext();
   const [rows, setRows] = useState<Row[]>([{ id: uuidv4() }]);
   const { values, setFieldValue, getInputProps } = useForm<z.infer<typeof schema>>({
-    schema: zodResolver(schema),
+    validate: zodResolver(schema),
     initialValues: {
       eventName: '',
       startDate: DEFAULT_START_DATE,
@@ -95,8 +95,8 @@ const CreateMultipleEvent: NextPage = () => {
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
           {isLoggedIntoGitHub && tokens ? (
-            <Group direction="row" position="center">
-              <Group direction="column">
+            <Group position="center">
+              <Stack>
                 <Header style={{ alignSelf: 'start' }}>
                   {'Admin - Create New Event GitPOAPs'}
                 </Header>
@@ -161,8 +161,7 @@ const CreateMultipleEvent: NextPage = () => {
                     <Checkbox
                       mt="md"
                       label="Include year?"
-                      defaultChecked
-                      {...getInputProps<'hasYear', 'checkbox'>('hasYear')}
+                      {...getInputProps('hasYear', { type: 'checkbox' })}
                     />
                   </Group>
                   <Group>
@@ -204,7 +203,7 @@ const CreateMultipleEvent: NextPage = () => {
                     />
                   );
                 })}
-              </Group>
+              </Stack>
               <Button
                 leftIcon={<HiPlus size={18} />}
                 onClick={() => setRows([...rows, { id: uuidv4() }])}

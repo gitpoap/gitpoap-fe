@@ -9,8 +9,9 @@ export const useKeyPress = ({ targetKey }: UseKeyPressOptions) => {
   const [keyPressed, setKeyPressed] = useState<boolean>(false);
   /* If pressed key is our target key then set to true */
   const downHandler = useCallback(
-    ({ key, target }: KeyboardEvent) => {
-      if (key === targetKey && !(target instanceof HTMLInputElement)) {
+    (e: KeyboardEvent) => {
+      if (e.key === targetKey && !(e.target instanceof HTMLInputElement)) {
+        e.preventDefault();
         setKeyPressed(true);
       }
     },
@@ -18,8 +19,9 @@ export const useKeyPress = ({ targetKey }: UseKeyPressOptions) => {
   );
   /* If released key is our target key then set to false */
   const upHandler = useCallback(
-    ({ key }: KeyboardEvent) => {
-      if (key === targetKey) {
+    (e: KeyboardEvent) => {
+      if (e.key === targetKey) {
+        e.preventDefault();
         setKeyPressed(false);
       }
     },
@@ -35,7 +37,7 @@ export const useKeyPress = ({ targetKey }: UseKeyPressOptions) => {
       window.removeEventListener('keyup', upHandler);
     };
     /* Empty array ensures that effect is only run on mount and unmount */
-  }, []);
+  }, [downHandler, upHandler]);
 
   return keyPressed;
 };

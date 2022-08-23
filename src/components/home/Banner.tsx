@@ -1,9 +1,8 @@
+import React, { useEffect, ComponentProps } from 'react';
 import { Button, ButtonProps, Group, Stack, Text, TextProps } from '@mantine/core';
 import { rem } from 'polished';
 import styled, { css } from 'styled-components';
-import React, { useEffect } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
-
 import { TextGray, TextLight } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
@@ -42,7 +41,7 @@ const HeaderStyled = styled.span`
   color: ${TextLight};
 `;
 
-const BannerSubHeader = styled(Text)<TextProps<'div'>>`
+const BannerSubHeader = styled(Text)<TextProps & React.ComponentPropsWithoutRef<'div'>>`
   font-family: PT Mono;
   font-style: normal;
   font-weight: 400;
@@ -62,12 +61,14 @@ const CTAButtonStyles = css`
   min-width: ${rem(250)};
 `;
 
-const StartIssuingButton = styled(Button)<ButtonProps<'button'>>`
+const StartIssuingButton = styled(Button)<ButtonProps & ComponentProps<typeof Button>>`
   ${CTAButtonStyles};
   ${FilledButtonStyles};
 `;
 
-const StartMintingButton = styled(Button)<ButtonProps<'button'>>`
+const StartMintingButton = styled(Button)<
+  ButtonProps & ComponentProps<typeof Button> & { onClick: () => void }
+>`
   ${CTAButtonStyles};
   ${OutlineButtonStyles};
 `;

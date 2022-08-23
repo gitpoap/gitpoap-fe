@@ -5,7 +5,7 @@ import { FormFields } from './types';
 
 const useMantineForm = (stage: number, githubHandle: string) =>
   useForm<FormFields>({
-    schema: zodResolver(createSchema(stage)),
+    validate: zodResolver(createSchema(stage)),
     initialValues: {
       githubHandle: githubHandle,
       repos: [],
