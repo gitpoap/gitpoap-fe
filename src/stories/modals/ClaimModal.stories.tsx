@@ -5,7 +5,7 @@ import badgeImg1 from '../assets/gitPOAPs/badge1.png';
 import badgeImg2 from '../assets/gitPOAPs/badge2.png';
 import badgeImg3 from '../assets/gitPOAPs/badge3.png';
 import badgeImg4 from '../assets/gitPOAPs/badge4.png';
-import { OpenClaimsQuery } from '../../graphql/generated-gql';
+import { ClaimStatus, OpenClaimsQuery } from '../../graphql/generated-gql';
 
 type UserClaim = Exclude<OpenClaimsQuery['userClaims'], null | undefined>[number];
 const claims: UserClaim[] = [
@@ -20,6 +20,7 @@ const claims: UserClaim[] = [
           },
         },
       },
+      status: ClaimStatus.Unclaimed,
       gitPOAP: {
         id: 1,
       },
@@ -41,6 +42,7 @@ const claims: UserClaim[] = [
           },
         },
       },
+      status: ClaimStatus.Unclaimed,
       gitPOAP: {
         id: 2,
       },
@@ -62,6 +64,7 @@ const claims: UserClaim[] = [
           },
         },
       },
+      status: ClaimStatus.Claimed,
       gitPOAP: {
         id: 3,
       },
@@ -83,6 +86,7 @@ const claims: UserClaim[] = [
           },
         },
       },
+      status: ClaimStatus.Unclaimed,
       gitPOAP: {
         id: 4,
       },
