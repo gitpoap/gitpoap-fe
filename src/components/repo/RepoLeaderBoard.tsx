@@ -62,7 +62,6 @@ export type RepoLeaderBoardProps = {
 export const RepoLeaderBoard = ({ repoId }: RepoLeaderBoardProps) => {
   const [result] = useRepoLeadersQuery({
     variables: {
-      count: 6,
       repoId: repoId,
     },
   });

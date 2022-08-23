@@ -2875,7 +2875,8 @@ export type QueryRepoGitPoaPsArgs = {
 };
 
 export type QueryRepoMostHonoredContributorsArgs = {
-  count?: InputMaybe<Scalars['Float']>;
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
   repoId: Scalars['Float'];
 };
 
@@ -3569,8 +3570,9 @@ export type LeadersQuery = {
 };
 
 export type RepoLeadersQueryVariables = Exact<{
-  count: Scalars['Float'];
   repoId: Scalars['Float'];
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
 }>;
 
 export type RepoLeadersQuery = {
@@ -4365,8 +4367,8 @@ export function useLeadersQuery(options: Omit<Urql.UseQueryArgs<LeadersQueryVari
   return Urql.useQuery<LeadersQuery>({ query: LeadersDocument, ...options });
 }
 export const RepoLeadersDocument = gql`
-  query repoLeaders($count: Float!, $repoId: Float!) {
-    repoMostHonoredContributors(count: $count, repoId: $repoId) {
+  query repoLeaders($repoId: Float!, $page: Float, $perPage: Float) {
+    repoMostHonoredContributors(repoId: $repoId, page: $page, perPage: $perPage) {
       profile {
         address
         id

@@ -17,8 +17,8 @@ query leaders($count: Float!) {
   }
 }
 
-query repoLeaders($count: Float!, $repoId: Float!) {
-  repoMostHonoredContributors(count: $count, repoId: $repoId) {
+query repoLeaders($repoId: Float!, $page: Float, $perPage: Float) {
+  repoMostHonoredContributors(repoId: $repoId, page: $page, perPage: $perPage) {
     profile {
       address
       id
