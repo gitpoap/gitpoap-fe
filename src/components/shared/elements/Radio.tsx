@@ -10,7 +10,7 @@ import {
 } from '../../../colors';
 
 export const RadioGroup = styled(Radio.Group)`
-  .mantine-RadioGroup-radio {
+  .mantine-Radio-radio {
     transition: 150ms border-color ease;
     background-color: ${BackgroundPanel};
     border: ${rem(1)} solid ${BackgroundPanel2};
@@ -19,12 +19,12 @@ export const RadioGroup = styled(Radio.Group)`
       background-color: ${TextAccent};
     }
 
-    &:hover:not(.mantine-RadioGroup-radioDisabled) {
+    &:hover:not(.mantine-Radio-radioDisabled) {
       cursor: pointer;
     }
   }
 
-  .mantine-RadioGroup-label {
+  .mantine-Radio-label {
     transition: 150ms color ease;
     font-family: PT Mono;
     font-style: normal;
@@ -33,17 +33,17 @@ export const RadioGroup = styled(Radio.Group)`
     line-height: ${rem(18)};
     letter-spacing: ${rem(0.2)};
 
-    &:hover:not(.mantine-RadioGroup-labelDisabled) {
+    &:hover:not(.mantine-Radio-labelDisabled) {
       color: ${ExtraHover};
       cursor: pointer;
-      .mantine-RadioGroup-radio {
+      .mantine-Radio-radio {
         border-color: ${ExtraHover};
       }
     }
 
-    &:active:not(.mantine-RadioGroup-labelDisabled) {
+    &:active:not(.mantine-Radio-labelDisabled) {
       color: ${ExtraPressed};
-      .mantine-RadioGroup-radio {
+      .mantine-Radio-radio {
         border-color: ${ExtraPressed};
         &::before {
           background-color: ${ExtraPressed};
