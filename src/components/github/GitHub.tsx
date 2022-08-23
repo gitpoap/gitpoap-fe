@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { GoMarkGithub } from 'react-icons/go';
@@ -13,7 +13,7 @@ import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { DisconnectPopover } from '../DisconnectPopover';
 import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
-import { useOpenClaimsQuery } from '../../graphql/generated-gql';
+import { ClaimStatus, useOpenClaimsQuery } from '../../graphql/generated-gql';
 
 const Content = styled.div`
   display: flex;
@@ -48,6 +48,16 @@ export const GitHub = ({ className }: Props) => {
   });
 
   const userClaims = result.data?.userClaims;
+
+  useEffect(() => {
+    if (userClaims) {
+      setClaimedIds(
+        userClaims
+          .filter((userClaim) => userClaim.claim.status === ClaimStatus.Claimed)
+          .map((userClaim) => userClaim.claim.id),
+      );
+    }
+  }, [userClaims]);
 
   const renderGitHubButton = useCallback(() => {
     /* Not connected to GitHub */

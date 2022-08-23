@@ -3753,6 +3753,7 @@ export type OpenClaimsQuery = {
     claim: {
       __typename?: 'Claim';
       id: number;
+      status: ClaimStatus;
       pullRequestEarned?: {
         __typename?: 'GithubPullRequest';
         repo: {
@@ -4575,6 +4576,7 @@ export const OpenClaimsDocument = gql`
             }
           }
         }
+        status
         gitPOAP {
           id
         }

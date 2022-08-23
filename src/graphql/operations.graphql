@@ -168,6 +168,7 @@ query openClaims($githubId: Float!) {
           }
         }
       }
+      status
       gitPOAP {
         id
       }
