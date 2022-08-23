@@ -93,7 +93,6 @@ export const DropzoneChildrenSmall = ({ file, error }: DropzoneChildrenProps) =>
             transition="pop-top-left"
             styles={{
               dropdown: {
-                pointerEvents: 'none',
                 backgroundColor: BackgroundPanel2,
                 borderColor: BackgroundPanel2,
               },
@@ -102,6 +101,7 @@ export const DropzoneChildrenSmall = ({ file, error }: DropzoneChildrenProps) =>
           >
             <Popover.Target>
               <Image
+                style={{ pointerEvents: 'auto' }}
                 width={90}
                 height={90}
                 src={URL.createObjectURL(file)}

@@ -114,14 +114,6 @@ export const CreateRow = (props: Props) => {
     }
   }, [values.year]);
 
-  /* Update the year field based on the start date */
-  useEffect(() => {
-    const startDateYear = values.startDate?.getFullYear();
-    if (startDateYear && values.year !== startDateYear) {
-      setFieldValue('year', values.startDate.getFullYear());
-    }
-  }, [values.startDate]);
-
   /* Set GitHubRepoID when values are returned from the hook */
   useEffect(() => {
     if (githubRepoId && githubRepoId !== values.githubRepoId) {
