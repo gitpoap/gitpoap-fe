@@ -49,6 +49,8 @@ export const GitHub = ({ className }: Props) => {
 
   const userClaims = result.data?.userClaims;
 
+  // useOpenClaimsQuery includes all claimed GitPOAPs from the previous month
+  // This side effect adds the ids of those claimed GitPOAPs to the claimedIds list
   useEffect(() => {
     if (userClaims) {
       setClaimedIds(
