@@ -9,7 +9,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import { useFeatures } from '../FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
 import { TrendingProjectItem } from './TrendingProjectItem';
-import { useMostClaimedGitPoapsQuery, useAllReposQuery } from '../../graphql/generated-gql';
+import { useMostClaimedGitPoapsQuery, useTrendingReposQuery } from '../../graphql/generated-gql';
 
 const Container = styled.div`
   padding: ${rem(10)};
@@ -34,13 +34,16 @@ const List = styled.div`
 export const TrendingProject = () => {
   const { hasGitPOAPsPage } = useFeatures();
   const matchesBreakpointSm = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.sm)})`, false);
-  const [result] = useAllReposQuery({
+  const [result] = useTrendingReposQuery({
     variables: {
       count: 10,
+      last: 30,
     },
   });
 
-  const repos = result?.data?.repos;
+  const repos = result?.data?.trendingRepos;
+
+  console.log('trending repos', repos);
 
   return (
     <Container>

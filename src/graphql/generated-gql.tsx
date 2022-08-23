@@ -713,8 +713,6 @@ export type GitPoap = {
   eventId?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   imageUrl: Scalars['String'];
-  isEnabled: Scalars['Boolean'];
-  isPRBased: Scalars['Boolean'];
   level: Scalars['Int'];
   name: Scalars['String'];
   ongoing: Scalars['Boolean'];
@@ -782,8 +780,6 @@ export type GitPoapCountAggregate = {
   eventId: Scalars['Int'];
   id: Scalars['Int'];
   imageUrl: Scalars['Int'];
-  isEnabled: Scalars['Int'];
-  isPRBased: Scalars['Int'];
   level: Scalars['Int'];
   name: Scalars['Int'];
   ongoing: Scalars['Int'];
@@ -803,8 +799,6 @@ export type GitPoapCountOrderByAggregateInput = {
   eventId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
-  isEnabled?: InputMaybe<SortOrder>;
-  isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
@@ -829,8 +823,6 @@ export type GitPoapGroupBy = {
   eventId?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   imageUrl: Scalars['String'];
-  isEnabled: Scalars['Boolean'];
-  isPRBased: Scalars['Boolean'];
   level: Scalars['Int'];
   name: Scalars['String'];
   ongoing: Scalars['Boolean'];
@@ -857,8 +849,6 @@ export type GitPoapMaxAggregate = {
   eventId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   imageUrl?: Maybe<Scalars['String']>;
-  isEnabled?: Maybe<Scalars['Boolean']>;
-  isPRBased?: Maybe<Scalars['Boolean']>;
   level?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   ongoing?: Maybe<Scalars['Boolean']>;
@@ -878,8 +868,6 @@ export type GitPoapMaxOrderByAggregateInput = {
   eventId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
-  isEnabled?: InputMaybe<SortOrder>;
-  isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
@@ -899,8 +887,6 @@ export type GitPoapMinAggregate = {
   eventId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   imageUrl?: Maybe<Scalars['String']>;
-  isEnabled?: Maybe<Scalars['Boolean']>;
-  isPRBased?: Maybe<Scalars['Boolean']>;
   level?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   ongoing?: Maybe<Scalars['Boolean']>;
@@ -920,8 +906,6 @@ export type GitPoapMinOrderByAggregateInput = {
   eventId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
-  isEnabled?: InputMaybe<SortOrder>;
-  isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
@@ -949,8 +933,6 @@ export type GitPoapOrderByWithAggregationInput = {
   eventId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
-  isEnabled?: InputMaybe<SortOrder>;
-  isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
@@ -971,8 +953,6 @@ export type GitPoapOrderByWithRelationInput = {
   eventId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
-  isEnabled?: InputMaybe<SortOrder>;
-  isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
@@ -998,8 +978,6 @@ export enum GitPoapScalarFieldEnum {
   EventId = 'eventId',
   Id = 'id',
   ImageUrl = 'imageUrl',
-  IsEnabled = 'isEnabled',
-  IsPrBased = 'isPRBased',
   Level = 'level',
   Name = 'name',
   Ongoing = 'ongoing',
@@ -1022,8 +1000,6 @@ export type GitPoapScalarWhereWithAggregatesInput = {
   eventId?: InputMaybe<IntNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   imageUrl?: InputMaybe<StringWithAggregatesFilter>;
-  isEnabled?: InputMaybe<BoolWithAggregatesFilter>;
-  isPRBased?: InputMaybe<BoolWithAggregatesFilter>;
   level?: InputMaybe<IntWithAggregatesFilter>;
   name?: InputMaybe<StringWithAggregatesFilter>;
   ongoing?: InputMaybe<BoolWithAggregatesFilter>;
@@ -1074,8 +1050,6 @@ export type GitPoapWhereInput = {
   eventId?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<IntFilter>;
   imageUrl?: InputMaybe<StringFilter>;
-  isEnabled?: InputMaybe<BoolFilter>;
-  isPRBased?: InputMaybe<BoolFilter>;
   level?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
   ongoing?: InputMaybe<BoolFilter>;
@@ -2486,6 +2460,7 @@ export type Query = {
   totalContributors: Scalars['Float'];
   totalGitPOAPs: Scalars['Float'];
   totalRepos: Scalars['Float'];
+  trendingRepos?: Maybe<Array<RepoData>>;
   user?: Maybe<User>;
   userClaims?: Maybe<Array<FullClaimData>>;
   userPOAPs?: Maybe<UserPoaPs>;
@@ -2910,6 +2885,11 @@ export type QueryReposArgs = {
 
 export type QuerySearchArgs = {
   text: Scalars['String'];
+};
+
+export type QueryTrendingReposArgs = {
+  count?: InputMaybe<Scalars['Float']>;
+  last?: InputMaybe<Scalars['Float']>;
 };
 
 export type QueryUserArgs = {
@@ -4376,6 +4356,35 @@ export type GitPoapSearchByNameQuery = {
   }>;
 };
 
+export type TrendingReposQueryVariables = Exact<{
+  count: Scalars['Float'];
+  last: Scalars['Float'];
+}>;
+
+export type TrendingReposQuery = {
+  __typename?: 'Query';
+  trendingRepos?: Array<{
+    __typename?: 'RepoData';
+    id: number;
+    name: string;
+    githubRepoId: number;
+    contributorCount: number;
+    mintedGitPOAPCount: number;
+    organization: {
+      __typename?: 'Organization';
+      id: number;
+      name: string;
+      description?: string | null;
+      twitterHandle?: string | null;
+      url?: string | null;
+    };
+    project: {
+      __typename?: 'Project';
+      gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number; imageUrl: string }>;
+    };
+  }> | null;
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -5408,7 +5417,7 @@ export const RepoSearchByNameDocument = gql`
       }
       project {
         id
-        gitPOAPs(take: 1, where: { isEnabled: { equals: true } }) {
+        gitPOAPs(take: 1) {
           id
           name
           description
@@ -5438,7 +5447,7 @@ export const OrgSearchByNameDocument = gql`
         name
         lastPRUpdatedAt
         project {
-          gitPOAPs(take: 1, where: { isEnabled: { equals: true } }) {
+          gitPOAPs(take: 1) {
             id
             name
             description
@@ -5460,10 +5469,7 @@ export function useOrgSearchByNameQuery(
 }
 export const GitPoapSearchByNameDocument = gql`
   query gitPOAPSearchByName($search: String!, $take: Int = 4) {
-    gitPOAPS(
-      take: $take
-      where: { name: { contains: $search, mode: insensitive }, isEnabled: { equals: true } }
-    ) {
+    gitPOAPS(take: $take, where: { name: { contains: $search, mode: insensitive } }) {
       id
       name
       description
@@ -5487,4 +5493,34 @@ export function useGitPoapSearchByNameQuery(
     query: GitPoapSearchByNameDocument,
     ...options,
   });
+}
+export const TrendingReposDocument = gql`
+  query trendingRepos($count: Float!, $last: Float!) {
+    trendingRepos(count: $count, last: $last) {
+      id
+      name
+      githubRepoId
+      organization {
+        id
+        name
+        description
+        twitterHandle
+        url
+      }
+      project {
+        gitPOAPs {
+          id
+          imageUrl
+        }
+      }
+      contributorCount
+      mintedGitPOAPCount
+    }
+  }
+`;
+
+export function useTrendingReposQuery(
+  options: Omit<Urql.UseQueryArgs<TrendingReposQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TrendingReposQuery>({ query: TrendingReposDocument, ...options });
 }
