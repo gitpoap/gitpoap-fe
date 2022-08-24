@@ -134,7 +134,7 @@ export const getStaticPaths = async () => {
     false,
   );
 
-  const results = await client!.query<AllGitPoapIdsQuery>(AllGitPoapIdsDocument).toPromise();
+  const results = await client!.query<AllGitPoapIdsQuery>(AllGitPoapIdsDocument, {}).toPromise();
   const paths = results.data?.gitPOAPS.map((gitpoap) => ({
     params: { id: gitpoap.id.toString() },
   }));

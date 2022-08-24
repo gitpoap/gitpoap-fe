@@ -102,7 +102,7 @@ export const getStaticPaths = async () => {
   );
 
   const results = await client!
-    .query<OrgsGetStaticPathsQuery>(OrgsGetStaticPathsDocument)
+    .query<OrgsGetStaticPathsQuery>(OrgsGetStaticPathsDocument, {})
     .toPromise();
 
   const paths = results.data?.organizations.map((org) => ({

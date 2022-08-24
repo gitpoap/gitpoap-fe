@@ -103,7 +103,7 @@ export const getStaticPaths = async () => {
   );
 
   const results = await client!
-    .query<ReposGetStaticPathsQuery>(ReposGetStaticPathsDocument)
+    .query<ReposGetStaticPathsQuery>(ReposGetStaticPathsDocument, {})
     .toPromise();
 
   const paths = results.data?.repos.map((repo) => ({
