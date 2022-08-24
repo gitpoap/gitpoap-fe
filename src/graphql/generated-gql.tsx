@@ -2915,7 +2915,7 @@ export type QuerySearchArgs = {
 
 export type QueryTrendingReposArgs = {
   count?: InputMaybe<Scalars['Float']>;
-  last?: InputMaybe<Scalars['Float']>;
+  numDays?: InputMaybe<Scalars['Float']>;
 };
 
 export type QueryUserArgs = {
@@ -3973,6 +3973,7 @@ export type RepoDataQuery = {
     githubRepoId: number;
     contributorCount: number;
     mintedGitPOAPCount: number;
+    gitPOAPCount: number;
     organization: {
       __typename?: 'Organization';
       id: number;
@@ -4384,7 +4385,7 @@ export type GitPoapSearchByNameQuery = {
 
 export type TrendingReposQueryVariables = Exact<{
   count: Scalars['Float'];
-  last: Scalars['Float'];
+  numDays: Scalars['Float'];
 }>;
 
 export type TrendingReposQuery = {
@@ -4894,6 +4895,7 @@ export const RepoDataDocument = gql`
       }
       contributorCount
       mintedGitPOAPCount
+      gitPOAPCount
     }
     repoStarCount(repoId: $repoId)
   }
@@ -5524,8 +5526,8 @@ export function useGitPoapSearchByNameQuery(
   });
 }
 export const TrendingReposDocument = gql`
-  query trendingRepos($count: Float!, $last: Float!) {
-    trendingRepos(count: $count, last: $last) {
+  query trendingRepos($count: Float!, $numDays: Float!) {
+    trendingRepos(count: $count, numDays: $numDays) {
       id
       name
       githubRepoId

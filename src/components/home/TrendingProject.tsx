@@ -37,7 +37,7 @@ export const TrendingProject = () => {
   const [result] = useTrendingReposQuery({
     variables: {
       count: 10,
-      last: 30,
+      numDays: 30,
     },
   });
 
@@ -51,7 +51,14 @@ export const TrendingProject = () => {
 
       <List>
         {trendingRepos &&
-          trendingRepos.map((repo) => <TrendingProjectItem key={repo.id} repoId={repo.id} />)}
+          trendingRepos.map((repo, index) => (
+            <TrendingProjectItem
+              key={repo.id}
+              repoId={repo.id}
+              index={index + 1}
+              claimedCount={repo.mintedGitPOAPCount}
+            />
+          ))}
       </List>
 
       {hasGitPOAPsPage && (

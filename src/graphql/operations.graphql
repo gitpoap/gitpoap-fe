@@ -330,6 +330,7 @@ query repoData($repoId: Float!) {
     }
     contributorCount
     mintedGitPOAPCount
+    gitPOAPCount
   }
   repoStarCount(repoId: $repoId)
 }
