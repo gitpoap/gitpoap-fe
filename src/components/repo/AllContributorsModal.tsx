@@ -1,4 +1,5 @@
 import { Button, Modal } from '@mantine/core';
+import { useDisclosure, useListState } from '@mantine/hooks';
 import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { MdEmojiPeople } from 'react-icons/md';
@@ -9,22 +10,24 @@ import { LeaderBoardItem } from '../home/LeaderBoardItem';
 import { Header, Text as TextUI } from '../shared/elements';
 import { TextDarkGray } from '../../colors';
 import { LeadersQuery, useRepoLeadersQuery } from '../../graphql/generated-gql';
-import useInfiniteScroll from '../../hooks/useInfiniteScroll';
+import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
 
 const HeaderStyled = styled(Header)`
   font-size: ${rem(30)};
 `;
 
-export type RepoLeaderBoardProps = {
+export type Props = {
   repoId: number;
 };
 
-export const AllContributorsModal = ({ repoId }: RepoLeaderBoardProps) => {
-  const [opened, setOpened] = useState(false);
+export const AllContributorsModal = ({ repoId }: Props) => {
+  const [opened, modalHandlers] = useDisclosure(false);
   const [page, setPage] = useState(0);
   const perPage = 10;
   const [canLoadMore, setCanLoadMore] = useState(false);
-  const [contributors, setContributors] = useState<LeadersQuery['mostHonoredContributors']>([]);
+  const [contributors, contributorsHandlers] = useListState<
+    LeadersQuery['mostHonoredContributors'][number]
+  >([]);
   const [isFetching, setIsFetching] = useState(false);
   const [result] = useRepoLeadersQuery({
     variables: {
@@ -39,10 +42,12 @@ export const AllContributorsModal = ({ repoId }: RepoLeaderBoardProps) => {
     console.log(result.data?.repoMostHonoredContributors);
 
     if (result.data?.repoMostHonoredContributors) {
-      setContributors([...contributors, ...result.data?.repoMostHonoredContributors]);
+      contributorsHandlers.append(...result.data?.repoMostHonoredContributors);
 
-      // The end of the list is reached when less results than the page count is returned
-      if (result.data?.repoMostHonoredContributors.length === perPage) setCanLoadMore(true);
+      // If a full page of results is returned, we can assume that there is more data avaiable
+      if (result.data?.repoMostHonoredContributors.length === perPage) {
+        setCanLoadMore(true);
+      }
 
       setIsFetching(false);
     }
@@ -60,7 +65,7 @@ export const AllContributorsModal = ({ repoId }: RepoLeaderBoardProps) => {
     <>
       <Modal
         opened={opened}
-        onClose={() => setOpened(false)}
+        onClose={() => modalHandlers.close()}
         title={<HeaderStyled>Top contributors</HeaderStyled>}
       >
         {contributors && contributors?.length > 0 ? (
@@ -74,7 +79,7 @@ export const AllContributorsModal = ({ repoId }: RepoLeaderBoardProps) => {
         )}
         <div ref={loadingZone}>{isFetching && <p>Fetching items...</p>}</div>
       </Modal>
-      <Button onClick={() => setOpened(true)}>Open Modal</Button>
+      <Button onClick={() => modalHandlers.open()}>Open Modal</Button>
     </>
   );
 };
