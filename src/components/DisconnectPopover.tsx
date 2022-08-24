@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Group, Popover } from '@mantine/core';
+import { Box, Group, Popover } from '@mantine/core';
 import { Button } from './shared/elements/Button';
 
 const POPOVER_HOVER_TIME = 400;
@@ -58,9 +58,9 @@ export const DisconnectPopover = ({
       }}
     >
       <Popover.Target>
-        <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+        <Box onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
           {target}
-        </div>
+        </Box>
       </Popover.Target>
       <Popover.Dropdown>
         <Group onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
