@@ -1,5 +1,5 @@
-import { Button, Modal } from '@mantine/core';
-import { useDisclosure, useListState } from '@mantine/hooks';
+import { Modal } from '@mantine/core';
+import { useListState } from '@mantine/hooks';
 import { rem } from 'polished';
 import React, { useCallback, useEffect, useState } from 'react';
 import { MdEmojiPeople } from 'react-icons/md';
@@ -17,12 +17,13 @@ const HeaderStyled = styled(Header)`
 `;
 
 export type Props = {
+  onClose: () => void;
+  opened: boolean;
   repoId: number;
 };
 
-export const AllContributorsModal = ({ repoId }: Props) => {
-  const [opened, modalHandlers] = useDisclosure(false);
-  const [page, setPage] = useState(0);
+export const AllContributorsModal = ({ onClose, opened, repoId }: Props) => {
+  const [page, setPage] = useState(1);
   const perPage = 10;
   const [canLoadMore, setCanLoadMore] = useState(false);
   const [contributors, contributorsHandlers] = useListState<
@@ -63,24 +64,22 @@ export const AllContributorsModal = ({ repoId }: Props) => {
   );
 
   return (
-    <>
-      <Modal
-        opened={opened}
-        onClose={() => modalHandlers.close()}
-        title={<HeaderStyled>Top contributors</HeaderStyled>}
-      >
-        {contributors && contributors?.length > 0 ? (
-          contributors.map((contributor: any) => (
-            <LeaderBoardItem key={contributor.profile.id} {...contributor} />
-          ))
-        ) : (
-          <EmptyState icon={<MdEmojiPeople color={TextDarkGray} size={rem(74)} />}>
-            <TextUI style={{ marginTop: rem(20) }}>{`Nobody's here yet..`}</TextUI>
-          </EmptyState>
-        )}
-        <div ref={loadingZone}>{isFetching && <p>Fetching items...</p>}</div>
-      </Modal>
-      <Button onClick={() => modalHandlers.open()}>Open Modal</Button>
-    </>
+    <Modal
+      centered
+      opened={opened}
+      onClose={onClose}
+      title={<HeaderStyled>Top contributors</HeaderStyled>}
+    >
+      {contributors && contributors?.length > 0 ? (
+        contributors.map((contributor: any) => (
+          <LeaderBoardItem key={contributor.profile.id} {...contributor} />
+        ))
+      ) : (
+        <EmptyState icon={<MdEmojiPeople color={TextDarkGray} size={rem(74)} />}>
+          <TextUI style={{ marginTop: rem(20) }}>{`Nobody's here yet..`}</TextUI>
+        </EmptyState>
+      )}
+      <div ref={loadingZone}>{isFetching && <p>Fetching items...</p>}</div>
+    </Modal>
   );
 };

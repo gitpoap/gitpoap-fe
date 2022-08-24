@@ -1,5 +1,6 @@
+import { Button } from '@mantine/core';
 import { graphql } from 'msw';
-import React from 'react';
+import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { AllContributorsModal } from '../../components/repo/AllContributorsModal';
@@ -11,7 +12,13 @@ export default {
 } as ComponentMeta<typeof AllContributorsModal>;
 
 const Template: ComponentStory<typeof AllContributorsModal> = (args) => {
-  return <AllContributorsModal {...args} />;
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <AllContributorsModal onClose={() => setIsOpen(false)} opened={isOpen} repoId={1} />
+      <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+    </>
+  );
 };
 
 export const Default = Template.bind({});
@@ -21,8 +28,8 @@ Default.parameters = {
   msw: {
     handlers: [
       graphql.query('repoLeaders', (req, res, ctx) => {
-        const { page = 0, perPage = repoLeaders.length } = req.variables;
-        const start = page * perPage;
+        const { page = 1, perPage = repoLeaders.length } = req.variables;
+        const start = (page - 1) * perPage;
         const end = start + perPage;
         return res(
           ctx.data({
@@ -41,8 +48,8 @@ LongList.parameters = {
   msw: {
     handlers: [
       graphql.query('repoLeaders', (req, res, ctx) => {
-        const { page = 0, perPage = repoLeaders.length } = req.variables;
-        const start = page * perPage;
+        const { page = 1, perPage = repoLeaders.length } = req.variables;
+        const start = (page - 1) * perPage;
         const end = start + perPage;
         return res(
           ctx.data({
