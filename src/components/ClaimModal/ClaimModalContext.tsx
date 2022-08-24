@@ -37,10 +37,13 @@ export const ClaimModalContextProvider = ({ children }: Props) => {
     variables: {
       githubId: user?.githubId ?? -1,
     },
+    pause: true,
+    requestPolicy: 'network-only',
   });
 
   const userClaims = result.data?.userClaims;
 
+  /* Initially fetch the user claims */
   useEffect(() => {
     if (user && !userClaims) {
       refetchUserClaims();
