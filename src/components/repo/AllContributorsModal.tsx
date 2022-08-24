@@ -1,7 +1,7 @@
 import { Button, Modal } from '@mantine/core';
 import { useDisclosure, useListState } from '@mantine/hooks';
 import { rem } from 'polished';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { MdEmojiPeople } from 'react-icons/md';
 import styled from 'styled-components';
 
@@ -39,8 +39,6 @@ export const AllContributorsModal = ({ repoId }: Props) => {
 
   /* Hook to append new data onto existing list of gitPOAPs */
   useEffect(() => {
-    console.log(result.data?.repoMostHonoredContributors);
-
     if (result.data?.repoMostHonoredContributors) {
       contributorsHandlers.append(...result.data?.repoMostHonoredContributors);
 
@@ -53,13 +51,16 @@ export const AllContributorsModal = ({ repoId }: Props) => {
     }
   }, [result.data]);
 
-  const loadMore = () => {
+  const loadMore = useCallback((page: number) => {
     setCanLoadMore(false);
-    setPage((page: number) => page + 1);
+    setPage(page + 1);
     setIsFetching(true);
-  };
+  }, []);
 
-  const [loadingZone] = useInfiniteScroll(canLoadMore ? loadMore : () => {}, result.fetching);
+  const [loadingZone] = useInfiniteScroll(
+    canLoadMore ? () => loadMore(page) : () => {},
+    result.fetching,
+  );
 
   return (
     <>
