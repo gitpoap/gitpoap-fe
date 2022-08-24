@@ -41,16 +41,17 @@ export const TrendingProject = () => {
     },
   });
 
-  const repos = result?.data?.trendingRepos;
+  const trendingRepos = result?.data?.trendingRepos;
 
-  console.log('trending repos', repos);
+  console.log('trending repos', trendingRepos);
 
   return (
     <Container>
       <Header>{'Trending projects'}</Header>
 
       <List>
-        {repos && repos.map((repo) => <TrendingProjectItem key={repo.id} repoId={repo.id} />)}
+        {trendingRepos &&
+          trendingRepos.map((repo) => <TrendingProjectItem key={repo.id} repoId={repo.id} />)}
       </List>
 
       {hasGitPOAPsPage && (

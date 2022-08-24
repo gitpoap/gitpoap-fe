@@ -654,8 +654,8 @@ query gitPOAPSearchByName($search: String!, $take: Int = 4) {
   }
 }
 
-query trendingRepos($count: Float!, $last: Float!) {
-  trendingRepos(count: $count, last: $last) {
+query trendingRepos($count: Float!, $numDays: Float!) {
+  trendingRepos(count: $count, numDays: $numDays) {
     id
     name
     githubRepoId
