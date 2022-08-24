@@ -7,11 +7,10 @@ const StyledPagination = styled(PaginationUI)`
   .mantine-Pagination-item {
     background-color: ${BackgroundPanel2};
     color: white;
-  }
-
-  .mantine-Pagination-item.mantine-Pagination-active {
-    background-color: ${PrimaryBlue};
-    color: white;
+    &[data-active='true'] {
+      background-color: ${PrimaryBlue};
+      color: white;
+    }
   }
 `;
 
