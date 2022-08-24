@@ -24,6 +24,7 @@ const customJestConfig: Config = {
   /* test any .test file in any `__tests__` directory, ignore cypress .spec files */
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+test.[jt]s?(x)'],
   transformIgnorePatterns: [`node_modules/(?!(${namespacesToTransform.join('|')})/)`],
+  clearMocks: true,
 };
 
 /*
