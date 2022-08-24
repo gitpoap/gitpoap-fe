@@ -103,6 +103,7 @@ type ProfileResult = {
   address: string;
   href: string;
   ensName?: string;
+  ensAvatarImageUrl: string | null;
 };
 
 type Props = {
@@ -209,6 +210,7 @@ export const SearchBox = ({ className }: Props) => {
             id: profile.id,
             address: profile.address,
             href: `/p/${profile.address}`,
+            ensAvatarImageUrl: profile.ensAvatarImageUrl,
           }));
 
           results = [...profilesByAddress];
@@ -220,6 +222,7 @@ export const SearchBox = ({ className }: Props) => {
             address: profileByENSData.profile.address,
             href: `/p/${profileByENSData.ens}`,
             ensName: profileByENSData.ens,
+            ensAvatarImageUrl: profileByENSData.profile.ensAvatarImageUrl,
           };
 
           results = [profileByENS, ...results];
@@ -228,7 +231,10 @@ export const SearchBox = ({ className }: Props) => {
         /* Deal with the situation of an .eth name OR address that isn't explicitly found in the search results */
         if (results.length === 0) {
           if (debouncedQuery.endsWith('.eth')) {
-            const address = await (web3Provider ?? infuraProvider)?.resolveName(debouncedQuery);
+            const [address, avatar] = await Promise.all([
+              await (web3Provider ?? infuraProvider)?.resolveName(debouncedQuery),
+              await (web3Provider ?? infuraProvider)?.getAvatar(debouncedQuery),
+            ]);
             const ensName = debouncedQuery;
             if (address) {
               results = [
@@ -237,6 +243,7 @@ export const SearchBox = ({ className }: Props) => {
                   address,
                   ensName: ensName,
                   href: `/p/${ensName}`,
+                  ensAvatarImageUrl: avatar,
                 },
               ];
             }
@@ -247,6 +254,7 @@ export const SearchBox = ({ className }: Props) => {
                 id: 0,
                 address,
                 href: `/p/${address}`,
+                ensAvatarImageUrl: null,
               },
             ];
           }
@@ -380,6 +388,7 @@ export const SearchBox = ({ className }: Props) => {
                     href={profile.href}
                     address={profile.address}
                     ensName={profile.ensName}
+                    ensAvatarImageUrl={profile.ensAvatarImageUrl}
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);

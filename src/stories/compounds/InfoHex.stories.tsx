@@ -40,6 +40,7 @@ export const Profile: ComponentStory<typeof InfoHexBase> = (args) => {
       gitpoapId={10}
       numGitPOAPs={12}
       address="0x0"
+      ensAvatarImageUrl={null}
     />
   );
 };

@@ -12,6 +12,7 @@ query leaders($count: Float!) {
     profile {
       address
       id
+      ensAvatarImageUrl
     }
     claimsCount
   }
@@ -22,6 +23,7 @@ query repoLeaders($repoId: Float!, $page: Float, $perPage: Float) {
     profile {
       address
       id
+      ensAvatarImageUrl
     }
     claimsCount
   }
@@ -51,6 +53,7 @@ query gitPOAPHolders($gitPOAPId: Float!, $page: Float, $perPage: Float, $sort: S
       bio
       personalSiteUrl
       twitterHandle
+      ensAvatarImageUrl
     }
   }
 }
@@ -87,6 +90,7 @@ query profile($address: String!) {
     address
     ensName
     isVisibleOnLeaderboard
+    ensAvatarImageUrl
   }
 }
 
@@ -100,6 +104,7 @@ query searchForString($text: String!) {
       profile {
         id
         address
+        ensAvatarImageUrl
       }
       ens
     }

@@ -14,7 +14,6 @@ import { GITPOAP_API_URL } from '../../constants';
 import { useAuthContext } from '../github/AuthContext';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
-import { useEnsAvatar } from '../../hooks/useEnsAvatar';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
 
 export type EditableProfileData = Partial<
@@ -28,7 +27,6 @@ type ProfileContext = {
   profileData?: ProfileQuery['profileData'];
   setProfileData: Dispatch<SetStateAction<ProfileQuery['profileData']>>;
   setIsUpdateModalOpen: Dispatch<SetStateAction<boolean>>;
-  avatarURI: string | null;
   showEditProfileButton: boolean;
   isSaveSuccessful: boolean;
   setIsSaveSuccessful: Dispatch<SetStateAction<boolean>>;
@@ -53,7 +51,6 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
   const [profileData, setProfileData] = useState<ProfileQuery['profileData']>();
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
-  const avatarURI = useEnsAvatar(infuraProvider, profileData?.ensName ?? null); // temporarily
   const [isSaveSuccessful, setIsSaveSuccessful] = useState<boolean>(false);
   const [result, refetch] = useProfileQuery({
     variables: {
@@ -144,7 +141,6 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
       value={{
         profileData,
         setProfileData,
-        avatarURI,
         showEditProfileButton,
         setIsUpdateModalOpen,
         isSaveSuccessful,

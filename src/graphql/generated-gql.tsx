@@ -1363,6 +1363,7 @@ export type Holder = {
   __typename?: 'Holder';
   address: Scalars['String'];
   bio?: Maybe<Scalars['String']>;
+  ensAvatarImageUrl?: Maybe<Scalars['String']>;
   gitPOAPCount: Scalars['Float'];
   githubHandle: Scalars['String'];
   personalSiteUrl?: Maybe<Scalars['String']>;
@@ -1689,6 +1690,7 @@ export type NullableProfile = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
+  ensAvatarImageUrl?: Maybe<Scalars['String']>;
   ensName?: Maybe<Scalars['String']>;
   featuredPOAPs: Array<FeaturedPoap>;
   githubHandle?: Maybe<Scalars['String']>;
@@ -1976,6 +1978,7 @@ export type Profile = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
+  ensAvatarImageUrl?: Maybe<Scalars['String']>;
   featuredPOAPs: Array<FeaturedPoap>;
   githubHandle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
@@ -2017,6 +2020,7 @@ export type ProfileCountAggregate = {
   bannerImageUrl: Scalars['Int'];
   bio: Scalars['Int'];
   createdAt: Scalars['Int'];
+  ensAvatarImageUrl: Scalars['Int'];
   githubHandle: Scalars['Int'];
   id: Scalars['Int'];
   isVisibleOnLeaderboard: Scalars['Int'];
@@ -2032,6 +2036,7 @@ export type ProfileCountOrderByAggregateInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  ensAvatarImageUrl?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
@@ -2053,6 +2058,7 @@ export type ProfileGroupBy = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
+  ensAvatarImageUrl?: Maybe<Scalars['String']>;
   githubHandle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   isVisibleOnLeaderboard: Scalars['Boolean'];
@@ -2069,6 +2075,7 @@ export type ProfileMaxAggregate = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
+  ensAvatarImageUrl?: Maybe<Scalars['String']>;
   githubHandle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   isVisibleOnLeaderboard?: Maybe<Scalars['Boolean']>;
@@ -2084,6 +2091,7 @@ export type ProfileMaxOrderByAggregateInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  ensAvatarImageUrl?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
@@ -2100,6 +2108,7 @@ export type ProfileMinAggregate = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
+  ensAvatarImageUrl?: Maybe<Scalars['String']>;
   githubHandle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   isVisibleOnLeaderboard?: Maybe<Scalars['Boolean']>;
@@ -2115,6 +2124,7 @@ export type ProfileMinOrderByAggregateInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  ensAvatarImageUrl?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
@@ -2135,6 +2145,7 @@ export type ProfileOrderByWithAggregationInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  ensAvatarImageUrl?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
@@ -2150,6 +2161,7 @@ export type ProfileOrderByWithRelationInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  ensAvatarImageUrl?: InputMaybe<SortOrder>;
   featuredPOAPs?: InputMaybe<FeaturedPoapOrderByRelationAggregateInput>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
@@ -2171,6 +2183,7 @@ export enum ProfileScalarFieldEnum {
   BannerImageUrl = 'bannerImageUrl',
   Bio = 'bio',
   CreatedAt = 'createdAt',
+  EnsAvatarImageUrl = 'ensAvatarImageUrl',
   GithubHandle = 'githubHandle',
   Id = 'id',
   IsVisibleOnLeaderboard = 'isVisibleOnLeaderboard',
@@ -2189,6 +2202,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   bannerImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
   bio?: InputMaybe<StringNullableWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  ensAvatarImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
   githubHandle?: InputMaybe<StringNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   isVisibleOnLeaderboard?: InputMaybe<BoolWithAggregatesFilter>;
@@ -2216,6 +2230,7 @@ export type ProfileWhereInput = {
   bannerImageUrl?: InputMaybe<StringNullableFilter>;
   bio?: InputMaybe<StringNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  ensAvatarImageUrl?: InputMaybe<StringNullableFilter>;
   featuredPOAPs?: InputMaybe<FeaturedPoapListRelationFilter>;
   githubHandle?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
@@ -2463,7 +2478,7 @@ export type Query = {
   repo?: Maybe<Repo>;
   repoData?: Maybe<RepoData>;
   repoGitPOAPs?: Maybe<RepoGitPoaPs>;
-  repoMostHonoredContributors: Array<ProfileWithClaimsCount>;
+  repoMostHonoredContributors?: Maybe<Array<ProfileWithClaimsCount>>;
   repoStarCount: Scalars['Float'];
   repos: Array<Repo>;
   search: SearchResults;
@@ -3565,7 +3580,12 @@ export type LeadersQuery = {
   mostHonoredContributors: Array<{
     __typename?: 'ProfileWithClaimsCount';
     claimsCount: number;
-    profile: { __typename?: 'Profile'; address: string; id: number };
+    profile: {
+      __typename?: 'Profile';
+      address: string;
+      id: number;
+      ensAvatarImageUrl?: string | null;
+    };
   }>;
 };
 
@@ -3577,11 +3597,16 @@ export type RepoLeadersQueryVariables = Exact<{
 
 export type RepoLeadersQuery = {
   __typename?: 'Query';
-  repoMostHonoredContributors: Array<{
+  repoMostHonoredContributors?: Array<{
     __typename?: 'ProfileWithClaimsCount';
     claimsCount: number;
-    profile: { __typename?: 'Profile'; address: string; id: number };
-  }>;
+    profile: {
+      __typename?: 'Profile';
+      address: string;
+      id: number;
+      ensAvatarImageUrl?: string | null;
+    };
+  }> | null;
 };
 
 export type GitpoapByPoapEventIdQueryVariables = Exact<{
@@ -3620,6 +3645,7 @@ export type GitPoapHoldersQuery = {
       bio?: string | null;
       personalSiteUrl?: string | null;
       twitterHandle?: string | null;
+      ensAvatarImageUrl?: string | null;
     }>;
   } | null;
 };
@@ -3666,6 +3692,7 @@ export type ProfileQuery = {
     address: string;
     ensName?: string | null;
     isVisibleOnLeaderboard: boolean;
+    ensAvatarImageUrl?: string | null;
   } | null;
 };
 
@@ -3681,7 +3708,12 @@ export type SearchForStringQuery = {
     profileByENS?: {
       __typename?: 'ProfileWithENS';
       ens: string;
-      profile: { __typename?: 'Profile'; id: number; address: string };
+      profile: {
+        __typename?: 'Profile';
+        id: number;
+        address: string;
+        ensAvatarImageUrl?: string | null;
+      };
     } | null;
   };
 };
@@ -4349,7 +4381,10 @@ export const GetAllStatsDocument = gql`
 export function useGetAllStatsQuery(
   options?: Omit<Urql.UseQueryArgs<GetAllStatsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<GetAllStatsQuery>({ query: GetAllStatsDocument, ...options });
+  return Urql.useQuery<GetAllStatsQuery, GetAllStatsQueryVariables>({
+    query: GetAllStatsDocument,
+    ...options,
+  });
 }
 export const LeadersDocument = gql`
   query leaders($count: Float!) {
@@ -4357,6 +4392,7 @@ export const LeadersDocument = gql`
       profile {
         address
         id
+        ensAvatarImageUrl
       }
       claimsCount
     }
@@ -4364,7 +4400,7 @@ export const LeadersDocument = gql`
 `;
 
 export function useLeadersQuery(options: Omit<Urql.UseQueryArgs<LeadersQueryVariables>, 'query'>) {
-  return Urql.useQuery<LeadersQuery>({ query: LeadersDocument, ...options });
+  return Urql.useQuery<LeadersQuery, LeadersQueryVariables>({ query: LeadersDocument, ...options });
 }
 export const RepoLeadersDocument = gql`
   query repoLeaders($repoId: Float!, $page: Float, $perPage: Float) {
@@ -4372,6 +4408,7 @@ export const RepoLeadersDocument = gql`
       profile {
         address
         id
+        ensAvatarImageUrl
       }
       claimsCount
     }
@@ -4381,7 +4418,10 @@ export const RepoLeadersDocument = gql`
 export function useRepoLeadersQuery(
   options: Omit<Urql.UseQueryArgs<RepoLeadersQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<RepoLeadersQuery>({ query: RepoLeadersDocument, ...options });
+  return Urql.useQuery<RepoLeadersQuery, RepoLeadersQueryVariables>({
+    query: RepoLeadersDocument,
+    ...options,
+  });
 }
 export const GitpoapByPoapEventIdDocument = gql`
   query gitpoapByPoapEventId($poapEventId: Int!) {
@@ -4401,7 +4441,7 @@ export const GitpoapByPoapEventIdDocument = gql`
 export function useGitpoapByPoapEventIdQuery(
   options: Omit<Urql.UseQueryArgs<GitpoapByPoapEventIdQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<GitpoapByPoapEventIdQuery>({
+  return Urql.useQuery<GitpoapByPoapEventIdQuery, GitpoapByPoapEventIdQueryVariables>({
     query: GitpoapByPoapEventIdDocument,
     ...options,
   });
@@ -4418,6 +4458,7 @@ export const GitPoapHoldersDocument = gql`
         bio
         personalSiteUrl
         twitterHandle
+        ensAvatarImageUrl
       }
     }
   }
@@ -4426,7 +4467,10 @@ export const GitPoapHoldersDocument = gql`
 export function useGitPoapHoldersQuery(
   options: Omit<Urql.UseQueryArgs<GitPoapHoldersQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<GitPoapHoldersQuery>({ query: GitPoapHoldersDocument, ...options });
+  return Urql.useQuery<GitPoapHoldersQuery, GitPoapHoldersQueryVariables>({
+    query: GitPoapHoldersDocument,
+    ...options,
+  });
 }
 export const MostClaimedGitPoapsDocument = gql`
   query mostClaimedGitPoaps($count: Float!) {
@@ -4454,7 +4498,7 @@ export const MostClaimedGitPoapsDocument = gql`
 export function useMostClaimedGitPoapsQuery(
   options: Omit<Urql.UseQueryArgs<MostClaimedGitPoapsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<MostClaimedGitPoapsQuery>({
+  return Urql.useQuery<MostClaimedGitPoapsQuery, MostClaimedGitPoapsQueryVariables>({
     query: MostClaimedGitPoapsDocument,
     ...options,
   });
@@ -4471,12 +4515,13 @@ export const ProfileDocument = gql`
       address
       ensName
       isVisibleOnLeaderboard
+      ensAvatarImageUrl
     }
   }
 `;
 
 export function useProfileQuery(options: Omit<Urql.UseQueryArgs<ProfileQueryVariables>, 'query'>) {
-  return Urql.useQuery<ProfileQuery>({ query: ProfileDocument, ...options });
+  return Urql.useQuery<ProfileQuery, ProfileQueryVariables>({ query: ProfileDocument, ...options });
 }
 export const SearchForStringDocument = gql`
   query searchForString($text: String!) {
@@ -4489,6 +4534,7 @@ export const SearchForStringDocument = gql`
         profile {
           id
           address
+          ensAvatarImageUrl
         }
         ens
       }
@@ -4499,7 +4545,10 @@ export const SearchForStringDocument = gql`
 export function useSearchForStringQuery(
   options: Omit<Urql.UseQueryArgs<SearchForStringQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<SearchForStringQuery>({ query: SearchForStringDocument, ...options });
+  return Urql.useQuery<SearchForStringQuery, SearchForStringQueryVariables>({
+    query: SearchForStringDocument,
+    ...options,
+  });
 }
 export const GitPoapsDocument = gql`
   query gitPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) {
@@ -4535,7 +4584,10 @@ export const GitPoapsDocument = gql`
 export function useGitPoapsQuery(
   options: Omit<Urql.UseQueryArgs<GitPoapsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<GitPoapsQuery>({ query: GitPoapsDocument, ...options });
+  return Urql.useQuery<GitPoapsQuery, GitPoapsQueryVariables>({
+    query: GitPoapsDocument,
+    ...options,
+  });
 }
 export const RepoGitPoapsDocument = gql`
   query repoGitPoaps($repoId: Float!, $sort: String, $page: Float, $perPage: Float) {
@@ -4563,7 +4615,10 @@ export const RepoGitPoapsDocument = gql`
 export function useRepoGitPoapsQuery(
   options: Omit<Urql.UseQueryArgs<RepoGitPoapsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<RepoGitPoapsQuery>({ query: RepoGitPoapsDocument, ...options });
+  return Urql.useQuery<RepoGitPoapsQuery, RepoGitPoapsQueryVariables>({
+    query: RepoGitPoapsDocument,
+    ...options,
+  });
 }
 export const OpenClaimsDocument = gql`
   query openClaims($githubId: Float!) {
@@ -4595,7 +4650,10 @@ export const OpenClaimsDocument = gql`
 export function useOpenClaimsQuery(
   options: Omit<Urql.UseQueryArgs<OpenClaimsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<OpenClaimsQuery>({ query: OpenClaimsDocument, ...options });
+  return Urql.useQuery<OpenClaimsQuery, OpenClaimsQueryVariables>({
+    query: OpenClaimsDocument,
+    ...options,
+  });
 }
 export const RecentReposDocument = gql`
   query recentRepos($count: Float!) {
@@ -4613,7 +4671,10 @@ export const RecentReposDocument = gql`
 export function useRecentReposQuery(
   options: Omit<Urql.UseQueryArgs<RecentReposQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<RecentReposQuery>({ query: RecentReposDocument, ...options });
+  return Urql.useQuery<RecentReposQuery, RecentReposQueryVariables>({
+    query: RecentReposDocument,
+    ...options,
+  });
 }
 export const GitPoapEventDocument = gql`
   query gitPoapEvent($id: Float!) {
@@ -4645,7 +4706,10 @@ export const GitPoapEventDocument = gql`
 export function useGitPoapEventQuery(
   options: Omit<Urql.UseQueryArgs<GitPoapEventQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<GitPoapEventQuery>({ query: GitPoapEventDocument, ...options });
+  return Urql.useQuery<GitPoapEventQuery, GitPoapEventQueryVariables>({
+    query: GitPoapEventDocument,
+    ...options,
+  });
 }
 export const AllPoapsDocument = gql`
   query allPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) {
@@ -4666,7 +4730,10 @@ export const AllPoapsDocument = gql`
 export function useAllPoapsQuery(
   options: Omit<Urql.UseQueryArgs<AllPoapsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<AllPoapsQuery>({ query: AllPoapsDocument, ...options });
+  return Urql.useQuery<AllPoapsQuery, AllPoapsQueryVariables>({
+    query: AllPoapsDocument,
+    ...options,
+  });
 }
 export const FeaturedPoapsDocument = gql`
   query featuredPoaps($address: String!) {
@@ -4713,7 +4780,10 @@ export const FeaturedPoapsDocument = gql`
 export function useFeaturedPoapsQuery(
   options: Omit<Urql.UseQueryArgs<FeaturedPoapsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<FeaturedPoapsQuery>({ query: FeaturedPoapsDocument, ...options });
+  return Urql.useQuery<FeaturedPoapsQuery, FeaturedPoapsQueryVariables>({
+    query: FeaturedPoapsDocument,
+    ...options,
+  });
 }
 export const AdminClaimsDocument = gql`
   query adminClaims($count: Int!) {
@@ -4753,7 +4823,10 @@ export const AdminClaimsDocument = gql`
 export function useAdminClaimsQuery(
   options: Omit<Urql.UseQueryArgs<AdminClaimsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<AdminClaimsQuery>({ query: AdminClaimsDocument, ...options });
+  return Urql.useQuery<AdminClaimsQuery, AdminClaimsQueryVariables>({
+    query: AdminClaimsDocument,
+    ...options,
+  });
 }
 export const RepoDataDocument = gql`
   query repoData($repoId: Float!) {
@@ -4782,7 +4855,10 @@ export const RepoDataDocument = gql`
 export function useRepoDataQuery(
   options: Omit<Urql.UseQueryArgs<RepoDataQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<RepoDataQuery>({ query: RepoDataDocument, ...options });
+  return Urql.useQuery<RepoDataQuery, RepoDataQueryVariables>({
+    query: RepoDataDocument,
+    ...options,
+  });
 }
 export const RepoSeoByIdDocument = gql`
   query repoSEOById($repoId: Float!) {
@@ -4799,7 +4875,10 @@ export const RepoSeoByIdDocument = gql`
 export function useRepoSeoByIdQuery(
   options: Omit<Urql.UseQueryArgs<RepoSeoByIdQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<RepoSeoByIdQuery>({ query: RepoSeoByIdDocument, ...options });
+  return Urql.useQuery<RepoSeoByIdQuery, RepoSeoByIdQueryVariables>({
+    query: RepoSeoByIdDocument,
+    ...options,
+  });
 }
 export const RepoSeoByNameDocument = gql`
   query repoSEOByName($orgName: String!, $repoName: String!) {
@@ -4816,7 +4895,10 @@ export const RepoSeoByNameDocument = gql`
 export function useRepoSeoByNameQuery(
   options: Omit<Urql.UseQueryArgs<RepoSeoByNameQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<RepoSeoByNameQuery>({ query: RepoSeoByNameDocument, ...options });
+  return Urql.useQuery<RepoSeoByNameQuery, RepoSeoByNameQueryVariables>({
+    query: RepoSeoByNameDocument,
+    ...options,
+  });
 }
 export const RepoStarCountDocument = gql`
   query repoStarCount($repoId: Float!) {
@@ -4827,7 +4909,10 @@ export const RepoStarCountDocument = gql`
 export function useRepoStarCountQuery(
   options: Omit<Urql.UseQueryArgs<RepoStarCountQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<RepoStarCountQuery>({ query: RepoStarCountDocument, ...options });
+  return Urql.useQuery<RepoStarCountQuery, RepoStarCountQueryVariables>({
+    query: RepoStarCountDocument,
+    ...options,
+  });
 }
 export const AllReposDocument = gql`
   query allRepos($count: Int!) {
@@ -4850,7 +4935,10 @@ export const AllReposDocument = gql`
 export function useAllReposQuery(
   options: Omit<Urql.UseQueryArgs<AllReposQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<AllReposQuery>({ query: AllReposDocument, ...options });
+  return Urql.useQuery<AllReposQuery, AllReposQueryVariables>({
+    query: AllReposDocument,
+    ...options,
+  });
 }
 export const AllReposOnRepoPageDocument = gql`
   query allReposOnRepoPage($sort: String, $page: Float, $perPage: Float) {
@@ -4873,7 +4961,10 @@ export const AllReposOnRepoPageDocument = gql`
 export function useAllReposOnRepoPageQuery(
   options?: Omit<Urql.UseQueryArgs<AllReposOnRepoPageQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<AllReposOnRepoPageQuery>({ query: AllReposOnRepoPageDocument, ...options });
+  return Urql.useQuery<AllReposOnRepoPageQuery, AllReposOnRepoPageQueryVariables>({
+    query: AllReposOnRepoPageDocument,
+    ...options,
+  });
 }
 export const RepoSearchOnRepoPageDocument = gql`
   query repoSearchOnRepoPage($take: Int, $search: String) {
@@ -4904,7 +4995,7 @@ export const RepoSearchOnRepoPageDocument = gql`
 export function useRepoSearchOnRepoPageQuery(
   options?: Omit<Urql.UseQueryArgs<RepoSearchOnRepoPageQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<RepoSearchOnRepoPageQuery>({
+  return Urql.useQuery<RepoSearchOnRepoPageQuery, RepoSearchOnRepoPageQueryVariables>({
     query: RepoSearchOnRepoPageDocument,
     ...options,
   });
@@ -4928,7 +5019,10 @@ export const OrganizationDataDocument = gql`
 export function useOrganizationDataQuery(
   options: Omit<Urql.UseQueryArgs<OrganizationDataQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<OrganizationDataQuery>({ query: OrganizationDataDocument, ...options });
+  return Urql.useQuery<OrganizationDataQuery, OrganizationDataQueryVariables>({
+    query: OrganizationDataDocument,
+    ...options,
+  });
 }
 export const OrganizationSeoByIdDocument = gql`
   query organizationSEOById($orgId: Float!) {
@@ -4942,7 +5036,7 @@ export const OrganizationSeoByIdDocument = gql`
 export function useOrganizationSeoByIdQuery(
   options: Omit<Urql.UseQueryArgs<OrganizationSeoByIdQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<OrganizationSeoByIdQuery>({
+  return Urql.useQuery<OrganizationSeoByIdQuery, OrganizationSeoByIdQueryVariables>({
     query: OrganizationSeoByIdDocument,
     ...options,
   });
@@ -4959,7 +5053,7 @@ export const OrganizationSeoByNameDocument = gql`
 export function useOrganizationSeoByNameQuery(
   options: Omit<Urql.UseQueryArgs<OrganizationSeoByNameQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<OrganizationSeoByNameQuery>({
+  return Urql.useQuery<OrganizationSeoByNameQuery, OrganizationSeoByNameQueryVariables>({
     query: OrganizationSeoByNameDocument,
     ...options,
   });
@@ -4985,7 +5079,10 @@ export const OrganizationsListDocument = gql`
 export function useOrganizationsListQuery(
   options?: Omit<Urql.UseQueryArgs<OrganizationsListQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<OrganizationsListQuery>({ query: OrganizationsListDocument, ...options });
+  return Urql.useQuery<OrganizationsListQuery, OrganizationsListQueryVariables>({
+    query: OrganizationsListDocument,
+    ...options,
+  });
 }
 export const OrganizationReposDocument = gql`
   query organizationRepos($orgId: Float!, $sort: String, $page: Float, $perPage: Float) {
@@ -5004,7 +5101,10 @@ export const OrganizationReposDocument = gql`
 export function useOrganizationReposQuery(
   options: Omit<Urql.UseQueryArgs<OrganizationReposQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<OrganizationReposQuery>({ query: OrganizationReposDocument, ...options });
+  return Urql.useQuery<OrganizationReposQuery, OrganizationReposQueryVariables>({
+    query: OrganizationReposDocument,
+    ...options,
+  });
 }
 export const TotalRepoCountDocument = gql`
   query totalRepoCount {
@@ -5019,7 +5119,10 @@ export const TotalRepoCountDocument = gql`
 export function useTotalRepoCountQuery(
   options?: Omit<Urql.UseQueryArgs<TotalRepoCountQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<TotalRepoCountQuery>({ query: TotalRepoCountDocument, ...options });
+  return Urql.useQuery<TotalRepoCountQuery, TotalRepoCountQueryVariables>({
+    query: TotalRepoCountDocument,
+    ...options,
+  });
 }
 export const TotalOrganizationCountDocument = gql`
   query totalOrganizationCount {
@@ -5034,7 +5137,7 @@ export const TotalOrganizationCountDocument = gql`
 export function useTotalOrganizationCountQuery(
   options?: Omit<Urql.UseQueryArgs<TotalOrganizationCountQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<TotalOrganizationCountQuery>({
+  return Urql.useQuery<TotalOrganizationCountQuery, TotalOrganizationCountQueryVariables>({
     query: TotalOrganizationCountDocument,
     ...options,
   });
@@ -5050,7 +5153,10 @@ export const ClaimsSinceDocument = gql`
 export function useClaimsSinceQuery(
   options?: Omit<Urql.UseQueryArgs<ClaimsSinceQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<ClaimsSinceQuery>({ query: ClaimsSinceDocument, ...options });
+  return Urql.useQuery<ClaimsSinceQuery, ClaimsSinceQueryVariables>({
+    query: ClaimsSinceDocument,
+    ...options,
+  });
 }
 export const ReposSinceDocument = gql`
   query reposSince($date: DateTime) {
@@ -5063,7 +5169,10 @@ export const ReposSinceDocument = gql`
 export function useReposSinceQuery(
   options?: Omit<Urql.UseQueryArgs<ReposSinceQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<ReposSinceQuery>({ query: ReposSinceDocument, ...options });
+  return Urql.useQuery<ReposSinceQuery, ReposSinceQueryVariables>({
+    query: ReposSinceDocument,
+    ...options,
+  });
 }
 export const GitPoaPsSinceDocument = gql`
   query gitPOAPsSince($date: DateTime) {
@@ -5076,7 +5185,10 @@ export const GitPoaPsSinceDocument = gql`
 export function useGitPoaPsSinceQuery(
   options?: Omit<Urql.UseQueryArgs<GitPoaPsSinceQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<GitPoaPsSinceQuery>({ query: GitPoaPsSinceDocument, ...options });
+  return Urql.useQuery<GitPoaPsSinceQuery, GitPoaPsSinceQueryVariables>({
+    query: GitPoaPsSinceDocument,
+    ...options,
+  });
 }
 export const ProfilesSinceDocument = gql`
   query profilesSince($date: DateTime) {
@@ -5089,7 +5201,10 @@ export const ProfilesSinceDocument = gql`
 export function useProfilesSinceQuery(
   options?: Omit<Urql.UseQueryArgs<ProfilesSinceQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<ProfilesSinceQuery>({ query: ProfilesSinceDocument, ...options });
+  return Urql.useQuery<ProfilesSinceQuery, ProfilesSinceQueryVariables>({
+    query: ProfilesSinceDocument,
+    ...options,
+  });
 }
 export const OrgsSinceDocument = gql`
   query orgsSince($date: DateTime) {
@@ -5102,7 +5217,10 @@ export const OrgsSinceDocument = gql`
 export function useOrgsSinceQuery(
   options?: Omit<Urql.UseQueryArgs<OrgsSinceQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<OrgsSinceQuery>({ query: OrgsSinceDocument, ...options });
+  return Urql.useQuery<OrgsSinceQuery, OrgsSinceQueryVariables>({
+    query: OrgsSinceDocument,
+    ...options,
+  });
 }
 export const ClaimsCountDocument = gql`
   query claimsCount {
@@ -5117,7 +5235,10 @@ export const ClaimsCountDocument = gql`
 export function useClaimsCountQuery(
   options?: Omit<Urql.UseQueryArgs<ClaimsCountQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<ClaimsCountQuery>({ query: ClaimsCountDocument, ...options });
+  return Urql.useQuery<ClaimsCountQuery, ClaimsCountQueryVariables>({
+    query: ClaimsCountDocument,
+    ...options,
+  });
 }
 export const TotalUsersDocument = gql`
   query totalUsers {
@@ -5132,7 +5253,10 @@ export const TotalUsersDocument = gql`
 export function useTotalUsersQuery(
   options?: Omit<Urql.UseQueryArgs<TotalUsersQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<TotalUsersQuery>({ query: TotalUsersDocument, ...options });
+  return Urql.useQuery<TotalUsersQuery, TotalUsersQueryVariables>({
+    query: TotalUsersDocument,
+    ...options,
+  });
 }
 export const TotalProfilesDocument = gql`
   query totalProfiles {
@@ -5147,7 +5271,10 @@ export const TotalProfilesDocument = gql`
 export function useTotalProfilesQuery(
   options?: Omit<Urql.UseQueryArgs<TotalProfilesQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<TotalProfilesQuery>({ query: TotalProfilesDocument, ...options });
+  return Urql.useQuery<TotalProfilesQuery, TotalProfilesQueryVariables>({
+    query: TotalProfilesDocument,
+    ...options,
+  });
 }
 export const TotalDistinctUsersWithClaimsDocument = gql`
   query totalDistinctUsersWithClaims {
@@ -5160,10 +5287,10 @@ export const TotalDistinctUsersWithClaimsDocument = gql`
 export function useTotalDistinctUsersWithClaimsQuery(
   options?: Omit<Urql.UseQueryArgs<TotalDistinctUsersWithClaimsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<TotalDistinctUsersWithClaimsQuery>({
-    query: TotalDistinctUsersWithClaimsDocument,
-    ...options,
-  });
+  return Urql.useQuery<
+    TotalDistinctUsersWithClaimsQuery,
+    TotalDistinctUsersWithClaimsQueryVariables
+  >({ query: TotalDistinctUsersWithClaimsDocument, ...options });
 }
 export const MintedClaimsCountDocument = gql`
   query mintedClaimsCount {
@@ -5178,7 +5305,10 @@ export const MintedClaimsCountDocument = gql`
 export function useMintedClaimsCountQuery(
   options?: Omit<Urql.UseQueryArgs<MintedClaimsCountQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<MintedClaimsCountQuery>({ query: MintedClaimsCountDocument, ...options });
+  return Urql.useQuery<MintedClaimsCountQuery, MintedClaimsCountQueryVariables>({
+    query: MintedClaimsCountDocument,
+    ...options,
+  });
 }
 export const AllGitPoapIdsDocument = gql`
   query allGitPOAPIds {
@@ -5191,7 +5321,10 @@ export const AllGitPoapIdsDocument = gql`
 export function useAllGitPoapIdsQuery(
   options?: Omit<Urql.UseQueryArgs<AllGitPoapIdsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<AllGitPoapIdsQuery>({ query: AllGitPoapIdsDocument, ...options });
+  return Urql.useQuery<AllGitPoapIdsQuery, AllGitPoapIdsQueryVariables>({
+    query: AllGitPoapIdsDocument,
+    ...options,
+  });
 }
 export const ReposGetStaticPathsDocument = gql`
   query reposGetStaticPaths {
@@ -5208,7 +5341,7 @@ export const ReposGetStaticPathsDocument = gql`
 export function useReposGetStaticPathsQuery(
   options?: Omit<Urql.UseQueryArgs<ReposGetStaticPathsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<ReposGetStaticPathsQuery>({
+  return Urql.useQuery<ReposGetStaticPathsQuery, ReposGetStaticPathsQueryVariables>({
     query: ReposGetStaticPathsDocument,
     ...options,
   });
@@ -5225,7 +5358,10 @@ export const OrgsGetStaticPathsDocument = gql`
 export function useOrgsGetStaticPathsQuery(
   options?: Omit<Urql.UseQueryArgs<OrgsGetStaticPathsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<OrgsGetStaticPathsQuery>({ query: OrgsGetStaticPathsDocument, ...options });
+  return Urql.useQuery<OrgsGetStaticPathsQuery, OrgsGetStaticPathsQueryVariables>({
+    query: OrgsGetStaticPathsDocument,
+    ...options,
+  });
 }
 export const CountClaimsWithPullRequestEarnedDocument = gql`
   query countClaimsWithPullRequestEarned {
@@ -5240,10 +5376,10 @@ export const CountClaimsWithPullRequestEarnedDocument = gql`
 export function useCountClaimsWithPullRequestEarnedQuery(
   options?: Omit<Urql.UseQueryArgs<CountClaimsWithPullRequestEarnedQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<CountClaimsWithPullRequestEarnedQuery>({
-    query: CountClaimsWithPullRequestEarnedDocument,
-    ...options,
-  });
+  return Urql.useQuery<
+    CountClaimsWithPullRequestEarnedQuery,
+    CountClaimsWithPullRequestEarnedQueryVariables
+  >({ query: CountClaimsWithPullRequestEarnedDocument, ...options });
 }
 export const RepoSearchByNameDocument = gql`
   query repoSearchByName($search: String!, $take: Int = 4) {
@@ -5274,7 +5410,10 @@ export const RepoSearchByNameDocument = gql`
 export function useRepoSearchByNameQuery(
   options: Omit<Urql.UseQueryArgs<RepoSearchByNameQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<RepoSearchByNameQuery>({ query: RepoSearchByNameDocument, ...options });
+  return Urql.useQuery<RepoSearchByNameQuery, RepoSearchByNameQueryVariables>({
+    query: RepoSearchByNameDocument,
+    ...options,
+  });
 }
 export const OrgSearchByNameDocument = gql`
   query orgSearchByName($search: String!, $take: Int = 4) {
@@ -5302,7 +5441,10 @@ export const OrgSearchByNameDocument = gql`
 export function useOrgSearchByNameQuery(
   options: Omit<Urql.UseQueryArgs<OrgSearchByNameQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<OrgSearchByNameQuery>({ query: OrgSearchByNameDocument, ...options });
+  return Urql.useQuery<OrgSearchByNameQuery, OrgSearchByNameQueryVariables>({
+    query: OrgSearchByNameDocument,
+    ...options,
+  });
 }
 export const GitPoapSearchByNameDocument = gql`
   query gitPOAPSearchByName($search: String!, $take: Int = 4) {
@@ -5329,7 +5471,7 @@ export const GitPoapSearchByNameDocument = gql`
 export function useGitPoapSearchByNameQuery(
   options: Omit<Urql.UseQueryArgs<GitPoapSearchByNameQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<GitPoapSearchByNameQuery>({
+  return Urql.useQuery<GitPoapSearchByNameQuery, GitPoapSearchByNameQueryVariables>({
     query: GitPoapSearchByNameDocument,
     ...options,
   });
