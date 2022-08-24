@@ -1,7 +1,6 @@
 import React from 'react';
 import { useWeb3Context } from '../..//wallet/Web3ContextProvider';
 import { useProfileQuery } from '../../../graphql/generated-gql';
-import { useEnsAvatar } from '../../../hooks/useEnsAvatar';
 import { InfoHexSummary } from '../../gitpoap/InfoHexSummary';
 import { truncateAddress } from '../../../helpers';
 
@@ -28,11 +27,11 @@ export const ProfileResultItem = ({ addressOrEns }: Props) => {
   });
 
   const profileData = result.data?.profileData;
-  const avatarURI = useEnsAvatar(infuraProvider, profileData?.ensName ?? null); // temporarily
   const sidebarAddress = profileData?.address ?? null;
   const ensName = profileData?.ensName ?? null;
   const bio = profileData?.bio ?? null;
   const name = getName(ensName, sidebarAddress);
+  const ensAvatarImageUrl = profileData?.ensAvatarImageUrl ?? null;
 
   return (
     <InfoHexSummary
@@ -41,6 +40,7 @@ export const ProfileResultItem = ({ addressOrEns }: Props) => {
       twitterHandle={profileData?.twitterHandle}
       githubHandle={profileData?.githubHandle ?? ''}
       personalSiteUrl={profileData?.personalSiteUrl}
+      ensAvatarImageUrl={ensAvatarImageUrl}
     />
   );
 };

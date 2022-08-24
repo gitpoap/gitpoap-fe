@@ -23,6 +23,7 @@ export type Holder = {
   bio?: string | null;
   personalSiteUrl?: string | null;
   twitterHandle?: string | null;
+  ensAvatarImageUrl: string | null;
 };
 
 const StyledItemList = styled(ItemList)`
@@ -140,6 +141,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
               twitterHandle={holder.twitterHandle}
               personalSiteUrl={holder.personalSiteUrl}
               numGitPOAPs={holder.gitPOAPCount}
+              ensAvatarImageUrl={holder.ensAvatarImageUrl}
             />
           ))}
         </HoldersWrapper>

@@ -14,18 +14,19 @@ const getName = (ensName: string | null, address: string | null) => {
 };
 
 export const ProfileSidebar = () => {
-  const { profileData, avatarURI, showEditProfileButton, setIsUpdateModalOpen, isLoading } =
+  const { profileData, showEditProfileButton, setIsUpdateModalOpen, isLoading } =
     useProfileContext();
 
   const sidebarAddress = profileData?.address ?? null;
   const ensName = profileData?.ensName ?? null;
   const bio = profileData?.bio ?? null;
   const name = getName(ensName, sidebarAddress);
+  const ensAvatarImageUrl = profileData?.ensAvatarImageUrl ?? null;
 
   return (
     <InfoHexProfileDetail
       isLoading={isLoading}
-      imgSrc={avatarURI}
+      ensAvatarImageUrl={ensAvatarImageUrl}
       name={name}
       address={sidebarAddress}
       bio={bio}

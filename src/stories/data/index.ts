@@ -463,6 +463,7 @@ export const gitPOAPHolders: Holder[] = [
     bio: 'I am addicted to POAPs',
     personalSiteUrl: undefined,
     twitterHandle: undefined,
+    ensAvatarImageUrl: null,
   },
   {
     address: '0x56d389c4e07a48d429035532402301310b8143a0',
@@ -472,6 +473,7 @@ export const gitPOAPHolders: Holder[] = [
     bio: 'I like brisket.',
     personalSiteUrl: undefined,
     twitterHandle: undefined,
+    ensAvatarImageUrl: null,
   },
   {
     address: '0x206e554084beec98e08043397be63c5132cc01a1',
@@ -481,6 +483,7 @@ export const gitPOAPHolders: Holder[] = [
     bio: 'I am not real',
     personalSiteUrl: undefined,
     twitterHandle: undefined,
+    ensAvatarImageUrl: null,
   },
 ];
 
