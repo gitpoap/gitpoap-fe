@@ -9,7 +9,7 @@ import { useAuthContext } from '../github/AuthContext';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { ClaimModal } from '.';
 
-type ClaimModalState = {
+type ClaimState = {
   isOpen: boolean;
   userClaims: OpenClaimsQuery['userClaims'];
   claimedIds: number[];
@@ -18,15 +18,15 @@ type ClaimModalState = {
   claimGitPOAPs: (claimIds: number[]) => void;
 };
 
-export const ClaimModalContext = createContext<ClaimModalState>({} as ClaimModalState);
+export const ClaimContext = createContext<ClaimState>({} as ClaimState);
 
-export const useClaimContext = () => useContext<ClaimModalState>(ClaimModalContext);
+export const useClaimContext = () => useContext<ClaimState>(ClaimContext);
 
 type Props = {
   children: React.ReactNode;
 };
 
-export const ClaimModalContextProvider = ({ children }: Props) => {
+export const ClaimContextProvider = ({ children }: Props) => {
   const { connectionStatus, web3Provider } = useWeb3Context();
   const { isLoggedIntoGitHub, tokens, user } = useAuthContext();
   const signer = web3Provider?.getSigner();
@@ -139,7 +139,7 @@ export const ClaimModalContextProvider = ({ children }: Props) => {
   );
 
   return (
-    <ClaimModalContext.Provider value={value}>
+    <ClaimContext.Provider value={value}>
       {children}
       <ClaimModal
         claims={userClaims ?? []}
@@ -151,6 +151,6 @@ export const ClaimModalContextProvider = ({ children }: Props) => {
         claimedIds={claimedIds}
         loadingClaimIds={loadingClaimIds}
       />
-    </ClaimModalContext.Provider>
+    </ClaimContext.Provider>
   );
 };

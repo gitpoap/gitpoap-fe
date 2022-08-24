@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useClaimContext } from '../ClaimModal/ClaimModalContext';
+import { useClaimContext } from '../ClaimModal/ClaimContext';
 import { useAuthContext } from './AuthContext';
 import { rem } from 'polished';
 import { GoMarkGithub } from 'react-icons/go';

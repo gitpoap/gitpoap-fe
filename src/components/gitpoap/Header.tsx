@@ -10,7 +10,7 @@ import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { useFeatures } from '../../components/FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
-import { useClaimContext } from '../ClaimModal/ClaimModalContext';
+import { useClaimContext } from '../ClaimModal/ClaimContext';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
 import { textEllipses } from '../shared/styles';
 

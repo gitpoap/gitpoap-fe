@@ -11,7 +11,7 @@ import { AuthProvider } from '../components/github/AuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
 import { theme } from '../lib/theme';
-import { ClaimModalContextProvider } from '../components/ClaimModal/ClaimModalContext';
+import { ClaimContextProvider } from '../components/ClaimModal/ClaimContext';
 import { LoadingBar } from '../components/LoadingBar';
 
 const client = createClient({
@@ -67,13 +67,13 @@ const TheApp = ({ Component, pageProps }: Props) => {
             <URQLProvider value={client}>
               <AuthProvider>
                 <FeaturesProvider>
-                  <ClaimModalContextProvider>
+                  <ClaimContextProvider>
                     <GlobalStyles />
                     <Layout>
                       <LoadingBar />
                       <Component {...pageProps} />
                     </Layout>
-                  </ClaimModalContextProvider>
+                  </ClaimContextProvider>
                 </FeaturesProvider>
               </AuthProvider>
             </URQLProvider>
