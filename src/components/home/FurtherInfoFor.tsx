@@ -6,7 +6,7 @@ import { Body, BodyAsAnchor, Button, Header, InfoHexBase, Text } from '../shared
 import { FaArrowRight } from 'react-icons/fa';
 import { GoMarkGithub } from 'react-icons/go';
 import { BREAKPOINTS } from '../../constants';
-import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
+import { useClaimContext } from '../ClaimModal/ClaimContext';
 import { ExtraHover, ExtraPressed } from '../../colors';
 import { useAuthContext } from '../github/AuthContext';
 import { useLocalStorage } from '@mantine/hooks';
@@ -94,7 +94,7 @@ const Container = styled(Grid.Col)`
 `;
 
 export const FurtherInfoFor = () => {
-  const { setIsOpen } = useClaimModalContext();
+  const { setIsOpen } = useClaimContext();
   const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
   const [isFurtherInfoClaimButtonClicked, setIsFurtherInfoClaimButtonClicked] =
     useLocalStorage<boolean>({

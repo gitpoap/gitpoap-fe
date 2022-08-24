@@ -131,26 +131,30 @@ export const ClaimModal = ({
         {claims.length > 0 && (
           <>
             <GitPOAPClaims>
-              {claims.slice(start, end).map((userClaim) => {
-                return (
-                  <ClaimBlock
-                    key={userClaim.claim.id}
-                    gitPOAPId={userClaim.claim.gitPOAP.id}
-                    imgSrc={userClaim.event.image_url}
-                    name={userClaim.event.name}
-                    orgName={userClaim.claim.pullRequestEarned?.repo.organization.name}
-                    description={userClaim.event.description}
-                    onClickClaim={() =>
-                      isConnected ? onClickClaim([userClaim.claim.id]) : connect()
-                    }
-                    onClickBadge={onClose}
-                    isClaimed={claimedIds?.includes(userClaim.claim.id)}
-                    isClaimingAll={isClaimingAll}
-                    isLoading={!isClaimingAll && loadingClaimIds?.includes(userClaim.claim.id)}
-                    isConnected={isConnected}
-                  />
-                );
-              })}
+              {claims
+                /* Sort by id DESC */
+                .sort((a, b) => b.claim.id - a.claim.id)
+                .slice(start, end)
+                .map((userClaim) => {
+                  return (
+                    <ClaimBlock
+                      key={userClaim.claim.id}
+                      gitPOAPId={userClaim.claim.gitPOAP.id}
+                      imgSrc={userClaim.event.image_url}
+                      name={userClaim.event.name}
+                      orgName={userClaim.claim.pullRequestEarned?.repo.organization.name}
+                      description={userClaim.event.description}
+                      onClickClaim={() =>
+                        isConnected ? onClickClaim([userClaim.claim.id]) : connect()
+                      }
+                      onClickBadge={onClose}
+                      isClaimed={claimedIds?.includes(userClaim.claim.id)}
+                      isClaimingAll={isClaimingAll}
+                      isLoading={!isClaimingAll && loadingClaimIds?.includes(userClaim.claim.id)}
+                      isConnected={isConnected}
+                    />
+                  );
+                })}
             </GitPOAPClaims>
             {claims.length > perPage && (
               <Pagination

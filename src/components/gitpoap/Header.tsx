@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
@@ -10,7 +10,7 @@ import { TextAccent, TextGray, ExtraHover } from '../../colors';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { useFeatures } from '../../components/FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
-import { useClaimModalContext } from '../ClaimModal/ClaimModalContext';
+import { useClaimContext } from '../ClaimModal/ClaimContext';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
 import { textEllipses } from '../shared/styles';
 
@@ -128,7 +128,7 @@ export const Header = ({ gitPOAPId }: Props) => {
   });
   const event = result?.data?.gitPOAPEvent?.event;
   const repos = result?.data?.gitPOAPEvent?.gitPOAP.project.repos;
-  const { setIsOpen } = useClaimModalContext();
+  const { setIsOpen } = useClaimContext();
   const features = useFeatures();
   const [isCheckButtonClicked, setIsCheckButtonClicked] = useLocalStorage<boolean>({
     key: 'isCheckEligibilityButtonClicked',
