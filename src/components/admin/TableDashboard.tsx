@@ -109,5 +109,3 @@ export const TableDashboard = <T extends Record<string, TD<string | number>>[]>(
     </Group>
   );
 };
-
-export default TableDashboard;

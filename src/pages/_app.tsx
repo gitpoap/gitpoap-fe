@@ -11,7 +11,7 @@ import { AuthProvider } from '../components/github/AuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
 import { theme } from '../lib/theme';
-import ClaimModalContextProvider from '../components/ClaimModal/ClaimModalContext';
+import { ClaimModalContextProvider } from '../components/ClaimModal/ClaimModalContext';
 import { LoadingBar } from '../components/LoadingBar';
 
 const client = createClient({

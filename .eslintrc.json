@@ -3,6 +3,7 @@
   "rules": {
     "react/display-name": "off",
     "no-console": ["warn", { "allow": ["warn", "error"] }],
-    "prefer-const": "warn"
+    "prefer-const": "warn",
+    "spaced-comment": ["error", "always", { "markers": ["/"] }]
   }
 }

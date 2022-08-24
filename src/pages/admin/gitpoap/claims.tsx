@@ -9,7 +9,7 @@ import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { useAdminClaimsQuery, useGetAllStatsQuery } from '../../../graphql/generated-gql';
 import { DateTime } from 'luxon';
 import { truncateAddress, truncateString } from '../../../helpers';
-import TableDashboard, { TD } from '../../../components/admin/TableDashboard';
+import { TableDashboard, TD } from '../../../components/admin/TableDashboard';
 
 const LoaderContainer = styled.div`
   display: flex;

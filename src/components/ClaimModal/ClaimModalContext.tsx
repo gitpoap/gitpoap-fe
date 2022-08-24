@@ -17,7 +17,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function ClaimModalContextProvider({ children }: Props) {
+export const ClaimModalContextProvider = ({ children }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const value = useMemo(
@@ -29,4 +29,4 @@ export default function ClaimModalContextProvider({ children }: Props) {
   );
 
   return <ClaimModalContext.Provider value={value}>{children}</ClaimModalContext.Provider>;
-}
+};

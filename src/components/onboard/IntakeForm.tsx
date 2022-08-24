@@ -15,7 +15,7 @@ import { ContactDetails } from './ContactDetails';
 import { SelectReposList } from './SelectRepos';
 import { Repo } from './types';
 import { UploadDesigns } from './UploadDesigns';
-import useMantineForm from './useMantineForm';
+import { useMantineForm } from './useMantineForm';
 
 export const StyledLink = styled(Link)`
   color: ${PrimaryBlue};

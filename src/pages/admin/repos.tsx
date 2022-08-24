@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { ConnectGitHub } from '../../components/admin/ConnectGitHub';
 import { useAllReposQuery, useGetAllStatsQuery } from '../../graphql/generated-gql';
-import TableDashboard, { TD } from '../../components/admin/TableDashboard';
+import { TableDashboard, TD } from '../../components/admin/TableDashboard';
 
 type RowData = {
   'Repo ID': TD<number>;

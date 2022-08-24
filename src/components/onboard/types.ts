@@ -1,4 +1,4 @@
-import useMantineForm from './useMantineForm';
+import { useMantineForm } from './useMantineForm';
 
 export type Repo = {
   name: string;
