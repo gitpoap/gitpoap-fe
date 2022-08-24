@@ -15,11 +15,6 @@ const HeaderStyled = styled(Header)`
   font-size: ${rem(30)};
 `;
 
-type EmptyStateProps = {
-  icon?: React.ReactNode;
-  children: React.ReactNode;
-};
-
 export type RepoLeaderBoardProps = {
   repoId: number;
 };
@@ -33,7 +28,6 @@ export const AllContributorsModal = ({ repoId }: RepoLeaderBoardProps) => {
   const [isFetching, setIsFetching] = useState(false);
   const [result] = useRepoLeadersQuery({
     variables: {
-      count: 6,
       repoId: repoId,
       page: page,
       perPage: perPage,
@@ -68,7 +62,6 @@ export const AllContributorsModal = ({ repoId }: RepoLeaderBoardProps) => {
         opened={opened}
         onClose={() => setOpened(false)}
         title={<HeaderStyled>Top contributors</HeaderStyled>}
-        // title="Top contributors"
       >
         {contributors && contributors?.length > 0 ? (
           contributors.map((contributor: any) => (
