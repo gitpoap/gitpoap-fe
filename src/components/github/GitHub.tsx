@@ -24,11 +24,10 @@ type Props = {
 };
 
 export const GitHub = ({ className }: Props) => {
-  const { claimedIds, userClaims } = useClaimContext();
+  const { claimedIds, userClaims, setIsOpen } = useClaimContext();
   const { handleLogout, authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
   const [isGHPopoverOpen, setIsGHPopoverOpen] = useState<boolean>(false);
   const [isHovering, setIsHovering] = useState<boolean>(false);
-  const { setIsOpen: setIsModalOpen } = useClaimContext();
   const userClaimCount = userClaims?.length;
 
   /* Not connected to GitHub */
@@ -60,7 +59,7 @@ export const GitHub = ({ className }: Props) => {
           target={
             <Button
               onClick={() => {
-                setIsModalOpen(true);
+                setIsOpen(true);
                 setIsGHPopoverOpen(false);
               }}
               onMouseEnter={() => setIsHovering(true)}
@@ -92,7 +91,7 @@ export const GitHub = ({ className }: Props) => {
         target={
           <ConnectedButton
             onClick={() => {
-              setIsModalOpen(true);
+              setIsOpen(true);
               setIsGHPopoverOpen(false);
             }}
             variant="outline"
