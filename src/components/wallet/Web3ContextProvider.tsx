@@ -4,7 +4,6 @@ import { JsonRpcProvider, Web3Provider, InfuraProvider } from '@ethersproject/pr
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 import { NETWORKS } from '../../constants';
 import { BackgroundPanel, BackgroundPanel2, TextLight, TextGray } from '../../colors';
-import { useEnsAvatar } from '../../hooks/useEnsAvatar';
 
 type Props = {
   children: React.ReactNode;
@@ -43,7 +42,6 @@ type onChainProvider = {
   hasCachedProvider: () => boolean;
   address: string;
   ensName: string | null;
-  avatarURI: string | null;
   connectionStatus: ConnectionStatus;
   web3Provider: JsonRpcProvider | null;
   infuraProvider: InfuraProvider | null;
@@ -84,7 +82,6 @@ export const Web3ContextProvider = (props: Props) => {
   const [infuraProvider, setInfuraProvider] = useState<InfuraProvider | null>(null);
   const [chainId, setChainId] = useState<number | null>(null);
   const [ensName, setEnsName] = useState<string | null>(null);
-  const avatarURI = useEnsAvatar(infuraProvider, ensName);
 
   const disconnect = useCallback(async () => {
     web3Modal.clearCachedProvider();
@@ -215,7 +212,6 @@ export const Web3ContextProvider = (props: Props) => {
       connectionStatus,
       address,
       ensName,
-      avatarURI,
       web3Provider,
       infuraProvider,
       web3Modal,
@@ -228,7 +224,6 @@ export const Web3ContextProvider = (props: Props) => {
       connectionStatus,
       address,
       ensName,
-      avatarURI,
       web3Provider,
       infuraProvider,
       web3Modal,

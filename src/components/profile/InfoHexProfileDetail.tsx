@@ -20,7 +20,6 @@ import {
 import { IconLink } from '../Link';
 
 type Props = {
-  imgSrc: string | null;
   name: string | null;
   address: string | null;
   ensName?: string | null;
@@ -29,6 +28,7 @@ type Props = {
   githubHref?: string;
   websiteHref?: string | null;
   projects?: Project[];
+  ensAvatarUrl: string | null;
   onClickEditProfile: () => void;
   showEditProfileButton: boolean;
   isLoading: boolean;
@@ -142,19 +142,18 @@ const getWebsiteHref = (url: string | undefined | null) => {
 
 export const InfoHexProfileDetail = ({
   isLoading,
-  imgSrc,
   name,
   address,
   bio,
   twitterHref,
   githubHref,
   websiteHref,
+  ensAvatarUrl,
   projects,
   onClickEditProfile,
   showEditProfileButton,
 }: Props) => {
   const textToCopy = typeof window !== 'undefined' ? window.location.href : '';
-  const { hasEnsAvatar } = useFeatures();
 
   const processedWebsiteHref = getWebsiteHref(websiteHref);
 
@@ -164,8 +163,8 @@ export const InfoHexProfileDetail = ({
         <ImageWrapper>
           {isLoading ? (
             <ProfileImageSkeleton />
-          ) : imgSrc && hasEnsAvatar ? (
-            <Avatar src={imgSrc} useDefaultImageTag />
+          ) : ensAvatarUrl ? (
+            <Avatar src={ensAvatarUrl} />
           ) : address ? (
             <JazzIcon address={address} />
           ) : null}

@@ -11,7 +11,6 @@ import { IconCount } from '../shared/elements/IconCount';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { truncateAddress } from '../../helpers';
 import { useEns } from '../../hooks/useEns';
-import { useEnsAvatar } from '../../hooks/useEnsAvatar';
 import { useFeatures } from '../FeaturesContext';
 
 type Props = {
@@ -23,6 +22,7 @@ type Props = {
   githubHandle?: string;
   personalSiteUrl?: string | null;
   numGitPOAPs?: number;
+  ensAvatarUrl: string | null;
 };
 
 const Content = styled.div`
@@ -122,20 +122,15 @@ export const InfoHexSummary = ({
   githubHandle,
   personalSiteUrl,
   numGitPOAPs,
+  ensAvatarUrl,
 }: Props) => {
   const { infuraProvider } = useWeb3Context();
   const ensName = useEns(infuraProvider, address);
-  const avatarURI = useEnsAvatar(infuraProvider, ensName);
-  const { hasEnsAvatar } = useFeatures();
 
   return (
     <StyledInfoHex className={className} hoverEffects href={`/p/${ensName ?? address}`}>
       <Content>
-        {avatarURI && hasEnsAvatar ? (
-          <Avatar src={avatarURI} useDefaultImageTag />
-        ) : (
-          <JazzIcon address={address} />
-        )}
+        {ensAvatarUrl ? <Avatar src={ensAvatarUrl} /> : <JazzIcon address={address} />}
         <Name>{ensName ?? truncateAddress(address, 10)}</Name>
         {bio && <Bio lineClamp={3}>{bio}</Bio>}
         <Social>
