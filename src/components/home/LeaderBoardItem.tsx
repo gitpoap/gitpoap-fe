@@ -7,8 +7,8 @@ import { BackgroundPanel2 } from '../../colors';
 import { Avatar } from '../shared/elements/Avatar';
 import { IconCount } from '../shared/elements/IconCount';
 import { GitPOAP } from '../shared/elements/icons/GitPOAP';
-import { Divider as DividerUI } from '@mantine/core';
-import { Title } from '../shared/elements/Title';
+import { Divider as DividerUI, Group, Title as TitleUI } from '@mantine/core';
+import { Title } from '../shared/elements';
 import { truncateAddress } from '../../helpers';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
@@ -42,6 +42,7 @@ const JazzIcon = styled(JazzIconReact)`
 const Item = styled.div`
   display: flex;
   flex-direction: row;
+  flex-grow: 1;
   align-items: center;
   justify-content: space-between;
   padding: ${rem(16)} ${rem(20)};
@@ -61,30 +62,38 @@ const Divider = styled(DividerUI)`
   }
 `;
 
-export const LeaderBoardItem = ({
-  profile,
-  claimsCount,
-}: LeadersQuery['mostHonoredContributors'][number]) => {
+const Index = styled(TitleUI)`
+  font-family: VT323;
+  font-weight: normal;
+  width: ${rem(32)};
+`;
+
+type Props = LeadersQuery['mostHonoredContributors'][number] & { index?: number };
+
+export const LeaderBoardItem = ({ profile, claimsCount, index }: Props) => {
   const { infuraProvider } = useWeb3Context();
   const ensName = useEns(infuraProvider, profile.address);
 
   return (
     <>
-      <Item>
-        <UserInfo>
-          <Link href={`/p/${ensName ?? profile.address}`} passHref>
-            {profile.ensAvatarImageUrl ? (
-              <AvatarStyled src={profile.ensAvatarImageUrl} />
-            ) : (
-              <JazzIcon address={profile.address} />
-            )}
-          </Link>
-          <Link href={`/p/${ensName ?? profile.address}`} passHref>
-            <Name>{ensName ?? truncateAddress(profile.address, 6)}</Name>
-          </Link>
-        </UserInfo>
-        <IconCount icon={<GitPOAP />} count={claimsCount} />
-      </Item>
+      <Group spacing={0}>
+        {index !== undefined && <Index order={2}>{`${index}: `}</Index>}
+        <Item>
+          <UserInfo>
+            <Link href={`/p/${ensName ?? profile.address}`} passHref>
+              {profile.ensAvatarImageUrl ? (
+                <AvatarStyled src={profile.ensAvatarImageUrl} />
+              ) : (
+                <JazzIcon address={profile.address} />
+              )}
+            </Link>
+            <Link href={`/p/${ensName ?? profile.address}`} passHref>
+              <Name>{ensName ?? truncateAddress(profile.address, 6)}</Name>
+            </Link>
+          </UserInfo>
+          <IconCount icon={<GitPOAP />} count={claimsCount} />
+        </Item>
+      </Group>
       <Divider />
     </>
   );

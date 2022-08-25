@@ -5,7 +5,7 @@ import { Modal, Center, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { Pagination } from '../shared/elements/Pagination';
-import { BackgroundPanel, TextDarkGray, TextGray, TextLight } from '../../colors';
+import { TextDarkGray, TextGray, TextLight } from '../../colors';
 import { Button } from '../shared/elements/Button';
 import { TwitterShareButton } from '../shared/elements/TwitterShareButton';
 import { ClaimBlock } from '../shared/compounds/ClaimBlock';
@@ -26,9 +26,6 @@ type Props = {
 };
 
 const StyledModal = styled(Modal)`
-  .mantine-Modal-modal {
-    background-color: ${BackgroundPanel};
-  }
   @media (max-width: ${BREAKPOINTS.sm}px) {
     width: 100%;
   }

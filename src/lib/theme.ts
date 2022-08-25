@@ -1,8 +1,18 @@
 import { BREAKPOINTS } from '../constants';
-import { MantineTheme } from '@mantine/core';
+import { MantineProviderProps } from '@mantine/core';
+import { BackgroundPanel } from '../colors';
 
-export const theme: Partial<MantineTheme> = {
+export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
   colorScheme: 'dark',
   respectReducedMotion: false,
+  components: {
+    Modal: {
+      styles: {
+        modal: {
+          background: BackgroundPanel,
+        },
+      },
+    },
+  },
 };

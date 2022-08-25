@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { useLeadersQuery } from '../../graphql/generated-gql';
+import { useLeadersQuery, LeadersQuery } from '../../graphql/generated-gql';
 import { Header } from '../shared/elements/Header';
 import { BREAKPOINTS } from '../../constants';
 import { LeaderBoardItem } from './LeaderBoardItem';
+import { useDisclosure } from '@mantine/hooks';
+import { Modal } from '@mantine/core';
+import { Button } from '../shared/elements';
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -29,10 +32,18 @@ const List = styled.div`
   margin-top: ${rem(30)};
 `;
 
+const ModalButton = styled(Button)`
+  width: fit-content;
+  margin: ${rem(24)} auto 0;
+`;
+
+type Contributor = LeadersQuery['mostHonoredContributors'][number];
+
 export const LeaderBoard = () => {
+  const [opened, { open, close }] = useDisclosure(false);
   const [result] = useLeadersQuery({
     variables: {
-      count: 8,
+      count: 50,
     },
   });
 
@@ -40,10 +51,23 @@ export const LeaderBoard = () => {
     <Wrapper>
       <HeaderStyled>{'Most honored contributors'}</HeaderStyled>
       <List>
-        {result.data?.mostHonoredContributors.map((item) => (
+        {result.data?.mostHonoredContributors.slice(0, 8).map((item) => (
           <LeaderBoardItem key={item.profile.id} {...item} />
         ))}
       </List>
+      <ModalButton onClick={open} variant="outline">
+        View More
+      </ModalButton>
+      <Modal
+        centered
+        opened={opened}
+        onClose={close}
+        title={<HeaderStyled>{'Most honored contributors'}</HeaderStyled>}
+      >
+        {result.data?.mostHonoredContributors.map((contributor: Contributor, i: number) => (
+          <LeaderBoardItem key={contributor.profile.id} {...contributor} index={i + 1} />
+        ))}
+      </Modal>
     </Wrapper>
   );
 };
