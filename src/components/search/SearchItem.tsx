@@ -5,7 +5,7 @@ import { BackgroundPanel, TextGray, TextLight } from '../../colors';
 import Link from 'next/link';
 import { Text } from '@mantine/core';
 import { useRepoGitPoapsQuery } from '../../graphql/generated-gql';
-import { BaseSkeleton, GitPOAPBadge } from '../shared/elements';
+import { BaseSkeleton, GitPOAPBadge, Avatar } from '../shared/elements';
 import { textEllipses } from '../shared/styles';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { truncateAddress } from '../../helpers';
@@ -72,6 +72,12 @@ const SubText = styled(Text)`
   letter-spacing: ${rem(0.1)};
 `;
 
+const StyledAvatar = styled(Avatar)`
+  height: ${rem(30)};
+  width: ${rem(30)};
+  /* Necessary to align the Avatar with the GitPOAPBadges */
+  margin-left: ${rem(2)};
+`;
 const JazzIcon = styled(JazzIconReact)`
   height: ${rem(30)};
   width: ${rem(30)};
@@ -101,6 +107,7 @@ export const NoResultsSearchItem = ({ className }: { className?: string }) => {
 type ProfileSearchItemProps = {
   address: string;
   ensName?: string;
+  ensAvatarUrl: string | null;
   href: string;
   className?: string;
   onClick?: React.MouseEventHandler;
@@ -113,12 +120,14 @@ export const ProfileSearchItem = ({
   href,
   address,
   ensName,
+  ensAvatarUrl,
   isSelected,
 }: ProfileSearchItemProps) => {
   return (
     <Link passHref href={href}>
       <Item className={className} onClick={onClick} isSelected={isSelected}>
-        <JazzIcon address={address} />
+        {ensAvatarUrl ? <StyledAvatar src={ensAvatarUrl} /> : <JazzIcon address={address} />}
+
         <TextContent>
           <ItemText>{ensName ?? truncateAddress(address, 10)}</ItemText>
           {ensName && <SubText>{truncateAddress(address, 10)}</SubText>}
@@ -142,7 +151,7 @@ export const GitPOAPBadgeSearchItem = ({
       <Item className={className} onClick={onClick} isSelected={isSelected}>
         <Art>
           {imageUrl ? (
-            <GitPOAPBadge size="xxxs" imgUrl={imageUrl} disableHoverEffects />
+            <GitPOAPBadge altText={text} size="xxxs" imgUrl={imageUrl} disableHoverEffects />
           ) : (
             <BaseSkeleton height={rem(38)} circle />
           )}

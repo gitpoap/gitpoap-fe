@@ -115,6 +115,7 @@ export const GitPOAP = ({
           href={`/gp/${gitPOAPId}`}
           size="sm"
           imgUrl={imgSrc}
+          altText={name}
           onClick={() => onClick && onClick()}
         />
         {poapTokenId && <Heart poapTokenId={poapTokenId} />}

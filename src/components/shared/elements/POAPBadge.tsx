@@ -85,7 +85,7 @@ export const POAPBadge = ({
     <Container className={className}>
       <BadgeContainer>
         <ImgContainer href={href} target="_blank" rel="noopener noreferrer">
-          <POAP quality={100} layout="fill" src={imgSrc} />
+          <POAP alt={name} quality={100} layout="fill" src={imgSrc} />
         </ImgContainer>
         {poapTokenId && showHeart && (
           <Heart
