@@ -1,7 +1,8 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Group } from '@mantine/core';
+import { Group, Stack } from '@mantine/core';
 import { GitPOAPBadge } from '../../components/shared/elements/GitPOAPBadge';
+import ethBadge from '../assets/gitPOAPs/newDefaultImage.png';
 import realBadge1 from '../assets/gitPOAPs/real_badge1.png';
 import realBadge2 from '../assets/gitPOAPs/real_badge2.png';
 import realBadge3 from '../assets/gitPOAPs/real_badge3.png';
@@ -30,7 +31,7 @@ const badges = [
   realBadge12,
 ];
 
-const url = realBadge1 as unknown as string;
+const url = ethBadge as unknown as string;
 
 export default {
   title: 'Elements/GitPOAPBadge',
@@ -39,6 +40,7 @@ export default {
     altText: 'GitPOAP Badge',
   },
   argTypes: {
+    level: { control: 'select', options: [null, 'bronze', 'silver', 'gold', 'platinum'] },
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
   },
 } as ComponentMeta<typeof GitPOAPBadge>;
@@ -68,3 +70,33 @@ const GalleryTemplate: ComponentStory<typeof GitPOAPBadge> = (args) => {
 
 export const Gallery = GalleryTemplate.bind({});
 Gallery.args = { size: 'md' };
+
+const GallerySizesTemplate: ComponentStory<typeof GitPOAPBadge> = (args) => {
+  return (
+    <Stack>
+      {['bronze', 'silver', 'gold', 'platinum'].map((level: any, i: number) => (
+        <Group noWrap style={{ width: 'fit-content' }} key={`group-${i}`}>
+          {['xxxs', 'xxs', 'xs', 'sm', 'md', 'lg'].map((size: any, j: number) => (
+            <GitPOAPBadge key={`badge-${i}-${j}`} size={size} imgUrl={url} level={level} />
+          ))}
+        </Group>
+      ))}
+    </Stack>
+  );
+};
+
+export const GallerySizes = GallerySizesTemplate.bind({});
+GallerySizes.args = {};
+
+const GallerLevelsTemplate: ComponentStory<typeof GitPOAPBadge> = (args) => {
+  return (
+    <Group>
+      {['bronze', 'silver', 'gold', 'platinum'].map((level: any, i: number) => (
+        <GitPOAPBadge key={i} size="md" imgUrl={url} level={level} />
+      ))}
+    </Group>
+  );
+};
+
+export const GalleryLevels = GallerLevelsTemplate.bind({});
+GalleryLevels.args = {};
