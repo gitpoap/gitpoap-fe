@@ -31,6 +31,8 @@ const ImgContainer = styled.a`
   align-items: center;
   border-radius: 50%;
   transition: 150ms background-color ease-in-out, 150ms opacity ease-in-out;
+  width: ${rem(150)};
+  height: ${rem(150)};
 
   &:hover:not([disabled]) {
     opacity: 0.7;
@@ -48,8 +50,6 @@ const ImgContainer = styled.a`
 `;
 
 const POAP = styled(Image)`
-  width: ${rem(150)};
-  height: ${rem(150)};
   border-radius: 50%;
   background: ${BackgroundPanel2};
 `;
@@ -85,7 +85,7 @@ export const POAPBadge = ({
     <Container className={className}>
       <BadgeContainer>
         <ImgContainer href={href} target="_blank" rel="noopener noreferrer">
-          <POAP alt={name} quality={100} height={150} width={150} src={imgSrc} />
+          <POAP alt={name} quality={100} layout="fill" src={imgSrc} />
         </ImgContainer>
         {poapTokenId && showHeart && (
           <Heart

@@ -149,12 +149,7 @@ export const GitPOAPBadge = ({
       >
         <HexInnerBorder size={size}>
           <HexBadge imgUrl={imgUrl} size={size}>
-            <Image
-              alt={altText}
-              height={dimensions[size].width}
-              width={dimensions[size].width}
-              src={imgUrl}
-            />
+            <Image alt={altText} layout="fill" src={imgUrl} />
           </HexBadge>
         </HexInnerBorder>
       </HexOuterBorder>
