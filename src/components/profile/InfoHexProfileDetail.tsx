@@ -28,7 +28,7 @@ type Props = {
   githubHref?: string;
   websiteHref?: string | null;
   projects?: Project[];
-  ensAvatarImageUrl: string | null;
+  ensAvatarUrl: string | null;
   onClickEditProfile: () => void;
   showEditProfileButton: boolean;
   isLoading: boolean;
@@ -148,7 +148,7 @@ export const InfoHexProfileDetail = ({
   twitterHref,
   githubHref,
   websiteHref,
-  ensAvatarImageUrl,
+  ensAvatarUrl,
   projects,
   onClickEditProfile,
   showEditProfileButton,
@@ -163,8 +163,8 @@ export const InfoHexProfileDetail = ({
         <ImageWrapper>
           {isLoading ? (
             <ProfileImageSkeleton />
-          ) : ensAvatarImageUrl ? (
-            <Avatar src={ensAvatarImageUrl} useDefaultImageTag />
+          ) : ensAvatarUrl ? (
+            <Avatar src={ensAvatarUrl} />
           ) : address ? (
             <JazzIcon address={address} />
           ) : null}

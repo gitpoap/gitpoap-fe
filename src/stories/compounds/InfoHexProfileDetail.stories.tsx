@@ -16,7 +16,7 @@ export const WithProjects: ComponentStory<typeof InfoHexBase> = (args) => {
     <InfoHexProfileDetail
       {...args}
       isLoading={false}
-      ensAvatarImageUrl={profileImg6 as unknown as string}
+      ensAvatarUrl={profileImg6 as unknown as string}
       name="miguelmota.eth"
       address="0xe4feb387cb1daff4bf9108581b116e5fa737bea2"
       bio="Passionate for Ethereum, Bitcoin, and client-side development."
@@ -35,7 +35,7 @@ export const WithoutProjects: ComponentStory<typeof InfoHexBase> = (args) => {
     <InfoHexProfileDetail
       {...args}
       isLoading={false}
-      ensAvatarImageUrl={profileImg6 as unknown as string}
+      ensAvatarUrl={profileImg6 as unknown as string}
       name="miguelmota.eth"
       address="0xe4feb387cb1daff4bf9108581b116e5fa737bea2"
       bio="Passionate for Ethereum, Bitcoin, and client-side development."
@@ -53,7 +53,7 @@ export const Loading: ComponentStory<typeof InfoHexBase> = (args) => {
     <InfoHexProfileDetail
       {...args}
       isLoading={true}
-      ensAvatarImageUrl={null}
+      ensAvatarUrl={null}
       name={null}
       address={null}
       bio={null}

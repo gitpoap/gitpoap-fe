@@ -21,12 +21,12 @@ export const ProfileSidebar = () => {
   const ensName = profileData?.ensName ?? null;
   const bio = profileData?.bio ?? null;
   const name = getName(ensName, sidebarAddress);
-  const ensAvatarImageUrl = profileData?.ensAvatarImageUrl ?? null;
+  const ensAvatarUrl = profileData?.ensAvatarImageUrl ?? null;
 
   return (
     <InfoHexProfileDetail
       isLoading={isLoading}
-      ensAvatarImageUrl={ensAvatarImageUrl}
+      ensAvatarUrl={ensAvatarUrl}
       name={name}
       address={sidebarAddress}
       bio={bio}

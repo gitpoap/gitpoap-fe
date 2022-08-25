@@ -74,7 +74,7 @@ export const LeaderBoardItem = ({
         <UserInfo>
           <Link href={`/p/${ensName ?? profile.address}`} passHref>
             {profile.ensAvatarImageUrl ? (
-              <AvatarStyled src={profile.ensAvatarImageUrl} useDefaultImageTag />
+              <AvatarStyled src={profile.ensAvatarImageUrl} />
             ) : (
               <JazzIcon address={profile.address} />
             )}

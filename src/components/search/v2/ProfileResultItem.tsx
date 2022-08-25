@@ -31,7 +31,7 @@ export const ProfileResultItem = ({ addressOrEns }: Props) => {
   const ensName = profileData?.ensName ?? null;
   const bio = profileData?.bio ?? null;
   const name = getName(ensName, sidebarAddress);
-  const ensAvatarImageUrl = profileData?.ensAvatarImageUrl ?? null;
+  const ensAvatarUrl = profileData?.ensAvatarImageUrl ?? null;
 
   return (
     <InfoHexSummary
@@ -40,7 +40,7 @@ export const ProfileResultItem = ({ addressOrEns }: Props) => {
       twitterHandle={profileData?.twitterHandle}
       githubHandle={profileData?.githubHandle ?? ''}
       personalSiteUrl={profileData?.personalSiteUrl}
-      ensAvatarImageUrl={ensAvatarImageUrl}
+      ensAvatarUrl={ensAvatarUrl}
     />
   );
 };
