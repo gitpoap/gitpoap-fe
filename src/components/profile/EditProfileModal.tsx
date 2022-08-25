@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Modal, Center } from '@mantine/core';
-import { BackgroundPanel, BackgroundPanel2, TextLight } from '../../colors';
+import { BackgroundPanel2, TextLight } from '../../colors';
 import { Button, Input as InputUI, Checkbox } from '../shared/elements';
 import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
 import { Text } from '../shared/elements/Text';
@@ -23,12 +23,6 @@ type Props = {
   onClickSave: (newProfileData: EditableProfileData) => void;
   isSaveLoading: boolean;
 };
-
-const StyledModal = styled(Modal)`
-  .mantine-Modal-modal {
-    background-color: ${BackgroundPanel};
-  }
-`;
 
 const Content = styled(Center)`
   flex-direction: column;
@@ -142,7 +136,7 @@ export const EditProfileModal = ({
   }, [isVisibleOnLeaderboard]);
 
   return (
-    <StyledModal
+    <Modal
       onClose={onClose}
       opened={isOpen}
       centered
@@ -226,6 +220,6 @@ export const EditProfileModal = ({
           {'Save'}
         </Button>
       </Content>
-    </StyledModal>
+    </Modal>
   );
 };
