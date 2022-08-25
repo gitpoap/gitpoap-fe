@@ -35,6 +35,9 @@ const url = realBadge1 as unknown as string;
 export default {
   title: 'Elements/GitPOAPBadge',
   component: GitPOAPBadge,
+  args: {
+    altText: 'GitPOAP Badge',
+  },
   argTypes: {
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
   },

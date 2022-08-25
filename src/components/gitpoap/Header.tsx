@@ -144,7 +144,12 @@ export const Header = ({ gitPOAPId }: Props) => {
 
   return (
     <Wrapper>
-      <Badge size="lg" disableHoverEffects imgUrl={event?.image_url ?? ''} />
+      <Badge
+        altText={event?.name.replace('GitPOAP: ', '') ?? ''}
+        size="lg"
+        disableHoverEffects
+        imgUrl={event?.image_url ?? ''}
+      />
       <TitleStyled>{event?.name.replace('GitPOAP: ', '')}</TitleStyled>
       <Description>{event?.description}</Description>
       {repos && (
