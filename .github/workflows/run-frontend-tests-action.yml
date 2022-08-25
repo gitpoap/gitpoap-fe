@@ -9,7 +9,6 @@ on:
   workflow_dispatch:
 
 env:
-  NEXT_PUBLIC_SENTRY_DSN: ""
   NEXT_PUBLIC_SENTRY_ENVIRONMENT: test
 
 jobs:
@@ -26,7 +25,6 @@ jobs:
           node-version: '16.14.2'
           cache: yarn
       - run: yarn install --frozen-lockfile --check-files
-      - run: yarn build
-      - name: Test Default
+      - name: Test Frontend
         run: yarn test:ci
 
