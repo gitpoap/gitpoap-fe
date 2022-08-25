@@ -3704,7 +3704,12 @@ export type SearchForStringQuery = {
   __typename?: 'Query';
   search: {
     __typename?: 'SearchResults';
-    profilesByAddress: Array<{ __typename?: 'Profile'; id: number; address: string }>;
+    profilesByAddress: Array<{
+      __typename?: 'Profile';
+      id: number;
+      address: string;
+      ensAvatarImageUrl?: string | null;
+    }>;
     profileByENS?: {
       __typename?: 'ProfileWithENS';
       ens: string;
@@ -4529,6 +4534,7 @@ export const SearchForStringDocument = gql`
       profilesByAddress {
         id
         address
+        ensAvatarImageUrl
       }
       profileByENS {
         profile {

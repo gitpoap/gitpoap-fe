@@ -210,7 +210,7 @@ export const SearchBox = ({ className }: Props) => {
             id: profile.id,
             address: profile.address,
             href: `/p/${profile.address}`,
-            ensAvatarImageUrl: profile.ensAvatarImageUrl,
+            ensAvatarImageUrl: profile.ensAvatarImageUrl ?? null,
           }));
 
           results = [...profilesByAddress];
@@ -222,7 +222,7 @@ export const SearchBox = ({ className }: Props) => {
             address: profileByENSData.profile.address,
             href: `/p/${profileByENSData.ens}`,
             ensName: profileByENSData.ens,
-            ensAvatarImageUrl: profileByENSData.profile.ensAvatarImageUrl,
+            ensAvatarImageUrl: profileByENSData.profile.ensAvatarImageUrl ?? null,
           };
 
           results = [profileByENS, ...results];
@@ -243,7 +243,7 @@ export const SearchBox = ({ className }: Props) => {
                   address,
                   ensName: ensName,
                   href: `/p/${ensName}`,
-                  ensAvatarImageUrl: avatar,
+                  ensAvatarImageUrl: avatar ?? null,
                 },
               ];
             }
