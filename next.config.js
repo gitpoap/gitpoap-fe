@@ -28,6 +28,7 @@ const moduleExports = {
       'avatars.githubusercontent.com',
       'lh3.googleusercontent.com',
       's3.us-east-2.amazonaws.com',
+      'ens-avatar-cache-prod.s3.us-east-2.amazonaws.com',
       '*',
     ],
   },
