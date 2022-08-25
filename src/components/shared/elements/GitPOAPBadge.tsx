@@ -16,6 +16,7 @@ import { Link } from '../../Link';
 type Props = {
   className?: string;
   imgUrl: string;
+  altText: string;
   disabled?: boolean;
   size: Sizes;
   onClick?: () => void;
@@ -61,7 +62,7 @@ const HexagonLink = styled(Link)`
   ${HexagonStyles}
 `;
 
-const HexBadge = styled(Hexagon)<Props>`
+const HexBadge = styled(Hexagon)<Pick<Props, 'imgUrl' | 'size'>>`
   --s: ${(props) => rem(dimensions[props.size].width)};
   position: absolute;
   top: ${(props) => rem(dimensions[props.size].borderSize)};
@@ -130,6 +131,7 @@ const HexLink = styled(HexagonLink)<HexProps>`
 export const GitPOAPBadge = ({
   className,
   imgUrl,
+  altText,
   disabled,
   size,
   onClick,
@@ -148,7 +150,7 @@ export const GitPOAPBadge = ({
         <HexInnerBorder size={size}>
           <HexBadge imgUrl={imgUrl} size={size}>
             <Image
-              alt="gitpoap badge"
+              alt={altText}
               height={dimensions[size].width}
               width={dimensions[size].width}
               src={imgUrl}
