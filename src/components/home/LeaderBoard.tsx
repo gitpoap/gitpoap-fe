@@ -32,6 +32,11 @@ const List = styled.div`
   margin-top: ${rem(30)};
 `;
 
+const ModalButton = styled(Button)`
+  width: fit-content;
+  margin: ${rem(24)} auto 0;
+`;
+
 type Contributor = LeadersQuery['mostHonoredContributors'][number];
 
 export const LeaderBoard = () => {
@@ -50,9 +55,9 @@ export const LeaderBoard = () => {
           <LeaderBoardItem key={item.profile.id} {...item} />
         ))}
       </List>
-      <Button mt="xl" onClick={open} variant="outline">
+      <ModalButton onClick={open} variant="outline">
         View More
-      </Button>
+      </ModalButton>
       <Modal
         centered
         opened={opened}
