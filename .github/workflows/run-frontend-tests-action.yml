@@ -1,0 +1,32 @@
+name: Run frontend test action
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+env:
+  NEXT_PUBLIC_SENTRY_DSN: ""
+  NEXT_PUBLIC_SENTRY_ENVIRONMENT: test
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install packages
+        run: yarn install
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.14.2'
+          cache: yarn
+      - run: yarn install --frozen-lockfile --check-files
+      - run: yarn build
+      - name: Test Default
+        run: yarn test:ci
+
