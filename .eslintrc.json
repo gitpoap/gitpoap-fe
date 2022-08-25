@@ -1,9 +1,12 @@
 {
-  "extends": "next/core-web-vitals",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["next/core-web-vitals", "plugin:jest-dom/recommended", "prettier"],
+  "ignorePatterns": ["**/generated-gql.tsx", "/node_modules/"],
   "rules": {
     "react/display-name": "off",
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "prefer-const": "warn",
-    "spaced-comment": ["error", "always", { "markers": ["/"] }]
+    "spaced-comment": ["error", "always", { "markers": ["/"] }],
+    "@typescript-eslint/no-explicit-any": "error"
   }
 }

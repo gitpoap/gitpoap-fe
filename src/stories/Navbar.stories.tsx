@@ -8,6 +8,6 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof NavbarComponent>;
 
-export const Navbar: ComponentStory<typeof NavbarComponent> = (args: any) => {
-  return <NavbarComponent {...args} />;
+export const Navbar: ComponentStory<typeof NavbarComponent> = () => {
+  return <NavbarComponent />;
 };
