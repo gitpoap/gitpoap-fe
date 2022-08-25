@@ -15,4 +15,8 @@ export const theme: MantineProviderProps['theme'] = {
       },
     },
   },
+  fontFamily: 'PT Mono, monospace',
+  headings: {
+    fontFamily: 'PT Mono, monospace',
+  },
 };
