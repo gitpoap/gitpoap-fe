@@ -3,11 +3,14 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { MdEmojiPeople } from 'react-icons/md';
 import { Stack } from '@mantine/core';
-import { Header, InfoHexBase, Text as TextUI } from '../shared/elements';
+import { useDisclosure } from '@mantine/hooks';
+
+import { Button, Header, InfoHexBase, Text as TextUI } from '../shared/elements';
 import { BREAKPOINTS } from '../../constants';
 import { LeaderBoardItem } from '../home/LeaderBoardItem';
 import { useRepoLeadersQuery } from '../../graphql/generated-gql';
 import { TextDarkGray } from '../../colors';
+import { AllContributorsModal } from './AllContributorsModal';
 
 const Wrapper = styled(InfoHexBase)`
   display: inline-flex;
@@ -23,6 +26,7 @@ const Wrapper = styled(InfoHexBase)`
 
 const Content = styled.div`
   padding: ${rem(13)} ${rem(18)};
+  text-align: center;
 `;
 
 const HeaderStyled = styled(Header)`
@@ -60,6 +64,7 @@ export type RepoLeaderBoardProps = {
 };
 
 export const RepoLeaderBoard = ({ repoId }: RepoLeaderBoardProps) => {
+  const [opened, { open, close }] = useDisclosure(false);
   const [result] = useRepoLeadersQuery({
     variables: {
       repoId: repoId,
@@ -83,6 +88,10 @@ export const RepoLeaderBoard = ({ repoId }: RepoLeaderBoardProps) => {
             </EmptyState>
           )}
         </List>
+        <AllContributorsModal onClose={close} opened={opened} repoId={repoId} />
+        <Button mt="xl" onClick={open} variant="outline">
+          View All
+        </Button>
       </Content>
     </Wrapper>
   );
