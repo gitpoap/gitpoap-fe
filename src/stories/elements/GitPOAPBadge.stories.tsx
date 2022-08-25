@@ -2,7 +2,6 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Group, Stack } from '@mantine/core';
 import { GitPOAPBadge } from '../../components/shared/elements/GitPOAPBadge';
-import ethBadge from '../assets/gitPOAPs/newDefaultImage.png';
 import realBadge1 from '../assets/gitPOAPs/real_badge1.png';
 import realBadge2 from '../assets/gitPOAPs/real_badge2.png';
 import realBadge3 from '../assets/gitPOAPs/real_badge3.png';
@@ -31,7 +30,7 @@ const badges = [
   realBadge12,
 ];
 
-const url = ethBadge as unknown as string;
+const url = realBadge1 as unknown as string;
 
 export default {
   title: 'Elements/GitPOAPBadge',
