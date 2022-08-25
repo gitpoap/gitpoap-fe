@@ -72,7 +72,7 @@ export const getStaticProps = async (
   return {
     props: {
       urqlState: ssrCache.extractData(),
-      data: results.data,
+      data: results.data ?? null,
     },
   };
 };
