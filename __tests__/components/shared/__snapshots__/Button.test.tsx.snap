@@ -1,0 +1,326 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button has the correct styles when disabled 1`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-family: 'PT Mono',monospace !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  -webkit-letter-spacing: 0.125rem;
+  -moz-letter-spacing: 0.125rem;
+  -ms-letter-spacing: 0.125rem;
+  letter-spacing: 0.125rem;
+  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
+  transition: 150ms background ease,150ms color ease,150ms border ease;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: #307AE8;
+  border: none;
+  color: white;
+}
+
+.c0:hover:not(:disabled) {
+  background-color: #5596F6;
+}
+
+.c0:active:not(:disabled) {
+  background-color: #1761CF;
+}
+
+.c0:disabled {
+  background-color: #393A51;
+}
+
+.c0:disabled .mantine-Button-label {
+  color: #838495;
+}
+
+.c0.mantine-Button-loading {
+  background-color: #307AE8;
+}
+
+.c0.mantine-Button-loading .mantine-Button-label {
+  color: white;
+}
+
+<button
+  class="mantine-UnstyledButton-root mantine-Button-root c0 mantine-uk7x1z"
+  data-button="true"
+  data-disabled="true"
+  disabled=""
+  type="button"
+>
+  <div
+    class="mantine-3xbgk5 mantine-Button-inner"
+  >
+    <span
+      class="mantine-qo1k2 mantine-Button-label"
+    >
+      Button
+    </span>
+  </div>
+</button>
+`;
+
+exports[`Button renders a button 1`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-family: 'PT Mono',monospace !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  -webkit-letter-spacing: 0.125rem;
+  -moz-letter-spacing: 0.125rem;
+  -ms-letter-spacing: 0.125rem;
+  letter-spacing: 0.125rem;
+  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
+  transition: 150ms background ease,150ms color ease,150ms border ease;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: #307AE8;
+  border: none;
+  color: white;
+}
+
+.c0:hover:not(:disabled) {
+  background-color: #5596F6;
+}
+
+.c0:active:not(:disabled) {
+  background-color: #1761CF;
+}
+
+.c0:disabled {
+  background-color: #393A51;
+}
+
+.c0:disabled .mantine-Button-label {
+  color: #838495;
+}
+
+.c0.mantine-Button-loading {
+  background-color: #307AE8;
+}
+
+.c0.mantine-Button-loading .mantine-Button-label {
+  color: white;
+}
+
+<button
+  class="mantine-UnstyledButton-root mantine-Button-root c0 mantine-uk7x1z"
+  data-button="true"
+  type="button"
+>
+  <div
+    class="mantine-3xbgk5 mantine-Button-inner"
+  >
+    <span
+      class="mantine-qo1k2 mantine-Button-label"
+    >
+      Button
+    </span>
+  </div>
+</button>
+`;
+
+exports[`Button renders a button correctly with variant - filled 1`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-family: 'PT Mono',monospace !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  -webkit-letter-spacing: 0.125rem;
+  -moz-letter-spacing: 0.125rem;
+  -ms-letter-spacing: 0.125rem;
+  letter-spacing: 0.125rem;
+  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
+  transition: 150ms background ease,150ms color ease,150ms border ease;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: #307AE8;
+  border: none;
+  color: white;
+}
+
+.c0:hover:not(:disabled) {
+  background-color: #5596F6;
+}
+
+.c0:active:not(:disabled) {
+  background-color: #1761CF;
+}
+
+.c0:disabled {
+  background-color: #393A51;
+}
+
+.c0:disabled .mantine-Button-label {
+  color: #838495;
+}
+
+.c0.mantine-Button-loading {
+  background-color: #307AE8;
+}
+
+.c0.mantine-Button-loading .mantine-Button-label {
+  color: white;
+}
+
+<button
+  class="mantine-UnstyledButton-root mantine-Button-root c0 mantine-uk7x1z"
+  data-button="true"
+  type="button"
+>
+  <div
+    class="mantine-3xbgk5 mantine-Button-inner"
+  >
+    <span
+      class="mantine-qo1k2 mantine-Button-label"
+    >
+      Button
+    </span>
+  </div>
+</button>
+`;
+
+exports[`Button renders a button correctly with variant - outlined 1`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-family: 'PT Mono',monospace !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  -webkit-letter-spacing: 0.125rem;
+  -moz-letter-spacing: 0.125rem;
+  -ms-letter-spacing: 0.125rem;
+  letter-spacing: 0.125rem;
+  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
+  transition: 150ms background ease,150ms color ease,150ms border ease;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  border: 0.125rem solid #838495;
+  color: white;
+  background-color: transparent;
+  padding: 0.375rem 0.75rem;
+}
+
+.c0:hover:not(:disabled) {
+  border-color: #5596F6;
+  color: #5596F6;
+}
+
+.c0:active:not(:disabled) {
+  border-color: #1761CF;
+  color: #1761CF;
+}
+
+.c0:disabled {
+  background-color: transparent;
+  border-color: #838495;
+}
+
+.c0:disabled .mantine-Button-label {
+  color: #838495;
+}
+
+.c0.mantine-Button-loading:before {
+  top: -0.125rem;
+  left: -0.125rem;
+  right: -0.125rem;
+  bottom: -0.125rem;
+}
+
+.c0.mantine-Button-loading .mantine-Button-label {
+  color: white;
+}
+
+<button
+  class="mantine-UnstyledButton-root mantine-Button-root c0 mantine-4hv0l9"
+  data-button="true"
+  type="button"
+>
+  <div
+    class="mantine-3xbgk5 mantine-Button-inner"
+  >
+    <span
+      class="mantine-qo1k2 mantine-Button-label"
+    >
+      Button
+    </span>
+  </div>
+</button>
+`;
