@@ -22,13 +22,13 @@ export type Props = {
   repoId: number;
 };
 
+type Contributor = LeadersQuery['mostHonoredContributors'][number];
+
 export const AllContributorsModal = ({ onClose, opened, repoId }: Props) => {
   const [page, setPage] = useState(1);
   const perPage = 10;
   const [canLoadMore, setCanLoadMore] = useState(false);
-  const [contributors, contributorsHandlers] = useListState<
-    LeadersQuery['mostHonoredContributors'][number]
-  >([]);
+  const [contributors, contributorsHandlers] = useListState<Contributor>([]);
   const [isFetching, setIsFetching] = useState(false);
   const [result] = useRepoLeadersQuery({
     variables: {
@@ -38,12 +38,12 @@ export const AllContributorsModal = ({ onClose, opened, repoId }: Props) => {
     },
   });
 
-  /* Hook to append new data onto existing list of gitPOAPs */
+  /* Hook to append new data onto existing list of contributors */
   useEffect(() => {
     if (result.data?.repoMostHonoredContributors) {
       contributorsHandlers.append(...result.data?.repoMostHonoredContributors);
 
-      // If a full page of results is returned, we can assume that there is more data avaiable
+      // If a full page of results is returned, we assume that there is more data available
       if (result.data?.repoMostHonoredContributors.length === perPage) {
         setCanLoadMore(true);
       }
@@ -59,7 +59,7 @@ export const AllContributorsModal = ({ onClose, opened, repoId }: Props) => {
   }, []);
 
   const [loadingZone] = useInfiniteScroll(
-    canLoadMore ? () => loadMore(page) : () => {},
+    canLoadMore ? () => loadMore(page) : null,
     result.fetching,
   );
 
@@ -68,10 +68,10 @@ export const AllContributorsModal = ({ onClose, opened, repoId }: Props) => {
       centered
       opened={opened}
       onClose={onClose}
-      title={<HeaderStyled>Top contributors</HeaderStyled>}
+      title={<HeaderStyled>All Contributors</HeaderStyled>}
     >
       {contributors && contributors?.length > 0 ? (
-        contributors.map((contributor: any) => (
+        contributors.map((contributor: Contributor) => (
           <LeaderBoardItem key={contributor.profile.id} {...contributor} />
         ))
       ) : (

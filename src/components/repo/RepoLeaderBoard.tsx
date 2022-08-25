@@ -64,7 +64,7 @@ export type RepoLeaderBoardProps = {
 };
 
 export const RepoLeaderBoard = ({ repoId }: RepoLeaderBoardProps) => {
-  const [opened, handlers] = useDisclosure(false);
+  const [opened, { open, close }] = useDisclosure(false);
   const [result] = useRepoLeadersQuery({
     variables: {
       repoId: repoId,
@@ -88,8 +88,8 @@ export const RepoLeaderBoard = ({ repoId }: RepoLeaderBoardProps) => {
             </EmptyState>
           )}
         </List>
-        <AllContributorsModal onClose={() => handlers.close()} opened={opened} repoId={repoId} />
-        <Button mt="xl" onClick={() => handlers.open()} variant="outline">
+        <AllContributorsModal onClose={close} opened={opened} repoId={repoId} />
+        <Button mt="xl" onClick={open} variant="outline">
           View All
         </Button>
       </Content>

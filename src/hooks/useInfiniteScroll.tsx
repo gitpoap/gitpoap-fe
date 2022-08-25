@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react';
 
-export const useInfiniteScroll = (callback: () => void, isFetching: boolean) => {
+export const useInfiniteScroll = (callback: (() => void) | null, isFetching: boolean) => {
   // Here we use useRef to store a DOM node and the returned object will persist regardless of re-renders
   const observer = useRef<IntersectionObserver>();
 
@@ -8,7 +8,7 @@ export const useInfiniteScroll = (callback: () => void, isFetching: boolean) => 
   // which is guaranteed to have the same reference
   const loadingZone = useCallback(
     (node: Element | null) => {
-      if (isFetching) return;
+      if (!callback || isFetching) return;
 
       // stop watching targets, you can think of it as a reset
       if (observer.current) observer.current.disconnect();
