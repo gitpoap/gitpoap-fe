@@ -1,6 +1,11 @@
 import React, { useContext, useState, useCallback, createContext, useMemo, useEffect } from 'react';
 import Web3Modal, { IProviderOptions, getInjectedProviderName } from 'web3modal';
-import { JsonRpcProvider, Web3Provider, InfuraProvider } from '@ethersproject/providers';
+import {
+  JsonRpcProvider,
+  Web3Provider,
+  InfuraProvider,
+  ExternalProvider,
+} from '@ethersproject/providers';
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 import { NETWORKS } from '../../constants';
 import { BackgroundPanel, BackgroundPanel2, TextLight, TextGray } from '../../colors';
@@ -93,7 +98,7 @@ export const Web3ContextProvider = (props: Props) => {
   }, [web3Modal]);
 
   const initialize = useCallback(
-    async (provider: any): Promise<Web3Provider> => {
+    async (provider: ConstructorParameters<typeof Web3Provider>[0]): Promise<Web3Provider> => {
       const web3Provider = new Web3Provider(provider, 'any');
       const connectedAddress = await web3Provider?.getSigner().getAddress();
       const chainId = (await web3Provider?.getNetwork()).chainId;
@@ -127,7 +132,7 @@ export const Web3ContextProvider = (props: Props) => {
       });
 
       provider.on('chainChanged', async (chainId: number) => {
-        await initialize(provider);
+        await initialize(provider as unknown as ExternalProvider);
       });
 
       provider.on('disconnect', async (error: { code: number; message: string }) => {
@@ -136,7 +141,7 @@ export const Web3ContextProvider = (props: Props) => {
 
       provider.on('connect', async (info: { chainId: number }) => {
         if (connectionStatus === 'disconnected') {
-          await initialize(provider);
+          await initialize(provider as unknown as ExternalProvider);
         }
       });
     },
