@@ -22,7 +22,7 @@ type Props = {
   githubHandle?: string;
   personalSiteUrl?: string | null;
   numGitPOAPs?: number;
-  ensAvatarImageUrl: string | null;
+  ensAvatarUrl: string | null;
 };
 
 const Content = styled.div`
@@ -122,7 +122,7 @@ export const InfoHexSummary = ({
   githubHandle,
   personalSiteUrl,
   numGitPOAPs,
-  ensAvatarImageUrl,
+  ensAvatarUrl,
 }: Props) => {
   const { infuraProvider } = useWeb3Context();
   const ensName = useEns(infuraProvider, address);
@@ -130,11 +130,7 @@ export const InfoHexSummary = ({
   return (
     <StyledInfoHex className={className} hoverEffects href={`/p/${ensName ?? address}`}>
       <Content>
-        {ensAvatarImageUrl ? (
-          <Avatar src={ensAvatarImageUrl} useDefaultImageTag />
-        ) : (
-          <JazzIcon address={address} />
-        )}
+        {ensAvatarUrl ? <Avatar src={ensAvatarUrl} /> : <JazzIcon address={address} />}
         <Name>{ensName ?? truncateAddress(address, 10)}</Name>
         {bio && <Bio lineClamp={3}>{bio}</Bio>}
         <Social>

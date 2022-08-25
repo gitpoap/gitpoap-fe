@@ -5,7 +5,7 @@ import { BackgroundPanel, TextGray, TextLight } from '../../colors';
 import Link from 'next/link';
 import { Text } from '@mantine/core';
 import { useRepoGitPoapsQuery } from '../../graphql/generated-gql';
-import { BaseSkeleton, GitPOAPBadge, Avatar as AvatarReact } from '../shared/elements';
+import { BaseSkeleton, GitPOAPBadge, Avatar } from '../shared/elements';
 import { textEllipses } from '../shared/styles';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { truncateAddress } from '../../helpers';
@@ -72,7 +72,7 @@ const SubText = styled(Text)`
   letter-spacing: ${rem(0.1)};
 `;
 
-const Avatar = styled(AvatarReact)`
+const StyledAvatar = styled(Avatar)`
   height: ${rem(30)};
   width: ${rem(30)};
   /* Necessary to align the Avatar with the GitPOAPBadges */
@@ -107,7 +107,7 @@ export const NoResultsSearchItem = ({ className }: { className?: string }) => {
 type ProfileSearchItemProps = {
   address: string;
   ensName?: string;
-  ensAvatarImageUrl: string | null;
+  ensAvatarUrl: string | null;
   href: string;
   className?: string;
   onClick?: React.MouseEventHandler;
@@ -120,17 +120,13 @@ export const ProfileSearchItem = ({
   href,
   address,
   ensName,
-  ensAvatarImageUrl,
+  ensAvatarUrl,
   isSelected,
 }: ProfileSearchItemProps) => {
   return (
     <Link passHref href={href}>
       <Item className={className} onClick={onClick} isSelected={isSelected}>
-        {ensAvatarImageUrl ? (
-          <Avatar src={ensAvatarImageUrl} useDefaultImageTag />
-        ) : (
-          <JazzIcon address={address} />
-        )}
+        {ensAvatarUrl ? <StyledAvatar src={ensAvatarUrl} /> : <JazzIcon address={address} />}
 
         <TextContent>
           <ItemText>{ensName ?? truncateAddress(address, 10)}</ItemText>

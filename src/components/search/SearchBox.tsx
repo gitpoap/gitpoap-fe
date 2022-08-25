@@ -103,7 +103,7 @@ type ProfileResult = {
   address: string;
   href: string;
   ensName?: string;
-  ensAvatarImageUrl: string | null;
+  ensAvatarUrl: string | null;
 };
 
 type Props = {
@@ -210,7 +210,7 @@ export const SearchBox = ({ className }: Props) => {
             id: profile.id,
             address: profile.address,
             href: `/p/${profile.address}`,
-            ensAvatarImageUrl: profile.ensAvatarImageUrl ?? null,
+            ensAvatarUrl: profile.ensAvatarImageUrl ?? null,
           }));
 
           results = [...profilesByAddress];
@@ -222,7 +222,7 @@ export const SearchBox = ({ className }: Props) => {
             address: profileByENSData.profile.address,
             href: `/p/${profileByENSData.ens}`,
             ensName: profileByENSData.ens,
-            ensAvatarImageUrl: profileByENSData.profile.ensAvatarImageUrl ?? null,
+            ensAvatarUrl: profileByENSData.profile.ensAvatarImageUrl ?? null,
           };
 
           results = [profileByENS, ...results];
@@ -243,7 +243,7 @@ export const SearchBox = ({ className }: Props) => {
                   address,
                   ensName: ensName,
                   href: `/p/${ensName}`,
-                  ensAvatarImageUrl: avatar ?? null,
+                  ensAvatarUrl: avatar ?? null,
                 },
               ];
             }
@@ -254,7 +254,7 @@ export const SearchBox = ({ className }: Props) => {
                 id: 0,
                 address,
                 href: `/p/${address}`,
-                ensAvatarImageUrl: null,
+                ensAvatarUrl: null,
               },
             ];
           }
@@ -388,7 +388,7 @@ export const SearchBox = ({ className }: Props) => {
                     href={profile.href}
                     address={profile.address}
                     ensName={profile.ensName}
-                    ensAvatarImageUrl={profile.ensAvatarImageUrl}
+                    ensAvatarUrl={profile.ensAvatarUrl}
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);
