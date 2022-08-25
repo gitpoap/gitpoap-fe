@@ -142,7 +142,7 @@ export const GitPOAPBadgeSearchItem = ({
       <Item className={className} onClick={onClick} isSelected={isSelected}>
         <Art>
           {imageUrl ? (
-            <GitPOAPBadge size="xxxs" imgUrl={imageUrl} disableHoverEffects />
+            <GitPOAPBadge altText={text} size="xxxs" imgUrl={imageUrl} disableHoverEffects />
           ) : (
             <BaseSkeleton height={rem(38)} circle />
           )}
