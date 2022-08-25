@@ -83,36 +83,39 @@ export const AuthProvider = ({ children }: Props) => {
     setUser(null);
   }, []);
 
-  const performRefresh = useCallback(async () => {
-    if (refreshToken && isOnline) {
-      try {
-        const res = await fetch(`${GITPOAP_API_URL}/github/refresh`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token: refreshToken }),
-        });
+  const performRefresh = useCallback(
+    async (refreshToken: string | null, isOnline: boolean) => {
+      if (refreshToken && isOnline) {
+        try {
+          const res = await fetch(`${GITPOAP_API_URL}/github/refresh`, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token: refreshToken }),
+          });
 
-        if (!res.ok) {
-          throw new Error(res.statusText);
+          if (!res.ok) {
+            throw new Error(res.statusText);
+          }
+
+          const tokenRes: Tokens = await res.json();
+
+          if (tokenRes.accessToken && tokenRes.refreshToken) {
+            setAccessToken(tokenRes.accessToken);
+            setRefreshToken(tokenRes.refreshToken);
+          } else {
+            throw new Error('No access token or refresh token returned');
+          }
+        } catch (err) {
+          handleLogout();
+          console.warn(err);
         }
-
-        const tokenRes: Tokens = await res.json();
-
-        if (tokenRes.accessToken && tokenRes.refreshToken) {
-          setAccessToken(tokenRes.accessToken);
-          setRefreshToken(tokenRes.refreshToken);
-        } else {
-          throw new Error('No access token or refresh token returned');
-        }
-      } catch (err) {
-        handleLogout();
-        console.warn(err);
       }
-    }
-  }, [handleLogout, refreshToken, isOnline]);
+    },
+    [handleLogout],
+  );
 
   /* Redirect to github to authorize if not connected / logged in */
   const authorizeGitHub = useCallback(() => push(githubAuthURL), [githubAuthURL, push]);
@@ -169,13 +172,13 @@ export const AuthProvider = ({ children }: Props) => {
       push(newUrl[0]);
       authenticate(code);
     }
-  }, [authenticate, asPath, push]);
+  }, [authenticate, asPath, push, isLoading]);
 
   /* This hook is used to refresh the access token when it expires */
   useEffect(() => {
     let timeout: NodeJS.Timeout;
-    if (accessToken && refreshToken && isPageVisible) {
-      timeout = setTimeout(() => performRefresh(), FIVE_MINUTES_IN_MS);
+    if (accessToken && refreshToken && isPageVisible && isOnline) {
+      timeout = setTimeout(() => performRefresh(refreshToken, isOnline), FIVE_MINUTES_IN_MS);
     }
 
     return () => {
@@ -183,17 +186,20 @@ export const AuthProvider = ({ children }: Props) => {
         clearTimeout(timeout);
       }
     };
-  }, [accessToken, refreshToken, performRefresh, isPageVisible]);
+  }, [accessToken, refreshToken, performRefresh, isPageVisible, isOnline]);
 
+  /* This hook tracks visibility of the page when a refresh token is present */
   useEffect(() => {
-    if (isPageVisible && !trackedIsPageVisible) {
-      /* Essentially perform on token refresh on page load & whenever the user focuses on the page */
-      performRefresh();
-      setTrackedIsPageVisible(true);
-    } else if (!isPageVisible && trackedIsPageVisible) {
-      setTrackedIsPageVisible(false);
+    if (refreshToken) {
+      if (isPageVisible && !trackedIsPageVisible) {
+        /* Essentially perform on token refresh on page load & whenever the user focuses on the page */
+        performRefresh(refreshToken, isOnline);
+        setTrackedIsPageVisible(true);
+      } else if (!isPageVisible && trackedIsPageVisible) {
+        setTrackedIsPageVisible(false);
+      }
     }
-  }, [isPageVisible, performRefresh, trackedIsPageVisible]);
+  }, [isPageVisible, performRefresh, trackedIsPageVisible, refreshToken, isOnline]);
 
   let tokens = null;
   if (accessToken && refreshToken) {
