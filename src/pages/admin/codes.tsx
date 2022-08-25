@@ -148,7 +148,7 @@ const AddCodesPage: NextPage = () => {
       let k: keyof FormValues;
       for (k in formValues) {
         if (formValues.hasOwnProperty(k)) {
-          formData.append(k, formValues[k] as any);
+          formData.append(k, formValues[k]);
         }
       }
 
