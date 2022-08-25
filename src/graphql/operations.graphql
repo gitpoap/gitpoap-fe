@@ -99,6 +99,7 @@ query searchForString($text: String!) {
     profilesByAddress {
       id
       address
+      ensAvatarImageUrl
     }
     profileByENS {
       profile {

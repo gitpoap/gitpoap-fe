@@ -92,7 +92,11 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   useEffect(() => {
     const resultPage = queryVariables?.page;
     if (gitPOAPHolders) {
-      const newHolders = gitPOAPHolders.holders;
+      const newHolders = gitPOAPHolders.holders.map((h) => ({
+        ...h,
+        ensAvatarImageUrl: h.ensAvatarImageUrl ?? null,
+      }));
+
       if (resultPage === 1) {
         handlers.setState(newHolders);
       } else {
