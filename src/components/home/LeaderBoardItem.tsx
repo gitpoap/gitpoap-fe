@@ -13,7 +13,6 @@ import { truncateAddress } from '../../helpers';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { useEns } from '../../hooks/useEns';
-import { useFeatures } from '../FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
 import { textEllipses } from '../shared/styles';
 

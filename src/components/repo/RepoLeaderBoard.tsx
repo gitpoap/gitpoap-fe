@@ -89,9 +89,11 @@ export const RepoLeaderBoard = ({ repoId }: RepoLeaderBoardProps) => {
           )}
         </List>
         <AllContributorsModal onClose={close} opened={opened} repoId={repoId} />
-        <Button mt="xl" onClick={open} variant="outline">
-          View All
-        </Button>
+        {contributors && contributors?.length > 0 && (
+          <Button mt="xl" onClick={open} variant="outline">
+            {'View All'}
+          </Button>
+        )}
       </Content>
     </Wrapper>
   );
