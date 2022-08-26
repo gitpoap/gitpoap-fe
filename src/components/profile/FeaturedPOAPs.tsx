@@ -46,8 +46,8 @@ export const FeaturedPOAPs = () => {
   } = useFeaturedPOAPs();
   const { profileData } = useProfileContext();
   const { address: walletAddress } = useWeb3Context();
-
-  const isViewerOwner = profileData?.address === walletAddress.toLowerCase();
+  const isViewerOwner =
+    profileData && walletAddress && profileData.address === walletAddress.toLowerCase();
 
   if (featuredPOAPsFull.length === 0 && !isViewerOwner) {
     return null;

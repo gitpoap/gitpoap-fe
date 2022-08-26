@@ -35,7 +35,7 @@ export const Wallet = ({ hideText }: Props) => {
 
   return (
     <Content>
-      {connectionStatus === 'connected' ? (
+      {connectionStatus === 'connected' && address ? (
         <DisconnectPopover
           isOpen={isOpen}
           setIsOpen={setIsOpen}

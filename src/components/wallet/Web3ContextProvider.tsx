@@ -45,7 +45,7 @@ type onChainProvider = {
   connect: () => Promise<Web3Provider | undefined>;
   disconnect: () => void;
   hasCachedProvider: () => boolean;
-  address: string;
+  address: string | null;
   ensName: string | null;
   connectionStatus: ConnectionStatus;
   web3Provider: JsonRpcProvider | null;
@@ -82,7 +82,7 @@ export const useWeb3Context = () => {
 export const Web3ContextProvider = (props: Props) => {
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('disconnected');
   const [web3Modal, _] = useState<Web3Modal>(initWeb3Modal);
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState<string | null>(null);
   const [web3Provider, setWeb3Provider] = useState<JsonRpcProvider | null>(null);
   const [infuraProvider, setInfuraProvider] = useState<InfuraProvider | null>(null);
   const [chainId, setChainId] = useState<number | null>(null);
