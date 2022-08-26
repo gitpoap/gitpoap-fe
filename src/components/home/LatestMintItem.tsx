@@ -173,7 +173,7 @@ export const LatestMintItem = ({
               </TitleStyled>
             </Link>
             <UserInfo>
-              <MintedByText>minted by</MintedByText>
+              <MintedByText>{`minted by`}</MintedByText>
               <Link href={`/p/${ensName ?? userAddress}`} passHref>
                 {avatarURI && hasEnsAvatar ? (
                   <AvatarStyled src={avatarURI} useDefaultImageTag />

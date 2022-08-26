@@ -206,9 +206,9 @@ export const TrendingProjectItem = ({ repoId, index, claimedCount, numDays }: Pr
       <MintInfo>
         <LastXDaysMintInfo>
           <IconCount count={claimedCount} icon={<GitPOAP width="14" height="12" />} />
-          <LastXDaysMintText>minted last {numDays} days</LastXDaysMintText>
+          <LastXDaysMintText>{`minted last ${numDays} days`}</LastXDaysMintText>
         </LastXDaysMintInfo>
-        <SubText>{repo?.mintedGitPOAPCount} minted total</SubText>
+        <SubText>{`${repo?.mintedGitPOAPCount} minted total`}</SubText>
       </MintInfo>
     </Item>
   );
