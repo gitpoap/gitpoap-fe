@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { useMediaQuery } from '@mantine/hooks';
 import { Header } from '../shared/elements/Header';
-import { POAPList } from '../shared/compounds/POAPList';
 import { Button } from '../shared/elements/Button';
 import { FaArrowRight } from 'react-icons/fa';
 import { useFeatures } from '../FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
 import { TrendingProjectItem } from './TrendingProjectItem';
-import { useMostClaimedGitPoapsQuery, useTrendingReposQuery } from '../../graphql/generated-gql';
+import { useTrendingReposQuery } from '../../graphql/generated-gql';
+
+const NUM_DAYS = 30;
 
 const Container = styled.div`
   padding: ${rem(10)};
@@ -21,29 +22,21 @@ const Container = styled.div`
   }
 `;
 
-const Poaps = styled(POAPList)`
-  max-width: ${rem(1000)};
-  margin-top: ${rem(50)};
-  margin-bottom: ${rem(25)};
-`;
-
 const List = styled.div`
   margin-top: ${rem(30)};
+  margin-bottom: ${rem(30)};
 `;
 
 export const TrendingProject = () => {
-  const { hasGitPOAPsPage } = useFeatures();
-  const matchesBreakpointSm = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.sm)})`, false);
+  const { hasTrendingReposPage } = useFeatures();
   const [result] = useTrendingReposQuery({
     variables: {
-      count: 10,
-      numDays: 30,
+      count: 5,
+      numDays: NUM_DAYS,
     },
   });
 
   const trendingRepos = result?.data?.trendingRepos;
-
-  console.log('trending repos', trendingRepos);
 
   return (
     <Container>
@@ -57,11 +50,12 @@ export const TrendingProject = () => {
               repoId={repo.id}
               index={index + 1}
               claimedCount={repo.mintedGitPOAPCount}
+              numDays={NUM_DAYS}
             />
           ))}
       </List>
 
-      {hasGitPOAPsPage && (
+      {hasTrendingReposPage && (
         <Button variant="outline" rightIcon={<FaArrowRight />}>
           {'More Trending Projects'}
         </Button>

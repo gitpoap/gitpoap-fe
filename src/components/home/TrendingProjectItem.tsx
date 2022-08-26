@@ -8,16 +8,17 @@ import { TextAccent } from '../../colors';
 import { IconCount } from '../shared/elements/IconCount';
 import { GitPOAP, People, Star } from '../shared/elements/icons';
 import { textEllipses } from '../shared/styles';
-import { ExtraHover, ExtraPressed } from '../../colors';
+import { ExtraHover, ExtraPressed, TextGray } from '../../colors';
 import { Body, BodyAsAnchor, InfoHexBase } from '../shared/elements/InfoHexBase';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { BREAKPOINTS } from '../../constants';
-import { useRepoDataQuery, useRepoStarCountQuery } from '../../graphql/generated-gql';
+import { useRepoDataQuery } from '../../graphql/generated-gql';
 
 type Props = {
   repoId: number;
   index: number;
   claimedCount: number;
+  numDays: number;
 };
 
 const Icons = styled.div`
@@ -25,6 +26,7 @@ const Icons = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-bottom: ${rem(10)};
 
   > *:not(:last-child) {
     margin-right: ${rem(10)};
@@ -40,12 +42,14 @@ const TitleStyled = styled(TitleNoHover)`
   text-align: center;
   letter-spacing: ${rem(0.2)};
   color: ${TextAccent};
+  margin-bottom: ${rem(10)};
   width: 100%;
   ${textEllipses(170)};
 `;
 
 const BadgeStyled = styled(Badge)`
   margin-top: ${rem(7)};
+  margin-bottom: ${rem(15)};
 `;
 
 const VerticalContainer = styled.div`
@@ -108,11 +112,16 @@ const InfoHexBaseStyled = styled(InfoHexBase)`
 `;
 
 const Item = styled.div`
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: start;
   padding: ${rem(16)} ${rem(20)};
+
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const GitPoapContainer = styled.div`
@@ -123,30 +132,67 @@ const GitPoapContainer = styled.div`
 
 const MintInfo = styled(VerticalContainer)`
   padding: ${rem(16)} ${rem(20)};
+  align-items: start;
+  margin-left: ${rem(50)};
+
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    margin-left: ${rem(10)};
+    align-items: center;
+  }
 `;
 
-export const TrendingProjectItem = ({ repoId, index, claimedCount }: Props) => {
+const LastXDaysMintInfo = styled(HorizontalContainer)`
+  font-size: ${rem(20)};
+
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    flex-direction: column;
+  }
+`;
+
+const LastXDaysMintText = styled(Text)`
+  font-family: VT323;
+  margin-left: ${rem(6)};
+`;
+
+const SubText = styled(Text)`
+  font-family: VT323;
+  color: ${TextGray};
+  font-size: ${rem(18)};
+`;
+
+const IndexText = styled(Text)`
+  font-family: VT323;
+  color: ${TextGray};
+  font-size: ${rem(28)};
+  margin-right: ${rem(50)};
+
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    margin-right: ${rem(10)};
+  }
+`;
+
+export const TrendingProjectItem = ({ repoId, index, claimedCount, numDays }: Props) => {
   const [result] = useRepoDataQuery({ variables: { repoId } });
   const repo = result?.data?.repoData;
   const gitPoaps = result?.data?.repoData?.project?.gitPOAPs;
   const starCount = result?.data?.repoStarCount;
 
-  console.log('repo', repo, gitPoaps, starCount);
-
   return (
     <Item>
-      <Text>{index}</Text>
+      <IndexText>{index}</IndexText>
       <InfoHexBaseStyled hoverEffects>
         <Content>
           <TitleStyled>{repo?.name}</TitleStyled>
           <Icons>
-            {repo?.contributorCount && (
+            {repo?.contributorCount !== undefined && (
               <IconCount count={repo?.contributorCount} icon={<People width="13" height="11" />} />
             )}
-            {repo?.gitPOAPCount && (
+            {repo?.gitPOAPCount !== undefined && (
               <IconCount count={repo?.gitPOAPCount} icon={<GitPOAP width="14" height="12" />} />
             )}
-            {starCount && <IconCount count={starCount} icon={<Star width="13" height="11" />} />}
+            {starCount !== undefined && (
+              <IconCount count={starCount} icon={<Star width="13" height="11" />} />
+            )}
           </Icons>
           <BadgeStyled>{repo?.organization?.name}</BadgeStyled>
           <GitPoapContainer>
@@ -158,11 +204,11 @@ export const TrendingProjectItem = ({ repoId, index, claimedCount }: Props) => {
         </Content>
       </InfoHexBaseStyled>
       <MintInfo>
-        <HorizontalContainer>
+        <LastXDaysMintInfo>
           <IconCount count={claimedCount} icon={<GitPOAP width="14" height="12" />} />
-          <Text>minted last {7} days</Text>
-        </HorizontalContainer>
-        <Text>{repo?.mintedGitPOAPCount} minted total</Text>
+          <LastXDaysMintText>minted last {numDays} days</LastXDaysMintText>
+        </LastXDaysMintInfo>
+        <SubText>{repo?.mintedGitPOAPCount} minted total</SubText>
       </MintInfo>
     </Item>
   );
