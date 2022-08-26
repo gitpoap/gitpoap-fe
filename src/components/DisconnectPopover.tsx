@@ -34,8 +34,7 @@ export const DisconnectPopover = ({
     if (isHovering && !isOpen) {
       const timeout = setTimeout(() => setIsOpen(true), POPOVER_HOVER_TIME);
       return () => clearTimeout(timeout);
-    }
-    if (!isHovering && isOpen) {
+    } else if (!isHovering && isOpen) {
       const timeout = setTimeout(() => setIsOpen(false), POPOVER_HOVER_TIME);
       return () => clearTimeout(timeout);
     }

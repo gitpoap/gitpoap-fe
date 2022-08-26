@@ -78,6 +78,7 @@ const StyledAvatar = styled(Avatar)`
   /* Necessary to align the Avatar with the GitPOAPBadges */
   margin-left: ${rem(2)};
 `;
+
 const JazzIcon = styled(JazzIconReact)`
   height: ${rem(30)};
   width: ${rem(30)};

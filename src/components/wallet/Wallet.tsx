@@ -42,7 +42,11 @@ export const Wallet = ({ hideText }: Props) => {
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           onClose={() => setIsOpen(false)}
-          handleOnClick={() => disconnect()}
+          handleOnClick={() => {
+            setIsOpen(false);
+            setIsHovering(false);
+            disconnect();
+          }}
           icon={<FaEthereum size={16} />}
           buttonText={'DISCONNECT'}
           isHovering={isHovering}
