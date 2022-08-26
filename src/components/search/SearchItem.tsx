@@ -112,6 +112,7 @@ type ProfileSearchItemProps = {
   className?: string;
   onClick?: React.MouseEventHandler;
   isSelected: boolean;
+  useDefaultImageTag?: boolean;
 };
 
 export const ProfileSearchItem = ({
@@ -122,11 +123,16 @@ export const ProfileSearchItem = ({
   ensName,
   ensAvatarUrl,
   isSelected,
+  useDefaultImageTag,
 }: ProfileSearchItemProps) => {
   return (
     <Link passHref href={href}>
       <Item className={className} onClick={onClick} isSelected={isSelected}>
-        {ensAvatarUrl ? <StyledAvatar src={ensAvatarUrl} /> : <JazzIcon address={address} />}
+        {ensAvatarUrl ? (
+          <StyledAvatar src={ensAvatarUrl} useDefaultImageTag={useDefaultImageTag ?? false} />
+        ) : (
+          <JazzIcon address={address} />
+        )}
 
         <TextContent>
           <ItemText>{ensName ?? truncateAddress(address, 10)}</ItemText>

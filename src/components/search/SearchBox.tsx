@@ -104,6 +104,7 @@ type ProfileResult = {
   href: string;
   ensName?: string;
   ensAvatarUrl: string | null;
+  useDefaultImageTag?: boolean;
 };
 
 type Props = {
@@ -163,6 +164,7 @@ export const SearchBox = ({ className }: Props) => {
       search: debouncedQuery.trim(),
     },
   });
+  const [generatedProfileResult, setGeneratedProfileResult] = useState<ProfileResult | null>(null);
 
   const repos = repoResults.data?.repos;
   const orgs = orgResults.data?.organizations;
@@ -201,71 +203,76 @@ export const SearchBox = ({ className }: Props) => {
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
-    const prepareResults = async () => {
-      if (debouncedQuery.length > 0) {
-        setAreResultsLoading(true);
-        let results: ProfileResult[] = [];
-        if (result.data?.search.profilesByAddress) {
-          const profilesByAddress = result.data.search.profilesByAddress.map((profile) => ({
-            id: profile.id,
-            address: profile.address,
-            href: `/p/${profile.address}`,
-            ensAvatarUrl: profile.ensAvatarImageUrl ?? null,
-          }));
+    if (debouncedQuery.length > 0 && result.data && !result.fetching) {
+      let results: ProfileResult[] = [];
+      if (result.data?.search.profilesByAddress) {
+        const profilesByAddress = result.data.search.profilesByAddress.map((profile) => ({
+          id: profile.id,
+          address: profile.address,
+          href: `/p/${profile.address}`,
+          ensAvatarUrl: profile.ensAvatarImageUrl ?? null,
+        }));
 
-          results = [...profilesByAddress];
-        }
-        if (result.data?.search.profileByENS) {
-          const profileByENSData = result.data?.search.profileByENS;
-          const profileByENS = {
-            id: profileByENSData.profile.id,
-            address: profileByENSData.profile.address,
-            href: `/p/${profileByENSData.ens}`,
-            ensName: profileByENSData.ens,
-            ensAvatarUrl: profileByENSData.profile.ensAvatarImageUrl ?? null,
-          };
-
-          results = [profileByENS, ...results];
-        }
-
-        /* Deal with the situation of an .eth name OR address that isn't explicitly found in the search results */
-        if (results.length === 0) {
-          if (debouncedQuery.endsWith('.eth')) {
-            const [address, avatar] = await Promise.all([
-              await (web3Provider ?? infuraProvider)?.resolveName(debouncedQuery),
-              await (web3Provider ?? infuraProvider)?.getAvatar(debouncedQuery),
-            ]);
-            const ensName = debouncedQuery;
-            if (address) {
-              results = [
-                {
-                  id: 0,
-                  address,
-                  ensName: ensName,
-                  href: `/p/${ensName}`,
-                  ensAvatarUrl: avatar ?? null,
-                },
-              ];
-            }
-          } else if (isAddress(debouncedQuery)) {
-            const address = debouncedQuery;
-            results = [
-              {
-                id: 0,
-                address,
-                href: `/p/${address}`,
-                ensAvatarUrl: null,
-              },
-            ];
-          }
-        }
-        setAreResultsLoading(false);
-        setProfileResults(results);
+        results = [...profilesByAddress];
       }
+      if (result.data?.search.profileByENS) {
+        const profileByENSData = result.data?.search.profileByENS;
+        const profileByENS = {
+          id: profileByENSData.profile.id,
+          address: profileByENSData.profile.address,
+          href: `/p/${profileByENSData.ens}`,
+          ensName: profileByENSData.ens,
+          ensAvatarUrl: profileByENSData.profile.ensAvatarImageUrl ?? null,
+        };
+
+        results = [profileByENS, ...results];
+      }
+
+      /* If we don't get any results via graphql, but we have a generated profile result, add it here */
+      if (results.length === 0 && generatedProfileResult) {
+        results = [generatedProfileResult, ...results];
+      }
+      setProfileResults(results);
+    }
+  }, [debouncedQuery, result, web3Provider, infuraProvider, generatedProfileResult]);
+
+  useEffect(() => {
+    const prepareResultsEns = async () => {
+      /* Deal with the situation of an .eth name OR address that isn't explicitly found in the search results */
+      if (debouncedQuery.endsWith('.eth')) {
+        setAreResultsLoading(true);
+        const [address, avatar] = await Promise.all([
+          await (web3Provider ?? infuraProvider)?.resolveName(debouncedQuery),
+          await (web3Provider ?? infuraProvider)?.getAvatar(debouncedQuery),
+        ]);
+
+        const ensName = debouncedQuery;
+        if (address) {
+          setGeneratedProfileResult({
+            id: 0,
+            address,
+            ensName: ensName,
+            href: `/p/${ensName}`,
+            ensAvatarUrl: avatar ?? null,
+            useDefaultImageTag: true,
+          });
+        }
+      } else if (isAddress(debouncedQuery)) {
+        const address = debouncedQuery;
+        setGeneratedProfileResult({
+          id: 0,
+          address,
+          href: `/p/${address}`,
+          ensAvatarUrl: null,
+        });
+      } else {
+        setGeneratedProfileResult(null);
+      }
+      setAreResultsLoading(false);
     };
 
-    prepareResults();
-  }, [debouncedQuery, result.data, web3Provider, infuraProvider]);
+    prepareResultsEns();
+  }, [debouncedQuery, web3Provider, infuraProvider]);
 
   /* This hook is used to refetch search data when the debounced query changes */
   useEffect(() => {
@@ -337,7 +344,18 @@ export const SearchBox = ({ className }: Props) => {
         e.preventDefault();
       }
     },
-    [cursor, profilesCount, orgStartIndex, totalCount],
+    [
+      cursor,
+      profilesCount,
+      orgStartIndex,
+      totalCount,
+      gitPOAPs,
+      orgs,
+      repos,
+      profileResults,
+      router,
+      repoStartIndex,
+    ],
   );
 
   return (
@@ -389,6 +407,7 @@ export const SearchBox = ({ className }: Props) => {
                     address={profile.address}
                     ensName={profile.ensName}
                     ensAvatarUrl={profile.ensAvatarUrl}
+                    useDefaultImageTag={profile.useDefaultImageTag}
                     onClick={() => {
                       setQuery('');
                       setIsSearchActive(false);
@@ -466,7 +485,7 @@ export const SearchBox = ({ className }: Props) => {
               })}
             </ResultsSection>
           )}
-          {!isLoading && !hasAnyResults && debouncedQuery.length > 1 && (
+          {!isLoading && !hasAnyResults && debouncedQuery.length > 1 && query.length > 1 && (
             <ResultsSection>
               <NoResultsSearchItem />
             </ResultsSection>
