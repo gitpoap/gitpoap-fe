@@ -109,7 +109,7 @@ export const ClaimModal = ({
   const start = (page - 1) * perPage;
   const end = start + perPage;
 
-  const { connect } = useWeb3Context();
+  const { connect, address, ensName } = useWeb3Context();
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = !!loadingClaimIds && loadingClaimIds.length === claims.length;
   const claimText = getClaimText(isConnected, claims.length, claimedIds.length, isLoggedIntoGitHub);
@@ -186,7 +186,14 @@ export const ClaimModal = ({
           </Group>
         )}
         <ClaimText>{'Minting is free, no transaction fee required'}</ClaimText>
-        {claimedIds?.length > 0 && <TwitterShareButton claimedCount={claimedIds.length} />}
+        {claimedIds?.length > 0 && (
+          <TwitterShareButton
+            claimedCount={claimedIds.length}
+            address={address}
+            ensName={ensName}
+            claims={claims}
+          />
+        )}
       </Content>
     </StyledModal>
   );

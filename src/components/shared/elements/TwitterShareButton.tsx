@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { FaTwitter } from 'react-icons/fa';
-
-import { useWeb3Context } from '../../wallet/Web3ContextProvider';
 import { TwitterBlue, TwitterBlueHover } from '../../../colors';
+import { ClaimStatus, OpenClaimsQuery } from '../../../graphql/generated-gql';
 
 const TwitterButton = styled.a`
   margin-top: ${rem(20)};
@@ -43,21 +42,48 @@ const Label = styled.span`
 
 const getTweetText = (claimedCount: number) => {
   if (claimedCount === 1) {
-    return 'I was just awarded a GitPOAP for contributions to open source!';
+    return 'I was awarded a GitPOAP for contributions to open source!';
   }
 
-  return `I was just awarded ${claimedCount} GitPOAPs for contributions to open source!`;
+  return `I was awarded ${claimedCount} GitPOAPs for contributions to open source!`;
 };
 
 interface Props {
   claimedCount: number;
+  address: string | null;
+  ensName: string | null;
+  claims: Exclude<OpenClaimsQuery['userClaims'], null | undefined>;
 }
 
-export const TwitterShareButton = ({ claimedCount }: Props) => {
-  const { address, ensName } = useWeb3Context();
+export const TwitterShareButton = ({ claimedCount, address, ensName, claims }: Props) => {
+  const profileUrl = ensName || address ? `\nhttps://twitter.com/${ensName ?? address}\n` : '';
+  const firstGitPOAPUrl = `\nhttps://gitpoap.io/gp/${claims[0].claim.gitPOAP.id}\n`;
+  const claimedClaims = useMemo(
+    () =>
+      claims.filter((claim) =>
+        [ClaimStatus.Claimed, ClaimStatus.Minting, ClaimStatus.Pending].includes(
+          claim.claim.status,
+        ),
+      ),
+    [claims],
+  );
+
+  const getTweetUrl = useCallback(() => {
+    if (profileUrl) {
+      return profileUrl;
+    } else if (claimedClaims.length > 0) {
+      return firstGitPOAPUrl;
+    }
+
+    if (claimedCount === 1) {
+      return `${getTweetText(claimedCount)} ${firstGitPOAPUrl} ${profileUrl}`;
+    }
+
+    return `${getTweetText(claimedCount)} ${profileUrl}`;
+  }, [claimedCount, claimedClaims, firstGitPOAPUrl, profileUrl]);
+
   const queryParams = new URLSearchParams({
-    text:
-      getTweetText(claimedCount) + `\nhttps://gitpoap.io/p/${ensName ?? address}\n#poap #gitpoap`,
+    text: getTweetText(claimedCount) + `${getTweetUrl()} #poap #gitpoap`,
     via: 'gitpoap',
   }).toString();
 
