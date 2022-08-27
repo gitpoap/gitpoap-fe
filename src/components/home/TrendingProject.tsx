@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { useMediaQuery } from '@mantine/hooks';
 import { Header } from '../shared/elements/Header';
-import { Button } from '../shared/elements/Button';
-import { FaArrowRight } from 'react-icons/fa';
-import { useFeatures } from '../FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
 import { TrendingProjectItem } from './TrendingProjectItem';
 import { useTrendingReposQuery } from '../../graphql/generated-gql';
@@ -28,7 +24,6 @@ const List = styled.div`
 `;
 
 export const TrendingProject = () => {
-  const { hasTrendingReposPage } = useFeatures();
   const [result] = useTrendingReposQuery({
     variables: {
       count: 5,
@@ -54,12 +49,6 @@ export const TrendingProject = () => {
             />
           ))}
       </List>
-
-      {hasTrendingReposPage && (
-        <Button variant="outline" rightIcon={<FaArrowRight />}>
-          {'More Trending Projects'}
-        </Button>
-      )}
     </Container>
   );
 };

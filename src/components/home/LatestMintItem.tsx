@@ -12,7 +12,6 @@ import { truncateAddress } from '../../helpers';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { useEns } from '../../hooks/useEns';
-import { useEnsAvatar } from '../../hooks/useEnsAvatar';
 import { useFeatures } from '../FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
 import { textEllipses } from '../shared/styles';
@@ -156,7 +155,6 @@ export const LatestMintItem = ({
   const userAddress = address ?? '';
   const { infuraProvider } = useWeb3Context();
   const ensName = useEns(infuraProvider, userAddress);
-  const avatarURI = useEnsAvatar(infuraProvider, ensName);
   const { hasEnsAvatar } = useFeatures();
 
   return (
@@ -164,7 +162,12 @@ export const LatestMintItem = ({
       <Item>
         <MintInfo>
           <BadgeWrapper>
-            <GitPOAPBadge href={`/gp/${gitPOAP.id}`} size="xxs" imgUrl={gitPOAP.imageUrl} />
+            <GitPOAPBadge
+              href={`/gp/${gitPOAP.id}`}
+              size="xxs"
+              imgUrl={gitPOAP.imageUrl}
+              altText={''}
+            />
           </BadgeWrapper>
           <ClaimInfo>
             <Link href={`/gp/${gitPOAP.id}`} passHref>
@@ -175,11 +178,11 @@ export const LatestMintItem = ({
             <UserInfo>
               <MintedByText>{`minted by`}</MintedByText>
               <Link href={`/p/${ensName ?? userAddress}`} passHref>
-                {avatarURI && hasEnsAvatar ? (
+                {/* {avatarURI && hasEnsAvatar ? (
                   <AvatarStyled src={avatarURI} useDefaultImageTag />
                 ) : (
                   <JazzIcon address={userAddress} />
-                )}
+                )} */}
               </Link>
               <Link href={`/p/${ensName ?? userAddress}`} passHref>
                 <Name>{ensName ?? truncateAddress(userAddress, 6)}</Name>

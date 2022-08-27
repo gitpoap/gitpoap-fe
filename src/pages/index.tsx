@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Center, Grid, Stack } from '@mantine/core';
 import { Page } from './_app';
-import { BackgroundPanel2, TextLight } from '../colors';
+import { BackgroundPanel2 } from '../colors';
 import { BannerStats } from '../components/home/BannerStats';
 import { Layout } from '../components/Layout';
 import { MostClaimed } from '../components/home/MostClaimed';
@@ -18,24 +18,6 @@ import { FurtherInfoHow } from '../components/home/FurtherInfoHow';
 import { Banner } from '../components/home/Banner';
 import { LatestMint } from '../components/home/LatestMint';
 import { TrendingProject } from '../components/home/TrendingProject';
-
-const HeaderStyled = styled.span`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: bold;
-  font-size: ${rem(24)};
-  line-height: ${rem(30)};
-  text-align: center;
-  letter-spacing: ${rem(1)};
-  color: ${TextLight};
-  margin-bottom: ${rem(60)};
-  margin-top: ${rem(75)};
-`;
 
 const Background = styled(BackgroundHexes)`
   display: flex;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Text } from '@mantine/core';
+import { Text, Group, Stack } from '@mantine/core';
 import { Badge } from '../shared/elements/Badge';
 import { TitleNoHover } from '../shared/elements/Title';
 import { TextAccent } from '../../colors';
@@ -26,7 +26,6 @@ const Icons = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-bottom: ${rem(10)};
 
   > *:not(:last-child) {
     margin-right: ${rem(10)};
@@ -42,31 +41,16 @@ const TitleStyled = styled(TitleNoHover)`
   text-align: center;
   letter-spacing: ${rem(0.2)};
   color: ${TextAccent};
-  margin-bottom: ${rem(10)};
   width: 100%;
   ${textEllipses(170)};
 `;
 
 const BadgeStyled = styled(Badge)`
   margin-top: ${rem(7)};
-  margin-bottom: ${rem(15)};
 `;
 
-const VerticalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+const Content = styled(Stack)`
   align-items: center;
-  justify-content: center;
-`;
-
-const HorizontalContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Content = styled(VerticalContainer)`
   padding: ${rem(15)} ${rem(20)};
   width: 100%;
 `;
@@ -130,7 +114,7 @@ const GitPoapContainer = styled.div`
   flex-direction: row;
 `;
 
-const MintInfo = styled(VerticalContainer)`
+const MintInfo = styled(Stack)`
   padding: ${rem(16)} ${rem(20)};
   align-items: start;
   margin-left: ${rem(50)};
@@ -141,7 +125,7 @@ const MintInfo = styled(VerticalContainer)`
   }
 `;
 
-const LastXDaysMintInfo = styled(HorizontalContainer)`
+const LastXDaysMintInfo = styled(Group)`
   font-size: ${rem(20)};
 
   @media (max-width: ${BREAKPOINTS.sm}px) {
@@ -151,7 +135,6 @@ const LastXDaysMintInfo = styled(HorizontalContainer)`
 
 const LastXDaysMintText = styled(Text)`
   font-family: VT323;
-  margin-left: ${rem(6)};
 `;
 
 const SubText = styled(Text)`
@@ -198,7 +181,12 @@ export const TrendingProjectItem = ({ repoId, index, claimedCount, numDays }: Pr
           <GitPoapContainer>
             {gitPoaps &&
               gitPoaps.map((gitPoap) => (
-                <GitPOAPBadge key={gitPoap.id} size="xxxs" imgUrl={gitPoap?.imageUrl} />
+                <GitPOAPBadge
+                  key={gitPoap.id}
+                  size="xxxs"
+                  imgUrl={gitPoap?.imageUrl}
+                  altText={''}
+                />
               ))}
           </GitPoapContainer>
         </Content>
