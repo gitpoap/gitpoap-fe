@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { DateTime } from 'luxon';
-import { AdminClaimsQuery } from '../../graphql/generated-gql';
+import { AdminClaimsQuery, useProfileQuery } from '../../graphql/generated-gql';
 import { Link } from '../Link';
 import { BackgroundPanel2, TextGray } from '../../colors';
 import { Avatar } from '../shared/elements/Avatar';
@@ -130,6 +130,14 @@ export const LatestMintItem = ({
   const ensName = useEns(infuraProvider, userAddress);
   const { hasEnsAvatar } = useFeatures();
 
+  const [result] = useProfileQuery({
+    variables: {
+      address: address ?? '',
+    },
+  });
+
+  const profileData = result?.data?.profileData;
+
   return (
     <>
       <Item>
@@ -151,11 +159,11 @@ export const LatestMintItem = ({
             <UserInfo>
               <MintedByText>{`minted by`}</MintedByText>
               <Link href={`/p/${ensName ?? userAddress}`} passHref>
-                {/* {avatarURI && hasEnsAvatar ? (
-                  <AvatarStyled src={avatarURI} useDefaultImageTag />
+                {profileData?.ensAvatarImageUrl && hasEnsAvatar ? (
+                  <AvatarStyled src={profileData?.ensAvatarImageUrl} useDefaultImageTag />
                 ) : (
                   <JazzIcon address={userAddress} />
-                )} */}
+                )}
               </Link>
               <Link href={`/p/${ensName ?? userAddress}`} passHref>
                 <Name>{ensName ?? truncateAddress(userAddress, 6)}</Name>

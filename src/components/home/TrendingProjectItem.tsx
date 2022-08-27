@@ -192,7 +192,7 @@ export const TrendingProjectItem = ({ repoId, index, claimedCount, numDays }: Pr
         </Content>
       </InfoHexBaseStyled>
       <MintInfo>
-        <LastXDaysMintInfo>
+        <LastXDaysMintInfo spacing={`xs`}>
           <IconCount count={claimedCount} icon={<GitPOAP width="14" height="12" />} />
           <LastXDaysMintText>{`minted last ${numDays} days`}</LastXDaysMintText>
         </LastXDaysMintInfo>
