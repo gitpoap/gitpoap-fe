@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { DateTime } from 'luxon';
 import { AdminClaimsQuery } from '../../graphql/generated-gql';
 import { Link } from '../Link';
 import { BackgroundPanel2, TextGray } from '../../colors';
@@ -115,36 +116,8 @@ const MintedByText = styled(StyledText)`
 `;
 
 const dateToTimeAgo = (date: string): string => {
-  const past = new Date(date);
-  const now = new Date(Date.now());
-  const difftime = now.getTime() - past.getTime();
-  if (difftime < 0) {
-    return '';
-  }
-  const diffDate = new Date(difftime - 5.5 * 60 * 60 * 1000);
-  const [sec, min, hr, day, month] = [
-    diffDate.getSeconds(),
-    diffDate.getMinutes(),
-    diffDate.getHours(),
-    diffDate.getDate() - 1,
-    diffDate.getMonth(),
-  ];
-
-  const f = (property: number, end: string) => {
-    return `${property} ${end}${property > 1 ? 's' : ''} ago`;
-  };
-
-  return month >= 1
-    ? f(month, 'month')
-    : day >= 1
-    ? f(day, 'day')
-    : hr >= 1
-    ? f(hr, 'hr')
-    : min >= 1
-    ? f(min, 'min')
-    : day >= 1
-    ? f(sec, 'sec')
-    : '';
+  const startDate = DateTime.fromISO(date);
+  return startDate.toRelativeCalendar() ?? '';
 };
 
 export const LatestMintItem = ({
