@@ -2486,6 +2486,7 @@ export type Query = {
   totalContributors: Scalars['Float'];
   totalGitPOAPs: Scalars['Float'];
   totalRepos: Scalars['Float'];
+  trendingRepos?: Maybe<Array<RepoData>>;
   user?: Maybe<User>;
   userClaims?: Maybe<Array<FullClaimData>>;
   userPOAPs?: Maybe<UserPoaPs>;
@@ -2910,6 +2911,11 @@ export type QueryReposArgs = {
 
 export type QuerySearchArgs = {
   text: Scalars['String'];
+};
+
+export type QueryTrendingReposArgs = {
+  count?: InputMaybe<Scalars['Float']>;
+  numDays?: InputMaybe<Scalars['Float']>;
 };
 
 export type QueryUserArgs = {
@@ -3949,7 +3955,7 @@ export type AdminClaimsQuery = {
         organization: { __typename?: 'Organization'; id: number; name: string };
       };
     } | null;
-    gitPOAP: { __typename?: 'GitPOAP'; id: number; year: number };
+    gitPOAP: { __typename?: 'GitPOAP'; id: number; name: string; year: number; imageUrl: string };
   }>;
 };
 
@@ -3959,6 +3965,7 @@ export type RepoDataQueryVariables = Exact<{
 
 export type RepoDataQuery = {
   __typename?: 'Query';
+  repoStarCount: number;
   repoData?: {
     __typename?: 'RepoData';
     id: number;
@@ -3966,6 +3973,7 @@ export type RepoDataQuery = {
     githubRepoId: number;
     contributorCount: number;
     mintedGitPOAPCount: number;
+    gitPOAPCount: number;
     organization: {
       __typename?: 'Organization';
       id: number;
@@ -3974,7 +3982,10 @@ export type RepoDataQuery = {
       twitterHandle?: string | null;
       url?: string | null;
     };
-    project: { __typename?: 'Project'; gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number }> };
+    project: {
+      __typename?: 'Project';
+      gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number; imageUrl: string; name: string }>;
+    };
   } | null;
 };
 
@@ -4370,6 +4381,35 @@ export type GitPoapSearchByNameQuery = {
       }>;
     };
   }>;
+};
+
+export type TrendingReposQueryVariables = Exact<{
+  count: Scalars['Float'];
+  numDays: Scalars['Float'];
+}>;
+
+export type TrendingReposQuery = {
+  __typename?: 'Query';
+  trendingRepos?: Array<{
+    __typename?: 'RepoData';
+    id: number;
+    name: string;
+    githubRepoId: number;
+    contributorCount: number;
+    mintedGitPOAPCount: number;
+    organization: {
+      __typename?: 'Organization';
+      id: number;
+      name: string;
+      description?: string | null;
+      twitterHandle?: string | null;
+      url?: string | null;
+    };
+    project: {
+      __typename?: 'Project';
+      gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number; imageUrl: string }>;
+    };
+  }> | null;
 };
 
 export const GetAllStatsDocument = gql`
@@ -4799,9 +4839,6 @@ export const AdminClaimsDocument = gql`
         id
         githubHandle
       }
-      pullRequestEarned {
-        githubPullNumber
-      }
       status
       poapTokenId
       address
@@ -4809,6 +4846,7 @@ export const AdminClaimsDocument = gql`
       createdAt
       mintedAt
       pullRequestEarned {
+        githubPullNumber
         repo {
           id
           name
@@ -4820,7 +4858,9 @@ export const AdminClaimsDocument = gql`
       }
       gitPOAP {
         id
+        name
         year
+        imageUrl
       }
     }
   }
@@ -4850,11 +4890,15 @@ export const RepoDataDocument = gql`
       project {
         gitPOAPs {
           id
+          imageUrl
+          name
         }
       }
       contributorCount
       mintedGitPOAPCount
+      gitPOAPCount
     }
+    repoStarCount(repoId: $repoId)
   }
 `;
 
@@ -5479,6 +5523,39 @@ export function useGitPoapSearchByNameQuery(
 ) {
   return Urql.useQuery<GitPoapSearchByNameQuery, GitPoapSearchByNameQueryVariables>({
     query: GitPoapSearchByNameDocument,
+    ...options,
+  });
+}
+export const TrendingReposDocument = gql`
+  query trendingRepos($count: Float!, $numDays: Float!) {
+    trendingRepos(count: $count, numDays: $numDays) {
+      id
+      name
+      githubRepoId
+      organization {
+        id
+        name
+        description
+        twitterHandle
+        url
+      }
+      project {
+        gitPOAPs {
+          id
+          imageUrl
+        }
+      }
+      contributorCount
+      mintedGitPOAPCount
+    }
+  }
+`;
+
+export function useTrendingReposQuery(
+  options: Omit<Urql.UseQueryArgs<TrendingReposQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TrendingReposQuery, TrendingReposQueryVariables>({
+    query: TrendingReposDocument,
     ...options,
   });
 }

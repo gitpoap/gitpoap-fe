@@ -11,7 +11,6 @@ const Count = styled.span`
   font-family: PT Mono;
   font-style: normal;
   font-weight: bold;
-  font-size: ${rem(12)};
   line-height: ${rem(17)};
   letter-spacing: ${rem(0.5)};
   text-transform: uppercase;
@@ -35,7 +34,7 @@ export const IconCount = ({ icon, count }: Props) => {
   return (
     <Container>
       {icon}
-      {count && <Count>{count}</Count>}
+      <Count>{count}</Count>
     </Container>
   );
 };

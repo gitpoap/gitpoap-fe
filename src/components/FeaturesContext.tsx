@@ -7,7 +7,7 @@ type FeaturesState = {
   hasCheckIfImEligible: boolean;
   hasClaimAllButton: boolean;
   hasOrganizations: boolean;
-  hasEnsAvatar: boolean;
+  hasTrendingReposPage: boolean;
 };
 
 export const getInitialState = (): FeaturesState => ({
@@ -16,7 +16,7 @@ export const getInitialState = (): FeaturesState => ({
   hasCheckIfImEligible: false,
   hasClaimAllButton: true,
   hasOrganizations: false,
-  hasEnsAvatar: false,
+  hasTrendingReposPage: false,
 });
 
 const FeaturesContext = createContext<FeaturesState>({} as FeaturesState);

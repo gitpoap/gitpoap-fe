@@ -284,9 +284,6 @@ query adminClaims($count: Int!) {
       id
       githubHandle
     }
-    pullRequestEarned {
-      githubPullNumber
-    }
     status
     poapTokenId
     address
@@ -294,6 +291,7 @@ query adminClaims($count: Int!) {
     createdAt
     mintedAt
     pullRequestEarned {
+      githubPullNumber
       repo {
         id
         name
@@ -305,7 +303,9 @@ query adminClaims($count: Int!) {
     }
     gitPOAP {
       id
+      name
       year
+      imageUrl
     }
   }
 }
@@ -325,11 +325,15 @@ query repoData($repoId: Float!) {
     project {
       gitPOAPs {
         id
+        imageUrl
+        name
       }
     }
     contributorCount
     mintedGitPOAPCount
+    gitPOAPCount
   }
+  repoStarCount(repoId: $repoId)
 }
 
 query repoSEOById($repoId: Float!) {
@@ -649,5 +653,28 @@ query gitPOAPSearchByName($search: String!, $take: Int = 4) {
         }
       }
     }
+  }
+}
+
+query trendingRepos($count: Float!, $numDays: Float!) {
+  trendingRepos(count: $count, numDays: $numDays) {
+    id
+    name
+    githubRepoId
+    organization {
+      id
+      name
+      description
+      twitterHandle
+      url
+    }
+    project {
+      gitPOAPs {
+        id
+        imageUrl
+      }
+    }
+    contributorCount
+    mintedGitPOAPCount
   }
 }
