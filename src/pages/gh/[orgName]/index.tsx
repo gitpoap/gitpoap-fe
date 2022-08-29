@@ -67,7 +67,8 @@ export const getStaticProps = async (context: GetStaticPropsContext<{ orgName: s
   return {
     props: {
       urqlState: ssrCache.extractData(),
-      data: results.data,
+      /* coalesce to null if no data is returned -> nextJS doesn't like 'undefined' */
+      data: results.data ?? null,
     },
   };
 };
