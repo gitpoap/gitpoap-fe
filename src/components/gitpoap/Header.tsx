@@ -241,12 +241,7 @@ export const Header = ({ gitPOAPId }: Props) => {
               {repos.map((repo, i) => (
                 <Group key={`modalRepo-${repo.id}`} spacing={0}>
                   <Index order={3} style={{ width: rem(indexWidth) }}>{`${i + 1}: `}</Index>
-                  <OrgLink
-                    href={`/gh/${repo.organization.name}/${repo.name}`}
-                    style={{ width: '100%' }}
-                  >
-                    {repo.name}
-                  </OrgLink>
+                  <OrgLink href={`/gh/${repo.organization.name}/${repo.name}`}>{repo.name}</OrgLink>
                 </Group>
               ))}
             </StyledStack>
