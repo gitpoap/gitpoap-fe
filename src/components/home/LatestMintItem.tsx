@@ -6,8 +6,9 @@ import { AdminClaimsQuery, useProfileQuery } from '../../graphql/generated-gql';
 import { Link } from '../Link';
 import { BackgroundPanel2, TextGray } from '../../colors';
 import { Avatar } from '../shared/elements/Avatar';
+import { ProfileImageSkeleton } from '../shared/elements/Skeletons';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
-import { Divider as DividerUI, Text, Skeleton } from '@mantine/core';
+import { Divider as DividerUI, Text } from '@mantine/core';
 import { Title } from '../shared/elements/Title';
 import { truncateAddress } from '../../helpers';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
@@ -158,7 +159,7 @@ export const LatestMintItem = ({
             <UserInfo>
               <MintedByText>{`minted by`}</MintedByText>
               <Link href={`/p/${ensName ?? userAddress}`} passHref>
-                {!profileData && <Skeleton height={20} circle mb="xl" />}
+                {!profileData && <ProfileImageSkeleton />}
                 {profileData && profileData?.ensAvatarImageUrl ? (
                   <AvatarStyled src={profileData?.ensAvatarImageUrl} useDefaultImageTag />
                 ) : (
