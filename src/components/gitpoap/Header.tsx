@@ -171,10 +171,13 @@ export const Header = ({ gitPOAPId }: Props) => {
     }
   }, [isLoggedIntoGitHub, isCheckButtonClicked]);
 
-  const indexWidth = useMemo(
-    () => (repos ? (Math.floor(Math.log10(repos.length)) + 1) * 16 : 0),
+  // Calculate the number of digits in the length of the repos list
+  const numDigitsInReposLength = useMemo(
+    () => (repos ? Math.floor(Math.log10(repos.length)) + 1 : 1),
     [repos],
   );
+  // Multiply the number of digits by a predetermined spacing
+  const indexWidth = numDigitsInReposLength * 16;
 
   return (
     <Wrapper>
