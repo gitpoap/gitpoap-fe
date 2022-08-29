@@ -27,7 +27,7 @@ export const ProfileImageSkeleton = ({
   width = rem(160),
   height = rem(160),
   ...restProps
-}: React.ComponentProps<typeof Skeleton> & { width: string; height: string }) => {
+}: React.ComponentProps<typeof Skeleton> & { width?: string; height?: string }) => {
   return <BaseSkeleton height={height} width={width} circle {...restProps} />;
 };
 
