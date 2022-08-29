@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
-import { useLocalStorage } from '@mantine/hooks';
+import { useDisclosure, useLocalStorage } from '@mantine/hooks';
 import { Link, IconLink } from '../Link';
 import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleStyles } from '../shared/elements';
-import { TextAccent, TextGray, ExtraHover } from '../../colors';
+import { TextAccent, TextGray, ExtraHover, PrimaryBlue } from '../../colors';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { useFeatures } from '../../components/FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
@@ -118,8 +118,25 @@ const ReposContentRight = styled.div`
   align-items: flex-start;
 `;
 
+const MoreReposText = styled(By)`
+  font-size: ${rem(16)};
+`;
+
+const ActionText = styled.div`
+  color: ${PrimaryBlue};
+  &:hover {
+    text-decoration: underline;
+    &:not(:active) {
+      color: ${ExtraHover};
+    }
+  }
+  cursor: pointer;
+  display: inline-block;
+`;
+
 export const Header = ({ gitPOAPId }: Props) => {
   const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
+  const [opened, { open }] = useDisclosure(false);
 
   const [result] = useGitPoapEventQuery({
     variables: {
@@ -159,8 +176,8 @@ export const Header = ({ gitPOAPId }: Props) => {
               <By>{`by `}</By>
             </ReposContentLeft>
             <ReposContentRight>
-              {repos.slice(0, 6).map((repo, i) => (
-                <RepoName key={repo.id}>
+              {repos.slice(0, repos.length > 5 ? (opened ? repos.length : 4) : 5).map((repo, i) => (
+                <RepoName key={`repo-${repo.id}`}>
                   <OrgLink
                     href={`/gh/${repo.organization.name}`}
                   >{`${repo.organization.name}`}</OrgLink>
@@ -168,6 +185,12 @@ export const Header = ({ gitPOAPId }: Props) => {
                   <OrgLink href={`/gh/${repo.organization.name}/${repo.name}`}>{repo.name}</OrgLink>
                 </RepoName>
               ))}
+              {repos.length > 5 && !opened && (
+                <MoreReposText>
+                  {'And '}
+                  <ActionText onClick={open}>{` ${repos.length - 4} more`}</ActionText>
+                </MoreReposText>
+              )}
             </ReposContentRight>
           </Repos>
 
