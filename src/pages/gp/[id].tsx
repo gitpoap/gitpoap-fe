@@ -115,7 +115,7 @@ export const getStaticProps = async (context: GetStaticPropsContext<{ id: string
   return {
     props: {
       urqlState: ssrCache.extractData(),
-      gitpoap: results.data,
+      gitpoap: results.data ?? null,
     },
     revalidate: ONE_WEEK_IN_S,
   };
