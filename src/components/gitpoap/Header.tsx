@@ -1,20 +1,21 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import { Group, Modal, Stack } from '@mantine/core';
+import { useDisclosure, useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
+import React, { useEffect, useMemo } from 'react';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
-import { useDisclosure, useLocalStorage } from '@mantine/hooks';
+import styled from 'styled-components';
+
+import { useClaimContext } from '../ClaimModal/ClaimContext';
+import { Index } from '../home/LeaderBoardItem';
 import { Link, IconLink } from '../Link';
 import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleStyles } from '../shared/elements';
+import { textEllipses } from '../shared/styles';
 import { TextAccent, TextGray, ExtraHover, PrimaryBlue } from '../../colors';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { useFeatures } from '../../components/FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
-import { useClaimContext } from '../ClaimModal/ClaimContext';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
-import { textEllipses } from '../shared/styles';
-import { Modal, Stack } from '@mantine/core';
-import { Index } from '../home/LeaderBoardItem';
 
 type Props = {
   gitPOAPId: number;
@@ -140,6 +141,11 @@ const ActionText = styled.div`
   display: inline-block;
 `;
 
+const StyledStack = styled(Stack)`
+  font-weight: 700;
+  color: ${TextGray};
+`;
+
 export const Header = ({ gitPOAPId }: Props) => {
   const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
   const [opened, { close, open }] = useDisclosure(false);
@@ -164,6 +170,11 @@ export const Header = ({ gitPOAPId }: Props) => {
       setIsCheckButtonClicked(false);
     }
   }, [isLoggedIntoGitHub, isCheckButtonClicked]);
+
+  const indexWidth = useMemo(
+    () => (repos ? (Math.floor(Math.log10(repos.length)) + 1) * 16 : 0),
+    [repos],
+  );
 
   return (
     <Wrapper>
@@ -226,19 +237,19 @@ export const Header = ({ gitPOAPId }: Props) => {
             onClose={close}
             title={<ModalTitle>{event?.name.replace('GitPOAP: ', '')}</ModalTitle>}
           >
-            <Stack align="flex-start" spacing="xs">
+            <StyledStack align="flex-start" spacing="xs">
               {repos.map((repo, i) => (
-                <RepoName key={`modalRepo-${repo.id}`}>
-                  <Index order={3}>{`${i}: `}</Index>
+                <Group key={`modalRepo-${repo.id}`} spacing={4}>
+                  <Index order={3} style={{ width: rem(indexWidth) }}>{`${i + 1}: `}</Index>
                   <OrgLink
                     href={`/gh/${repo.organization.name}/${repo.name}`}
                     style={{ width: '100%' }}
                   >
                     {repo.name}
                   </OrgLink>
-                </RepoName>
+                </Group>
               ))}
-            </Stack>
+            </StyledStack>
           </Modal>
         </>
       )}

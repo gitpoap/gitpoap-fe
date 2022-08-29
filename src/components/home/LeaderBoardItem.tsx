@@ -65,6 +65,7 @@ const Divider = styled(DividerUI)`
 export const Index = styled(TitleUI)`
   font-family: VT323;
   font-weight: normal;
+  text-align: center;
   width: ${rem(32)};
 `;
 
