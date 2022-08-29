@@ -326,6 +326,7 @@ query repoData($repoId: Float!) {
       gitPOAPs {
         id
         imageUrl
+        name
       }
     }
     contributorCount

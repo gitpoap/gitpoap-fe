@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { useRouter } from 'next/router';
 import { Text, Group, Stack } from '@mantine/core';
 import { Badge } from '../shared/elements/Badge';
 import { TitleNoHover } from '../shared/elements/Title';
@@ -21,12 +22,7 @@ type Props = {
   numDays: number;
 };
 
-const Icons = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
+const Icons = styled(Group)`
   > *:not(:last-child) {
     margin-right: ${rem(10)};
   }
@@ -50,7 +46,6 @@ const BadgeStyled = styled(Badge)`
 `;
 
 const Content = styled(Stack)`
-  align-items: center;
   padding: ${rem(15)} ${rem(20)};
   width: 100%;
 `;
@@ -71,6 +66,8 @@ const InfoHexBaseStyled = styled(InfoHexBase)`
     margin-top: ${rem(BODY_HEIGHT)};
     margin-bottom: ${rem(BODY_HEIGHT)};
     min-height: unset;
+    gap: ${rem(7)};
+    min-width: ${rem(300)};
 
     &:before {
       height: ${rem(BODY_HEIGHT)};
@@ -95,11 +92,7 @@ const InfoHexBaseStyled = styled(InfoHexBase)`
   }
 `;
 
-const Item = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: start;
+const Item = styled(Group)`
   padding: ${rem(16)} ${rem(20)};
 
   @media (max-width: ${BREAKPOINTS.sm}px) {
@@ -108,16 +101,8 @@ const Item = styled.div`
   }
 `;
 
-const GitPoapContainer = styled.div`
-  display: inline-flex;
-  align-items: center;
-  flex-direction: row;
-`;
-
 const MintInfo = styled(Stack)`
   padding: ${rem(16)} ${rem(20)};
-  align-items: start;
-  margin-left: ${rem(50)};
 
   @media (max-width: ${BREAKPOINTS.sm}px) {
     margin-left: ${rem(10)};
@@ -126,21 +111,20 @@ const MintInfo = styled(Stack)`
 `;
 
 const LastXDaysMintInfo = styled(Group)`
-  font-size: ${rem(20)};
-
   @media (max-width: ${BREAKPOINTS.sm}px) {
     flex-direction: column;
   }
 `;
 
 const LastXDaysMintText = styled(Text)`
-  font-family: VT323;
+  font-family: PT Mono;
+  font-size: ${rem(16)};
 `;
 
 const SubText = styled(Text)`
-  font-family: VT323;
+  font-family: PT Mono;
   color: ${TextGray};
-  font-size: ${rem(18)};
+  font-size: ${rem(16)};
 `;
 
 const IndexText = styled(Text)`
@@ -155,18 +139,25 @@ const IndexText = styled(Text)`
 `;
 
 export const TrendingProjectItem = ({ repoId, index, claimedCount, numDays }: Props) => {
+  const router = useRouter();
   const [result] = useRepoDataQuery({ variables: { repoId } });
   const repo = result?.data?.repoData;
   const gitPoaps = result?.data?.repoData?.project?.gitPOAPs;
+  const repoName = result?.data?.repoData?.name ?? '';
+  const orgName = result?.data?.repoData?.organization?.name ?? '';
   const starCount = result?.data?.repoStarCount;
 
+  const handleClick = useCallback(() => {
+    router.push(`/gh/${orgName}/${repoName}`);
+  }, [repoId, router, orgName, repoName]);
+
   return (
-    <Item>
+    <Item spacing="xl">
       <IndexText>{index}</IndexText>
-      <InfoHexBaseStyled hoverEffects>
-        <Content>
+      <InfoHexBaseStyled onClick={handleClick} hoverEffects>
+        <Content align="center" spacing="xs">
           <TitleStyled>{repo?.name}</TitleStyled>
-          <Icons>
+          <Icons spacing="xs">
             {repo?.contributorCount !== undefined && (
               <IconCount count={repo?.contributorCount} icon={<People width="13" height="11" />} />
             )}
@@ -178,23 +169,23 @@ export const TrendingProjectItem = ({ repoId, index, claimedCount, numDays }: Pr
             )}
           </Icons>
           <BadgeStyled>{repo?.organization?.name}</BadgeStyled>
-          <GitPoapContainer>
+          <Group align="center">
             {gitPoaps &&
               gitPoaps.map((gitPoap) => (
                 <GitPOAPBadge
                   key={gitPoap.id}
                   size="xxxs"
                   imgUrl={gitPoap?.imageUrl}
-                  altText={''}
+                  altText={gitPoap?.name.replace('GitPOAP: ', '') ?? ''}
+                  disableHoverEffects
                 />
               ))}
-          </GitPoapContainer>
+          </Group>
         </Content>
       </InfoHexBaseStyled>
-      <MintInfo>
-        <LastXDaysMintInfo spacing={`xs`}>
-          <IconCount count={claimedCount} icon={<GitPOAP width="14" height="12" />} />
-          <LastXDaysMintText>{`minted last ${numDays} days`}</LastXDaysMintText>
+      <MintInfo align="start">
+        <LastXDaysMintInfo spacing="xs">
+          <LastXDaysMintText>{`${claimedCount} minted in last ${numDays} days`}</LastXDaysMintText>
         </LastXDaysMintInfo>
         <SubText>{`${repo?.mintedGitPOAPCount} minted total`}</SubText>
       </MintInfo>

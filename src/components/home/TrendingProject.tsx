@@ -35,7 +35,7 @@ export const TrendingProject = () => {
 
   return (
     <Container>
-      <Header>{'Trending projects'}</Header>
+      <Header>{'Trending repos'}</Header>
 
       <List>
         {trendingRepos &&

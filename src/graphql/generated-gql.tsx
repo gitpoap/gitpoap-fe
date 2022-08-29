@@ -3984,7 +3984,7 @@ export type RepoDataQuery = {
     };
     project: {
       __typename?: 'Project';
-      gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number; imageUrl: string }>;
+      gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number; imageUrl: string; name: string }>;
     };
   } | null;
 };
@@ -4891,6 +4891,7 @@ export const RepoDataDocument = gql`
         gitPOAPs {
           id
           imageUrl
+          name
         }
       }
       contributorCount

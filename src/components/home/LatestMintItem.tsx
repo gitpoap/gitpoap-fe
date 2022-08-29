@@ -7,13 +7,12 @@ import { Link } from '../Link';
 import { BackgroundPanel2, TextGray } from '../../colors';
 import { Avatar } from '../shared/elements/Avatar';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
-import { Divider as DividerUI, Text } from '@mantine/core';
+import { Divider as DividerUI, Text, Skeleton } from '@mantine/core';
 import { Title } from '../shared/elements/Title';
 import { truncateAddress } from '../../helpers';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { useEns } from '../../hooks/useEns';
-import { useFeatures } from '../FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
 import { textEllipses } from '../shared/styles';
 
@@ -104,13 +103,14 @@ const BadgeWrapper = styled(Wrapper)`
 `;
 
 const StyledText = styled(Text)`
-  font-family: VT323;
+  font-family: PT Mono;
   font-style: normal;
   font-weight: normal;
-  font-size: ${rem(18)};
+  font-size: ${rem(16)};
 `;
 
 const MintedByText = styled(StyledText)`
+  font-family: PT Mono;
   color: ${TextGray};
   margin-right: ${rem(10)};
 `;
@@ -128,7 +128,6 @@ export const LatestMintItem = ({
   const userAddress = address ?? '';
   const { infuraProvider } = useWeb3Context();
   const ensName = useEns(infuraProvider, userAddress);
-  const { hasEnsAvatar } = useFeatures();
 
   const [result] = useProfileQuery({
     variables: {
@@ -147,7 +146,7 @@ export const LatestMintItem = ({
               href={`/gp/${gitPOAP.id}`}
               size="xxs"
               imgUrl={gitPOAP.imageUrl}
-              altText={''}
+              altText={gitPOAP?.name.replace('GitPOAP: ', '') ?? ''}
             />
           </BadgeWrapper>
           <ClaimInfo>
@@ -159,7 +158,8 @@ export const LatestMintItem = ({
             <UserInfo>
               <MintedByText>{`minted by`}</MintedByText>
               <Link href={`/p/${ensName ?? userAddress}`} passHref>
-                {profileData?.ensAvatarImageUrl && hasEnsAvatar ? (
+                {!profileData && <Skeleton height={20} circle mb="xl" />}
+                {profileData && profileData?.ensAvatarImageUrl ? (
                   <AvatarStyled src={profileData?.ensAvatarImageUrl} useDefaultImageTag />
                 ) : (
                   <JazzIcon address={userAddress} />

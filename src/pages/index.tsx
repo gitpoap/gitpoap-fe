@@ -16,7 +16,7 @@ import { SEO } from '../components/SEO';
 import { FurtherInfoFor } from '../components/home/FurtherInfoFor';
 import { FurtherInfoHow } from '../components/home/FurtherInfoHow';
 import { Banner } from '../components/home/Banner';
-import { LatestMint } from '../components/home/LatestMint';
+import { LatestMint } from '../components/home/LatestMints';
 import { TrendingProject } from '../components/home/TrendingProject';
 
 const Background = styled(BackgroundHexes)`
@@ -59,6 +59,15 @@ const Home: Page = () => {
       </Grid>
 
       <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}>
+        <Grid.Col xs={22} md={11} xl={12} style={{ zIndex: 0 }}>
+          <TrendingProject />
+        </Grid.Col>
+        <Grid.Col xs={20} md={9} xl={8} style={{ zIndex: 0 }}>
+          <LatestMint />
+        </Grid.Col>
+      </Grid>
+
+      <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}>
         <Grid.Col xs={22} md={13} xl={14} style={{ zIndex: 0 }}>
           <MostClaimed />
         </Grid.Col>
@@ -70,15 +79,6 @@ const Home: Page = () => {
       <Grid justify="center" style={{ zIndex: 0, marginBottom: rem(50) }}>
         <Grid.Col xs={10} span={10}>
           <RecentlyAdded />
-        </Grid.Col>
-      </Grid>
-
-      <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}>
-        <Grid.Col xs={22} md={11} xl={12} style={{ zIndex: 0 }}>
-          <TrendingProject />
-        </Grid.Col>
-        <Grid.Col xs={20} md={9} xl={8} style={{ zIndex: 0 }}>
-          <LatestMint />
         </Grid.Col>
       </Grid>
 
