@@ -107,7 +107,8 @@ const StyledText = styled(Text)`
   font-family: PT Mono;
   font-style: normal;
   font-weight: normal;
-  font-size: ${rem(16)};
+  font-size: ${rem(15)};
+  white-space: nowrap;
 `;
 
 const MintedByText = styled(StyledText)`

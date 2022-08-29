@@ -23,7 +23,7 @@ const List = styled.div`
   margin-bottom: ${rem(30)};
 `;
 
-export const TrendingRepo = () => {
+export const TrendingRepos = () => {
   const [result] = useTrendingReposQuery({
     variables: {
       count: 4,

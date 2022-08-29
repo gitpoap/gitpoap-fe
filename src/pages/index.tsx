@@ -17,7 +17,7 @@ import { FurtherInfoFor } from '../components/home/FurtherInfoFor';
 import { FurtherInfoHow } from '../components/home/FurtherInfoHow';
 import { Banner } from '../components/home/Banner';
 import { LatestMint } from '../components/home/LatestMints';
-import { TrendingRepo } from '../components/home/TrendingRepo';
+import { TrendingRepos } from '../components/home/TrendingRepos';
 
 const Background = styled(BackgroundHexes)`
   display: flex;
@@ -30,14 +30,10 @@ const Background = styled(BackgroundHexes)`
   min-width: ${rem(1200)};
 `;
 
-const CenterColStyles = css`
+const CenteredCol = styled(Grid.Col)`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const CenteredCol = styled(Grid.Col)`
-  ${CenterColStyles}
 `;
 
 const Home: Page = () => {
@@ -63,21 +59,21 @@ const Home: Page = () => {
       </Grid>
 
       <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}>
-        <CenteredCol xs={22} md={11} xl={10} style={{ zIndex: 0 }}>
-          <TrendingRepo />
+        <CenteredCol xs={22} sm={22} md={11} lg={11} xl={10} style={{ zIndex: 0 }}>
+          <TrendingRepos />
         </CenteredCol>
-        <CenteredCol xs={20} md={9} xl={10} style={{ zIndex: 0 }}>
+        <CenteredCol xs={20} sm={20} md={9} lg={11} xl={10} style={{ zIndex: 0 }}>
           <LatestMint />
         </CenteredCol>
       </Grid>
 
       <Grid columns={24} justify="center" style={{ marginBottom: rem(50) }}>
-        <CenteredCol xs={22} md={13} xl={12} style={{ zIndex: 0 }}>
+        <Grid.Col xs={22} md={13} xl={14} style={{ zIndex: 0 }}>
           <MostClaimed />
-        </CenteredCol>
-        <CenteredCol xs={20} md={7} xl={8} style={{ zIndex: 0 }}>
+        </Grid.Col>
+        <Grid.Col xs={20} md={7} xl={6} style={{ zIndex: 0 }}>
           <LeaderBoard />
-        </CenteredCol>
+        </Grid.Col>
       </Grid>
 
       <Grid justify="center" style={{ zIndex: 0, marginBottom: rem(50) }}>

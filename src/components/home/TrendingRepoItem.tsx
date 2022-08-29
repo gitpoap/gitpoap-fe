@@ -118,13 +118,13 @@ const LastXDaysMintInfo = styled(Group)`
 
 const LastXDaysMintText = styled(Text)`
   font-family: PT Mono;
-  font-size: ${rem(16)};
+  font-size: ${rem(14)};
 `;
 
 const SubText = styled(Text)`
   font-family: PT Mono;
   color: ${TextGray};
-  font-size: ${rem(16)};
+  font-size: ${rem(14)};
 `;
 
 const IndexText = styled(Text)`
