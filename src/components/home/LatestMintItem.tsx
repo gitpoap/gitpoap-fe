@@ -159,8 +159,9 @@ export const LatestMintItem = ({
             <UserInfo>
               <MintedByText>{`minted by`}</MintedByText>
               <Link href={`/p/${ensName ?? userAddress}`} passHref>
-                {!profileData && <ProfileImageSkeleton />}
-                {profileData && profileData?.ensAvatarImageUrl ? (
+                {!profileData ? (
+                  <ProfileImageSkeleton height={rem(20)} width={rem(20)} />
+                ) : profileData && profileData?.ensAvatarImageUrl ? (
                   <AvatarStyled src={profileData?.ensAvatarImageUrl} useDefaultImageTag />
                 ) : (
                   <JazzIcon address={userAddress} />

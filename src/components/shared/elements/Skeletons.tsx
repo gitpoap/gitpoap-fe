@@ -23,8 +23,12 @@ export const POAPBadgeSkeleton = (props: React.ComponentProps<typeof Skeleton>) 
   return <BaseSkeleton height={rem(150)} circle {...props} />;
 };
 
-export const ProfileImageSkeleton = (props: React.ComponentProps<typeof Skeleton>) => {
-  return <BaseSkeleton height={rem(160)} width={rem(160)} circle {...props} />;
+export const ProfileImageSkeleton = ({
+  width = rem(160),
+  height = rem(160),
+  ...restProps
+}: React.ComponentProps<typeof Skeleton> & { width: string; height: string }) => {
+  return <BaseSkeleton height={height} width={width} circle {...restProps} />;
 };
 
 export const TextSkeleton = (props: React.ComponentProps<typeof Skeleton>) => {
