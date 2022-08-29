@@ -204,7 +204,7 @@ export const Header = ({ gitPOAPId }: Props) => {
               ))}
               {repos.length > 5 && (
                 <MoreReposText>
-                  {'And '}
+                  {'and '}
                   <ActionText onClick={open}>{` ${repos.length - 4} more`}</ActionText>
                 </MoreReposText>
               )}
