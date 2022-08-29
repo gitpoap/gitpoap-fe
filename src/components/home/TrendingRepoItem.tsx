@@ -138,7 +138,7 @@ const IndexText = styled(Text)`
   }
 `;
 
-export const TrendingProjectItem = ({ repoId, index, claimedCount, numDays }: Props) => {
+export const TrendingRepoItem = ({ repoId, index, claimedCount, numDays }: Props) => {
   const router = useRouter();
   const [result] = useRepoDataQuery({ variables: { repoId } });
   const repo = result?.data?.repoData;
@@ -149,7 +149,7 @@ export const TrendingProjectItem = ({ repoId, index, claimedCount, numDays }: Pr
 
   const handleClick = useCallback(() => {
     router.push(`/gh/${orgName}/${repoName}`);
-  }, [repoId, router, orgName, repoName]);
+  }, [router, orgName, repoName]);
 
   return (
     <Item spacing="xl">

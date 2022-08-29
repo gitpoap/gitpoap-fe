@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Header } from '../shared/elements/Header';
 import { BREAKPOINTS } from '../../constants';
-import { TrendingProjectItem } from './TrendingProjectItem';
+import { TrendingRepoItem } from './TrendingRepoItem';
 import { useTrendingReposQuery } from '../../graphql/generated-gql';
 
 const NUM_DAYS = 30;
 
 const Container = styled.div`
-  padding: ${rem(10)};
+  padding: 0 ${rem(10)};
 
   @media (max-width: ${BREAKPOINTS.md}px) {
     align-items: center;
@@ -23,10 +23,10 @@ const List = styled.div`
   margin-bottom: ${rem(30)};
 `;
 
-export const TrendingProject = () => {
+export const TrendingRepo = () => {
   const [result] = useTrendingReposQuery({
     variables: {
-      count: 5,
+      count: 4,
       numDays: NUM_DAYS,
     },
   });
@@ -40,7 +40,7 @@ export const TrendingProject = () => {
       <List>
         {trendingRepos &&
           trendingRepos.map((repo, index) => (
-            <TrendingProjectItem
+            <TrendingRepoItem
               key={repo.id}
               repoId={repo.id}
               index={index + 1}

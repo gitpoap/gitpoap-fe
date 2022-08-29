@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { Center, Grid, Stack } from '@mantine/core';
 import { Page } from './_app';
@@ -17,7 +17,7 @@ import { FurtherInfoFor } from '../components/home/FurtherInfoFor';
 import { FurtherInfoHow } from '../components/home/FurtherInfoHow';
 import { Banner } from '../components/home/Banner';
 import { LatestMint } from '../components/home/LatestMints';
-import { TrendingProject } from '../components/home/TrendingProject';
+import { TrendingRepo } from '../components/home/TrendingRepo';
 
 const Background = styled(BackgroundHexes)`
   display: flex;
@@ -30,10 +30,14 @@ const Background = styled(BackgroundHexes)`
   min-width: ${rem(1200)};
 `;
 
-const BannerSection = styled(Grid.Col)`
+const CenterColStyles = css`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const CenteredCol = styled(Grid.Col)`
+  ${CenterColStyles}
 `;
 
 const Home: Page = () => {
@@ -50,30 +54,30 @@ const Home: Page = () => {
 
       <Grid justify="center" style={{ zIndex: 0, position: 'relative' }}>
         <Background />
-        <BannerSection span={11} lg={10} xl={10} style={{ zIndex: 0 }}>
+        <CenteredCol span={11} lg={10} xl={10} style={{ zIndex: 0 }}>
           <Banner />
-        </BannerSection>
+        </CenteredCol>
         <Grid.Col xs={11} md={8}>
           <BannerStats />
         </Grid.Col>
       </Grid>
 
       <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}>
-        <Grid.Col xs={22} md={11} xl={12} style={{ zIndex: 0 }}>
-          <TrendingProject />
-        </Grid.Col>
-        <Grid.Col xs={20} md={9} xl={8} style={{ zIndex: 0 }}>
+        <CenteredCol xs={22} md={11} xl={10} style={{ zIndex: 0 }}>
+          <TrendingRepo />
+        </CenteredCol>
+        <CenteredCol xs={20} md={9} xl={10} style={{ zIndex: 0 }}>
           <LatestMint />
-        </Grid.Col>
+        </CenteredCol>
       </Grid>
 
-      <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}>
-        <Grid.Col xs={22} md={13} xl={14} style={{ zIndex: 0 }}>
+      <Grid columns={24} justify="center" style={{ marginBottom: rem(50) }}>
+        <CenteredCol xs={22} md={13} xl={12} style={{ zIndex: 0 }}>
           <MostClaimed />
-        </Grid.Col>
-        <Grid.Col xs={20} md={7} xl={6} style={{ zIndex: 0 }}>
+        </CenteredCol>
+        <CenteredCol xs={20} md={7} xl={8} style={{ zIndex: 0 }}>
           <LeaderBoard />
-        </Grid.Col>
+        </CenteredCol>
       </Grid>
 
       <Grid justify="center" style={{ zIndex: 0, marginBottom: rem(50) }}>

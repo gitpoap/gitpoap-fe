@@ -118,7 +118,7 @@ const MintedByText = styled(StyledText)`
 
 const dateToTimeAgo = (date: string): string => {
   const startDate = DateTime.fromISO(date);
-  return startDate.toRelativeCalendar() ?? '';
+  return startDate.toRelative() ?? '';
 };
 
 export const LatestMintItem = ({
@@ -162,7 +162,7 @@ export const LatestMintItem = ({
                 {!profileData ? (
                   <ProfileImageSkeleton height={rem(20)} width={rem(20)} />
                 ) : profileData && profileData?.ensAvatarImageUrl ? (
-                  <AvatarStyled src={profileData?.ensAvatarImageUrl} useDefaultImageTag />
+                  <AvatarStyled src={profileData?.ensAvatarImageUrl} />
                 ) : (
                   <JazzIcon address={userAddress} />
                 )}
