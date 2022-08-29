@@ -13,6 +13,8 @@ import { BREAKPOINTS } from '../../constants';
 import { useClaimContext } from '../ClaimModal/ClaimContext';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
 import { textEllipses } from '../shared/styles';
+import { Modal, Stack } from '@mantine/core';
+import { Index } from '../home/LeaderBoardItem';
 
 type Props = {
   gitPOAPId: number;
@@ -118,6 +120,10 @@ const ReposContentRight = styled.div`
   align-items: flex-start;
 `;
 
+const ModalTitle = styled(HeaderText)`
+  font-size: ${rem(32)};
+`;
+
 const MoreReposText = styled(By)`
   font-size: ${rem(16)};
 `;
@@ -136,7 +142,7 @@ const ActionText = styled.div`
 
 export const Header = ({ gitPOAPId }: Props) => {
   const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
-  const [opened, { open }] = useDisclosure(false);
+  const [opened, { close, open }] = useDisclosure(false);
 
   const [result] = useGitPoapEventQuery({
     variables: {
@@ -176,7 +182,7 @@ export const Header = ({ gitPOAPId }: Props) => {
               <By>{`by `}</By>
             </ReposContentLeft>
             <ReposContentRight>
-              {repos.slice(0, repos.length > 5 ? (opened ? repos.length : 4) : 5).map((repo, i) => (
+              {repos.slice(0, repos.length > 5 ? 4 : 5).map((repo, i) => (
                 <RepoName key={`repo-${repo.id}`}>
                   <OrgLink
                     href={`/gh/${repo.organization.name}`}
@@ -185,9 +191,9 @@ export const Header = ({ gitPOAPId }: Props) => {
                   <OrgLink href={`/gh/${repo.organization.name}/${repo.name}`}>{repo.name}</OrgLink>
                 </RepoName>
               ))}
-              {repos.length > 5 && !opened && (
+              {repos.length > 5 && (
                 <MoreReposText>
-                  {'Show '}
+                  {'And '}
                   <ActionText onClick={open}>{` ${repos.length - 4} more`}</ActionText>
                 </MoreReposText>
               )}
@@ -214,6 +220,26 @@ export const Header = ({ gitPOAPId }: Props) => {
               </StyledLink>
             )}
           </Links>
+          <Modal
+            centered
+            opened={opened}
+            onClose={close}
+            title={<ModalTitle>{event?.name.replace('GitPOAP: ', '')}</ModalTitle>}
+          >
+            <Stack align="flex-start" spacing="xs">
+              {repos.map((repo, i) => (
+                <RepoName key={`modalRepo-${repo.id}`}>
+                  <Index order={3}>{`${i}: `}</Index>
+                  <OrgLink
+                    href={`/gh/${repo.organization.name}/${repo.name}`}
+                    style={{ width: '100%' }}
+                  >
+                    {repo.name}
+                  </OrgLink>
+                </RepoName>
+              ))}
+            </Stack>
+          </Modal>
         </>
       )}
       <CheckEligibilityButton
