@@ -14,6 +14,7 @@ import { useClaimContext } from '../ClaimModal/ClaimContext';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
 import { textEllipses } from '../shared/styles';
 import { Modal, Stack } from '@mantine/core';
+import { Index } from '../home/LeaderBoardItem';
 
 type Props = {
   gitPOAPId: number;
@@ -225,14 +226,16 @@ export const Header = ({ gitPOAPId }: Props) => {
             onClose={close}
             title={<ModalTitle>{event?.name.replace('GitPOAP: ', '')}</ModalTitle>}
           >
-            <Stack align="center" spacing="xs">
+            <Stack align="flex-start" spacing="xs">
               {repos.map((repo, i) => (
                 <RepoName key={`modalRepo-${repo.id}`}>
+                  <Index order={3}>{`${i}: `}</Index>
                   <OrgLink
-                    href={`/gh/${repo.organization.name}`}
-                  >{`${repo.organization.name}`}</OrgLink>
-                  {`/`}
-                  <OrgLink href={`/gh/${repo.organization.name}/${repo.name}`}>{repo.name}</OrgLink>
+                    href={`/gh/${repo.organization.name}/${repo.name}`}
+                    style={{ width: '100%' }}
+                  >
+                    {repo.name}
+                  </OrgLink>
                 </RepoName>
               ))}
             </Stack>
