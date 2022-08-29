@@ -176,8 +176,8 @@ export const Header = ({ gitPOAPId }: Props) => {
     () => (repos ? Math.floor(Math.log10(repos.length)) + 1 : 1),
     [repos],
   );
-  // Multiply the number of digits by a predetermined spacing
-  const indexWidth = numDigitsInReposLength * 16;
+  // Calculate index width
+  const indexWidth = numDigitsInReposLength * 8 + 24;
 
   return (
     <Wrapper>
@@ -243,7 +243,7 @@ export const Header = ({ gitPOAPId }: Props) => {
             <StyledStack align="flex-start" spacing="xs">
               {repos.map((repo, i) => (
                 <Group key={`modalRepo-${repo.id}`} spacing={0}>
-                  <Index order={3} style={{ width: rem(indexWidth) }}>{`${i + 1}: `}</Index>
+                  <Index order={3} style={{ width: rem(indexWidth) }}>{`${i + 1}:`}</Index>
                   <OrgLink href={`/gh/${repo.organization.name}/${repo.name}`}>{repo.name}</OrgLink>
                 </Group>
               ))}
