@@ -1,7 +1,7 @@
-import { Group, Modal, Stack } from '@mantine/core';
+import { Modal, Table } from '@mantine/core';
 import { useDisclosure, useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
@@ -72,6 +72,7 @@ const By = styled(Text)`
 `;
 
 export const OrgLink = styled(TitleLink)`
+  display: unset;
   font-size: ${rem(16)};
   ${textEllipses(350)};
 
@@ -139,9 +140,16 @@ const ActionText = styled.div`
   display: inline-block;
 `;
 
-const StyledStack = styled(Stack)`
+const StyledTable = styled(Table)`
   font-weight: 700;
   color: ${TextGray};
+
+  td {
+    white-space: nowrap;
+  }
+  td:last-child {
+    width: 100%;
+  }
 `;
 
 export const Header = ({ gitPOAPId }: Props) => {
@@ -168,14 +176,6 @@ export const Header = ({ gitPOAPId }: Props) => {
       setIsCheckButtonClicked(false);
     }
   }, [isLoggedIntoGitHub, isCheckButtonClicked]);
-
-  // Calculate the number of digits in the length of the repos list
-  const numDigitsInReposLength = useMemo(
-    () => (repos ? Math.floor(Math.log10(repos.length)) + 1 : 1),
-    [repos],
-  );
-  // Calculate index width
-  const indexWidth = numDigitsInReposLength * 8 + 24;
 
   return (
     <Wrapper>
@@ -238,14 +238,20 @@ export const Header = ({ gitPOAPId }: Props) => {
             onClose={close}
             title={<ModalTitle>{event?.name.replace('GitPOAP: ', '')}</ModalTitle>}
           >
-            <StyledStack align="flex-start" spacing="xs">
+            <StyledTable>
               {repos.map((repo, i) => (
-                <Group key={`modalRepo-${repo.id}`} spacing={0}>
-                  <Index order={3} style={{ width: rem(indexWidth) }}>{`${i + 1}:`}</Index>
-                  <OrgLink href={`/gh/${repo.organization.name}/${repo.name}`}>{repo.name}</OrgLink>
-                </Group>
+                <tr key={`modalRepo-${repo.id}`}>
+                  <td>
+                    <Index order={3}>{`${i + 1}:`}</Index>
+                  </td>
+                  <td style={{ paddingLeft: rem(8) }}>
+                    <OrgLink href={`/gh/${repo.organization.name}/${repo.name}`}>
+                      {repo.name}
+                    </OrgLink>
+                  </td>
+                </tr>
               ))}
-            </StyledStack>
+            </StyledTable>
           </Modal>
         </>
       )}
