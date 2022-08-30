@@ -8,10 +8,10 @@ import styled from 'styled-components';
 
 import { useClaimContext } from '../ClaimModal/ClaimContext';
 import { Index } from '../home/LeaderBoardItem';
-import { Link, IconLink } from '../Link';
-import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleStyles } from '../shared/elements';
+import { IconLink } from '../Link';
+import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleLink } from '../shared/elements';
 import { textEllipses } from '../shared/styles';
-import { TextAccent, TextGray, ExtraHover, PrimaryBlue } from '../../colors';
+import { TextGray, ExtraHover, PrimaryBlue } from '../../colors';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { useFeatures } from '../../components/FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
@@ -71,10 +71,8 @@ const By = styled(Text)`
   margin-right: ${rem(7)};
 `;
 
-export const OrgLink = styled(Link)`
-  ${TitleStyles}
+export const OrgLink = styled(TitleLink)`
   font-size: ${rem(16)};
-  color: ${TextAccent};
   ${textEllipses(350)};
 
   @media (max-width: ${rem(BREAKPOINTS.sm)}) {
