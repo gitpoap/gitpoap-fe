@@ -18,6 +18,7 @@ type Props = {
   className?: string;
   poapTokenId?: string | null;
   onClick?: () => void;
+  level?: 'bronze' | 'silver' | 'gold' | 'platinum';
 };
 
 export const LineClamp = (lines: number) => css`
@@ -107,6 +108,7 @@ export const GitPOAP = ({
   description,
   onClick,
   orgName,
+  level,
 }: Props) => {
   return (
     <Wrapper className={className}>
@@ -117,6 +119,7 @@ export const GitPOAP = ({
           imgUrl={imgSrc}
           altText={name}
           onClick={() => onClick && onClick()}
+          level={level}
         />
         {poapTokenId && <Heart poapTokenId={poapTokenId} />}
       </BadgeWrapper>

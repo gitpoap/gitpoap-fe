@@ -2466,7 +2466,7 @@ export type Query = {
   mostHonoredContributors: Array<ProfileWithClaimsCount>;
   organization?: Maybe<Organization>;
   organizationData?: Maybe<OrganizationData>;
-  organizationRepos?: Maybe<Array<RepoData>>;
+  organizationRepos?: Maybe<Array<RepoReturnData>>;
   organizations: Array<Organization>;
   profile?: Maybe<Profile>;
   profileData?: Maybe<NullableProfile>;
@@ -2476,7 +2476,7 @@ export type Query = {
   projects: Array<Project>;
   recentlyAddedRepos: Array<Repo>;
   repo?: Maybe<Repo>;
-  repoData?: Maybe<RepoData>;
+  repoData?: Maybe<RepoReturnData>;
   repoGitPOAPs?: Maybe<RepoGitPoaPs>;
   repoMostHonoredContributors?: Maybe<Array<ProfileWithClaimsCount>>;
   repoStarCount: Scalars['Float'];
@@ -2486,7 +2486,7 @@ export type Query = {
   totalContributors: Scalars['Float'];
   totalGitPOAPs: Scalars['Float'];
   totalRepos: Scalars['Float'];
-  trendingRepos?: Maybe<Array<RepoData>>;
+  trendingRepos?: Maybe<Array<RepoReturnData>>;
   user?: Maybe<User>;
   userClaims?: Maybe<Array<FullClaimData>>;
   userPOAPs?: Maybe<UserPoaPs>;
@@ -3066,34 +3066,6 @@ export type RepoCountOrderByAggregateInput = {
   updatedAt?: InputMaybe<SortOrder>;
 };
 
-export type RepoData = {
-  __typename?: 'RepoData';
-  GithubPullRequest: Array<GithubPullRequest>;
-  _count?: Maybe<RepoCount>;
-  contributorCount: Scalars['Float'];
-  createdAt: Scalars['DateTime'];
-  gitPOAPCount: Scalars['Float'];
-  githubRepoId: Scalars['Int'];
-  id: Scalars['Int'];
-  lastPRUpdatedAt: Scalars['DateTime'];
-  mintedGitPOAPCount: Scalars['Float'];
-  name: Scalars['String'];
-  organization: Organization;
-  organizationId: Scalars['Int'];
-  project: Project;
-  projectId: Scalars['Int'];
-  updatedAt: Scalars['DateTime'];
-};
-
-export type RepoDataGithubPullRequestArgs = {
-  cursor?: InputMaybe<GithubPullRequestWhereUniqueInput>;
-  distinct?: InputMaybe<Array<GithubPullRequestScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<GithubPullRequestOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<GithubPullRequestWhereInput>;
-};
-
 export type RepoGitPoaPs = {
   __typename?: 'RepoGitPOAPs';
   gitPOAPs: Array<FullGitPoapEventData>;
@@ -3206,6 +3178,34 @@ export type RepoOrderByWithRelationInput = {
 export type RepoRelationFilter = {
   is?: InputMaybe<RepoWhereInput>;
   isNot?: InputMaybe<RepoWhereInput>;
+};
+
+export type RepoReturnData = {
+  __typename?: 'RepoReturnData';
+  GithubPullRequest: Array<GithubPullRequest>;
+  _count?: Maybe<RepoCount>;
+  contributorCount: Scalars['Float'];
+  createdAt: Scalars['DateTime'];
+  gitPOAPCount: Scalars['Float'];
+  githubRepoId: Scalars['Int'];
+  id: Scalars['Int'];
+  lastPRUpdatedAt: Scalars['DateTime'];
+  mintedGitPOAPCount: Scalars['Float'];
+  name: Scalars['String'];
+  organization: Organization;
+  organizationId: Scalars['Int'];
+  project: Project;
+  projectId: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type RepoReturnDataGithubPullRequestArgs = {
+  cursor?: InputMaybe<GithubPullRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubPullRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubPullRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubPullRequestWhereInput>;
 };
 
 export enum RepoScalarFieldEnum {
@@ -3431,6 +3431,7 @@ export type UserGitPoapData = {
   __typename?: 'UserGitPOAPData';
   claim: Claim;
   event: PoapEvent;
+  prCount: Scalars['Float'];
 };
 
 export type UserGroupBy = {
@@ -3743,6 +3744,7 @@ export type GitPoapsQuery = {
     totalGitPOAPs: number;
     gitPOAPs: Array<{
       __typename?: 'UserGitPOAPData';
+      prCount: number;
       claim: {
         __typename?: 'Claim';
         status: ClaimStatus;
@@ -3967,7 +3969,7 @@ export type RepoDataQuery = {
   __typename?: 'Query';
   repoStarCount: number;
   repoData?: {
-    __typename?: 'RepoData';
+    __typename?: 'RepoReturnData';
     id: number;
     name: string;
     githubRepoId: number;
@@ -3996,7 +3998,7 @@ export type RepoSeoByIdQueryVariables = Exact<{
 export type RepoSeoByIdQuery = {
   __typename?: 'Query';
   repoData?: {
-    __typename?: 'RepoData';
+    __typename?: 'RepoReturnData';
     id: number;
     name: string;
     organization: { __typename?: 'Organization'; name: string };
@@ -4011,7 +4013,7 @@ export type RepoSeoByNameQueryVariables = Exact<{
 export type RepoSeoByNameQuery = {
   __typename?: 'Query';
   repoData?: {
-    __typename?: 'RepoData';
+    __typename?: 'RepoReturnData';
     id: number;
     name: string;
     organization: { __typename?: 'Organization'; name: string };
@@ -4144,7 +4146,7 @@ export type OrganizationReposQueryVariables = Exact<{
 export type OrganizationReposQuery = {
   __typename?: 'Query';
   organizationRepos?: Array<{
-    __typename?: 'RepoData';
+    __typename?: 'RepoReturnData';
     id: number;
     name: string;
     contributorCount: number;
@@ -4401,7 +4403,7 @@ export type TrendingReposQueryVariables = Exact<{
 export type TrendingReposQuery = {
   __typename?: 'Query';
   trendingRepos?: Array<{
-    __typename?: 'RepoData';
+    __typename?: 'RepoReturnData';
     id: number;
     name: string;
     githubRepoId: number;
@@ -4632,6 +4634,7 @@ export const GitPoapsDocument = gql`
           image_url
           description
         }
+        prCount
       }
     }
   }

@@ -73,7 +73,7 @@ const HexagonLink = styled(Link)`
   ${HexagonStyles}
 `;
 
-const HexBadge = styled(Hexagon) <Pick<Props, 'imgUrl' | 'size'>>`
+const HexBadge = styled(Hexagon)<Pick<Props, 'imgUrl' | 'level' | 'size'>>`
   --s: ${(props) => rem(dimensions[props.size].width)};
   position: absolute;
   top: ${({ level, size }) =>
@@ -105,12 +105,12 @@ const handleBorderColor = (level?: 'bronze' | 'silver' | 'gold' | 'platinum') =>
   }
 };
 
-const HexOuterBorder = styled(Hexagon) <HexOuterBorderProps>`
+const HexOuterBorder = styled(Hexagon)<HexOuterBorderProps>`
   position: relative;
   --s: ${({ level, size }) =>
     rem(
       dimensions[size].width +
-      4 * (level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize),
+        4 * (level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize),
     )};
   width: var(--s);
   height: calc(var(--s) * 1);
@@ -143,11 +143,11 @@ const HexOuterBorder = styled(Hexagon) <HexOuterBorderProps>`
     `}
 `;
 
-const HexInnerBorder = styled(Hexagon) <HexProps>`
+const HexInnerBorder = styled(Hexagon)<HexProps>`
   --s: ${({ level, size }) =>
     rem(
       dimensions[size].width +
-      2 * (level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize),
+        2 * (level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize),
     )};
   position: absolute;
   top: ${({ level, size }) =>
@@ -160,11 +160,11 @@ const HexInnerBorder = styled(Hexagon) <HexProps>`
   background: ${MidnightBlue};
 `;
 
-const HexLink = styled(HexagonLink) <HexProps>`
+const HexLink = styled(HexagonLink)<HexProps>`
   --s: ${({ level, size }) =>
     rem(
       dimensions[size].width +
-      4 * (level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize),
+        4 * (level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize),
     )};
   width: var(--s);
   height: calc(var(--s) * 1);
