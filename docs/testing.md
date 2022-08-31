@@ -70,10 +70,13 @@ Jest comes with an interesting interactive snapshot testing tool.
 3. All snapshot files & any changes should be reviewed & committed
 4. Do not do TDD with snapshot tests
 
-### What are some good snapshot testing resources?
-1. [Jest Snapshot Testing](https://jestjs.io/docs/snapshot-testing)
+## References
+1. [Jest Documentation](https://jestjs.io/docs/en/getting-started)
+2. [Jest Snapshot Testing Documentation](https://jestjs.io/docs/snapshot-testing)
+3. [React Testing Library Documentation](https://testing-library.com/docs/)
 
-2. [React Testing Best Practices](https://blog.sapegin.me/all/react-testing-1-best-practices/)
+## Articles
+1.  [React Testing Best Practices](https://blog.sapegin.me/all/react-testing-1-best-practices/)
 
 
 
