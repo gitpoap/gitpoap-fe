@@ -204,7 +204,7 @@ export const GitPOAPBadge = ({
   if (href) {
     return (
       <>
-        <HexLink href={href} passHref size={size}>
+        <HexLink href={href} passHref level={level} size={size}>
           {badgeCore}
         </HexLink>
       </>
