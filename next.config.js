@@ -29,6 +29,7 @@ const moduleExports = {
       'lh3.googleusercontent.com',
       's3.us-east-2.amazonaws.com',
       'ens-avatar-cache-prod.s3.us-east-2.amazonaws.com',
+      'ens-avatar-cache-test.s3.us-east-2.amazonaws.com',
     ],
   },
   async redirects() {
