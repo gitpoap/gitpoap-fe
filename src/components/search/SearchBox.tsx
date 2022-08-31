@@ -308,12 +308,14 @@ export const SearchBox = ({ className }: Props) => {
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       // arrow up/down button should select next/previous list element
       if (e.code === 'ArrowUp' && cursor > -1) {
+        e.preventDefault();
         setCursor((prevCursor) => prevCursor - 1);
-        e.preventDefault();
       } else if (e.code === 'ArrowDown' && cursor < totalCount - 1) {
-        setCursor((prevCursor) => prevCursor + 1);
         e.preventDefault();
+        setCursor((prevCursor) => prevCursor + 1);
       } else if (e.code === 'Enter' && cursor > -1) {
+        e.preventDefault();
+
         setQuery('');
         setIsSearchActive(false);
         setProfileResults([]);
@@ -341,7 +343,6 @@ export const SearchBox = ({ className }: Props) => {
           const org = orgs && orgs[orgIndex];
           router.push(`/gh/${org?.name}`);
         }
-        e.preventDefault();
       }
     },
     [
@@ -373,7 +374,7 @@ export const SearchBox = ({ className }: Props) => {
         [
           'Enter',
           () => {
-            if (!query) return;
+            if (!query || cursor > -1) return;
             setIsSearchActive(false);
             inputRef.current?.blur();
             router.push(`/s/${query}`);
