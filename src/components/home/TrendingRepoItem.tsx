@@ -152,7 +152,7 @@ export const TrendingRepoItem = ({ repoId, index, claimedCount, numDays }: Props
   }, [router, orgName, repoName]);
 
   return (
-    <Item spacing="xl">
+    <Item position="center" spacing="xl">
       <IndexText>{index}</IndexText>
       <InfoHexBaseStyled onClick={handleClick} hoverEffects>
         <Content align="center" spacing="xs">
