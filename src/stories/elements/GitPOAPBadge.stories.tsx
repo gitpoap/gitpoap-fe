@@ -31,7 +31,7 @@ const badges = [
 ];
 
 const url = realBadge1 as unknown as string;
-type Level = 'bronze' | 'silver' | 'gold' | 'platinum';
+type Level = 'bronze' | 'silver' | 'gold' | 'platinum' | undefined;
 type Size = 'xxxs' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
 
 export default {
