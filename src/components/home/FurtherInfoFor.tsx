@@ -124,12 +124,12 @@ export const FurtherInfoFor = () => {
           hoverEffects
         >
           <Content>
-            <InfoHexHeader>{'Start Earning'}</InfoHexHeader>
+            <InfoHexHeader>{'For Contributors'}</InfoHexHeader>
             <InfoHexText>
               {`Create a public, immutable, & unbiased record of your contributions to the open source community & show it off via your profile.`}
             </InfoHexText>
             <ButtonStyled style={{ marginTop: rem(40) }} leftIcon={<GoMarkGithub size={16} />}>
-              {'Claim GitPOAPs'}
+              {'Start Earning'}
             </ButtonStyled>
           </Content>
         </InfoHex>
