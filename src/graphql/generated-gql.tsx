@@ -4248,6 +4248,16 @@ export type TotalProfilesQuery = {
   };
 };
 
+export type TotalProfilesWithGitHubHandleQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalProfilesWithGitHubHandleQuery = {
+  __typename?: 'Query';
+  aggregateProfile: {
+    __typename?: 'AggregateProfile';
+    _count?: { __typename?: 'ProfileCountAggregate'; id: number } | null;
+  };
+};
+
 export type TotalDistinctUsersWithClaimsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type TotalDistinctUsersWithClaimsQuery = {
@@ -5325,6 +5335,24 @@ export function useTotalProfilesQuery(
     query: TotalProfilesDocument,
     ...options,
   });
+}
+export const TotalProfilesWithGitHubHandleDocument = gql`
+  query totalProfilesWithGitHubHandle {
+    aggregateProfile(where: { githubHandle: { not: { equals: "" } } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalProfilesWithGitHubHandleQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalProfilesWithGitHubHandleQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<
+    TotalProfilesWithGitHubHandleQuery,
+    TotalProfilesWithGitHubHandleQueryVariables
+  >({ query: TotalProfilesWithGitHubHandleDocument, ...options });
 }
 export const TotalDistinctUsersWithClaimsDocument = gql`
   query totalDistinctUsersWithClaims {

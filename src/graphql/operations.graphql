@@ -543,6 +543,14 @@ query totalProfiles {
   }
 }
 
+query totalProfilesWithGitHubHandle {
+  aggregateProfile(where: { githubHandle: { not: { equals: "" } } }) {
+    _count {
+      id
+    }
+  }
+}
+
 query totalDistinctUsersWithClaims {
   claims(distinct: userId, where: { status: { equals: CLAIMED } }) {
     id

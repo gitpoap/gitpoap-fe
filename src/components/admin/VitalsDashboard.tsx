@@ -13,6 +13,7 @@ import {
   useReposSinceQuery,
   useTotalDistinctUsersWithClaimsQuery,
   useTotalProfilesQuery,
+  useTotalProfilesWithGitHubHandleQuery,
   useTotalUsersQuery,
 } from '../../graphql/generated-gql';
 import useSWR from 'swr';
@@ -111,7 +112,8 @@ export const VitalsDashboard = (props: Props) => {
     variables: { date: todayMinus7Days },
   });
 
-  const [totalProfilesResults] = useTotalProfilesQuery({});
+  const [totalProfilesResults] = useTotalProfilesQuery();
+  const [totalProfilesGitHubResults] = useTotalProfilesWithGitHubHandleQuery();
   const [totalClaimsResult] = useClaimsCountQuery();
   const [mintedClaimsResult] = useMintedClaimsCountQuery();
   const [totalUsersResult] = useTotalUsersQuery();
@@ -132,6 +134,7 @@ export const VitalsDashboard = (props: Props) => {
   );
 
   const totalProfiles = totalProfilesResults?.data?.aggregateProfile?._count?.id;
+  const totalProfilesGitHub = totalProfilesGitHubResults?.data?.aggregateProfile?._count?.id;
   const totalClaims = totalClaimsResult.data?.aggregateClaim._count?.id;
   const mintedClaims = mintedClaimsResult.data?.aggregateClaim._count?.id;
   const totalUsers = totalUsersResult.data?.aggregateUser._count?.githubHandle;
@@ -190,23 +193,29 @@ export const VitalsDashboard = (props: Props) => {
           />
 
           {/* Claims Stats Section */}
-          <DashboardItem name={'Total minted claims'} value={mintedClaims} />
+          <DashboardItem
+            name={'Total minted claims'}
+            value={`${mintedClaims} (${
+              totalClaims && mintedClaims
+                ? ((mintedClaims / totalClaims) * 100).toFixed(2) + '%'
+                : ''
+            })`}
+          />
           <DashboardItem
             name={'Total unminted claims'}
-            value={totalClaims && mintedClaims && totalClaims - mintedClaims}
+            value={
+              totalClaims &&
+              mintedClaims &&
+              `${totalClaims - mintedClaims} (${
+                (((totalClaims - mintedClaims) / totalClaims) * 100).toFixed(2) + '%'
+              }`
+            }
+            // value={totalClaims && mintedClaims && totalClaims - mintedClaims}
           />
           <DashboardItem
             name={'Total claims'}
             value={totalClaims}
             style={{ marginBottom: rem(15) }}
-          />
-          <DashboardItem
-            name={'Claim Conversion (%)'}
-            value={
-              totalClaims && mintedClaims
-                ? ((mintedClaims / totalClaims) * 100).toFixed(2) + '%'
-                : ''
-            }
           />
           <DashboardItem
             name={'Claims With PR Earned (%)'}
@@ -219,24 +228,27 @@ export const VitalsDashboard = (props: Props) => {
           />
 
           {/* Profiles Section */}
+          <DashboardItem name={'Total profiles'} value={totalProfiles} />
           <DashboardItem
-            name={'Total profiles'}
-            value={totalProfiles}
+            name={'Total profiles with GitHub Handle'}
+            value={`${totalProfilesGitHub} (${
+              totalProfilesGitHub &&
+              totalProfiles &&
+              ((totalProfilesGitHub / totalProfiles) * 100).toFixed(2) + '%'
+            })`}
             style={{ marginBottom: rem(15) }}
           />
 
           {/* Users Section */}
-          <DashboardItem name={'Total users with mints'} value={totalUsersWithClaims} />
-          <DashboardItem name={'Total users'} value={totalUsers} />
           <DashboardItem
-            name={'Total users with mints (%)'}
-            value={
+            name={'Total users with mints'}
+            value={`${totalUsersWithClaims} (${
               totalUsersWithClaims &&
               totalUsers &&
               ((totalUsersWithClaims / totalUsers) * 100).toFixed(2) + '%'
-            }
-            style={{ marginBottom: rem(15) }}
+            })`}
           />
+          <DashboardItem name={'Total users'} value={totalUsers} />
 
           {/* Last Run Vitals */}
           <DashboardItem
