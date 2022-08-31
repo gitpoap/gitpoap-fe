@@ -32,7 +32,9 @@ const badges = [
 
 const url = realBadge1 as unknown as string;
 type Level = 'bronze' | 'silver' | 'gold' | 'platinum' | undefined;
+const levels: Level[] = ['bronze', 'silver', 'gold', 'platinum', undefined];
 type Size = 'xxxs' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
+const sizes: Size[] = ['xxxs', 'xxs', 'xs', 'sm', 'md', 'lg'];
 
 export default {
   title: 'Elements/GitPOAPBadge',
@@ -75,9 +77,9 @@ Gallery.args = { size: 'md' };
 const GallerySizesTemplate: ComponentStory<typeof GitPOAPBadge> = (args) => {
   return (
     <Stack>
-      {['bronze', 'silver', 'gold', 'platinum'].map((level: Level, i: number) => (
+      {levels.map((level: Level, i: number) => (
         <Group noWrap style={{ width: 'fit-content' }} key={`group-${i}`}>
-          {['xxxs', 'xxs', 'xs', 'sm', 'md', 'lg'].map((size: Size, j: number) => (
+          {sizes.map((size: Size, j: number) => (
             <GitPOAPBadge
               altText={'GitPOAP'}
               key={`badge-${i}-${j}`}
@@ -98,7 +100,7 @@ GallerySizes.args = {};
 const GallerLevelsTemplate: ComponentStory<typeof GitPOAPBadge> = (args) => {
   return (
     <Group>
-      {['bronze', 'silver', 'gold', 'platinum'].map((level: Level, i: number) => (
+      {levels.map((level: Level, i: number) => (
         <GitPOAPBadge altText={'GitPOAP'} key={i} size="md" imgUrl={url} level={level} />
       ))}
     </Group>
