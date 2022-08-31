@@ -5,7 +5,14 @@ import { Modal, Center, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { Pagination } from '../shared/elements/Pagination';
-import { TextDarkGray, TextGray, TextLight } from '../../colors';
+import {
+  ExtraHover,
+  ExtraPressed,
+  TextAccent,
+  TextDarkGray,
+  TextGray,
+  TextLight,
+} from '../../colors';
 import { Button } from '../shared/elements/Button';
 import { TwitterShareButton } from '../shared/elements/TwitterShareButton';
 import { ClaimBlock } from '../shared/compounds/ClaimBlock';
@@ -13,6 +20,7 @@ import { useFeatures } from '../FeaturesContext';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { BREAKPOINTS } from '../../constants';
 import { OpenClaimsQuery } from '../../graphql/generated-gql';
+import { Link } from '../Link';
 
 type Props = {
   isConnected: boolean;
@@ -69,6 +77,26 @@ const ClaimText = styled.div`
   letter-spacing: ${rem(0.5)};
   color: ${TextGray};
   margin-top: ${rem(18)};
+  padding: ${rem(0)} ${rem(30)};
+  line-height: ${rem(24)};
+
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    padding: 0;
+  }
+`;
+
+const ClaimTextLink = styled(Link)`
+  color: ${TextAccent};
+  &:hover:not([disabled]) {
+    color: ${ExtraHover};
+  }
+  &:active:not([disabled]) {
+    color: ${ExtraPressed};
+  }
+  &[disabled] {
+    color: ${TextDarkGray};
+    cursor: not-allowed;
+  }
 `;
 
 const getClaimText = (
@@ -185,7 +213,19 @@ export const ClaimModal = ({
             <BsFillMoonStarsFill color={TextDarkGray} size={rem(74)} />
           </Group>
         )}
-        <ClaimText>{'Minting is free, no transaction fee required'}</ClaimText>
+        <ClaimText>
+          {claims.length > 0 ? (
+            'Minting is free, no transaction fee required'
+          ) : (
+            <>
+              {'Earn GitPOAPs by contributing to a supported '}
+              <ClaimTextLink href="/repos">{'repo'}</ClaimTextLink>
+              {', or submit yours for onboarding '}
+              <ClaimTextLink href="/onboard">{'here'}</ClaimTextLink>
+              {'!'}
+            </>
+          )}
+        </ClaimText>
         {claimedIds?.length > 0 && (
           <TwitterShareButton
             claimedCount={claimedIds.length}

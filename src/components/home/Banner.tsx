@@ -126,10 +126,12 @@ export const Banner = () => {
           rightIcon={<FaArrowRight />}
           variant="outline"
         >
-          {'START MINTING'}
+          {'START EARNING'}
         </StartMintingButton>
       </CTAButtons>
-      <HowItWorks href="https://docs.gitpoap.io">{'How does it work?'}</HowItWorks>
+      <HowItWorks href="https://docs.gitpoap.io" target="_blank" rel="noopener noreferrer">
+        {'How does it work?'}
+      </HowItWorks>
     </StyledStack>
   );
 };

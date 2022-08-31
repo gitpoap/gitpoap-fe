@@ -124,7 +124,7 @@ export const FurtherInfoFor = () => {
           hoverEffects
         >
           <Content>
-            <InfoHexHeader>{'For Contributors'}</InfoHexHeader>
+            <InfoHexHeader>{'Start Earning'}</InfoHexHeader>
             <InfoHexText>
               {`Create a public, immutable, & unbiased record of your contributions to the open source community & show it off via your profile.`}
             </InfoHexText>
