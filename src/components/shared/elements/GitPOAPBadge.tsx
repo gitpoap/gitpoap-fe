@@ -12,6 +12,7 @@ import {
 import { HexagonPath } from './HexagonPath';
 import Image from 'next/image';
 import { Link } from '../../Link';
+import { Level } from '../../../types';
 
 type Props = {
   className?: string;
@@ -22,7 +23,7 @@ type Props = {
   onClick?: () => void;
   disableHoverEffects?: boolean;
   href?: string;
-  level?: 'bronze' | 'silver' | 'gold' | 'platinum';
+  level?: Level;
 };
 
 type Sizes = 'xxxs' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
@@ -33,7 +34,7 @@ type Dimensions = {
 
 type HexProps = {
   size: Sizes;
-  level?: 'bronze' | 'silver' | 'gold' | 'platinum';
+  level?: Level;
 };
 
 const dimensions: Dimensions = {
@@ -58,10 +59,10 @@ const HexagonStyles = css`
   transition: 150ms background-color ease-in-out, 150ms opacity ease-in-out;
   clip-path: url('#hexagonPath');
 
-  // Fixes filter path
+  /* Fixes filter path */
   overflow: hidden;
 
-  // forces webkit browser visual refresh
+  /* Forces webkit browser visual refresh */
   transform: translateZ(0);
 `;
 
@@ -90,7 +91,7 @@ const HexBadge = styled(Hexagon)<Pick<Props, 'imgUrl' | 'level' | 'size'>>`
 
 type HexOuterBorderProps = HexProps & { disabled?: boolean; disableHoverEffects?: boolean };
 
-const handleBorderColor = (level?: 'bronze' | 'silver' | 'gold' | 'platinum') => {
+const handleBorderColor = (level?: Level) => {
   switch (level) {
     case 'bronze':
       return 'linear-gradient(to bottom, #6A3805, #AD8A56, #6A3805)';
@@ -98,8 +99,6 @@ const handleBorderColor = (level?: 'bronze' | 'silver' | 'gold' | 'platinum') =>
       return 'linear-gradient(to bottom, #7a7a7a, #e6e6e6, #7a7a7a)';
     case 'gold':
       return 'linear-gradient(to bottom, #b28c10, #eedfaf, #b28c10)';
-    case 'platinum':
-      return 'linear-gradient(to bottom, #373d65, #c9d6e9, #373d65)';
     default:
       return TextLight;
   }

@@ -36,3 +36,5 @@ export type MetaMaskError = {
   message: string;
   stack: string;
 };
+
+export type Level = 'bronze' | 'silver' | 'gold';

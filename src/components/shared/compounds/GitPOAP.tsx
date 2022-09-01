@@ -6,6 +6,7 @@ import { GitPOAPBadge } from '../elements/GitPOAPBadge';
 import { Title } from '../elements/Title';
 import { ExtraHover, ExtraPressed, TextLight } from '../../../colors';
 import { FeatureHeart } from './FeatureHeart';
+import { Level } from '../../../types';
 
 type Props = {
   gitPOAPId: number;
@@ -18,7 +19,7 @@ type Props = {
   className?: string;
   poapTokenId?: string | null;
   onClick?: () => void;
-  level?: 'bronze' | 'silver' | 'gold' | 'platinum';
+  level?: Level;
 };
 
 export const LineClamp = (lines: number) => css`
