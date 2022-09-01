@@ -9,6 +9,7 @@ import { FaTrophy } from 'react-icons/fa';
 import { TextDarkGray } from '../../colors';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { useGitPoapsQuery, GitPoapsQuery } from '../../graphql/generated-gql';
+import { Level } from '../../types';
 
 type Props = {
   address: string;
@@ -23,12 +24,16 @@ const selectOptions: SelectOption<SortOptions>[] = [
 
 type GitPOAPItems = Exclude<GitPoapsQuery['userPOAPs'], undefined | null>['gitPOAPs'];
 
-type Level = 'bronze' | 'silver' | 'gold' | 'platinum';
-const determineLevel = (prCount: number): Level => {
-  if (prCount > 10) return 'platinum';
-  else if (prCount > 5) return 'gold';
-  else if (prCount > 2) return 'silver';
-  else return 'bronze';
+const determineLevel = (prCount: number): Level | undefined => {
+  if (prCount > 10) {
+    return 'gold';
+  } else if (prCount > 6) {
+    return 'silver';
+  } else if (prCount > 0) {
+    return 'bronze';
+  } else {
+    return undefined;
+  }
 };
 
 export const GitPOAPs = ({ address }: Props) => {
