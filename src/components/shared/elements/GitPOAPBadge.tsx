@@ -12,6 +12,7 @@ import {
 import { HexagonPath } from './HexagonPath';
 import Image from 'next/image';
 import { Link } from '../../Link';
+import { Level } from '../../../types';
 
 type Props = {
   className?: string;
@@ -22,6 +23,7 @@ type Props = {
   onClick?: () => void;
   disableHoverEffects?: boolean;
   href?: string;
+  level?: Level;
 };
 
 type Sizes = 'xxxs' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
@@ -32,6 +34,7 @@ type Dimensions = {
 
 type HexProps = {
   size: Sizes;
+  level?: Level;
 };
 
 const dimensions: Dimensions = {
@@ -43,14 +46,23 @@ const dimensions: Dimensions = {
   lg: { width: 350, borderSize: 5 },
 };
 
+const dimensionsLevels: Dimensions = {
+  xxxs: { width: 30, borderSize: 3 },
+  xxs: { width: 50, borderSize: 4 },
+  xs: { width: 100, borderSize: 5 },
+  sm: { width: 150, borderSize: 6 },
+  md: { width: 200, borderSize: 7 },
+  lg: { width: 350, borderSize: 8 },
+};
+
 const HexagonStyles = css`
   transition: 150ms background-color ease-in-out, 150ms opacity ease-in-out;
   clip-path: url('#hexagonPath');
 
-  // Fixes filter path
+  /* Fixes filter path */
   overflow: hidden;
 
-  // forces webkit browser visual refresh
+  /* Forces webkit browser visual refresh */
   transform: translateZ(0);
 `;
 
@@ -62,11 +74,13 @@ const HexagonLink = styled(Link)`
   ${HexagonStyles}
 `;
 
-const HexBadge = styled(Hexagon)<Pick<Props, 'imgUrl' | 'size'>>`
+const HexBadge = styled(Hexagon)<Pick<Props, 'imgUrl' | 'level' | 'size'>>`
   --s: ${(props) => rem(dimensions[props.size].width)};
   position: absolute;
-  top: ${(props) => rem(dimensions[props.size].borderSize)};
-  left: ${(props) => rem(dimensions[props.size].borderSize)};
+  top: ${({ level, size }) =>
+    rem(level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize)};
+  left: ${({ level, size }) =>
+    rem(level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize)};
 
   width: var(--s);
   height: calc(var(--s) * 1);
@@ -77,13 +91,30 @@ const HexBadge = styled(Hexagon)<Pick<Props, 'imgUrl' | 'size'>>`
 
 type HexOuterBorderProps = HexProps & { disabled?: boolean; disableHoverEffects?: boolean };
 
+const handleBorderColor = (level?: Level) => {
+  switch (level) {
+    case 'bronze':
+      return 'linear-gradient(to bottom, #6A3805, #AD8A56, #6A3805)';
+    case 'silver':
+      return 'linear-gradient(to bottom, #7a7a7a, #e6e6e6, #7a7a7a)';
+    case 'gold':
+      return 'linear-gradient(to bottom, #b28c10, #eedfaf, #b28c10)';
+    default:
+      return TextLight;
+  }
+};
+
 const HexOuterBorder = styled(Hexagon)<HexOuterBorderProps>`
   position: relative;
-  --s: ${(props) => rem(dimensions[props.size].width + 4 * dimensions[props.size].borderSize)};
+  --s: ${({ level, size }) =>
+    rem(
+      dimensions[size].width +
+        4 * (level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize),
+    )};
   width: var(--s);
   height: calc(var(--s) * 1);
 
-  background-color: ${TextLight};
+  background: ${({ level }) => handleBorderColor(level)};
 
   ${(props) =>
     !props.disableHoverEffects &&
@@ -112,10 +143,16 @@ const HexOuterBorder = styled(Hexagon)<HexOuterBorderProps>`
 `;
 
 const HexInnerBorder = styled(Hexagon)<HexProps>`
-  --s: ${(props) => rem(dimensions[props.size].width + 2 * dimensions[props.size].borderSize)};
+  --s: ${({ level, size }) =>
+    rem(
+      dimensions[size].width +
+        2 * (level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize),
+    )};
   position: absolute;
-  top: ${(props) => rem(dimensions[props.size].borderSize)};
-  left: ${(props) => rem(dimensions[props.size].borderSize)};
+  top: ${({ level, size }) =>
+    rem(level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize)};
+  left: ${({ level, size }) =>
+    rem(level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize)};
 
   width: var(--s);
   height: calc(var(--s) * 1);
@@ -123,7 +160,11 @@ const HexInnerBorder = styled(Hexagon)<HexProps>`
 `;
 
 const HexLink = styled(HexagonLink)<HexProps>`
-  --s: ${(props) => rem(dimensions[props.size].width + 4 * dimensions[props.size].borderSize)};
+  --s: ${({ level, size }) =>
+    rem(
+      dimensions[size].width +
+        4 * (level ? dimensionsLevels[size].borderSize : dimensions[size].borderSize),
+    )};
   width: var(--s);
   height: calc(var(--s) * 1);
 `;
@@ -137,6 +178,7 @@ export const GitPOAPBadge = ({
   onClick,
   disableHoverEffects,
   href,
+  level,
 }: Props) => {
   const badgeCore = (
     <>
@@ -146,9 +188,10 @@ export const GitPOAPBadge = ({
         disabled={disabled}
         onClick={onClick}
         disableHoverEffects={disableHoverEffects}
+        level={level}
       >
-        <HexInnerBorder size={size}>
-          <HexBadge imgUrl={imgUrl} size={size}>
+        <HexInnerBorder level={level} size={size}>
+          <HexBadge imgUrl={imgUrl} level={level} size={size}>
             <Image alt={altText} layout="fill" src={imgUrl} />
           </HexBadge>
         </HexInnerBorder>
@@ -160,7 +203,7 @@ export const GitPOAPBadge = ({
   if (href) {
     return (
       <>
-        <HexLink href={href} passHref size={size}>
+        <HexLink href={href} passHref level={level} size={size}>
           {badgeCore}
         </HexLink>
       </>

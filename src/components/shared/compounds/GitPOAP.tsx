@@ -6,6 +6,7 @@ import { GitPOAPBadge } from '../elements/GitPOAPBadge';
 import { Title } from '../elements/Title';
 import { ExtraHover, ExtraPressed, TextLight } from '../../../colors';
 import { FeatureHeart } from './FeatureHeart';
+import { Level } from '../../../types';
 
 type Props = {
   gitPOAPId: number;
@@ -18,6 +19,7 @@ type Props = {
   className?: string;
   poapTokenId?: string | null;
   onClick?: () => void;
+  level?: Level;
 };
 
 export const LineClamp = (lines: number) => css`
@@ -107,6 +109,7 @@ export const GitPOAP = ({
   description,
   onClick,
   orgName,
+  level,
 }: Props) => {
   return (
     <Wrapper className={className}>
@@ -117,6 +120,7 @@ export const GitPOAP = ({
           imgUrl={imgSrc}
           altText={name}
           onClick={() => onClick && onClick()}
+          level={level}
         />
         {poapTokenId && <Heart poapTokenId={poapTokenId} />}
       </BadgeWrapper>

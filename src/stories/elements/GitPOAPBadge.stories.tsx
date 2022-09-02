@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Group } from '@mantine/core';
+import { Group, Stack } from '@mantine/core';
 import { GitPOAPBadge } from '../../components/shared/elements/GitPOAPBadge';
 import realBadge1 from '../assets/gitPOAPs/real_badge1.png';
 import realBadge2 from '../assets/gitPOAPs/real_badge2.png';
@@ -14,6 +14,7 @@ import realBadge9 from '../assets/gitPOAPs/real_badge9.png';
 import realBadge10 from '../assets/gitPOAPs/real_badge10.png';
 import realBadge11 from '../assets/gitPOAPs/real_badge11.png';
 import realBadge12 from '../assets/gitPOAPs/real_badge12.png';
+import { Level } from '../../types';
 
 const badges = [
   realBadge1,
@@ -32,6 +33,12 @@ const badges = [
 
 const url = realBadge1 as unknown as string;
 
+const levels: (Level | undefined)[] = ['bronze', 'silver', 'gold', undefined];
+
+type Size = 'xxxs' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
+
+const sizes: Size[] = ['xxxs', 'xxs', 'xs', 'sm', 'md', 'lg'];
+
 export default {
   title: 'Elements/GitPOAPBadge',
   component: GitPOAPBadge,
@@ -39,6 +46,7 @@ export default {
     altText: 'GitPOAP Badge',
   },
   argTypes: {
+    level: { control: 'select', options: [null, 'bronze', 'silver', 'gold'] },
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
   },
 } as ComponentMeta<typeof GitPOAPBadge>;
@@ -68,3 +76,39 @@ const GalleryTemplate: ComponentStory<typeof GitPOAPBadge> = (args) => {
 
 export const Gallery = GalleryTemplate.bind({});
 Gallery.args = { size: 'md' };
+
+const GallerySizesTemplate: ComponentStory<typeof GitPOAPBadge> = (args) => {
+  return (
+    <Stack>
+      {levels.map((level, i: number) => (
+        <Group noWrap style={{ width: 'fit-content' }} key={`group-${i}`}>
+          {sizes.map((size: Size, j: number) => (
+            <GitPOAPBadge
+              altText={'GitPOAP'}
+              key={`badge-${i}-${j}`}
+              size={size}
+              imgUrl={url}
+              level={level}
+            />
+          ))}
+        </Group>
+      ))}
+    </Stack>
+  );
+};
+
+export const GallerySizes = GallerySizesTemplate.bind({});
+GallerySizes.args = {};
+
+const GalleryLevelsTemplate: ComponentStory<typeof GitPOAPBadge> = (args) => {
+  return (
+    <Group>
+      {levels.map((level, i: number) => (
+        <GitPOAPBadge altText={'GitPOAP'} key={i} size="md" imgUrl={url} level={level} />
+      ))}
+    </Group>
+  );
+};
+
+export const GalleryLevels = GalleryLevelsTemplate.bind({});
+GalleryLevels.args = {};
