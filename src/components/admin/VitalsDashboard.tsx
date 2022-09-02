@@ -208,7 +208,7 @@ export const VitalsDashboard = (props: Props) => {
               mintedClaims &&
               `${totalClaims - mintedClaims} (${
                 (((totalClaims - mintedClaims) / totalClaims) * 100).toFixed(2) + '%'
-              }`
+              })`
             }
             // value={totalClaims && mintedClaims && totalClaims - mintedClaims}
           />
