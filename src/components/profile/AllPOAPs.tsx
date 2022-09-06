@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { showNotification } from '@mantine/notifications';
 import { rem } from 'polished';
 import { POAP } from '../../types';
 import { POAPBadge } from '../shared/elements/POAPBadge';
@@ -11,6 +12,7 @@ import { Text } from '../shared/elements/Text';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { useAllPoapsQuery } from '../../graphql/generated-gql';
 import { useFeaturedPOAPs } from './FeaturedPOAPsContext';
+import { NotificationFactory } from '../../notifications';
 
 type Props = {
   address: string;
@@ -50,13 +52,20 @@ export const AllPOAPs = ({ address }: Props) => {
 
   /* Hook to append new data onto existing list of poaps */
   useEffect(() => {
-    setPoaps((prev: POAP[]) => {
-      if (result.data?.userPOAPs) {
-        return [...prev, ...result.data.userPOAPs.poaps];
-      }
-      return prev;
-    });
-  }, [result.data]);
+    if (result.error) {
+      console.warn(result.error);
+      showNotification(
+        NotificationFactory.createError(`Error - Request Failed`, 'Oops, something went wrong! 🤥'),
+      );
+    } else if (result.data) {
+      setPoaps((prev: POAP[]) => {
+        if (result.data?.userPOAPs) {
+          return [...prev, ...result.data.userPOAPs.poaps];
+        }
+        return prev;
+      });
+    }
+  }, [result.data, result.error]);
 
   /* Hook to set total number of poaps */
   useEffect(() => {
