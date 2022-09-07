@@ -67,7 +67,7 @@ const InfoHexBaseStyled = styled(InfoHexBase)`
     margin-bottom: ${rem(BODY_HEIGHT)};
     min-height: unset;
     gap: ${rem(7)};
-    min-width: ${rem(300)};
+    width: ${rem(300)};
 
     &:before {
       height: ${rem(BODY_HEIGHT)};
@@ -138,6 +138,10 @@ const IndexText = styled(Text)`
   }
 `;
 
+const GitPoapContainer = styled(Group)`
+  gap: ${rem(2)};
+`;
+
 export const TrendingRepoItem = ({ repoId, index, claimedCount, numDays }: Props) => {
   const router = useRouter();
   const [result] = useRepoDataQuery({ variables: { repoId } });
@@ -169,7 +173,7 @@ export const TrendingRepoItem = ({ repoId, index, claimedCount, numDays }: Props
             )}
           </Icons>
           <BadgeStyled>{repo?.organization?.name}</BadgeStyled>
-          <Group align="center">
+          <GitPoapContainer position="center">
             {gitPoaps &&
               gitPoaps.map((gitPoap) => (
                 <GitPOAPBadge
@@ -180,7 +184,7 @@ export const TrendingRepoItem = ({ repoId, index, claimedCount, numDays }: Props
                   disableHoverEffects
                 />
               ))}
-          </Group>
+          </GitPoapContainer>
         </Content>
       </InfoHexBaseStyled>
       <MintInfo align="start">
