@@ -59,6 +59,12 @@ const moduleExports = {
         permanent: false,
         basePath: false,
       },
+      {
+        source: '/devcon-raffle',
+        destination: 'https://poap.fun/raffle/1786',
+        permanent: false,
+        basePath: false,
+      },
     ];
   },
   webpack: (config, options) => {
