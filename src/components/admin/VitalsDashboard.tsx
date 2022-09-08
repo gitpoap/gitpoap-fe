@@ -14,6 +14,7 @@ import {
   useTotalDistinctUsersWithClaimsQuery,
   useTotalProfilesQuery,
   useTotalProfilesWithGitHubHandleQuery,
+  useTotalProfilesHiddenQuery,
   useTotalUsersQuery,
 } from '../../graphql/generated-gql';
 import useSWR from 'swr';
@@ -114,6 +115,7 @@ export const VitalsDashboard = (props: Props) => {
 
   const [totalProfilesResults] = useTotalProfilesQuery();
   const [totalProfilesGitHubResults] = useTotalProfilesWithGitHubHandleQuery();
+  const [totalProfilesHiddenResults] = useTotalProfilesHiddenQuery();
   const [totalClaimsResult] = useClaimsCountQuery();
   const [mintedClaimsResult] = useMintedClaimsCountQuery();
   const [totalUsersResult] = useTotalUsersQuery();
@@ -135,6 +137,7 @@ export const VitalsDashboard = (props: Props) => {
 
   const totalProfiles = totalProfilesResults?.data?.aggregateProfile?._count?.id;
   const totalProfilesGitHub = totalProfilesGitHubResults?.data?.aggregateProfile?._count?.id;
+  const totalProfilesHidden = totalProfilesHiddenResults?.data?.aggregateProfile?._count?.id;
   const totalClaims = totalClaimsResult.data?.aggregateClaim._count?.id;
   const mintedClaims = mintedClaimsResult.data?.aggregateClaim._count?.id;
   const totalUsers = totalUsersResult.data?.aggregateUser._count?.githubHandle;
@@ -235,6 +238,15 @@ export const VitalsDashboard = (props: Props) => {
               totalProfilesGitHub &&
               totalProfiles &&
               ((totalProfilesGitHub / totalProfiles) * 100).toFixed(2) + '%'
+            })`}
+            style={{ marginBottom: rem(15) }}
+          />
+          <DashboardItem
+            name={'Total hidden profiles'}
+            value={`${totalProfilesHidden} (${
+              totalProfilesHidden &&
+              totalProfiles &&
+              ((totalProfilesHidden / totalProfiles) * 100).toFixed(2) + '%'
             })`}
             style={{ marginBottom: rem(15) }}
           />

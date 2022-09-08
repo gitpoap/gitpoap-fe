@@ -552,6 +552,14 @@ query totalProfilesWithGitHubHandle {
   }
 }
 
+query totalProfilesHidden {
+  aggregateProfile(where: { isVisibleOnLeaderboard: { equals: false } }) {
+    _count {
+      id
+    }
+  }
+}
+
 query totalDistinctUsersWithClaims {
   claims(distinct: userId, where: { status: { equals: CLAIMED } }) {
     id
