@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { useClipboard } from '@mantine/hooks';
 import { FiCopy } from 'react-icons/fi';
+import { Box } from '@mantine/core';
+import { utils } from 'ethers';
 import { Tooltip } from './Tooltip';
 import { Title } from '../../shared/elements/Title';
 import { TextGray } from '../../../colors';
 import { truncateAddress } from '../../../helpers';
-import { Box } from '@mantine/core';
 
 type Props = {
   className?: string;
@@ -28,12 +29,13 @@ const Address = styled(Title)`
 `;
 
 export const CollapsibleAddress = ({ className, address, isCollapsed }: Props) => {
+  const checksumAddress = utils.getAddress(address);
   const clipboard = useClipboard({ timeout: 1500 });
-  const truncatedAddress = truncateAddress(address);
+  const truncatedAddress = truncateAddress(checksumAddress);
 
   return (
-    <Address className={className} onClick={() => clipboard.copy(address)}>
-      {isCollapsed ? truncatedAddress : address}
+    <Address className={className} onClick={() => clipboard.copy(checksumAddress)}>
+      {isCollapsed ? truncatedAddress : checksumAddress}
       <Tooltip opened={clipboard.copied} label="Copied!" withArrow position="right">
         <Box>
           <FiCopy style={{ marginLeft: rem(6) }} />

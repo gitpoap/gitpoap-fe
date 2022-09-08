@@ -1,3 +1,5 @@
+import { utils } from 'ethers';
+
 /* Shorten check-summed version of the input address ~ 0x + 4 chars @ start + end */
 export function shortenAddress(address: string, chars = 4): string {
   return `${address.substring(0, chars + 2)}...${address.substring(42 - chars)}`;
@@ -8,7 +10,8 @@ export const truncateAddress = (
   startChars: number = 14,
   endChars: number = 4,
 ): string => {
-  return address.slice(0, startChars) + '...' + address.slice(-endChars);
+  const checkSumAddress = utils.getAddress(address);
+  return checkSumAddress.slice(0, startChars) + '...' + checkSumAddress.slice(-endChars);
 };
 
 export const truncateString = (str: string, maxLength: number): string => {
