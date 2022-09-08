@@ -118,6 +118,7 @@ export type Claim = {
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
   mintedAt?: Maybe<Scalars['DateTime']>;
+  needsRevalidation: Scalars['Boolean'];
   poapTokenId?: Maybe<Scalars['String']>;
   pullRequestEarned?: Maybe<GithubPullRequest>;
   pullRequestEarnedId?: Maybe<Scalars['Int']>;
@@ -150,6 +151,7 @@ export type ClaimCountAggregate = {
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
   mintedAt: Scalars['Int'];
+  needsRevalidation: Scalars['Int'];
   poapTokenId: Scalars['Int'];
   pullRequestEarnedId: Scalars['Int'];
   qrHash: Scalars['Int'];
@@ -164,6 +166,7 @@ export type ClaimCountOrderByAggregateInput = {
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
+  needsRevalidation?: InputMaybe<SortOrder>;
   poapTokenId?: InputMaybe<SortOrder>;
   pullRequestEarnedId?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
@@ -188,6 +191,7 @@ export type ClaimGroupBy = {
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
   mintedAt?: Maybe<Scalars['DateTime']>;
+  needsRevalidation: Scalars['Boolean'];
   poapTokenId?: Maybe<Scalars['String']>;
   pullRequestEarnedId?: Maybe<Scalars['Int']>;
   qrHash?: Maybe<Scalars['String']>;
@@ -209,6 +213,7 @@ export type ClaimMaxAggregate = {
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
+  needsRevalidation?: Maybe<Scalars['Boolean']>;
   poapTokenId?: Maybe<Scalars['String']>;
   pullRequestEarnedId?: Maybe<Scalars['Int']>;
   qrHash?: Maybe<Scalars['String']>;
@@ -223,6 +228,7 @@ export type ClaimMaxOrderByAggregateInput = {
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
+  needsRevalidation?: InputMaybe<SortOrder>;
   poapTokenId?: InputMaybe<SortOrder>;
   pullRequestEarnedId?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
@@ -237,6 +243,7 @@ export type ClaimMinAggregate = {
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
+  needsRevalidation?: Maybe<Scalars['Boolean']>;
   poapTokenId?: Maybe<Scalars['String']>;
   pullRequestEarnedId?: Maybe<Scalars['Int']>;
   qrHash?: Maybe<Scalars['String']>;
@@ -251,6 +258,7 @@ export type ClaimMinOrderByAggregateInput = {
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
+  needsRevalidation?: InputMaybe<SortOrder>;
   poapTokenId?: InputMaybe<SortOrder>;
   pullRequestEarnedId?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
@@ -273,6 +281,7 @@ export type ClaimOrderByWithAggregationInput = {
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
+  needsRevalidation?: InputMaybe<SortOrder>;
   poapTokenId?: InputMaybe<SortOrder>;
   pullRequestEarnedId?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
@@ -287,6 +296,7 @@ export type ClaimOrderByWithRelationInput = {
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
+  needsRevalidation?: InputMaybe<SortOrder>;
   poapTokenId?: InputMaybe<SortOrder>;
   pullRequestEarned?: InputMaybe<GithubPullRequestOrderByWithRelationInput>;
   pullRequestEarnedId?: InputMaybe<SortOrder>;
@@ -302,6 +312,7 @@ export enum ClaimScalarFieldEnum {
   GitPoapId = 'gitPOAPId',
   Id = 'id',
   MintedAt = 'mintedAt',
+  NeedsRevalidation = 'needsRevalidation',
   PoapTokenId = 'poapTokenId',
   PullRequestEarnedId = 'pullRequestEarnedId',
   QrHash = 'qrHash',
@@ -319,6 +330,7 @@ export type ClaimScalarWhereWithAggregatesInput = {
   gitPOAPId?: InputMaybe<IntWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   mintedAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
+  needsRevalidation?: InputMaybe<BoolWithAggregatesFilter>;
   poapTokenId?: InputMaybe<StringNullableWithAggregatesFilter>;
   pullRequestEarnedId?: InputMaybe<IntNullableWithAggregatesFilter>;
   status?: InputMaybe<EnumClaimStatusWithAggregatesFilter>;
@@ -364,6 +376,7 @@ export type ClaimWhereInput = {
   gitPOAPId?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
   mintedAt?: InputMaybe<DateTimeNullableFilter>;
+  needsRevalidation?: InputMaybe<BoolFilter>;
   poapTokenId?: InputMaybe<StringNullableFilter>;
   pullRequestEarned?: InputMaybe<GithubPullRequestRelationFilter>;
   pullRequestEarnedId?: InputMaybe<IntNullableFilter>;
@@ -1038,6 +1051,7 @@ export type GitPoapScalarWhereWithAggregatesInput = {
 
 export enum GitPoapStatus {
   Approved = 'APPROVED',
+  Deprecated = 'DEPRECATED',
   RedeemRequestPending = 'REDEEM_REQUEST_PENDING',
   Unapproved = 'UNAPPROVED',
 }
@@ -4260,6 +4274,16 @@ export type TotalProfilesWithGitHubHandleQuery = {
   };
 };
 
+export type TotalProfilesHiddenQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalProfilesHiddenQuery = {
+  __typename?: 'Query';
+  aggregateProfile: {
+    __typename?: 'AggregateProfile';
+    _count?: { __typename?: 'ProfileCountAggregate'; id: number } | null;
+  };
+};
+
 export type TotalDistinctUsersWithClaimsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type TotalDistinctUsersWithClaimsQuery = {
@@ -5356,6 +5380,24 @@ export function useTotalProfilesWithGitHubHandleQuery(
     TotalProfilesWithGitHubHandleQuery,
     TotalProfilesWithGitHubHandleQueryVariables
   >({ query: TotalProfilesWithGitHubHandleDocument, ...options });
+}
+export const TotalProfilesHiddenDocument = gql`
+  query totalProfilesHidden {
+    aggregateProfile(where: { isVisibleOnLeaderboard: { equals: false } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalProfilesHiddenQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalProfilesHiddenQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalProfilesHiddenQuery, TotalProfilesHiddenQueryVariables>({
+    query: TotalProfilesHiddenDocument,
+    ...options,
+  });
 }
 export const TotalDistinctUsersWithClaimsDocument = gql`
   query totalDistinctUsersWithClaims {
