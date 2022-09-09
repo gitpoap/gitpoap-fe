@@ -1,6 +1,7 @@
 import { BREAKPOINTS } from '../constants';
 import { MantineProviderProps } from '@mantine/core';
 import { BackgroundPanel } from '../colors';
+import { rem } from 'polished';
 
 export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
@@ -11,6 +12,13 @@ export const theme: MantineProviderProps['theme'] = {
       styles: {
         modal: {
           background: BackgroundPanel,
+        },
+      },
+    },
+    NavLink: {
+      styles: {
+        root: {
+          borderRadius: rem(6),
         },
       },
     },

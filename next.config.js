@@ -65,6 +65,11 @@ const moduleExports = {
         permanent: false,
         basePath: false,
       },
+      {
+        source: '/settings',
+        destination: '/settings/profile',
+        permanent: true,
+      },
     ];
   },
   webpack: (config, options) => {
