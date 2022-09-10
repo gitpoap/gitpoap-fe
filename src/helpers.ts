@@ -10,6 +10,9 @@ export const truncateAddress = (
   startChars: number = 14,
   endChars: number = 4,
 ): string => {
+  if (address === '') {
+    return '';
+  }
   const checkSumAddress = utils.getAddress(address);
   return checkSumAddress.slice(0, startChars) + '...' + checkSumAddress.slice(-endChars);
 };
