@@ -68,7 +68,7 @@ export type EditableProfileData = Partial<
   >
 >;
 
-export const ProfileSettings = ({ profileData, refetch }: Props) => {
+export const SettingsPage = ({ profileData, refetch }: Props) => {
   const { isLoggedIntoGitHub, tokens, user } = useAuthContext();
   const { web3Provider, address: connectedWalletAddress } = useWeb3Context();
   const signer = web3Provider?.getSigner();
