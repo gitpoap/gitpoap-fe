@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Checkbox renders an Checkbox and label 1`] = `
+<input
+  class="mantine-ok9ydr mantine-Checkbox-input"
+  id="mantine-r0"
+  type="checkbox"
+/>
+`;

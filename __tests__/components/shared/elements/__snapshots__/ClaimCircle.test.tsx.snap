@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClaimCircle renders an ClaimCircle - large text 1`] = `
+.c0 {
+  height: 1.125rem;
+  width: 1.125rem;
+  background: white;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  word-spacing: 0;
+  color: #307AE8;
+  font-size: 0.8125rem;
+  font-weight: bold;
+  line-height: 0.75rem;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    5
+  </div>
+</div>
+`;
+
+exports[`ClaimCircle renders an ClaimCircle - small text 1`] = `
+.c0 {
+  height: 1.125rem;
+  width: 1.125rem;
+  background: white;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  word-spacing: 0;
+  color: #307AE8;
+  font-size: 0.6875rem;
+  font-weight: bold;
+  line-height: 0.75rem;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    15
+  </div>
+</div>
+`;

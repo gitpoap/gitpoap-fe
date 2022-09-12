@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Badge renders an Badge 1`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0.03125rem 0.25rem;
+  background: #464968;
+  border-radius: 0.25rem;
+  font-family: PT Mono;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 0.6875rem;
+  line-height: 1.125rem;
+  -webkit-letter-spacing: 0.075rem;
+  -moz-letter-spacing: 0.075rem;
+  -ms-letter-spacing: 0.075rem;
+  letter-spacing: 0.075rem;
+  text-transform: uppercase;
+  color: #E2E2EE;
+}
+
+<div
+  class="c0"
+/>
+`;
