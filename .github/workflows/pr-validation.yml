@@ -22,21 +22,3 @@ jobs:
         uses: ryanvade/enforce-pr-description-length-action@v1
         with:
           minLength: 5
-
-  run-tests:
-    name: Run Frontend Test Suite
-    runs-on: ubuntu-latest
-    needs: validate
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: install packages
-        run: yarn install
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.14.2'
-          cache: yarn
-      - run: yarn install --frozen-lockfile --check-files
-      - name: Test Frontend
-        run: yarn test:ci
