@@ -239,7 +239,6 @@ export const VitalsDashboard = (props: Props) => {
               totalProfiles &&
               ((totalProfilesGitHub / totalProfiles) * 100).toFixed(2) + '%'
             })`}
-            style={{ marginBottom: rem(15) }}
           />
           <DashboardItem
             name={'Total hidden profiles'}
