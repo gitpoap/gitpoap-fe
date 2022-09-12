@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { FaTwitter } from 'react-icons/fa';
 import { TwitterBlue, TwitterBlueHover } from '../../../colors';
-import { ClaimStatus, OpenClaimsQuery } from '../../../graphql/generated-gql';
+import { OpenClaimsQuery } from '../../../graphql/generated-gql';
 
 const TwitterButton = styled.a`
   margin-top: ${rem(20)};
@@ -56,35 +56,21 @@ interface Props {
 }
 
 export const TwitterShareButton = ({ claimedCount, address, ensName, claims }: Props) => {
-  const profileUrl = ensName || address ? `\nhttps://twitter.com/${ensName ?? address}\n` : '';
-  const firstGitPOAPUrl = `\nhttps://gitpoap.io/gp/${claims[0].claim.gitPOAP.id}\n`;
-  const claimedClaims = useMemo(
-    () =>
-      claims.filter((claim) =>
-        [ClaimStatus.Claimed, ClaimStatus.Minting, ClaimStatus.Pending].includes(
-          claim.claim.status,
-        ),
-      ),
-    [claims],
-  );
+  const claimGitPOAPId = claims?.length > 0 ? claims[0].claim.gitPOAP.id : null;
+  const profileUrl = `\nhttps://gitpoap.io/p/${ensName ?? address}\n`;
+  const firstGitPOAPUrl = `\nhttps://gitpoap.io/gp/${claimGitPOAPId}\n`;
 
   const getTweetUrl = useCallback(() => {
-    if (profileUrl) {
-      return profileUrl;
-    } else if (claimedClaims.length > 0) {
+    const isConnected = ensName || address;
+    if (!isConnected || claimedCount === 1) {
       return firstGitPOAPUrl;
     }
 
-    if (claimedCount === 1) {
-      return `${getTweetText(claimedCount)} ${firstGitPOAPUrl} ${profileUrl}`;
-    }
-
-    return `${getTweetText(claimedCount)} ${profileUrl}`;
-  }, [claimedCount, claimedClaims, firstGitPOAPUrl, profileUrl]);
+    return profileUrl;
+  }, [address, ensName, claimedCount, firstGitPOAPUrl, profileUrl]);
 
   const queryParams = new URLSearchParams({
     text: getTweetText(claimedCount) + `${getTweetUrl()} #poap #gitpoap`,
-    via: 'gitpoap',
   }).toString();
 
   return (
