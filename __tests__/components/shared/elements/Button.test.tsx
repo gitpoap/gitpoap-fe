@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import 'jest-styled-components';
 import { rem } from 'polished';
-import { DarkGray, PrimaryBlue, TextGray } from '../../../src/colors';
-import { Button } from '../../../src/components/shared/elements';
+import { DarkGray, PrimaryBlue, TextGray } from '../../../../src/colors';
+import { Button } from '../../../../src/components/shared/elements';
 
 describe('Button', () => {
   it('renders a button', () => {
