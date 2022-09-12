@@ -28,9 +28,4 @@ const Search: Page = () => {
   );
 };
 
-/* Custom layout function for this page */
-Search.getLayout = (page: React.ReactNode) => {
-  return <Layout>{page}</Layout>;
-};
-
 export default Search;

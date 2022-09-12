@@ -95,9 +95,4 @@ export const getStaticPaths = () => {
   return { paths: [], fallback: 'blocking' };
 };
 
-/* Custom layout function for this page */
-Profile.getLayout = (page: React.ReactNode) => {
-  return <Layout>{page}</Layout>;
-};
-
 export default Profile;

@@ -25,9 +25,4 @@ const Repos: Page = () => {
   );
 };
 
-/* Custom layout function for this page */
-Repos.getLayout = (page: React.ReactNode) => {
-  return <Layout>{page}</Layout>;
-};
-
 export default Repos;

@@ -71,7 +71,7 @@ const TheApp = ({ Component, pageProps }: Props) => {
                     <GlobalStyles />
                     <Layout>
                       <LoadingBar />
-                      <Component {...pageProps} />
+                      {getLayout(<Component {...pageProps} />)}
                     </Layout>
                   </ClaimContextProvider>
                 </FeaturesProvider>
