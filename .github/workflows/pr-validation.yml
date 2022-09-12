@@ -1,10 +1,9 @@
-name: Run frontend test action
+name: Pull Request Validation
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    types: [opened, edited, synchronize, reopened]
 
   workflow_dispatch:
 
@@ -12,7 +11,20 @@ env:
   NEXT_PUBLIC_SENTRY_ENVIRONMENT: test
 
 jobs:
-  test:
+  validate:
+    name: Validate PR Description
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Enforce Pull Request Description Length
+        uses: ryanvade/enforce-pr-description-length-action@v1
+        with:
+          minLength: 5
+
+  run-tests:
+    name: Run Frontend Test Suite
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -27,4 +39,3 @@ jobs:
       - run: yarn install --frozen-lockfile --check-files
       - name: Test Frontend
         run: yarn test:ci
-
