@@ -26,9 +26,4 @@ const Orgs: Page = () => {
   );
 };
 
-/* Custom layout function for this page */
-Orgs.getLayout = (page: React.ReactNode) => {
-  return <Layout>{page}</Layout>;
-};
-
 export default Orgs;

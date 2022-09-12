@@ -1,11 +1,10 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { rem } from 'polished';
 import { Center, Grid, Stack } from '@mantine/core';
 import { Page } from './_app';
 import { BackgroundPanel2 } from '../colors';
 import { BannerStats } from '../components/home/BannerStats';
-import { Layout } from '../components/Layout';
 import { MostClaimed } from '../components/home/MostClaimed';
 import { LeaderBoard } from '../components/home/LeaderBoard';
 import { RecentlyAdded } from '../components/home/RecentlyAdded';
@@ -102,11 +101,6 @@ const Home: Page = () => {
       </Grid>
     </>
   );
-};
-
-/* Custom layout function for this Home page */
-Home.getLayout = (page: React.ReactNode) => {
-  return <Layout>{page}</Layout>;
 };
 
 export default Home;

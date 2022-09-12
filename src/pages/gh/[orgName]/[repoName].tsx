@@ -105,11 +105,6 @@ export const getStaticPaths = async () => {
   };
 };
 
-/* Custom layout function for this page */
-Repo.getLayout = (page: React.ReactNode) => {
-  return <Layout>{page}</Layout>;
-};
-
 export default withUrqlClient(
   (_) => ({
     url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
