@@ -1,0 +1,21 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [opened, edited, synchronize, reopened]
+
+  workflow_dispatch:
+
+env:
+  NEXT_PUBLIC_SENTRY_ENVIRONMENT: test
+
+jobs:
+  validate:
+    name: Validate PR Description
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce Pull Request Description Length
+        uses: ryanvade/enforce-pr-description-length-action@v1
+        with:
+          minLength: 5
