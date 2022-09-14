@@ -33,7 +33,7 @@ const Settings: Page = () => {
       {connectionStatus === 'connected' ? (
         <SettingsPage profileData={profileData} refetch={refetch} />
       ) : (
-        <Center style={{ width: 600, height: 600 }}>
+        <Center style={{ width: '100%', height: 600 }}>
           {connectionStatus === 'disconnected' && (
             <Button onClick={() => connect()}>{'Connect Wallet'}</Button>
           )}
