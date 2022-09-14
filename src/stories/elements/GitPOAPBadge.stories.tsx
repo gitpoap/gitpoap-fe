@@ -35,7 +35,7 @@ const badges = [
 
 const url = realBadge0 as unknown as string;
 
-const levels: (Level | undefined)[] = ['bronze', 'silver', 'gold', undefined];
+const levels: (Level | undefined)[] = [undefined, 'bronze', 'silver', 'gold'];
 
 type Size = 'xxxs' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
 
