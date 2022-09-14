@@ -4,14 +4,15 @@ import { SettingsPage } from '../../components/settings/SettingsPage';
 import { useWeb3Context } from '../../components/wallet/Web3ContextProvider';
 import { useProfileQuery } from '../../graphql/generated-gql';
 import styled from 'styled-components';
-import { Container } from '@mantine/core';
+import { Center, Container, Loader, Text } from '@mantine/core';
+import { Button } from '../../components/shared/elements';
 
 const Wrapper = styled(Container)`
   width: 100vw;
 `;
 
 const Settings: Page = () => {
-  const { address } = useWeb3Context();
+  const { address, connect, connectionStatus } = useWeb3Context();
 
   const [result, refetch] = useProfileQuery({
     variables: {
@@ -29,7 +30,16 @@ const Settings: Page = () => {
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/settings`}
       />
-      <SettingsPage profileData={profileData} refetch={refetch} />
+      {connectionStatus === 'connected' ? (
+        <SettingsPage profileData={profileData} refetch={refetch} />
+      ) : (
+        <Center style={{ width: 600, height: 600 }}>
+          {connectionStatus === 'disconnected' && (
+            <Button onClick={() => connect()}>{'Connect Wallet'}</Button>
+          )}
+          {connectionStatus === 'connecting' && <Loader />}
+        </Center>
+      )}
     </Wrapper>
   );
 };
