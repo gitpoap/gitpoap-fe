@@ -194,7 +194,7 @@ export const SettingsPage = ({ profileData, refetch }: Props) => {
 
   return (
     <Stack spacing={24}>
-      <Header style={{ textAlign: 'left' }}>{'Profile'}</Header>
+      <Header style={{ textAlign: 'left' }}>{'Settings'}</Header>
       <Divider />
       <Input
         placeholder="gitpoap"

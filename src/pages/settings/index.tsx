@@ -22,7 +22,7 @@ const Settings: Page = () => {
   const profileData = result?.data?.profileData;
 
   return (
-    <Wrapper size={800} my={48}>
+    <Wrapper size={600} my={48}>
       <SEO
         title={`Your Profile | GitPOAP`}
         description={`GitPOAP - a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.`}
