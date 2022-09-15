@@ -43,6 +43,24 @@ export type AggregateGitPoap = {
   _sum?: Maybe<GitPoapSumAggregate>;
 };
 
+export type AggregateGithubIssue = {
+  __typename?: 'AggregateGithubIssue';
+  _avg?: Maybe<GithubIssueAvgAggregate>;
+  _count?: Maybe<GithubIssueCountAggregate>;
+  _max?: Maybe<GithubIssueMaxAggregate>;
+  _min?: Maybe<GithubIssueMinAggregate>;
+  _sum?: Maybe<GithubIssueSumAggregate>;
+};
+
+export type AggregateGithubMention = {
+  __typename?: 'AggregateGithubMention';
+  _avg?: Maybe<GithubMentionAvgAggregate>;
+  _count?: Maybe<GithubMentionCountAggregate>;
+  _max?: Maybe<GithubMentionMaxAggregate>;
+  _min?: Maybe<GithubMentionMinAggregate>;
+  _sum?: Maybe<GithubMentionSumAggregate>;
+};
+
 export type AggregateGithubPullRequest = {
   __typename?: 'AggregateGithubPullRequest';
   _avg?: Maybe<GithubPullRequestAvgAggregate>;
@@ -117,6 +135,8 @@ export type Claim = {
   gitPOAP: GitPoap;
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
+  mentionEarned?: Maybe<GithubMention>;
+  mentionEarnedId?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
   needsRevalidation: Scalars['Boolean'];
   poapTokenId?: Maybe<Scalars['String']>;
@@ -132,6 +152,7 @@ export type ClaimAvgAggregate = {
   __typename?: 'ClaimAvgAggregate';
   gitPOAPId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  mentionEarnedId?: Maybe<Scalars['Float']>;
   pullRequestEarnedId?: Maybe<Scalars['Float']>;
   userId?: Maybe<Scalars['Float']>;
 };
@@ -139,6 +160,7 @@ export type ClaimAvgAggregate = {
 export type ClaimAvgOrderByAggregateInput = {
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mentionEarnedId?: InputMaybe<SortOrder>;
   pullRequestEarnedId?: InputMaybe<SortOrder>;
   userId?: InputMaybe<SortOrder>;
 };
@@ -150,6 +172,7 @@ export type ClaimCountAggregate = {
   createdAt: Scalars['Int'];
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
+  mentionEarnedId: Scalars['Int'];
   mintedAt: Scalars['Int'];
   needsRevalidation: Scalars['Int'];
   poapTokenId: Scalars['Int'];
@@ -165,6 +188,7 @@ export type ClaimCountOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mentionEarnedId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
   needsRevalidation?: InputMaybe<SortOrder>;
   poapTokenId?: InputMaybe<SortOrder>;
@@ -190,6 +214,7 @@ export type ClaimGroupBy = {
   createdAt: Scalars['DateTime'];
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
+  mentionEarnedId?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
   needsRevalidation: Scalars['Boolean'];
   poapTokenId?: Maybe<Scalars['String']>;
@@ -212,6 +237,7 @@ export type ClaimMaxAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  mentionEarnedId?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
   needsRevalidation?: Maybe<Scalars['Boolean']>;
   poapTokenId?: Maybe<Scalars['String']>;
@@ -227,6 +253,7 @@ export type ClaimMaxOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mentionEarnedId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
   needsRevalidation?: InputMaybe<SortOrder>;
   poapTokenId?: InputMaybe<SortOrder>;
@@ -242,6 +269,7 @@ export type ClaimMinAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  mentionEarnedId?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
   needsRevalidation?: Maybe<Scalars['Boolean']>;
   poapTokenId?: Maybe<Scalars['String']>;
@@ -257,6 +285,7 @@ export type ClaimMinOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mentionEarnedId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
   needsRevalidation?: InputMaybe<SortOrder>;
   poapTokenId?: InputMaybe<SortOrder>;
@@ -280,6 +309,7 @@ export type ClaimOrderByWithAggregationInput = {
   createdAt?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mentionEarnedId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
   needsRevalidation?: InputMaybe<SortOrder>;
   poapTokenId?: InputMaybe<SortOrder>;
@@ -295,6 +325,8 @@ export type ClaimOrderByWithRelationInput = {
   gitPOAP?: InputMaybe<GitPoapOrderByWithRelationInput>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mentionEarned?: InputMaybe<GithubMentionOrderByWithRelationInput>;
+  mentionEarnedId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
   needsRevalidation?: InputMaybe<SortOrder>;
   poapTokenId?: InputMaybe<SortOrder>;
@@ -311,6 +343,7 @@ export enum ClaimScalarFieldEnum {
   CreatedAt = 'createdAt',
   GitPoapId = 'gitPOAPId',
   Id = 'id',
+  MentionEarnedId = 'mentionEarnedId',
   MintedAt = 'mintedAt',
   NeedsRevalidation = 'needsRevalidation',
   PoapTokenId = 'poapTokenId',
@@ -329,6 +362,7 @@ export type ClaimScalarWhereWithAggregatesInput = {
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   gitPOAPId?: InputMaybe<IntWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
+  mentionEarnedId?: InputMaybe<IntNullableWithAggregatesFilter>;
   mintedAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
   needsRevalidation?: InputMaybe<BoolWithAggregatesFilter>;
   poapTokenId?: InputMaybe<StringNullableWithAggregatesFilter>;
@@ -349,6 +383,7 @@ export type ClaimSumAggregate = {
   __typename?: 'ClaimSumAggregate';
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  mentionEarnedId?: Maybe<Scalars['Int']>;
   pullRequestEarnedId?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['Int']>;
 };
@@ -356,6 +391,7 @@ export type ClaimSumAggregate = {
 export type ClaimSumOrderByAggregateInput = {
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mentionEarnedId?: InputMaybe<SortOrder>;
   pullRequestEarnedId?: InputMaybe<SortOrder>;
   userId?: InputMaybe<SortOrder>;
 };
@@ -375,6 +411,8 @@ export type ClaimWhereInput = {
   gitPOAP?: InputMaybe<GitPoapRelationFilter>;
   gitPOAPId?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
+  mentionEarned?: InputMaybe<GithubMentionRelationFilter>;
+  mentionEarnedId?: InputMaybe<IntNullableFilter>;
   mintedAt?: InputMaybe<DateTimeNullableFilter>;
   needsRevalidation?: InputMaybe<BoolFilter>;
   poapTokenId?: InputMaybe<StringNullableFilter>;
@@ -513,14 +551,14 @@ export type Event = {
 
 export type EventCount = {
   __typename?: 'EventCount';
-  GitPOAP: Scalars['Int'];
+  gitPOAPs: Scalars['Int'];
 };
 
 export type EventOrderByWithRelationInput = {
-  GitPOAP?: InputMaybe<GitPoapOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
   endDate?: InputMaybe<SortOrder>;
+  gitPOAPs?: InputMaybe<GitPoapOrderByRelationAggregateInput>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
@@ -540,12 +578,12 @@ export type EventRelationFilter = {
 
 export type EventWhereInput = {
   AND?: InputMaybe<Array<EventWhereInput>>;
-  GitPOAP?: InputMaybe<GitPoapListRelationFilter>;
   NOT?: InputMaybe<Array<EventWhereInput>>;
   OR?: InputMaybe<Array<EventWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
   description?: InputMaybe<StringNullableFilter>;
   endDate?: InputMaybe<DateTimeFilter>;
+  gitPOAPs?: InputMaybe<GitPoapListRelationFilter>;
   githubHandle?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
   imageUrl?: InputMaybe<StringNullableFilter>;
@@ -1116,13 +1154,494 @@ export type GitPoapWithClaimsCount = {
   gitPOAP: GitPoap;
 };
 
+export type GithubIssue = {
+  __typename?: 'GithubIssue';
+  _count?: Maybe<GithubIssueCount>;
+  createdAt: Scalars['DateTime'];
+  githubClosedAt?: Maybe<Scalars['DateTime']>;
+  githubIssueNumber: Scalars['Int'];
+  githubTitle: Scalars['String'];
+  id: Scalars['Int'];
+  repoId: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  userId: Scalars['Int'];
+};
+
+export type GithubIssueAvgAggregate = {
+  __typename?: 'GithubIssueAvgAggregate';
+  githubIssueNumber?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  repoId?: Maybe<Scalars['Float']>;
+  userId?: Maybe<Scalars['Float']>;
+};
+
+export type GithubIssueAvgOrderByAggregateInput = {
+  githubIssueNumber?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  repoId?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubIssueCount = {
+  __typename?: 'GithubIssueCount';
+  githubMentions: Scalars['Int'];
+};
+
+export type GithubIssueCountAggregate = {
+  __typename?: 'GithubIssueCountAggregate';
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  githubClosedAt: Scalars['Int'];
+  githubIssueNumber: Scalars['Int'];
+  githubTitle: Scalars['Int'];
+  id: Scalars['Int'];
+  repoId: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  userId: Scalars['Int'];
+};
+
+export type GithubIssueCountOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  githubClosedAt?: InputMaybe<SortOrder>;
+  githubIssueNumber?: InputMaybe<SortOrder>;
+  githubTitle?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  repoId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubIssueGroupBy = {
+  __typename?: 'GithubIssueGroupBy';
+  _avg?: Maybe<GithubIssueAvgAggregate>;
+  _count?: Maybe<GithubIssueCountAggregate>;
+  _max?: Maybe<GithubIssueMaxAggregate>;
+  _min?: Maybe<GithubIssueMinAggregate>;
+  _sum?: Maybe<GithubIssueSumAggregate>;
+  createdAt: Scalars['DateTime'];
+  githubClosedAt?: Maybe<Scalars['DateTime']>;
+  githubIssueNumber: Scalars['Int'];
+  githubTitle: Scalars['String'];
+  id: Scalars['Int'];
+  repoId: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  userId: Scalars['Int'];
+};
+
+export type GithubIssueListRelationFilter = {
+  every?: InputMaybe<GithubIssueWhereInput>;
+  none?: InputMaybe<GithubIssueWhereInput>;
+  some?: InputMaybe<GithubIssueWhereInput>;
+};
+
+export type GithubIssueMaxAggregate = {
+  __typename?: 'GithubIssueMaxAggregate';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  githubClosedAt?: Maybe<Scalars['DateTime']>;
+  githubIssueNumber?: Maybe<Scalars['Int']>;
+  githubTitle?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  repoId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  userId?: Maybe<Scalars['Int']>;
+};
+
+export type GithubIssueMaxOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  githubClosedAt?: InputMaybe<SortOrder>;
+  githubIssueNumber?: InputMaybe<SortOrder>;
+  githubTitle?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  repoId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubIssueMinAggregate = {
+  __typename?: 'GithubIssueMinAggregate';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  githubClosedAt?: Maybe<Scalars['DateTime']>;
+  githubIssueNumber?: Maybe<Scalars['Int']>;
+  githubTitle?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  repoId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  userId?: Maybe<Scalars['Int']>;
+};
+
+export type GithubIssueMinOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  githubClosedAt?: InputMaybe<SortOrder>;
+  githubIssueNumber?: InputMaybe<SortOrder>;
+  githubTitle?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  repoId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubIssueOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type GithubIssueOrderByWithAggregationInput = {
+  _avg?: InputMaybe<GithubIssueAvgOrderByAggregateInput>;
+  _count?: InputMaybe<GithubIssueCountOrderByAggregateInput>;
+  _max?: InputMaybe<GithubIssueMaxOrderByAggregateInput>;
+  _min?: InputMaybe<GithubIssueMinOrderByAggregateInput>;
+  _sum?: InputMaybe<GithubIssueSumOrderByAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  githubClosedAt?: InputMaybe<SortOrder>;
+  githubIssueNumber?: InputMaybe<SortOrder>;
+  githubTitle?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  repoId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubIssueOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  githubClosedAt?: InputMaybe<SortOrder>;
+  githubIssueNumber?: InputMaybe<SortOrder>;
+  githubMentions?: InputMaybe<GithubMentionOrderByRelationAggregateInput>;
+  githubTitle?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  repo?: InputMaybe<RepoOrderByWithRelationInput>;
+  repoId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubIssueRelationFilter = {
+  is?: InputMaybe<GithubIssueWhereInput>;
+  isNot?: InputMaybe<GithubIssueWhereInput>;
+};
+
+export type GithubIssueRepoIdGithubIssueNumberCompoundUniqueInput = {
+  githubIssueNumber: Scalars['Int'];
+  repoId: Scalars['Int'];
+};
+
+export enum GithubIssueScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  GithubClosedAt = 'githubClosedAt',
+  GithubIssueNumber = 'githubIssueNumber',
+  GithubTitle = 'githubTitle',
+  Id = 'id',
+  RepoId = 'repoId',
+  UpdatedAt = 'updatedAt',
+  UserId = 'userId',
+}
+
+export type GithubIssueScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<GithubIssueScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<GithubIssueScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<GithubIssueScalarWhereWithAggregatesInput>>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  githubClosedAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
+  githubIssueNumber?: InputMaybe<IntWithAggregatesFilter>;
+  githubTitle?: InputMaybe<StringWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  repoId?: InputMaybe<IntWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  userId?: InputMaybe<IntWithAggregatesFilter>;
+};
+
+export type GithubIssueSumAggregate = {
+  __typename?: 'GithubIssueSumAggregate';
+  githubIssueNumber?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  repoId?: Maybe<Scalars['Int']>;
+  userId?: Maybe<Scalars['Int']>;
+};
+
+export type GithubIssueSumOrderByAggregateInput = {
+  githubIssueNumber?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  repoId?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubIssueWhereInput = {
+  AND?: InputMaybe<Array<GithubIssueWhereInput>>;
+  NOT?: InputMaybe<Array<GithubIssueWhereInput>>;
+  OR?: InputMaybe<Array<GithubIssueWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  githubClosedAt?: InputMaybe<DateTimeNullableFilter>;
+  githubIssueNumber?: InputMaybe<IntFilter>;
+  githubMentions?: InputMaybe<GithubMentionListRelationFilter>;
+  githubTitle?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IntFilter>;
+  repo?: InputMaybe<RepoRelationFilter>;
+  repoId?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+  userId?: InputMaybe<IntFilter>;
+};
+
+export type GithubIssueWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  repoId_githubIssueNumber?: InputMaybe<GithubIssueRepoIdGithubIssueNumberCompoundUniqueInput>;
+};
+
+export type GithubMention = {
+  __typename?: 'GithubMention';
+  _count?: Maybe<GithubMentionCount>;
+  createdAt: Scalars['DateTime'];
+  githubMentionedAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  issueId?: Maybe<Scalars['Int']>;
+  pullRequestId?: Maybe<Scalars['Int']>;
+  repoId: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  userId: Scalars['Int'];
+};
+
+export type GithubMentionAvgAggregate = {
+  __typename?: 'GithubMentionAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
+  issueId?: Maybe<Scalars['Float']>;
+  pullRequestId?: Maybe<Scalars['Float']>;
+  repoId?: Maybe<Scalars['Float']>;
+  userId?: Maybe<Scalars['Float']>;
+};
+
+export type GithubMentionAvgOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+  issueId?: InputMaybe<SortOrder>;
+  pullRequestId?: InputMaybe<SortOrder>;
+  repoId?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubMentionCount = {
+  __typename?: 'GithubMentionCount';
+  claims: Scalars['Int'];
+};
+
+export type GithubMentionCountAggregate = {
+  __typename?: 'GithubMentionCountAggregate';
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  githubMentionedAt: Scalars['Int'];
+  id: Scalars['Int'];
+  issueId: Scalars['Int'];
+  pullRequestId: Scalars['Int'];
+  repoId: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  userId: Scalars['Int'];
+};
+
+export type GithubMentionCountOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  githubMentionedAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  issueId?: InputMaybe<SortOrder>;
+  pullRequestId?: InputMaybe<SortOrder>;
+  repoId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubMentionGroupBy = {
+  __typename?: 'GithubMentionGroupBy';
+  _avg?: Maybe<GithubMentionAvgAggregate>;
+  _count?: Maybe<GithubMentionCountAggregate>;
+  _max?: Maybe<GithubMentionMaxAggregate>;
+  _min?: Maybe<GithubMentionMinAggregate>;
+  _sum?: Maybe<GithubMentionSumAggregate>;
+  createdAt: Scalars['DateTime'];
+  githubMentionedAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  issueId?: Maybe<Scalars['Int']>;
+  pullRequestId?: Maybe<Scalars['Int']>;
+  repoId: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  userId: Scalars['Int'];
+};
+
+export type GithubMentionListRelationFilter = {
+  every?: InputMaybe<GithubMentionWhereInput>;
+  none?: InputMaybe<GithubMentionWhereInput>;
+  some?: InputMaybe<GithubMentionWhereInput>;
+};
+
+export type GithubMentionMaxAggregate = {
+  __typename?: 'GithubMentionMaxAggregate';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  githubMentionedAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  issueId?: Maybe<Scalars['Int']>;
+  pullRequestId?: Maybe<Scalars['Int']>;
+  repoId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  userId?: Maybe<Scalars['Int']>;
+};
+
+export type GithubMentionMaxOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  githubMentionedAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  issueId?: InputMaybe<SortOrder>;
+  pullRequestId?: InputMaybe<SortOrder>;
+  repoId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubMentionMinAggregate = {
+  __typename?: 'GithubMentionMinAggregate';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  githubMentionedAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  issueId?: Maybe<Scalars['Int']>;
+  pullRequestId?: Maybe<Scalars['Int']>;
+  repoId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  userId?: Maybe<Scalars['Int']>;
+};
+
+export type GithubMentionMinOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  githubMentionedAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  issueId?: InputMaybe<SortOrder>;
+  pullRequestId?: InputMaybe<SortOrder>;
+  repoId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubMentionOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type GithubMentionOrderByWithAggregationInput = {
+  _avg?: InputMaybe<GithubMentionAvgOrderByAggregateInput>;
+  _count?: InputMaybe<GithubMentionCountOrderByAggregateInput>;
+  _max?: InputMaybe<GithubMentionMaxOrderByAggregateInput>;
+  _min?: InputMaybe<GithubMentionMinOrderByAggregateInput>;
+  _sum?: InputMaybe<GithubMentionSumOrderByAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  githubMentionedAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  issueId?: InputMaybe<SortOrder>;
+  pullRequestId?: InputMaybe<SortOrder>;
+  repoId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubMentionOrderByWithRelationInput = {
+  claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  githubMentionedAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  issue?: InputMaybe<GithubIssueOrderByWithRelationInput>;
+  issueId?: InputMaybe<SortOrder>;
+  pullRequest?: InputMaybe<GithubPullRequestOrderByWithRelationInput>;
+  pullRequestId?: InputMaybe<SortOrder>;
+  repo?: InputMaybe<RepoOrderByWithRelationInput>;
+  repoId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubMentionRelationFilter = {
+  is?: InputMaybe<GithubMentionWhereInput>;
+  isNot?: InputMaybe<GithubMentionWhereInput>;
+};
+
+export type GithubMentionRepoIdUserIdIssueIdCompoundUniqueInput = {
+  issueId: Scalars['Int'];
+  repoId: Scalars['Int'];
+  userId: Scalars['Int'];
+};
+
+export type GithubMentionRepoIdUserIdPullRequestIdCompoundUniqueInput = {
+  pullRequestId: Scalars['Int'];
+  repoId: Scalars['Int'];
+  userId: Scalars['Int'];
+};
+
+export enum GithubMentionScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  GithubMentionedAt = 'githubMentionedAt',
+  Id = 'id',
+  IssueId = 'issueId',
+  PullRequestId = 'pullRequestId',
+  RepoId = 'repoId',
+  UpdatedAt = 'updatedAt',
+  UserId = 'userId',
+}
+
+export type GithubMentionScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<GithubMentionScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<GithubMentionScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<GithubMentionScalarWhereWithAggregatesInput>>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  githubMentionedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  issueId?: InputMaybe<IntNullableWithAggregatesFilter>;
+  pullRequestId?: InputMaybe<IntNullableWithAggregatesFilter>;
+  repoId?: InputMaybe<IntWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  userId?: InputMaybe<IntWithAggregatesFilter>;
+};
+
+export type GithubMentionSumAggregate = {
+  __typename?: 'GithubMentionSumAggregate';
+  id?: Maybe<Scalars['Int']>;
+  issueId?: Maybe<Scalars['Int']>;
+  pullRequestId?: Maybe<Scalars['Int']>;
+  repoId?: Maybe<Scalars['Int']>;
+  userId?: Maybe<Scalars['Int']>;
+};
+
+export type GithubMentionSumOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+  issueId?: InputMaybe<SortOrder>;
+  pullRequestId?: InputMaybe<SortOrder>;
+  repoId?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type GithubMentionWhereInput = {
+  AND?: InputMaybe<Array<GithubMentionWhereInput>>;
+  NOT?: InputMaybe<Array<GithubMentionWhereInput>>;
+  OR?: InputMaybe<Array<GithubMentionWhereInput>>;
+  claims?: InputMaybe<ClaimListRelationFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  githubMentionedAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  issue?: InputMaybe<GithubIssueRelationFilter>;
+  issueId?: InputMaybe<IntNullableFilter>;
+  pullRequest?: InputMaybe<GithubPullRequestRelationFilter>;
+  pullRequestId?: InputMaybe<IntNullableFilter>;
+  repo?: InputMaybe<RepoRelationFilter>;
+  repoId?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+  userId?: InputMaybe<IntFilter>;
+};
+
+export type GithubMentionWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  repoId_userId_issueId?: InputMaybe<GithubMentionRepoIdUserIdIssueIdCompoundUniqueInput>;
+  repoId_userId_pullRequestId?: InputMaybe<GithubMentionRepoIdUserIdPullRequestIdCompoundUniqueInput>;
+};
+
 export type GithubPullRequest = {
   __typename?: 'GithubPullRequest';
-  Claim: Array<Claim>;
   _count?: Maybe<GithubPullRequestCount>;
+  claims: Array<Claim>;
   createdAt: Scalars['DateTime'];
+  githubMentions: Array<GithubMention>;
   githubMergeCommitSha: Scalars['String'];
-  githubMergedAt: Scalars['DateTime'];
+  githubMergedAt?: Maybe<Scalars['DateTime']>;
   githubPullNumber: Scalars['Int'];
   githubTitle: Scalars['String'];
   id: Scalars['Int'];
@@ -1133,13 +1652,22 @@ export type GithubPullRequest = {
   userId: Scalars['Int'];
 };
 
-export type GithubPullRequestClaimArgs = {
+export type GithubPullRequestClaimsArgs = {
   cursor?: InputMaybe<ClaimWhereUniqueInput>;
   distinct?: InputMaybe<Array<ClaimScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<ClaimOrderByWithRelationInput>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ClaimWhereInput>;
+};
+
+export type GithubPullRequestGithubMentionsArgs = {
+  cursor?: InputMaybe<GithubMentionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubMentionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubMentionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubMentionWhereInput>;
 };
 
 export type GithubPullRequestAvgAggregate = {
@@ -1159,7 +1687,8 @@ export type GithubPullRequestAvgOrderByAggregateInput = {
 
 export type GithubPullRequestCount = {
   __typename?: 'GithubPullRequestCount';
-  Claim: Scalars['Int'];
+  claims: Scalars['Int'];
+  githubMentions: Scalars['Int'];
 };
 
 export type GithubPullRequestCountAggregate = {
@@ -1197,7 +1726,7 @@ export type GithubPullRequestGroupBy = {
   _sum?: Maybe<GithubPullRequestSumAggregate>;
   createdAt: Scalars['DateTime'];
   githubMergeCommitSha: Scalars['String'];
-  githubMergedAt: Scalars['DateTime'];
+  githubMergedAt?: Maybe<Scalars['DateTime']>;
   githubPullNumber: Scalars['Int'];
   githubTitle: Scalars['String'];
   id: Scalars['Int'];
@@ -1284,8 +1813,9 @@ export type GithubPullRequestOrderByWithAggregationInput = {
 };
 
 export type GithubPullRequestOrderByWithRelationInput = {
-  Claim?: InputMaybe<ClaimOrderByRelationAggregateInput>;
+  claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
+  githubMentions?: InputMaybe<GithubMentionOrderByRelationAggregateInput>;
   githubMergeCommitSha?: InputMaybe<SortOrder>;
   githubMergedAt?: InputMaybe<SortOrder>;
   githubPullNumber?: InputMaybe<SortOrder>;
@@ -1326,7 +1856,7 @@ export type GithubPullRequestScalarWhereWithAggregatesInput = {
   OR?: InputMaybe<Array<GithubPullRequestScalarWhereWithAggregatesInput>>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   githubMergeCommitSha?: InputMaybe<StringWithAggregatesFilter>;
-  githubMergedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  githubMergedAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
   githubPullNumber?: InputMaybe<IntWithAggregatesFilter>;
   githubTitle?: InputMaybe<StringWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
@@ -1352,12 +1882,13 @@ export type GithubPullRequestSumOrderByAggregateInput = {
 
 export type GithubPullRequestWhereInput = {
   AND?: InputMaybe<Array<GithubPullRequestWhereInput>>;
-  Claim?: InputMaybe<ClaimListRelationFilter>;
   NOT?: InputMaybe<Array<GithubPullRequestWhereInput>>;
   OR?: InputMaybe<Array<GithubPullRequestWhereInput>>;
+  claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  githubMentions?: InputMaybe<GithubMentionListRelationFilter>;
   githubMergeCommitSha?: InputMaybe<StringFilter>;
-  githubMergedAt?: InputMaybe<DateTimeFilter>;
+  githubMergedAt?: InputMaybe<DateTimeNullableFilter>;
   githubPullNumber?: InputMaybe<IntFilter>;
   githubTitle?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
@@ -2436,6 +2967,8 @@ export type Query = {
   aggregateClaim: AggregateClaim;
   aggregateFeaturedPOAP: AggregateFeaturedPoap;
   aggregateGitPOAP: AggregateGitPoap;
+  aggregateGithubIssue: AggregateGithubIssue;
+  aggregateGithubMention: AggregateGithubMention;
   aggregateGithubPullRequest: AggregateGithubPullRequest;
   aggregateOrganization: AggregateOrganization;
   aggregateProfile: AggregateProfile;
@@ -2451,6 +2984,8 @@ export type Query = {
   findFirstClaim?: Maybe<Claim>;
   findFirstFeaturedPOAP?: Maybe<FeaturedPoap>;
   findFirstGitPOAP?: Maybe<GitPoap>;
+  findFirstGithubIssue?: Maybe<GithubIssue>;
+  findFirstGithubMention?: Maybe<GithubMention>;
   findFirstGithubPullRequest?: Maybe<GithubPullRequest>;
   findFirstOrganization?: Maybe<Organization>;
   findFirstProfile?: Maybe<Profile>;
@@ -2461,11 +2996,17 @@ export type Query = {
   gitPOAPEvent?: Maybe<FullGitPoapEventData>;
   gitPOAPHolders?: Maybe<Holders>;
   gitPOAPS: Array<GitPoap>;
+  githubIssue?: Maybe<GithubIssue>;
+  githubIssues: Array<GithubIssue>;
+  githubMention?: Maybe<GithubMention>;
+  githubMentions: Array<GithubMention>;
   githubPullRequest?: Maybe<GithubPullRequest>;
   githubPullRequests: Array<GithubPullRequest>;
   groupByClaim: Array<ClaimGroupBy>;
   groupByFeaturedPOAP: Array<FeaturedPoapGroupBy>;
   groupByGitPOAP: Array<GitPoapGroupBy>;
+  groupByGithubIssue: Array<GithubIssueGroupBy>;
+  groupByGithubMention: Array<GithubMentionGroupBy>;
   groupByGithubPullRequest: Array<GithubPullRequestGroupBy>;
   groupByOrganization: Array<OrganizationGroupBy>;
   groupByProfile: Array<ProfileGroupBy>;
@@ -2529,6 +3070,22 @@ export type QueryAggregateGitPoapArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GitPoapWhereInput>;
+};
+
+export type QueryAggregateGithubIssueArgs = {
+  cursor?: InputMaybe<GithubIssueWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<GithubIssueOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubIssueWhereInput>;
+};
+
+export type QueryAggregateGithubMentionArgs = {
+  cursor?: InputMaybe<GithubMentionWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<GithubMentionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubMentionWhereInput>;
 };
 
 export type QueryAggregateGithubPullRequestArgs = {
@@ -2644,6 +3201,24 @@ export type QueryFindFirstGitPoapArgs = {
   where?: InputMaybe<GitPoapWhereInput>;
 };
 
+export type QueryFindFirstGithubIssueArgs = {
+  cursor?: InputMaybe<GithubIssueWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubIssueScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubIssueOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubIssueWhereInput>;
+};
+
+export type QueryFindFirstGithubMentionArgs = {
+  cursor?: InputMaybe<GithubMentionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubMentionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubMentionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubMentionWhereInput>;
+};
+
 export type QueryFindFirstGithubPullRequestArgs = {
   cursor?: InputMaybe<GithubPullRequestWhereUniqueInput>;
   distinct?: InputMaybe<Array<GithubPullRequestScalarFieldEnum>>;
@@ -2722,6 +3297,32 @@ export type QueryGitPoapsArgs = {
   where?: InputMaybe<GitPoapWhereInput>;
 };
 
+export type QueryGithubIssueArgs = {
+  where: GithubIssueWhereUniqueInput;
+};
+
+export type QueryGithubIssuesArgs = {
+  cursor?: InputMaybe<GithubIssueWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubIssueScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubIssueOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubIssueWhereInput>;
+};
+
+export type QueryGithubMentionArgs = {
+  where: GithubMentionWhereUniqueInput;
+};
+
+export type QueryGithubMentionsArgs = {
+  cursor?: InputMaybe<GithubMentionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubMentionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubMentionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubMentionWhereInput>;
+};
+
 export type QueryGithubPullRequestArgs = {
   where: GithubPullRequestWhereUniqueInput;
 };
@@ -2760,6 +3361,24 @@ export type QueryGroupByGitPoapArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GitPoapWhereInput>;
+};
+
+export type QueryGroupByGithubIssueArgs = {
+  by: Array<GithubIssueScalarFieldEnum>;
+  having?: InputMaybe<GithubIssueScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<GithubIssueOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubIssueWhereInput>;
+};
+
+export type QueryGroupByGithubMentionArgs = {
+  by: Array<GithubMentionScalarFieldEnum>;
+  having?: InputMaybe<GithubMentionScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<GithubMentionOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubMentionWhereInput>;
 };
 
 export type QueryGroupByGithubPullRequestArgs = {
@@ -3013,9 +3632,11 @@ export type RedeemCodeWhereUniqueInput = {
 
 export type Repo = {
   __typename?: 'Repo';
-  GithubPullRequest: Array<GithubPullRequest>;
   _count?: Maybe<RepoCount>;
   createdAt: Scalars['DateTime'];
+  githubIssues: Array<GithubIssue>;
+  githubMentions: Array<GithubMention>;
+  githubPullRequests: Array<GithubPullRequest>;
   githubRepoId: Scalars['Int'];
   id: Scalars['Int'];
   lastPRUpdatedAt: Scalars['DateTime'];
@@ -3027,7 +3648,25 @@ export type Repo = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type RepoGithubPullRequestArgs = {
+export type RepoGithubIssuesArgs = {
+  cursor?: InputMaybe<GithubIssueWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubIssueScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubIssueOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubIssueWhereInput>;
+};
+
+export type RepoGithubMentionsArgs = {
+  cursor?: InputMaybe<GithubMentionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubMentionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubMentionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubMentionWhereInput>;
+};
+
+export type RepoGithubPullRequestsArgs = {
   cursor?: InputMaybe<GithubPullRequestWhereUniqueInput>;
   distinct?: InputMaybe<Array<GithubPullRequestScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<GithubPullRequestOrderByWithRelationInput>>;
@@ -3053,7 +3692,9 @@ export type RepoAvgOrderByAggregateInput = {
 
 export type RepoCount = {
   __typename?: 'RepoCount';
-  GithubPullRequest: Scalars['Int'];
+  githubIssues: Scalars['Int'];
+  githubMentions: Scalars['Int'];
+  githubPullRequests: Scalars['Int'];
 };
 
 export type RepoCountAggregate = {
@@ -3176,8 +3817,10 @@ export type RepoOrderByWithAggregationInput = {
 };
 
 export type RepoOrderByWithRelationInput = {
-  GithubPullRequest?: InputMaybe<GithubPullRequestOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
+  githubIssues?: InputMaybe<GithubIssueOrderByRelationAggregateInput>;
+  githubMentions?: InputMaybe<GithubMentionOrderByRelationAggregateInput>;
+  githubPullRequests?: InputMaybe<GithubPullRequestOrderByRelationAggregateInput>;
   githubRepoId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   lastPRUpdatedAt?: InputMaybe<SortOrder>;
@@ -3196,11 +3839,13 @@ export type RepoRelationFilter = {
 
 export type RepoReturnData = {
   __typename?: 'RepoReturnData';
-  GithubPullRequest: Array<GithubPullRequest>;
   _count?: Maybe<RepoCount>;
   contributorCount: Scalars['Float'];
   createdAt: Scalars['DateTime'];
   gitPOAPCount: Scalars['Float'];
+  githubIssues: Array<GithubIssue>;
+  githubMentions: Array<GithubMention>;
+  githubPullRequests: Array<GithubPullRequest>;
   githubRepoId: Scalars['Int'];
   id: Scalars['Int'];
   lastPRUpdatedAt: Scalars['DateTime'];
@@ -3213,7 +3858,25 @@ export type RepoReturnData = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type RepoReturnDataGithubPullRequestArgs = {
+export type RepoReturnDataGithubIssuesArgs = {
+  cursor?: InputMaybe<GithubIssueWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubIssueScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubIssueOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubIssueWhereInput>;
+};
+
+export type RepoReturnDataGithubMentionsArgs = {
+  cursor?: InputMaybe<GithubMentionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubMentionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubMentionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubMentionWhereInput>;
+};
+
+export type RepoReturnDataGithubPullRequestsArgs = {
   cursor?: InputMaybe<GithubPullRequestWhereUniqueInput>;
   distinct?: InputMaybe<Array<GithubPullRequestScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<GithubPullRequestOrderByWithRelationInput>>;
@@ -3264,10 +3927,12 @@ export type RepoSumOrderByAggregateInput = {
 
 export type RepoWhereInput = {
   AND?: InputMaybe<Array<RepoWhereInput>>;
-  GithubPullRequest?: InputMaybe<GithubPullRequestListRelationFilter>;
   NOT?: InputMaybe<Array<RepoWhereInput>>;
   OR?: InputMaybe<Array<RepoWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  githubIssues?: InputMaybe<GithubIssueListRelationFilter>;
+  githubMentions?: InputMaybe<GithubMentionListRelationFilter>;
+  githubPullRequests?: InputMaybe<GithubPullRequestListRelationFilter>;
   githubRepoId?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
   lastPRUpdatedAt?: InputMaybe<DateTimeFilter>;
@@ -3365,23 +4030,16 @@ export type StringWithAggregatesFilter = {
 
 export type User = {
   __typename?: 'User';
-  GithubPullRequest: Array<GithubPullRequest>;
   _count?: Maybe<UserCount>;
   claims: Array<Claim>;
   createdAt: Scalars['DateTime'];
   githubHandle: Scalars['String'];
   githubId: Scalars['Int'];
+  githubIssues: Array<GithubIssue>;
+  githubMentions: Array<GithubMention>;
+  githubPullRequests: Array<GithubPullRequest>;
   id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
-};
-
-export type UserGithubPullRequestArgs = {
-  cursor?: InputMaybe<GithubPullRequestWhereUniqueInput>;
-  distinct?: InputMaybe<Array<GithubPullRequestScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<GithubPullRequestOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<GithubPullRequestWhereInput>;
 };
 
 export type UserClaimsArgs = {
@@ -3391,6 +4049,33 @@ export type UserClaimsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ClaimWhereInput>;
+};
+
+export type UserGithubIssuesArgs = {
+  cursor?: InputMaybe<GithubIssueWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubIssueScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubIssueOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubIssueWhereInput>;
+};
+
+export type UserGithubMentionsArgs = {
+  cursor?: InputMaybe<GithubMentionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubMentionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubMentionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubMentionWhereInput>;
+};
+
+export type UserGithubPullRequestsArgs = {
+  cursor?: InputMaybe<GithubPullRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GithubPullRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GithubPullRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GithubPullRequestWhereInput>;
 };
 
 export type UserAvgAggregate = {
@@ -3406,9 +4091,11 @@ export type UserAvgOrderByAggregateInput = {
 
 export type UserCount = {
   __typename?: 'UserCount';
-  GithubPullRequest: Scalars['Int'];
   authTokens: Scalars['Int'];
   claims: Scalars['Int'];
+  githubIssues: Scalars['Int'];
+  githubMentions: Scalars['Int'];
+  githubPullRequests: Scalars['Int'];
 };
 
 export type UserCountAggregate = {
@@ -3444,8 +4131,8 @@ export type UserFeaturedPoaPs = {
 export type UserGitPoapData = {
   __typename?: 'UserGitPOAPData';
   claim: Claim;
+  contributionCount: Scalars['Float'];
   event: PoapEvent;
-  prCount: Scalars['Float'];
 };
 
 export type UserGroupBy = {
@@ -3510,11 +4197,13 @@ export type UserOrderByWithAggregationInput = {
 };
 
 export type UserOrderByWithRelationInput = {
-  GithubPullRequest?: InputMaybe<GithubPullRequestOrderByRelationAggregateInput>;
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   githubId?: InputMaybe<SortOrder>;
+  githubIssues?: InputMaybe<GithubIssueOrderByRelationAggregateInput>;
+  githubMentions?: InputMaybe<GithubMentionOrderByRelationAggregateInput>;
+  githubPullRequests?: InputMaybe<GithubPullRequestOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -3564,13 +4253,15 @@ export type UserSumOrderByAggregateInput = {
 
 export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
-  GithubPullRequest?: InputMaybe<GithubPullRequestListRelationFilter>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   githubHandle?: InputMaybe<StringFilter>;
   githubId?: InputMaybe<IntFilter>;
+  githubIssues?: InputMaybe<GithubIssueListRelationFilter>;
+  githubMentions?: InputMaybe<GithubMentionListRelationFilter>;
+  githubPullRequests?: InputMaybe<GithubPullRequestListRelationFilter>;
   id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
@@ -3758,7 +4449,7 @@ export type GitPoapsQuery = {
     totalGitPOAPs: number;
     gitPOAPs: Array<{
       __typename?: 'UserGitPOAPData';
-      prCount: number;
+      contributionCount: number;
       claim: {
         __typename?: 'Claim';
         status: ClaimStatus;
@@ -4658,7 +5349,7 @@ export const GitPoapsDocument = gql`
           image_url
           description
         }
-        prCount
+        contributionCount
       }
     }
   }

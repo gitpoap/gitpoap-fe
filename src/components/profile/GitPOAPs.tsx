@@ -24,12 +24,12 @@ const selectOptions: SelectOption<SortOptions>[] = [
 
 type GitPOAPItems = Exclude<GitPoapsQuery['userPOAPs'], undefined | null>['gitPOAPs'];
 
-const determineLevel = (prCount: number): Level | undefined => {
-  if (prCount > 10) {
+const determineLevel = (contributionCount: number): Level | undefined => {
+  if (contributionCount > 10) {
     return 'gold';
-  } else if (prCount > 6) {
+  } else if (contributionCount > 6) {
     return 'silver';
-  } else if (prCount > 0) {
+  } else if (contributionCount > 0) {
     return 'bronze';
   } else {
     return undefined;
@@ -149,7 +149,7 @@ export const GitPOAPs = ({ address }: Props) => {
                   name={gitPOAPItem.event.name}
                   imgSrc={gitPOAPItem.event.image_url}
                   poapTokenId={gitPOAPItem.claim.poapTokenId}
-                  level={determineLevel(gitPOAPItem.prCount)}
+                  level={determineLevel(gitPOAPItem.contributionCount)}
                 />
               );
             })}

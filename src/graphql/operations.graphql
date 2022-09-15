@@ -137,7 +137,7 @@ query gitPoaps($address: String!, $sort: String, $page: Float, $perPage: Float) 
         image_url
         description
       }
-      prCount
+      contributionCount
     }
   }
 }
