@@ -2,10 +2,10 @@ import { Page } from '../_app';
 import { SEO } from '../../components/SEO';
 import { SettingsPage } from '../../components/settings/SettingsPage';
 import { useWeb3Context } from '../../components/wallet/Web3ContextProvider';
-import { useProfileQuery } from '../../graphql/generated-gql';
 import styled from 'styled-components';
-import { Center, Container, Loader, Text } from '@mantine/core';
+import { Center, Container, Loader } from '@mantine/core';
 import { Button } from '../../components/shared/elements';
+import { ProfileProvider } from '../../components/profile/ProfileContext';
 
 const Wrapper = styled(Container)`
   width: 100vw;
@@ -13,14 +13,6 @@ const Wrapper = styled(Container)`
 
 const Settings: Page = () => {
   const { address, connect, connectionStatus } = useWeb3Context();
-
-  const [result, refetch] = useProfileQuery({
-    variables: {
-      address: address ?? '',
-    },
-  });
-
-  const profileData = result?.data?.profileData;
 
   return (
     <Wrapper size={600} my={48}>
@@ -31,7 +23,9 @@ const Settings: Page = () => {
         url={`https://gitpoap.io/settings`}
       />
       {connectionStatus === 'connected' ? (
-        <SettingsPage profileData={profileData} refetch={refetch} />
+        <ProfileProvider addressOrEns={address}>
+          <SettingsPage />
+        </ProfileProvider>
       ) : (
         <Center style={{ width: '100%', height: 600 }}>
           {connectionStatus === 'disconnected' && (
