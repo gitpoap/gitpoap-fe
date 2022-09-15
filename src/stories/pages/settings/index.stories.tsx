@@ -2,32 +2,45 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Layout } from '../../../components/Layout';
 import { SettingsPage } from '../../../components/settings/SettingsPage';
+import { ProfileProvider } from '../../../components/profile/ProfileContext';
+import { graphql } from 'msw';
+import { ProfileQuery } from '../../../graphql/generated-gql';
+import { Container } from '@mantine/core';
 
 export default {
   title: 'Pages/Settings',
   component: SettingsPage,
 } as ComponentMeta<typeof SettingsPage>;
 
-const Template: ComponentStory<typeof SettingsPage> = () => {
-  const profileData = {
+const Template: ComponentStory<typeof SettingsPage> = () => (
+  <Layout>
+    <ProfileProvider addressOrEns="asdfasdfasdf">
+      <Container my={48} size={600} style={{ width: '100%' }}>
+        <SettingsPage />
+      </Container>
+    </ProfileProvider>
+  </Layout>
+);
+
+const ProfileQueryResponse: ProfileQuery = {
+  profileData: {
     address: '0x02738d122e0970aaf8deadf0c6a217a1923e1e99',
-    bio: 'I like surfing!!',
+    bio: 'Developer!',
     ensAvatarImageUrl: null,
     ensName: 'lamberti.eth',
-    githubHandle: null,
+    githubHandle: 'gitpoapdev',
     id: 7,
     isVisibleOnLeaderboard: true,
     name: 'Aldo Lamberti',
     personalSiteUrl: null,
     twitterHandle: null,
-  };
-
-  return (
-    <Layout>
-      <SettingsPage profileData={profileData} refetch={() => {}} />
-    </Layout>
-  );
+  },
 };
 
 export const Default = Template.bind({});
 Default.args = {};
+Default.parameters = {
+  msw: {
+    handlers: [graphql.query('profile', (req, res, ctx) => res(ctx.data(ProfileQueryResponse)))],
+  },
+};
