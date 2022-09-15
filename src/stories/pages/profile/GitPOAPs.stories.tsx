@@ -49,7 +49,7 @@ const GitPoapEventQueryResponse: GitPoapsQuery = {
           description:
             'You made at least one contribution to the GitPOAP Annual Contributor project in 2022. Your contributions are greatly appreciated!',
         },
-        prCount: 1,
+        contributionCount: 1,
       },
       {
         claim: {
@@ -75,7 +75,7 @@ const GitPoapEventQueryResponse: GitPoapsQuery = {
           description:
             'You made at least one contribution to the gitpoap-docs project in 2022. Your contributions are greatly appreciated!',
         },
-        prCount: 6,
+        contributionCount: 6,
       },
     ],
   },
