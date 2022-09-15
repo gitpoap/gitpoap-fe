@@ -17,7 +17,7 @@ const Settings: Page = () => {
   return (
     <Wrapper size={600} my={48}>
       <SEO
-        title={`Your Profile | GitPOAP`}
+        title={`Settings | GitPOAP`}
         description={`GitPOAP - a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.`}
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/settings`}

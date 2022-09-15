@@ -30,7 +30,7 @@ const TextArea = styled(TextAreaUI)`
 
 const ConnectGithubAccount = styled(Text)`
   color: ${TextGray};
-  font-size: 12px;
+  font-size: ${rem(12)};
   line-height: 1.2;
 
   display: inline-flex;
@@ -135,7 +135,7 @@ export const SettingsPage = () => {
           isLoggedIntoGitHub && (
             <ConnectGithubAccount onClick={() => setGithubHandleValue(user?.githubHandle)}>
               <FaRegEdit />
-              {' Use the currently authenticated github account'}
+              {' Use the currently authenticated GitHub account'}
             </ConnectGithubAccount>
           )
         }
