@@ -4992,6 +4992,16 @@ export type MintedClaimsCountQuery = {
   };
 };
 
+export type UnverifiedClaimsCountQueryVariables = Exact<{ [key: string]: never }>;
+
+export type UnverifiedClaimsCountQuery = {
+  __typename?: 'Query';
+  aggregateClaim: {
+    __typename?: 'AggregateClaim';
+    _count?: { __typename?: 'ClaimCountAggregate'; id: number } | null;
+  };
+};
+
 export type AllGitPoapIdsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AllGitPoapIdsQuery = {
@@ -6121,6 +6131,24 @@ export function useMintedClaimsCountQuery(
 ) {
   return Urql.useQuery<MintedClaimsCountQuery, MintedClaimsCountQueryVariables>({
     query: MintedClaimsCountDocument,
+    ...options,
+  });
+}
+export const UnverifiedClaimsCountDocument = gql`
+  query unverifiedClaimsCount {
+    aggregateClaim(where: { needsRevalidation: { equals: true } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useUnverifiedClaimsCountQuery(
+  options?: Omit<Urql.UseQueryArgs<UnverifiedClaimsCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<UnverifiedClaimsCountQuery, UnverifiedClaimsCountQueryVariables>({
+    query: UnverifiedClaimsCountDocument,
     ...options,
   });
 }
