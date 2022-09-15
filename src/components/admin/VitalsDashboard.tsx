@@ -8,6 +8,7 @@ import {
   useCountClaimsWithPullRequestEarnedQuery,
   useGitPoaPsSinceQuery,
   useMintedClaimsCountQuery,
+  useUnverifiedClaimsCountQuery,
   useOrgsSinceQuery,
   useProfilesSinceQuery,
   useReposSinceQuery,
@@ -118,6 +119,7 @@ export const VitalsDashboard = (props: Props) => {
   const [totalProfilesHiddenResults] = useTotalProfilesHiddenQuery();
   const [totalClaimsResult] = useClaimsCountQuery();
   const [mintedClaimsResult] = useMintedClaimsCountQuery();
+  const [unverifiedClaimsResult] = useUnverifiedClaimsCountQuery();
   const [totalUsersResult] = useTotalUsersQuery();
   const [totalUsersWithClaimsResult] = useTotalDistinctUsersWithClaimsQuery();
   const [totalClaimsWithPullRequestEarnedResult] = useCountClaimsWithPullRequestEarnedQuery();
@@ -140,6 +142,7 @@ export const VitalsDashboard = (props: Props) => {
   const totalProfilesHidden = totalProfilesHiddenResults?.data?.aggregateProfile?._count?.id;
   const totalClaims = totalClaimsResult.data?.aggregateClaim._count?.id;
   const mintedClaims = mintedClaimsResult.data?.aggregateClaim._count?.id;
+  const unverifiedClaims = unverifiedClaimsResult.data?.aggregateClaim._count?.id;
   const totalUsers = totalUsersResult.data?.aggregateUser._count?.githubHandle;
   const totalUsersWithClaims = totalUsersWithClaimsResult.data?.claims.length;
   const totalClaimsWithPREarned =
@@ -214,6 +217,14 @@ export const VitalsDashboard = (props: Props) => {
               })`
             }
             // value={totalClaims && mintedClaims && totalClaims - mintedClaims}
+          />
+          <DashboardItem
+            name={'Total unverified claims'}
+            value={`${unverifiedClaims} (${
+              totalClaims && unverifiedClaims
+                ? ((unverifiedClaims / totalClaims) * 100).toFixed(2) + '%'
+                : ''
+            })`}
           />
           <DashboardItem
             name={'Total claims'}

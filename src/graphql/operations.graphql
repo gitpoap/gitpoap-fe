@@ -574,6 +574,14 @@ query mintedClaimsCount {
   }
 }
 
+query unverifiedClaimsCount {
+  aggregateClaim(where: { needsRevalidation: { equals: true } }) {
+    _count {
+      id
+    }
+  }
+}
+
 query allGitPOAPIds {
   gitPOAPS {
     id
