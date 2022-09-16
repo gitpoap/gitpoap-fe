@@ -208,8 +208,8 @@ export const SearchBox = ({ className }: Props) => {
       if (result.data?.search.profilesByAddress) {
         const profilesByAddress = result.data.search.profilesByAddress.map((profile) => ({
           id: profile.id,
-          address: profile.address,
-          href: `/p/${profile.address}`,
+          address: profile.oldAddress,
+          href: `/p/${profile.oldAddress}`,
           ensAvatarUrl: profile.ensAvatarImageUrl ?? null,
         }));
 
@@ -219,7 +219,7 @@ export const SearchBox = ({ className }: Props) => {
         const profileByENSData = result.data?.search.profileByENS;
         const profileByENS = {
           id: profileByENSData.profile.id,
-          address: profileByENSData.profile.address,
+          address: profileByENSData.profile.oldAddress,
           href: `/p/${profileByENSData.ens}`,
           ensName: profileByENSData.ens,
           ensAvatarUrl: profileByENSData.profile.ensAvatarImageUrl ?? null,
