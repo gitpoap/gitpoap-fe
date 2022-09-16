@@ -82,6 +82,17 @@ const DashboardItem = ({ name, value, href, ...restProps }: ItemProps) => {
   );
 };
 
+const getPercent = (numerator?: number, denominator?: number) => {
+  if (!numerator || !denominator) {
+    return '';
+  }
+
+  return ((numerator / denominator) * 100).toFixed(2) + '%';
+};
+
+const getFormattedDate = (date?: string) =>
+  date ? DateTime.fromISO(date).toFormat('dd-LLL-yy HH:mm') : '';
+
 type Props = {
   accessToken: string | null;
 };
@@ -201,30 +212,15 @@ export const VitalsDashboard = (props: Props) => {
           {/* Claims Stats Section */}
           <DashboardItem
             name={'Total minted claims'}
-            value={`${mintedClaims} (${
-              totalClaims && mintedClaims
-                ? ((mintedClaims / totalClaims) * 100).toFixed(2) + '%'
-                : ''
-            })`}
+            value={`${mintedClaims} (${getPercent(mintedClaims, totalClaims)})`}
           />
           <DashboardItem
             name={'Total unminted claims'}
-            value={
-              totalClaims &&
-              mintedClaims &&
-              `${totalClaims - mintedClaims} (${
-                (((totalClaims - mintedClaims) / totalClaims) * 100).toFixed(2) + '%'
-              })`
-            }
-            // value={totalClaims && mintedClaims && totalClaims - mintedClaims}
+            value={getPercent((totalClaims ?? 0) - (mintedClaims ?? 0), totalClaims)}
           />
           <DashboardItem
             name={'Total unverified claims'}
-            value={`${unverifiedClaims} (${
-              totalClaims && unverifiedClaims
-                ? ((unverifiedClaims / totalClaims) * 100).toFixed(2) + '%'
-                : ''
-            })`}
+            value={`${unverifiedClaims} (${getPercent(unverifiedClaims, totalClaims)})`}
           />
           <DashboardItem
             name={'Total claims'}
@@ -233,11 +229,7 @@ export const VitalsDashboard = (props: Props) => {
           />
           <DashboardItem
             name={'Claims With PR Earned (%)'}
-            value={
-              totalClaimsWithPREarned &&
-              totalClaims &&
-              ((totalClaimsWithPREarned / totalClaims) * 100).toFixed(2) + '%'
-            }
+            value={getPercent(totalClaimsWithPREarned, totalClaims)}
             style={{ marginBottom: rem(15) }}
           />
 
@@ -245,49 +237,29 @@ export const VitalsDashboard = (props: Props) => {
           <DashboardItem name={'Total profiles'} value={totalProfiles} />
           <DashboardItem
             name={'Total profiles with GitHub Handle'}
-            value={`${totalProfilesGitHub} (${
-              totalProfilesGitHub &&
-              totalProfiles &&
-              ((totalProfilesGitHub / totalProfiles) * 100).toFixed(2) + '%'
-            })`}
+            value={`${totalProfilesGitHub} (${getPercent(totalProfilesGitHub, totalProfiles)})`}
           />
           <DashboardItem
             name={'Total hidden profiles'}
-            value={`${totalProfilesHidden} (${
-              totalProfilesHidden &&
-              totalProfiles &&
-              ((totalProfilesHidden / totalProfiles) * 100).toFixed(2) + '%'
-            })`}
+            value={`${totalProfilesHidden} (${getPercent(totalProfilesHidden, totalProfiles)})`}
             style={{ marginBottom: rem(15) }}
           />
 
           {/* Users Section */}
           <DashboardItem
             name={'Total users with mints'}
-            value={`${totalUsersWithClaims} (${
-              totalUsersWithClaims &&
-              totalUsers &&
-              ((totalUsersWithClaims / totalUsers) * 100).toFixed(2) + '%'
-            })`}
+            value={`${totalUsersWithClaims} (${getPercent(totalUsersWithClaims, totalUsers)})`}
           />
           <DashboardItem name={'Total users'} value={totalUsers} />
 
           {/* Last Run Vitals */}
           <DashboardItem
             name={'Ongoing Issuance Last Run'}
-            value={
-              ongoingIssuanceResult?.lastRun
-                ? DateTime.fromISO(ongoingIssuanceResult?.lastRun).toFormat('dd-LLL-yy HH:mm')
-                : ''
-            }
+            value={getFormattedDate(ongoingIssuanceResult?.lastRun)}
           />
           <DashboardItem
             name={'Check for Codes Last Run'}
-            value={
-              checkForCodesResult?.lastRun
-                ? DateTime.fromISO(checkForCodesResult?.lastRun).toFormat('dd-LLL-yy HH:mm')
-                : ''
-            }
+            value={getFormattedDate(checkForCodesResult?.lastRun)}
             style={{ marginBottom: rem(15) }}
           />
 
