@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NumberInput renders an NumberInput and label 1`] = `
+.c0 {
+  display: inline-block;
+}
+
+.c0 .mantine-NumberInput-label {
+  font-family: 'PT Mono',monospace;
+  color: #E2E2EE;
+  font-weight: 700;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.075rem;
+  -moz-letter-spacing: 0.075rem;
+  -ms-letter-spacing: 0.075rem;
+  letter-spacing: 0.075rem;
+  line-height: 1.125rem;
+  margin-bottom: 0.6875rem;
+}
+
+.c0 .mantine-NumberInput-input {
+  border-radius: 0.375rem;
+  font-family: 'PT Mono',monospace;
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: white;
+  background-color: #1E1F2E;
+  -webkit-transition: 150ms background-color ease;
+  transition: 150ms background-color ease;
+  -webkit-letter-spacing: 0.0125rem;
+  -moz-letter-spacing: 0.0125rem;
+  -ms-letter-spacing: 0.0125rem;
+  letter-spacing: 0.0125rem;
+  border: 0.0625rem solid transparent;
+}
+
+.c0 .mantine-NumberInput-input:hover:not(:disabled):not(:focus) {
+  background-color: #292B3D;
+}
+
+.c0 .mantine-NumberInput-input:focus {
+  background-color: #1E1F2E;
+  border: 0.0625rem solid #393A51 !important;
+}
+
+.c0 .mantine-NumberInput-input::-webkit-input-placeholder {
+  color: #393A51;
+}
+
+.c0 .mantine-NumberInput-input::-moz-placeholder {
+  color: #393A51;
+}
+
+.c0 .mantine-NumberInput-input:-ms-input-placeholder {
+  color: #393A51;
+}
+
+.c0 .mantine-NumberInput-input::placeholder {
+  color: #393A51;
+}
+
+.c0 .mantine-NumberInput-input.mantine-NumberInput-invalid {
+  color: #F77070;
+}
+
+.c0 .mantine-NumberInput-error {
+  font-family: 'PT Mono',monospace;
+  font-size: 0.625rem;
+  -webkit-letter-spacing: 1.2px;
+  -moz-letter-spacing: 1.2px;
+  -ms-letter-spacing: 1.2px;
+  letter-spacing: 1.2px;
+  padding-left: 1rem;
+  color: #F77070 !important;
+}
+
+<div
+  class="mantine-InputWrapper-root mantine-NumberInput-root c0 mantine-1m3pqry"
+>
+  <label
+    class="mantine-InputWrapper-label mantine-NumberInput-label mantine-ittua2"
+    for="mantine-r0"
+    id="mantine-r0-label"
+  >
+    Test label
+  </label>
+  <div
+    class="mantine-Input-wrapper mantine-NumberInput-wrapper mantine-12sbrde"
+  >
+    <input
+      aria-invalid="false"
+      class="mantine-Input-input mantine-NumberInput-input mantine-fxjyvm"
+      id="mantine-r0"
+      inputmode="numeric"
+      spellcheck="false"
+      step="1"
+      type="text"
+      value=""
+    />
+    <div
+      class="mantine-1cwybh2 mantine-Input-rightSection mantine-NumberInput-rightSection"
+    >
+      <div
+        class="mantine-1mzslog mantine-NumberInput-rightSection"
+      >
+        <button
+          aria-hidden="true"
+          class="mantine-NumberInput-control mantine-NumberInput-controlUp mantine-f73we9"
+          tabindex="-1"
+          type="button"
+        >
+          <svg
+            fill="none"
+            height="14"
+            style="transform: rotate(180deg);"
+            viewBox="0 0 15 15"
+            width="14"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+              fill="currentColor"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </button>
+        <button
+          aria-hidden="true"
+          class="mantine-NumberInput-control mantine-NumberInput-controlDown mantine-1kz3j3d"
+          tabindex="-1"
+          type="button"
+        >
+          <svg
+            fill="none"
+            height="14"
+            viewBox="0 0 15 15"
+            width="14"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+              fill="currentColor"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

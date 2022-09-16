@@ -26,7 +26,7 @@ type Props = {
   level?: Level;
 };
 
-type Sizes = 'xxxs' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
+export type Sizes = 'xxxs' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
 
 type Dimensions = {
   [size in Sizes]: { width: number; borderSize: number };

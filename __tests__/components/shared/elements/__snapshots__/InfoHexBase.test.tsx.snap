@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InfoHexBase renders an InfoHexBase WITH href 1`] = `
+.c1 {
+  margin-top: 3.125rem;
+  margin-bottom: 3.125rem;
+  background-color: #1E1F2E;
+  position: relative;
+  min-height: 6.25rem;
+  -webkit-transition: 150ms background-color ease;
+  transition: 150ms background-color ease;
+  pointer-events: auto;
+}
+
+.c1:before {
+  position: absolute;
+  content: '';
+  -webkit-clip-path: polygon(50% 0%,0% 100%,100% 100%);
+  clip-path: polygon(50% 0%,0% 100%,100% 100%);
+  width: 100%;
+  height: 3.125rem;
+  background-color: #1E1F2E;
+  top: -3.09375rem;
+  -webkit-transition: 150ms background-color ease;
+  transition: 150ms background-color ease;
+  left: 0;
+}
+
+.c1:after {
+  content: '';
+  -webkit-clip-path: polygon(50% 100%,0 0,100% 0);
+  clip-path: polygon(50% 100%,0 0,100% 0);
+  position: absolute;
+  width: 100%;
+  height: 3.125rem;
+  background-color: #1E1F2E;
+  bottom: -3.125rem;
+  -webkit-transition: 150ms background-color ease;
+  transition: 150ms background-color ease;
+  left: 0;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 15.625rem;
+  pointer-events: none;
+}
+
+<div
+  class="c0"
+>
+  <a
+    class="c1"
+    href="/repos"
+  >
+    <div>
+      test
+    </div>
+  </a>
+</div>
+`;
+
+exports[`InfoHexBase renders an InfoHexBase WITHOUT href 1`] = `
+.c1 {
+  margin-top: 3.125rem;
+  margin-bottom: 3.125rem;
+  background-color: #1E1F2E;
+  position: relative;
+  min-height: 6.25rem;
+  -webkit-transition: 150ms background-color ease;
+  transition: 150ms background-color ease;
+  pointer-events: auto;
+}
+
+.c1:before {
+  position: absolute;
+  content: '';
+  -webkit-clip-path: polygon(50% 0%,0% 100%,100% 100%);
+  clip-path: polygon(50% 0%,0% 100%,100% 100%);
+  width: 100%;
+  height: 3.125rem;
+  background-color: #1E1F2E;
+  top: -3.09375rem;
+  -webkit-transition: 150ms background-color ease;
+  transition: 150ms background-color ease;
+  left: 0;
+}
+
+.c1:after {
+  content: '';
+  -webkit-clip-path: polygon(50% 100%,0 0,100% 0);
+  clip-path: polygon(50% 100%,0 0,100% 0);
+  position: absolute;
+  width: 100%;
+  height: 3.125rem;
+  background-color: #1E1F2E;
+  bottom: -3.125rem;
+  -webkit-transition: 150ms background-color ease;
+  transition: 150ms background-color ease;
+  left: 0;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 15.625rem;
+  pointer-events: none;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <div>
+      test
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders an Header 1`] = `
+.c0 {
+  font-family: VT323;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 3rem;
+  line-height: 3rem;
+  color: #E2E2EE;
+}
+
+@media (max-width:56.25rem) {
+  .c0 {
+    font-size: 2.5rem;
+  }
+}
+
+<span
+  class="c0"
+/>
+`;
