@@ -4,13 +4,14 @@ import { rem } from 'polished';
 import { Button, Input as InputUI, Checkbox } from '../shared/elements';
 import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
 import { Text } from '../shared/elements/Text';
-import { Stack, Divider } from '@mantine/core';
+import { Stack, Divider, Group, Title } from '@mantine/core';
 import { ExtraHover, ExtraPressed, TextGray, TextLight } from '../../colors';
 import { useAuthContext } from '../github/AuthContext';
 import { FaCheckCircle, FaRegEdit } from 'react-icons/fa';
 import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
 import { ProfileQuery, useProfileQuery } from '../../graphql/generated-gql';
 import { useProfileContext } from '../profile/ProfileContext';
+import { GoMarkGithub } from 'react-icons/go';
 
 const Header = styled.div`
   font-family: VT323;
@@ -66,7 +67,7 @@ export type EditableProfileData = Partial<
 
 export const SettingsPage = () => {
   const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
-  const { isLoggedIntoGitHub, user } = useAuthContext();
+  const { authorizeGitHub, handleLogout, isLoggedIntoGitHub, user } = useAuthContext();
 
   const [personSiteUrlValue, setPersonalSiteUrlValue] = useState<string | undefined | null>(
     profileData?.personalSiteUrl,
@@ -81,6 +82,7 @@ export const SettingsPage = () => {
   const [isVisibleOnLeaderboardValue, setIsVisibleOnLeaderboardValue] = useState<
     boolean | undefined
   >(profileData?.isVisibleOnLeaderboard);
+
   const [haveChangesBeenMade, setHaveChangesBeenMade] = useState<boolean>(false);
 
   useEffect(() => {
@@ -125,8 +127,10 @@ export const SettingsPage = () => {
   ]);
 
   return (
-    <Stack spacing={24}>
-      <Header style={{ textAlign: 'left' }}>{'Settings'}</Header>
+    <Stack spacing={16} mb={32}>
+      <Header id="settings" style={{ textAlign: 'left' }}>
+        {'Settings'}
+      </Header>
       <Divider />
       <Input
         placeholder="gitpoap"
@@ -197,6 +201,23 @@ export const SettingsPage = () => {
           {'Save'}
         </Button>
       </div>
+
+      <Header id="integrations" style={{ marginTop: rem(24), textAlign: 'left' }}>
+        {'Integrations'}
+      </Header>
+      <Divider />
+      <Group position="apart" p={16}>
+        <Group>
+          <GoMarkGithub size={32} />
+          <Title order={5}>GitHub</Title>
+        </Group>
+        <Button
+          variant={isLoggedIntoGitHub ? 'outline' : 'filled'}
+          onClick={isLoggedIntoGitHub ? handleLogout : authorizeGitHub}
+        >
+          {isLoggedIntoGitHub ? 'DISCONNECT' : 'CONNECT'}
+        </Button>
+      </Group>
     </Stack>
   );
 };
