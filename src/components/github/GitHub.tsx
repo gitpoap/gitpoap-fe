@@ -7,6 +7,7 @@ import { GoMarkGithub } from 'react-icons/go';
 import { DisconnectPopover } from '../DisconnectPopover';
 import { Button, ClaimCircle } from '../shared/elements';
 import { useRouter } from 'next/router';
+import { useFeatures } from '../FeaturesContext';
 
 const Content = styled.div`
   display: flex;
@@ -27,6 +28,7 @@ type Props = {
 export const GitHub = ({ className }: Props) => {
   const { claimedIds, userClaims, setIsOpen } = useClaimContext();
   const { handleLogout, authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
+  const { hasSettingsPage } = useFeatures();
   const [isGHPopoverOpen, setIsGHPopoverOpen] = useState<boolean>(false);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const userClaimCount = userClaims?.length;
@@ -37,7 +39,7 @@ export const GitHub = ({ className }: Props) => {
     return (
       <Content className={className}>
         <Button
-          onClick={() => router.push(`/settings#integrations`)}
+          onClick={hasSettingsPage ? () => router.push(`/settings#integrations`) : authorizeGitHub}
           leftIcon={<GoMarkGithub size={16} />}
         >
           {'CONNECT TO MINT'}
