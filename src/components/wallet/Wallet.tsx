@@ -1,12 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
-import { WalletStatus } from './WalletStatus';
-import { useWeb3Context } from './Web3ContextProvider';
-import { Button } from '../shared/elements/Button';
-import { FaEthereum } from 'react-icons/fa';
-import { useRouter } from 'next/router';
 import { Box, Menu } from '@mantine/core';
 import { NextLink } from '@mantine/next';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { FaEthereum } from 'react-icons/fa';
+import styled from 'styled-components';
+
+import { WalletStatus } from './WalletStatus';
+import { useWeb3Context } from './Web3ContextProvider';
+import { DisconnectPopover } from '../DisconnectPopover';
+import { useFeatures } from '../FeaturesContext';
+import { Button } from '../shared/elements/Button';
 
 const Content = styled.div`
   display: flex;
@@ -23,22 +26,66 @@ type Props = {
 };
 
 export const Wallet = ({ hideText }: Props) => {
-  const { connectionStatus, address, connect, disconnect, ensName } = useWeb3Context();
+  const { hasSettingsPage } = useFeatures();
   const router = useRouter();
+  const [isHovering, setIsHovering] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { connectionStatus, address, connect, disconnect, ensName } = useWeb3Context();
 
   return (
     <Content>
       {connectionStatus === 'connected' && address ? (
-        <Menu
-          closeDelay={POPOVER_HOVER_TIME}
-          closeOnClickOutside
-          openDelay={POPOVER_HOVER_TIME}
-          radius="md"
-          trigger="hover"
-          width={160}
-        >
-          <Menu.Target>
-            <Box>
+        hasSettingsPage ? (
+          <Menu
+            closeDelay={POPOVER_HOVER_TIME}
+            closeOnClickOutside
+            openDelay={POPOVER_HOVER_TIME}
+            radius="md"
+            trigger="hover"
+            width={160}
+          >
+            <Menu.Target>
+              <Box>
+                <WalletStatus
+                  onClick={() => {
+                    router.push(`/p/${ensName ?? address}`);
+                  }}
+                  address={address}
+                  ensName={ensName}
+                  hideText={hideText}
+                />
+              </Box>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item component={NextLink} href={`/p/${ensName ?? address}`}>
+                {'Profile'}
+              </Menu.Item>
+              <Menu.Item component={NextLink} href="/settings">
+                {'Settings'}
+              </Menu.Item>
+              <Menu.Item component="a" href="https://docs.gitpoap.io" target="_blank">
+                {'Help'}
+              </Menu.Item>
+              <Menu.Divider />
+              <Menu.Item onClick={() => disconnect()}>{'Disconnect'}</Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        ) : (
+          <DisconnectPopover
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+            onClose={() => setIsOpen(false)}
+            handleOnClick={() => {
+              setIsOpen(false);
+              setIsHovering(false);
+              disconnect();
+            }}
+            icon={<FaEthereum size={16} />}
+            buttonText={'DISCONNECT'}
+            isHovering={isHovering}
+            target={
               <WalletStatus
                 onClick={() => {
                   router.push(`/p/${ensName ?? address}`);
@@ -47,22 +94,9 @@ export const Wallet = ({ hideText }: Props) => {
                 ensName={ensName}
                 hideText={hideText}
               />
-            </Box>
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item component={NextLink} href={`/p/${ensName ?? address}`}>
-              {'Profile'}
-            </Menu.Item>
-            <Menu.Item component={NextLink} href="/settings">
-              {'Settings'}
-            </Menu.Item>
-            <Menu.Item component="a" href="https://docs.gitpoap.io" target="_blank">
-              {'Help'}
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item onClick={() => disconnect()}>{'Disconnect'}</Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
+            }
+          />
+        )
       ) : (
         <Button onClick={() => connect()}>
           {!hideText ? 'Connect Wallet' : <FaEthereum size={16} />}
