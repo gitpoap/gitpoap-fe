@@ -113,7 +113,7 @@ export const Navbar = () => {
         <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
       )}
       <ClaimButton />
-      <Wallet hideText={!matchesBreakpointLg} />
+      <Wallet hideText={!matchesBreakpointLg} isMobile={false} />
     </>
   );
 
@@ -128,11 +128,14 @@ export const Navbar = () => {
         {'Docs'}
       </NavLinkAnchor>
       {connectionStatus === 'connected' && (
-        <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
+        <>
+          <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
+          <NavLink href={`/settings`}>{'Settings'}</NavLink>
+        </>
       )}
       <NavLink href={TYPEFORM_LINKS.feedback}>{'Add Feedback'}</NavLink>
       <ClaimButton />
-      <Wallet />
+      <Wallet isMobile={true} />
     </>
   );
 

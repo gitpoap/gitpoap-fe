@@ -23,9 +23,10 @@ const POPOVER_HOVER_TIME = 400;
 
 type Props = {
   hideText?: boolean;
+  isMobile: boolean;
 };
 
-export const Wallet = ({ hideText }: Props) => {
+export const Wallet = ({ hideText, isMobile }: Props) => {
   const { hasSettingsPage } = useFeatures();
   const router = useRouter();
   const [isHovering, setIsHovering] = useState(false);
@@ -35,7 +36,7 @@ export const Wallet = ({ hideText }: Props) => {
   return (
     <Content>
       {connectionStatus === 'connected' && address ? (
-        hasSettingsPage ? (
+        hasSettingsPage && !isMobile ? (
           <Menu
             closeDelay={POPOVER_HOVER_TIME}
             closeOnClickOutside
