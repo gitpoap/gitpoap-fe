@@ -7,6 +7,7 @@ type FeaturesState = {
   hasCheckIfImEligible: boolean;
   hasClaimAllButton: boolean;
   hasOrganizations: boolean;
+  hasSettingsPage: boolean;
   hasTrendingReposPage: boolean;
 };
 
@@ -16,6 +17,7 @@ export const getInitialState = (): FeaturesState => ({
   hasCheckIfImEligible: false,
   hasClaimAllButton: true,
   hasOrganizations: false,
+  hasSettingsPage: false,
   hasTrendingReposPage: false,
 });
 
