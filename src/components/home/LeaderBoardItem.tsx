@@ -72,7 +72,7 @@ type Props = LeadersQuery['mostHonoredContributors'][number] & { index?: number 
 
 export const LeaderBoardItem = ({ profile, claimsCount, index }: Props) => {
   const { infuraProvider } = useWeb3Context();
-  const ensName = useEns(infuraProvider, profile.address);
+  const ensName = useEns(infuraProvider, profile.oldAddress);
 
   return (
     <>
@@ -80,15 +80,15 @@ export const LeaderBoardItem = ({ profile, claimsCount, index }: Props) => {
         {index !== undefined && <Index order={2}>{`${index}: `}</Index>}
         <Item>
           <UserInfo>
-            <Link href={`/p/${ensName ?? profile.address}`} passHref>
+            <Link href={`/p/${ensName ?? profile.oldAddress}`} passHref>
               {profile.ensAvatarImageUrl ? (
                 <AvatarStyled src={profile.ensAvatarImageUrl} />
               ) : (
-                <JazzIcon address={profile.address} />
+                <JazzIcon address={profile.oldAddress} />
               )}
             </Link>
-            <Link href={`/p/${ensName ?? profile.address}`} passHref>
-              <Name>{ensName ?? truncateAddress(profile.address, 6)}</Name>
+            <Link href={`/p/${ensName ?? profile.oldAddress}`} passHref>
+              <Name>{ensName ?? truncateAddress(profile.oldAddress, 6)}</Name>
             </Link>
           </UserInfo>
           <IconCount icon={<GitPOAP />} count={claimsCount} />

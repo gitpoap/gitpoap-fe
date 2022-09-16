@@ -75,8 +75,8 @@ const ClaimsDashboard: NextPage = () => {
       Year: { value: claim.gitPOAP.year },
       'Poap ID': { value: claim.poapTokenId ?? '' },
       Address: {
-        value: truncateAddress(claim.address ?? '', 6) ?? '',
-        href: `/p/${claim.address}`,
+        value: truncateAddress(claim.oldMintedAddress ?? '', 6) ?? '',
+        href: `/p/${claim.oldMintedAddress}`,
       },
       'Minted At': { value: DateTime.fromISO(claim.mintedAt).toFormat('dd LLL yy HH:mm') },
       'Created At': { value: DateTime.fromISO(claim.createdAt).toFormat('dd LLL yy HH:mm') },
