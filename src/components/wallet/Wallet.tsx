@@ -41,6 +41,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             closeDelay={POPOVER_HOVER_TIME}
             closeOnClickOutside
             openDelay={POPOVER_HOVER_TIME}
+            position="bottom-end"
             radius="md"
             trigger="hover"
             width={160}
