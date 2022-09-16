@@ -1,0 +1,1072 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GitPOAPBadge href renders an GitPOAPBadge without href 1`] = `
+.c0 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c4 {
+  --s: 12.5rem;
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  display: inline-block;
+  font-size: initial;
+  background: #292B3D;
+}
+
+.c1 {
+  position: relative;
+  --s: 13.5rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #E2E2EE;
+}
+
+.c1:hover:not([disabled]) {
+  cursor: pointer;
+  background-color: #5596F6;
+}
+
+.c1:hover:not([disabled]) .c3 {
+  opacity: 0.7;
+}
+
+.c1:active:not([disabled]) {
+  background-color: #1761CF;
+}
+
+.c1:active:not([disabled]) .c3 {
+  opacity: 0.5;
+}
+
+.c1[disabled] {
+  cursor: not-allowed;
+  background-color: #838495;
+}
+
+.c1[disabled] .c3:before {
+  background: #10111E;
+}
+
+.c2 {
+  --s: 13rem;
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #10111E;
+}
+
+<div
+  class="c0 c1"
+>
+  <div
+    class="c0 c2"
+  >
+    <div
+      class="c3 c0 c4"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test_gitpoap"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GitPOAPBadge href renders correct with href 1`] = `
+.c2 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c0 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c6 {
+  --s: 12.5rem;
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  display: inline-block;
+  font-size: initial;
+  background: #292B3D;
+}
+
+.c3 {
+  position: relative;
+  --s: 13.5rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #E2E2EE;
+}
+
+.c3:hover:not([disabled]) {
+  cursor: pointer;
+  background-color: #5596F6;
+}
+
+.c3:hover:not([disabled]) .c5 {
+  opacity: 0.7;
+}
+
+.c3:active:not([disabled]) {
+  background-color: #1761CF;
+}
+
+.c3:active:not([disabled]) .c5 {
+  opacity: 0.5;
+}
+
+.c3[disabled] {
+  cursor: not-allowed;
+  background-color: #838495;
+}
+
+.c3[disabled] .c5:before {
+  background: #10111E;
+}
+
+.c4 {
+  --s: 13rem;
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #10111E;
+}
+
+.c1 {
+  --s: 13.5rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+}
+
+<a
+  class="c0 c1"
+  href="/repos"
+>
+  <div
+    class="c2 c3"
+  >
+    <div
+      class="c2 c4"
+    >
+      <div
+        class="c5 c2 c6"
+      >
+        <span
+          style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+        >
+          <img
+            alt="test_gitpoap"
+            data-nimg="fill"
+            decoding="async"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+            style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+          />
+          <noscript />
+        </span>
+      </div>
+    </div>
+  </div>
+  <svg
+    height="0"
+    style="position: absolute;"
+    width="0"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <clippath
+      clipPathUnits="objectBoundingBox"
+      id="hexagonPath"
+    >
+      <path
+        d="M 0.5 1 C 0.4869 1 0.4738 0.9966 0.4621 0.9899 L 0.0947 0.7777 C 0.0713 0.7642 0.0568 0.7391 0.0568 0.7121 v -0.4242 C 0.0568 0.2609 0.0713 0.2358 0.0947 0.2223 L 0.4621 0.0101 C 0.4855 -0.0034 0.5145 -0.0034 0.5379 0.0101 L 0.9053 0.2222 C 0.9287 0.2357 0.9432 0.2608 0.9432 0.2878 V 0.7121 C 0.9432 0.7391 0.9287 0.7642 0.9053 0.7777 L 0.5379 0.9899 C 0.5262 0.9966 0.5131 1 0.5 1 Z"
+      />
+    </clippath>
+  </svg>
+</a>
+`;
+
+exports[`GitPOAPBadge level renders correctly for level = bronze 1`] = `
+.c0 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c4 {
+  --s: 12.5rem;
+  position: absolute;
+  top: 0.4375rem;
+  left: 0.4375rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  display: inline-block;
+  font-size: initial;
+  background: #292B3D;
+}
+
+.c1 {
+  position: relative;
+  --s: 14.25rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: linear-gradient(to bottom,#6A3805,#AD8A56,#6A3805);
+}
+
+.c1:hover:not([disabled]) {
+  cursor: pointer;
+  background-color: #5596F6;
+}
+
+.c1:hover:not([disabled]) .c3 {
+  opacity: 0.7;
+}
+
+.c1:active:not([disabled]) {
+  background-color: #1761CF;
+}
+
+.c1:active:not([disabled]) .c3 {
+  opacity: 0.5;
+}
+
+.c1[disabled] {
+  cursor: not-allowed;
+  background-color: #838495;
+}
+
+.c1[disabled] .c3:before {
+  background: #10111E;
+}
+
+.c2 {
+  --s: 13.375rem;
+  position: absolute;
+  top: 0.4375rem;
+  left: 0.4375rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #10111E;
+}
+
+<div
+  class="c0 c1"
+>
+  <div
+    class="c0 c2"
+  >
+    <div
+      class="c3 c0 c4"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test_gitpoap"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GitPOAPBadge level renders correctly for level = gold 1`] = `
+.c0 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c4 {
+  --s: 12.5rem;
+  position: absolute;
+  top: 0.4375rem;
+  left: 0.4375rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  display: inline-block;
+  font-size: initial;
+  background: #292B3D;
+}
+
+.c1 {
+  position: relative;
+  --s: 14.25rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: linear-gradient(to bottom,#b28c10,#eedfaf,#b28c10);
+}
+
+.c1:hover:not([disabled]) {
+  cursor: pointer;
+  background-color: #5596F6;
+}
+
+.c1:hover:not([disabled]) .c3 {
+  opacity: 0.7;
+}
+
+.c1:active:not([disabled]) {
+  background-color: #1761CF;
+}
+
+.c1:active:not([disabled]) .c3 {
+  opacity: 0.5;
+}
+
+.c1[disabled] {
+  cursor: not-allowed;
+  background-color: #838495;
+}
+
+.c1[disabled] .c3:before {
+  background: #10111E;
+}
+
+.c2 {
+  --s: 13.375rem;
+  position: absolute;
+  top: 0.4375rem;
+  left: 0.4375rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #10111E;
+}
+
+<div
+  class="c0 c1"
+>
+  <div
+    class="c0 c2"
+  >
+    <div
+      class="c3 c0 c4"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test_gitpoap"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GitPOAPBadge level renders correctly for level = silver 1`] = `
+.c0 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c4 {
+  --s: 12.5rem;
+  position: absolute;
+  top: 0.4375rem;
+  left: 0.4375rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  display: inline-block;
+  font-size: initial;
+  background: #292B3D;
+}
+
+.c1 {
+  position: relative;
+  --s: 14.25rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: linear-gradient(to bottom,#7a7a7a,#e6e6e6,#7a7a7a);
+}
+
+.c1:hover:not([disabled]) {
+  cursor: pointer;
+  background-color: #5596F6;
+}
+
+.c1:hover:not([disabled]) .c3 {
+  opacity: 0.7;
+}
+
+.c1:active:not([disabled]) {
+  background-color: #1761CF;
+}
+
+.c1:active:not([disabled]) .c3 {
+  opacity: 0.5;
+}
+
+.c1[disabled] {
+  cursor: not-allowed;
+  background-color: #838495;
+}
+
+.c1[disabled] .c3:before {
+  background: #10111E;
+}
+
+.c2 {
+  --s: 13.375rem;
+  position: absolute;
+  top: 0.4375rem;
+  left: 0.4375rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #10111E;
+}
+
+<div
+  class="c0 c1"
+>
+  <div
+    class="c0 c2"
+  >
+    <div
+      class="c3 c0 c4"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test_gitpoap"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GitPOAPBadge size renders correctly for size = lg 1`] = `
+.c0 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c4 {
+  --s: 21.875rem;
+  position: absolute;
+  top: 0.3125rem;
+  left: 0.3125rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  display: inline-block;
+  font-size: initial;
+  background: #292B3D;
+}
+
+.c1 {
+  position: relative;
+  --s: 23.125rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #E2E2EE;
+}
+
+.c1:hover:not([disabled]) {
+  cursor: pointer;
+  background-color: #5596F6;
+}
+
+.c1:hover:not([disabled]) .c3 {
+  opacity: 0.7;
+}
+
+.c1:active:not([disabled]) {
+  background-color: #1761CF;
+}
+
+.c1:active:not([disabled]) .c3 {
+  opacity: 0.5;
+}
+
+.c1[disabled] {
+  cursor: not-allowed;
+  background-color: #838495;
+}
+
+.c1[disabled] .c3:before {
+  background: #10111E;
+}
+
+.c2 {
+  --s: 22.5rem;
+  position: absolute;
+  top: 0.3125rem;
+  left: 0.3125rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #10111E;
+}
+
+<div
+  class="c0 c1"
+>
+  <div
+    class="c0 c2"
+  >
+    <div
+      class="c3 c0 c4"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test_gitpoap"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GitPOAPBadge size renders correctly for size = md 1`] = `
+.c0 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c4 {
+  --s: 12.5rem;
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  display: inline-block;
+  font-size: initial;
+  background: #292B3D;
+}
+
+.c1 {
+  position: relative;
+  --s: 13.5rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #E2E2EE;
+}
+
+.c1:hover:not([disabled]) {
+  cursor: pointer;
+  background-color: #5596F6;
+}
+
+.c1:hover:not([disabled]) .c3 {
+  opacity: 0.7;
+}
+
+.c1:active:not([disabled]) {
+  background-color: #1761CF;
+}
+
+.c1:active:not([disabled]) .c3 {
+  opacity: 0.5;
+}
+
+.c1[disabled] {
+  cursor: not-allowed;
+  background-color: #838495;
+}
+
+.c1[disabled] .c3:before {
+  background: #10111E;
+}
+
+.c2 {
+  --s: 13rem;
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #10111E;
+}
+
+<div
+  class="c0 c1"
+>
+  <div
+    class="c0 c2"
+  >
+    <div
+      class="c3 c0 c4"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test_gitpoap"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GitPOAPBadge size renders correctly for size = sm 1`] = `
+.c0 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c4 {
+  --s: 9.375rem;
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  display: inline-block;
+  font-size: initial;
+  background: #292B3D;
+}
+
+.c1 {
+  position: relative;
+  --s: 10.125rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #E2E2EE;
+}
+
+.c1:hover:not([disabled]) {
+  cursor: pointer;
+  background-color: #5596F6;
+}
+
+.c1:hover:not([disabled]) .c3 {
+  opacity: 0.7;
+}
+
+.c1:active:not([disabled]) {
+  background-color: #1761CF;
+}
+
+.c1:active:not([disabled]) .c3 {
+  opacity: 0.5;
+}
+
+.c1[disabled] {
+  cursor: not-allowed;
+  background-color: #838495;
+}
+
+.c1[disabled] .c3:before {
+  background: #10111E;
+}
+
+.c2 {
+  --s: 9.75rem;
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #10111E;
+}
+
+<div
+  class="c0 c1"
+>
+  <div
+    class="c0 c2"
+  >
+    <div
+      class="c3 c0 c4"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test_gitpoap"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GitPOAPBadge size renders correctly for size = xs 1`] = `
+.c0 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c4 {
+  --s: 6.25rem;
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  display: inline-block;
+  font-size: initial;
+  background: #292B3D;
+}
+
+.c1 {
+  position: relative;
+  --s: 6.75rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #E2E2EE;
+}
+
+.c1:hover:not([disabled]) {
+  cursor: pointer;
+  background-color: #5596F6;
+}
+
+.c1:hover:not([disabled]) .c3 {
+  opacity: 0.7;
+}
+
+.c1:active:not([disabled]) {
+  background-color: #1761CF;
+}
+
+.c1:active:not([disabled]) .c3 {
+  opacity: 0.5;
+}
+
+.c1[disabled] {
+  cursor: not-allowed;
+  background-color: #838495;
+}
+
+.c1[disabled] .c3:before {
+  background: #10111E;
+}
+
+.c2 {
+  --s: 6.5rem;
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #10111E;
+}
+
+<div
+  class="c0 c1"
+>
+  <div
+    class="c0 c2"
+  >
+    <div
+      class="c3 c0 c4"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test_gitpoap"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GitPOAPBadge size renders correctly for size = xxs 1`] = `
+.c0 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c4 {
+  --s: 3.125rem;
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  display: inline-block;
+  font-size: initial;
+  background: #292B3D;
+}
+
+.c1 {
+  position: relative;
+  --s: 3.625rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #E2E2EE;
+}
+
+.c1:hover:not([disabled]) {
+  cursor: pointer;
+  background-color: #5596F6;
+}
+
+.c1:hover:not([disabled]) .c3 {
+  opacity: 0.7;
+}
+
+.c1:active:not([disabled]) {
+  background-color: #1761CF;
+}
+
+.c1:active:not([disabled]) .c3 {
+  opacity: 0.5;
+}
+
+.c1[disabled] {
+  cursor: not-allowed;
+  background-color: #838495;
+}
+
+.c1[disabled] .c3:before {
+  background: #10111E;
+}
+
+.c2 {
+  --s: 3.375rem;
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #10111E;
+}
+
+<div
+  class="c0 c1"
+>
+  <div
+    class="c0 c2"
+  >
+    <div
+      class="c3 c0 c4"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test_gitpoap"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GitPOAPBadge size renders correctly for size = xxxs 1`] = `
+.c0 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c4 {
+  --s: 1.875rem;
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  display: inline-block;
+  font-size: initial;
+  background: #292B3D;
+}
+
+.c1 {
+  position: relative;
+  --s: 2.375rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #E2E2EE;
+}
+
+.c1:hover:not([disabled]) {
+  cursor: pointer;
+  background-color: #5596F6;
+}
+
+.c1:hover:not([disabled]) .c3 {
+  opacity: 0.7;
+}
+
+.c1:active:not([disabled]) {
+  background-color: #1761CF;
+}
+
+.c1:active:not([disabled]) .c3 {
+  opacity: 0.5;
+}
+
+.c1[disabled] {
+  cursor: not-allowed;
+  background-color: #838495;
+}
+
+.c1[disabled] .c3:before {
+  background: #10111E;
+}
+
+.c2 {
+  --s: 2.125rem;
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #10111E;
+}
+
+<div
+  class="c0 c1"
+>
+  <div
+    class="c0 c2"
+  >
+    <div
+      class="c3 c0 c4"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test_gitpoap"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </div>
+  </div>
+</div>
+`;

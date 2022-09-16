@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputWrapper renders an InputWrapper 1`] = `
+.c0 {
+  display: inline-block;
+}
+
+.c0 .mantine-InputWrapper-label {
+  font-family: 'PT Mono',monospace;
+  color: #E2E2EE;
+  font-weight: 700;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.075rem;
+  -moz-letter-spacing: 0.075rem;
+  -ms-letter-spacing: 0.075rem;
+  letter-spacing: 0.075rem;
+  line-height: 1.125rem;
+  margin-bottom: 0.6875rem;
+}
+
+.c0 .mantine-InputWrapper-error {
+  font-family: 'PT Mono',monospace;
+  font-size: 0.625rem;
+  -webkit-letter-spacing: 1.2px;
+  -moz-letter-spacing: 1.2px;
+  -ms-letter-spacing: 1.2px;
+  letter-spacing: 1.2px;
+  padding-left: 1rem;
+  color: #F77070 !important;
+}
+
+<div
+  class="mantine-InputWrapper-root c0 mantine-1m3pqry"
+>
+  <div />
+</div>
+`;

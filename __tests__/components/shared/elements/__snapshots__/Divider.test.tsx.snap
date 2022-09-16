@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Divider renders an Divider 1`] = `
+.c0 {
+  border: 0.0625rem solid #DCDDFA;
+  width: 23.125rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+<div
+  class="c0"
+/>
+`;

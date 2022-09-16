@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavLink renders an NavLink 1`] = `
+.c0 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  -webkit-letter-spacing: 0.125rem;
+  -moz-letter-spacing: 0.125rem;
+  -ms-letter-spacing: 0.125rem;
+  letter-spacing: 0.125rem;
+  text-transform: uppercase;
+  color: #838495;
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
+  margin-right: 1.125rem;
+}
+
+.c0 > * {
+  color: #838495;
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
+}
+
+.c0 > * {
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
+}
+
+.c0:hover:not([disabled]) {
+  color: #5596F6;
+}
+
+.c0:hover:not([disabled]) > * {
+  color: #5596F6;
+}
+
+.c0:active:not([disabled]) {
+  color: #1761CF;
+}
+
+.c0:active:not([disabled]) > * {
+  color: #1761CF;
+}
+
+.c0[disabled] {
+  color: #393A51;
+}
+
+.c0[disabled] > * {
+  color: #393A51;
+}
+
+@media (max-width:40rem) {
+  .c0 {
+    margin-right: 0.75rem;
+  }
+}
+
+<a
+  class="c0"
+  href="/repos"
+>
+  Repos
+</a>
+`;
