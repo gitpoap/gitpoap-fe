@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Button, Input as InputUI, Checkbox } from '../shared/elements';
@@ -10,11 +10,7 @@ import { useAuthContext } from '../github/AuthContext';
 import { FaCheckCircle, FaRegEdit } from 'react-icons/fa';
 import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
 import { ProfileQuery, useProfileQuery } from '../../graphql/generated-gql';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
-import { GITPOAP_API_URL } from '../../constants';
-import { MetaMaskError, MetaMaskErrors } from '../../types';
-import { showNotification } from '@mantine/notifications';
-import { NotificationFactory } from '../../notifications';
+import { useProfileContext } from '../profile/ProfileContext';
 
 const Header = styled.div`
   font-family: VT323;
@@ -34,7 +30,7 @@ const TextArea = styled(TextAreaUI)`
 
 const ConnectGithubAccount = styled(Text)`
   color: ${TextGray};
-  font-size: 12px;
+  font-size: ${rem(12)};
   line-height: 1.2;
 
   display: inline-flex;
@@ -68,10 +64,9 @@ export type EditableProfileData = Partial<
   >
 >;
 
-export const SettingsPage = ({ profileData, refetch }: Props) => {
-  const { isLoggedIntoGitHub, tokens, user } = useAuthContext();
-  const { web3Provider, address: connectedWalletAddress } = useWeb3Context();
-  const signer = web3Provider?.getSigner();
+export const SettingsPage = () => {
+  const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
+  const { isLoggedIntoGitHub, user } = useAuthContext();
 
   const [personSiteUrlValue, setPersonalSiteUrlValue] = useState<string | undefined | null>(
     profileData?.personalSiteUrl,
@@ -86,8 +81,6 @@ export const SettingsPage = ({ profileData, refetch }: Props) => {
   const [isVisibleOnLeaderboardValue, setIsVisibleOnLeaderboardValue] = useState<
     boolean | undefined
   >(profileData?.isVisibleOnLeaderboard);
-  const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
-  const [isSaveSuccessful, setIsSaveSuccessful] = useState<boolean>(false);
   const [haveChangesBeenMade, setHaveChangesBeenMade] = useState<boolean>(false);
 
   useEffect(() => {
@@ -131,67 +124,6 @@ export const SettingsPage = ({ profileData, refetch }: Props) => {
     isVisibleOnLeaderboardValue,
   ]);
 
-  const updateProfile = useCallback(
-    async (newProfileData: EditableProfileData) => {
-      setIsSaveLoading(true);
-      const timestamp = Date.now();
-      const data: EditableProfileData = {
-        bio: newProfileData.bio,
-        personalSiteUrl: newProfileData.personalSiteUrl,
-        githubHandle: newProfileData.githubHandle,
-        twitterHandle: newProfileData.twitterHandle,
-        isVisibleOnLeaderboard: newProfileData.isVisibleOnLeaderboard,
-      };
-
-      try {
-        const signature = await signer?.signMessage(
-          JSON.stringify({
-            site: 'gitpoap.io',
-            method: 'POST /profiles',
-            createdAt: timestamp,
-            data,
-          }),
-        );
-
-        const res = await fetch(`${GITPOAP_API_URL}/profiles`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${tokens?.accessToken}`,
-          },
-          body: JSON.stringify({
-            address: connectedWalletAddress,
-            data,
-            signature: {
-              data: signature,
-              createdAt: timestamp,
-            },
-          }),
-        });
-
-        if (res.status === 200) {
-          refetch({ requestPolicy: 'network-only' });
-        }
-        setIsSaveSuccessful(true);
-        setIsSaveLoading(false);
-      } catch (err) {
-        if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
-          console.warn(err);
-          showNotification(
-            NotificationFactory.createError(
-              'Error - Request to update profile failed',
-              'Oops, something went wrong! 🤥',
-            ),
-          );
-        }
-        setIsSaveLoading(false);
-        setIsSaveSuccessful(false);
-      }
-    },
-    [signer, tokens?.accessToken, refetch, connectedWalletAddress],
-  );
-
   return (
     <Stack spacing={24}>
       <Header style={{ textAlign: 'left' }}>{'Settings'}</Header>
@@ -203,7 +135,7 @@ export const SettingsPage = ({ profileData, refetch }: Props) => {
           isLoggedIntoGitHub && (
             <ConnectGithubAccount onClick={() => setGithubHandleValue(user?.githubHandle)}>
               <FaRegEdit />
-              {' Use the currently authenticated github account'}
+              {' Use the currently authenticated GitHub account'}
             </ConnectGithubAccount>
           )
         }
