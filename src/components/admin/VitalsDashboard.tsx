@@ -87,7 +87,7 @@ const getPercent = (numerator?: number, denominator?: number) => {
     return '';
   }
 
-  return numerator && denominator && ((numerator / denominator) * 100).toFixed(2) + '%';
+  return ((numerator / denominator) * 100).toFixed(2) + '%';
 };
 
 const getFormattedDate = (date?: string) =>
