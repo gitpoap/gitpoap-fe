@@ -39,10 +39,9 @@ export const FeaturesProvider = ({ children }: Props) => {
     const newFeaturesState = featuresState;
     for (const key in router.query) {
       if (key in newFeaturesState) {
-        if (router.query[key] === 'true') {
+        const isFeatureActive = router.query[key] === 'true';
+        if (isFeatureActive) {
           newFeaturesState[key as keyof FeaturesState] = true;
-        } else {
-          newFeaturesState[key as keyof FeaturesState] = false;
         }
       }
     }
