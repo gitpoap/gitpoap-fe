@@ -27,7 +27,7 @@ type ProfileContext = {
   profileData?: ProfileQuery['profileData'];
   setProfileData: Dispatch<SetStateAction<ProfileQuery['profileData']>>;
   setIsUpdateModalOpen: Dispatch<SetStateAction<boolean>>;
-  updateProfile: (newProfileData: EditableProfileData) => {};
+  updateProfile: (newProfileData: EditableProfileData) => void;
   showEditProfileButton: boolean;
   isSaveLoading: boolean;
   isSaveSuccessful: boolean;
