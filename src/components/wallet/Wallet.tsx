@@ -74,7 +74,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                 {'Settings'}
               </Menu.Item>
               <Menu.Item component="a" href="https://docs.gitpoap.io" target="_blank">
-                {'Docs'}
+                {'Help'}
               </Menu.Item>
               <Menu.Divider />
               <Menu.Item onClick={() => disconnect()}>{'Disconnect'}</Menu.Item>
