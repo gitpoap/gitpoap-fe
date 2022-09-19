@@ -13,6 +13,7 @@ import { GitHub } from './github/GitHub';
 import { SearchBox } from './search/SearchBox';
 import { useWeb3Context } from './wallet/Web3ContextProvider';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
+import { useFeatures } from './FeaturesContext';
 
 const Nav = styled(Group)`
   color: ${TextLight} !important;
@@ -84,6 +85,7 @@ const CollapseMenuContent = styled(Stack)`
 `;
 
 export const Navbar = () => {
+  const { hasSettingsPage } = useFeatures();
   const router = useRouter();
   const { connectionStatus, address, ensName } = useWeb3Context();
   const matchesBreakpointLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
@@ -109,11 +111,11 @@ export const Navbar = () => {
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
       </NavLinkAnchor>
-      {connectionStatus === 'connected' && matchesBreakpointLg && (
+      {connectionStatus === 'connected' && matchesBreakpointLg && !hasSettingsPage && (
         <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
       )}
       <ClaimButton />
-      <Wallet hideText={!matchesBreakpointLg} />
+      <Wallet hideText={!matchesBreakpointLg} isMobile={false} />
     </>
   );
 
@@ -128,11 +130,14 @@ export const Navbar = () => {
         {'Docs'}
       </NavLinkAnchor>
       {connectionStatus === 'connected' && (
-        <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
+        <>
+          <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
+          <NavLink href={`/settings`}>{'Settings'}</NavLink>
+        </>
       )}
       <NavLink href={TYPEFORM_LINKS.feedback}>{'Add Feedback'}</NavLink>
       <ClaimButton />
-      <Wallet />
+      <Wallet isMobile={true} />
     </>
   );
 
