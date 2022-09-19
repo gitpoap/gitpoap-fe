@@ -27,7 +27,9 @@ type ProfileContext = {
   profileData?: ProfileQuery['profileData'];
   setProfileData: Dispatch<SetStateAction<ProfileQuery['profileData']>>;
   setIsUpdateModalOpen: Dispatch<SetStateAction<boolean>>;
+  updateProfile: (newProfileData: EditableProfileData) => void;
   showEditProfileButton: boolean;
+  isSaveLoading: boolean;
   isSaveSuccessful: boolean;
   setIsSaveSuccessful: Dispatch<SetStateAction<boolean>>;
   isLoading: boolean;
@@ -46,7 +48,7 @@ type Props = {
 
 export const ProfileProvider = ({ children, addressOrEns }: Props) => {
   const { tokens } = useAuthContext();
-  const { infuraProvider, web3Provider, address: connectedWalletAddress } = useWeb3Context();
+  const { web3Provider, address: connectedWalletAddress } = useWeb3Context();
   const signer = web3Provider?.getSigner();
   const [profileData, setProfileData] = useState<ProfileQuery['profileData']>();
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
@@ -142,7 +144,9 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
         profileData,
         setProfileData,
         showEditProfileButton,
+        updateProfile,
         setIsUpdateModalOpen,
+        isSaveLoading,
         isSaveSuccessful,
         setIsSaveSuccessful,
         isLoading: result.fetching,
