@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext } from 'react';
+import { useRouter } from 'next/router';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type FeaturesState = {
   /* Whether user should see a page showing all gitpoaps */
@@ -32,7 +33,21 @@ type Props = {
 };
 
 export const FeaturesProvider = ({ children }: Props) => {
-  const [featuresState, _] = useState<FeaturesState>(getInitialState());
+  const router = useRouter();
+  const [featuresState, setFeaturesState] = useState<FeaturesState>(getInitialState());
+
+  useEffect(() => {
+    const newFeaturesState = featuresState;
+    for (const key in router.query) {
+      if (key in newFeaturesState) {
+        const isFeatureActive = router.query[key] === 'true';
+        if (isFeatureActive) {
+          newFeaturesState[key as keyof FeaturesState] = true;
+        }
+      }
+    }
+    setFeaturesState(newFeaturesState);
+  }, [router.query]);
 
   return <FeaturesContext.Provider value={featuresState}>{children}</FeaturesContext.Provider>;
 };
