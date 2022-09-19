@@ -37,11 +37,15 @@ export const FeaturesProvider = ({ children }: Props) => {
 
   useEffect(() => {
     const newFeaturesState = featuresState;
-    Object.keys(router.query).forEach((key) => {
-      if (newFeaturesState.hasOwnProperty(key)) {
-        newFeaturesState[key as keyof FeaturesState] = router.query[key] === 'true';
+    for (const key in router.query) {
+      if (key in newFeaturesState) {
+        if (router.query[key] === 'true') {
+          newFeaturesState[key as keyof FeaturesState] = true;
+        } else {
+          newFeaturesState[key as keyof FeaturesState] = false;
+        }
       }
-    });
+    }
     setFeaturesState(newFeaturesState);
   }, [router.query]);
 
