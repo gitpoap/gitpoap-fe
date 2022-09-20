@@ -114,7 +114,7 @@
     "workerDirectory": "public"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": [
+    "{src,__tests__}/**/*.{ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ]
