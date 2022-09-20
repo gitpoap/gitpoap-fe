@@ -9,12 +9,19 @@ import {
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 import { NETWORKS } from '../../constants';
 import { BackgroundPanel, BackgroundPanel2, TextLight, TextGray } from '../../colors';
+import WalletConnectProvider from '@walletconnect/web3-provider';
 
 type Props = {
   children: React.ReactNode;
 };
 
 const providerOptions: IProviderOptions = {
+  walletconnect: {
+    package: WalletConnectProvider,
+    options: {
+      infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
+    },
+  },
   walletlink: {
     package: CoinbaseWalletSDK,
     options: {
