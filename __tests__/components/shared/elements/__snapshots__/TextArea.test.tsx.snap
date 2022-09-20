@@ -85,8 +85,11 @@ exports[`TextArea renders a TextArea 1`] = `
       aria-invalid="false"
       class="mantine-Input-input mantine-Textarea-input mantine-1g5p8t1"
       id="mantine-r0"
+      placeholder="A placeholder"
       spellcheck="false"
-    />
+    >
+      A TextArea!
+    </textarea>
   </div>
 </div>
 `;

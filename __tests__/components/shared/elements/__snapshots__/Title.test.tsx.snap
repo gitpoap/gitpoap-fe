@@ -34,5 +34,7 @@ exports[`Title renders a Title 1`] = `
 
 <div
   class="mantine-Text-root c0 c1 mantine-1pbxw0k"
-/>
+>
+  A great title, one of the best
+</div>
 `;
