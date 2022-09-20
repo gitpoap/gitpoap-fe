@@ -20,18 +20,18 @@ const mockRouter: NextRouter = {
   asPath: '/',
   query: {},
   /* @ts-ignore */
-  push: () => { },
+  push: () => {},
   /* @ts-ignore */
-  replace: () => { },
-  reload: () => { },
-  back: () => { },
+  replace: () => {},
+  reload: () => {},
+  back: () => {},
   /* @ts-ignore */
-  prefetch: () => { },
-  beforePopState: () => { },
+  prefetch: () => {},
+  beforePopState: () => {},
   events: {
-    on: () => { },
-    off: () => { },
-    emit: () => { },
+    on: () => {},
+    off: () => {},
+    emit: () => {},
   },
   isFallback: false,
   isLocaleDomain: false,
