@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text renders a Text 1`] = `
+.c0 {
+  font-family: PT Mono;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  -webkit-letter-spacing: 0.0125rem;
+  -moz-letter-spacing: 0.0125rem;
+  -ms-letter-spacing: 0.0125rem;
+  letter-spacing: 0.0125rem;
+  color: #E2E2EE;
+}
+
+<div
+  class="mantine-Text-root c0 mantine-1pbxw0k"
+>
+  Text
+</div>
+`;

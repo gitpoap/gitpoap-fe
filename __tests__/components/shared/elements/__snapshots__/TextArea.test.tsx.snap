@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextArea renders a TextArea 1`] = `
+.c0 {
+  display: inline-block;
+}
+
+.c0 .mantine-Textarea-label {
+  font-family: 'PT Mono',monospace;
+  color: #E2E2EE;
+  font-weight: 700;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.075rem;
+  -moz-letter-spacing: 0.075rem;
+  -ms-letter-spacing: 0.075rem;
+  letter-spacing: 0.075rem;
+  line-height: 1.125rem;
+  margin-bottom: 0.6875rem;
+}
+
+.c0 .mantine-Textarea-input {
+  border-radius: 0.375rem;
+  font-family: 'PT Mono',monospace;
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: white;
+  background-color: #1E1F2E;
+  -webkit-transition: 150ms background-color ease;
+  transition: 150ms background-color ease;
+  -webkit-letter-spacing: 0.0125rem;
+  -moz-letter-spacing: 0.0125rem;
+  -ms-letter-spacing: 0.0125rem;
+  letter-spacing: 0.0125rem;
+  border: 0.0625rem solid transparent;
+}
+
+.c0 .mantine-Textarea-input:hover:not(:disabled):not(:focus) {
+  background-color: #292B3D;
+}
+
+.c0 .mantine-Textarea-input:focus {
+  background-color: #1E1F2E;
+  border: 0.0625rem solid #393A51 !important;
+}
+
+.c0 .mantine-Textarea-input::-webkit-input-placeholder {
+  color: #393A51;
+}
+
+.c0 .mantine-Textarea-input::-moz-placeholder {
+  color: #393A51;
+}
+
+.c0 .mantine-Textarea-input:-ms-input-placeholder {
+  color: #393A51;
+}
+
+.c0 .mantine-Textarea-input::placeholder {
+  color: #393A51;
+}
+
+.c0 .mantine-Textarea-input.mantine-Textarea-invalid {
+  color: #F77070;
+}
+
+.c0 .mantine-Textarea-error {
+  font-family: 'PT Mono',monospace;
+  font-size: 0.625rem;
+  -webkit-letter-spacing: 1.2px;
+  -moz-letter-spacing: 1.2px;
+  -ms-letter-spacing: 1.2px;
+  letter-spacing: 1.2px;
+  padding-left: 1rem;
+  color: #F77070 !important;
+}
+
+<div
+  class="mantine-InputWrapper-root mantine-Textarea-root c0 mantine-1m3pqry"
+>
+  <div
+    class="mantine-Input-wrapper mantine-Textarea-wrapper mantine-12sbrde"
+  >
+    <textarea
+      aria-invalid="false"
+      class="mantine-Input-input mantine-Textarea-input mantine-1g5p8t1"
+      id="mantine-r0"
+      placeholder="A placeholder"
+      spellcheck="false"
+    >
+      A TextArea!
+    </textarea>
+  </div>
+</div>
+`;
