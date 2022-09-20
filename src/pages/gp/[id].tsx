@@ -12,7 +12,6 @@ import { MidnightBlue } from '../../colors';
 import { BackgroundHexes } from '../../components/gitpoap/BackgroundHexes';
 import { GitPOAPHolders } from '../../components/gitpoap/GitPOAPHolders';
 import { Header as PageHeader } from '../../components/gitpoap/Header';
-import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
 import {
   AllGitPoapIdsDocument,
@@ -149,5 +148,5 @@ export default withUrqlClient(
   (_) => ({
     url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
   }),
-  { ssr: false }, // Important so we don't wrap our component in getInitialProps
+  { ssr: false, staleWhileRevalidate: true },
 )(GitPOAP);
