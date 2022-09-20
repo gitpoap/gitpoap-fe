@@ -37,7 +37,7 @@ export const mockRouter: NextRouter = {
   isLocaleDomain: false,
 };
 
-export const withProviders = (storyFn) => {
+export const withProviders = (storyFn: any) => {
   return (
     <RouterContext.Provider value={mockRouter}>
       <Web3ContextProvider>
