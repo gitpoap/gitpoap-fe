@@ -16,5 +16,7 @@ exports[`Text renders a Text 1`] = `
 
 <div
   class="mantine-Text-root c0 mantine-1pbxw0k"
-/>
+>
+  Text
+</div>
 `;
