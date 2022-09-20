@@ -20,7 +20,7 @@ export type Address = {
   __typename?: 'Address';
   _count?: Maybe<AddressCount>;
   createdAt: Scalars['DateTime'];
-  email: Scalars['String'];
+  emailId?: Maybe<Scalars['Int']>;
   ensAvatarImageUrl?: Maybe<Scalars['String']>;
   ensName?: Maybe<Scalars['String']>;
   ethAddress: Scalars['String'];
@@ -46,7 +46,8 @@ export type AddressOrderByRelationAggregateInput = {
 
 export type AddressOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
-  email?: InputMaybe<SortOrder>;
+  email?: InputMaybe<EmailOrderByWithRelationInput>;
+  emailId?: InputMaybe<SortOrder>;
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
   ethAddress?: InputMaybe<SortOrder>;
@@ -64,7 +65,7 @@ export type AddressRelationFilter = {
 
 export enum AddressScalarFieldEnum {
   CreatedAt = 'createdAt',
-  Email = 'email',
+  EmailId = 'emailId',
   EnsAvatarImageUrl = 'ensAvatarImageUrl',
   EnsName = 'ensName',
   EthAddress = 'ethAddress',
@@ -78,7 +79,8 @@ export type AddressWhereInput = {
   NOT?: InputMaybe<Array<AddressWhereInput>>;
   OR?: InputMaybe<Array<AddressWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  email?: InputMaybe<StringFilter>;
+  email?: InputMaybe<EmailRelationFilter>;
+  emailId?: InputMaybe<IntNullableFilter>;
   ensAvatarImageUrl?: InputMaybe<StringNullableFilter>;
   ensName?: InputMaybe<StringNullableFilter>;
   ethAddress?: InputMaybe<StringFilter>;
@@ -209,7 +211,8 @@ export type BoolWithAggregatesFilter = {
 export type Claim = {
   __typename?: 'Claim';
   createdAt: Scalars['DateTime'];
-  email?: Maybe<Scalars['String']>;
+  email?: Maybe<Email>;
+  emailId?: Maybe<Scalars['Int']>;
   gitPOAP: GitPoap;
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
@@ -229,6 +232,7 @@ export type Claim = {
 
 export type ClaimAvgAggregate = {
   __typename?: 'ClaimAvgAggregate';
+  emailId?: Maybe<Scalars['Float']>;
   gitPOAPId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   mentionEarnedId?: Maybe<Scalars['Float']>;
@@ -237,6 +241,7 @@ export type ClaimAvgAggregate = {
 };
 
 export type ClaimAvgOrderByAggregateInput = {
+  emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
@@ -248,7 +253,7 @@ export type ClaimCountAggregate = {
   __typename?: 'ClaimCountAggregate';
   _all: Scalars['Int'];
   createdAt: Scalars['Int'];
-  email: Scalars['Int'];
+  emailId: Scalars['Int'];
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
   mentionEarnedId: Scalars['Int'];
@@ -265,7 +270,7 @@ export type ClaimCountAggregate = {
 
 export type ClaimCountOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
-  email?: InputMaybe<SortOrder>;
+  emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
@@ -292,7 +297,7 @@ export type ClaimGroupBy = {
   _min?: Maybe<ClaimMinAggregate>;
   _sum?: Maybe<ClaimSumAggregate>;
   createdAt: Scalars['DateTime'];
-  email?: Maybe<Scalars['String']>;
+  emailId?: Maybe<Scalars['Int']>;
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
   mentionEarnedId?: Maybe<Scalars['Int']>;
@@ -316,7 +321,7 @@ export type ClaimListRelationFilter = {
 export type ClaimMaxAggregate = {
   __typename?: 'ClaimMaxAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
-  email?: Maybe<Scalars['String']>;
+  emailId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   mentionEarnedId?: Maybe<Scalars['Int']>;
@@ -333,7 +338,7 @@ export type ClaimMaxAggregate = {
 
 export type ClaimMaxOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
-  email?: InputMaybe<SortOrder>;
+  emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
@@ -350,7 +355,7 @@ export type ClaimMaxOrderByAggregateInput = {
 export type ClaimMinAggregate = {
   __typename?: 'ClaimMinAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
-  email?: Maybe<Scalars['String']>;
+  emailId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   mentionEarnedId?: Maybe<Scalars['Int']>;
@@ -367,7 +372,7 @@ export type ClaimMinAggregate = {
 
 export type ClaimMinOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
-  email?: InputMaybe<SortOrder>;
+  emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
@@ -392,7 +397,7 @@ export type ClaimOrderByWithAggregationInput = {
   _min?: InputMaybe<ClaimMinOrderByAggregateInput>;
   _sum?: InputMaybe<ClaimSumOrderByAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
-  email?: InputMaybe<SortOrder>;
+  emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
@@ -408,7 +413,8 @@ export type ClaimOrderByWithAggregationInput = {
 
 export type ClaimOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
-  email?: InputMaybe<SortOrder>;
+  email?: InputMaybe<EmailOrderByWithRelationInput>;
+  emailId?: InputMaybe<SortOrder>;
   gitPOAP?: InputMaybe<GitPoapOrderByWithRelationInput>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
@@ -428,7 +434,7 @@ export type ClaimOrderByWithRelationInput = {
 
 export enum ClaimScalarFieldEnum {
   CreatedAt = 'createdAt',
-  Email = 'email',
+  EmailId = 'emailId',
   GitPoapId = 'gitPOAPId',
   Id = 'id',
   MentionEarnedId = 'mentionEarnedId',
@@ -448,7 +454,7 @@ export type ClaimScalarWhereWithAggregatesInput = {
   NOT?: InputMaybe<Array<ClaimScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<ClaimScalarWhereWithAggregatesInput>>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  email?: InputMaybe<StringNullableWithAggregatesFilter>;
+  emailId?: InputMaybe<IntNullableWithAggregatesFilter>;
   gitPOAPId?: InputMaybe<IntWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   mentionEarnedId?: InputMaybe<IntNullableWithAggregatesFilter>;
@@ -471,6 +477,7 @@ export enum ClaimStatus {
 
 export type ClaimSumAggregate = {
   __typename?: 'ClaimSumAggregate';
+  emailId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   mentionEarnedId?: Maybe<Scalars['Int']>;
@@ -479,6 +486,7 @@ export type ClaimSumAggregate = {
 };
 
 export type ClaimSumOrderByAggregateInput = {
+  emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
@@ -497,7 +505,8 @@ export type ClaimWhereInput = {
   NOT?: InputMaybe<Array<ClaimWhereInput>>;
   OR?: InputMaybe<Array<ClaimWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  email?: InputMaybe<StringNullableFilter>;
+  email?: InputMaybe<EmailRelationFilter>;
+  emailId?: InputMaybe<IntNullableFilter>;
   gitPOAP?: InputMaybe<GitPoapRelationFilter>;
   gitPOAPId?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
@@ -569,6 +578,47 @@ export type DateTimeWithAggregatesFilter = {
   lte?: InputMaybe<Scalars['DateTime']>;
   not?: InputMaybe<NestedDateTimeWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
+};
+
+export type Email = {
+  __typename?: 'Email';
+  _count?: Maybe<EmailCount>;
+  address: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type EmailCount = {
+  __typename?: 'EmailCount';
+  addresses: Scalars['Int'];
+  claims: Scalars['Int'];
+};
+
+export type EmailOrderByWithRelationInput = {
+  address?: InputMaybe<SortOrder>;
+  addresses?: InputMaybe<AddressOrderByRelationAggregateInput>;
+  claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type EmailRelationFilter = {
+  is?: InputMaybe<EmailWhereInput>;
+  isNot?: InputMaybe<EmailWhereInput>;
+};
+
+export type EmailWhereInput = {
+  AND?: InputMaybe<Array<EmailWhereInput>>;
+  NOT?: InputMaybe<Array<EmailWhereInput>>;
+  OR?: InputMaybe<Array<EmailWhereInput>>;
+  address?: InputMaybe<StringFilter>;
+  addresses?: InputMaybe<AddressListRelationFilter>;
+  claims?: InputMaybe<ClaimListRelationFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
 export type EnumClaimStatusFilter = {
