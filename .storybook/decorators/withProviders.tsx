@@ -13,7 +13,7 @@ const client = createClient({
   requestPolicy: 'network-only',
 });
 
-const mockRouter: NextRouter = {
+export const mockRouter: NextRouter = {
   basePath: '',
   pathname: '/',
   route: '/',

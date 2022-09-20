@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination renders a Pagination 1`] = `
+.c0 .mantine-Pagination-item {
+  background-color: #292B3D;
+  color: white;
+}
+
+.c0 .mantine-Pagination-item[data-active='true'] {
+  background-color: #307AE8;
+  color: white;
+}
+
+<div
+  class="mantine-Group-root c0 mantine-13ap3k9"
+  role="navigation"
+>
+  <button
+    aria-disabled="true"
+    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    disabled=""
+    type="button"
+  >
+    <svg
+      fill="none"
+      height="16"
+      viewBox="0 0 16 16"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M7.219 8l3.3 3.3-.943.943L5.333 8l4.243-4.243.943.943-3.3 3.3z"
+        fill="currentColor"
+      />
+    </svg>
+  </button>
+  <button
+    aria-current="page"
+    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    data-active="true"
+    tabindex="0"
+    type="button"
+  >
+    1
+  </button>
+  <button
+    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    tabindex="0"
+    type="button"
+  >
+    2
+  </button>
+  <button
+    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    tabindex="0"
+    type="button"
+  >
+    3
+  </button>
+  <button
+    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    tabindex="0"
+    type="button"
+  >
+    4
+  </button>
+  <button
+    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    tabindex="0"
+    type="button"
+  >
+    5
+  </button>
+  <button
+    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    data-dots="true"
+    tabindex="-1"
+    type="button"
+  >
+    <svg
+      fill="none"
+      height="16"
+      viewBox="0 0 16 16"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M2 8c0-.733.6-1.333 1.333-1.333.734 0 1.334.6 1.334 1.333s-.6 1.333-1.334 1.333C2.6 9.333 2 8.733 2 8zm9.333 0c0-.733.6-1.333 1.334-1.333C13.4 6.667 14 7.267 14 8s-.6 1.333-1.333 1.333c-.734 0-1.334-.6-1.334-1.333zM6.667 8c0-.733.6-1.333 1.333-1.333s1.333.6 1.333 1.333S8.733 9.333 8 9.333 6.667 8.733 6.667 8z"
+        fill="currentColor"
+      />
+    </svg>
+  </button>
+  <button
+    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    tabindex="0"
+    type="button"
+  >
+    10
+  </button>
+  <button
+    aria-disabled="false"
+    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    type="button"
+  >
+    <svg
+      fill="none"
+      height="16"
+      viewBox="0 0 16 16"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8.781 8l-3.3-3.3.943-.943L10.667 8l-4.243 4.243-.943-.943 3.3-3.3z"
+        fill="currentColor"
+      />
+    </svg>
+  </button>
+</div>
+`;

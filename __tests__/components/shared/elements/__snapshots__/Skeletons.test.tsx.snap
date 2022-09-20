@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Skeletons BaseSkeleton renders a BaseSkeleton 1`] = `
+<div
+  class="mantine-Skeleton-root mantine-Skeleton-visible mantine-1iz9qq"
+/>
+`;
+
+exports[`Skeletons POAPBadgeSkeleton renders a POAPBadgeSkeleton 1`] = `
+<div
+  class="mantine-Skeleton-root mantine-Skeleton-visible mantine-1fykzg9"
+/>
+`;
+
+exports[`Skeletons ProfileImageSkeleton renders a ProfileImageSkeleton 1`] = `
+<div
+  class="mantine-Skeleton-root mantine-Skeleton-visible mantine-r0vufu"
+/>
+`;
+
+exports[`Skeletons TextSkeleton renders a TextSkeleton 1`] = `
+<div
+  class="mantine-Skeleton-root mantine-Skeleton-visible mantine-gnc43r"
+/>
+`;

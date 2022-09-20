@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OrgName renders a OrgName 1`] = `
+.c0 {
+  font-family: PT Mono;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 0.6875rem;
+  line-height: 1.125rem;
+  text-align: center;
+  -webkit-letter-spacing: 0.075rem;
+  -moz-letter-spacing: 0.075rem;
+  -ms-letter-spacing: 0.075rem;
+  letter-spacing: 0.075rem;
+  text-transform: uppercase;
+  color: #E2E2EE;
+}
+
+<div
+  class="c0"
+/>
+`;

@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Radio renders a RadioGroup 1`] = `
+.c0 .mantine-Radio-radio {
+  -webkit-transition: 150ms border-color ease;
+  transition: 150ms border-color ease;
+  background-color: #1E1F2E;
+  border: 0.0625rem solid #292B3D;
+}
+
+.c0 .mantine-Radio-radio::before {
+  -webkit-transition: 150ms background-color ease;
+  transition: 150ms background-color ease;
+  background-color: #307AE8;
+}
+
+.c0 .mantine-Radio-radio:hover:not(.mantine-Radio-radioDisabled) {
+  cursor: pointer;
+}
+
+.c0 .mantine-Radio-label {
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
+  font-family: PT Mono;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+  -webkit-letter-spacing: 0.0125rem;
+  -moz-letter-spacing: 0.0125rem;
+  -ms-letter-spacing: 0.0125rem;
+  letter-spacing: 0.0125rem;
+}
+
+.c0 .mantine-Radio-label:hover:not(.mantine-Radio-labelDisabled) {
+  color: #5596F6;
+  cursor: pointer;
+}
+
+.c0 .mantine-Radio-label:hover:not(.mantine-Radio-labelDisabled) .mantine-Radio-radio {
+  border-color: #5596F6;
+}
+
+.c0 .mantine-Radio-label:active:not(.mantine-Radio-labelDisabled) {
+  color: #1761CF;
+}
+
+.c0 .mantine-Radio-label:active:not(.mantine-Radio-labelDisabled) .mantine-Radio-radio {
+  border-color: #1761CF;
+}
+
+.c0 .mantine-Radio-label:active:not(.mantine-Radio-labelDisabled) .mantine-Radio-radio::before {
+  background-color: #1761CF;
+}
+
+<div
+  class="mantine-InputWrapper-root mantine-RadioGroup-root c0 mantine-1m3pqry"
+>
+  <div
+    class="mantine-Group-root mantine-pbfq37"
+    role="radiogroup"
+  >
+    <div
+      class="mantine-Radio-radioWrapper mantine-Group-child mantine-s9zdvw"
+    >
+      <div
+        class="mantine-qqmv3w mantine-Radio-inner"
+      >
+        <input
+          class="mantine-1wjygiw mantine-Radio-radio"
+          id="mantine-r0"
+          type="radio"
+          value="radio-test"
+        />
+        <svg
+          aria-hidden="true"
+          class="__mantine-ref-icon mantine-1pvv8z0 mantine-Radio-icon"
+          fill="none"
+          viewBox="0 0 5 5"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 2.5a2.5 2.5 0 115 0 2.5 2.5 0 01-5 0z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;

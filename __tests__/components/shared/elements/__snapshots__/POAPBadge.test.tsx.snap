@@ -1,0 +1,1081 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`POAPBadge heart renders a POAPBadge with a heart 1`] = `
+.c7 {
+  display: inline-block;
+  font-family: 'PT Mono',monospace;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1.0625rem;
+  -webkit-letter-spacing: 0.03125rem;
+  -moz-letter-spacing: 0.03125rem;
+  -ms-letter-spacing: 0.03125rem;
+  letter-spacing: 0.03125rem;
+  text-align: center;
+  color: #307AE8;
+  -webkit-transition: color 150ms ease-in-out;
+  transition: color 150ms ease-in-out;
+  cursor: pointer;
+  color: #307AE8;
+}
+
+.c8:hover:not([disabled]) {
+  color: #5596F6;
+}
+
+.c8:active:not([disabled]) {
+  color: #1761CF;
+}
+
+.c8[disabled] {
+  color: #393A51;
+  cursor: not-allowed;
+}
+
+.c4 > svg {
+  fill: #E2E2EE;
+}
+
+.c5 {
+  color: #E2E2EE;
+  height: 1.125rem;
+  width: 1.125rem;
+  -webkit-transition: 150ms fill ease;
+  transition: 150ms fill ease;
+  fill: #E2E2EE;
+}
+
+.c5:hover {
+  fill: #5596F6;
+  cursor: pointer;
+}
+
+.c5:active {
+  fill: #1761CF;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 50%;
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  width: 9.375rem;
+  height: 9.375rem;
+}
+
+.c2:hover:not([disabled]) {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.c2:active:not([disabled]) {
+  opacity: 0.5;
+}
+
+.c2 span,
+.c2 img {
+  pointer-events: none;
+}
+
+.c3 {
+  border-radius: 50%;
+  background: #292B3D;
+}
+
+.c9 {
+  margin-top: 0.625rem;
+  color: #E2E2EE;
+  width: 10.125rem;
+}
+
+.c6 {
+  position: absolute;
+  bottom: 0rem;
+  right: 0rem;
+}
+
+.c1 {
+  position: relative;
+  margin: 0.375rem 0;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c0 c1"
+  >
+    <a
+      class="c2"
+      href="https://gitpoap.io"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test poap"
+          class="c3"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </a>
+    <div
+      class="c4"
+    >
+      <svg
+        class="c5 c6"
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"
+        />
+      </svg>
+    </div>
+  </div>
+  <a
+    href="https://gitpoap.io"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <div
+      class="mantine-Text-root c7 c8 c9 mantine-1pbxw0k"
+    >
+      test poap
+    </div>
+  </a>
+</div>
+`;
+
+exports[`POAPBadge heart renders a POAPBadge without a heart 1`] = `
+.c4 {
+  display: inline-block;
+  font-family: 'PT Mono',monospace;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1.0625rem;
+  -webkit-letter-spacing: 0.03125rem;
+  -moz-letter-spacing: 0.03125rem;
+  -ms-letter-spacing: 0.03125rem;
+  letter-spacing: 0.03125rem;
+  text-align: center;
+  color: #307AE8;
+  -webkit-transition: color 150ms ease-in-out;
+  transition: color 150ms ease-in-out;
+  cursor: pointer;
+  color: #307AE8;
+}
+
+.c5:hover:not([disabled]) {
+  color: #5596F6;
+}
+
+.c5:active:not([disabled]) {
+  color: #1761CF;
+}
+
+.c5[disabled] {
+  color: #393A51;
+  cursor: not-allowed;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 50%;
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  width: 9.375rem;
+  height: 9.375rem;
+}
+
+.c2:hover:not([disabled]) {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.c2:active:not([disabled]) {
+  opacity: 0.5;
+}
+
+.c2 span,
+.c2 img {
+  pointer-events: none;
+}
+
+.c3 {
+  border-radius: 50%;
+  background: #292B3D;
+}
+
+.c6 {
+  margin-top: 0.625rem;
+  color: #E2E2EE;
+  width: 10.125rem;
+}
+
+.c1 {
+  position: relative;
+  margin: 0.375rem 0;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c0 c1"
+  >
+    <a
+      class="c2"
+      href="https://gitpoap.io"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test poap"
+          class="c3"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </a>
+  </div>
+  <a
+    href="https://gitpoap.io"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <div
+      class="mantine-Text-root c4 c5 c6 mantine-1pbxw0k"
+    >
+      test poap
+    </div>
+  </a>
+</div>
+`;
+
+exports[`POAPBadge isFeatured renders a POAPBadge with isFeatured = false 1`] = `
+.c7 {
+  display: inline-block;
+  font-family: 'PT Mono',monospace;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1.0625rem;
+  -webkit-letter-spacing: 0.03125rem;
+  -moz-letter-spacing: 0.03125rem;
+  -ms-letter-spacing: 0.03125rem;
+  letter-spacing: 0.03125rem;
+  text-align: center;
+  color: #307AE8;
+  -webkit-transition: color 150ms ease-in-out;
+  transition: color 150ms ease-in-out;
+  cursor: pointer;
+  color: #307AE8;
+}
+
+.c8:hover:not([disabled]) {
+  color: #5596F6;
+}
+
+.c8:active:not([disabled]) {
+  color: #1761CF;
+}
+
+.c8[disabled] {
+  color: #393A51;
+  cursor: not-allowed;
+}
+
+.c4 > svg {
+  fill: #E2E2EE;
+}
+
+.c5 {
+  color: #E2E2EE;
+  height: 1.125rem;
+  width: 1.125rem;
+  -webkit-transition: 150ms fill ease;
+  transition: 150ms fill ease;
+  fill: #E2E2EE;
+}
+
+.c5:hover {
+  fill: #5596F6;
+  cursor: pointer;
+}
+
+.c5:active {
+  fill: #1761CF;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 50%;
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  width: 9.375rem;
+  height: 9.375rem;
+}
+
+.c2:hover:not([disabled]) {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.c2:active:not([disabled]) {
+  opacity: 0.5;
+}
+
+.c2 span,
+.c2 img {
+  pointer-events: none;
+}
+
+.c3 {
+  border-radius: 50%;
+  background: #292B3D;
+}
+
+.c9 {
+  margin-top: 0.625rem;
+  color: #E2E2EE;
+  width: 10.125rem;
+}
+
+.c6 {
+  position: absolute;
+  bottom: 0rem;
+  right: 0rem;
+}
+
+.c1 {
+  position: relative;
+  margin: 0.375rem 0;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c0 c1"
+  >
+    <a
+      class="c2"
+      href="https://gitpoap.io"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test poap"
+          class="c3"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </a>
+    <div
+      class="c4"
+    >
+      <svg
+        class="c5 c6"
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"
+        />
+      </svg>
+    </div>
+  </div>
+  <a
+    href="https://gitpoap.io"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <div
+      class="mantine-Text-root c7 c8 c9 mantine-1pbxw0k"
+    >
+      test poap
+    </div>
+  </a>
+</div>
+`;
+
+exports[`POAPBadge isFeatured renders a POAPBadge with isFeatured = true 1`] = `
+.c7 {
+  display: inline-block;
+  font-family: 'PT Mono',monospace;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1.0625rem;
+  -webkit-letter-spacing: 0.03125rem;
+  -moz-letter-spacing: 0.03125rem;
+  -ms-letter-spacing: 0.03125rem;
+  letter-spacing: 0.03125rem;
+  text-align: center;
+  color: #307AE8;
+  -webkit-transition: color 150ms ease-in-out;
+  transition: color 150ms ease-in-out;
+  cursor: pointer;
+  color: #307AE8;
+}
+
+.c8:hover:not([disabled]) {
+  color: #5596F6;
+}
+
+.c8:active:not([disabled]) {
+  color: #1761CF;
+}
+
+.c8[disabled] {
+  color: #393A51;
+  cursor: not-allowed;
+}
+
+.c4 > svg {
+  fill: #307AE8;
+}
+
+.c5 {
+  color: #E2E2EE;
+  height: 1.125rem;
+  width: 1.125rem;
+  -webkit-transition: 150ms fill ease;
+  transition: 150ms fill ease;
+  fill: #E2E2EE;
+}
+
+.c5:hover {
+  fill: #5596F6;
+  cursor: pointer;
+}
+
+.c5:active {
+  fill: #1761CF;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 50%;
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  width: 9.375rem;
+  height: 9.375rem;
+}
+
+.c2:hover:not([disabled]) {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.c2:active:not([disabled]) {
+  opacity: 0.5;
+}
+
+.c2 span,
+.c2 img {
+  pointer-events: none;
+}
+
+.c3 {
+  border-radius: 50%;
+  background: #292B3D;
+}
+
+.c9 {
+  margin-top: 0.625rem;
+  color: #E2E2EE;
+  width: 10.125rem;
+}
+
+.c6 {
+  position: absolute;
+  bottom: 0rem;
+  right: 0rem;
+}
+
+.c1 {
+  position: relative;
+  margin: 0.375rem 0;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c0 c1"
+  >
+    <a
+      class="c2"
+      href="https://gitpoap.io"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test poap"
+          class="c3"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </a>
+    <div
+      class="c4"
+    >
+      <svg
+        class="c5 c6"
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"
+        />
+      </svg>
+    </div>
+  </div>
+  <a
+    href="https://gitpoap.io"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <div
+      class="mantine-Text-root c7 c8 c9 mantine-1pbxw0k"
+    >
+      test poap
+    </div>
+  </a>
+</div>
+`;
+
+exports[`POAPBadge isFeaturedLoading renders a POAPBadge with isFeaturedLoading = false 1`] = `
+.c7 {
+  display: inline-block;
+  font-family: 'PT Mono',monospace;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1.0625rem;
+  -webkit-letter-spacing: 0.03125rem;
+  -moz-letter-spacing: 0.03125rem;
+  -ms-letter-spacing: 0.03125rem;
+  letter-spacing: 0.03125rem;
+  text-align: center;
+  color: #307AE8;
+  -webkit-transition: color 150ms ease-in-out;
+  transition: color 150ms ease-in-out;
+  cursor: pointer;
+  color: #307AE8;
+}
+
+.c8:hover:not([disabled]) {
+  color: #5596F6;
+}
+
+.c8:active:not([disabled]) {
+  color: #1761CF;
+}
+
+.c8[disabled] {
+  color: #393A51;
+  cursor: not-allowed;
+}
+
+.c4 > svg {
+  fill: #307AE8;
+}
+
+.c5 {
+  color: #E2E2EE;
+  height: 1.125rem;
+  width: 1.125rem;
+  -webkit-transition: 150ms fill ease;
+  transition: 150ms fill ease;
+  fill: #E2E2EE;
+}
+
+.c5:hover {
+  fill: #5596F6;
+  cursor: pointer;
+}
+
+.c5:active {
+  fill: #1761CF;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 50%;
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  width: 9.375rem;
+  height: 9.375rem;
+}
+
+.c2:hover:not([disabled]) {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.c2:active:not([disabled]) {
+  opacity: 0.5;
+}
+
+.c2 span,
+.c2 img {
+  pointer-events: none;
+}
+
+.c3 {
+  border-radius: 50%;
+  background: #292B3D;
+}
+
+.c9 {
+  margin-top: 0.625rem;
+  color: #E2E2EE;
+  width: 10.125rem;
+}
+
+.c6 {
+  position: absolute;
+  bottom: 0rem;
+  right: 0rem;
+}
+
+.c1 {
+  position: relative;
+  margin: 0.375rem 0;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c0 c1"
+  >
+    <a
+      class="c2"
+      href="https://gitpoap.io"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test poap"
+          class="c3"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </a>
+    <div
+      class="c4"
+    >
+      <svg
+        class="c5 c6"
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"
+        />
+      </svg>
+    </div>
+  </div>
+  <a
+    href="https://gitpoap.io"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <div
+      class="mantine-Text-root c7 c8 c9 mantine-1pbxw0k"
+    >
+      test poap
+    </div>
+  </a>
+</div>
+`;
+
+exports[`POAPBadge isFeaturedLoading renders a POAPBadge with isFeaturedLoading = true 1`] = `
+.c7 {
+  display: inline-block;
+  font-family: 'PT Mono',monospace;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1.0625rem;
+  -webkit-letter-spacing: 0.03125rem;
+  -moz-letter-spacing: 0.03125rem;
+  -ms-letter-spacing: 0.03125rem;
+  letter-spacing: 0.03125rem;
+  text-align: center;
+  color: #307AE8;
+  -webkit-transition: color 150ms ease-in-out;
+  transition: color 150ms ease-in-out;
+  cursor: pointer;
+  color: #307AE8;
+}
+
+.c8:hover:not([disabled]) {
+  color: #5596F6;
+}
+
+.c8:active:not([disabled]) {
+  color: #1761CF;
+}
+
+.c8[disabled] {
+  color: #393A51;
+  cursor: not-allowed;
+}
+
+.c5 {
+  stroke: #5596F6;
+}
+
+.c4 > svg {
+  fill: #307AE8;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 50%;
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  width: 9.375rem;
+  height: 9.375rem;
+}
+
+.c2:hover:not([disabled]) {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.c2:active:not([disabled]) {
+  opacity: 0.5;
+}
+
+.c2 span,
+.c2 img {
+  pointer-events: none;
+}
+
+.c3 {
+  border-radius: 50%;
+  background: #292B3D;
+}
+
+.c9 {
+  margin-top: 0.625rem;
+  color: #E2E2EE;
+  width: 10.125rem;
+}
+
+.c6 {
+  position: absolute;
+  bottom: 0rem;
+  right: 0rem;
+}
+
+.c1 {
+  position: relative;
+  margin: 0.375rem 0;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c0 c1"
+  >
+    <a
+      class="c2"
+      href="https://gitpoap.io"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+      >
+        <img
+          alt="test poap"
+          class="c3"
+          data-nimg="fill"
+          decoding="async"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+        />
+        <noscript />
+      </span>
+    </a>
+    <div
+      class="c4"
+    >
+      <svg
+        class="c5 c6 mantine-1avyp1d"
+        height="18px"
+        role="presentation"
+        stroke="#228be6"
+        viewBox="0 0 38 38"
+        width="18px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g
+          fill="none"
+          fill-rule="evenodd"
+        >
+          <g
+            stroke-width="5"
+            transform="translate(2.5 2.5)"
+          >
+            <circle
+              cx="16"
+              cy="16"
+              r="16"
+              stroke-opacity=".5"
+            />
+            <path
+              d="M32 16c0-9.94-8.06-16-16-16"
+            >
+              <animatetransform
+                attributeName="transform"
+                dur="1s"
+                from="0 16 16"
+                repeatCount="indefinite"
+                to="360 16 16"
+                type="rotate"
+              />
+            </path>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <a
+    href="https://gitpoap.io"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <div
+      class="mantine-Text-root c7 c8 c9 mantine-1pbxw0k"
+    >
+      test poap
+    </div>
+  </a>
+</div>
+`;
