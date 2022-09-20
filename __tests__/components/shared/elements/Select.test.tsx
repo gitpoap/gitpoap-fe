@@ -11,8 +11,8 @@ describe('Select', () => {
           { value: 'claim', label: 'Mint Date' },
           { value: 'name', label: 'Name' },
         ]}
-        value='total'
-      />
+        value="total"
+      />,
     );
     const select = container.firstChild;
 

@@ -1,6 +1,11 @@
 import { render } from '@testing-library/react';
 import 'jest-styled-components';
-import { BaseSkeleton, POAPBadgeSkeleton, ProfileImageSkeleton, TextSkeleton } from '../../../../src/components/shared/elements';
+import {
+  BaseSkeleton,
+  POAPBadgeSkeleton,
+  ProfileImageSkeleton,
+  TextSkeleton,
+} from '../../../../src/components/shared/elements';
 
 describe('Skeletons', () => {
   describe('BaseSkeleton', () => {
