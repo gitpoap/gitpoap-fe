@@ -13,31 +13,31 @@ const client = createClient({
   requestPolicy: 'network-only',
 });
 
-export const mockRouter: NextRouter = {
+const mockRouter: NextRouter = {
   basePath: '',
   pathname: '/',
   route: '/',
   asPath: '/',
   query: {},
   /* @ts-ignore */
-  push: () => {},
+  push: () => { },
   /* @ts-ignore */
-  replace: () => {},
-  reload: () => {},
-  back: () => {},
+  replace: () => { },
+  reload: () => { },
+  back: () => { },
   /* @ts-ignore */
-  prefetch: () => {},
-  beforePopState: () => {},
+  prefetch: () => { },
+  beforePopState: () => { },
   events: {
-    on: () => {},
-    off: () => {},
-    emit: () => {},
+    on: () => { },
+    off: () => { },
+    emit: () => { },
   },
   isFallback: false,
   isLocaleDomain: false,
 };
 
-export const withProviders = (storyFn: any) => {
+export const withProviders = (storyFn) => {
   return (
     <RouterContext.Provider value={mockRouter}>
       <Web3ContextProvider>

@@ -4,7 +4,7 @@ import { TextArea } from '../../../../src/components/shared/elements';
 
 describe('TextArea', () => {
   it('renders a TextArea', () => {
-    const { container } = render(<TextArea value="" />);
+    const { container } = render(<TextArea placeholder="A placeholder" value="A TextArea!" />);
     const textArea = container.firstChild;
 
     expect(textArea).toBeInTheDocument();

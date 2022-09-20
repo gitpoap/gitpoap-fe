@@ -2,7 +2,14 @@ import { render } from '@testing-library/react';
 import 'jest-styled-components';
 import { POAPBadge } from '../../../../src/components/shared/elements';
 
-const renderBadge = (isFeatured: boolean, isFeaturedLoading: boolean, showHeart: boolean, poapTokenId?: string,) => {
+type RenderBadgeType = {
+  isFeatured: boolean;
+  isFeaturedLoading: boolean;
+  showHeart: boolean;
+  poapTokenId?: string;
+}
+
+const renderBadge = ({ isFeatured, isFeaturedLoading, showHeart, poapTokenId }: RenderBadgeType) => {
   return render(
     <POAPBadge
       imgSrc="https://poap.gallery/static/media/test_gitpoap.1b1b1b1b.png"
@@ -19,14 +26,14 @@ const renderBadge = (isFeatured: boolean, isFeaturedLoading: boolean, showHeart:
 describe('POAPBadge', () => {
   describe('heart', () => {
     it('renders a POAPBadge without a heart', () => {
-      const { container } = renderBadge(false, false, false);
+      const { container } = renderBadge({ isFeatured: false, isFeaturedLoading: false, showHeart: false });
       const poapBadge = container.firstChild;
 
       expect(poapBadge).toBeInTheDocument();
       expect(poapBadge).toMatchSnapshot();
     });
     it('renders a POAPBadge with a heart', () => {
-      const { container } = renderBadge(false, false, true, 'poapTokenId');
+      const { container } = renderBadge({ isFeatured: false, isFeaturedLoading: false, showHeart: true, poapTokenId: 'poapTokenId' });
       const poapBadge = container.firstChild;
 
       expect(poapBadge).toBeInTheDocument();
@@ -35,14 +42,14 @@ describe('POAPBadge', () => {
   });
   describe('isFeatured', () => {
     it('renders a POAPBadge with isFeatured = true', () => {
-      const { container } = renderBadge(true, false, true, 'poapTokenId');
+      const { container } = renderBadge({ isFeatured: true, isFeaturedLoading: false, showHeart: true, poapTokenId: 'poapTokenId' });
       const poapBadge = container.firstChild;
 
       expect(poapBadge).toBeInTheDocument();
       expect(poapBadge).toMatchSnapshot();
     });
     it('renders a POAPBadge with isFeatured = false', () => {
-      const { container } = renderBadge(false, false, true, 'poapTokenId');
+      const { container } = renderBadge({ isFeatured: false, isFeaturedLoading: false, showHeart: true, poapTokenId: 'poapTokenId' });
       const poapBadge = container.firstChild;
 
       expect(poapBadge).toBeInTheDocument();
@@ -51,14 +58,14 @@ describe('POAPBadge', () => {
   });
   describe('isFeaturedLoading', () => {
     it('renders a POAPBadge with isFeaturedLoading = true', () => {
-      const { container } = renderBadge(true, true, true, 'poapTokenId');
+      const { container } = renderBadge({ isFeatured: true, isFeaturedLoading: true, showHeart: true, poapTokenId: 'poapTokenId' });
       const poapBadge = container.firstChild;
 
       expect(poapBadge).toBeInTheDocument();
       expect(poapBadge).toMatchSnapshot();
     });
     it('renders a POAPBadge with isFeaturedLoading = false', () => {
-      const { container } = renderBadge(true, false, true, 'poapTokenId');
+      const { container } = renderBadge({ isFeatured: true, isFeaturedLoading: false, showHeart: true, poapTokenId: 'poapTokenId' });
       const poapBadge = container.firstChild;
 
       expect(poapBadge).toBeInTheDocument();

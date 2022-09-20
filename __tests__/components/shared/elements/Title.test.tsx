@@ -4,7 +4,7 @@ import { Title } from '../../../../src/components/shared/elements';
 
 describe('Title', () => {
   it('renders a Title', () => {
-    const { container } = render(<Title />);
+    const { container } = render(<Title>{'A great title, one of the best'}</Title>);
     const title = container.firstChild;
 
     expect(title).toBeInTheDocument();
