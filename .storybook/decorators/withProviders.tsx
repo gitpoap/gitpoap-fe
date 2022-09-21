@@ -7,6 +7,7 @@ import { NextRouter } from 'next/router';
 import { Web3ContextProvider } from '../../src/components/wallet/Web3ContextProvider';
 import { AuthProvider } from '../../src/components/github/AuthContext';
 import { FeaturesProvider } from '../../src/components/FeaturesContext';
+import { theme } from '../../src/lib/theme';
 
 const client = createClient({
   url: 'http://localhost:3001/graphql',
@@ -41,7 +42,7 @@ export const withProviders = (storyFn) => {
   return (
     <RouterContext.Provider value={mockRouter}>
       <Web3ContextProvider>
-        <MantineProvider theme={{ colorScheme: 'dark' }}>
+        <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider autoClose={5000}>
             <URQLProvider value={client}>
               <AuthProvider>
