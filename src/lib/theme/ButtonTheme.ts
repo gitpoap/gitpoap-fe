@@ -9,6 +9,7 @@ export const ButtonTheme = {
   },
   styles: (theme: MantineTheme, params: ButtonStylesParams) => ({
     root: {
+      borderWidth: rem(2),
       letterSpacing: rem(2),
       transition: '150ms background ease, 150ms color ease, 150ms border ease',
       ...(params.variant === 'filled' && ButtonFilled),
