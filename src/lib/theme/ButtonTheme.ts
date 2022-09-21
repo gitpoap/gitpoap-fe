@@ -19,7 +19,7 @@ export const ButtonTheme = {
 };
 
 const ButtonFilled = {
-  background: PrimaryBlue,
+  backgroundColor: PrimaryBlue,
   '&:disabled': {
     backgroundColor: DarkGray,
     '.mantine-Button-label': {
@@ -41,7 +41,7 @@ const ButtonFilled = {
 };
 
 const ButtonOutline = {
-  background: 'transparent',
+  backgroundColor: 'transparent',
   borderColor: TextGray,
   color: White,
   '&:disabled': {
