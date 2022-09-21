@@ -6,7 +6,7 @@ const createJestConfig = nextJest({
   dir: './',
 });
 
-const namespacesToTransform = ['preact', '@ensdomains', 'multiformats'];
+const namespacesToTransform = ['preact', '@ensdomains', 'multiformats', '@walletconnect'];
 
 /*
  * For a detailed explanation regarding each configuration property and type check, visit:
