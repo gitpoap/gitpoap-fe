@@ -31,7 +31,9 @@ export type Address = {
 
 export type AddressCount = {
   __typename?: 'AddressCount';
+  issuedClaims: Scalars['Int'];
   memberships: Scalars['Int'];
+  mintedClaims: Scalars['Int'];
 };
 
 export type AddressListRelationFilter = {
@@ -54,7 +56,10 @@ export type AddressOrderByWithRelationInput = {
   githubUser?: InputMaybe<UserOrderByWithRelationInput>;
   githubUserId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  issuedClaims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   memberships?: InputMaybe<OrganizationMembershipOrderByRelationAggregateInput>;
+  mintedClaims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
+  profile?: InputMaybe<ProfileOrderByWithRelationInput>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -87,7 +92,10 @@ export type AddressWhereInput = {
   githubUser?: InputMaybe<UserRelationFilter>;
   githubUserId?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<IntFilter>;
+  issuedClaims?: InputMaybe<ClaimListRelationFilter>;
   memberships?: InputMaybe<OrganizationMembershipListRelationFilter>;
+  mintedClaims?: InputMaybe<ClaimListRelationFilter>;
+  profile?: InputMaybe<ProfileRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
@@ -210,6 +218,8 @@ export type BoolWithAggregatesFilter = {
 
 export type Claim = {
   __typename?: 'Claim';
+  address?: Maybe<Address>;
+  addressId?: Maybe<Scalars['Int']>;
   createdAt: Scalars['DateTime'];
   email?: Maybe<Email>;
   emailId?: Maybe<Scalars['Int']>;
@@ -218,6 +228,8 @@ export type Claim = {
   id: Scalars['Int'];
   mentionEarned?: Maybe<GithubMention>;
   mentionEarnedId?: Maybe<Scalars['Int']>;
+  mintedAddress?: Maybe<Address>;
+  mintedAddressId?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
   needsRevalidation: Scalars['Boolean'];
   oldMintedAddress?: Maybe<Scalars['String']>;
@@ -232,19 +244,23 @@ export type Claim = {
 
 export type ClaimAvgAggregate = {
   __typename?: 'ClaimAvgAggregate';
+  addressId?: Maybe<Scalars['Float']>;
   emailId?: Maybe<Scalars['Float']>;
   gitPOAPId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   mentionEarnedId?: Maybe<Scalars['Float']>;
+  mintedAddressId?: Maybe<Scalars['Float']>;
   pullRequestEarnedId?: Maybe<Scalars['Float']>;
   userId?: Maybe<Scalars['Float']>;
 };
 
 export type ClaimAvgOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
+  mintedAddressId?: InputMaybe<SortOrder>;
   pullRequestEarnedId?: InputMaybe<SortOrder>;
   userId?: InputMaybe<SortOrder>;
 };
@@ -252,11 +268,13 @@ export type ClaimAvgOrderByAggregateInput = {
 export type ClaimCountAggregate = {
   __typename?: 'ClaimCountAggregate';
   _all: Scalars['Int'];
+  addressId: Scalars['Int'];
   createdAt: Scalars['Int'];
   emailId: Scalars['Int'];
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
   mentionEarnedId: Scalars['Int'];
+  mintedAddressId: Scalars['Int'];
   mintedAt: Scalars['Int'];
   needsRevalidation: Scalars['Int'];
   oldMintedAddress: Scalars['Int'];
@@ -269,11 +287,13 @@ export type ClaimCountAggregate = {
 };
 
 export type ClaimCountOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
+  mintedAddressId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
   needsRevalidation?: InputMaybe<SortOrder>;
   oldMintedAddress?: InputMaybe<SortOrder>;
@@ -282,6 +302,21 @@ export type ClaimCountOrderByAggregateInput = {
   status?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   userId?: InputMaybe<SortOrder>;
+};
+
+export type ClaimGitPoapIdAddressIdCompoundUniqueInput = {
+  addressId: Scalars['Int'];
+  gitPOAPId: Scalars['Int'];
+};
+
+export type ClaimGitPoapIdEmailIdCompoundUniqueInput = {
+  emailId: Scalars['Int'];
+  gitPOAPId: Scalars['Int'];
+};
+
+export type ClaimGitPoapIdMintedAddressIdCompoundUniqueInput = {
+  gitPOAPId: Scalars['Int'];
+  mintedAddressId: Scalars['Int'];
 };
 
 export type ClaimGitPoapIdUserIdCompoundUniqueInput = {
@@ -296,11 +331,13 @@ export type ClaimGroupBy = {
   _max?: Maybe<ClaimMaxAggregate>;
   _min?: Maybe<ClaimMinAggregate>;
   _sum?: Maybe<ClaimSumAggregate>;
+  addressId?: Maybe<Scalars['Int']>;
   createdAt: Scalars['DateTime'];
   emailId?: Maybe<Scalars['Int']>;
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
   mentionEarnedId?: Maybe<Scalars['Int']>;
+  mintedAddressId?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
   needsRevalidation: Scalars['Boolean'];
   oldMintedAddress?: Maybe<Scalars['String']>;
@@ -320,11 +357,13 @@ export type ClaimListRelationFilter = {
 
 export type ClaimMaxAggregate = {
   __typename?: 'ClaimMaxAggregate';
+  addressId?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   emailId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   mentionEarnedId?: Maybe<Scalars['Int']>;
+  mintedAddressId?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
   needsRevalidation?: Maybe<Scalars['Boolean']>;
   oldMintedAddress?: Maybe<Scalars['String']>;
@@ -337,11 +376,13 @@ export type ClaimMaxAggregate = {
 };
 
 export type ClaimMaxOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
+  mintedAddressId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
   needsRevalidation?: InputMaybe<SortOrder>;
   oldMintedAddress?: InputMaybe<SortOrder>;
@@ -354,11 +395,13 @@ export type ClaimMaxOrderByAggregateInput = {
 
 export type ClaimMinAggregate = {
   __typename?: 'ClaimMinAggregate';
+  addressId?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   emailId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   mentionEarnedId?: Maybe<Scalars['Int']>;
+  mintedAddressId?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
   needsRevalidation?: Maybe<Scalars['Boolean']>;
   oldMintedAddress?: Maybe<Scalars['String']>;
@@ -371,11 +414,13 @@ export type ClaimMinAggregate = {
 };
 
 export type ClaimMinOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
+  mintedAddressId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
   needsRevalidation?: InputMaybe<SortOrder>;
   oldMintedAddress?: InputMaybe<SortOrder>;
@@ -396,11 +441,13 @@ export type ClaimOrderByWithAggregationInput = {
   _max?: InputMaybe<ClaimMaxOrderByAggregateInput>;
   _min?: InputMaybe<ClaimMinOrderByAggregateInput>;
   _sum?: InputMaybe<ClaimSumOrderByAggregateInput>;
+  addressId?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
+  mintedAddressId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
   needsRevalidation?: InputMaybe<SortOrder>;
   oldMintedAddress?: InputMaybe<SortOrder>;
@@ -412,6 +459,8 @@ export type ClaimOrderByWithAggregationInput = {
 };
 
 export type ClaimOrderByWithRelationInput = {
+  address?: InputMaybe<AddressOrderByWithRelationInput>;
+  addressId?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   email?: InputMaybe<EmailOrderByWithRelationInput>;
   emailId?: InputMaybe<SortOrder>;
@@ -420,6 +469,8 @@ export type ClaimOrderByWithRelationInput = {
   id?: InputMaybe<SortOrder>;
   mentionEarned?: InputMaybe<GithubMentionOrderByWithRelationInput>;
   mentionEarnedId?: InputMaybe<SortOrder>;
+  mintedAddress?: InputMaybe<AddressOrderByWithRelationInput>;
+  mintedAddressId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
   needsRevalidation?: InputMaybe<SortOrder>;
   oldMintedAddress?: InputMaybe<SortOrder>;
@@ -433,11 +484,13 @@ export type ClaimOrderByWithRelationInput = {
 };
 
 export enum ClaimScalarFieldEnum {
+  AddressId = 'addressId',
   CreatedAt = 'createdAt',
   EmailId = 'emailId',
   GitPoapId = 'gitPOAPId',
   Id = 'id',
   MentionEarnedId = 'mentionEarnedId',
+  MintedAddressId = 'mintedAddressId',
   MintedAt = 'mintedAt',
   NeedsRevalidation = 'needsRevalidation',
   OldMintedAddress = 'oldMintedAddress',
@@ -453,11 +506,13 @@ export type ClaimScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<ClaimScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<ClaimScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<ClaimScalarWhereWithAggregatesInput>>;
+  addressId?: InputMaybe<IntNullableWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   emailId?: InputMaybe<IntNullableWithAggregatesFilter>;
   gitPOAPId?: InputMaybe<IntWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   mentionEarnedId?: InputMaybe<IntNullableWithAggregatesFilter>;
+  mintedAddressId?: InputMaybe<IntNullableWithAggregatesFilter>;
   mintedAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
   needsRevalidation?: InputMaybe<BoolWithAggregatesFilter>;
   oldMintedAddress?: InputMaybe<StringNullableWithAggregatesFilter>;
@@ -477,19 +532,23 @@ export enum ClaimStatus {
 
 export type ClaimSumAggregate = {
   __typename?: 'ClaimSumAggregate';
+  addressId?: Maybe<Scalars['Int']>;
   emailId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   mentionEarnedId?: Maybe<Scalars['Int']>;
+  mintedAddressId?: Maybe<Scalars['Int']>;
   pullRequestEarnedId?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['Int']>;
 };
 
 export type ClaimSumOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
+  mintedAddressId?: InputMaybe<SortOrder>;
   pullRequestEarnedId?: InputMaybe<SortOrder>;
   userId?: InputMaybe<SortOrder>;
 };
@@ -504,6 +563,8 @@ export type ClaimWhereInput = {
   AND?: InputMaybe<Array<ClaimWhereInput>>;
   NOT?: InputMaybe<Array<ClaimWhereInput>>;
   OR?: InputMaybe<Array<ClaimWhereInput>>;
+  address?: InputMaybe<AddressRelationFilter>;
+  addressId?: InputMaybe<IntNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<EmailRelationFilter>;
   emailId?: InputMaybe<IntNullableFilter>;
@@ -512,6 +573,8 @@ export type ClaimWhereInput = {
   id?: InputMaybe<IntFilter>;
   mentionEarned?: InputMaybe<GithubMentionRelationFilter>;
   mentionEarnedId?: InputMaybe<IntNullableFilter>;
+  mintedAddress?: InputMaybe<AddressRelationFilter>;
+  mintedAddressId?: InputMaybe<IntNullableFilter>;
   mintedAt?: InputMaybe<DateTimeNullableFilter>;
   needsRevalidation?: InputMaybe<BoolFilter>;
   oldMintedAddress?: InputMaybe<StringNullableFilter>;
@@ -525,6 +588,9 @@ export type ClaimWhereInput = {
 };
 
 export type ClaimWhereUniqueInput = {
+  gitPOAPId_addressId?: InputMaybe<ClaimGitPoapIdAddressIdCompoundUniqueInput>;
+  gitPOAPId_emailId?: InputMaybe<ClaimGitPoapIdEmailIdCompoundUniqueInput>;
+  gitPOAPId_mintedAddressId?: InputMaybe<ClaimGitPoapIdMintedAddressIdCompoundUniqueInput>;
   gitPOAPId_userId?: InputMaybe<ClaimGitPoapIdUserIdCompoundUniqueInput>;
   id?: InputMaybe<Scalars['Int']>;
   poapTokenId?: InputMaybe<Scalars['String']>;
@@ -2767,6 +2833,8 @@ export type PoapToken = {
 export type Profile = {
   __typename?: 'Profile';
   _count?: Maybe<ProfileCount>;
+  address?: Maybe<Address>;
+  addressId?: Maybe<Scalars['Int']>;
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
@@ -2794,10 +2862,12 @@ export type ProfileFeaturedPoaPsArgs = {
 
 export type ProfileAvgAggregate = {
   __typename?: 'ProfileAvgAggregate';
+  addressId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
 export type ProfileAvgOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
 };
 
@@ -2809,6 +2879,7 @@ export type ProfileCount = {
 export type ProfileCountAggregate = {
   __typename?: 'ProfileCountAggregate';
   _all: Scalars['Int'];
+  addressId: Scalars['Int'];
   bannerImageUrl: Scalars['Int'];
   bio: Scalars['Int'];
   createdAt: Scalars['Int'];
@@ -2825,6 +2896,7 @@ export type ProfileCountAggregate = {
 };
 
 export type ProfileCountOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
@@ -2847,6 +2919,7 @@ export type ProfileGroupBy = {
   _max?: Maybe<ProfileMaxAggregate>;
   _min?: Maybe<ProfileMinAggregate>;
   _sum?: Maybe<ProfileSumAggregate>;
+  addressId?: Maybe<Scalars['Int']>;
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
@@ -2864,6 +2937,7 @@ export type ProfileGroupBy = {
 
 export type ProfileMaxAggregate = {
   __typename?: 'ProfileMaxAggregate';
+  addressId?: Maybe<Scalars['Int']>;
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -2880,6 +2954,7 @@ export type ProfileMaxAggregate = {
 };
 
 export type ProfileMaxOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
@@ -2897,6 +2972,7 @@ export type ProfileMaxOrderByAggregateInput = {
 
 export type ProfileMinAggregate = {
   __typename?: 'ProfileMinAggregate';
+  addressId?: Maybe<Scalars['Int']>;
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -2913,6 +2989,7 @@ export type ProfileMinAggregate = {
 };
 
 export type ProfileMinOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
@@ -2934,6 +3011,7 @@ export type ProfileOrderByWithAggregationInput = {
   _max?: InputMaybe<ProfileMaxOrderByAggregateInput>;
   _min?: InputMaybe<ProfileMinOrderByAggregateInput>;
   _sum?: InputMaybe<ProfileSumOrderByAggregateInput>;
+  addressId?: InputMaybe<SortOrder>;
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
@@ -2950,6 +3028,8 @@ export type ProfileOrderByWithAggregationInput = {
 };
 
 export type ProfileOrderByWithRelationInput = {
+  address?: InputMaybe<AddressOrderByWithRelationInput>;
+  addressId?: InputMaybe<SortOrder>;
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
@@ -2972,6 +3052,7 @@ export type ProfileRelationFilter = {
 };
 
 export enum ProfileScalarFieldEnum {
+  AddressId = 'addressId',
   BannerImageUrl = 'bannerImageUrl',
   Bio = 'bio',
   CreatedAt = 'createdAt',
@@ -2991,6 +3072,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<ProfileScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<ProfileScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<ProfileScalarWhereWithAggregatesInput>>;
+  addressId?: InputMaybe<IntNullableWithAggregatesFilter>;
   bannerImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
   bio?: InputMaybe<StringNullableWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
@@ -3008,10 +3090,12 @@ export type ProfileScalarWhereWithAggregatesInput = {
 
 export type ProfileSumAggregate = {
   __typename?: 'ProfileSumAggregate';
+  addressId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
 };
 
 export type ProfileSumOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
 };
 
@@ -3019,6 +3103,8 @@ export type ProfileWhereInput = {
   AND?: InputMaybe<Array<ProfileWhereInput>>;
   NOT?: InputMaybe<Array<ProfileWhereInput>>;
   OR?: InputMaybe<Array<ProfileWhereInput>>;
+  address?: InputMaybe<AddressRelationFilter>;
+  addressId?: InputMaybe<IntNullableFilter>;
   bannerImageUrl?: InputMaybe<StringNullableFilter>;
   bio?: InputMaybe<StringNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -3036,6 +3122,7 @@ export type ProfileWhereInput = {
 };
 
 export type ProfileWhereUniqueInput = {
+  addressId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   oldAddress?: InputMaybe<Scalars['String']>;
 };
