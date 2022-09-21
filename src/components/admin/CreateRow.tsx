@@ -64,6 +64,7 @@ const schema = z.object({
   numRequestedCodes: z.number(),
   ongoing: z.boolean(),
   isEnabled: z.boolean(),
+  isPRBased: z.boolean(),
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),
 });
 
@@ -100,6 +101,7 @@ export const CreateRow = (props: Props) => {
       numRequestedCodes: 20,
       ongoing: false,
       isEnabled: true,
+      isPRBased: true,
       image: null,
     },
   });
@@ -183,6 +185,7 @@ export const CreateRow = (props: Props) => {
         numRequestedCodes: formValues.numRequestedCodes,
         ongoing: formValues.ongoing,
         isEnabled: formValues.isEnabled,
+        isPRBased: formValues.isPRBased,
         image: formValues.image,
       },
       token,
@@ -242,6 +245,11 @@ export const CreateRow = (props: Props) => {
             {...getInputProps('numRequestedCodes')}
           />
           <Checkbox mt="md" label="Ongoing?" {...getInputProps('ongoing', { type: 'checkbox' })} />
+          <Checkbox
+            mt="md"
+            label="PR-Based?"
+            {...getInputProps('isPRBased', { type: 'checkbox' })}
+          />
           <Checkbox
             mt="md"
             label="Enabled?"

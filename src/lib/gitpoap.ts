@@ -16,6 +16,7 @@ type GitPOAPCreateValues = {
   numRequestedCodes: number;
   ongoing: boolean;
   isEnabled: boolean;
+  isPRBased: boolean;
   image: File;
 };
 
@@ -59,6 +60,7 @@ export const createGitPOAP = async (values: GitPOAPCreateValues, accessToken: st
   formData.append('numRequestedCodes', values['numRequestedCodes'].toString());
   formData.append('ongoing', values['ongoing'].toString());
   formData.append('isEnabled', values['isEnabled'].toString());
+  formData.append('isPRBased', values['isPRBased'].toString());
   formData.append('image', values['image'] ?? '');
 
   const res = await makeGitPOAPAPIRequest('POST', '/gitpoaps', formData, {
