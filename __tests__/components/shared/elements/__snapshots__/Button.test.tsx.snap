@@ -39,3 +39,41 @@ exports[`Button renders a button 1`] = `
   </div>
 </button>
 `;
+
+exports[`Button renders a button correctly with variant - filled 1`] = `
+<button
+  class="mantine-UnstyledButton-root mantine-Button-root mantine-799x9f"
+  data-button="true"
+  type="button"
+>
+  <div
+    class="mantine-3xbgk5 mantine-Button-inner"
+  >
+    <span
+      class="mantine-qo1k2 mantine-Button-label"
+      style="text-transform: uppercase;"
+    >
+      Button
+    </span>
+  </div>
+</button>
+`;
+
+exports[`Button renders a button correctly with variant - outlined 1`] = `
+<button
+  class="mantine-UnstyledButton-root mantine-Button-root mantine-hyz97v"
+  data-button="true"
+  type="button"
+>
+  <div
+    class="mantine-3xbgk5 mantine-Button-inner"
+  >
+    <span
+      class="mantine-qo1k2 mantine-Button-label"
+      style="text-transform: uppercase;"
+    >
+      Button
+    </span>
+  </div>
+</button>
+`;

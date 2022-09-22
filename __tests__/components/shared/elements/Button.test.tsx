@@ -1,7 +1,7 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import 'jest-styled-components';
 import { rem } from 'polished';
-import { DarkGray, PrimaryBlue, TextGray } from '../../../../src/colors';
+import { DarkGray, PrimaryBlue, TextGray, White } from '../../../../src/colors';
 import { Button } from '../../../../src/components/shared/elements';
 import { render } from '../../../utils';
 
@@ -19,9 +19,8 @@ describe('Button', () => {
     render(<Button variant="filled">Button</Button>);
     const button = screen.getByRole('button', { name: 'Button' });
 
-    expect(button).toHaveStyleRule('background-color', PrimaryBlue);
-    expect(button).toHaveStyleRule('border', 'none');
-    expect(button).toHaveStyleRule('color', 'white');
+    expect(button).toHaveStyle(`background-color: ${PrimaryBlue}`);
+    expect(button).toHaveStyle(`color: ${White}`);
     expect(button).toMatchSnapshot();
   });
 
@@ -29,9 +28,10 @@ describe('Button', () => {
     render(<Button variant="outline">Button</Button>);
     const button = screen.getByRole('button', { name: 'Button' });
 
-    expect(button).toHaveStyleRule('background-color', 'transparent');
-    expect(button).toHaveStyleRule('border', `${rem(2)} solid ${TextGray}`);
-    expect(button).toHaveStyleRule('color', 'white');
+    expect(button).toHaveStyle(`background-color: transparent`);
+    expect(button).toHaveStyle(`border-color: ${TextGray}`);
+    expect(button).toHaveStyle(`border-width: ${rem(2)}`);
+    expect(button).toHaveStyle(`color: ${White}`);
     expect(button).toMatchSnapshot();
   });
 
@@ -47,18 +47,7 @@ describe('Button', () => {
     expect(button).toBeDisabled();
     expect(button).toMatchSnapshot();
 
-    expect(button).toHaveStyleRule('background-color', DarkGray, {
-      modifier: '&:disabled',
-    });
-  });
-
-  test('onClick works as intended', () => {
-    const onClick = jest.fn();
-    render(<Button onClick={onClick}>Button</Button>);
-    const button = screen.getByRole('button', {
-      name: 'Button',
-    });
-    fireEvent.click(button);
-    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(button).toHaveStyle(`background-color: ${DarkGray}`);
+    expect(button).toBeDisabled();
   });
 });
