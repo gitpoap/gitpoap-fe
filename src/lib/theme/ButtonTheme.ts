@@ -2,7 +2,7 @@ import { ButtonStylesParams, MantineTheme } from '@mantine/core';
 import { DarkGray, ExtraHover, ExtraPressed, PrimaryBlue, TextGray, White } from '../../colors';
 import { rem } from 'polished';
 
-export const ButtonTheme = {
+export const buttonTheme = {
   defaultProps: {
     radius: 6,
     uppercase: true,
@@ -13,13 +13,13 @@ export const ButtonTheme = {
       borderWidth: rem(2),
       letterSpacing: rem(2),
       transition: '150ms background ease, 150ms color ease, 150ms border ease',
-      ...(params.variant === 'filled' && ButtonFilled),
-      ...(params.variant === 'outline' && ButtonOutline),
+      ...(params.variant === 'filled' && buttonFilled),
+      ...(params.variant === 'outline' && buttonOutline),
     },
   }),
 };
 
-const ButtonFilled = {
+const buttonFilled = {
   backgroundColor: PrimaryBlue,
   '&:disabled': {
     backgroundColor: DarkGray,
@@ -41,7 +41,7 @@ const ButtonFilled = {
   },
 };
 
-const ButtonOutline = {
+const buttonOutline = {
   backgroundColor: 'transparent',
   borderColor: TextGray,
   color: White,

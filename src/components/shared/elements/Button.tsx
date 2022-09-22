@@ -10,9 +10,5 @@ type Props = ButtonProps & {
 };
 
 export const Button = (props: Props) => {
-  return (
-    <ButtonUI {...props} onClick={() => {}}>
-      {props.children}
-    </ButtonUI>
-  );
+  return <ButtonUI {...props}>{props.children}</ButtonUI>;
 };
