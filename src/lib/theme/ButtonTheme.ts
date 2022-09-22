@@ -6,6 +6,7 @@ export const ButtonTheme = {
   defaultProps: {
     radius: 6,
     uppercase: true,
+    variant: 'filled',
   },
   styles: (theme: MantineTheme, params: ButtonStylesParams) => ({
     root: {
