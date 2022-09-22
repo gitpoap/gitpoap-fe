@@ -232,6 +232,7 @@ export const EventCreateRow = (props: Props) => {
         numRequestedCodes: formValues.numRequestedCodes,
         ongoing: formValues.ongoing,
         isEnabled: formValues.isEnabled,
+        isPRBased: true,
         image: formValues.image,
       },
       token,

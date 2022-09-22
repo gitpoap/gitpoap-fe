@@ -10,7 +10,7 @@ query getAllStats {
 query leaders($count: Float!) {
   mostHonoredContributors(count: $count) {
     profile {
-      address
+      oldAddress
       id
       ensAvatarImageUrl
     }
@@ -21,7 +21,7 @@ query leaders($count: Float!) {
 query repoLeaders($repoId: Float!, $page: Float, $perPage: Float) {
   repoMostHonoredContributors(repoId: $repoId, page: $page, perPage: $perPage) {
     profile {
-      address
+      oldAddress
       id
       ensAvatarImageUrl
     }
@@ -98,13 +98,13 @@ query searchForString($text: String!) {
   search(text: $text) {
     profilesByAddress {
       id
-      address
+      oldAddress
       ensAvatarImageUrl
     }
     profileByENS {
       profile {
         id
-        address
+        oldAddress
         ensAvatarImageUrl
       }
       ens
@@ -287,7 +287,7 @@ query adminClaims($count: Int!) {
     }
     status
     poapTokenId
-    address
+    oldMintedAddress
     updatedAt
     createdAt
     mintedAt

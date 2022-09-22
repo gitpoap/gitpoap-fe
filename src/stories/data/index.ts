@@ -336,35 +336,35 @@ export const leaderData: LeadersQuery['mostHonoredContributors'] = [
   {
     claimsCount: 12,
     profile: {
-      address: '0x123nqg83vm4q',
+      oldAddress: '0x123nqg83vm4q',
       id: 1,
     },
   },
   {
     claimsCount: 11,
     profile: {
-      address: '0x456ng3qq34',
+      oldAddress: '0x456ng3qq34',
       id: 2,
     },
   },
   {
     claimsCount: 9,
     profile: {
-      address: '0x6432uau24q3i',
+      oldAddress: '0x6432uau24q3i',
       id: 2,
     },
   },
   {
     claimsCount: 5,
     profile: {
-      address: '0xc32n542',
+      oldAddress: '0xc32n542',
       id: 2,
     },
   },
   {
     claimsCount: 5,
     profile: {
-      address: '0x7go48w584',
+      oldAddress: '0x7go48w584',
       id: 2,
     },
   },

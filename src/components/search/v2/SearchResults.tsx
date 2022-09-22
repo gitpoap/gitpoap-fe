@@ -89,8 +89,8 @@ export const SearchResults = ({ searchQuery }: Props) => {
         if (profileResult.data?.search.profilesByAddress) {
           const profilesByAddress = profileResult.data.search.profilesByAddress.map((profile) => ({
             id: profile.id,
-            address: profile.address,
-            href: `/p/${profile.address}`,
+            address: profile.oldAddress,
+            href: `/p/${profile.oldAddress}`,
           }));
 
           results = [...profilesByAddress];
@@ -99,7 +99,7 @@ export const SearchResults = ({ searchQuery }: Props) => {
           const profileByENSData = profileResult.data?.search.profileByENS;
           const profileByENS = {
             id: profileByENSData.profile.id,
-            address: profileByENSData.profile.address,
+            address: profileByENSData.profile.oldAddress,
             href: `/p/${profileByENSData.ens}`,
             ensName: profileByENSData.ens,
           };

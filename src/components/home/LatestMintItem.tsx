@@ -125,15 +125,15 @@ const dateToTimeAgo = (date: string): string => {
 export const LatestMintItem = ({
   gitPOAP,
   mintedAt,
-  address,
+  oldMintedAddress,
 }: AdminClaimsQuery['claims'][number]) => {
-  const userAddress = address ?? '';
+  const userAddress = oldMintedAddress ?? '';
   const { infuraProvider } = useWeb3Context();
   const ensName = useEns(infuraProvider, userAddress);
 
   const [result] = useProfileQuery({
     variables: {
-      address: address ?? '',
+      address: oldMintedAddress ?? '',
     },
   });
 
