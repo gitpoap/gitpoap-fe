@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ItemListEmptyState should render a children 1`] = `
+<div>
+  test1
+</div>
+`;
+
+exports[`ItemListEmptyState should render a children 2`] = `
+<div>
+  test2
+</div>
+`;
+
+exports[`ItemListEmptyState should render a icon 1`] = `
+<img
+  src="/test/test.png"
+/>
+`;
