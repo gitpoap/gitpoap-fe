@@ -1,67 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Footer renders a Footer 1`] = `
-.c13 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  font-family: 'PT Mono',monospace !important;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  line-height: 1.125rem;
-  -webkit-letter-spacing: 0.125rem;
-  -moz-letter-spacing: 0.125rem;
-  -ms-letter-spacing: 0.125rem;
-  letter-spacing: 0.125rem;
-  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
-  transition: 150ms background ease,150ms color ease,150ms border ease;
-  border-radius: 0.375rem;
-  padding: 0.5rem 0.875rem;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  background-color: #307AE8;
-  border: none;
-  color: white;
-}
-
-.c13:hover:not(:disabled) {
-  background-color: #5596F6;
-}
-
-.c13:active:not(:disabled) {
-  background-color: #1761CF;
-}
-
-.c13:disabled {
-  background-color: #393A51;
-}
-
-.c13:disabled .mantine-Button-label {
-  color: #838495;
-}
-
-.c13.mantine-Button-loading {
-  background-color: #307AE8;
-}
-
-.c13.mantine-Button-loading .mantine-Button-label {
-  color: white;
-}
-
 .c12 {
   display: inline-block;
 }
@@ -694,7 +633,7 @@ exports[`Footer renders a Footer 1`] = `
           </div>
         </div>
         <button
-          class="mantine-UnstyledButton-root mantine-Button-root c13 mantine-1unt66s"
+          class="mantine-UnstyledButton-root mantine-Button-root mantine-1unt66s"
           data-button="true"
           data-disabled="true"
           disabled=""
