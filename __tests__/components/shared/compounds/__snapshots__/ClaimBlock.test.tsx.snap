@@ -1,0 +1,296 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClaimBlock should render a button with "Connect" text 1`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-family: 'PT Mono',monospace !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  -webkit-letter-spacing: 0.125rem;
+  -moz-letter-spacing: 0.125rem;
+  -ms-letter-spacing: 0.125rem;
+  letter-spacing: 0.125rem;
+  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
+  transition: 150ms background ease,150ms color ease,150ms border ease;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: #307AE8;
+  border: none;
+  color: white;
+}
+
+.c0:hover:not(:disabled) {
+  background-color: #5596F6;
+}
+
+.c0:active:not(:disabled) {
+  background-color: #1761CF;
+}
+
+.c0:disabled {
+  background-color: #393A51;
+}
+
+.c0:disabled .mantine-Button-label {
+  color: #838495;
+}
+
+.c0.mantine-Button-loading {
+  background-color: #307AE8;
+}
+
+.c0.mantine-Button-loading .mantine-Button-label {
+  color: white;
+}
+
+<button
+  class="mantine-UnstyledButton-root mantine-Button-root c0 mantine-1mncww1"
+  data-button="true"
+  id="rewardId-1"
+  type="button"
+>
+  <div
+    class="mantine-3xbgk5 mantine-Button-inner"
+  >
+    <span
+      class="mantine-Button-icon mantine-Button-leftIcon mantine-1g4orza"
+    >
+      <svg
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 320 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"
+        />
+      </svg>
+    </span>
+    <span
+      class="mantine-qo1k2 mantine-Button-label"
+    >
+      Connect
+    </span>
+  </div>
+</button>
+`;
+
+exports[`ClaimBlock should render a button with "Mint" text 1`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-family: 'PT Mono',monospace !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  -webkit-letter-spacing: 0.125rem;
+  -moz-letter-spacing: 0.125rem;
+  -ms-letter-spacing: 0.125rem;
+  letter-spacing: 0.125rem;
+  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
+  transition: 150ms background ease,150ms color ease,150ms border ease;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: #307AE8;
+  border: none;
+  color: white;
+}
+
+.c0:hover:not(:disabled) {
+  background-color: #5596F6;
+}
+
+.c0:active:not(:disabled) {
+  background-color: #1761CF;
+}
+
+.c0:disabled {
+  background-color: #393A51;
+}
+
+.c0:disabled .mantine-Button-label {
+  color: #838495;
+}
+
+.c0.mantine-Button-loading {
+  background-color: #307AE8;
+}
+
+.c0.mantine-Button-loading .mantine-Button-label {
+  color: white;
+}
+
+<button
+  class="mantine-UnstyledButton-root mantine-Button-root c0 mantine-1mncww1"
+  data-button="true"
+  data-disabled="true"
+  disabled=""
+  id="rewardId-1"
+  type="button"
+>
+  <div
+    class="mantine-3xbgk5 mantine-Button-inner"
+  >
+    <span
+      class="mantine-Button-icon mantine-Button-leftIcon mantine-1g4orza"
+    >
+      <svg
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 405.3V448c0 35.3 86 64 192 64s192-28.7 192-64v-42.7C342.7 434.4 267.2 448 192 448S41.3 434.4 0 405.3zM320 128c106 0 192-28.7 192-64S426 0 320 0 128 28.7 128 64s86 64 192 64zM0 300.4V352c0 35.3 86 64 192 64s192-28.7 192-64v-51.6c-41.3 34-116.9 51.6-192 51.6S41.3 334.4 0 300.4zm416 11c57.3-11.1 96-31.7 96-55.4v-42.7c-23.2 16.4-57.3 27.6-96 34.5v63.6zM192 160C86 160 0 195.8 0 240s86 80 192 80 192-35.8 192-80-86-80-192-80zm219.3 56.3c60-10.8 100.7-32 100.7-56.3v-42.7c-35.5 25.1-96.5 38.6-160.7 41.8 29.5 14.3 51.2 33.5 60 57.2z"
+        />
+      </svg>
+    </span>
+    <span
+      class="mantine-qo1k2 mantine-Button-label"
+    >
+      Mint
+    </span>
+  </div>
+</button>
+`;
+
+exports[`ClaimBlock should render a button with "Minted" text 1`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-family: 'PT Mono',monospace !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  -webkit-letter-spacing: 0.125rem;
+  -moz-letter-spacing: 0.125rem;
+  -ms-letter-spacing: 0.125rem;
+  letter-spacing: 0.125rem;
+  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
+  transition: 150ms background ease,150ms color ease,150ms border ease;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: #307AE8;
+  border: none;
+  color: white;
+}
+
+.c0:hover:not(:disabled) {
+  background-color: #5596F6;
+}
+
+.c0:active:not(:disabled) {
+  background-color: #1761CF;
+}
+
+.c0:disabled {
+  background-color: #393A51;
+}
+
+.c0:disabled .mantine-Button-label {
+  color: #838495;
+}
+
+.c0.mantine-Button-loading {
+  background-color: #307AE8;
+}
+
+.c0.mantine-Button-loading .mantine-Button-label {
+  color: white;
+}
+
+<button
+  class="mantine-UnstyledButton-root mantine-Button-root c0 mantine-1mncww1"
+  data-button="true"
+  data-disabled="true"
+  disabled=""
+  id="rewardId-1"
+  type="button"
+>
+  <div
+    class="mantine-3xbgk5 mantine-Button-inner"
+  >
+    <span
+      class="mantine-Button-icon mantine-Button-leftIcon mantine-1g4orza"
+    >
+      <svg
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+        />
+      </svg>
+    </span>
+    <span
+      class="mantine-qo1k2 mantine-Button-label"
+    >
+      Minted
+    </span>
+  </div>
+</button>
+`;
