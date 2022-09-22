@@ -3,7 +3,7 @@ import 'jest-styled-components';
 import { rem } from 'polished';
 import { DarkGray, PrimaryBlue, TextGray, White } from '../../../../src/colors';
 import { Button } from '../../../../src/components/shared/elements';
-import { render } from '../../../utils';
+import { render } from '../../../../src/lib/testUtils';
 
 describe('Button', () => {
   it('renders a button', () => {

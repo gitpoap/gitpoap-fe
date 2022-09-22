@@ -1,7 +1,7 @@
 import { MantineProvider } from '@mantine/core';
 import { render, RenderOptions } from '@testing-library/react';
 import { ReactElement } from 'react';
-import { theme } from '../src/lib/theme';
+import { theme } from './theme';
 
 const Providers = ({ children }: { children: ReactElement }) => {
   return (
