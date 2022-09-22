@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import 'jest-styled-components';
-import { MdSignalCellularConnectedNoInternet0Bar } from 'react-icons/md';
 import { ClaimBlock } from '../../../../src/components/shared/compounds/ClaimBlock';
 
 describe('ClaimBlock', () => {

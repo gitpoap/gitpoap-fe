@@ -48,8 +48,8 @@ export const getInitialState = (): FeaturedPOAPsState =>
     featuredPOAPTokenIDs: {} as Record<string, true>,
   } as FeaturedPOAPsState);
 
-const FeaturedPOAPsContext = createContext<FeaturedPOAPsData>({} as FeaturedPOAPsData);
-const FeaturedPOAPsDispatchContext = createContext<FeaturedPOAPsDispatch>(
+export const FeaturedPOAPsContext = createContext<FeaturedPOAPsData>({} as FeaturedPOAPsData);
+export const FeaturedPOAPsDispatchContext = createContext<FeaturedPOAPsDispatch>(
   {} as FeaturedPOAPsDispatch,
 );
 
