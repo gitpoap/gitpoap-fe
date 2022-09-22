@@ -6,7 +6,6 @@ import {
   FeaturedPOAPsDispatchContext,
 } from '../../../../src/components/profile/FeaturedPOAPsContext';
 import { Web3ContextProvider } from '../../../../src/components/wallet/Web3ContextProvider';
-import { features } from 'process';
 
 const addFeaturedPOAP = (poapTokenId: string) => {};
 const removeFeaturedPOAP = (poapTokenId: string) => {};
@@ -38,7 +37,7 @@ const renderFeatureHeart = ({
   );
 };
 
-describe('ClaimBlock', () => {
+describe('FeatureHeart', () => {
   it('should render a heart icon', () => {
     const { container } = renderFeatureHeart({
       showHearts: true,
