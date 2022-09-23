@@ -11,7 +11,7 @@ const renderLink = () => {
 };
 
 describe('Link', () => {
-  it('should render poap image', () => {
+  it('should render link with href', () => {
     renderLink();
 
     const link = screen.getByRole('link');

@@ -19,7 +19,7 @@ import {
   GitPoapEventDocument,
   GitPoapEventQuery,
 } from '../../graphql/generated-gql';
-import { SEO } from '../../components/SEO';
+import { SEO } from '../../components/shared/compounds/SEO';
 import { ONE_WEEK_IN_S } from '../../constants';
 
 const Background = styled(BackgroundHexes)`
