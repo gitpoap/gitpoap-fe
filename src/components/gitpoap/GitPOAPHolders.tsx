@@ -86,6 +86,12 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   /* Hook to clear list of holders when the gitPOAPId changes */
   useEffect(() => {
     handlers.setState([]);
+    setVariables({
+      page: 1,
+      perPage: 20,
+      sort: 'claim-count',
+      gitPOAPId,
+    });
   }, [gitPOAPId]);
 
   /* Hook to append new data onto existing list of holders */
