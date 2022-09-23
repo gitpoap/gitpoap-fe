@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { FeedbackButton } from '../../components/FeedbackButton';
+import { FeedbackButton } from '../../components/shared/compounds/FeedbackButton';
 import styled from 'styled-components';
 import { rem } from 'polished';
 

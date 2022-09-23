@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { MidnightBlue } from '../colors';
-import { FeedbackButton } from './FeedbackButton';
+import { FeedbackButton } from './shared/compounds/FeedbackButton';
 import { rem } from 'polished';
 import { BREAKPOINTS, TYPEFORM_LINKS } from '../constants';
 

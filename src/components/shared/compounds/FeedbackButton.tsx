@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Popover, Box } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { GitPOAPLogoNoText } from './shared/elements/icons';
-import { BackgroundPanel, BackgroundPanel2, ExtraHover, ExtraPressed } from '../colors';
-import { Text } from './shared/elements';
+import { GitPOAPLogoNoText } from '../elements/icons';
+import { BackgroundPanel, BackgroundPanel2, ExtraHover, ExtraPressed } from '../../../colors';
+import { Text } from '../elements';
 
 const StyledLogo = styled(GitPOAPLogoNoText)`
   height: ${rem(45)};
