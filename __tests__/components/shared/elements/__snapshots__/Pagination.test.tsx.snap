@@ -11,13 +11,107 @@ exports[`Pagination renders a Pagination 1`] = `
   color: white;
 }
 
+.emotion-1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.emotion-4 {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  font-weight: 500;
+  border: 1px solid #ced4da;
+  color: #000;
+  height: 32px;
+  min-width: 32px;
+  padding: 0 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  line-height: 1;
+  background-color: #fff;
+}
+
+.emotion-4:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-4:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-4:active:not(:disabled):not([data-dots]) {
+  -webkit-transform: translateY(1px);
+  -moz-transform: translateY(1px);
+  -ms-transform: translateY(1px);
+  transform: translateY(1px);
+}
+
+.emotion-4:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  color: #adb5bd;
+}
+
+.emotion-4[data-dots] {
+  cursor: default;
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.emotion-4[data-active] {
+  border-color: transparent;
+  color: #fff;
+  background-color: #228be6;
+}
+
 <div
-  class="mantine-Group-root c0 mantine-13ap3k9"
+  class="emotion-0 c0 emotion-1"
   role="navigation"
 >
   <button
     aria-disabled="true"
-    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    class="emotion-2 emotion-3 emotion-4"
     disabled=""
     type="button"
   >
@@ -36,7 +130,7 @@ exports[`Pagination renders a Pagination 1`] = `
   </button>
   <button
     aria-current="page"
-    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    class="emotion-2 emotion-3 emotion-4"
     data-active="true"
     tabindex="0"
     type="button"
@@ -44,35 +138,35 @@ exports[`Pagination renders a Pagination 1`] = `
     1
   </button>
   <button
-    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    class="emotion-2 emotion-3 emotion-4"
     tabindex="0"
     type="button"
   >
     2
   </button>
   <button
-    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    class="emotion-2 emotion-3 emotion-4"
     tabindex="0"
     type="button"
   >
     3
   </button>
   <button
-    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    class="emotion-2 emotion-3 emotion-4"
     tabindex="0"
     type="button"
   >
     4
   </button>
   <button
-    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    class="emotion-2 emotion-3 emotion-4"
     tabindex="0"
     type="button"
   >
     5
   </button>
   <button
-    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    class="emotion-2 emotion-3 emotion-4"
     data-dots="true"
     tabindex="-1"
     type="button"
@@ -91,7 +185,7 @@ exports[`Pagination renders a Pagination 1`] = `
     </svg>
   </button>
   <button
-    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    class="emotion-2 emotion-3 emotion-4"
     tabindex="0"
     type="button"
   >
@@ -99,7 +193,7 @@ exports[`Pagination renders a Pagination 1`] = `
   </button>
   <button
     aria-disabled="false"
-    class="mantine-Group-child mantine-Pagination-item mantine-1bnfkxz"
+    class="emotion-2 emotion-3 emotion-4"
     type="button"
   >
     <svg

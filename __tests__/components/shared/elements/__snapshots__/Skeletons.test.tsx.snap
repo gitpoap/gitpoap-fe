@@ -1,25 +1,229 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Skeletons BaseSkeleton renders a BaseSkeleton 1`] = `
+@keyframes animation-0 {
+  from, to {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.emotion-2 {
+  height: auto;
+  width: 100%;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+}
+
+.emotion-2::before {
+  content: "";
+  position: absolute;
+  background: #fff;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.emotion-2::after {
+  content: "";
+  position: absolute;
+  background: #dee2e6;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-animation: animation-0 1500ms linear infinite;
+  animation: animation-0 1500ms linear infinite;
+  z-index: 11;
+}
+
+.emotion-2::after {
+  background-color: #1E1F2E;
+}
+
+.emotion-2::before {
+  background-color: #292B3D;
+}
+
 <div
-  class="mantine-Skeleton-root mantine-Skeleton-visible mantine-1iz9qq"
+  class="emotion-0 emotion-1 emotion-2"
 />
 `;
 
 exports[`Skeletons POAPBadgeSkeleton renders a POAPBadgeSkeleton 1`] = `
+@keyframes animation-0 {
+  from, to {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.emotion-2 {
+  height: 9.375rem;
+  width: 9.375rem;
+  border-radius: 9.375rem;
+  position: relative;
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+}
+
+.emotion-2::before {
+  content: "";
+  position: absolute;
+  background: #fff;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.emotion-2::after {
+  content: "";
+  position: absolute;
+  background: #dee2e6;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-animation: animation-0 1500ms linear infinite;
+  animation: animation-0 1500ms linear infinite;
+  z-index: 11;
+}
+
+.emotion-2::after {
+  background-color: #1E1F2E;
+}
+
+.emotion-2::before {
+  background-color: #292B3D;
+}
+
 <div
-  class="mantine-Skeleton-root mantine-Skeleton-visible mantine-1fykzg9"
+  class="emotion-0 emotion-1 emotion-2"
 />
 `;
 
 exports[`Skeletons ProfileImageSkeleton renders a ProfileImageSkeleton 1`] = `
+@keyframes animation-0 {
+  from, to {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.emotion-2 {
+  height: 10rem;
+  width: 10rem;
+  border-radius: 10rem;
+  position: relative;
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+}
+
+.emotion-2::before {
+  content: "";
+  position: absolute;
+  background: #fff;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.emotion-2::after {
+  content: "";
+  position: absolute;
+  background: #dee2e6;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-animation: animation-0 1500ms linear infinite;
+  animation: animation-0 1500ms linear infinite;
+  z-index: 11;
+}
+
+.emotion-2::after {
+  background-color: #1E1F2E;
+}
+
+.emotion-2::before {
+  background-color: #292B3D;
+}
+
 <div
-  class="mantine-Skeleton-root mantine-Skeleton-visible mantine-r0vufu"
+  class="emotion-0 emotion-1 emotion-2"
 />
 `;
 
 exports[`Skeletons TextSkeleton renders a TextSkeleton 1`] = `
+@keyframes animation-0 {
+  from, to {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.emotion-2 {
+  height: 1.25rem;
+  width: 12.5rem;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+}
+
+.emotion-2::before {
+  content: "";
+  position: absolute;
+  background: #fff;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.emotion-2::after {
+  content: "";
+  position: absolute;
+  background: #dee2e6;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-animation: animation-0 1500ms linear infinite;
+  animation: animation-0 1500ms linear infinite;
+  z-index: 11;
+}
+
+.emotion-2::after {
+  background-color: #1E1F2E;
+}
+
+.emotion-2::before {
+  background-color: #292B3D;
+}
+
 <div
-  class="mantine-Skeleton-root mantine-Skeleton-visible mantine-gnc43r"
+  class="emotion-0 emotion-1 emotion-2"
 />
 `;

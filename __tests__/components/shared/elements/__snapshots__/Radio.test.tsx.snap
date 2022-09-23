@@ -53,28 +53,158 @@ exports[`Radio renders a RadioGroup 1`] = `
   background-color: #1761CF;
 }
 
+.emotion-2 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  line-height: 1.55;
+}
+
+.emotion-4 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  padding-top: 10px;
+}
+
+.emotion-7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-8 {
+  position: relative;
+}
+
+.emotion-10 {
+  -webkit-tap-highlight-color: transparent;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  position: relative;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  margin: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  transition-property: background-color,border-color;
+  transition-timing-function: ease;
+  transition-duration: 100ms;
+  cursor: default;
+}
+
+.emotion-10:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-10:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-10:checked {
+  background: #228be6;
+  border-color: #228be6;
+}
+
+.emotion-10:checked+.__mantine-ref-icon {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+.emotion-10:disabled {
+  border-color: #ced4da;
+  background-color: #f1f3f5;
+}
+
+.emotion-10:disabled+.__mantine-ref-icon {
+  color: #ced4da;
+}
+
+.emotion-12 {
+  color: #fff;
+  opacity: 0;
+  -webkit-transform: scale(0.75) translateY(2px);
+  -moz-transform: scale(0.75) translateY(2px);
+  -ms-transform: scale(0.75) translateY(2px);
+  transform: scale(0.75) translateY(2px);
+  -webkit-transition: opacity 100ms ease;
+  transition: opacity 100ms ease;
+  pointer-events: none;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: calc(50% - 4px);
+  left: calc(50% - 4px);
+}
+
 <div
-  class="mantine-InputWrapper-root mantine-RadioGroup-root c0 mantine-1m3pqry"
+  class="emotion-0 emotion-1 c0 emotion-2"
 >
   <div
-    class="mantine-Group-root mantine-pbfq37"
+    class="emotion-3 emotion-4"
     role="radiogroup"
   >
     <div
-      class="mantine-Radio-radioWrapper mantine-Group-child mantine-s9zdvw"
+      class="emotion-5 emotion-6 emotion-7"
     >
       <div
-        class="mantine-qqmv3w mantine-Radio-inner"
+        class="emotion-8 emotion-9"
       >
         <input
-          class="mantine-1wjygiw mantine-Radio-radio"
+          class="emotion-10 emotion-11"
           id="mantine-r0"
           type="radio"
           value="radio-test"
         />
         <svg
           aria-hidden="true"
-          class="__mantine-ref-icon mantine-1pvv8z0 mantine-Radio-icon"
+          class="__mantine-ref-icon emotion-12 emotion-13"
           fill="none"
           viewBox="0 0 5 5"
           xmlns="http://www.w3.org/2000/svg"
