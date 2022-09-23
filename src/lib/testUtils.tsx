@@ -11,8 +11,5 @@ const Providers = ({ children }: { children: ReactElement }) => {
   );
 };
 
-const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
+export const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
   render(ui, { wrapper: Providers, ...options });
-
-export * from '@testing-library/react';
-export { customRender as render };

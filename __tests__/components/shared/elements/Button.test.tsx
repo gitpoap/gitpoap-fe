@@ -1,12 +1,13 @@
+import { screen } from '@testing-library/react';
 import 'jest-styled-components';
 import { rem } from 'polished';
 import { DarkGray, PrimaryBlue, TextGray, White } from '../../../../src/colors';
 import { Button } from '../../../../src/components/shared/elements';
-import { render, screen } from '../../../../src/lib/testUtils';
+import { customRender } from '../../../../src/lib/testUtils';
 
 describe('Button', () => {
   it('renders a button', () => {
-    render(<Button>Button</Button>);
+    customRender(<Button>Button</Button>);
     const button = screen.getByRole('button', { name: 'Button' });
 
     expect(button).toHaveTextContent('Button');
@@ -15,7 +16,7 @@ describe('Button', () => {
   });
 
   it('renders a button correctly with variant - filled', () => {
-    render(<Button variant="filled">Button</Button>);
+    customRender(<Button variant="filled">Button</Button>);
     const button = screen.getByRole('button', { name: 'Button' });
 
     expect(button).toHaveStyle(`background-color: ${PrimaryBlue}`);
@@ -24,7 +25,7 @@ describe('Button', () => {
   });
 
   it('renders a button correctly with variant - outlined', () => {
-    render(<Button variant="outline">Button</Button>);
+    customRender(<Button variant="outline">Button</Button>);
     const button = screen.getByRole('button', { name: 'Button' });
 
     expect(button).toHaveStyle(`background-color: transparent`);
@@ -35,7 +36,7 @@ describe('Button', () => {
   });
 
   it('has the correct styles when disabled', () => {
-    render(
+    customRender(
       <Button disabled variant="filled">
         Button
       </Button>,
