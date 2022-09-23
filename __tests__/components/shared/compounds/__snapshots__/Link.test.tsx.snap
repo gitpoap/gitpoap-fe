@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Link should render poap image 1`] = `
+exports[`Link should render link with href 1`] = `
 <a
   href="/test/test-link"
   rel="test-rel"

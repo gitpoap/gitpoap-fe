@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import 'jest-styled-components';
 import { RepoHexSmall } from '../../../../src/components/shared/compounds/RepoHexSmall';
 

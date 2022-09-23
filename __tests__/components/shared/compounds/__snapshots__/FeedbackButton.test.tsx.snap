@@ -90,7 +90,7 @@ exports[`FeedbackButton should render with href 1`] = `
 
 <a
   class="c0"
-  href="/tet/test-link"
+  href="/test/test-link"
   rel="noopener noreferrer"
   target="_blank"
 >

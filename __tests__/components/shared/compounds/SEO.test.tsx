@@ -1,6 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import 'jest-styled-components';
-import ReactDOMServer from 'react-dom/server';
 import { SEO } from '../../../../src/components/shared/compounds/SEO';
 
 jest.mock('next/head', () => {
