@@ -6,7 +6,7 @@ describe('ItemListEmptyState', () => {
   it('should render a icon', () => {
     render(
       <EmptyState icon={<img src="/test/test.png" />}>
-        <div>test</div>
+        <div>{'test'}</div>
       </EmptyState>,
     );
     const icon = screen.getByRole('img');
@@ -15,17 +15,17 @@ describe('ItemListEmptyState', () => {
   });
 
   it('should render a children', () => {
-    render(
+    const { container } = render(
       <EmptyState icon={<img src="/test/test.png" />}>
-        <div>test1</div>
-        <div>test2</div>
+        <div>{'test1'}</div>
+        <div>{'test2'}</div>
       </EmptyState>,
     );
-    const test1 = screen.getByText('test1');
-    expect(test1).toBeInTheDocument();
-    expect(test1).toMatchSnapshot();
-    const test2 = screen.getByText('test2');
-    expect(test2).toBeInTheDocument();
-    expect(test2).toMatchSnapshot();
+    const emptyState = container.firstChild;
+
+    expect(emptyState).toBeInTheDocument();
+    expect(emptyState).toHaveTextContent('test1');
+    expect(emptyState).toHaveTextContent('test2');
+    expect(emptyState).toMatchSnapshot();
   });
 });
