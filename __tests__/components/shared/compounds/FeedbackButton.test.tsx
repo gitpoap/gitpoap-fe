@@ -1,5 +1,4 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-// import { fireEvent } from '@testing-library/user-event';
 import 'jest-styled-components';
 import { FeedbackButton } from '../../../../src/components/shared/compounds/FeedbackButton';
 
@@ -15,22 +14,18 @@ const renderFeedbackButton = (href: string) => {
 
 describe('FeedbackButton', () => {
   it('should render with href', () => {
-    const { container } = renderFeedbackButton('/tet/test-link');
+    const { container } = renderFeedbackButton('/test/test-link');
 
     const link = container.querySelector('a');
     expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', '/tet/test-link');
+    expect(link).toHaveAttribute('href', '/test/test-link');
     expect(link).toMatchSnapshot();
   });
 
   it('should render "Give Feedback" button on MouseEnter', () => {
-    const { container } = renderFeedbackButton('/tet/test-link');
+    const { container } = renderFeedbackButton('/test/test-link');
 
     const target = container.firstChild;
-    // fireEvent(link, new MouseEvent('mouseenter', {
-    //   bubbles: false,
-    //   cancelable: false
-    // }));
     expect(target).toBeInTheDocument();
     target && fireEvent.mouseEnter(target);
 
