@@ -20,7 +20,7 @@ import { useFeatures } from '../FeaturesContext';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { BREAKPOINTS } from '../../constants';
 import { OpenClaimsQuery } from '../../graphql/generated-gql';
-import { Link } from '../Link';
+import { Link } from '../shared/compounds/Link';
 
 type Props = {
   isConnected: boolean;

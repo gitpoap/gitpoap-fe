@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { LeadersQuery } from '../../graphql/generated-gql';
-import { Link } from '../Link';
+import { Link } from '../shared/compounds/Link';
 import { BackgroundPanel2 } from '../../colors';
 import { Avatar } from '../shared/elements/Avatar';
 import { IconCount } from '../shared/elements/IconCount';

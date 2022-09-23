@@ -15,7 +15,7 @@ import {
   TextGray,
   TextLight,
 } from '../colors';
-import { Link } from './Link';
+import { Link } from './shared/compounds/Link';
 import { Button, Input } from './shared/elements';
 import { BREAKPOINTS } from '../constants';
 

@@ -11,7 +11,7 @@ import {
 } from '../../../colors';
 import { HexagonPath } from './HexagonPath';
 import Image from 'next/image';
-import { Link } from '../../Link';
+import { Link } from '../compounds/Link';
 import { Level } from '../../../types';
 
 type Props = {

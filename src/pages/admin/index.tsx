@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Link } from '../../components/Link';
+import { Link } from '../../components/shared/compounds/Link';
 import { Grid, Stack } from '@mantine/core';
 import { Header } from '../../components/shared/elements';
 import { ExtraHover, ExtraPressed } from '../../colors';

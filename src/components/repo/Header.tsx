@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { RepoHeaderHexagon } from './RepoHeaderHexagon';
 import { Header as HeaderText, Text, TitleStyles } from '../shared/elements';
 import { TextAccent, TextGray } from '../../colors';
-import { Link, IconLink } from '../Link';
+import { Link, IconLink } from '../shared/compounds/Link';
 import { Wrapper } from '../gitpoap/Header';
 import { People, GitPOAP, Star, Globe, Twitter } from '../shared/elements/icons';
 import { RepoDataQuery, useRepoStarCountQuery } from '../../graphql/generated-gql';

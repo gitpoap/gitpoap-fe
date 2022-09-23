@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { BackgroundPanel, BackgroundPanel2 } from '../../../colors';
-import { Link } from '../../Link';
+import { Link } from '../compounds/Link';
 
 type Props = {
   children: React.ReactNode;

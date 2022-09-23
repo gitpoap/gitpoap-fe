@@ -5,7 +5,7 @@ import { Group, Table as TableUI, Stack } from '@mantine/core';
 import { Header, Text } from '../../components/shared/elements';
 import { Divider } from '../../components/shared/elements';
 import { BackgroundPanel2, TextLight } from '../../colors';
-import { Link } from '../Link';
+import { Link } from '../shared/compounds/Link';
 import { LinkHoverStyles } from '../shared/elements/NavLink';
 
 const StyledTD = styled.td`

@@ -11,7 +11,7 @@ import { TextGray, TextLight } from '../../colors';
 import { RecentlyAddedPopover } from './RecentlyAddedPopover';
 import { useRecentReposQuery } from '../../graphql/generated-gql';
 import { BREAKPOINTS } from '../../constants';
-import { Link } from '../Link';
+import { Link } from '../shared/compounds/Link';
 
 const Container = styled.div`
   display: inline-flex;

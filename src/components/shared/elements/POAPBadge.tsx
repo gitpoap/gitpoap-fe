@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Title as TitleUI } from '../elements/Title';
 import { BackgroundPanel2, TextLight } from '../../../colors';
 import { FeaturedHeartPOAPBadge as FeatureHeartUI } from '../compounds/FeatureHeartPOAPBadge';
-import { Link } from '../../Link';
+import { Link } from '../compounds/Link';
 
 type Props = {
   className?: string;

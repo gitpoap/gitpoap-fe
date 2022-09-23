@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { Link } from './Link';
+import { Link } from './shared/compounds/Link';
 import { rem } from 'polished';
 import { Burger, Collapse, Stack, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
