@@ -52,12 +52,31 @@ exports[`CollapsibleAddress renders an CollapsibleAddress - NOT collapsed 1`] = 
   color: #838495;
 }
 
+.emotion-1 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-1:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-1:focus:not(:focus-visible) {
+  outline: none;
+}
+
 <div
-  class="mantine-Text-root c0 c1 c2 mantine-1pbxw0k"
+  class="emotion-0 c0 c1 c2 emotion-1"
 >
   0x0000000000000000000000000000000000000000
   <div
-    class="mantine-1avyp1d"
+    class="emotion-2"
   >
     <svg
       fill="none"
@@ -139,12 +158,31 @@ exports[`CollapsibleAddress renders an CollapsibleAddress - collapsed 1`] = `
   color: #838495;
 }
 
+.emotion-1 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-1:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-1:focus:not(:focus-visible) {
+  outline: none;
+}
+
 <div
-  class="mantine-Text-root c0 c1 c2 mantine-1pbxw0k"
+  class="emotion-0 c0 c1 c2 emotion-1"
 >
   0x000000000000...0000
   <div
-    class="mantine-1avyp1d"
+    class="emotion-2"
   >
     <svg
       fill="none"

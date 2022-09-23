@@ -75,26 +75,168 @@ exports[`DateInput renders an DateInput and label 1`] = `
   color: #F77070 !important;
 }
 
+.emotion-2 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  line-height: 1.55;
+}
+
+.emotion-5 {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #212529;
+  word-break: break-word;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.emotion-6 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  position: relative;
+  cursor: pointer;
+}
+
+.emotion-10 {
+  position: relative;
+}
+
+.emotion-14 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  height: 36px;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  resize: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 100%;
+  color: #000;
+  display: block;
+  text-align: left;
+  min-height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.emotion-14:disabled {
+  background-color: #f1f3f5;
+  color: #909296;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.emotion-14:disabled::-webkit-input-placeholder {
+  color: #909296;
+}
+
+.emotion-14:disabled::-moz-placeholder {
+  color: #909296;
+}
+
+.emotion-14:disabled:-ms-input-placeholder {
+  color: #909296;
+}
+
+.emotion-14:disabled::placeholder {
+  color: #909296;
+}
+
+.emotion-14::-webkit-input-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-14::-moz-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-14:-ms-input-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-14::placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-14::-webkit-inner-spin-button,
+.emotion-14::-webkit-outer-spin-button,
+.emotion-14::-webkit-search-decoration,
+.emotion-14::-webkit-search-cancel-button,
+.emotion-14::-webkit-search-results-button,
+.emotion-14::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+
+.emotion-14[type=number] {
+  -moz-appearance: textfield;
+}
+
+.emotion-14:focus,
+.emotion-14:focus-within {
+  outline: none;
+  border-color: #228be6;
+}
+
+.emotion-14:not([data-free-input])::selection {
+  background-color: transparent;
+}
+
+.emotion-14[data-free-input] {
+  cursor: text;
+}
+
 <div
-  class="mantine-InputWrapper-root mantine-DatePicker-root c0 mantine-1m3pqry"
+  class="emotion-0 emotion-1 c0 emotion-2"
 >
   <label
-    class="mantine-InputWrapper-label mantine-DatePicker-label mantine-ittua2"
+    class="emotion-3 emotion-4 emotion-5"
     for="mantine-r0"
     id="mantine-r0-label"
   >
     Test label
   </label>
   <div
-    class="mantine-2uofp0 mantine-DatePicker-wrapper"
+    class="emotion-6 emotion-7"
   >
     <div
-      class="mantine-Input-wrapper mantine-DatePicker-wrapper mantine-12sbrde"
+      class="emotion-8 emotion-7 emotion-10"
     >
       <input
         aria-invalid="false"
         autocomplete="off"
-        class="mantine-DatePicker-input mantine-Input-input mantine-DatePicker-input mantine-1klne3t"
+        class="emotion-11 emotion-12 emotion-11 emotion-14"
         id="mantine-r0"
         name="date"
         readonly=""
