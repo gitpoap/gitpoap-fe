@@ -26,6 +26,8 @@ const renderFeatureHeart = ({
             },
             featuredPOAPsFull: [],
           },
+          isLoading: false,
+          hasFetched: true,
           showHearts,
           loadingIds,
         }}
