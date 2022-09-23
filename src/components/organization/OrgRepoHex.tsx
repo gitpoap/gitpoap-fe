@@ -6,7 +6,7 @@ import { Body, BodyAsAnchor, InfoHexBase } from '../shared/elements/InfoHexBase'
 import { GitPOAP, People, Star } from '../shared/elements/icons';
 import { Text } from '../shared/elements/Text';
 import { TitleNoHover } from '../shared/elements/Title';
-import { Link } from '../Link';
+import { Link } from '../shared/compounds/Link';
 import { useRepoStarCountQuery } from '../../graphql/generated-gql';
 import { OrgRepo } from './OrgRepoList';
 import { textEllipses } from '../shared/styles';

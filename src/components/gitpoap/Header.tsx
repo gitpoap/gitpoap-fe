@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 import { useClaimContext } from '../ClaimModal/ClaimContext';
 import { Index } from '../home/LeaderBoardItem';
-import { IconLink } from '../Link';
+import { IconLink } from '../shared/compounds/Link';
 import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleLink } from '../shared/elements';
 import { textEllipses } from '../shared/styles';
 import { TextGray, ExtraHover, PrimaryBlue } from '../../colors';

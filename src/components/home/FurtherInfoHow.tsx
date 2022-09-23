@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Grid } from '@mantine/core';
 import { Button, Header, Text } from '../shared/elements';
-import { Link } from '../Link';
+import { Link } from '../shared/compounds/Link';
 import { FaArrowRight } from 'react-icons/fa';
 import { HowGraphic } from './HowGraphic';
 import { BREAKPOINTS } from '../../constants';

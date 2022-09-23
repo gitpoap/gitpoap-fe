@@ -3,7 +3,7 @@ import { Grid } from '@mantine/core';
 import { Page } from '../_app';
 import { RepoList } from '../../components/repos/RepoList';
 import { Layout } from '../../components/Layout';
-import { SEO } from '../../components/SEO';
+import { SEO } from '../../components/shared/compounds/SEO';
 
 const Repos: Page = () => {
   return (

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { DateTime } from 'luxon';
 import { AdminClaimsQuery, useProfileQuery } from '../../graphql/generated-gql';
-import { Link } from '../Link';
+import { Link } from '../shared/compounds/Link';
 import { BackgroundPanel2, TextGray } from '../../colors';
 import { Avatar } from '../shared/elements/Avatar';
 import { ProfileImageSkeleton } from '../shared/elements/Skeletons';

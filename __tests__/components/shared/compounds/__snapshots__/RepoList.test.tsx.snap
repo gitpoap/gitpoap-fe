@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RepoList should render children 1`] = `
+.c0 {
+  display: grid;
+  width: 100%;
+  margin-top: 3.125rem;
+  margin-bottom: 3.4375rem;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  grid-template-columns: repeat(auto-fill,17.5rem);
+  -webkit-column-gap: 1.875rem;
+  column-gap: 1.875rem;
+  row-gap: 2rem;
+}
+
+@media (max-width:50rem) {
+  .c0 {
+    grid-template-columns: repeat(auto-fit,minmax(15.625rem,1fr));
+  }
+}
+
+<div
+  class="c0"
+>
+  <div>
+    test1
+  </div>
+  <div>
+    test2
+  </div>
+</div>
+`;

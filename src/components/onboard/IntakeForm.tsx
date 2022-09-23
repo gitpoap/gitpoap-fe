@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import { BackgroundPanel, ExtraHover, PrimaryBlue } from '../../colors';
 import { fetchWithToken } from '../../helpers';
-import { Link } from '../Link';
+import { Link } from '../shared/compounds/Link';
 import { Button, Loader, Text } from '../shared/elements';
 import { GitHub, GitPOAP } from '../shared/elements/icons';
 import { Completed } from './Completed';

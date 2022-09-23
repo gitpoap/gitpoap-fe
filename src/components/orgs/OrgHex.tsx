@@ -5,7 +5,7 @@ import { BackgroundPanel, BackgroundPanel2, ExtraHover, ExtraPressed, Slate1 } f
 import { Forked, GitPOAP } from '../shared/elements/icons';
 import { Text } from '../shared/elements/Text';
 import { Title } from '../shared/elements/Title';
-import { Link } from '../Link';
+import { Link } from '../shared/compounds/Link';
 import { Org } from './OrgList';
 import { textEllipses } from '../shared/styles';
 import { TextSkeleton } from '../shared/elements';

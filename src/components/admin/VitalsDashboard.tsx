@@ -21,7 +21,7 @@ import {
 import useSWR from 'swr';
 import { Header, LinkHoverStyles } from '../shared/elements';
 import { Box, Group, BoxProps, Stack } from '@mantine/core';
-import { Link } from '../Link';
+import { Link } from '../shared/compounds/Link';
 import { TextLight } from '../../colors';
 
 const ItemContainer = styled(Box)`

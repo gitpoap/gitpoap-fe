@@ -8,7 +8,7 @@ import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { Grid } from '@mantine/core';
 import { Page } from '../_app';
 import { RepoPage, RepoNotFound } from '../../components/repo/RepoPage';
-import { SEO } from '../../components/SEO';
+import { SEO } from '../../components/shared/compounds/SEO';
 import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
 import {

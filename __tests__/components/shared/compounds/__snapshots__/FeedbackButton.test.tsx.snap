@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackButton should render "Give Feedback" button on MouseEnter 1`] = `
+.c0 {
+  font-family: PT Mono;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  -webkit-letter-spacing: 0.0125rem;
+  -moz-letter-spacing: 0.0125rem;
+  -ms-letter-spacing: 0.0125rem;
+  letter-spacing: 0.0125rem;
+  color: #E2E2EE;
+}
+
+.emotion-1 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-1:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-1:focus:not(:focus-visible) {
+  outline: none;
+}
+
+<div
+  class="emotion-0 c0 emotion-1"
+>
+  Give Feedback
+</div>
+`;
+
+exports[`FeedbackButton should render with href 1`] = `
+.c2 {
+  height: 2.8125rem;
+  width: 2.8125rem;
+  -webkit-transition: -webkit-transform 200ms ease-in-out;
+  -webkit-transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+}
+
+.c2 path {
+  -webkit-transition: fill 200ms ease-in-out;
+  transition: fill 200ms ease-in-out;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 4.375rem;
+  width: 4.375rem;
+  background-color: #1E1F2E;
+  -webkit-transition: background-color 200ms ease-in-out,-webkit-transform 200ms ease-in-out;
+  -webkit-transition: background-color 200ms ease-in-out,transform 200ms ease-in-out;
+  transition: background-color 200ms ease-in-out,transform 200ms ease-in-out;
+  border-radius: 50%;
+  border: 0.1875rem solid #292B3D;
+}
+
+.c0:hover {
+  background-color: #292B3D;
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.c0:hover .c1 {
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+.c0:hover .c1 path {
+  fill: #5596F6;
+}
+
+.c0:active {
+  background-color: #1E1F2E;
+}
+
+.c0:active .c1 {
+  color: #5596F6;
+}
+
+.c0:active .c1 path {
+  fill: #1761CF;
+}
+
+<a
+  class="c0"
+  href="/test/test-link"
+  rel="noopener noreferrer"
+  target="_blank"
+>
+  <svg
+    class="c1 c2"
+    fill="none"
+    height="30"
+    viewBox="0 0 25 30"
+    width="25"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      clip-rule="evenodd"
+      d="M20.993 19.666l2.986 5.456c.31.515 0 .875-.721.875l-2.625.103c-.566 0-1.288.515-1.493.978l-1.39 2.575a.555.555 0 01-1.03 0s-1.853-3.398-2.985-5.612c.292-.083.516-.2.7-.297l.123-.064 6.435-4.014zm-20.9 5.456l2.985-5.457 6.383 4.015c.096.039.185.084.277.131.155.08.32.165.547.23C9.153 26.255 7.3 29.653 7.3 29.653a.555.555 0 01-1.03 0l-1.39-2.575c-.206-.515-.927-.978-1.494-.978l-2.625-.103c-.772 0-.874-.412-.669-.875zm22.599-10.245c0 1.442-.876 2.935-2.162 3.656l-6.332 3.501a4.956 4.956 0 01-2.163.515c-.72 0-1.493-.104-2.162-.515l-6.332-3.552c-1.287-.72-2.162-2.214-2.162-3.655V7.722c0-1.44.875-2.934 2.162-3.655L9.873.514A4.963 4.963 0 0112.035 0c.721 0 1.39.103 2.163.514l6.332 3.553c1.39.72 2.162 2.11 2.162 3.654v7.156zM10.439 19.1c.515.308 1.03.36 1.595.36.567 0 1.133-.103 1.596-.36l4.582-2.574c.978-.566 1.596-1.596 1.596-2.677V8.7c0-1.184-.566-2.162-1.596-2.677L13.63 3.449c-.566-.31-1.03-.36-1.596-.36-.566 0-1.132.155-1.595.36L5.857 6.023C4.878 6.589 4.26 7.619 4.26 8.7v5.148c0 1.08.669 2.162 1.596 2.677l4.582 2.574zM9.53 9.05a.644.644 0 00-1.104-.44l-1.852 1.905a.644.644 0 00-.005.892l1.852 1.956a.643.643 0 00.934-.886l-1.428-1.507L9.35 9.508a.644.644 0 00.182-.457zm5.387-.585a.642.642 0 00-.208 1.05l1.454 1.455-1.46 1.5a.643.643 0 00.921.9l1.903-1.957a.643.643 0 00-.005-.904l-1.904-1.905a.643.643 0 00-.7-.14zm-1.36.084a.642.642 0 00-1.047.217l-1.647 4.067a.643.643 0 001.193.483l1.646-4.066a.644.644 0 00-.145-.7z"
+      fill="#fff"
+      fill-rule="evenodd"
+    />
+  </svg>
+</a>
+`;

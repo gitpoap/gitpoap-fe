@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link should render link with href 1`] = `
+<a
+  href="/test/test-link"
+  rel="test-rel"
+  target="_blank"
+>
+  <div>
+    test
+  </div>
+</a>
+`;

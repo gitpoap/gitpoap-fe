@@ -13,7 +13,7 @@ import {
   ReposGetStaticPathsQuery,
   ReposGetStaticPathsDocument,
 } from '../../../graphql/generated-gql';
-import { SEO } from '../../../components/SEO';
+import { SEO } from '../../../components/shared/compounds/SEO';
 
 type PageProps = {
   data: RepoSeoByNameQuery;

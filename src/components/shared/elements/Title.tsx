@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { Text, TextProps } from '@mantine/core';
 import { ExtraHover, ExtraPressed, TextAccent, TextDarkGray } from '../../../colors';
-import { Link } from '../../Link';
+import { Link } from '../compounds/Link';
 
 export const TitleStyles = css`
   display: inline-block;

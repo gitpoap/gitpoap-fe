@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import NextLink from 'next/link';
-import { IconStyles, IconStylesHover } from './shared/elements/icons';
+import { IconStyles, IconStylesHover } from '../elements/icons';
 
 type Props = React.ComponentProps<typeof NextLink>;
 

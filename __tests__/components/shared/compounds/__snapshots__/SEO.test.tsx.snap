@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SEO should render with title, description, image and url 1`] = `
+<head>
+  <title>
+    test-title
+  </title>
+  <meta
+    content="test-description"
+    name="description"
+  />
+  <meta
+    content="GitPOAP "
+    property="og:site_name"
+  />
+  <meta
+    content="test-title"
+    property="og:title"
+  />
+  <meta
+    content="website"
+    property="og:type"
+  />
+  <meta
+    content="/test/test-link"
+    property="og:url"
+  />
+  <meta
+    content="/test/test.png"
+    property="og:image"
+  />
+  <meta
+    content="image/png"
+    property="og:image:type"
+  />
+  <meta
+    content="256"
+    property="og:image:width"
+  />
+  <meta
+    content="256"
+    property="og:image:height"
+  />
+  <meta
+    content="test-description"
+    property="og:description"
+  />
+  <meta
+    content="summary"
+    property="twitter:card"
+  />
+  <meta
+    content="/test/test-link"
+    property="twitter:url"
+  />
+  <meta
+    content="test-title"
+    property="twitter:title"
+  />
+  <meta
+    content="test-description"
+    property="twitter:description"
+  />
+  <meta
+    content="/test/test.png"
+    property="twitter:image"
+  />
+  <style
+    data-styled="active"
+    data-styled-version="5.3.5"
+  />
+</head>
+`;
+
+exports[`SEO should render with title, description, image and url 2`] = `
+<title>
+  test-title
+</title>
+`;
+
+exports[`SEO should render with title, description, image and url 3`] = `
+<meta
+  content="test-description"
+  property="og:description"
+/>
+`;
+
+exports[`SEO should render with title, description, image and url 4`] = `
+<meta
+  content="test-title"
+  property="og:title"
+/>
+`;
+
+exports[`SEO should render with title, description, image and url 5`] = `
+<meta
+  content="/test/test-link"
+  property="og:url"
+/>
+`;
+
+exports[`SEO should render with title, description, image and url 6`] = `
+<meta
+  content="/test/test.png"
+  property="og:image"
+/>
+`;

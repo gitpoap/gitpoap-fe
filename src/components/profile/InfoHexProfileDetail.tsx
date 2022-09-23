@@ -17,7 +17,7 @@ import {
   Button,
   Share,
 } from '../shared/elements';
-import { IconLink } from '../Link';
+import { IconLink } from '../shared/compounds/Link';
 
 type Props = {
   name: string | null;

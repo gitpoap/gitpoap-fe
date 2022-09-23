@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`POAPList should render children 1`] = `
+.c0 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,10rem);
+  -webkit-column-gap: 2.5rem;
+  column-gap: 2.5rem;
+  row-gap: 1.875rem;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  margin-bottom: 3.125rem;
+}
+
+@media (max-width:600px) {
+  .c0 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,48%);
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-column-gap: 4%;
+    column-gap: 4%;
+    row-gap: 1.875rem;
+    margin-top: 1.875rem;
+  }
+}
+
+<div
+  class="c0"
+>
+  <div>
+    test1
+  </div>
+  <div>
+    test2
+  </div>
+</div>
+`;

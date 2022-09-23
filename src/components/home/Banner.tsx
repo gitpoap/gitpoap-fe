@@ -7,7 +7,7 @@ import { TextGray, TextLight } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { useClaimContext } from '../ClaimModal/ClaimContext';
 import { useAuthContext } from '../github/AuthContext';
-import { Link } from '../Link';
+import { Link } from '../shared/compounds/Link';
 import { TitleLink } from '../shared/elements';
 import { useLocalStorage } from '@mantine/hooks';
 

@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GitPOAP should render with description 1`] = `
+.c0 {
+  font-family: PT Mono;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.6875rem;
+  line-height: 0.875rem;
+  text-align: center;
+  -webkit-letter-spacing: -0.00625rem;
+  -moz-letter-spacing: -0.00625rem;
+  -ms-letter-spacing: -0.00625rem;
+  letter-spacing: -0.00625rem;
+  color: #E2E2EE;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+<div
+  class="c0"
+>
+  To the creators of Polygon Network
+</div>
+`;
+
+exports[`GitPOAP should render with name 1`] = `
+.c0 {
+  display: inline-block;
+  font-family: 'PT Mono',monospace;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1.0625rem;
+  -webkit-letter-spacing: 0.03125rem;
+  -moz-letter-spacing: 0.03125rem;
+  -ms-letter-spacing: 0.03125rem;
+  letter-spacing: 0.03125rem;
+  text-align: center;
+  color: #307AE8;
+  -webkit-transition: color 150ms ease-in-out;
+  transition: color 150ms ease-in-out;
+  cursor: pointer;
+  color: #307AE8;
+}
+
+.c1:hover:not([disabled]) {
+  color: #5596F6;
+}
+
+.c1:active:not([disabled]) {
+  color: #1761CF;
+}
+
+.c1[disabled] {
+  color: #393A51;
+  cursor: not-allowed;
+}
+
+.c2 {
+  margin-top: 0.625rem;
+  text-align: center;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.emotion-1 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-1:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-1:focus:not(:focus-visible) {
+  outline: none;
+}
+
+<div
+  class="emotion-0 c0 c1 c2 emotion-1"
+>
+  2017 OpenZeppelin Contracts Contributor
+</div>
+`;
+
+exports[`GitPOAP should render with repoId 1`] = `
+.c0 {
+  font-family: PT Mono;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 0.6875rem;
+  line-height: 1.125rem;
+  text-align: center;
+  -webkit-letter-spacing: 0.075rem;
+  -moz-letter-spacing: 0.075rem;
+  -ms-letter-spacing: 0.075rem;
+  letter-spacing: 0.075rem;
+  text-transform: uppercase;
+  color: #E2E2EE;
+  margin-top: 0.5rem;
+  -webkit-transition: color 200ms ease-in-out;
+  transition: color 200ms ease-in-out;
+}
+
+.c0:hover {
+  color: #5596F6;
+}
+
+.c0:active {
+  color: #1761CF;
+}
+
+<a
+  href="/rp/22"
+>
+  <div
+    class="c0"
+  >
+    testRepo
+  </div>
+</a>
+`;
+
+exports[`GitPOAP should render with repoName and orgName 1`] = `
+.c0 {
+  font-family: PT Mono;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 0.6875rem;
+  line-height: 1.125rem;
+  text-align: center;
+  -webkit-letter-spacing: 0.075rem;
+  -moz-letter-spacing: 0.075rem;
+  -ms-letter-spacing: 0.075rem;
+  letter-spacing: 0.075rem;
+  text-transform: uppercase;
+  color: #E2E2EE;
+  margin-top: 0.5rem;
+  -webkit-transition: color 200ms ease-in-out;
+  transition: color 200ms ease-in-out;
+}
+
+.c0:hover {
+  color: #5596F6;
+}
+
+.c0:active {
+  color: #1761CF;
+}
+
+<a
+  href="/gh/Polygon/testRepo"
+>
+  <div
+    class="c0"
+  >
+    testRepo
+  </div>
+</a>
+`;
+
+exports[`GitPOAP should render without repoId and orgName 1`] = `null`;

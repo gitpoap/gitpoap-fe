@@ -1,5 +1,5 @@
 import { Page } from '../_app';
-import { SEO } from '../../components/SEO';
+import { SEO } from '../../components/shared/compounds/SEO';
 import { SettingsPage } from '../../components/settings/SettingsPage';
 import { useWeb3Context } from '../../components/wallet/Web3ContextProvider';
 import styled from 'styled-components';

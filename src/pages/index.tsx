@@ -11,7 +11,7 @@ import { RecentlyAdded } from '../components/home/RecentlyAdded';
 import { SuggestionForm } from '../components/home/SuggestionForm';
 import { BackgroundHexes } from '../components/home/BackgroundHexes';
 import { Divider } from '@mantine/core';
-import { SEO } from '../components/SEO';
+import { SEO } from '../components/shared/compounds/SEO';
 import { FurtherInfoFor } from '../components/home/FurtherInfoFor';
 import { FurtherInfoHow } from '../components/home/FurtherInfoHow';
 import { Banner } from '../components/home/Banner';

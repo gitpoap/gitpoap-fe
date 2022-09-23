@@ -15,7 +15,7 @@ import { ProfileProvider } from '../../components/profile/ProfileContext';
 import { truncateAddress } from '../../helpers';
 import { BackgroundHexes } from '../../components/home/BackgroundHexes';
 import { BREAKPOINTS } from '../../constants';
-import { SEO } from '../../components/SEO';
+import { SEO } from '../../components/shared/compounds/SEO';
 
 const Background = styled(BackgroundHexes)`
   position: fixed;

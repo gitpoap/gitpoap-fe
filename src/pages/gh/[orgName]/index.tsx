@@ -7,7 +7,7 @@ import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { Page } from '../../_app';
 import { Layout } from '../../../components/Layout';
 import { Grid } from '@mantine/core';
-import { SEO } from '../../../components/SEO';
+import { SEO } from '../../../components/shared/compounds/SEO';
 import { OrgPage, OrgNotFound } from '../../../components/organization/OrgPage';
 import {
   OrganizationSeoByNameQuery,
