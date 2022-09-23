@@ -218,14 +218,14 @@ export type BoolWithAggregatesFilter = {
 
 export type Claim = {
   __typename?: 'Claim';
-  address?: Maybe<Address>;
-  addressId?: Maybe<Scalars['Int']>;
   createdAt: Scalars['DateTime'];
   email?: Maybe<Email>;
   emailId?: Maybe<Scalars['Int']>;
   gitPOAP: GitPoap;
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
+  issuedAddress?: Maybe<Address>;
+  issuedAddressId?: Maybe<Scalars['Int']>;
   mentionEarned?: Maybe<GithubMention>;
   mentionEarnedId?: Maybe<Scalars['Int']>;
   mintedAddress?: Maybe<Address>;
@@ -244,10 +244,10 @@ export type Claim = {
 
 export type ClaimAvgAggregate = {
   __typename?: 'ClaimAvgAggregate';
-  addressId?: Maybe<Scalars['Float']>;
   emailId?: Maybe<Scalars['Float']>;
   gitPOAPId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  issuedAddressId?: Maybe<Scalars['Float']>;
   mentionEarnedId?: Maybe<Scalars['Float']>;
   mintedAddressId?: Maybe<Scalars['Float']>;
   pullRequestEarnedId?: Maybe<Scalars['Float']>;
@@ -255,10 +255,10 @@ export type ClaimAvgAggregate = {
 };
 
 export type ClaimAvgOrderByAggregateInput = {
-  addressId?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  issuedAddressId?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
   mintedAddressId?: InputMaybe<SortOrder>;
   pullRequestEarnedId?: InputMaybe<SortOrder>;
@@ -268,11 +268,11 @@ export type ClaimAvgOrderByAggregateInput = {
 export type ClaimCountAggregate = {
   __typename?: 'ClaimCountAggregate';
   _all: Scalars['Int'];
-  addressId: Scalars['Int'];
   createdAt: Scalars['Int'];
   emailId: Scalars['Int'];
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
+  issuedAddressId: Scalars['Int'];
   mentionEarnedId: Scalars['Int'];
   mintedAddressId: Scalars['Int'];
   mintedAt: Scalars['Int'];
@@ -287,11 +287,11 @@ export type ClaimCountAggregate = {
 };
 
 export type ClaimCountOrderByAggregateInput = {
-  addressId?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  issuedAddressId?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
   mintedAddressId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
@@ -304,14 +304,14 @@ export type ClaimCountOrderByAggregateInput = {
   userId?: InputMaybe<SortOrder>;
 };
 
-export type ClaimGitPoapIdAddressIdCompoundUniqueInput = {
-  addressId: Scalars['Int'];
-  gitPOAPId: Scalars['Int'];
-};
-
 export type ClaimGitPoapIdEmailIdCompoundUniqueInput = {
   emailId: Scalars['Int'];
   gitPOAPId: Scalars['Int'];
+};
+
+export type ClaimGitPoapIdIssuedAddressIdCompoundUniqueInput = {
+  gitPOAPId: Scalars['Int'];
+  issuedAddressId: Scalars['Int'];
 };
 
 export type ClaimGitPoapIdMintedAddressIdCompoundUniqueInput = {
@@ -331,11 +331,11 @@ export type ClaimGroupBy = {
   _max?: Maybe<ClaimMaxAggregate>;
   _min?: Maybe<ClaimMinAggregate>;
   _sum?: Maybe<ClaimSumAggregate>;
-  addressId?: Maybe<Scalars['Int']>;
   createdAt: Scalars['DateTime'];
   emailId?: Maybe<Scalars['Int']>;
   gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
+  issuedAddressId?: Maybe<Scalars['Int']>;
   mentionEarnedId?: Maybe<Scalars['Int']>;
   mintedAddressId?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
@@ -357,11 +357,11 @@ export type ClaimListRelationFilter = {
 
 export type ClaimMaxAggregate = {
   __typename?: 'ClaimMaxAggregate';
-  addressId?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   emailId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  issuedAddressId?: Maybe<Scalars['Int']>;
   mentionEarnedId?: Maybe<Scalars['Int']>;
   mintedAddressId?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
@@ -376,11 +376,11 @@ export type ClaimMaxAggregate = {
 };
 
 export type ClaimMaxOrderByAggregateInput = {
-  addressId?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  issuedAddressId?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
   mintedAddressId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
@@ -395,11 +395,11 @@ export type ClaimMaxOrderByAggregateInput = {
 
 export type ClaimMinAggregate = {
   __typename?: 'ClaimMinAggregate';
-  addressId?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   emailId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  issuedAddressId?: Maybe<Scalars['Int']>;
   mentionEarnedId?: Maybe<Scalars['Int']>;
   mintedAddressId?: Maybe<Scalars['Int']>;
   mintedAt?: Maybe<Scalars['DateTime']>;
@@ -414,11 +414,11 @@ export type ClaimMinAggregate = {
 };
 
 export type ClaimMinOrderByAggregateInput = {
-  addressId?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  issuedAddressId?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
   mintedAddressId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
@@ -441,11 +441,11 @@ export type ClaimOrderByWithAggregationInput = {
   _max?: InputMaybe<ClaimMaxOrderByAggregateInput>;
   _min?: InputMaybe<ClaimMinOrderByAggregateInput>;
   _sum?: InputMaybe<ClaimSumOrderByAggregateInput>;
-  addressId?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  issuedAddressId?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
   mintedAddressId?: InputMaybe<SortOrder>;
   mintedAt?: InputMaybe<SortOrder>;
@@ -459,14 +459,14 @@ export type ClaimOrderByWithAggregationInput = {
 };
 
 export type ClaimOrderByWithRelationInput = {
-  address?: InputMaybe<AddressOrderByWithRelationInput>;
-  addressId?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   email?: InputMaybe<EmailOrderByWithRelationInput>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAP?: InputMaybe<GitPoapOrderByWithRelationInput>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  issuedAddress?: InputMaybe<AddressOrderByWithRelationInput>;
+  issuedAddressId?: InputMaybe<SortOrder>;
   mentionEarned?: InputMaybe<GithubMentionOrderByWithRelationInput>;
   mentionEarnedId?: InputMaybe<SortOrder>;
   mintedAddress?: InputMaybe<AddressOrderByWithRelationInput>;
@@ -484,11 +484,11 @@ export type ClaimOrderByWithRelationInput = {
 };
 
 export enum ClaimScalarFieldEnum {
-  AddressId = 'addressId',
   CreatedAt = 'createdAt',
   EmailId = 'emailId',
   GitPoapId = 'gitPOAPId',
   Id = 'id',
+  IssuedAddressId = 'issuedAddressId',
   MentionEarnedId = 'mentionEarnedId',
   MintedAddressId = 'mintedAddressId',
   MintedAt = 'mintedAt',
@@ -506,11 +506,11 @@ export type ClaimScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<ClaimScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<ClaimScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<ClaimScalarWhereWithAggregatesInput>>;
-  addressId?: InputMaybe<IntNullableWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   emailId?: InputMaybe<IntNullableWithAggregatesFilter>;
   gitPOAPId?: InputMaybe<IntWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
+  issuedAddressId?: InputMaybe<IntNullableWithAggregatesFilter>;
   mentionEarnedId?: InputMaybe<IntNullableWithAggregatesFilter>;
   mintedAddressId?: InputMaybe<IntNullableWithAggregatesFilter>;
   mintedAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
@@ -532,10 +532,10 @@ export enum ClaimStatus {
 
 export type ClaimSumAggregate = {
   __typename?: 'ClaimSumAggregate';
-  addressId?: Maybe<Scalars['Int']>;
   emailId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  issuedAddressId?: Maybe<Scalars['Int']>;
   mentionEarnedId?: Maybe<Scalars['Int']>;
   mintedAddressId?: Maybe<Scalars['Int']>;
   pullRequestEarnedId?: Maybe<Scalars['Int']>;
@@ -543,10 +543,10 @@ export type ClaimSumAggregate = {
 };
 
 export type ClaimSumOrderByAggregateInput = {
-  addressId?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  issuedAddressId?: InputMaybe<SortOrder>;
   mentionEarnedId?: InputMaybe<SortOrder>;
   mintedAddressId?: InputMaybe<SortOrder>;
   pullRequestEarnedId?: InputMaybe<SortOrder>;
@@ -563,14 +563,14 @@ export type ClaimWhereInput = {
   AND?: InputMaybe<Array<ClaimWhereInput>>;
   NOT?: InputMaybe<Array<ClaimWhereInput>>;
   OR?: InputMaybe<Array<ClaimWhereInput>>;
-  address?: InputMaybe<AddressRelationFilter>;
-  addressId?: InputMaybe<IntNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<EmailRelationFilter>;
   emailId?: InputMaybe<IntNullableFilter>;
   gitPOAP?: InputMaybe<GitPoapRelationFilter>;
   gitPOAPId?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
+  issuedAddress?: InputMaybe<AddressRelationFilter>;
+  issuedAddressId?: InputMaybe<IntNullableFilter>;
   mentionEarned?: InputMaybe<GithubMentionRelationFilter>;
   mentionEarnedId?: InputMaybe<IntNullableFilter>;
   mintedAddress?: InputMaybe<AddressRelationFilter>;
@@ -588,8 +588,8 @@ export type ClaimWhereInput = {
 };
 
 export type ClaimWhereUniqueInput = {
-  gitPOAPId_addressId?: InputMaybe<ClaimGitPoapIdAddressIdCompoundUniqueInput>;
   gitPOAPId_emailId?: InputMaybe<ClaimGitPoapIdEmailIdCompoundUniqueInput>;
+  gitPOAPId_issuedAddressId?: InputMaybe<ClaimGitPoapIdIssuedAddressIdCompoundUniqueInput>;
   gitPOAPId_mintedAddressId?: InputMaybe<ClaimGitPoapIdMintedAddressIdCompoundUniqueInput>;
   gitPOAPId_userId?: InputMaybe<ClaimGitPoapIdUserIdCompoundUniqueInput>;
   id?: InputMaybe<Scalars['Int']>;
