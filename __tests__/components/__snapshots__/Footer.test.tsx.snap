@@ -1,67 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Footer renders a Footer 1`] = `
-.c13 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  font-family: 'PT Mono',monospace !important;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  line-height: 1.125rem;
-  -webkit-letter-spacing: 0.125rem;
-  -moz-letter-spacing: 0.125rem;
-  -ms-letter-spacing: 0.125rem;
-  letter-spacing: 0.125rem;
-  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
-  transition: 150ms background ease,150ms color ease,150ms border ease;
-  border-radius: 0.375rem;
-  padding: 0.5rem 0.875rem;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  background-color: #307AE8;
-  border: none;
-  color: white;
-}
-
-.c13:hover:not(:disabled) {
-  background-color: #5596F6;
-}
-
-.c13:active:not(:disabled) {
-  background-color: #1761CF;
-}
-
-.c13:disabled {
-  background-color: #393A51;
-}
-
-.c13:disabled .mantine-Button-label {
-  color: #838495;
-}
-
-.c13.mantine-Button-loading {
-  background-color: #307AE8;
-}
-
-.c13.mantine-Button-loading .mantine-Button-label {
-  color: white;
-}
-
 .c12 {
   display: inline-block;
 }
@@ -461,12 +400,305 @@ exports[`Footer renders a Footer 1`] = `
   }
 }
 
+.emotion-2 {
+  border: 0;
+  border-top-width: 1px;
+  border-top-color: #ced4da;
+  border-top-style: solid;
+  margin: 0;
+}
+
+.emotion-5 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-5:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-5:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-11 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  line-height: 1.55;
+}
+
+.emotion-14 {
+  position: relative;
+}
+
+.emotion-17 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  height: 36px;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  resize: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 100%;
+  color: #000;
+  display: block;
+  text-align: left;
+  min-height: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+}
+
+.emotion-17:disabled {
+  background-color: #f1f3f5;
+  color: #909296;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.emotion-17:disabled::-webkit-input-placeholder {
+  color: #909296;
+}
+
+.emotion-17:disabled::-moz-placeholder {
+  color: #909296;
+}
+
+.emotion-17:disabled:-ms-input-placeholder {
+  color: #909296;
+}
+
+.emotion-17:disabled::placeholder {
+  color: #909296;
+}
+
+.emotion-17::-webkit-input-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-17::-moz-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-17:-ms-input-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-17::placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-17::-webkit-inner-spin-button,
+.emotion-17::-webkit-outer-spin-button,
+.emotion-17::-webkit-search-decoration,
+.emotion-17::-webkit-search-cancel-button,
+.emotion-17::-webkit-search-results-button,
+.emotion-17::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+
+.emotion-17[type=number] {
+  -moz-appearance: textfield;
+}
+
+.emotion-17:focus,
+.emotion-17:focus-within {
+  outline: none;
+  border-color: #228be6;
+}
+
+.emotion-20 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 16px;
+  background-color: transparent;
+  text-align: left;
+  color: #000;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  height: 36px;
+  padding-left: 18px;
+  padding-right: 12px;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  width: auto;
+  border-radius: 4px;
+  font-weight: 600;
+  position: relative;
+  line-height: 1;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: #228be6;
+  color: #fff;
+}
+
+.emotion-20:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-20:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-20:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-20:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-20:hover {
+    background-color: #1c7ed6;
+  }
+}
+
+@media (hover: none) {
+  .emotion-20:active {
+    background-color: #1c7ed6;
+  }
+}
+
+.emotion-20:active {
+  -webkit-transform: translateY(1px);
+  -moz-transform: translateY(1px);
+  -ms-transform: translateY(1px);
+  transform: translateY(1px);
+}
+
+.emotion-20[data-disabled] {
+  border-color: transparent;
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+.emotion-20[data-disabled]:active {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.emotion-20[data-loading] {
+  pointer-events: none;
+}
+
+.emotion-20[data-loading]::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background-color: rgba(255, 255, 255, .5);
+  border-radius: 4px;
+  cursor: not-allowed;
+}
+
+.emotion-21 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 100%;
+  overflow: visible;
+}
+
+.emotion-23 {
+  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-27 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-left: 10px;
+  margin-left: 0;
+}
+
 <div
   class="c0"
   id="contact"
 >
   <div
-    class="mantine-Divider-root mantine-Divider-horizontal mantine-1lis5e"
+    class="emotion-0 emotion-1 emotion-2"
     role="separator"
     style="border-top-color: #292B3D;"
   />
@@ -474,7 +706,7 @@ exports[`Footer renders a Footer 1`] = `
     class="c1"
   >
     <div
-      class="c2 mantine-1avyp1d"
+      class="c2 emotion-3"
     >
       <a
         class="c3"
@@ -498,14 +730,14 @@ exports[`Footer renders a Footer 1`] = `
         </svg>
       </a>
       <div
-        class="mantine-Text-root c5 mantine-1pbxw0k"
+        class="emotion-4 c5 emotion-5"
         style="margin-top: 1.25rem;"
       >
         We're memorializing software contributions as GitPOAPs to help usher in new era of #web3
       </div>
     </div>
     <div
-      class="c6 mantine-1avyp1d"
+      class="c6 emotion-3"
     >
       <div
         class="c7"
@@ -664,7 +896,7 @@ exports[`Footer renders a Footer 1`] = `
       </div>
     </div>
     <div
-      class="c11 mantine-1avyp1d"
+      class="c11 emotion-3"
     >
       <div
         class="c8"
@@ -672,19 +904,19 @@ exports[`Footer renders a Footer 1`] = `
         Sign up for updates
       </div>
       <div
-        class="mantine-1avyp1d"
+        class="emotion-3"
         style="margin-top: 0.75rem; display: flex;"
       >
         <div
-          class="mantine-InputWrapper-root mantine-TextInput-root c12 mantine-1m3pqry"
+          class="emotion-9 emotion-10 c12 emotion-11"
           style="margin-right: 0.4375rem;"
         >
           <div
-            class="mantine-Input-wrapper mantine-TextInput-wrapper mantine-12sbrde"
+            class="emotion-12 emotion-13 emotion-14"
           >
             <input
               aria-invalid="false"
-              class="mantine-Input-input mantine-TextInput-input mantine-gqmpge"
+              class="emotion-15 emotion-16 emotion-17"
               id="mantine-r0"
               placeholder="Email"
               spellcheck="false"
@@ -694,7 +926,7 @@ exports[`Footer renders a Footer 1`] = `
           </div>
         </div>
         <button
-          class="mantine-UnstyledButton-root mantine-Button-root c13 mantine-1unt66s"
+          class="emotion-18 emotion-19 emotion-20"
           data-button="true"
           data-disabled="true"
           disabled=""
@@ -702,13 +934,13 @@ exports[`Footer renders a Footer 1`] = `
           type="button"
         >
           <div
-            class="mantine-3xbgk5 mantine-Button-inner"
+            class="emotion-21 emotion-22"
           >
             <span
-              class="mantine-qo1k2 mantine-Button-label"
+              class="emotion-23 emotion-24"
             />
             <span
-              class="mantine-Button-icon mantine-Button-rightIcon mantine-18whw8j"
+              class="emotion-25 emotion-26 emotion-27"
             >
               <svg
                 color="#838495"

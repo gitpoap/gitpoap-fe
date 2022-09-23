@@ -1,8 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Checkbox renders an Checkbox and label 1`] = `
+.emotion-0 {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  padding: 0;
+  display: block;
+  margin: 0;
+  -webkit-transition: border-color 150ms ease,background-color 150ms ease;
+  transition: border-color 150ms ease,background-color 150ms ease;
+  cursor: default;
+}
+
+.emotion-0:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-0:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-0:checked {
+  background-color: #228be6;
+  border-color: #228be6;
+}
+
+.emotion-0:checked+.__mantine-ref-icon {
+  opacity: 1;
+  -webkit-transform: translateY(0) scale(1);
+  -moz-transform: translateY(0) scale(1);
+  -ms-transform: translateY(0) scale(1);
+  transform: translateY(0) scale(1);
+}
+
+.emotion-0:disabled {
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+  cursor: not-allowed;
+}
+
+.emotion-0:disabled+.__mantine-ref-icon {
+  color: #adb5bd;
+}
+
 <input
-  class="mantine-ok9ydr mantine-Checkbox-input"
+  class="emotion-0 emotion-1"
   id="mantine-r0"
   type="checkbox"
 />

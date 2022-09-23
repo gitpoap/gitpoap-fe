@@ -52,8 +52,152 @@ exports[`Select renders a Select 1`] = `
   color: #E2E2EE;
 }
 
+.emotion-2 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  line-height: 1.55;
+}
+
+.emotion-5 {
+  position: relative;
+}
+
+.emotion-8 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  height: 36px;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  resize: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 100%;
+  color: #000;
+  display: block;
+  text-align: left;
+  min-height: 36px;
+  padding-left: 12px;
+  padding-right: 36px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+}
+
+.emotion-8:disabled {
+  background-color: #f1f3f5;
+  color: #909296;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.emotion-8:disabled::-webkit-input-placeholder {
+  color: #909296;
+}
+
+.emotion-8:disabled::-moz-placeholder {
+  color: #909296;
+}
+
+.emotion-8:disabled:-ms-input-placeholder {
+  color: #909296;
+}
+
+.emotion-8:disabled::placeholder {
+  color: #909296;
+}
+
+.emotion-8::-webkit-input-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-8::-moz-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-8:-ms-input-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-8::placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-8::-webkit-inner-spin-button,
+.emotion-8::-webkit-outer-spin-button,
+.emotion-8::-webkit-search-decoration,
+.emotion-8::-webkit-search-cancel-button,
+.emotion-8::-webkit-search-results-button,
+.emotion-8::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+
+.emotion-8[type=number] {
+  -moz-appearance: textfield;
+}
+
+.emotion-8:focus,
+.emotion-8:focus-within {
+  outline: none;
+  border-color: #228be6;
+}
+
+.emotion-8:not(:disabled) {
+  cursor: pointer;
+}
+
+.emotion-8:not(:disabled)::selection {
+  background-color: transparent;
+}
+
+.emotion-9 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 36px;
+}
+
 <div
-  class="mantine-InputWrapper-root mantine-Select-root c0 mantine-1m3pqry"
+  class="emotion-0 emotion-1 c0 emotion-2"
 >
   <div
     aria-controls="mantine-r0"
@@ -68,13 +212,13 @@ exports[`Select renders a Select 1`] = `
       value="total"
     />
     <div
-      class="mantine-Input-wrapper mantine-Select-wrapper mantine-12sbrde"
+      class="emotion-3 emotion-4 emotion-5"
     >
       <input
         aria-autocomplete="list"
         aria-invalid="false"
         autocomplete="off"
-        class="mantine-Input-input mantine-Select-input mantine-yxgw82"
+        class="emotion-6 emotion-7 emotion-8"
         data-mantine-stop-propagation="false"
         id="mantine-r0"
         readonly=""
@@ -82,7 +226,7 @@ exports[`Select renders a Select 1`] = `
         value="Total Poaps"
       />
       <div
-        class="mantine-1n9cu5e mantine-Input-rightSection mantine-Select-rightSection"
+        class="emotion-9 emotion-10 emotion-11"
       >
         <svg
           fill="none"

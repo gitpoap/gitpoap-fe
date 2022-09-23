@@ -9,7 +9,6 @@ import { useClaimContext } from '../ClaimModal/ClaimContext';
 import { useAuthContext } from '../github/AuthContext';
 import { Link } from '../Link';
 import { TitleLink } from '../shared/elements';
-import { FilledButtonStyles, OutlineButtonStyles } from '../shared/elements/Button';
 import { useLocalStorage } from '@mantine/hooks';
 
 const StyledStack = styled(Stack)`
@@ -63,14 +62,12 @@ const CTAButtonStyles = css`
 
 const StartIssuingButton = styled(Button)<ButtonProps & ComponentProps<typeof Button>>`
   ${CTAButtonStyles};
-  ${FilledButtonStyles};
 `;
 
 const StartMintingButton = styled(Button)<
   ButtonProps & ComponentProps<typeof Button> & { onClick: () => void }
 >`
   ${CTAButtonStyles};
-  ${OutlineButtonStyles};
 `;
 
 const CTAButtons = styled(Group)`
@@ -108,7 +105,7 @@ export const Banner = () => {
       </BannerSubHeader>
       <CTAButtons position="center">
         <Link href="/onboard" passHref>
-          <StartIssuingButton radius="md" size="md" rightIcon={<FaArrowRight />}>
+          <StartIssuingButton radius="md" size="md" rightIcon={<FaArrowRight />} variant="filled">
             {'START ISSUING'}
           </StartIssuingButton>
         </Link>

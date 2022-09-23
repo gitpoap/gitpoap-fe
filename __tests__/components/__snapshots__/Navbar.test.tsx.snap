@@ -1,72 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Navbar renders a Navbar 1`] = `
-.c7 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  font-family: 'PT Mono',monospace !important;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  line-height: 1.125rem;
-  -webkit-letter-spacing: 0.125rem;
-  -moz-letter-spacing: 0.125rem;
-  -ms-letter-spacing: 0.125rem;
-  letter-spacing: 0.125rem;
-  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
-  transition: 150ms background ease,150ms color ease,150ms border ease;
-  border-radius: 0.375rem;
-  padding: 0.5rem 0.875rem;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  background-color: #307AE8;
-  border: none;
-  color: white;
-}
-
-.c7:hover:not(:disabled) {
-  background-color: #5596F6;
-}
-
-.c7:active:not(:disabled) {
-  background-color: #1761CF;
-}
-
-.c7:disabled {
-  background-color: #393A51;
-}
-
-.c7:disabled .mantine-Button-label {
-  color: #838495;
-}
-
-.c7.mantine-Button-loading {
-  background-color: #307AE8;
-}
-
-.c7.mantine-Button-loading .mantine-Button-label {
-  color: white;
-}
-
-.c13 {
+.c12 {
   display: inline-block;
 }
 
-.c13 .mantine-TextInput-label {
+.c12 .mantine-TextInput-label {
   font-family: 'PT Mono',monospace;
   color: #E2E2EE;
   font-weight: 700;
@@ -80,7 +19,7 @@ exports[`Navbar renders a Navbar 1`] = `
   margin-bottom: 0.6875rem;
 }
 
-.c13 .mantine-TextInput-input {
+.c12 .mantine-TextInput-input {
   border-radius: 0.375rem;
   font-family: 'PT Mono',monospace;
   font-weight: 400;
@@ -96,36 +35,36 @@ exports[`Navbar renders a Navbar 1`] = `
   border: 0.0625rem solid transparent;
 }
 
-.c13 .mantine-TextInput-input:hover:not(:disabled):not(:focus) {
+.c12 .mantine-TextInput-input:hover:not(:disabled):not(:focus) {
   background-color: #292B3D;
 }
 
-.c13 .mantine-TextInput-input:focus {
+.c12 .mantine-TextInput-input:focus {
   background-color: #1E1F2E;
   border: 0.0625rem solid #393A51 !important;
 }
 
-.c13 .mantine-TextInput-input::-webkit-input-placeholder {
+.c12 .mantine-TextInput-input::-webkit-input-placeholder {
   color: #393A51;
 }
 
-.c13 .mantine-TextInput-input::-moz-placeholder {
+.c12 .mantine-TextInput-input::-moz-placeholder {
   color: #393A51;
 }
 
-.c13 .mantine-TextInput-input:-ms-input-placeholder {
+.c12 .mantine-TextInput-input:-ms-input-placeholder {
   color: #393A51;
 }
 
-.c13 .mantine-TextInput-input::placeholder {
+.c12 .mantine-TextInput-input::placeholder {
   color: #393A51;
 }
 
-.c13 .mantine-TextInput-input.mantine-TextInput-invalid {
+.c12 .mantine-TextInput-input.mantine-TextInput-invalid {
   color: #F77070;
 }
 
-.c13 .mantine-TextInput-error {
+.c12 .mantine-TextInput-error {
   font-family: 'PT Mono',monospace;
   font-size: 0.625rem;
   -webkit-letter-spacing: 1.2px;
@@ -136,7 +75,7 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #F77070 !important;
 }
 
-.c15 {
+.c14 {
   stroke: #5596F6;
 }
 
@@ -191,7 +130,7 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #393A51;
 }
 
-.c8 {
+.c7 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -229,7 +168,7 @@ exports[`Navbar renders a Navbar 1`] = `
   color: white;
 }
 
-.c12 {
+.c11 {
   margin-right: 1.5625rem;
   width: 18.75rem;
   position: relative;
@@ -238,32 +177,32 @@ exports[`Navbar renders a Navbar 1`] = `
   transition: width 200ms ease-in-out;
 }
 
-.c14 {
+.c13 {
   width: inherit;
   min-width: inherit;
 }
 
-.c14 .mantine-TextInput-input::-webkit-input-placeholder {
+.c13 .mantine-TextInput-input::-webkit-input-placeholder {
   color: #838495;
   text-transform: uppercase;
 }
 
-.c14 .mantine-TextInput-input::-moz-placeholder {
+.c13 .mantine-TextInput-input::-moz-placeholder {
   color: #838495;
   text-transform: uppercase;
 }
 
-.c14 .mantine-TextInput-input:-ms-input-placeholder {
+.c13 .mantine-TextInput-input:-ms-input-placeholder {
   color: #838495;
   text-transform: uppercase;
 }
 
-.c14 .mantine-TextInput-input::placeholder {
+.c13 .mantine-TextInput-input::placeholder {
   color: #838495;
   text-transform: uppercase;
 }
 
-.c16 {
+.c15 {
   width: 1.5625rem;
   text-align: center;
   font-size: 0.625rem;
@@ -319,27 +258,27 @@ exports[`Navbar renders a Navbar 1`] = `
   margin-right: 0.75rem;
 }
 
+.c8 {
+  display: none;
+}
+
 .c9 {
   display: none;
 }
 
 .c10 {
-  display: none;
-}
-
-.c11 {
   width: 100vw;
   padding: 0 3vw 1rem;
   border-bottom: 0.0625rem solid #404040;
   text-align: center;
 }
 
-.c11 > * {
+.c10 > * {
   padding-bottom: 1.125rem;
   margin: 0;
 }
 
-.c11 > *:not(:last-child) {
+.c10 > *:not(:last-child) {
   border-bottom: 0.0625rem solid #404040;
 }
 
@@ -350,13 +289,13 @@ exports[`Navbar renders a Navbar 1`] = `
 }
 
 @media (max-width:75rem) {
-  .c12 {
+  .c11 {
     width: 15rem;
   }
 }
 
 @media (max-width:56.25rem) {
-  .c12 {
+  .c11 {
     width: 100%;
   }
 }
@@ -384,25 +323,646 @@ exports[`Navbar renders a Navbar 1`] = `
 }
 
 @media (max-width:37.5rem) {
-  .c9 {
+  .c8 {
     display: block;
   }
 }
 
 @media (max-width:37.5rem) {
-  .c10 {
+  .c9 {
     display: block;
   }
 }
 
+.emotion-1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.emotion-4 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  gap: 16px;
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-5 {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-11 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 16px;
+  background-color: transparent;
+  text-align: left;
+  color: #000;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 18px;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  width: auto;
+  border-radius: 4px;
+  font-weight: 600;
+  position: relative;
+  line-height: 1;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: #228be6;
+  color: #fff;
+}
+
+.emotion-11:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-11:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-11:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-11:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-11:hover {
+    background-color: #1c7ed6;
+  }
+}
+
+@media (hover: none) {
+  .emotion-11:active {
+    background-color: #1c7ed6;
+  }
+}
+
+.emotion-11:active {
+  -webkit-transform: translateY(1px);
+  -moz-transform: translateY(1px);
+  -ms-transform: translateY(1px);
+  transform: translateY(1px);
+}
+
+.emotion-11[data-disabled] {
+  border-color: transparent;
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+.emotion-11[data-disabled]:active {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.emotion-11[data-loading] {
+  pointer-events: none;
+}
+
+.emotion-11[data-loading]::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background-color: rgba(255, 255, 255, .5);
+  border-radius: 4px;
+  cursor: not-allowed;
+}
+
+.emotion-12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 100%;
+  overflow: visible;
+}
+
+.emotion-16 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.emotion-17 {
+  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-21 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 16px;
+  background-color: transparent;
+  text-align: left;
+  color: #000;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  height: 36px;
+  padding-left: 18px;
+  padding-right: 18px;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  width: auto;
+  border-radius: 4px;
+  font-weight: 600;
+  position: relative;
+  line-height: 1;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: #228be6;
+  color: #fff;
+}
+
+.emotion-21:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-21:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-21:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-21:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-21:hover {
+    background-color: #1c7ed6;
+  }
+}
+
+@media (hover: none) {
+  .emotion-21:active {
+    background-color: #1c7ed6;
+  }
+}
+
+.emotion-21:active {
+  -webkit-transform: translateY(1px);
+  -moz-transform: translateY(1px);
+  -ms-transform: translateY(1px);
+  transform: translateY(1px);
+}
+
+.emotion-21[data-disabled] {
+  border-color: transparent;
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+.emotion-21[data-disabled]:active {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.emotion-21[data-loading] {
+  pointer-events: none;
+}
+
+.emotion-21[data-loading]::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background-color: rgba(255, 255, 255, .5);
+  border-radius: 4px;
+  cursor: not-allowed;
+}
+
+.emotion-29 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 16px;
+  background-color: transparent;
+  text-align: left;
+  color: #000;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 34px;
+  height: 34px;
+  padding: 5px;
+  cursor: pointer;
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-29:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-29:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-30 {
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.emotion-30,
+.emotion-30::before,
+.emotion-30::after {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #000;
+  outline: 1px solid transparent;
+  transition-property: background-color,transform;
+  transition-duration: 300ms;
+}
+
+@media (prefers-reduced-motion) {
+  .emotion-30,
+  .emotion-30::before,
+  .emotion-30::after {
+    transition-duration: 0ms;
+  }
+}
+
+.emotion-30::before,
+.emotion-30::after {
+  position: absolute;
+  content: "";
+  left: 0;
+}
+
+.emotion-30::before {
+  top: -8px;
+}
+
+.emotion-30::after {
+  top: 8px;
+}
+
+.emotion-30[data-opened] {
+  background-color: transparent;
+}
+
+.emotion-30[data-opened]::before {
+  -webkit-transform: translateY(8px) rotate(45deg);
+  -moz-transform: translateY(8px) rotate(45deg);
+  -ms-transform: translateY(8px) rotate(45deg);
+  transform: translateY(8px) rotate(45deg);
+}
+
+.emotion-30[data-opened]::after {
+  -webkit-transform: translateY(-8px) rotate(-45deg);
+  -moz-transform: translateY(-8px) rotate(-45deg);
+  -ms-transform: translateY(-8px) rotate(-45deg);
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.emotion-33 {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-35 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: top;
+  -ms-flex-pack: top;
+  -webkit-justify-content: top;
+  justify-content: top;
+  gap: 20px;
+}
+
+.emotion-38 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  line-height: 1.55;
+}
+
+.emotion-41 {
+  position: relative;
+}
+
+.emotion-42 {
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 36px;
+  color: #adb5bd;
+}
+
+.emotion-50 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  height: 36px;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  resize: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 100%;
+  color: #000;
+  display: block;
+  text-align: left;
+  min-height: 36px;
+  padding-left: 12px;
+  padding-right: 36px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  padding-left: 36px;
+}
+
+.emotion-50:disabled {
+  background-color: #f1f3f5;
+  color: #909296;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.emotion-50:disabled::-webkit-input-placeholder {
+  color: #909296;
+}
+
+.emotion-50:disabled::-moz-placeholder {
+  color: #909296;
+}
+
+.emotion-50:disabled:-ms-input-placeholder {
+  color: #909296;
+}
+
+.emotion-50:disabled::placeholder {
+  color: #909296;
+}
+
+.emotion-50::-webkit-input-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-50::-moz-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-50:-ms-input-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-50::placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-50::-webkit-inner-spin-button,
+.emotion-50::-webkit-outer-spin-button,
+.emotion-50::-webkit-search-decoration,
+.emotion-50::-webkit-search-cancel-button,
+.emotion-50::-webkit-search-results-button,
+.emotion-50::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+
+.emotion-50[type=number] {
+  -moz-appearance: textfield;
+}
+
+.emotion-50:focus,
+.emotion-50:focus-within {
+  outline: none;
+  border-color: #228be6;
+}
+
+.emotion-51 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 36px;
+}
+
+.emotion-55 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-55:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-55:focus:not(:focus-visible) {
+  outline: none;
+}
+
 <div
-  class="mantine-Group-root c0 mantine-6y1794"
+  class="emotion-0 c0 emotion-1"
 >
   <div
-    class="mantine-Group-root c1 mantine-Group-child mantine-v8qa5g"
+    class="emotion-0 c1 emotion-3 emotion-4"
   >
     <a
-      class="c2 mantine-gnzaph mantine-Group-child"
+      class="c2 emotion-5 emotion-3"
       href="/"
     >
       <svg
@@ -420,7 +980,7 @@ exports[`Navbar renders a Navbar 1`] = `
       </svg>
     </a>
     <div
-      class="c3 mantine-gnzaph mantine-Group-child"
+      class="c3 emotion-5 emotion-3"
     >
       <a
         class="c4"
@@ -446,15 +1006,15 @@ exports[`Navbar renders a Navbar 1`] = `
         class="c5 c6"
       >
         <button
-          class="mantine-UnstyledButton-root mantine-Button-root c7 mantine-1mncww1"
+          class="emotion-9 emotion-10 emotion-11"
           data-button="true"
           type="button"
         >
           <div
-            class="mantine-3xbgk5 mantine-Button-inner"
+            class="emotion-12 emotion-13"
           >
             <span
-              class="mantine-Button-icon mantine-Button-leftIcon mantine-1g4orza"
+              class="emotion-14 emotion-15 emotion-16"
             >
               <svg
                 fill="currentColor"
@@ -472,7 +1032,7 @@ exports[`Navbar renders a Navbar 1`] = `
               </svg>
             </span>
             <span
-              class="mantine-qo1k2 mantine-Button-label"
+              class="emotion-17 emotion-18"
             >
               CONNECT TO MINT
             </span>
@@ -480,18 +1040,18 @@ exports[`Navbar renders a Navbar 1`] = `
         </button>
       </div>
       <div
-        class="c8"
+        class="c7"
       >
         <button
-          class="mantine-UnstyledButton-root mantine-Button-root c7 mantine-uk7x1z"
+          class="emotion-9 emotion-10 emotion-21"
           data-button="true"
           type="button"
         >
           <div
-            class="mantine-3xbgk5 mantine-Button-inner"
+            class="emotion-12 emotion-13"
           >
             <span
-              class="mantine-qo1k2 mantine-Button-label"
+              class="emotion-17 emotion-18"
             >
               <svg
                 fill="currentColor"
@@ -512,40 +1072,40 @@ exports[`Navbar renders a Navbar 1`] = `
       </div>
     </div>
     <button
-      class="mantine-UnstyledButton-root mantine-Burger-root c9 mantine-Group-child mantine-ix5c09"
+      class="emotion-9 emotion-27 c8 emotion-3 emotion-29"
       title="Open navigation"
       type="button"
     >
       <div
-        class="mantine-blkt8k mantine-Burger-burger"
+        class="emotion-30 emotion-31"
       />
     </button>
   </div>
   <div
     aria-hidden="true"
-    class="c10 mantine-Group-child mantine-1oprzqz"
+    class="c9 emotion-3 emotion-33"
     style="box-sizing: border-box; display: none; height: 0px; overflow: hidden;"
   >
     <div
       style="opacity: 0; transition: opacity 200ms ease;"
     >
       <div
-        class="mantine-Stack-root c11 mantine-1kgx180"
+        class="emotion-34 c10 emotion-35"
       >
         <div
-          class="c12"
+          class="c11"
         >
           <div
-            class="mantine-InputWrapper-root mantine-TextInput-root c13 c14 mantine-1m3pqry"
+            class="emotion-36 emotion-37 c12 c13 emotion-38"
           >
             <div
-              class="mantine-Input-wrapper mantine-TextInput-wrapper mantine-12sbrde"
+              class="emotion-39 emotion-40 emotion-41"
             >
               <div
-                class="mantine-yxyjyg mantine-Input-icon mantine-TextInput-icon"
+                class="emotion-42 emotion-43 emotion-44"
               >
                 <svg
-                  class="c15 mantine-1avyp1d"
+                  class="c14 emotion-45"
                   height="18px"
                   role="presentation"
                   stroke="#228be6"
@@ -585,7 +1145,7 @@ exports[`Navbar renders a Navbar 1`] = `
               </div>
               <input
                 aria-invalid="false"
-                class="mantine-Input-input mantine-TextInput-input mantine-Input-withIcon mantine-TextInput-withIcon mantine-q5mr9r"
+                class="emotion-46 emotion-47 emotion-48 emotion-49 emotion-50"
                 id="mantine-r0"
                 placeholder="POAP.ETH OR 0xf6B6..."
                 spellcheck="false"
@@ -593,10 +1153,10 @@ exports[`Navbar renders a Navbar 1`] = `
                 value=""
               />
               <div
-                class="mantine-1n9cu5e mantine-Input-rightSection mantine-TextInput-rightSection"
+                class="emotion-51 emotion-52 emotion-53"
               >
                 <div
-                  class="mantine-Text-root c16 mantine-1pbxw0k"
+                  class="emotion-54 c15 emotion-55"
                 >
                   /
                 </div>
@@ -634,15 +1194,15 @@ exports[`Navbar renders a Navbar 1`] = `
           class="c5 c6"
         >
           <button
-            class="mantine-UnstyledButton-root mantine-Button-root c7 mantine-1mncww1"
+            class="emotion-9 emotion-10 emotion-11"
             data-button="true"
             type="button"
           >
             <div
-              class="mantine-3xbgk5 mantine-Button-inner"
+              class="emotion-12 emotion-13"
             >
               <span
-                class="mantine-Button-icon mantine-Button-leftIcon mantine-1g4orza"
+                class="emotion-14 emotion-15 emotion-16"
               >
                 <svg
                   fill="currentColor"
@@ -660,7 +1220,7 @@ exports[`Navbar renders a Navbar 1`] = `
                 </svg>
               </span>
               <span
-                class="mantine-qo1k2 mantine-Button-label"
+                class="emotion-17 emotion-18"
               >
                 CONNECT TO MINT
               </span>
@@ -668,18 +1228,18 @@ exports[`Navbar renders a Navbar 1`] = `
           </button>
         </div>
         <div
-          class="c8"
+          class="c7"
         >
           <button
-            class="mantine-UnstyledButton-root mantine-Button-root c7 mantine-uk7x1z"
+            class="emotion-9 emotion-10 emotion-21"
             data-button="true"
             type="button"
           >
             <div
-              class="mantine-3xbgk5 mantine-Button-inner"
+              class="emotion-12 emotion-13"
             >
               <span
-                class="mantine-qo1k2 mantine-Button-label"
+                class="emotion-17 emotion-18"
               >
                 Connect Wallet
               </span>

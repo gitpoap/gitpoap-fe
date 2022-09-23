@@ -1,79 +1,225 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Button has the correct styles when disabled 1`] = `
-.c0 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+.emotion-2 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: PT Mono,monospace;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 16px;
+  background-color: transparent;
+  text-align: left;
+  color: #C1C2C5;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  height: 36px;
+  padding-left: 18px;
+  padding-right: 18px;
+  font-family: PT Mono,monospace;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  width: auto;
+  border-radius: 6px;
+  font-weight: 600;
+  position: relative;
+  line-height: 1;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: #1971c2;
+  color: #fff;
+  border-width: 0.125rem;
+  letter-spacing: 0.125rem;
+  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
+  transition: 150ms background ease,150ms color ease,150ms border ease;
+  background-color: #307AE8;
+}
+
+.emotion-2:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-2:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-2:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-2:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-2:hover {
+    background-color: #1864ab;
+  }
+}
+
+@media (hover: none) {
+  .emotion-2:active {
+    background-color: #1864ab;
+  }
+}
+
+.emotion-2:active {
+  -webkit-transform: translateY(1px);
+  -moz-transform: translateY(1px);
+  -ms-transform: translateY(1px);
+  transform: translateY(1px);
+}
+
+.emotion-2[data-disabled] {
+  border-color: transparent;
+  background-color: #373A40;
+  color: #25262b;
+  cursor: not-allowed;
+}
+
+.emotion-2[data-disabled]:active {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.emotion-2[data-loading] {
+  pointer-events: none;
+}
+
+.emotion-2[data-loading]::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background-color: rgba(26, 27, 30, 0.5);
+  border-radius: 6px;
+  cursor: not-allowed;
+}
+
+.emotion-2:disabled {
+  background-color: #393A51;
+}
+
+.emotion-2:disabled .emotion-6 {
+  color: #838495;
+}
+
+.emotion-2:active:not(:disabled) {
+  background-color: #1761CF;
+}
+
+.emotion-2:hover:not(:disabled) {
+  background-color: #5596F6;
+}
+
+.emotion-2[data-loading] {
+  background-color: #307AE8;
+}
+
+.emotion-2[data-loading] .emotion-6 {
+  color: #FFFFFF;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  font-family: 'PT Mono',monospace !important;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  line-height: 1.125rem;
-  -webkit-letter-spacing: 0.125rem;
-  -moz-letter-spacing: 0.125rem;
-  -ms-letter-spacing: 0.125rem;
-  letter-spacing: 0.125rem;
-  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
-  transition: 150ms background ease,150ms color ease,150ms border ease;
-  border-radius: 0.375rem;
-  padding: 0.5rem 0.875rem;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  background-color: #307AE8;
-  border: none;
-  color: white;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 100%;
+  overflow: visible;
 }
 
-.c0:hover:not(:disabled) {
-  background-color: #5596F6;
+.emotion-5 {
+  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
-.c0:active:not(:disabled) {
-  background-color: #1761CF;
-}
-
-.c0:disabled {
-  background-color: #393A51;
-}
-
-.c0:disabled .mantine-Button-label {
+.mantine-pqd7r:disabled .emotion-6 {
   color: #838495;
 }
 
-.c0.mantine-Button-loading {
-  background-color: #307AE8;
+.mantine-pqd7r[data-loading] .emotion-6 {
+  color: #FFFFFF;
 }
 
-.c0.mantine-Button-loading .mantine-Button-label {
-  color: white;
+.mantine-1qagcpv:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1qagcpv[data-loading] .emotion-6 {
+  color: #FFFFFF;
+}
+
+.mantine-1h5neuf:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1h5neuf[data-loading] .emotion-6 {
+  color: #FFFFFF;
+}
+
+.mantine-19ayk7z:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1qkj6a3:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-ysubsg:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-hyz97v:disabled .emotion-6 {
+  color: #838495;
 }
 
 <button
-  class="mantine-UnstyledButton-root mantine-Button-root c0 mantine-uk7x1z"
+  class="emotion-0 emotion-1 emotion-2"
   data-button="true"
   data-disabled="true"
   disabled=""
   type="button"
 >
   <div
-    class="mantine-3xbgk5 mantine-Button-inner"
+    class="emotion-3 emotion-4"
   >
     <span
-      class="mantine-qo1k2 mantine-Button-label"
+      class="emotion-5 emotion-6"
+      style="text-transform: uppercase;"
     >
       Button
     </span>
@@ -82,77 +228,207 @@ exports[`Button has the correct styles when disabled 1`] = `
 `;
 
 exports[`Button renders a button 1`] = `
-.c0 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+.emotion-2 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: PT Mono,monospace;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 16px;
+  background-color: transparent;
+  text-align: left;
+  color: #C1C2C5;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  height: 36px;
+  padding-left: 18px;
+  padding-right: 18px;
+  font-family: PT Mono,monospace;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  width: auto;
+  border-radius: 6px;
+  font-weight: 600;
+  position: relative;
+  line-height: 1;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: #1971c2;
+  color: #fff;
+  border-width: 0.125rem;
+  letter-spacing: 0.125rem;
+  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
+  transition: 150ms background ease,150ms color ease,150ms border ease;
+  background-color: #307AE8;
+}
+
+.emotion-2:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-2:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-2:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-2:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-2:hover {
+    background-color: #1864ab;
+  }
+}
+
+@media (hover: none) {
+  .emotion-2:active {
+    background-color: #1864ab;
+  }
+}
+
+.emotion-2:active {
+  -webkit-transform: translateY(1px);
+  -moz-transform: translateY(1px);
+  -ms-transform: translateY(1px);
+  transform: translateY(1px);
+}
+
+.emotion-2[data-disabled] {
+  border-color: transparent;
+  background-color: #373A40;
+  color: #25262b;
+  cursor: not-allowed;
+}
+
+.emotion-2[data-disabled]:active {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.emotion-2[data-loading] {
+  pointer-events: none;
+}
+
+.emotion-2[data-loading]::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background-color: rgba(26, 27, 30, 0.5);
+  border-radius: 6px;
+  cursor: not-allowed;
+}
+
+.emotion-2:disabled {
+  background-color: #393A51;
+}
+
+.emotion-2:disabled .emotion-6 {
+  color: #838495;
+}
+
+.emotion-2:active:not(:disabled) {
+  background-color: #1761CF;
+}
+
+.emotion-2:hover:not(:disabled) {
+  background-color: #5596F6;
+}
+
+.emotion-2[data-loading] {
+  background-color: #307AE8;
+}
+
+.emotion-2[data-loading] .emotion-6 {
+  color: #FFFFFF;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  font-family: 'PT Mono',monospace !important;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  line-height: 1.125rem;
-  -webkit-letter-spacing: 0.125rem;
-  -moz-letter-spacing: 0.125rem;
-  -ms-letter-spacing: 0.125rem;
-  letter-spacing: 0.125rem;
-  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
-  transition: 150ms background ease,150ms color ease,150ms border ease;
-  border-radius: 0.375rem;
-  padding: 0.5rem 0.875rem;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  background-color: #307AE8;
-  border: none;
-  color: white;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 100%;
+  overflow: visible;
 }
 
-.c0:hover:not(:disabled) {
-  background-color: #5596F6;
+.emotion-5 {
+  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
-.c0:active:not(:disabled) {
-  background-color: #1761CF;
-}
-
-.c0:disabled {
-  background-color: #393A51;
-}
-
-.c0:disabled .mantine-Button-label {
+.mantine-pqd7r:disabled .emotion-6 {
   color: #838495;
 }
 
-.c0.mantine-Button-loading {
-  background-color: #307AE8;
+.mantine-pqd7r[data-loading] .emotion-6 {
+  color: #FFFFFF;
 }
 
-.c0.mantine-Button-loading .mantine-Button-label {
-  color: white;
+.mantine-1qagcpv:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1qagcpv[data-loading] .emotion-6 {
+  color: #FFFFFF;
+}
+
+.mantine-1h5neuf:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1h5neuf[data-loading] .emotion-6 {
+  color: #FFFFFF;
 }
 
 <button
-  class="mantine-UnstyledButton-root mantine-Button-root c0 mantine-uk7x1z"
+  class="emotion-0 emotion-1 emotion-2"
   data-button="true"
   type="button"
 >
   <div
-    class="mantine-3xbgk5 mantine-Button-inner"
+    class="emotion-3 emotion-4"
   >
     <span
-      class="mantine-qo1k2 mantine-Button-label"
+      class="emotion-5 emotion-6"
+      style="text-transform: uppercase;"
     >
       Button
     </span>
@@ -161,77 +437,207 @@ exports[`Button renders a button 1`] = `
 `;
 
 exports[`Button renders a button correctly with variant - filled 1`] = `
-.c0 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+.emotion-2 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: PT Mono,monospace;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 16px;
+  background-color: transparent;
+  text-align: left;
+  color: #C1C2C5;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  height: 36px;
+  padding-left: 18px;
+  padding-right: 18px;
+  font-family: PT Mono,monospace;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  width: auto;
+  border-radius: 6px;
+  font-weight: 600;
+  position: relative;
+  line-height: 1;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: #1971c2;
+  color: #fff;
+  border-width: 0.125rem;
+  letter-spacing: 0.125rem;
+  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
+  transition: 150ms background ease,150ms color ease,150ms border ease;
+  background-color: #307AE8;
+}
+
+.emotion-2:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-2:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-2:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-2:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-2:hover {
+    background-color: #1864ab;
+  }
+}
+
+@media (hover: none) {
+  .emotion-2:active {
+    background-color: #1864ab;
+  }
+}
+
+.emotion-2:active {
+  -webkit-transform: translateY(1px);
+  -moz-transform: translateY(1px);
+  -ms-transform: translateY(1px);
+  transform: translateY(1px);
+}
+
+.emotion-2[data-disabled] {
+  border-color: transparent;
+  background-color: #373A40;
+  color: #25262b;
+  cursor: not-allowed;
+}
+
+.emotion-2[data-disabled]:active {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.emotion-2[data-loading] {
+  pointer-events: none;
+}
+
+.emotion-2[data-loading]::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background-color: rgba(26, 27, 30, 0.5);
+  border-radius: 6px;
+  cursor: not-allowed;
+}
+
+.emotion-2:disabled {
+  background-color: #393A51;
+}
+
+.emotion-2:disabled .emotion-6 {
+  color: #838495;
+}
+
+.emotion-2:active:not(:disabled) {
+  background-color: #1761CF;
+}
+
+.emotion-2:hover:not(:disabled) {
+  background-color: #5596F6;
+}
+
+.emotion-2[data-loading] {
+  background-color: #307AE8;
+}
+
+.emotion-2[data-loading] .emotion-6 {
+  color: #FFFFFF;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  font-family: 'PT Mono',monospace !important;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  line-height: 1.125rem;
-  -webkit-letter-spacing: 0.125rem;
-  -moz-letter-spacing: 0.125rem;
-  -ms-letter-spacing: 0.125rem;
-  letter-spacing: 0.125rem;
-  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
-  transition: 150ms background ease,150ms color ease,150ms border ease;
-  border-radius: 0.375rem;
-  padding: 0.5rem 0.875rem;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  background-color: #307AE8;
-  border: none;
-  color: white;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 100%;
+  overflow: visible;
 }
 
-.c0:hover:not(:disabled) {
-  background-color: #5596F6;
+.emotion-5 {
+  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
-.c0:active:not(:disabled) {
-  background-color: #1761CF;
-}
-
-.c0:disabled {
-  background-color: #393A51;
-}
-
-.c0:disabled .mantine-Button-label {
+.mantine-pqd7r:disabled .emotion-6 {
   color: #838495;
 }
 
-.c0.mantine-Button-loading {
-  background-color: #307AE8;
+.mantine-pqd7r[data-loading] .emotion-6 {
+  color: #FFFFFF;
 }
 
-.c0.mantine-Button-loading .mantine-Button-label {
-  color: white;
+.mantine-1qagcpv:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1qagcpv[data-loading] .emotion-6 {
+  color: #FFFFFF;
+}
+
+.mantine-1h5neuf:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1h5neuf[data-loading] .emotion-6 {
+  color: #FFFFFF;
 }
 
 <button
-  class="mantine-UnstyledButton-root mantine-Button-root c0 mantine-uk7x1z"
+  class="emotion-0 emotion-1 emotion-2"
   data-button="true"
   type="button"
 >
   <div
-    class="mantine-3xbgk5 mantine-Button-inner"
+    class="emotion-3 emotion-4"
   >
     <span
-      class="mantine-qo1k2 mantine-Button-label"
+      class="emotion-5 emotion-6"
+      style="text-transform: uppercase;"
     >
       Button
     </span>
@@ -240,84 +646,224 @@ exports[`Button renders a button correctly with variant - filled 1`] = `
 `;
 
 exports[`Button renders a button correctly with variant - outlined 1`] = `
-.c0 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  font-family: 'PT Mono',monospace !important;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  line-height: 1.125rem;
-  -webkit-letter-spacing: 0.125rem;
-  -moz-letter-spacing: 0.125rem;
-  -ms-letter-spacing: 0.125rem;
+.emotion-2 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: PT Mono,monospace;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 16px;
+  background-color: transparent;
+  text-align: left;
+  color: #C1C2C5;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  height: 36px;
+  padding-left: 18px;
+  padding-right: 18px;
+  font-family: PT Mono,monospace;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  width: auto;
+  border-radius: 6px;
+  font-weight: 600;
+  position: relative;
+  line-height: 1;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border: 1px solid #339af0;
+  background-color: transparent;
+  color: #339af0;
+  border-width: 0.125rem;
   letter-spacing: 0.125rem;
   -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
   transition: 150ms background ease,150ms color ease,150ms border ease;
-  border-radius: 0.375rem;
-  padding: 0.5rem 0.875rem;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  border: 0.125rem solid #838495;
-  color: white;
   background-color: transparent;
-  padding: 0.375rem 0.75rem;
+  border-color: #838495;
+  color: #FFFFFF;
 }
 
-.c0:hover:not(:disabled) {
-  border-color: #5596F6;
-  color: #5596F6;
+.emotion-2:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
 }
 
-.c0:active:not(:disabled) {
-  border-color: #1761CF;
-  color: #1761CF;
+.emotion-2:focus:not(:focus-visible) {
+  outline: none;
 }
 
-.c0:disabled {
+.emotion-2:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-2:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-2:hover {
+    background-color: rgba(51, 154, 240, 0.05);
+  }
+}
+
+@media (hover: none) {
+  .emotion-2:active {
+    background-color: rgba(51, 154, 240, 0.05);
+  }
+}
+
+.emotion-2:active {
+  -webkit-transform: translateY(1px);
+  -moz-transform: translateY(1px);
+  -ms-transform: translateY(1px);
+  transform: translateY(1px);
+}
+
+.emotion-2[data-disabled] {
+  border-color: transparent;
+  background-color: #373A40;
+  color: #25262b;
+  cursor: not-allowed;
+}
+
+.emotion-2[data-disabled]:active {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.emotion-2[data-loading] {
+  pointer-events: none;
+}
+
+.emotion-2[data-loading]::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background-color: rgba(26, 27, 30, 0.5);
+  border-radius: 6px;
+  cursor: not-allowed;
+}
+
+.emotion-2:disabled {
   background-color: transparent;
   border-color: #838495;
 }
 
-.c0:disabled .mantine-Button-label {
+.emotion-2:disabled .emotion-6 {
   color: #838495;
 }
 
-.c0.mantine-Button-loading:before {
-  top: -0.125rem;
-  left: -0.125rem;
-  right: -0.125rem;
-  bottom: -0.125rem;
+.emotion-2:active:not(:disabled) {
+  border-color: #1761CF;
+  color: #1761CF;
 }
 
-.c0.mantine-Button-loading .mantine-Button-label {
-  color: white;
+.emotion-2:hover:not(:disabled) {
+  border-color: #5596F6;
+  color: #5596F6;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 100%;
+  overflow: visible;
+}
+
+.emotion-5 {
+  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.mantine-pqd7r:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-pqd7r[data-loading] .emotion-6 {
+  color: #FFFFFF;
+}
+
+.mantine-1qagcpv:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1qagcpv[data-loading] .emotion-6 {
+  color: #FFFFFF;
+}
+
+.mantine-1h5neuf:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1h5neuf[data-loading] .emotion-6 {
+  color: #FFFFFF;
+}
+
+.mantine-799x9f:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-799x9f[data-loading] .emotion-6 {
+  color: #FFFFFF;
+}
+
+.mantine-19ayk7z:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1qkj6a3:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-ysubsg:disabled .emotion-6 {
+  color: #838495;
 }
 
 <button
-  class="mantine-UnstyledButton-root mantine-Button-root c0 mantine-4hv0l9"
+  class="emotion-0 emotion-1 emotion-2"
   data-button="true"
   type="button"
 >
   <div
-    class="mantine-3xbgk5 mantine-Button-inner"
+    class="emotion-3 emotion-4"
   >
     <span
-      class="mantine-qo1k2 mantine-Button-label"
+      class="emotion-5 emotion-6"
+      style="text-transform: uppercase;"
     >
       Button
     </span>

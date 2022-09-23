@@ -1,13 +1,15 @@
-import { BREAKPOINTS } from '../constants';
+import { BREAKPOINTS } from '../../constants';
 import { MantineProviderProps } from '@mantine/core';
-import { BackgroundPanel, ExtraHover } from '../colors';
+import { BackgroundPanel, ExtraHover } from '../../colors';
 import { rem } from 'polished';
+import { buttonTheme } from './ButtonTheme';
 
 export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
   colorScheme: 'dark',
   respectReducedMotion: false,
   components: {
+    Button: buttonTheme,
     Modal: {
       styles: {
         modal: {

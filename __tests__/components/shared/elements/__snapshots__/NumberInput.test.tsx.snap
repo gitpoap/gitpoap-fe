@@ -75,22 +75,263 @@ exports[`NumberInput renders an NumberInput and label 1`] = `
   color: #F77070 !important;
 }
 
+.emotion-2 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  line-height: 1.55;
+}
+
+.emotion-5 {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #212529;
+  word-break: break-word;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.emotion-8 {
+  position: relative;
+}
+
+.emotion-11 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  height: 36px;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  resize: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 100%;
+  color: #000;
+  display: block;
+  text-align: left;
+  min-height: 36px;
+  padding-left: 12px;
+  padding-right: 25px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+}
+
+.emotion-11:disabled {
+  background-color: #f1f3f5;
+  color: #909296;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.emotion-11:disabled::-webkit-input-placeholder {
+  color: #909296;
+}
+
+.emotion-11:disabled::-moz-placeholder {
+  color: #909296;
+}
+
+.emotion-11:disabled:-ms-input-placeholder {
+  color: #909296;
+}
+
+.emotion-11:disabled::placeholder {
+  color: #909296;
+}
+
+.emotion-11::-webkit-input-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-11::-moz-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-11:-ms-input-placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-11::placeholder {
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+}
+
+.emotion-11::-webkit-inner-spin-button,
+.emotion-11::-webkit-outer-spin-button,
+.emotion-11::-webkit-search-decoration,
+.emotion-11::-webkit-search-cancel-button,
+.emotion-11::-webkit-search-results-button,
+.emotion-11::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+
+.emotion-11[type=number] {
+  -moz-appearance: textfield;
+}
+
+.emotion-11:focus,
+.emotion-11:focus-within {
+  outline: none;
+  border-color: #228be6;
+}
+
+.emotion-12 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 25px;
+}
+
+.emotion-15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: calc(100% - 2px);
+  margin: 1px;
+  margin-right: 1px;
+  overflow: hidden;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.emotion-19 {
+  margin: 0;
+  position: relative;
+  -webkit-flex: 0 0 50%;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 24px;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  border-bottom: 1px solid #ced4da;
+  border-left: 1px solid #ced4da;
+  border-top: 0;
+  border-right: 0;
+  background-color: transparent;
+  margin-right: 1px;
+  color: #000;
+}
+
+.emotion-19:not(:disabled):hover {
+  background-color: #f8f9fa;
+}
+
+.emotion-19:disabled {
+  color: #ced4da;
+}
+
+.emotion-22 {
+  margin: 0;
+  position: relative;
+  -webkit-flex: 0 0 50%;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 24px;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  border-bottom: 1px solid #ced4da;
+  border-left: 1px solid #ced4da;
+  border-top: 0;
+  border-right: 0;
+  background-color: transparent;
+  margin-right: 1px;
+  color: #000;
+  border-bottom: 0;
+}
+
+.emotion-22:not(:disabled):hover {
+  background-color: #f8f9fa;
+}
+
+.emotion-22:disabled {
+  color: #ced4da;
+}
+
 <div
-  class="mantine-InputWrapper-root mantine-NumberInput-root c0 mantine-1m3pqry"
+  class="emotion-0 emotion-1 c0 emotion-2"
 >
   <label
-    class="mantine-InputWrapper-label mantine-NumberInput-label mantine-ittua2"
+    class="emotion-3 emotion-4 emotion-5"
     for="mantine-r0"
     id="mantine-r0-label"
   >
     Test label
   </label>
   <div
-    class="mantine-Input-wrapper mantine-NumberInput-wrapper mantine-12sbrde"
+    class="emotion-6 emotion-7 emotion-8"
   >
     <input
       aria-invalid="false"
-      class="mantine-Input-input mantine-NumberInput-input mantine-fxjyvm"
+      class="emotion-9 emotion-10 emotion-11"
       id="mantine-r0"
       inputmode="numeric"
       spellcheck="false"
@@ -99,14 +340,14 @@ exports[`NumberInput renders an NumberInput and label 1`] = `
       value=""
     />
     <div
-      class="mantine-1cwybh2 mantine-Input-rightSection mantine-NumberInput-rightSection"
+      class="emotion-12 emotion-13 emotion-14"
     >
       <div
-        class="mantine-1mzslog mantine-NumberInput-rightSection"
+        class="emotion-15 emotion-14"
       >
         <button
           aria-hidden="true"
-          class="mantine-NumberInput-control mantine-NumberInput-controlUp mantine-f73we9"
+          class="emotion-17 emotion-17Up emotion-19"
           tabindex="-1"
           type="button"
         >
@@ -128,7 +369,7 @@ exports[`NumberInput renders an NumberInput and label 1`] = `
         </button>
         <button
           aria-hidden="true"
-          class="mantine-NumberInput-control mantine-NumberInput-controlDown mantine-1kz3j3d"
+          class="emotion-17 emotion-17Down emotion-22"
           tabindex="-1"
           type="button"
         >
