@@ -4,7 +4,7 @@ import { useClaimContext } from '../ClaimModal/ClaimContext';
 import { useAuthContext } from './AuthContext';
 import { rem } from 'polished';
 import { GoMarkGithub } from 'react-icons/go';
-import { DisconnectPopover } from '../DisconnectPopover';
+import { DisconnectPopover } from '../shared/compounds/DisconnectPopover';
 import { Button, ClaimCircle } from '../shared/elements';
 import { useRouter } from 'next/router';
 import { useFeatures } from '../FeaturesContext';

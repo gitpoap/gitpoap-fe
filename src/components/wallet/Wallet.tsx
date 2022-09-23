@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import { WalletStatus } from './WalletStatus';
 import { useWeb3Context } from './Web3ContextProvider';
-import { DisconnectPopover } from '../DisconnectPopover';
+import { DisconnectPopover } from '../shared/compounds/DisconnectPopover';
 import { useFeatures } from '../FeaturesContext';
 import { Button } from '../shared/elements/Button';
 

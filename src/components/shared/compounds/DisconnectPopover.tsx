@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box, Group, Popover } from '@mantine/core';
-import { Button } from './shared/elements/Button';
+import { Button } from '../elements/Button';
 
 const POPOVER_HOVER_TIME = 400;
 
