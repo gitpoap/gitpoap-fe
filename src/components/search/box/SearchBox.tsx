@@ -97,15 +97,6 @@ const InputHintText = styled(Text)`
   cursor: help;
 `;
 
-export type ProfileResult = {
-  id: number;
-  address: string;
-  href: string;
-  ensName: string | null;
-  ensAvatarUrl: string | null;
-  useDefaultImageTag?: boolean;
-};
-
 type Props = {
   className?: string;
 };

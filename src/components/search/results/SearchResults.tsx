@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { isAddress } from 'ethers/lib/utils';
 import { rem } from 'polished';
 import {
   useOrgSearchByNameQuery,
@@ -8,7 +7,6 @@ import {
   useGitPoapSearchByNameQuery,
   useSearchForStringQuery,
 } from '../../../graphql/generated-gql';
-import { useWeb3Context } from '../../wallet/Web3ContextProvider';
 import { Header } from '../../shared/elements';
 import { SearchResultList } from './SearchResultList';
 import { OrgList as OrgListContainer } from '../../shared/compounds/OrgList';
@@ -18,7 +16,6 @@ import { RepoList } from '../../shared/compounds/RepoList';
 import { GitPOAP } from '../../shared/compounds/GitPOAP';
 import { POAPBadgeSkeleton } from '../../shared/elements/Skeletons';
 import { ProfileResultItem } from './ProfileResultItem';
-import { ProfileResult } from '../box/SearchBox';
 import { useGeneratedProfileResult } from '../useGeneratedProfileResult';
 
 const SearchHeading = styled.div`
