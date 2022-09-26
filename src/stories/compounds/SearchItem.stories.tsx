@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { ProfileSearchItem } from '../../components/search/SearchItem';
+import { ProfileSearchItem } from '../../components/search/box/SearchItem';
 
 export default {
   title: 'Compounds/SearchItem',

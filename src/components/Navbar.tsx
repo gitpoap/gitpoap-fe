@@ -10,7 +10,7 @@ import { BREAKPOINTS, TYPEFORM_LINKS } from '../constants';
 import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
 import { Wallet } from './wallet/Wallet';
 import { GitHub } from './github/GitHub';
-import { SearchBox } from './search/SearchBox';
+import { SearchBox } from './search/box/SearchBox';
 import { useWeb3Context } from './wallet/Web3ContextProvider';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
 import { useFeatures } from './FeaturesContext';
