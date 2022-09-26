@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
 import { useRouter } from 'next/router';
 import { FaSearch } from 'react-icons/fa';
-import { isAddress } from 'ethers/lib/utils';
 import { Text } from '@mantine/core';
 import { rem } from 'polished';
 import { Loader, Input, Tooltip } from '../../shared/elements';
@@ -11,7 +10,6 @@ import { GitPOAPBadgeSearchItem, NoResultsSearchItem, ProfileSearchItem } from '
 import { BackgroundPanel2, TextGray, DarkGray } from '../../../colors';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 import { useKeyPress } from '../../../hooks/useKeyPress';
-import { useWeb3Context } from '../../wallet/Web3ContextProvider';
 import {
   useOrgSearchByNameQuery,
   useRepoSearchByNameQuery,
