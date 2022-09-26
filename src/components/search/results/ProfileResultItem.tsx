@@ -1,25 +1,12 @@
 import React from 'react';
-import { useWeb3Context } from '../..//wallet/Web3ContextProvider';
 import { useProfileQuery } from '../../../graphql/generated-gql';
 import { InfoHexSummary } from '../../gitpoap/InfoHexSummary';
-import { truncateAddress } from '../../../helpers';
 
 type Props = {
   addressOrEns: string | null;
 };
 
-const getName = (ensName: string | null, address: string | null) => {
-  if (ensName) {
-    return ensName;
-  } else if (address) {
-    return truncateAddress(address, 10);
-  } else {
-    return null;
-  }
-};
-
 export const ProfileResultItem = ({ addressOrEns }: Props) => {
-  const { infuraProvider } = useWeb3Context();
   const [result] = useProfileQuery({
     variables: {
       address: addressOrEns ?? '',
@@ -30,7 +17,6 @@ export const ProfileResultItem = ({ addressOrEns }: Props) => {
   const sidebarAddress = profileData?.address ?? null;
   const ensName = profileData?.ensName ?? null;
   const bio = profileData?.bio ?? null;
-  const name = getName(ensName, sidebarAddress);
   const ensAvatarUrl = profileData?.ensAvatarImageUrl ?? null;
 
   return (
@@ -41,6 +27,7 @@ export const ProfileResultItem = ({ addressOrEns }: Props) => {
       githubHandle={profileData?.githubHandle ?? ''}
       personalSiteUrl={profileData?.personalSiteUrl}
       ensAvatarUrl={ensAvatarUrl}
+      ensName={ensName}
     />
   );
 };
