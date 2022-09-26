@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { BackgroundPanel, TextGray, TextLight } from '../../colors';
+import { BackgroundPanel, TextGray, TextLight } from '../../../colors';
 import Link from 'next/link';
 import { Text } from '@mantine/core';
-import { useRepoGitPoapsQuery } from '../../graphql/generated-gql';
-import { BaseSkeleton, GitPOAPBadge, Avatar } from '../shared/elements';
-import { textEllipses } from '../shared/styles';
+import { BaseSkeleton, GitPOAPBadge, Avatar } from '../../shared/elements';
+import { textEllipses } from '../../shared/styles';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
-import { truncateAddress } from '../../helpers';
+import { truncateAddress } from '../../../helpers';
 
 type BaseSearchItemProps = {
   text: string;
@@ -107,7 +106,7 @@ export const NoResultsSearchItem = ({ className }: { className?: string }) => {
 
 type ProfileSearchItemProps = {
   address: string;
-  ensName?: string;
+  ensName: string | null;
   ensAvatarUrl: string | null;
   href: string;
   className?: string;
