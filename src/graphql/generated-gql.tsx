@@ -2122,9 +2122,9 @@ export type Holder = {
   __typename?: 'Holder';
   address: Scalars['String'];
   bio?: Maybe<Scalars['String']>;
-  ensAvatarImageUrl?: Maybe<Scalars['String']>;
   gitPOAPCount: Scalars['Float'];
   githubHandle: Scalars['String'];
+  oldEnsAvatarImageUrl?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
   profileId: Scalars['Float'];
   profileImageUrl?: Maybe<Scalars['String']>;
@@ -2838,13 +2838,14 @@ export type Profile = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
-  ensAvatarImageUrl?: Maybe<Scalars['String']>;
   featuredPOAPs: Array<FeaturedPoap>;
   githubHandle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   isVisibleOnLeaderboard: Scalars['Boolean'];
   name?: Maybe<Scalars['String']>;
   oldAddress: Scalars['String'];
+  oldEnsAvatarImageUrl?: Maybe<Scalars['String']>;
+  oldEnsName?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
   profileImageUrl?: Maybe<Scalars['String']>;
   twitterHandle?: Maybe<Scalars['String']>;
@@ -2883,12 +2884,13 @@ export type ProfileCountAggregate = {
   bannerImageUrl: Scalars['Int'];
   bio: Scalars['Int'];
   createdAt: Scalars['Int'];
-  ensAvatarImageUrl: Scalars['Int'];
   githubHandle: Scalars['Int'];
   id: Scalars['Int'];
   isVisibleOnLeaderboard: Scalars['Int'];
   name: Scalars['Int'];
   oldAddress: Scalars['Int'];
+  oldEnsAvatarImageUrl: Scalars['Int'];
+  oldEnsName: Scalars['Int'];
   personalSiteUrl: Scalars['Int'];
   profileImageUrl: Scalars['Int'];
   twitterHandle: Scalars['Int'];
@@ -2900,12 +2902,13 @@ export type ProfileCountOrderByAggregateInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  ensAvatarImageUrl?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   oldAddress?: InputMaybe<SortOrder>;
+  oldEnsAvatarImageUrl?: InputMaybe<SortOrder>;
+  oldEnsName?: InputMaybe<SortOrder>;
   personalSiteUrl?: InputMaybe<SortOrder>;
   profileImageUrl?: InputMaybe<SortOrder>;
   twitterHandle?: InputMaybe<SortOrder>;
@@ -2923,12 +2926,13 @@ export type ProfileGroupBy = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
-  ensAvatarImageUrl?: Maybe<Scalars['String']>;
   githubHandle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   isVisibleOnLeaderboard: Scalars['Boolean'];
   name?: Maybe<Scalars['String']>;
   oldAddress: Scalars['String'];
+  oldEnsAvatarImageUrl?: Maybe<Scalars['String']>;
+  oldEnsName?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
   profileImageUrl?: Maybe<Scalars['String']>;
   twitterHandle?: Maybe<Scalars['String']>;
@@ -2941,12 +2945,13 @@ export type ProfileMaxAggregate = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  ensAvatarImageUrl?: Maybe<Scalars['String']>;
   githubHandle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   isVisibleOnLeaderboard?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
   oldAddress?: Maybe<Scalars['String']>;
+  oldEnsAvatarImageUrl?: Maybe<Scalars['String']>;
+  oldEnsName?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
   profileImageUrl?: Maybe<Scalars['String']>;
   twitterHandle?: Maybe<Scalars['String']>;
@@ -2958,12 +2963,13 @@ export type ProfileMaxOrderByAggregateInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  ensAvatarImageUrl?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   oldAddress?: InputMaybe<SortOrder>;
+  oldEnsAvatarImageUrl?: InputMaybe<SortOrder>;
+  oldEnsName?: InputMaybe<SortOrder>;
   personalSiteUrl?: InputMaybe<SortOrder>;
   profileImageUrl?: InputMaybe<SortOrder>;
   twitterHandle?: InputMaybe<SortOrder>;
@@ -2976,12 +2982,13 @@ export type ProfileMinAggregate = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  ensAvatarImageUrl?: Maybe<Scalars['String']>;
   githubHandle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   isVisibleOnLeaderboard?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
   oldAddress?: Maybe<Scalars['String']>;
+  oldEnsAvatarImageUrl?: Maybe<Scalars['String']>;
+  oldEnsName?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
   profileImageUrl?: Maybe<Scalars['String']>;
   twitterHandle?: Maybe<Scalars['String']>;
@@ -2993,12 +3000,13 @@ export type ProfileMinOrderByAggregateInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  ensAvatarImageUrl?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   oldAddress?: InputMaybe<SortOrder>;
+  oldEnsAvatarImageUrl?: InputMaybe<SortOrder>;
+  oldEnsName?: InputMaybe<SortOrder>;
   personalSiteUrl?: InputMaybe<SortOrder>;
   profileImageUrl?: InputMaybe<SortOrder>;
   twitterHandle?: InputMaybe<SortOrder>;
@@ -3015,12 +3023,13 @@ export type ProfileOrderByWithAggregationInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  ensAvatarImageUrl?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   oldAddress?: InputMaybe<SortOrder>;
+  oldEnsAvatarImageUrl?: InputMaybe<SortOrder>;
+  oldEnsName?: InputMaybe<SortOrder>;
   personalSiteUrl?: InputMaybe<SortOrder>;
   profileImageUrl?: InputMaybe<SortOrder>;
   twitterHandle?: InputMaybe<SortOrder>;
@@ -3033,13 +3042,14 @@ export type ProfileOrderByWithRelationInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  ensAvatarImageUrl?: InputMaybe<SortOrder>;
   featuredPOAPs?: InputMaybe<FeaturedPoapOrderByRelationAggregateInput>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   oldAddress?: InputMaybe<SortOrder>;
+  oldEnsAvatarImageUrl?: InputMaybe<SortOrder>;
+  oldEnsName?: InputMaybe<SortOrder>;
   personalSiteUrl?: InputMaybe<SortOrder>;
   profileImageUrl?: InputMaybe<SortOrder>;
   twitterHandle?: InputMaybe<SortOrder>;
@@ -3056,12 +3066,13 @@ export enum ProfileScalarFieldEnum {
   BannerImageUrl = 'bannerImageUrl',
   Bio = 'bio',
   CreatedAt = 'createdAt',
-  EnsAvatarImageUrl = 'ensAvatarImageUrl',
   GithubHandle = 'githubHandle',
   Id = 'id',
   IsVisibleOnLeaderboard = 'isVisibleOnLeaderboard',
   Name = 'name',
   OldAddress = 'oldAddress',
+  OldEnsAvatarImageUrl = 'oldEnsAvatarImageUrl',
+  OldEnsName = 'oldEnsName',
   PersonalSiteUrl = 'personalSiteUrl',
   ProfileImageUrl = 'profileImageUrl',
   TwitterHandle = 'twitterHandle',
@@ -3076,12 +3087,13 @@ export type ProfileScalarWhereWithAggregatesInput = {
   bannerImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
   bio?: InputMaybe<StringNullableWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  ensAvatarImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
   githubHandle?: InputMaybe<StringNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   isVisibleOnLeaderboard?: InputMaybe<BoolWithAggregatesFilter>;
   name?: InputMaybe<StringNullableWithAggregatesFilter>;
   oldAddress?: InputMaybe<StringWithAggregatesFilter>;
+  oldEnsAvatarImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
+  oldEnsName?: InputMaybe<StringNullableWithAggregatesFilter>;
   personalSiteUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
   profileImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
   twitterHandle?: InputMaybe<StringNullableWithAggregatesFilter>;
@@ -3108,13 +3120,14 @@ export type ProfileWhereInput = {
   bannerImageUrl?: InputMaybe<StringNullableFilter>;
   bio?: InputMaybe<StringNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  ensAvatarImageUrl?: InputMaybe<StringNullableFilter>;
   featuredPOAPs?: InputMaybe<FeaturedPoapListRelationFilter>;
   githubHandle?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
   isVisibleOnLeaderboard?: InputMaybe<BoolFilter>;
   name?: InputMaybe<StringNullableFilter>;
   oldAddress?: InputMaybe<StringFilter>;
+  oldEnsAvatarImageUrl?: InputMaybe<StringNullableFilter>;
+  oldEnsName?: InputMaybe<StringNullableFilter>;
   personalSiteUrl?: InputMaybe<StringNullableFilter>;
   profileImageUrl?: InputMaybe<StringNullableFilter>;
   twitterHandle?: InputMaybe<StringNullableFilter>;
@@ -3130,12 +3143,6 @@ export type ProfileWhereUniqueInput = {
 export type ProfileWithClaimsCount = {
   __typename?: 'ProfileWithClaimsCount';
   claimsCount: Scalars['Float'];
-  profile: Profile;
-};
-
-export type ProfileWithEns = {
-  __typename?: 'ProfileWithENS';
-  ens: Scalars['String'];
   profile: Profile;
 };
 
@@ -4286,8 +4293,8 @@ export type RepoWhereUniqueInput = {
 
 export type SearchResults = {
   __typename?: 'SearchResults';
-  profileByENS?: Maybe<ProfileWithEns>;
   profilesByAddress: Array<Profile>;
+  profilesByENS: Array<Profile>;
   profilesByName: Array<Profile>;
   usersByGithubHandle: Array<User>;
 };
@@ -4644,7 +4651,8 @@ export type LeadersQuery = {
       __typename?: 'Profile';
       oldAddress: string;
       id: number;
-      ensAvatarImageUrl?: string | null;
+      oldEnsAvatarImageUrl?: string | null;
+      oldEnsName?: string | null;
     };
   }>;
 };
@@ -4664,7 +4672,8 @@ export type RepoLeadersQuery = {
       __typename?: 'Profile';
       oldAddress: string;
       id: number;
-      ensAvatarImageUrl?: string | null;
+      oldEnsAvatarImageUrl?: string | null;
+      oldEnsName?: string | null;
     };
   }> | null;
 };
@@ -4705,7 +4714,7 @@ export type GitPoapHoldersQuery = {
       bio?: string | null;
       personalSiteUrl?: string | null;
       twitterHandle?: string | null;
-      ensAvatarImageUrl?: string | null;
+      oldEnsAvatarImageUrl?: string | null;
     }>;
   } | null;
 };
@@ -4768,18 +4777,16 @@ export type SearchForStringQuery = {
       __typename?: 'Profile';
       id: number;
       oldAddress: string;
-      ensAvatarImageUrl?: string | null;
+      oldEnsName?: string | null;
+      oldEnsAvatarImageUrl?: string | null;
     }>;
-    profileByENS?: {
-      __typename?: 'ProfileWithENS';
-      ens: string;
-      profile: {
-        __typename?: 'Profile';
-        id: number;
-        oldAddress: string;
-        ensAvatarImageUrl?: string | null;
-      };
-    } | null;
+    profilesByENS: Array<{
+      __typename?: 'Profile';
+      id: number;
+      oldAddress: string;
+      oldEnsAvatarImageUrl?: string | null;
+      oldEnsName?: string | null;
+    }>;
   };
 };
 
@@ -5522,7 +5529,8 @@ export const LeadersDocument = gql`
       profile {
         oldAddress
         id
-        ensAvatarImageUrl
+        oldEnsAvatarImageUrl
+        oldEnsName
       }
       claimsCount
     }
@@ -5538,7 +5546,8 @@ export const RepoLeadersDocument = gql`
       profile {
         oldAddress
         id
-        ensAvatarImageUrl
+        oldEnsAvatarImageUrl
+        oldEnsName
       }
       claimsCount
     }
@@ -5588,7 +5597,7 @@ export const GitPoapHoldersDocument = gql`
         bio
         personalSiteUrl
         twitterHandle
-        ensAvatarImageUrl
+        oldEnsAvatarImageUrl
       }
     }
   }
@@ -5646,6 +5655,7 @@ export const ProfileDocument = gql`
       ensName
       isVisibleOnLeaderboard
       ensAvatarImageUrl
+      ensName
     }
   }
 `;
@@ -5659,15 +5669,14 @@ export const SearchForStringDocument = gql`
       profilesByAddress {
         id
         oldAddress
-        ensAvatarImageUrl
+        oldEnsName
+        oldEnsAvatarImageUrl
       }
-      profileByENS {
-        profile {
-          id
-          oldAddress
-          ensAvatarImageUrl
-        }
-        ens
+      profilesByENS {
+        id
+        oldAddress
+        oldEnsAvatarImageUrl
+        oldEnsName
       }
     }
   }

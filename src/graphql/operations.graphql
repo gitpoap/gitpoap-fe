@@ -12,7 +12,8 @@ query leaders($count: Float!) {
     profile {
       oldAddress
       id
-      ensAvatarImageUrl
+      oldEnsAvatarImageUrl
+      oldEnsName
     }
     claimsCount
   }
@@ -23,7 +24,8 @@ query repoLeaders($repoId: Float!, $page: Float, $perPage: Float) {
     profile {
       oldAddress
       id
-      ensAvatarImageUrl
+      oldEnsAvatarImageUrl
+      oldEnsName
     }
     claimsCount
   }
@@ -53,7 +55,7 @@ query gitPOAPHolders($gitPOAPId: Float!, $page: Float, $perPage: Float, $sort: S
       bio
       personalSiteUrl
       twitterHandle
-      ensAvatarImageUrl
+      oldEnsAvatarImageUrl
     }
   }
 }
@@ -91,6 +93,7 @@ query profile($address: String!) {
     ensName
     isVisibleOnLeaderboard
     ensAvatarImageUrl
+    ensName
   }
 }
 
@@ -99,15 +102,14 @@ query searchForString($text: String!) {
     profilesByAddress {
       id
       oldAddress
-      ensAvatarImageUrl
+      oldEnsName
+      oldEnsAvatarImageUrl
     }
-    profileByENS {
-      profile {
-        id
-        oldAddress
-        ensAvatarImageUrl
-      }
-      ens
+    profilesByENS {
+      id
+      oldAddress
+      oldEnsAvatarImageUrl
+      oldEnsName
     }
   }
 }
