@@ -18,6 +18,8 @@ import { RepoList } from '../../shared/compounds/RepoList';
 import { GitPOAP } from '../../shared/compounds/GitPOAP';
 import { POAPBadgeSkeleton } from '../../shared/elements/Skeletons';
 import { ProfileResultItem } from './ProfileResultItem';
+import { ProfileResult } from '../box/SearchBox';
+import { useGeneratedProfileResult } from '../useGeneratedProfileResult';
 
 const SearchHeading = styled.div`
   margin-bottom: ${rem(20)};
@@ -39,13 +41,6 @@ type Props = {
   className?: string;
 };
 
-type ProfileResult = {
-  id: number;
-  address: string;
-  href: string;
-  ensName?: string;
-};
-
 export const GitPoapList = styled(RepoList)`
   grid-template-columns: repeat(auto-fill, ${rem(160)});
 `;
@@ -57,10 +52,10 @@ export const SearchResults = ({ searchQuery }: Props) => {
     variables: { search: searchQuery, take: 12 },
   });
   const [profileResult] = useSearchForStringQuery({ variables: { text: searchQuery } });
-  const { web3Provider, infuraProvider } = useWeb3Context();
-
-  const [profileResults, setProfileResults] = useState<ProfileResult[]>([]);
-  const [areResultsLoading, setAreResultsLoading] = useState(false);
+  const [profileResults, _, areProfileResultsLoading] = useGeneratedProfileResult(
+    searchQuery,
+    profileResult,
+  );
 
   const orgs = orgResult.data?.organizations;
   const repos = repoResult.data?.repos;
@@ -76,70 +71,9 @@ export const SearchResults = ({ searchQuery }: Props) => {
     repoResult.fetching ||
     gitPoapResult.fetching ||
     profileResult.fetching ||
-    areResultsLoading;
+    areProfileResultsLoading;
   const hasAnyResults =
     orgsLength > 0 || reposLength > 0 || gitPoapsLength > 0 || profilesLength > 0;
-
-  /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
-  useEffect(() => {
-    const prepareResults = async () => {
-      if (searchQuery?.length > 0) {
-        setAreResultsLoading(true);
-        let results: ProfileResult[] = [];
-        if (profileResult.data?.search.profilesByAddress) {
-          const profilesByAddress = profileResult.data.search.profilesByAddress.map((profile) => ({
-            id: profile.id,
-            address: profile.oldAddress,
-            href: `/p/${profile.oldAddress}`,
-          }));
-
-          results = [...profilesByAddress];
-        }
-        if (profileResult.data?.search.profileByENS) {
-          const profileByENSData = profileResult.data?.search.profileByENS;
-          const profileByENS = {
-            id: profileByENSData.profile.id,
-            address: profileByENSData.profile.oldAddress,
-            href: `/p/${profileByENSData.ens}`,
-            ensName: profileByENSData.ens,
-          };
-
-          results = [profileByENS, ...results];
-        }
-
-        /* Deal with the situation of an .eth name OR address that isn't explicitly found in the search results */
-        if (results.length === 0) {
-          if (searchQuery.endsWith('.eth')) {
-            const address = await (web3Provider ?? infuraProvider)?.resolveName(searchQuery);
-            const ensName = searchQuery;
-            if (address) {
-              results = [
-                {
-                  id: 0,
-                  address,
-                  ensName: ensName,
-                  href: `/p/${ensName}`,
-                },
-              ];
-            }
-          } else if (isAddress(searchQuery)) {
-            const address = searchQuery;
-            results = [
-              {
-                id: 0,
-                address,
-                href: `/p/${address}`,
-              },
-            ];
-          }
-        }
-        setAreResultsLoading(false);
-        setProfileResults(results);
-      }
-    };
-
-    prepareResults();
-  }, [searchQuery, profileResult.data, web3Provider, infuraProvider]);
 
   return (
     <>
