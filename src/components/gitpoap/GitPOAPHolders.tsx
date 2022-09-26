@@ -100,7 +100,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
     if (gitPOAPHolders) {
       const newHolders = gitPOAPHolders.holders.map((h) => ({
         ...h,
-        ensAvatarUrl: h.ensAvatarImageUrl ?? null,
+        ensAvatarUrl: h.oldEnsAvatarImageUrl ?? null,
       }));
 
       if (resultPage === 1) {
@@ -152,6 +152,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
               personalSiteUrl={holder.personalSiteUrl}
               numGitPOAPs={holder.gitPOAPCount}
               ensAvatarUrl={holder.ensAvatarUrl}
+              ensName={null}
             />
           ))}
         </HoldersWrapper>
