@@ -11,9 +11,7 @@ import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Divider as DividerUI, Text } from '@mantine/core';
 import { Title } from '../shared/elements/Title';
 import { truncateAddress } from '../../helpers';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
-import { useEns } from '../../hooks/useEns';
 import { BREAKPOINTS } from '../../constants';
 import { textEllipses } from '../shared/styles';
 
@@ -128,9 +126,6 @@ export const LatestMintItem = ({
   oldMintedAddress,
 }: AdminClaimsQuery['claims'][number]) => {
   const userAddress = oldMintedAddress ?? '';
-  const { infuraProvider } = useWeb3Context();
-  const ensName = useEns(infuraProvider, userAddress);
-
   const [result] = useProfileQuery({
     variables: {
       address: oldMintedAddress ?? '',
@@ -159,7 +154,7 @@ export const LatestMintItem = ({
             </Link>
             <UserInfo>
               <MintedByText>{`minted by`}</MintedByText>
-              <Link href={`/p/${ensName ?? userAddress}`} passHref>
+              <Link href={`/p/${profileData?.ensName ?? userAddress}`} passHref>
                 {!profileData ? (
                   <ProfileImageSkeleton height={rem(20)} width={rem(20)} />
                 ) : profileData && profileData?.ensAvatarImageUrl ? (
@@ -168,8 +163,8 @@ export const LatestMintItem = ({
                   <JazzIcon address={userAddress} />
                 )}
               </Link>
-              <Link href={`/p/${ensName ?? userAddress}`} passHref>
-                <Name>{ensName ?? truncateAddress(userAddress, 6)}</Name>
+              <Link href={`/p/${profileData?.ensName ?? userAddress}`} passHref>
+                <Name>{profileData?.ensName ?? truncateAddress(userAddress, 6)}</Name>
               </Link>
             </UserInfo>
           </ClaimInfo>
