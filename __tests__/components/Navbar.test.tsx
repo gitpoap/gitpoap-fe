@@ -2,13 +2,16 @@ import { render } from '@testing-library/react';
 import 'jest-styled-components';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { NextRouter } from 'next/router';
-import { createClient, Provider as URQLProvider } from 'urql';
+import { Provider as URQLProvider } from 'urql';
 import { Navbar } from '../../src/components/Navbar';
 import { Web3ContextProvider } from '../../src/components/wallet/Web3ContextProvider';
 
-const client = createClient({
-  url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
-});
+const mockClient = {
+  executeQuery: jest.fn(() => {}),
+  executeMutation: jest.fn(() => {}),
+  executeSubscription: jest.fn(() => {}),
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+} as any;
 
 const mockRouter: NextRouter = {
   basePath: '',
@@ -39,7 +42,7 @@ describe('Navbar', () => {
     const { container } = render(
       <RouterContext.Provider value={mockRouter}>
         <Web3ContextProvider>
-          <URQLProvider value={client}>
+          <URQLProvider value={mockClient}>
             <Navbar />
           </URQLProvider>
         </Web3ContextProvider>
