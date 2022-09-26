@@ -6,19 +6,20 @@ import { FaSearch } from 'react-icons/fa';
 import { isAddress } from 'ethers/lib/utils';
 import { Text } from '@mantine/core';
 import { rem } from 'polished';
-import { Loader, Input, Tooltip } from '../shared/elements';
+import { Loader, Input, Tooltip } from '../../shared/elements';
 import { GitPOAPBadgeSearchItem, NoResultsSearchItem, ProfileSearchItem } from './SearchItem';
-import { BackgroundPanel2, TextGray, DarkGray } from '../../colors';
-import { useOnClickOutside } from '../../hooks/useOnClickOutside';
-import { useKeyPress } from '../../hooks/useKeyPress';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { BackgroundPanel2, TextGray, DarkGray } from '../../../colors';
+import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
+import { useKeyPress } from '../../../hooks/useKeyPress';
+import { useWeb3Context } from '../../wallet/Web3ContextProvider';
 import {
   useOrgSearchByNameQuery,
   useRepoSearchByNameQuery,
   useSearchForStringQuery,
   useGitPoapSearchByNameQuery,
-} from '../../graphql/generated-gql';
-import { BREAKPOINTS } from '../../constants';
+} from '../../../graphql/generated-gql';
+import { BREAKPOINTS } from '../../../constants';
+import { useGeneratedProfileResult } from '../useGeneratedProfileResult';
 
 const Container = styled.div<{ isActive: boolean }>`
   margin-right: ${rem(25)};
@@ -98,11 +99,11 @@ const InputHintText = styled(Text)`
   cursor: help;
 `;
 
-type ProfileResult = {
+export type ProfileResult = {
   id: number;
   address: string;
   href: string;
-  ensName?: string;
+  ensName: string | null;
   ensAvatarUrl: string | null;
   useDefaultImageTag?: boolean;
 };
@@ -133,10 +134,7 @@ const InputHintSection = ({ isFocused }: InputHintSectionProps) => (
 export const SearchBox = ({ className }: Props) => {
   const router = useRouter();
   const [query, setQuery] = useState('');
-  const { web3Provider, infuraProvider } = useWeb3Context();
   const [debouncedQuery] = useDebouncedValue(query, 200);
-  const [profileResults, setProfileResults] = useState<ProfileResult[]>([]);
-  const [areResultsLoading, setAreResultsLoading] = useState(false);
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
   const [cursor, setCursor] = useState<number>(-1);
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false);
@@ -145,7 +143,7 @@ export const SearchBox = ({ className }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   useOnClickOutside([inputRef, resultsRef], () => setIsSearchActive(false));
-  const [result, refetchProfiles] = useSearchForStringQuery({
+  const [profileResult, refetchProfiles] = useSearchForStringQuery({
     pause: true,
     variables: {
       text: debouncedQuery.trim(),
@@ -164,17 +162,20 @@ export const SearchBox = ({ className }: Props) => {
       search: debouncedQuery.trim(),
     },
   });
-  const [generatedProfileResult, setGeneratedProfileResult] = useState<ProfileResult | null>(null);
+  const [profileResults, setProfileResults, areProfileResultsLoading] = useGeneratedProfileResult(
+    debouncedQuery,
+    profileResult,
+  );
 
   const repos = repoResults.data?.repos;
   const orgs = orgResults.data?.organizations;
   const gitPOAPs = gitPOAPResults.data?.gitPOAPS;
   const isLoading =
-    result.fetching ||
+    profileResult.fetching ||
     repoResults.fetching ||
     orgResults.fetching ||
     gitPOAPResults.fetching ||
-    areResultsLoading;
+    areProfileResultsLoading;
   const hasAnyResults =
     profileResults.length > 0 ||
     (repos && repos?.length > 0) ||
@@ -201,79 +202,6 @@ export const SearchBox = ({ className }: Props) => {
   const orgStartIndex = profilesCount + gitPOAPCount + reposCount;
   const totalCount = profilesCount + gitPOAPCount + reposCount + orgsCount;
 
-  /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
-  useEffect(() => {
-    if (debouncedQuery.length > 0 && result.data && !result.fetching) {
-      let results: ProfileResult[] = [];
-      if (result.data?.search.profilesByAddress) {
-        const profilesByAddress = result.data.search.profilesByAddress.map((profile) => ({
-          id: profile.id,
-          address: profile.oldAddress,
-          href: `/p/${profile.oldAddress}`,
-          ensAvatarUrl: profile.ensAvatarImageUrl ?? null,
-        }));
-
-        results = [...profilesByAddress];
-      }
-      if (result.data?.search.profileByENS) {
-        const profileByENSData = result.data?.search.profileByENS;
-        const profileByENS = {
-          id: profileByENSData.profile.id,
-          address: profileByENSData.profile.oldAddress,
-          href: `/p/${profileByENSData.ens}`,
-          ensName: profileByENSData.ens,
-          ensAvatarUrl: profileByENSData.profile.ensAvatarImageUrl ?? null,
-        };
-
-        results = [profileByENS, ...results];
-      }
-
-      /* If we don't get any results via graphql, but we have a generated profile result, add it here */
-      if (results.length === 0 && generatedProfileResult) {
-        results = [generatedProfileResult, ...results];
-      }
-      setProfileResults(results);
-    }
-  }, [debouncedQuery, result, web3Provider, infuraProvider, generatedProfileResult]);
-
-  useEffect(() => {
-    const prepareResultsEns = async () => {
-      /* Deal with the situation of an .eth name OR address that isn't explicitly found in the search results */
-      if (debouncedQuery.endsWith('.eth')) {
-        setAreResultsLoading(true);
-        const [address, avatar] = await Promise.all([
-          await (web3Provider ?? infuraProvider)?.resolveName(debouncedQuery),
-          await (web3Provider ?? infuraProvider)?.getAvatar(debouncedQuery),
-        ]);
-
-        const ensName = debouncedQuery;
-        if (address) {
-          setGeneratedProfileResult({
-            id: 0,
-            address,
-            ensName: ensName,
-            href: `/p/${ensName}`,
-            ensAvatarUrl: avatar ?? null,
-            useDefaultImageTag: true,
-          });
-        }
-      } else if (isAddress(debouncedQuery)) {
-        const address = debouncedQuery;
-        setGeneratedProfileResult({
-          id: 0,
-          address,
-          href: `/p/${address}`,
-          ensAvatarUrl: null,
-        });
-      } else {
-        setGeneratedProfileResult(null);
-      }
-      setAreResultsLoading(false);
-    };
-
-    prepareResultsEns();
-  }, [debouncedQuery, web3Provider, infuraProvider]);
-
   /* This hook is used to refetch search data when the debounced query changes */
   useEffect(() => {
     if (debouncedQuery.length >= 1) {
@@ -291,7 +219,6 @@ export const SearchBox = ({ className }: Props) => {
 
   /* This hook is used to clear stored results to ensure no random autocomplete flashes - urql caches results ~ so 🤪 */
   useEffect(() => {
-    setProfileResults([]);
     setCursor(-1);
   }, [query, debouncedQuery]);
 
@@ -306,7 +233,7 @@ export const SearchBox = ({ className }: Props) => {
   /* Handle keydown on search input box */
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      // arrow up/down button should select next/previous list element
+      /* Arrow up/down button should select next/previous list element */
       if (e.code === 'ArrowUp' && cursor > -1) {
         e.preventDefault();
         setCursor((prevCursor) => prevCursor - 1);
@@ -356,6 +283,7 @@ export const SearchBox = ({ className }: Props) => {
       profileResults,
       router,
       repoStartIndex,
+      setProfileResults,
     ],
   );
 
