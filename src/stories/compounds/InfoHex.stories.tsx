@@ -41,6 +41,7 @@ export const Profile: ComponentStory<typeof InfoHexBase> = (args) => {
       numGitPOAPs={12}
       address="0x0"
       ensAvatarUrl={null}
+      ensName="nd_certora.eth"
     />
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { SearchBox } from '../../components/search/SearchBox';
+import { SearchBox } from '../../components/search/box/SearchBox';
 
 export default {
   title: 'Compounds/SearchBox',
