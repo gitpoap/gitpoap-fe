@@ -10,9 +10,7 @@ import { GitPOAP } from '../shared/elements/icons/GitPOAP';
 import { Divider as DividerUI, Group, Title as TitleUI } from '@mantine/core';
 import { Title } from '../shared/elements';
 import { truncateAddress } from '../../helpers';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
-import { useEns } from '../../hooks/useEns';
 import { BREAKPOINTS } from '../../constants';
 import { textEllipses } from '../shared/styles';
 
@@ -71,24 +69,21 @@ export const Index = styled(TitleUI)`
 type Props = LeadersQuery['mostHonoredContributors'][number] & { index?: number };
 
 export const LeaderBoardItem = ({ profile, claimsCount, index }: Props) => {
-  const { infuraProvider } = useWeb3Context();
-  const ensName = useEns(infuraProvider, profile.oldAddress);
-
   return (
     <>
       <Group spacing={0}>
         {index !== undefined && <Index order={2}>{`${index}: `}</Index>}
         <Item>
           <UserInfo>
-            <Link href={`/p/${ensName ?? profile.oldAddress}`} passHref>
-              {profile.ensAvatarImageUrl ? (
-                <AvatarStyled src={profile.ensAvatarImageUrl} />
+            <Link href={`/p/${profile.oldEnsName ?? profile.oldAddress}`} passHref>
+              {profile.oldEnsAvatarImageUrl ? (
+                <AvatarStyled src={profile.oldEnsAvatarImageUrl} />
               ) : (
                 <JazzIcon address={profile.oldAddress} />
               )}
             </Link>
-            <Link href={`/p/${ensName ?? profile.oldAddress}`} passHref>
-              <Name>{ensName ?? truncateAddress(profile.oldAddress, 6)}</Name>
+            <Link href={`/p/${profile.oldEnsName ?? profile.oldAddress}`} passHref>
+              <Name>{profile.oldEnsName ?? truncateAddress(profile.oldAddress, 6)}</Name>
             </Link>
           </UserInfo>
           <IconCount icon={<GitPOAP />} count={claimsCount} />
