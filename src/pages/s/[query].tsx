@@ -3,8 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { Grid } from '@mantine/core';
 import { Page } from '../_app';
-import { Layout } from '../../components/Layout';
-import { SearchResults } from '../../components/search/v2/SearchResults';
+import { SearchResults } from '../../components/search/results/SearchResults';
 
 const Search: Page = () => {
   const router = useRouter();
@@ -13,7 +12,7 @@ const Search: Page = () => {
   return (
     <>
       <Head>
-        <title>{`${searchQuery} | GitPOAP`}</title>
+        <title>{`${searchQuery ?? 'Search'} | GitPOAP`}</title>
         <meta
           name="GitPOAP is a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs."
           content="GitPOAP Search"
