@@ -8,10 +8,7 @@ import { GitPOAP, Twitter, GitHub, GlobeNoHover } from '../shared/elements/icons
 import { InfoHexBase, Body } from '../shared/elements/InfoHexBase';
 import { Avatar as AvatarUI } from '../shared/elements/Avatar';
 import { IconCount } from '../shared/elements/IconCount';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { truncateAddress } from '../../helpers';
-import { useEns } from '../../hooks/useEns';
-import { useFeatures } from '../FeaturesContext';
 
 type Props = {
   className?: string;
@@ -23,6 +20,7 @@ type Props = {
   personalSiteUrl?: string | null;
   numGitPOAPs?: number;
   ensAvatarUrl: string | null;
+  ensName: string | null;
 };
 
 const Content = styled.div`
@@ -123,10 +121,8 @@ export const InfoHexSummary = ({
   personalSiteUrl,
   numGitPOAPs,
   ensAvatarUrl,
+  ensName,
 }: Props) => {
-  const { infuraProvider } = useWeb3Context();
-  const ensName = useEns(infuraProvider, address);
-
   return (
     <StyledInfoHex className={className} hoverEffects href={`/p/${ensName ?? address}`}>
       <Content>
