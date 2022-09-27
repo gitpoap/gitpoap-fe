@@ -13,7 +13,7 @@ type ProfileResult = {
 };
 
 export const useGeneratedProfileResult = (
-  searchQuery: string,
+  searchQuery: string | undefined,
   result: UseQueryState<SearchForStringQuery, Exact<{ text: string }>>,
 ): [ProfileResult[], Dispatch<SetStateAction<ProfileResult[]>>] => {
   const [profileResults, setProfileResults] = useState<ProfileResult[]>([]);
@@ -36,7 +36,7 @@ export const useGeneratedProfileResult = (
 
   useEffect(() => {
     const prepareGeneratedResult = async () => {
-      if (isAddress(searchQuery)) {
+      if (searchQuery && isAddress(searchQuery)) {
         const address = searchQuery;
         setGeneratedProfileResult({
           id: 0,
