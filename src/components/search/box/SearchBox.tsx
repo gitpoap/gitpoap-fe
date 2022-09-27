@@ -151,7 +151,7 @@ export const SearchBox = ({ className }: Props) => {
       search: debouncedQuery.trim(),
     },
   });
-  const [profileResults, setProfileResults, areProfileResultsLoading] = useGeneratedProfileResult(
+  const [profileResults, setProfileResults] = useGeneratedProfileResult(
     debouncedQuery,
     profileResult,
   );
@@ -163,8 +163,8 @@ export const SearchBox = ({ className }: Props) => {
     profileResult.fetching ||
     repoResults.fetching ||
     orgResults.fetching ||
-    gitPOAPResults.fetching ||
-    areProfileResultsLoading;
+    gitPOAPResults.fetching;
+
   const hasAnyResults =
     profileResults.length > 0 ||
     (repos && repos?.length > 0) ||
