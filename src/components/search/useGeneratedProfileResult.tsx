@@ -13,7 +13,7 @@ type ProfileResult = {
 };
 
 export const useGeneratedProfileResult = (
-  searchQuery: string,
+  searchQuery: string | undefined,
   result: UseQueryState<SearchForStringQuery, Exact<{ text: string }>>,
 ): [ProfileResult[], Dispatch<SetStateAction<ProfileResult[]>>] => {
   const [profileResults, setProfileResults] = useState<ProfileResult[]>([]);
@@ -21,7 +21,7 @@ export const useGeneratedProfileResult = (
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
-    if (searchQuery.length > 0 && result.data && !result.fetching) {
+    if (searchQuery && searchQuery.length > 0 && result.data && !result.fetching) {
       const results: ProfileResult[] = result.data.search.profiles.map((profile) => ({
         id: profile.id,
         address: profile.oldAddress,
@@ -36,7 +36,7 @@ export const useGeneratedProfileResult = (
 
   useEffect(() => {
     const prepareGeneratedResult = async () => {
-      if (isAddress(searchQuery)) {
+      if (searchQuery && isAddress(searchQuery)) {
         const address = searchQuery;
         setGeneratedProfileResult({
           id: 0,
