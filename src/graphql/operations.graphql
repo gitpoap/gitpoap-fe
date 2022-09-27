@@ -55,7 +55,8 @@ query gitPOAPHolders($gitPOAPId: Float!, $page: Float, $perPage: Float, $sort: S
       bio
       personalSiteUrl
       twitterHandle
-      oldEnsAvatarImageUrl
+      ensAvatarImageUrl
+      ensName
     }
   }
 }
@@ -99,17 +100,11 @@ query profile($address: String!) {
 
 query searchForString($text: String!) {
   search(text: $text) {
-    profilesByAddress {
+    profiles {
       id
       oldAddress
       oldEnsName
       oldEnsAvatarImageUrl
-    }
-    profilesByENS {
-      id
-      oldAddress
-      oldEnsAvatarImageUrl
-      oldEnsName
     }
   }
 }
