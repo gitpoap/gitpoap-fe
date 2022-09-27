@@ -129,11 +129,15 @@ exports[`Button has the correct styles when disabled 1`] = `
 }
 
 .emotion-2[data-loading] {
-  background-color: #307AE8;
+  background-color: #393A51;
 }
 
 .emotion-2[data-loading] .emotion-6 {
-  color: #FFFFFF;
+  color: #838495;
+}
+
+.emotion-2[data-loading]::before {
+  content: none;
 }
 
 .emotion-3 {
@@ -167,43 +171,59 @@ exports[`Button has the correct styles when disabled 1`] = `
   align-items: center;
 }
 
-.mantine-pqd7r:disabled .emotion-6 {
+.mantine-1c0bi0f:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-pqd7r[data-loading] .emotion-6 {
-  color: #FFFFFF;
-}
-
-.mantine-1qagcpv:disabled .emotion-6 {
+.mantine-1c0bi0f[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-1qagcpv[data-loading] .emotion-6 {
-  color: #FFFFFF;
-}
-
-.mantine-1h5neuf:disabled .emotion-6 {
+.mantine-kpi0je:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-1h5neuf[data-loading] .emotion-6 {
-  color: #FFFFFF;
-}
-
-.mantine-19ayk7z:disabled .emotion-6 {
+.mantine-kpi0je[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-1qkj6a3:disabled .emotion-6 {
+.mantine-1hzto95:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-ysubsg:disabled .emotion-6 {
+.mantine-1hzto95[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-hyz97v:disabled .emotion-6 {
+.mantine-1h127la:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1h127la[data-loading] .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1iyrnrx:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1iyrnrx[data-loading] .emotion-6 {
+  color: #838495;
+}
+
+.mantine-qw49yw:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-qw49yw[data-loading] .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1qzem94:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1qzem94[data-loading] .emotion-6 {
   color: #838495;
 }
 
@@ -356,11 +376,15 @@ exports[`Button renders a button 1`] = `
 }
 
 .emotion-2[data-loading] {
-  background-color: #307AE8;
+  background-color: #393A51;
 }
 
 .emotion-2[data-loading] .emotion-6 {
-  color: #FFFFFF;
+  color: #838495;
+}
+
+.emotion-2[data-loading]::before {
+  content: none;
 }
 
 .emotion-3 {
@@ -394,28 +418,28 @@ exports[`Button renders a button 1`] = `
   align-items: center;
 }
 
-.mantine-pqd7r:disabled .emotion-6 {
+.mantine-1c0bi0f:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-pqd7r[data-loading] .emotion-6 {
-  color: #FFFFFF;
-}
-
-.mantine-1qagcpv:disabled .emotion-6 {
+.mantine-1c0bi0f[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-1qagcpv[data-loading] .emotion-6 {
-  color: #FFFFFF;
-}
-
-.mantine-1h5neuf:disabled .emotion-6 {
+.mantine-kpi0je:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-1h5neuf[data-loading] .emotion-6 {
-  color: #FFFFFF;
+.mantine-kpi0je[data-loading] .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1hzto95:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1hzto95[data-loading] .emotion-6 {
+  color: #838495;
 }
 
 <button
@@ -565,11 +589,15 @@ exports[`Button renders a button correctly with variant - filled 1`] = `
 }
 
 .emotion-2[data-loading] {
-  background-color: #307AE8;
+  background-color: #393A51;
 }
 
 .emotion-2[data-loading] .emotion-6 {
-  color: #FFFFFF;
+  color: #838495;
+}
+
+.emotion-2[data-loading]::before {
+  content: none;
 }
 
 .emotion-3 {
@@ -603,28 +631,28 @@ exports[`Button renders a button correctly with variant - filled 1`] = `
   align-items: center;
 }
 
-.mantine-pqd7r:disabled .emotion-6 {
+.mantine-1c0bi0f:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-pqd7r[data-loading] .emotion-6 {
-  color: #FFFFFF;
-}
-
-.mantine-1qagcpv:disabled .emotion-6 {
+.mantine-1c0bi0f[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-1qagcpv[data-loading] .emotion-6 {
-  color: #FFFFFF;
-}
-
-.mantine-1h5neuf:disabled .emotion-6 {
+.mantine-kpi0je:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-1h5neuf[data-loading] .emotion-6 {
-  color: #FFFFFF;
+.mantine-kpi0je[data-loading] .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1hzto95:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1hzto95[data-loading] .emotion-6 {
+  color: #838495;
 }
 
 <button
@@ -778,6 +806,14 @@ exports[`Button renders a button correctly with variant - outlined 1`] = `
   color: #5596F6;
 }
 
+.emotion-2[data-loading] .emotion-6 {
+  color: #838495;
+}
+
+.emotion-2[data-loading]::before {
+  content: none;
+}
+
 .emotion-3 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -809,47 +845,59 @@ exports[`Button renders a button correctly with variant - outlined 1`] = `
   align-items: center;
 }
 
-.mantine-pqd7r:disabled .emotion-6 {
+.mantine-1c0bi0f:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-pqd7r[data-loading] .emotion-6 {
-  color: #FFFFFF;
-}
-
-.mantine-1qagcpv:disabled .emotion-6 {
+.mantine-1c0bi0f[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-1qagcpv[data-loading] .emotion-6 {
-  color: #FFFFFF;
-}
-
-.mantine-1h5neuf:disabled .emotion-6 {
+.mantine-kpi0je:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-1h5neuf[data-loading] .emotion-6 {
-  color: #FFFFFF;
-}
-
-.mantine-799x9f:disabled .emotion-6 {
+.mantine-kpi0je[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-799x9f[data-loading] .emotion-6 {
-  color: #FFFFFF;
-}
-
-.mantine-19ayk7z:disabled .emotion-6 {
+.mantine-1hzto95:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-1qkj6a3:disabled .emotion-6 {
+.mantine-1hzto95[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-ysubsg:disabled .emotion-6 {
+.mantine-15e1il4:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-15e1il4[data-loading] .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1h127la:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1h127la[data-loading] .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1iyrnrx:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-1iyrnrx[data-loading] .emotion-6 {
+  color: #838495;
+}
+
+.mantine-qw49yw:disabled .emotion-6 {
+  color: #838495;
+}
+
+.mantine-qw49yw[data-loading] .emotion-6 {
   color: #838495;
 }
 
