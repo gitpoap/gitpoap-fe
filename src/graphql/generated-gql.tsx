@@ -2122,9 +2122,10 @@ export type Holder = {
   __typename?: 'Holder';
   address: Scalars['String'];
   bio?: Maybe<Scalars['String']>;
+  ensAvatarImageUrl?: Maybe<Scalars['String']>;
+  ensName?: Maybe<Scalars['String']>;
   gitPOAPCount: Scalars['Float'];
   githubHandle: Scalars['String'];
-  oldEnsAvatarImageUrl?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
   profileId: Scalars['Float'];
   profileImageUrl?: Maybe<Scalars['String']>;
@@ -4293,10 +4294,8 @@ export type RepoWhereUniqueInput = {
 
 export type SearchResults = {
   __typename?: 'SearchResults';
-  profilesByAddress: Array<Profile>;
-  profilesByENS: Array<Profile>;
-  profilesByName: Array<Profile>;
-  usersByGithubHandle: Array<User>;
+  profiles: Array<Profile>;
+  users: Array<User>;
 };
 
 export enum SortOrder {
@@ -4714,7 +4713,8 @@ export type GitPoapHoldersQuery = {
       bio?: string | null;
       personalSiteUrl?: string | null;
       twitterHandle?: string | null;
-      oldEnsAvatarImageUrl?: string | null;
+      ensAvatarImageUrl?: string | null;
+      ensName?: string | null;
     }>;
   } | null;
 };
@@ -4773,19 +4773,12 @@ export type SearchForStringQuery = {
   __typename?: 'Query';
   search: {
     __typename?: 'SearchResults';
-    profilesByAddress: Array<{
+    profiles: Array<{
       __typename?: 'Profile';
       id: number;
       oldAddress: string;
       oldEnsName?: string | null;
       oldEnsAvatarImageUrl?: string | null;
-    }>;
-    profilesByENS: Array<{
-      __typename?: 'Profile';
-      id: number;
-      oldAddress: string;
-      oldEnsAvatarImageUrl?: string | null;
-      oldEnsName?: string | null;
     }>;
   };
 };
@@ -5597,7 +5590,8 @@ export const GitPoapHoldersDocument = gql`
         bio
         personalSiteUrl
         twitterHandle
-        oldEnsAvatarImageUrl
+        ensAvatarImageUrl
+        ensName
       }
     }
   }
@@ -5666,17 +5660,11 @@ export function useProfileQuery(options: Omit<Urql.UseQueryArgs<ProfileQueryVari
 export const SearchForStringDocument = gql`
   query searchForString($text: String!) {
     search(text: $text) {
-      profilesByAddress {
+      profiles {
         id
         oldAddress
         oldEnsName
         oldEnsAvatarImageUrl
-      }
-      profilesByENS {
-        id
-        oldAddress
-        oldEnsAvatarImageUrl
-        oldEnsName
       }
     }
   }
