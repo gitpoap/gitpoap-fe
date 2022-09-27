@@ -23,6 +23,7 @@ export type Holder = {
   bio?: string | null;
   personalSiteUrl?: string | null;
   twitterHandle?: string | null;
+  ensName: string | null;
   ensAvatarUrl: string | null;
 };
 
@@ -98,9 +99,10 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   useEffect(() => {
     const resultPage = queryVariables?.page;
     if (gitPOAPHolders) {
-      const newHolders = gitPOAPHolders.holders.map((h) => ({
+      const newHolders: Holder[] = gitPOAPHolders.holders.map((h) => ({
         ...h,
-        ensAvatarUrl: h.oldEnsAvatarImageUrl ?? null,
+        ensName: h.ensName ?? null,
+        ensAvatarUrl: h.ensAvatarImageUrl ?? null,
       }));
 
       if (resultPage === 1) {
@@ -152,7 +154,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
               personalSiteUrl={holder.personalSiteUrl}
               numGitPOAPs={holder.gitPOAPCount}
               ensAvatarUrl={holder.ensAvatarUrl}
-              ensName={null}
+              ensName={holder.ensName}
             />
           ))}
         </HoldersWrapper>
