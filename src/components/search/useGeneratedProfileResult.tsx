@@ -21,7 +21,7 @@ export const useGeneratedProfileResult = (
 
   /* This hook is used to transform the search results into a list of SearchItems & store the results in state */
   useEffect(() => {
-    if (searchQuery.length > 0 && result.data && !result.fetching) {
+    if (searchQuery && searchQuery.length > 0 && result.data && !result.fetching) {
       const results: ProfileResult[] = result.data.search.profiles.map((profile) => ({
         id: profile.id,
         address: profile.oldAddress,
