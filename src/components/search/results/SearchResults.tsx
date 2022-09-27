@@ -49,10 +49,7 @@ export const SearchResults = ({ searchQuery }: Props) => {
     variables: { search: searchQuery, take: 12 },
   });
   const [profileResult] = useSearchForStringQuery({ variables: { text: searchQuery } });
-  const [profileResults, _, areProfileResultsLoading] = useGeneratedProfileResult(
-    searchQuery,
-    profileResult,
-  );
+  const [profileResults] = useGeneratedProfileResult(searchQuery, profileResult);
 
   const orgs = orgResult.data?.organizations;
   const repos = repoResult.data?.repos;
@@ -64,11 +61,8 @@ export const SearchResults = ({ searchQuery }: Props) => {
   const profilesLength = profileResults?.length ?? 0;
 
   const isLoading =
-    orgResult.fetching ||
-    repoResult.fetching ||
-    gitPoapResult.fetching ||
-    profileResult.fetching ||
-    areProfileResultsLoading;
+    orgResult.fetching || repoResult.fetching || gitPoapResult.fetching || profileResult.fetching;
+
   const hasAnyResults =
     orgsLength > 0 || reposLength > 0 || gitPoapsLength > 0 || profilesLength > 0;
 
