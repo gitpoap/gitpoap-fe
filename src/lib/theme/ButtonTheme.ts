@@ -34,9 +34,12 @@ const buttonFilled = {
     backgroundColor: ExtraHover,
   },
   '&[data-loading]': {
-    backgroundColor: PrimaryBlue,
+    backgroundColor: DarkGray,
     '.mantine-Button-label': {
-      color: White,
+      color: TextGray,
+    },
+    '&::before': {
+      content: 'none',
     },
   },
 };
@@ -59,5 +62,13 @@ const buttonOutline = {
   '&:hover:not(:disabled)': {
     borderColor: ExtraHover,
     color: ExtraHover,
+  },
+  '&[data-loading]': {
+    '.mantine-Button-label': {
+      color: TextGray,
+    },
+    '::before': {
+      content: 'none',
+    },
   },
 };
