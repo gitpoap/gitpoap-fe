@@ -24,10 +24,10 @@ export const useGeneratedProfileResult = (
     if (searchQuery && searchQuery.length > 0 && result.data && !result.fetching) {
       const results: ProfileResult[] = result.data.search.profiles.map((profile) => ({
         id: profile.id,
-        address: profile.oldAddress,
-        href: `/p/${profile.oldAddress}`,
-        ensName: profile.oldEnsName ?? null,
-        ensAvatarUrl: profile.oldEnsAvatarImageUrl ?? null,
+        address: profile.address.ethAddress,
+        href: `/p/${profile.address.ethAddress}`,
+        ensName: profile.address.ensName ?? null,
+        ensAvatarUrl: profile.address.ensAvatarImageUrl ?? null,
       }));
 
       setProfileResults(results);

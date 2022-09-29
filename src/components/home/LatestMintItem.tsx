@@ -123,12 +123,12 @@ const dateToTimeAgo = (date: string): string => {
 export const LatestMintItem = ({
   gitPOAP,
   mintedAt,
-  oldMintedAddress,
+  mintedAddress,
 }: AdminClaimsQuery['claims'][number]) => {
-  const userAddress = oldMintedAddress ?? '';
+  const userAddress = mintedAddress?.ethAddress ?? '';
   const [result] = useProfileQuery({
     variables: {
-      address: oldMintedAddress ?? '',
+      address: mintedAddress?.ethAddress ?? '',
     },
   });
 
