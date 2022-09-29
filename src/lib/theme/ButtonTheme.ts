@@ -13,8 +13,12 @@ export const buttonTheme = {
       borderWidth: rem(2),
       letterSpacing: rem(2),
       transition: '150ms background ease, 150ms color ease, 150ms border ease',
-      ...(params.variant === 'filled' && buttonFilled),
-      ...(params.variant === 'outline' && buttonOutline),
+      ...(params.variant === 'filled' &&
+        (!params.color || params.color === 'blue') &&
+        buttonFilled),
+      ...(params.variant === 'outline' &&
+        (!params.color || params.color === 'blue') &&
+        buttonOutline),
     },
   }),
 };
