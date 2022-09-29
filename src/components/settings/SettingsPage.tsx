@@ -1,17 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { rem } from 'polished';
-import { Button, Input as InputUI, Checkbox } from '../shared/elements';
-import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
-import { Text } from '../shared/elements/Text';
 import { Stack, Divider, Group, Title } from '@mantine/core';
-import { ExtraHover, ExtraPressed, TextGray, TextLight } from '../../colors';
-import { useAuthContext } from '../github/AuthContext';
+import { rem } from 'polished';
+import React, { useEffect, useState } from 'react';
 import { FaCheckCircle, FaRegEdit } from 'react-icons/fa';
-import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
-import { ProfileQuery, useProfileQuery } from '../../graphql/generated-gql';
-import { useProfileContext } from '../profile/ProfileContext';
 import { GoMarkGithub } from 'react-icons/go';
+import styled from 'styled-components';
+
+import { EmailConnection } from './EmailConnection';
+import { useAuthContext } from '../github/AuthContext';
+import { useProfileContext } from '../profile/ProfileContext';
+import {
+  Button,
+  Input as InputUI,
+  Checkbox,
+  Text,
+  TextArea as TextAreaUI,
+} from '../shared/elements';
+import { ExtraHover, ExtraPressed, TextGray, TextLight } from '../../colors';
+import { ProfileQuery, useProfileQuery } from '../../graphql/generated-gql';
+import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
 
 const Header = styled.div`
   font-family: VT323;
@@ -205,6 +211,10 @@ export const SettingsPage = () => {
       <Header id="integrations" style={{ marginTop: rem(24), textAlign: 'left' }}>
         {'Integrations'}
       </Header>
+
+      <Divider />
+      <EmailConnection />
+
       <Divider />
       <Group position="apart" p={16}>
         <Group>

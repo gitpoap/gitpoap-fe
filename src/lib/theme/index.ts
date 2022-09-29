@@ -1,6 +1,6 @@
 import { BREAKPOINTS } from '../../constants';
 import { MantineProviderProps } from '@mantine/core';
-import { BackgroundPanel, ExtraHover } from '../../colors';
+import { BackgroundPanel, ExtraHover, MidnightBlue } from '../../colors';
 import { rem } from 'polished';
 
 import { buttonTheme } from './ButtonTheme';
@@ -16,7 +16,7 @@ export const theme: MantineProviderProps['theme'] = {
     Modal: {
       styles: {
         modal: {
-          background: BackgroundPanel,
+          background: MidnightBlue,
         },
       },
     },
