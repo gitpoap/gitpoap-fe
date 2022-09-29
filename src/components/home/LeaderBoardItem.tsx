@@ -75,15 +75,17 @@ export const LeaderBoardItem = ({ profile, claimsCount, index }: Props) => {
         {index !== undefined && <Index order={2}>{`${index}: `}</Index>}
         <Item>
           <UserInfo>
-            <Link href={`/p/${profile.oldEnsName ?? profile.oldAddress}`} passHref>
-              {profile.oldEnsAvatarImageUrl ? (
-                <AvatarStyled src={profile.oldEnsAvatarImageUrl} />
+            <Link href={`/p/${profile.address.ensName ?? profile.address.ethAddress}`} passHref>
+              {profile.address.ensAvatarImageUrl ? (
+                <AvatarStyled src={profile.address.ensAvatarImageUrl} />
               ) : (
-                <JazzIcon address={profile.oldAddress} />
+                <JazzIcon address={profile.address.ethAddress} />
               )}
             </Link>
-            <Link href={`/p/${profile.oldEnsName ?? profile.oldAddress}`} passHref>
-              <Name>{profile.oldEnsName ?? truncateAddress(profile.oldAddress, 6)}</Name>
+            <Link href={`/p/${profile.address.ensName ?? profile.address.ethAddress}`} passHref>
+              <Name>
+                {profile.address.ensName ?? truncateAddress(profile.address.ethAddress, 6)}
+              </Name>
             </Link>
           </UserInfo>
           <IconCount icon={<GitPOAP />} count={claimsCount} />
