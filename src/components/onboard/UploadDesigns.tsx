@@ -62,13 +62,6 @@ export const UploadDesigns = ({
   values,
 }: Props) => (
   <Stack spacing="xl">
-    <RadioGroup orientation="vertical" required {...getInputProps('isOneGitPOAPPerRepo')}>
-      <Radio value="true" label={<Text>{'Separate GitPOAPS for each Repo'}</Text>} />
-      <Radio value="false" label={<Text>{'One GitPOAP across all Repos'}</Text>} />
-    </RadioGroup>
-
-    <Divider size="xs" style={{ color: BackgroundPanel2 }} />
-
     <RadioGroup orientation="vertical" required {...getInputProps('shouldGitPOAPDesign')}>
       <Radio value="true" label={<Text>{'Have us design your GitPOAPs'}</Text>} />
       <Radio
