@@ -1,9 +1,9 @@
-import { Stack, Group, Title, Modal } from '@mantine/core';
+import { Stack, Group, Text as TextUI, Title, Modal } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import React, { ReactNode, useState } from 'react';
 import { FaAt } from 'react-icons/fa';
-import { MdOutlineEmail } from 'react-icons/md';
+import { HiOutlineMail, HiOutlineMailOpen } from 'react-icons/hi';
 import { z } from 'zod';
 
 import { Button, Input, Text } from '../shared/elements';
@@ -12,7 +12,7 @@ import { NotificationFactory } from '../../notifications';
 
 export const EmailConnection = () => {
   const [status, setStatus] =
-    useState<'CONNECT' | 'SUBMITTED' | 'VALIDATING' | 'DISCONNECT'>('CONNECT');
+    useState<'CONNECT' | 'SUBMITTED' | 'VALIDATING' | 'DISCONNECT'>('SUBMITTED');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const { values, getInputProps, validate } = useForm<{
@@ -29,7 +29,7 @@ export const EmailConnection = () => {
       case 'CONNECT':
         return 'Connect your email?';
       case 'SUBMITTED':
-        return 'Success!';
+        return '';
       case 'VALIDATING':
         return 'Cancel this request?';
       case 'DISCONNECT':
@@ -41,7 +41,7 @@ export const EmailConnection = () => {
     switch (status) {
       case 'CONNECT':
         return (
-          <>
+          <Stack align="stretch" spacing={16}>
             <Text>{`Enter a valid email address.`}</Text>
             <Input
               icon={<FaAt />}
@@ -76,13 +76,25 @@ export const EmailConnection = () => {
                 {'Submit'}
               </Button>
             </Group>
-          </>
+          </Stack>
         );
       case 'SUBMITTED':
-        return <Text>{`Check your inbox for a verification link.`}</Text>;
+        return (
+          <Stack align="center" spacing={8}>
+            <HiOutlineMailOpen size={64} />
+            <TextUI my={16} size={24} weight="bold">{`Verify your email`}</TextUI>
+            <TextUI>{`We've sent a verification link to`}</TextUI>
+            <TextUI size="lg" weight="bold">
+              {values.email}
+            </TextUI>
+            <TextUI align="center">{`Please check your inbox and click the link to confirm your request.`}</TextUI>
+
+            <TextUI mt={32}>{`This link expires in 24 hours`}</TextUI>
+          </Stack>
+        );
       case 'VALIDATING':
         return (
-          <>
+          <Stack align="stretch" spacing={16}>
             <Text>
               {`Your email is currently waiting to be validated, check your inbox for the verification link.`}
             </Text>
@@ -110,11 +122,11 @@ export const EmailConnection = () => {
                 {'Cancel Request'}
               </Button>
             </Group>
-          </>
+          </Stack>
         );
       case 'DISCONNECT':
         return (
-          <>
+          <Stack align="stretch" spacing={16}>
             <Text>
               {`Are you sure you want to disconnect your email? This action is irreversible.`}
             </Text>
@@ -144,7 +156,7 @@ export const EmailConnection = () => {
                 {'Disconnect'}
               </Button>
             </Group>
-          </>
+          </Stack>
         );
     }
   };
@@ -152,7 +164,7 @@ export const EmailConnection = () => {
   return (
     <Group position="apart" p={16}>
       <Group>
-        <MdOutlineEmail size={32} />
+        <HiOutlineMail size={32} />
         <Title order={5}>Email</Title>
       </Group>
       <Button
@@ -168,9 +180,7 @@ export const EmailConnection = () => {
         padding={32}
         title={modalTitle()}
       >
-        <Stack align="stretch" spacing={16}>
-          {modalContent()}
-        </Stack>
+        {modalContent()}
       </Modal>
     </Group>
   );
