@@ -6,7 +6,7 @@ import { BREAKPOINTS } from '../../constants';
 import { TrendingRepoItem } from './TrendingRepoItem';
 import { useTrendingReposQuery } from '../../graphql/generated-gql';
 
-const NUM_DAYS = 30;
+const NUM_DAYS = 7;
 
 const Container = styled.div`
   padding: 0 ${rem(10)};
