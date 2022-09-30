@@ -20,7 +20,6 @@ export type Address = {
   __typename?: 'Address';
   _count?: Maybe<AddressCount>;
   createdAt: Scalars['DateTime'];
-  emailId?: Maybe<Scalars['Int']>;
   ensAvatarImageUrl?: Maybe<Scalars['String']>;
   ensName?: Maybe<Scalars['String']>;
   ethAddress: Scalars['String'];
@@ -49,7 +48,6 @@ export type AddressOrderByRelationAggregateInput = {
 export type AddressOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   email?: InputMaybe<EmailOrderByWithRelationInput>;
-  emailId?: InputMaybe<SortOrder>;
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
   ethAddress?: InputMaybe<SortOrder>;
@@ -70,7 +68,6 @@ export type AddressRelationFilter = {
 
 export enum AddressScalarFieldEnum {
   CreatedAt = 'createdAt',
-  EmailId = 'emailId',
   EnsAvatarImageUrl = 'ensAvatarImageUrl',
   EnsName = 'ensName',
   EthAddress = 'ethAddress',
@@ -85,7 +82,6 @@ export type AddressWhereInput = {
   OR?: InputMaybe<Array<AddressWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<EmailRelationFilter>;
-  emailId?: InputMaybe<IntNullableFilter>;
   ensAvatarImageUrl?: InputMaybe<StringNullableFilter>;
   ensName?: InputMaybe<StringNullableFilter>;
   ethAddress?: InputMaybe<StringFilter>;
@@ -636,24 +632,31 @@ export type DateTimeWithAggregatesFilter = {
 export type Email = {
   __typename?: 'Email';
   _count?: Maybe<EmailCount>;
+  activeToken: Scalars['String'];
+  addressId: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   emailAddress: Scalars['String'];
   id: Scalars['Int'];
+  isValidated: Scalars['Boolean'];
+  tokenExpiresAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
 
 export type EmailCount = {
   __typename?: 'EmailCount';
-  addresses: Scalars['Int'];
   claims: Scalars['Int'];
 };
 
 export type EmailOrderByWithRelationInput = {
-  addresses?: InputMaybe<AddressOrderByRelationAggregateInput>;
+  activeToken?: InputMaybe<SortOrder>;
+  address?: InputMaybe<AddressOrderByWithRelationInput>;
+  addressId?: InputMaybe<SortOrder>;
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   emailAddress?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  isValidated?: InputMaybe<SortOrder>;
+  tokenExpiresAt?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -666,11 +669,15 @@ export type EmailWhereInput = {
   AND?: InputMaybe<Array<EmailWhereInput>>;
   NOT?: InputMaybe<Array<EmailWhereInput>>;
   OR?: InputMaybe<Array<EmailWhereInput>>;
-  addresses?: InputMaybe<AddressListRelationFilter>;
+  activeToken?: InputMaybe<StringFilter>;
+  address?: InputMaybe<AddressRelationFilter>;
+  addressId?: InputMaybe<IntFilter>;
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   emailAddress?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
+  isValidated?: InputMaybe<BoolFilter>;
+  tokenExpiresAt?: InputMaybe<DateTimeFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
@@ -1841,7 +1848,7 @@ export type GithubPullRequest = {
   claims: Array<Claim>;
   createdAt: Scalars['DateTime'];
   githubMentions: Array<GithubMention>;
-  githubMergeCommitSha: Scalars['String'];
+  githubMergeCommitSha?: Maybe<Scalars['String']>;
   githubMergedAt?: Maybe<Scalars['DateTime']>;
   githubPullNumber: Scalars['Int'];
   githubTitle: Scalars['String'];
@@ -1926,7 +1933,7 @@ export type GithubPullRequestGroupBy = {
   _min?: Maybe<GithubPullRequestMinAggregate>;
   _sum?: Maybe<GithubPullRequestSumAggregate>;
   createdAt: Scalars['DateTime'];
-  githubMergeCommitSha: Scalars['String'];
+  githubMergeCommitSha?: Maybe<Scalars['String']>;
   githubMergedAt?: Maybe<Scalars['DateTime']>;
   githubPullNumber: Scalars['Int'];
   githubTitle: Scalars['String'];
@@ -2056,7 +2063,7 @@ export type GithubPullRequestScalarWhereWithAggregatesInput = {
   NOT?: InputMaybe<Array<GithubPullRequestScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<GithubPullRequestScalarWhereWithAggregatesInput>>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  githubMergeCommitSha?: InputMaybe<StringWithAggregatesFilter>;
+  githubMergeCommitSha?: InputMaybe<StringNullableWithAggregatesFilter>;
   githubMergedAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
   githubPullNumber?: InputMaybe<IntWithAggregatesFilter>;
   githubTitle?: InputMaybe<StringWithAggregatesFilter>;
@@ -2088,7 +2095,7 @@ export type GithubPullRequestWhereInput = {
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   githubMentions?: InputMaybe<GithubMentionListRelationFilter>;
-  githubMergeCommitSha?: InputMaybe<StringFilter>;
+  githubMergeCommitSha?: InputMaybe<StringNullableFilter>;
   githubMergedAt?: InputMaybe<DateTimeNullableFilter>;
   githubPullNumber?: InputMaybe<IntFilter>;
   githubTitle?: InputMaybe<StringFilter>;
@@ -5184,6 +5191,16 @@ export type TotalOrganizationCountQuery = {
   };
 };
 
+export type TotalGitPoapCountQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalGitPoapCountQuery = {
+  __typename?: 'Query';
+  aggregateGitPOAP: {
+    __typename?: 'AggregateGitPOAP';
+    _count?: { __typename?: 'GitPOAPCountAggregate'; id: number } | null;
+  };
+};
+
 export type ClaimsSinceQueryVariables = Exact<{
   date?: InputMaybe<Scalars['DateTime']>;
 }>;
@@ -5415,6 +5432,33 @@ export type GitPoapSearchByNameQuery = {
     imageUrl: string;
     project: {
       __typename?: 'Project';
+      repos: Array<{
+        __typename?: 'Repo';
+        name: string;
+        organization: { __typename?: 'Organization'; name: string };
+      }>;
+    };
+  }>;
+};
+
+export type GitPoaPsWithClaimCountQueryVariables = Exact<{
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<GitPoapOrderByWithRelationInput> | GitPoapOrderByWithRelationInput>;
+}>;
+
+export type GitPoaPsWithClaimCountQuery = {
+  __typename?: 'Query';
+  gitPOAPS: Array<{
+    __typename?: 'GitPOAP';
+    id: number;
+    name: string;
+    description: string;
+    imageUrl: string;
+    _count?: { __typename?: 'GitPOAPCount'; claims: number } | null;
+    project: {
+      __typename?: 'Project';
+      id: number;
       repos: Array<{
         __typename?: 'Repo';
         name: string;
@@ -6239,6 +6283,24 @@ export function useTotalOrganizationCountQuery(
     ...options,
   });
 }
+export const TotalGitPoapCountDocument = gql`
+  query totalGitPOAPCount {
+    aggregateGitPOAP {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalGitPoapCountQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalGitPoapCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalGitPoapCountQuery, TotalGitPoapCountQueryVariables>({
+    query: TotalGitPoapCountDocument,
+    ...options,
+  });
+}
 export const ClaimsSinceDocument = gql`
   query claimsSince($date: DateTime) {
     claims(where: { status: { equals: CLAIMED }, mintedAt: { gt: $date } }) {
@@ -6624,6 +6686,41 @@ export function useGitPoapSearchByNameQuery(
 ) {
   return Urql.useQuery<GitPoapSearchByNameQuery, GitPoapSearchByNameQueryVariables>({
     query: GitPoapSearchByNameDocument,
+    ...options,
+  });
+}
+export const GitPoaPsWithClaimCountDocument = gql`
+  query gitPOAPsWithClaimCount(
+    $skip: Int
+    $take: Int
+    $orderBy: [GitPOAPOrderByWithRelationInput!]
+  ) {
+    gitPOAPS(skip: $skip, take: $take, orderBy: $orderBy) {
+      id
+      name
+      description
+      imageUrl
+      _count {
+        claims
+      }
+      project {
+        id
+        repos {
+          name
+          organization {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+export function useGitPoaPsWithClaimCountQuery(
+  options?: Omit<Urql.UseQueryArgs<GitPoaPsWithClaimCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<GitPoaPsWithClaimCountQuery, GitPoaPsWithClaimCountQueryVariables>({
+    query: GitPoaPsWithClaimCountDocument,
     ...options,
   });
 }
