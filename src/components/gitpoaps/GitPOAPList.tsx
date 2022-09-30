@@ -158,7 +158,7 @@ export const GitPOAPList = () => {
       )}
       <StyledSearch
         style={{ marginBottom: rem(40), width: rem(400) }}
-        placeholder={'SEARCH FOR A GitPOAP...'}
+        placeholder={'SEARCH FOR A GITPOAP...'}
         value={searchValue}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
         icon={searchResult.fetching ? <Loader size={18} /> : <FaSearch />}
