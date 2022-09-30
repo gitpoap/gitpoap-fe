@@ -50,7 +50,7 @@ export const WalletStatus = ({ address, onClick, ensName, hideText }: Props) => 
   useEffect(() => {
     const prepareResultsEns = async () => {
       if (ensName) {
-        const avatar = await (web3Provider ?? infuraProvider)?.getAvatar(ensName);
+        const avatar = await infuraProvider?.getAvatar(ensName);
         if (avatar) {
           setEnsAvatarUrl(avatar);
         }
