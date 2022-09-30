@@ -20,6 +20,7 @@ type Props = {
   poapTokenId?: string | null;
   onClick?: () => void;
   level?: Level;
+  size?: 'sm' | 'md';
 };
 
 export const LineClamp = (lines: number) => css`
@@ -110,13 +111,14 @@ export const GitPOAP = ({
   onClick,
   orgName,
   level,
+  size = 'sm',
 }: Props) => {
   return (
     <Wrapper className={className}>
       <BadgeWrapper>
         <GitPOAPBadge
           href={`/gp/${gitPOAPId}`}
-          size="sm"
+          size={size}
           imgUrl={imgSrc}
           altText={name}
           onClick={() => onClick && onClick()}
