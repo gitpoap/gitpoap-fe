@@ -83,7 +83,15 @@ exports[`Radio renders a RadioGroup 1`] = `
   padding-top: 10px;
 }
 
-.emotion-7 {
+.emotion-4>* {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -93,18 +101,13 @@ exports[`Radio renders a RadioGroup 1`] = `
   -ms-flex-align: center;
   align-items: center;
   -webkit-tap-highlight-color: transparent;
-  box-sizing: border-box;
-  -webkit-box-flex: 0;
-  -webkit-flex-grow: 0;
-  -ms-flex-positive: 0;
-  flex-grow: 0;
 }
 
-.emotion-8 {
+.emotion-7 {
   position: relative;
 }
 
-.emotion-10 {
+.emotion-9 {
   -webkit-tap-highlight-color: transparent;
   background-color: #fff;
   border: 1px solid #ced4da;
@@ -135,21 +138,21 @@ exports[`Radio renders a RadioGroup 1`] = `
   cursor: default;
 }
 
-.emotion-10:focus {
+.emotion-9:focus {
   outline-offset: 2px;
   outline: 2px solid #339af0;
 }
 
-.emotion-10:focus:not(:focus-visible) {
+.emotion-9:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-10:checked {
+.emotion-9:checked {
   background: #228be6;
   border-color: #228be6;
 }
 
-.emotion-10:checked+.__mantine-ref-icon {
+.emotion-9:checked+.__mantine-ref-icon {
   opacity: 1;
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
@@ -157,16 +160,16 @@ exports[`Radio renders a RadioGroup 1`] = `
   transform: scale(1);
 }
 
-.emotion-10:disabled {
+.emotion-9:disabled {
   border-color: #ced4da;
   background-color: #f1f3f5;
 }
 
-.emotion-10:disabled+.__mantine-ref-icon {
+.emotion-9:disabled+.__mantine-ref-icon {
   color: #ced4da;
 }
 
-.emotion-12 {
+.emotion-11 {
   color: #fff;
   opacity: 0;
   -webkit-transform: scale(0.75) translateY(2px);
@@ -191,20 +194,20 @@ exports[`Radio renders a RadioGroup 1`] = `
     role="radiogroup"
   >
     <div
-      class="emotion-5 emotion-6 emotion-7"
+      class="emotion-5 emotion-6"
     >
       <div
-        class="emotion-8 emotion-9"
+        class="emotion-7 emotion-8"
       >
         <input
-          class="emotion-10 emotion-11"
+          class="emotion-9 emotion-10"
           id="mantine-r0"
           type="radio"
           value="radio-test"
         />
         <svg
           aria-hidden="true"
-          class="__mantine-ref-icon emotion-12 emotion-13"
+          class="__mantine-ref-icon emotion-11 emotion-12"
           fill="none"
           viewBox="0 0 5 5"
           xmlns="http://www.w3.org/2000/svg"

@@ -248,13 +248,17 @@ exports[`ItemList should render show more button 1`] = `
   transform: translateY(1px);
 }
 
+.emotion-2:disabled,
 .emotion-2[data-disabled] {
   border-color: transparent;
   background-color: #e9ecef;
   color: #adb5bd;
   cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
 }
 
+.emotion-2:disabled:active,
 .emotion-2[data-disabled]:active {
   -webkit-transform: none;
   -moz-transform: none;

@@ -619,13 +619,17 @@ exports[`Footer renders a Footer 1`] = `
   transform: translateY(1px);
 }
 
+.emotion-20:disabled,
 .emotion-20[data-disabled] {
   border-color: transparent;
   background-color: #e9ecef;
   color: #adb5bd;
   cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
 }
 
+.emotion-20:disabled:active,
 .emotion-20[data-disabled]:active {
   -webkit-transform: none;
   -moz-transform: none;
