@@ -17,15 +17,16 @@ const Content = styled.div`
   color: white;
 `;
 
-const ConnectedButton = styled(Button)`
-  min-width: ${rem(125)};
+const ConnectedButton = styled(Button)<{ hideText?: boolean }>`
+  min-width: ${(props) => (props.hideText ? 0 : rem(125))};
 `;
 
 type Props = {
   className?: string;
+  hideText?: boolean;
 };
 
-export const GitHub = ({ className }: Props) => {
+export const GitHub = ({ className, hideText }: Props) => {
   const { claimedIds, userClaims, setIsOpen } = useClaimContext();
   const { handleLogout, authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
   const { hasSettingsPage } = useFeatures();
@@ -40,9 +41,9 @@ export const GitHub = ({ className }: Props) => {
       <Content className={className}>
         <Button
           onClick={hasSettingsPage ? () => router.push(`/settings#integrations`) : authorizeGitHub}
-          leftIcon={<GoMarkGithub size={16} />}
+          leftIcon={!hideText && <GoMarkGithub size={16} />}
         >
-          {'CONNECT TO MINT'}
+          {hideText ? <GoMarkGithub size={16} /> : 'CONNECT TO MINT'}
         </Button>
       </Content>
     );
@@ -71,10 +72,16 @@ export const GitHub = ({ className }: Props) => {
               }}
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
-              leftIcon={<GoMarkGithub size={16} />}
-              rightIcon={<ClaimCircle key={`claim-circle-${netClaims}`} value={netClaims} />}
+              leftIcon={!hideText && <GoMarkGithub size={16} />}
+              rightIcon={
+                !hideText && <ClaimCircle key={`claim-circle-${netClaims}`} value={netClaims} />
+              }
             >
-              {'VIEW & MINT'}
+              {hideText ? (
+                <ClaimCircle key={`claim-circle-${netClaims}`} value={netClaims} />
+              ) : (
+                'VIEW & MINT'
+              )}
             </Button>
           }
         />
@@ -102,9 +109,10 @@ export const GitHub = ({ className }: Props) => {
               setIsGHPopoverOpen(false);
             }}
             variant="outline"
-            leftIcon={<GoMarkGithub size={16} />}
+            leftIcon={!hideText && <GoMarkGithub size={16} />}
+            hideText={hideText}
           >
-            {'NONE TO MINT'}
+            {hideText ? <GoMarkGithub size={16} /> : 'NONE TO MINT'}
           </ConnectedButton>
         }
       />
