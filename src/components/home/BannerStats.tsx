@@ -80,6 +80,7 @@ export const BannerStats = () => {
       unit: 'GitPOAPs',
       rate: result.data?.lastMonthClaims,
       icon: 'gitPOAP',
+      href: '/gitpoaps',
     },
     {
       value: result.data?.totalRepos,
