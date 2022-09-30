@@ -59,17 +59,14 @@ export const SettingsText = styled(Text)`
   padding-right: ${rem(30)};
 `;
 
-export type EditableProfileData = Partial<
-  Pick<
-    Exclude<ProfileQuery['profileData'], null | undefined>,
-    'bio' | 'githubHandle' | 'personalSiteUrl' | 'twitterHandle' | 'isVisibleOnLeaderboard'
-  >
->;
+type Props = {
+  ethAddress: string;
+};
 
-export const SettingsPage = () => {
-  const user = useUser();
+export const SettingsPage = ({ ethAddress }: Props) => {
   const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
   const { github } = useOAuthContext();
+  const user = useUser();
 
   const [personSiteUrlValue, setPersonalSiteUrlValue] = useState<string | undefined | null>(
     profileData?.personalSiteUrl,
@@ -205,7 +202,7 @@ export const SettingsPage = () => {
       </Header>
 
       <Divider />
-      <EmailConnection />
+      <EmailConnection ethAddress={ethAddress} />
 
       <Divider />
       <Group position="apart" p={16}>

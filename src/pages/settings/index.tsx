@@ -1,9 +1,9 @@
+import styled from 'styled-components';
+import { Center, Container, Loader } from '@mantine/core';
 import { Page } from '../_app';
 import { SEO } from '../../components/shared/compounds/SEO';
 import { SettingsPage } from '../../components/settings/SettingsPage';
 import { useWeb3Context } from '../../components/wallet/Web3Context';
-import styled from 'styled-components';
-import { Center, Container, Loader } from '@mantine/core';
 import { Button } from '../../components/shared/elements';
 import { ProfileProvider } from '../../components/profile/ProfileContext';
 
@@ -22,9 +22,9 @@ const Settings: Page = () => {
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/settings`}
       />
-      {connectionStatus === 'connected-to-wallet' ? (
+      {address && connectionStatus === 'connected-to-wallet' ? (
         <ProfileProvider addressOrEns={address}>
-          <SettingsPage />
+          <SettingsPage ethAddress={address} />
         </ProfileProvider>
       ) : (
         <Center style={{ width: '100%', height: 600 }}>

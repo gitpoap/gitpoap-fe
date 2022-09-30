@@ -736,3 +736,13 @@ query trendingRepos($count: Float!, $numDays: Float!) {
     mintedGitPOAPCount
   }
 }
+
+query userEmail($ethAddress: String!) {
+  userEmail(ethAddress: $ethAddress) {
+    id
+    emailAddress
+    isValidated
+    activeToken
+    tokenExpiresAt
+  }
+}
