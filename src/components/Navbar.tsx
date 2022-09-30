@@ -88,13 +88,13 @@ export const Navbar = () => {
   const { hasSettingsPage } = useFeatures();
   const router = useRouter();
   const { connectionStatus, address, ensName } = useWeb3Context();
-  const matchesBreakpointLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
-  const matchesBreakpointMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`, false);
+  const matches1330 = useMediaQuery(`(min-width: ${rem(1330)})`, false);
+  const matchesLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
+  const matches950 = useMediaQuery(`(min-width: ${rem(950)})`, false);
+  const matchesMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`, false);
   const [isOpen, setIsOpen] = useState(false);
   const title = isOpen ? 'Close navigation' : 'Open navigation';
 
-  const showPOAPsPage = false;
-  const showOrgsPage = true;
   const showContributorsPage = false;
 
   useEffect(() => {
@@ -103,28 +103,28 @@ export const Navbar = () => {
 
   const navItems = (
     <>
-      {matchesBreakpointMd && <SearchBox />}
-      {showPOAPsPage && <NavLink href="/gitpoaps">{'GitPOAPs'}</NavLink>}
+      {matchesMd && <SearchBox />}
+      <NavLink href="/gitpoaps">{'GitPOAPs'}</NavLink>
       <NavLink href="/repos">{'Repos'}</NavLink>
-      {showOrgsPage && <NavLink href="/orgs">{'Orgs'}</NavLink>}
+      <NavLink href="/orgs">{'Orgs'}</NavLink>
       {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
       </NavLinkAnchor>
-      {connectionStatus === 'connected' && matchesBreakpointLg && !hasSettingsPage && (
+      {connectionStatus === 'connected' && matches950 && !hasSettingsPage && (
         <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
       )}
-      <ClaimButton />
-      <Wallet hideText={!matchesBreakpointLg} isMobile={false} />
+      <ClaimButton hideText={!matchesLg} />
+      <Wallet hideText={!matches1330} isMobile={false} />
     </>
   );
 
   const navItemsCollapsed = (
     <>
       <SearchBox />
-      {showPOAPsPage && <NavLink href="/gitpoaps">{'GitPOAPs'}</NavLink>}
+      <NavLink href="/gitpoaps">{'GitPOAPs'}</NavLink>
       <NavLink href="/repos">{'Repos'}</NavLink>
-      {showOrgsPage && <NavLink href="/orgs">{'Orgs'}</NavLink>}
+      <NavLink href="/orgs">{'Orgs'}</NavLink>
       {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}

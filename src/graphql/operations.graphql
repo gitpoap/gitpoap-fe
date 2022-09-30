@@ -495,6 +495,14 @@ query totalOrganizationCount {
   }
 }
 
+query totalGitPOAPCount {
+  aggregateGitPOAP {
+    _count {
+      id
+    }
+  }
+}
+
 query claimsSince($date: DateTime) {
   claims(where: { status: { equals: CLAIMED }, mintedAt: { gt: $date } }) {
     id
@@ -677,6 +685,27 @@ query gitPOAPSearchByName($search: String!, $take: Int = 4) {
     imageUrl
     project {
       repos(take: 1) {
+        name
+        organization {
+          name
+        }
+      }
+    }
+  }
+}
+
+query gitPOAPsWithClaimCount($skip: Int, $take: Int, $orderBy: [GitPOAPOrderByWithRelationInput!]) {
+  gitPOAPS(skip: $skip, take: $take, orderBy: $orderBy) {
+    id
+    name
+    description
+    imageUrl
+    _count {
+      claims
+    }
+    project {
+      id
+      repos {
         name
         organization {
           name

@@ -411,7 +411,7 @@ exports[`Navbar renders a Navbar 1`] = `
   text-decoration: none;
   box-sizing: border-box;
   height: 36px;
-  padding-left: 12px;
+  padding-left: 18px;
   padding-right: 18px;
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   -webkit-tap-highlight-color: transparent;
@@ -520,19 +520,7 @@ exports[`Navbar renders a Navbar 1`] = `
   overflow: visible;
 }
 
-.emotion-11 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-right: 10px;
-}
-
-.emotion-12 {
+.emotion-9 {
   white-space: nowrap;
   height: 100%;
   overflow: hidden;
@@ -546,117 +534,7 @@ exports[`Navbar renders a Navbar 1`] = `
   align-items: center;
 }
 
-.emotion-16 {
-  -webkit-tap-highlight-color: transparent;
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  cursor: pointer;
-  border: 0;
-  padding: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  font-size: 16px;
-  background-color: transparent;
-  text-align: left;
-  color: #000;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  box-sizing: border-box;
-  height: 36px;
-  padding-left: 18px;
-  padding-right: 18px;
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  -webkit-tap-highlight-color: transparent;
-  display: inline-block;
-  width: auto;
-  border-radius: 4px;
-  font-weight: 600;
-  position: relative;
-  line-height: 1;
-  font-size: 14px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: pointer;
-  border: 1px solid transparent;
-  background-color: #228be6;
-  color: #fff;
-}
-
-.emotion-16:focus {
-  outline-offset: 2px;
-  outline: 2px solid #339af0;
-}
-
-.emotion-16:focus:not(:focus-visible) {
-  outline: none;
-}
-
-.emotion-16:focus {
-  outline-offset: 2px;
-  outline: 2px solid #339af0;
-}
-
-.emotion-16:focus:not(:focus-visible) {
-  outline: none;
-}
-
-@media (hover: hover) {
-  .emotion-16:hover {
-    background-color: #1c7ed6;
-  }
-}
-
-@media (hover: none) {
-  .emotion-16:active {
-    background-color: #1c7ed6;
-  }
-}
-
-.emotion-16:active {
-  -webkit-transform: translateY(1px);
-  -moz-transform: translateY(1px);
-  -ms-transform: translateY(1px);
-  transform: translateY(1px);
-}
-
-.emotion-16:disabled,
-.emotion-16[data-disabled] {
-  border-color: transparent;
-  background-color: #e9ecef;
-  color: #adb5bd;
-  cursor: not-allowed;
-  background-image: none;
-  pointer-events: none;
-}
-
-.emotion-16:disabled:active,
-.emotion-16[data-disabled]:active {
-  -webkit-transform: none;
-  -moz-transform: none;
-  -ms-transform: none;
-  transform: none;
-}
-
-.emotion-16[data-loading] {
-  pointer-events: none;
-}
-
-.emotion-16[data-loading]::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  bottom: -1px;
-  background-color: rgba(255, 255, 255, .5);
-  border-radius: 4px;
-  cursor: not-allowed;
-}
-
-.emotion-23 {
+.emotion-20 {
   -webkit-tap-highlight-color: transparent;
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   cursor: pointer;
@@ -680,16 +558,16 @@ exports[`Navbar renders a Navbar 1`] = `
   cursor: pointer;
 }
 
-.emotion-23:focus {
+.emotion-20:focus {
   outline-offset: 2px;
   outline: 2px solid #339af0;
 }
 
-.emotion-23:focus:not(:focus-visible) {
+.emotion-20:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-24 {
+.emotion-21 {
   position: relative;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -698,9 +576,9 @@ exports[`Navbar renders a Navbar 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-24,
-.emotion-24::before,
-.emotion-24::after {
+.emotion-21,
+.emotion-21::before,
+.emotion-21::after {
   display: block;
   width: 24px;
   height: 2px;
@@ -711,47 +589,47 @@ exports[`Navbar renders a Navbar 1`] = `
 }
 
 @media (prefers-reduced-motion) {
-  .emotion-24,
-  .emotion-24::before,
-  .emotion-24::after {
+  .emotion-21,
+  .emotion-21::before,
+  .emotion-21::after {
     transition-duration: 0ms;
   }
 }
 
-.emotion-24::before,
-.emotion-24::after {
+.emotion-21::before,
+.emotion-21::after {
   position: absolute;
   content: "";
   left: 0;
 }
 
-.emotion-24::before {
+.emotion-21::before {
   top: -8px;
 }
 
-.emotion-24::after {
+.emotion-21::after {
   top: 8px;
 }
 
-.emotion-24[data-opened] {
+.emotion-21[data-opened] {
   background-color: transparent;
 }
 
-.emotion-24[data-opened]::before {
+.emotion-21[data-opened]::before {
   -webkit-transform: translateY(8px) rotate(45deg);
   -moz-transform: translateY(8px) rotate(45deg);
   -ms-transform: translateY(8px) rotate(45deg);
   transform: translateY(8px) rotate(45deg);
 }
 
-.emotion-24[data-opened]::after {
+.emotion-21[data-opened]::after {
   -webkit-transform: translateY(-8px) rotate(-45deg);
   -moz-transform: translateY(-8px) rotate(-45deg);
   -ms-transform: translateY(-8px) rotate(-45deg);
   transform: translateY(-8px) rotate(-45deg);
 }
 
-.emotion-28 {
+.emotion-25 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -770,16 +648,16 @@ exports[`Navbar renders a Navbar 1`] = `
   gap: 20px;
 }
 
-.emotion-31 {
+.emotion-28 {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   line-height: 1.55;
 }
 
-.emotion-34 {
+.emotion-31 {
   position: relative;
 }
 
-.emotion-35 {
+.emotion-32 {
   pointer-events: none;
   position: absolute;
   z-index: 1;
@@ -802,7 +680,7 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #adb5bd;
 }
 
-.emotion-42 {
+.emotion-39 {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   height: 36px;
   -webkit-tap-highlight-color: transparent;
@@ -829,30 +707,30 @@ exports[`Navbar renders a Navbar 1`] = `
   padding-left: 36px;
 }
 
-.emotion-42:disabled {
+.emotion-39:disabled {
   background-color: #f1f3f5;
   color: #909296;
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.emotion-42:disabled::-webkit-input-placeholder {
+.emotion-39:disabled::-webkit-input-placeholder {
   color: #909296;
 }
 
-.emotion-42:disabled::-moz-placeholder {
+.emotion-39:disabled::-moz-placeholder {
   color: #909296;
 }
 
-.emotion-42:disabled:-ms-input-placeholder {
+.emotion-39:disabled:-ms-input-placeholder {
   color: #909296;
 }
 
-.emotion-42:disabled::placeholder {
+.emotion-39:disabled::placeholder {
   color: #909296;
 }
 
-.emotion-42::-webkit-input-placeholder {
+.emotion-39::-webkit-input-placeholder {
   opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -861,7 +739,7 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #adb5bd;
 }
 
-.emotion-42::-moz-placeholder {
+.emotion-39::-moz-placeholder {
   opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -870,7 +748,7 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #adb5bd;
 }
 
-.emotion-42:-ms-input-placeholder {
+.emotion-39:-ms-input-placeholder {
   opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -879,7 +757,7 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #adb5bd;
 }
 
-.emotion-42::placeholder {
+.emotion-39::placeholder {
   opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -888,29 +766,29 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #adb5bd;
 }
 
-.emotion-42::-webkit-inner-spin-button,
-.emotion-42::-webkit-outer-spin-button,
-.emotion-42::-webkit-search-decoration,
-.emotion-42::-webkit-search-cancel-button,
-.emotion-42::-webkit-search-results-button,
-.emotion-42::-webkit-search-results-decoration {
+.emotion-39::-webkit-inner-spin-button,
+.emotion-39::-webkit-outer-spin-button,
+.emotion-39::-webkit-search-decoration,
+.emotion-39::-webkit-search-cancel-button,
+.emotion-39::-webkit-search-results-button,
+.emotion-39::-webkit-search-results-decoration {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
 }
 
-.emotion-42[type=number] {
+.emotion-39[type=number] {
   -moz-appearance: textfield;
 }
 
-.emotion-42:focus,
-.emotion-42:focus-within {
+.emotion-39:focus,
+.emotion-39:focus-within {
   outline: none;
   border-color: #228be6;
 }
 
-.emotion-43 {
+.emotion-40 {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -930,7 +808,7 @@ exports[`Navbar renders a Navbar 1`] = `
   width: 36px;
 }
 
-.emotion-47 {
+.emotion-44 {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   -webkit-tap-highlight-color: transparent;
   color: inherit;
@@ -940,6 +818,54 @@ exports[`Navbar renders a Navbar 1`] = `
   text-decoration: none;
 }
 
+.emotion-44:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-44:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-47 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 16px;
+  background-color: transparent;
+  text-align: left;
+  color: #000;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 18px;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  width: auto;
+  border-radius: 4px;
+  font-weight: 600;
+  position: relative;
+  line-height: 1;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: #228be6;
+  color: #fff;
+}
+
 .emotion-47:focus {
   outline-offset: 2px;
   outline: 2px solid #339af0;
@@ -947,6 +873,80 @@ exports[`Navbar renders a Navbar 1`] = `
 
 .emotion-47:focus:not(:focus-visible) {
   outline: none;
+}
+
+.emotion-47:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-47:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-47:hover {
+    background-color: #1c7ed6;
+  }
+}
+
+@media (hover: none) {
+  .emotion-47:active {
+    background-color: #1c7ed6;
+  }
+}
+
+.emotion-47:active {
+  -webkit-transform: translateY(1px);
+  -moz-transform: translateY(1px);
+  -ms-transform: translateY(1px);
+  transform: translateY(1px);
+}
+
+.emotion-47:disabled,
+.emotion-47[data-disabled] {
+  border-color: transparent;
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
+}
+
+.emotion-47:disabled:active,
+.emotion-47[data-disabled]:active {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.emotion-47[data-loading] {
+  pointer-events: none;
+}
+
+.emotion-47[data-loading]::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background-color: rgba(255, 255, 255, .5);
+  border-radius: 4px;
+  cursor: not-allowed;
+}
+
+.emotion-52 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-right: 10px;
 }
 
 <div
@@ -976,6 +976,12 @@ exports[`Navbar renders a Navbar 1`] = `
     <div
       class="c3"
     >
+      <a
+        class="c4"
+        href="/gitpoaps"
+      >
+        GitPOAPs
+      </a>
       <a
         class="c4"
         href="/repos"
@@ -1008,7 +1014,7 @@ exports[`Navbar renders a Navbar 1`] = `
             class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-9 emotion-10 emotion-11"
+              class="emotion-9 emotion-10"
             >
               <svg
                 fill="currentColor"
@@ -1025,11 +1031,6 @@ exports[`Navbar renders a Navbar 1`] = `
                 />
               </svg>
             </span>
-            <span
-              class="emotion-12 emotion-13"
-            >
-              CONNECT TO MINT
-            </span>
           </div>
         </button>
       </div>
@@ -1037,7 +1038,7 @@ exports[`Navbar renders a Navbar 1`] = `
         class="c7"
       >
         <button
-          class="emotion-4 emotion-5 emotion-16"
+          class="emotion-4 emotion-5 emotion-6"
           data-button="true"
           type="button"
         >
@@ -1045,7 +1046,7 @@ exports[`Navbar renders a Navbar 1`] = `
             class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-12 emotion-13"
+              class="emotion-9 emotion-10"
             >
               <svg
                 fill="currentColor"
@@ -1066,37 +1067,37 @@ exports[`Navbar renders a Navbar 1`] = `
       </div>
     </div>
     <button
-      class="emotion-4 emotion-22 c8 emotion-23"
+      class="emotion-4 emotion-19 c8 emotion-20"
       title="Open navigation"
       type="button"
     >
       <div
-        class="emotion-24 emotion-25"
+        class="emotion-21 emotion-22"
       />
     </button>
   </div>
   <div
     aria-hidden="true"
-    class="c9 emotion-26"
+    class="c9 emotion-23"
     style="box-sizing: border-box; display: none; height: 0px; overflow: hidden;"
   >
     <div
       style="opacity: 0; transition: opacity 200ms ease;"
     >
       <div
-        class="emotion-27 c10 emotion-28"
+        class="emotion-24 c10 emotion-25"
       >
         <div
           class="c11"
         >
           <div
-            class="emotion-29 emotion-30 c12 c13 emotion-31"
+            class="emotion-26 emotion-27 c12 c13 emotion-28"
           >
             <div
-              class="emotion-32 emotion-33 emotion-34"
+              class="emotion-29 emotion-30 emotion-31"
             >
               <div
-                class="emotion-35 emotion-36 emotion-37"
+                class="emotion-32 emotion-33 emotion-34"
               >
                 <svg
                   fill="currentColor"
@@ -1114,7 +1115,7 @@ exports[`Navbar renders a Navbar 1`] = `
               </div>
               <input
                 aria-invalid="false"
-                class="emotion-38 emotion-39 emotion-40 emotion-41 emotion-42"
+                class="emotion-35 emotion-36 emotion-37 emotion-38 emotion-39"
                 id="mantine-r0"
                 placeholder="POAP.ETH OR 0xf6B6..."
                 spellcheck="false"
@@ -1122,10 +1123,10 @@ exports[`Navbar renders a Navbar 1`] = `
                 value=""
               />
               <div
-                class="emotion-43 emotion-44 emotion-45"
+                class="emotion-40 emotion-41 emotion-42"
               >
                 <div
-                  class="emotion-46 c14 emotion-47"
+                  class="emotion-43 c14 emotion-44"
                 >
                   /
                 </div>
@@ -1133,6 +1134,12 @@ exports[`Navbar renders a Navbar 1`] = `
             </div>
           </div>
         </div>
+        <a
+          class="c4"
+          href="/gitpoaps"
+        >
+          GitPOAPs
+        </a>
         <a
           class="c4"
           href="/repos"
@@ -1163,7 +1170,7 @@ exports[`Navbar renders a Navbar 1`] = `
           class="c5 c6"
         >
           <button
-            class="emotion-4 emotion-5 emotion-6"
+            class="emotion-4 emotion-5 emotion-47"
             data-button="true"
             type="button"
           >
@@ -1171,7 +1178,7 @@ exports[`Navbar renders a Navbar 1`] = `
               class="emotion-7 emotion-8"
             >
               <span
-                class="emotion-9 emotion-10 emotion-11"
+                class="emotion-50 emotion-51 emotion-52"
               >
                 <svg
                   fill="currentColor"
@@ -1189,7 +1196,7 @@ exports[`Navbar renders a Navbar 1`] = `
                 </svg>
               </span>
               <span
-                class="emotion-12 emotion-13"
+                class="emotion-9 emotion-10"
               >
                 CONNECT TO MINT
               </span>
@@ -1200,7 +1207,7 @@ exports[`Navbar renders a Navbar 1`] = `
           class="c7"
         >
           <button
-            class="emotion-4 emotion-5 emotion-16"
+            class="emotion-4 emotion-5 emotion-6"
             data-button="true"
             type="button"
           >
@@ -1208,7 +1215,7 @@ exports[`Navbar renders a Navbar 1`] = `
               class="emotion-7 emotion-8"
             >
               <span
-                class="emotion-12 emotion-13"
+                class="emotion-9 emotion-10"
               >
                 Connect Wallet
               </span>

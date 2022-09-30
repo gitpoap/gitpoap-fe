@@ -1,27 +1,27 @@
 import React from 'react';
 import { Grid } from '@mantine/core';
 import { Page } from '../_app';
-import { RepoList } from '../../components/repos/RepoList';
+import { GitPOAPList } from '../../components/gitpoaps/GitPOAPList';
 import { SEO } from '../../components/shared/compounds/SEO';
 
-const Repos: Page = () => {
+const GitPOAPs: Page = () => {
   return (
     <>
       <SEO
-        title={`Repos | GitPOAP`}
+        title={`GitPOAPs | GitPOAP`}
         description={
-          'View all repos supported on GitPOAP - a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
+          'View all GitPOAPs on GitPOAP - a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.'
         }
         image={'https://gitpoap.io/og-image-512x512.png'}
-        url={`https://gitpoap.io/repos`}
+        url={`https://gitpoap.io/gitpoaps`}
       />
       <Grid justify="center">
         <Grid.Col xs={11} md={10}>
-          <RepoList />
+          <GitPOAPList />
         </Grid.Col>
       </Grid>
     </>
   );
 };
 
-export default Repos;
+export default GitPOAPs;

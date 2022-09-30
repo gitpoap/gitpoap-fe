@@ -7,6 +7,7 @@ import { Title } from '../elements/Title';
 import { ExtraHover, ExtraPressed, TextLight } from '../../../colors';
 import { FeatureHeart } from './FeatureHeart';
 import { Level } from '../../../types';
+import { BaseSkeleton, TextSkeleton } from '../elements';
 
 type Props = {
   gitPOAPId: number;
@@ -20,6 +21,7 @@ type Props = {
   poapTokenId?: string | null;
   onClick?: () => void;
   level?: Level;
+  size?: 'sm' | 'md';
 };
 
 export const LineClamp = (lines: number) => css`
@@ -98,6 +100,20 @@ const BadgeWrapper = styled(Wrapper)`
   position: relative;
 `;
 
+export const GitPOAPSkeleton = () => {
+  return (
+    <Wrapper>
+      <BadgeWrapper>
+        <BaseSkeleton height={rem(140)} circle />
+      </BadgeWrapper>
+      <Info>
+        <TextSkeleton height={rem(26)} width={rem(160)} mt={rem(10)} />
+        <TextSkeleton height={rem(18)} width={rem(140)} mt={rem(10)} />
+      </Info>
+    </Wrapper>
+  );
+};
+
 export const GitPOAP = ({
   className,
   poapTokenId,
@@ -110,13 +126,14 @@ export const GitPOAP = ({
   onClick,
   orgName,
   level,
+  size = 'sm',
 }: Props) => {
   return (
     <Wrapper className={className}>
       <BadgeWrapper>
         <GitPOAPBadge
           href={`/gp/${gitPOAPId}`}
-          size="sm"
+          size={size}
           imgUrl={imgSrc}
           altText={name}
           onClick={() => onClick && onClick()}
