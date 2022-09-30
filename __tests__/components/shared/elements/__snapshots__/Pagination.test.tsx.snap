@@ -35,12 +35,15 @@ exports[`Pagination renders a Pagination 1`] = `
   gap: 8px;
 }
 
-.emotion-4 {
+.emotion-1>* {
   box-sizing: border-box;
   -webkit-box-flex: 0;
   -webkit-flex-grow: 0;
   -ms-flex-positive: 0;
   flex-grow: 0;
+}
+
+.emotion-2 {
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   -webkit-user-select: none;
@@ -71,35 +74,35 @@ exports[`Pagination renders a Pagination 1`] = `
   background-color: #fff;
 }
 
-.emotion-4:focus {
+.emotion-2:focus {
   outline-offset: 2px;
   outline: 2px solid #339af0;
 }
 
-.emotion-4:focus:not(:focus-visible) {
+.emotion-2:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-4:active:not(:disabled):not([data-dots]) {
+.emotion-2:active:not(:disabled):not([data-dots]) {
   -webkit-transform: translateY(1px);
   -moz-transform: translateY(1px);
   -ms-transform: translateY(1px);
   transform: translateY(1px);
 }
 
-.emotion-4:disabled {
+.emotion-2:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   color: #adb5bd;
 }
 
-.emotion-4[data-dots] {
+.emotion-2[data-dots] {
   cursor: default;
   border-color: transparent;
   background-color: transparent;
 }
 
-.emotion-4[data-active] {
+.emotion-2[data-active] {
   border-color: transparent;
   color: #fff;
   background-color: #228be6;
@@ -111,7 +114,7 @@ exports[`Pagination renders a Pagination 1`] = `
 >
   <button
     aria-disabled="true"
-    class="emotion-2 emotion-3 emotion-4"
+    class="emotion-2 emotion-3"
     disabled=""
     type="button"
   >
@@ -130,7 +133,7 @@ exports[`Pagination renders a Pagination 1`] = `
   </button>
   <button
     aria-current="page"
-    class="emotion-2 emotion-3 emotion-4"
+    class="emotion-2 emotion-3"
     data-active="true"
     tabindex="0"
     type="button"
@@ -138,35 +141,35 @@ exports[`Pagination renders a Pagination 1`] = `
     1
   </button>
   <button
-    class="emotion-2 emotion-3 emotion-4"
+    class="emotion-2 emotion-3"
     tabindex="0"
     type="button"
   >
     2
   </button>
   <button
-    class="emotion-2 emotion-3 emotion-4"
+    class="emotion-2 emotion-3"
     tabindex="0"
     type="button"
   >
     3
   </button>
   <button
-    class="emotion-2 emotion-3 emotion-4"
+    class="emotion-2 emotion-3"
     tabindex="0"
     type="button"
   >
     4
   </button>
   <button
-    class="emotion-2 emotion-3 emotion-4"
+    class="emotion-2 emotion-3"
     tabindex="0"
     type="button"
   >
     5
   </button>
   <button
-    class="emotion-2 emotion-3 emotion-4"
+    class="emotion-2 emotion-3"
     data-dots="true"
     tabindex="-1"
     type="button"
@@ -185,15 +188,14 @@ exports[`Pagination renders a Pagination 1`] = `
     </svg>
   </button>
   <button
-    class="emotion-2 emotion-3 emotion-4"
+    class="emotion-2 emotion-3"
     tabindex="0"
     type="button"
   >
     10
   </button>
   <button
-    aria-disabled="false"
-    class="emotion-2 emotion-3 emotion-4"
+    class="emotion-2 emotion-3"
     type="button"
   >
     <svg

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DisconnectPopover should render dropdown 1`] = `
-.emotion-3 {
+.emotion-2 {
   -webkit-tap-highlight-color: transparent;
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   cursor: pointer;
@@ -38,69 +38,68 @@ exports[`DisconnectPopover should render dropdown 1`] = `
   border: 1px solid #228be6;
   background-color: transparent;
   color: #228be6;
-  box-sizing: border-box;
-  -webkit-box-flex: 0;
-  -webkit-flex-grow: 0;
-  -ms-flex-positive: 0;
-  flex-grow: 0;
 }
 
-.emotion-3:focus {
+.emotion-2:focus {
   outline-offset: 2px;
   outline: 2px solid #339af0;
 }
 
-.emotion-3:focus:not(:focus-visible) {
+.emotion-2:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-3:focus {
+.emotion-2:focus {
   outline-offset: 2px;
   outline: 2px solid #339af0;
 }
 
-.emotion-3:focus:not(:focus-visible) {
+.emotion-2:focus:not(:focus-visible) {
   outline: none;
 }
 
 @media (hover: hover) {
-  .emotion-3:hover {
+  .emotion-2:hover {
     background-color: rgba(231, 245, 255, 0.35);
   }
 }
 
 @media (hover: none) {
-  .emotion-3:active {
+  .emotion-2:active {
     background-color: rgba(231, 245, 255, 0.35);
   }
 }
 
-.emotion-3:active {
+.emotion-2:active {
   -webkit-transform: translateY(1px);
   -moz-transform: translateY(1px);
   -ms-transform: translateY(1px);
   transform: translateY(1px);
 }
 
-.emotion-3[data-disabled] {
+.emotion-2:disabled,
+.emotion-2[data-disabled] {
   border-color: transparent;
   background-color: #e9ecef;
   color: #adb5bd;
   cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
 }
 
-.emotion-3[data-disabled]:active {
+.emotion-2:disabled:active,
+.emotion-2[data-disabled]:active {
   -webkit-transform: none;
   -moz-transform: none;
   -ms-transform: none;
   transform: none;
 }
 
-.emotion-3[data-loading] {
+.emotion-2[data-loading] {
   pointer-events: none;
 }
 
-.emotion-3[data-loading]::before {
+.emotion-2[data-loading]::before {
   content: "";
   position: absolute;
   top: -1px;
@@ -112,7 +111,7 @@ exports[`DisconnectPopover should render dropdown 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-4 {
+.emotion-3 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -129,7 +128,7 @@ exports[`DisconnectPopover should render dropdown 1`] = `
   overflow: visible;
 }
 
-.emotion-6 {
+.emotion-5 {
   white-space: nowrap;
   height: 100%;
   overflow: hidden;
@@ -143,7 +142,7 @@ exports[`DisconnectPopover should render dropdown 1`] = `
   align-items: center;
 }
 
-.emotion-10 {
+.emotion-9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -156,20 +155,20 @@ exports[`DisconnectPopover should render dropdown 1`] = `
 }
 
 <button
-  class="emotion-0 emotion-1 emotion-2 emotion-3"
+  class="emotion-0 emotion-1 emotion-2"
   data-button="true"
   type="button"
 >
   <div
-    class="emotion-4 emotion-5"
+    class="emotion-3 emotion-4"
   >
     <span
-      class="emotion-6 emotion-7"
+      class="emotion-5 emotion-6"
     >
       dropdown-button
     </span>
     <span
-      class="emotion-8 emotion-9 emotion-10"
+      class="emotion-7 emotion-8 emotion-9"
     >
       <img
         src="/test/test.png"

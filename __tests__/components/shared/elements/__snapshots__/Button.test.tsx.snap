@@ -82,13 +82,17 @@ exports[`Button has the correct styles when disabled 1`] = `
   transform: translateY(1px);
 }
 
+.emotion-2:disabled,
 .emotion-2[data-disabled] {
   border-color: transparent;
   background-color: #373A40;
   color: #25262b;
   cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
 }
 
+.emotion-2:disabled:active,
 .emotion-2[data-disabled]:active {
   -webkit-transform: none;
   -moz-transform: none;
@@ -179,19 +183,19 @@ exports[`Button has the correct styles when disabled 1`] = `
   color: #838495;
 }
 
-.mantine-kpi0je:disabled .emotion-6 {
+.mantine-1pxs0zs:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-kpi0je[data-loading] .emotion-6 {
+.mantine-1pxs0zs[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-1hzto95:disabled .emotion-6 {
+.mantine-wk5ymq:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-1hzto95[data-loading] .emotion-6 {
+.mantine-wk5ymq[data-loading] .emotion-6 {
   color: #838495;
 }
 
@@ -203,27 +207,27 @@ exports[`Button has the correct styles when disabled 1`] = `
   color: #838495;
 }
 
-.mantine-1iyrnrx:disabled .emotion-6 {
+.mantine-sy6n7u:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-1iyrnrx[data-loading] .emotion-6 {
+.mantine-sy6n7u[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-qw49yw:disabled .emotion-6 {
+.mantine-ry4lhk:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-qw49yw[data-loading] .emotion-6 {
+.mantine-ry4lhk[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-1qzem94:disabled .emotion-6 {
+.mantine-nptqg3:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-1qzem94[data-loading] .emotion-6 {
+.mantine-nptqg3[data-loading] .emotion-6 {
   color: #838495;
 }
 
@@ -329,13 +333,17 @@ exports[`Button renders a button 1`] = `
   transform: translateY(1px);
 }
 
+.emotion-2:disabled,
 .emotion-2[data-disabled] {
   border-color: transparent;
   background-color: #373A40;
   color: #25262b;
   cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
 }
 
+.emotion-2:disabled:active,
 .emotion-2[data-disabled]:active {
   -webkit-transform: none;
   -moz-transform: none;
@@ -426,19 +434,19 @@ exports[`Button renders a button 1`] = `
   color: #838495;
 }
 
-.mantine-kpi0je:disabled .emotion-6 {
+.mantine-1pxs0zs:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-kpi0je[data-loading] .emotion-6 {
+.mantine-1pxs0zs[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-1hzto95:disabled .emotion-6 {
+.mantine-wk5ymq:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-1hzto95[data-loading] .emotion-6 {
+.mantine-wk5ymq[data-loading] .emotion-6 {
   color: #838495;
 }
 
@@ -542,13 +550,17 @@ exports[`Button renders a button correctly with variant - filled 1`] = `
   transform: translateY(1px);
 }
 
+.emotion-2:disabled,
 .emotion-2[data-disabled] {
   border-color: transparent;
   background-color: #373A40;
   color: #25262b;
   cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
 }
 
+.emotion-2:disabled:active,
 .emotion-2[data-disabled]:active {
   -webkit-transform: none;
   -moz-transform: none;
@@ -639,19 +651,19 @@ exports[`Button renders a button correctly with variant - filled 1`] = `
   color: #838495;
 }
 
-.mantine-kpi0je:disabled .emotion-6 {
+.mantine-1pxs0zs:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-kpi0je[data-loading] .emotion-6 {
+.mantine-1pxs0zs[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-1hzto95:disabled .emotion-6 {
+.mantine-wk5ymq:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-1hzto95[data-loading] .emotion-6 {
+.mantine-wk5ymq[data-loading] .emotion-6 {
   color: #838495;
 }
 
@@ -757,13 +769,17 @@ exports[`Button renders a button correctly with variant - outlined 1`] = `
   transform: translateY(1px);
 }
 
+.emotion-2:disabled,
 .emotion-2[data-disabled] {
   border-color: transparent;
   background-color: #373A40;
   color: #25262b;
   cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
 }
 
+.emotion-2:disabled:active,
 .emotion-2[data-disabled]:active {
   -webkit-transform: none;
   -moz-transform: none;
@@ -853,27 +869,27 @@ exports[`Button renders a button correctly with variant - outlined 1`] = `
   color: #838495;
 }
 
-.mantine-kpi0je:disabled .emotion-6 {
+.mantine-1pxs0zs:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-kpi0je[data-loading] .emotion-6 {
+.mantine-1pxs0zs[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-1hzto95:disabled .emotion-6 {
+.mantine-wk5ymq:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-1hzto95[data-loading] .emotion-6 {
+.mantine-wk5ymq[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-15e1il4:disabled .emotion-6 {
+.mantine-i85215:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-15e1il4[data-loading] .emotion-6 {
+.mantine-i85215[data-loading] .emotion-6 {
   color: #838495;
 }
 
@@ -885,19 +901,19 @@ exports[`Button renders a button correctly with variant - outlined 1`] = `
   color: #838495;
 }
 
-.mantine-1iyrnrx:disabled .emotion-6 {
+.mantine-sy6n7u:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-1iyrnrx[data-loading] .emotion-6 {
+.mantine-sy6n7u[data-loading] .emotion-6 {
   color: #838495;
 }
 
-.mantine-qw49yw:disabled .emotion-6 {
+.mantine-ry4lhk:disabled .emotion-6 {
   color: #838495;
 }
 
-.mantine-qw49yw[data-loading] .emotion-6 {
+.mantine-ry4lhk[data-loading] .emotion-6 {
   color: #838495;
 }
 
