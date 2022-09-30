@@ -3341,6 +3341,7 @@ export type Query = {
   trendingRepos?: Maybe<Array<RepoReturnData>>;
   user?: Maybe<User>;
   userClaims?: Maybe<Array<FullClaimData>>;
+  userEmail?: Maybe<Email>;
   userPOAPs?: Maybe<UserPoaPs>;
   users: Array<User>;
 };
@@ -3854,6 +3855,10 @@ export type QueryUserArgs = {
 
 export type QueryUserClaimsArgs = {
   githubId: Scalars['Float'];
+};
+
+export type QueryUserEmailArgs = {
+  ethAddress: Scalars['String'];
 };
 
 export type QueryUserPoaPsArgs = {
@@ -5497,6 +5502,22 @@ export type TrendingReposQuery = {
   }> | null;
 };
 
+export type UserEmailQueryVariables = Exact<{
+  ethAddress: Scalars['String'];
+}>;
+
+export type UserEmailQuery = {
+  __typename?: 'Query';
+  userEmail?: {
+    __typename?: 'Email';
+    id: number;
+    emailAddress: string;
+    isValidated: boolean;
+    activeToken: string;
+    tokenExpiresAt: any;
+  } | null;
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -6754,6 +6775,26 @@ export function useTrendingReposQuery(
 ) {
   return Urql.useQuery<TrendingReposQuery, TrendingReposQueryVariables>({
     query: TrendingReposDocument,
+    ...options,
+  });
+}
+export const UserEmailDocument = gql`
+  query userEmail($ethAddress: String!) {
+    userEmail(ethAddress: $ethAddress) {
+      id
+      emailAddress
+      isValidated
+      activeToken
+      tokenExpiresAt
+    }
+  }
+`;
+
+export function useUserEmailQuery(
+  options: Omit<Urql.UseQueryArgs<UserEmailQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<UserEmailQuery, UserEmailQueryVariables>({
+    query: UserEmailDocument,
     ...options,
   });
 }

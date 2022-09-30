@@ -60,18 +60,10 @@ export const SettingsText = styled(Text)`
 `;
 
 type Props = {
-  profileData: ProfileQuery['profileData'];
-  refetch: ReturnType<typeof useProfileQuery>[1];
+  ethAddress: string;
 };
 
-export type EditableProfileData = Partial<
-  Pick<
-    Exclude<ProfileQuery['profileData'], null | undefined>,
-    'bio' | 'githubHandle' | 'personalSiteUrl' | 'twitterHandle' | 'isVisibleOnLeaderboard'
-  >
->;
-
-export const SettingsPage = () => {
+export const SettingsPage = ({ ethAddress }: Props) => {
   const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
   const { authorizeGitHub, handleLogout, isLoggedIntoGitHub, user } = useAuthContext();
 
@@ -90,10 +82,6 @@ export const SettingsPage = () => {
   >(profileData?.isVisibleOnLeaderboard);
 
   const [haveChangesBeenMade, setHaveChangesBeenMade] = useState<boolean>(false);
-
-  useEffect(() => {
-    console.log(profileData);
-  }, [profileData]);
 
   useEffect(() => {
     setPersonalSiteUrlValue(profileData?.personalSiteUrl);
@@ -213,7 +201,7 @@ export const SettingsPage = () => {
       </Header>
 
       <Divider />
-      <EmailConnection />
+      <EmailConnection ethAddress={ethAddress} />
 
       <Divider />
       <Group position="apart" p={16}>

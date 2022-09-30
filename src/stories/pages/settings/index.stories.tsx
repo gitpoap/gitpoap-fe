@@ -16,7 +16,7 @@ const Template: ComponentStory<typeof SettingsPage> = () => (
   <Layout>
     <ProfileProvider addressOrEns="asdfasdfasdf">
       <Container my={48} size={600} style={{ width: '100%' }}>
-        <SettingsPage />
+        <SettingsPage ethAddress="asdfasdfasdf" />
       </Container>
     </ProfileProvider>
   </Layout>
@@ -41,6 +41,9 @@ export const Default = Template.bind({});
 Default.args = {};
 Default.parameters = {
   msw: {
-    handlers: [graphql.query('profile', (req, res, ctx) => res(ctx.data(ProfileQueryResponse)))],
+    handlers: [
+      graphql.query('profile', (req, res, ctx) => res(ctx.data(ProfileQueryResponse))),
+      graphql.query('userEmail', (req, res, ctx) => res(ctx.data(ProfileQueryResponse))),
+    ],
   },
 };

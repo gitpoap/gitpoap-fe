@@ -22,9 +22,9 @@ const Settings: Page = () => {
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/settings`}
       />
-      {connectionStatus === 'connected' ? (
+      {address && connectionStatus === 'connected' ? (
         <ProfileProvider addressOrEns={address}>
-          <SettingsPage />
+          <SettingsPage ethAddress={address} />
         </ProfileProvider>
       ) : (
         <Center style={{ width: '100%', height: 600 }}>
