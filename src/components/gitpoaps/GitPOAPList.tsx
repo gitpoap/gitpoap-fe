@@ -15,8 +15,7 @@ import {
   SortOrder,
   GitPoapOrderByWithRelationInput,
 } from '../../graphql/generated-gql';
-import { RepoHexSkeleton } from '../repos/RepoHex';
-import { GitPOAP } from '../shared/compounds/GitPOAP';
+import { GitPOAP, GitPOAPSkeleton } from '../shared/compounds/GitPOAP';
 
 type SortOptions = 'count' | 'year';
 
@@ -101,7 +100,7 @@ type QueryVars = {
 };
 
 export const GitPOAPList = () => {
-  const matchesBreakpointSm = useMediaQuery(`(max-width: ${rem(1000)})`, false);
+  const matchesBreakpointSm = useMediaQuery(`(max-width: ${rem(1000)})`, true);
   const [searchValue, setSearchValue] = useState('');
   const [debouncedSearch] = useDebouncedValue(searchValue, 200);
   const [variables, setVariables] = useState<QueryVars>({
@@ -196,8 +195,8 @@ export const GitPOAPList = () => {
           <>
             {result.fetching && !result.operation && gitPOAPListItems.length === 0 && (
               <>
-                {[...Array(15)].map((_, i) => (
-                  <RepoHexSkeleton key={i} />
+                {[...Array(variables.perPage)].map((_, i) => (
+                  <GitPOAPSkeleton key={i} />
                 ))}
               </>
             )}

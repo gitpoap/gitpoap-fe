@@ -7,6 +7,7 @@ import { Title } from '../elements/Title';
 import { ExtraHover, ExtraPressed, TextLight } from '../../../colors';
 import { FeatureHeart } from './FeatureHeart';
 import { Level } from '../../../types';
+import { BaseSkeleton, TextSkeleton } from '../elements';
 
 type Props = {
   gitPOAPId: number;
@@ -98,6 +99,20 @@ const Heart = styled(FeatureHeart)`
 const BadgeWrapper = styled(Wrapper)`
   position: relative;
 `;
+
+export const GitPOAPSkeleton = () => {
+  return (
+    <Wrapper>
+      <BadgeWrapper>
+        <BaseSkeleton height={rem(140)} circle />
+      </BadgeWrapper>
+      <Info>
+        <TextSkeleton height={rem(26)} width={rem(160)} mt={rem(10)} />
+        <TextSkeleton height={rem(18)} width={rem(140)} mt={rem(10)} />
+      </Info>
+    </Wrapper>
+  );
+};
 
 export const GitPOAP = ({
   className,
