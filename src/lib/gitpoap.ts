@@ -20,7 +20,7 @@ type GitPOAPCreateValues = {
   image: File;
 };
 
-export const makeGitPOAPAPIRequest = async (
+const makeGitPOAPAPIRequest = async (
   method: string,
   endpoint: string,
   body?: BodyInit,

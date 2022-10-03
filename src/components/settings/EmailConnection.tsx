@@ -8,9 +8,9 @@ import { z } from 'zod';
 
 import { Button, Input, Text } from '../shared/elements';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
-import { makeGitPOAPAPIRequest } from '../../lib/gitpoap';
 import { NotificationFactory } from '../../notifications';
 import { useUserEmailQuery } from '../../graphql/generated-gql';
+import { GITPOAP_API_URL } from '../../constants';
 
 type Props = {
   ethAddress: string;
@@ -104,22 +104,25 @@ export const EmailConnection = ({ ethAddress }: Props) => {
                               site: 'gitpoap.io',
                               method: 'POST /email',
                               createdAt: timestamp,
-                              email: values.email,
+                              emailAddress: values.email,
                             }),
                           );
 
-                          const res = await makeGitPOAPAPIRequest(
-                            'POST',
-                            '/email',
-                            JSON.stringify({
-                              email: values.email,
+                          const res = await fetch(`${GITPOAP_API_URL}/email`, {
+                            method: 'POST',
+                            headers: {
+                              Accept: 'application/json',
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                              emailAddress: values.email,
                               address,
                               signature: {
                                 data: signature,
                                 createdAt: timestamp,
                               },
                             }),
-                          );
+                          });
 
                           if (!res || !res.ok) {
                             throw new Error();
@@ -174,10 +177,14 @@ export const EmailConnection = ({ ethAddress }: Props) => {
                             id: userEmail?.id,
                           }),
                         );
-                        const res = await makeGitPOAPAPIRequest(
-                          'DELETE',
-                          '/email',
-                          JSON.stringify({
+
+                        const res = await fetch(`${GITPOAP_API_URL}/email`, {
+                          method: 'DELETE',
+                          headers: {
+                            Accept: 'application/json',
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({
                             id: userEmail?.id,
                             address,
                             signature: {
@@ -185,12 +192,13 @@ export const EmailConnection = ({ ethAddress }: Props) => {
                               createdAt: timestamp,
                             },
                           }),
-                        );
+                        });
 
                         if (!res || !res.ok) {
                           throw new Error();
                         } else {
                           setIsModalOpen(false);
+                          setStatus('CONNECT');
                         }
                       } catch (err) {
                         showNotification(
@@ -225,10 +233,14 @@ export const EmailConnection = ({ ethAddress }: Props) => {
                             id: userEmail?.id,
                           }),
                         );
-                        const res = await makeGitPOAPAPIRequest(
-                          'DELETE',
-                          '/email',
-                          JSON.stringify({
+
+                        const res = await fetch(`${GITPOAP_API_URL}/email`, {
+                          method: 'DELETE',
+                          headers: {
+                            Accept: 'application/json',
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({
                             id: userEmail?.id,
                             address,
                             signature: {
@@ -236,12 +248,13 @@ export const EmailConnection = ({ ethAddress }: Props) => {
                               createdAt: timestamp,
                             },
                           }),
-                        );
+                        });
 
                         if (!res || !res.ok) {
                           throw new Error();
                         } else {
                           setIsModalOpen(false);
+                          setStatus('CONNECT');
                         }
                       } catch (err) {
                         showNotification(
