@@ -7,6 +7,7 @@ import { HiOutlineMail, HiOutlineMailOpen } from 'react-icons/hi';
 import { z } from 'zod';
 
 import { Button, Input, Text } from '../shared/elements';
+import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { makeGitPOAPAPIRequest } from '../../lib/gitpoap';
 import { NotificationFactory } from '../../notifications';
 import { useUserEmailQuery } from '../../graphql/generated-gql';
@@ -16,6 +17,8 @@ type Props = {
 };
 
 export const EmailConnection = ({ ethAddress }: Props) => {
+  const { web3Provider } = useWeb3Context();
+  const signer = web3Provider?.getSigner();
   const [status, setStatus] =
     useState<'CONNECT' | 'SUBMITTED' | 'PENDING' | 'DISCONNECT'>('CONNECT');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -92,18 +95,41 @@ export const EmailConnection = ({ ethAddress }: Props) => {
                   <Button
                     onClick={async () => {
                       if (!validate().hasErrors) {
-                        const res = await makeGitPOAPAPIRequest(
-                          'POST',
-                          '/email',
-                          JSON.stringify({ email: values.email }),
-                        );
+                        const address = await signer?.getAddress();
+                        const timestamp = Date.now();
 
-                        if (!res || !res.ok) {
+                        try {
+                          const signature = await signer?.signMessage(
+                            JSON.stringify({
+                              site: 'gitpoap.io',
+                              method: 'POST /email',
+                              createdAt: timestamp,
+                              email: values.email,
+                            }),
+                          );
+
+                          const res = await makeGitPOAPAPIRequest(
+                            'POST',
+                            '/email',
+                            JSON.stringify({
+                              email: values.email,
+                              address,
+                              signature: {
+                                data: signature,
+                                createdAt: timestamp,
+                              },
+                            }),
+                          );
+
+                          if (!res || !res.ok) {
+                            throw new Error();
+                          } else {
+                            setStatus('SUBMITTED');
+                          }
+                        } catch (err) {
                           showNotification(
                             NotificationFactory.createError('Oops, something went wrong! 🤥'),
                           );
-                        } else {
-                          setStatus('SUBMITTED');
                         }
                       }
                     }}
@@ -136,18 +162,40 @@ export const EmailConnection = ({ ethAddress }: Props) => {
                   <Button
                     color="red"
                     onClick={async () => {
-                      const res = await makeGitPOAPAPIRequest(
-                        'DELETE',
-                        '/email',
-                        JSON.stringify({ id: userEmail?.id }),
-                      );
+                      const address = await signer?.getAddress();
+                      const timestamp = Date.now();
 
-                      if (!res || !res.ok) {
+                      try {
+                        const signature = await signer?.signMessage(
+                          JSON.stringify({
+                            site: 'gitpoap.io',
+                            method: 'DELETE /email',
+                            createdAt: timestamp,
+                            id: userEmail?.id,
+                          }),
+                        );
+                        const res = await makeGitPOAPAPIRequest(
+                          'DELETE',
+                          '/email',
+                          JSON.stringify({
+                            id: userEmail?.id,
+                            address,
+                            signature: {
+                              data: signature,
+                              createdAt: timestamp,
+                            },
+                          }),
+                        );
+
+                        if (!res || !res.ok) {
+                          throw new Error();
+                        } else {
+                          setIsModalOpen(false);
+                        }
+                      } catch (err) {
                         showNotification(
                           NotificationFactory.createError('Oops, something went wrong! 🤥'),
                         );
-                      } else {
-                        setIsModalOpen(false);
                       }
                     }}
                   >
@@ -165,18 +213,40 @@ export const EmailConnection = ({ ethAddress }: Props) => {
                   <Button
                     color="red"
                     onClick={async () => {
-                      const res = await makeGitPOAPAPIRequest(
-                        'DELETE',
-                        '/email',
-                        JSON.stringify({ id: userEmail?.id }),
-                      );
+                      const address = await signer?.getAddress();
+                      const timestamp = Date.now();
 
-                      if (!res || !res.ok) {
+                      try {
+                        const signature = await signer?.signMessage(
+                          JSON.stringify({
+                            site: 'gitpoap.io',
+                            method: 'DELETE /email',
+                            createdAt: timestamp,
+                            id: userEmail?.id,
+                          }),
+                        );
+                        const res = await makeGitPOAPAPIRequest(
+                          'DELETE',
+                          '/email',
+                          JSON.stringify({
+                            id: userEmail?.id,
+                            address,
+                            signature: {
+                              data: signature,
+                              createdAt: timestamp,
+                            },
+                          }),
+                        );
+
+                        if (!res || !res.ok) {
+                          throw new Error();
+                        } else {
+                          setIsModalOpen(false);
+                        }
+                      } catch (err) {
                         showNotification(
                           NotificationFactory.createError('Oops, something went wrong! 🤥'),
                         );
-                      } else {
-                        setIsModalOpen(false);
                       }
                     }}
                   >
