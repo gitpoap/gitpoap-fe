@@ -50,12 +50,14 @@ export const EmailConnection = ({ ethAddress }: Props) => {
           <HiOutlineMail size={32} />
           <Title order={5}>Email</Title>
         </Group>
-        {userEmail &&
-          (userEmail.isValidated ? (
-            <Text size="xs">{`You are connected as ${userEmail.emailAddress}`}</Text>
-          ) : (
-            <Text size="xs">{`Pending verification for ${userEmail.emailAddress}`}</Text>
-          ))}
+        {
+          {
+            CONNECT: <></>,
+            SUBMITTED: <Text size="xs">{`Pending verification for ${values.email}`}</Text>,
+            PENDING: <Text size="xs">{`Pending verification for ${userEmail?.emailAddress}`}</Text>,
+            DISCONNECT: <Text size="xs">{`You are connected as ${userEmail?.emailAddress}`}</Text>,
+          }[status]
+        }
       </Stack>
       <Button
         variant={status === 'CONNECT' ? 'filled' : 'outline'}
