@@ -76,7 +76,7 @@ export const RepoLeaderBoard = ({ repoId }: RepoLeaderBoardProps) => {
   return (
     <Wrapper>
       <Content>
-        <HeaderStyled>{'Top contributors'}</HeaderStyled>
+        <HeaderStyled>{'Top holders'}</HeaderStyled>
         <List>
           {contributors && contributors?.length > 0 ? (
             contributors.map((contributor) => {
