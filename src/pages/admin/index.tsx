@@ -53,8 +53,15 @@ const AdminHome: NextPage = () => {
         <title>{'Admin | GitPOAP'}</title>
         <meta name="description" content="GitPOAP Admin" />
       </Head>
-      <Grid style={{ marginTop: rem(40) }}>
-        <Grid.Col span={10} offset={1}>
+      <Grid
+        justify="center"
+        style={{
+          flex: 1,
+          marginTop: rem(40),
+          marginBottom: rem(20),
+        }}
+      >
+        <Grid.Col span={10}>
           <Stack align="start" justify="left">
             {pages.map((page) => {
               return (
