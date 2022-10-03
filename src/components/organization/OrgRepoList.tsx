@@ -19,7 +19,7 @@ export type OrgRepo = Exclude<
 const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'alphabetical', label: 'Alphabetical' },
   { value: 'date', label: 'Creation Date' },
-  { value: 'contributor-count', label: 'Contributors' },
+  { value: 'contributor-count', label: 'Holders' },
   { value: 'minted-count', label: 'Minted Count' },
 ];
 

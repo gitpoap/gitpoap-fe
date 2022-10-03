@@ -63,7 +63,7 @@ export const Header = ({ org }: Props) => (
       <SubHeaderItem>
         <People />
         <SubHeaderItemCount>{org.contributorCount}</SubHeaderItemCount>
-        <SubHeaderItemLabel>{'Contributors'}</SubHeaderItemLabel>
+        <SubHeaderItemLabel>{'Holders'}</SubHeaderItemLabel>
       </SubHeaderItem>
       <SubHeaderItem>
         <GitPOAP />
