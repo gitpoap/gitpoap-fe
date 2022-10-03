@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Admin Page renders the Admin List 1`] = `
+.emotion-1 {
+  margin: -8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+}
+
+.emotion-3 {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+  padding: 8px;
+  margin-left: 0;
+  -webkit-flex-basis: 83.33333333333334%;
+  -ms-flex-preferred-size: 83.33333333333334%;
+  flex-basis: 83.33333333333334%;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  max-width: 83.33333333333334%;
+}
+
+@media (min-width: 577px) {
+  .emotion-3 {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .emotion-3 {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 993px) {
+  .emotion-3 {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 1201px) {
+  .emotion-3 {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 1401px) {
+  .emotion-3 {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+}
+
+.emotion-5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  -webkit-box-pack: left;
+  -ms-flex-pack: left;
+  -webkit-justify-content: left;
+  justify-content: left;
+  gap: 16px;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    style="flex: 1; margin-top: 2.5rem; margin-bottom: 1.25rem;"
+  >
+    <div
+      class="emotion-2 emotion-3"
+    >
+      <div
+        class="emotion-4 emotion-5"
+      >
+        <a
+          href="/admin/codes"
+        >
+          <span
+            class="sc-dba4da35-0 sc-e5f22f22-0 dENMWf ebzISv"
+          >
+            Add Codes
+          </span>
+        </a>
+        <a
+          href="/admin/gitpoap/create-multiple"
+        >
+          <span
+            class="sc-dba4da35-0 sc-e5f22f22-0 dENMWf ebzISv"
+          >
+            Create GitPOAPs
+          </span>
+        </a>
+        <a
+          href="/admin/gitpoap/create-multiple-event"
+        >
+          <span
+            class="sc-dba4da35-0 sc-e5f22f22-0 dENMWf ebzISv"
+          >
+            Create GitPOAPs for Events
+          </span>
+        </a>
+        <a
+          href="/admin/gitpoap/claims"
+        >
+          <span
+            class="sc-dba4da35-0 sc-e5f22f22-0 dENMWf ebzISv"
+          >
+            Claims Dashboard
+          </span>
+        </a>
+        <a
+          href="/admin/repos"
+        >
+          <span
+            class="sc-dba4da35-0 sc-e5f22f22-0 dENMWf ebzISv"
+          >
+            Repos Dashboard
+          </span>
+        </a>
+        <a
+          href="/admin/vitals"
+        >
+          <span
+            class="sc-dba4da35-0 sc-e5f22f22-0 dENMWf ebzISv"
+          >
+            Vitals Dashboard
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
