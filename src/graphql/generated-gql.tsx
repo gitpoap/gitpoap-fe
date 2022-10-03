@@ -3341,7 +3341,7 @@ export type Query = {
   trendingRepos?: Maybe<Array<RepoReturnData>>;
   user?: Maybe<User>;
   userClaims?: Maybe<Array<FullClaimData>>;
-  userEmail?: Maybe<Email>;
+  userEmail?: Maybe<VerifyEmailResponse>;
   userPOAPs?: Maybe<UserPoaPs>;
   users: Array<User>;
 };
@@ -4584,6 +4584,14 @@ export type UserWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
 };
 
+export type VerifyEmailResponse = {
+  __typename?: 'VerifyEmailResponse';
+  emailAddress: Scalars['String'];
+  id: Scalars['Float'];
+  isValidated: Scalars['Boolean'];
+  tokenExpiresAt: Scalars['DateTime'];
+};
+
 export type GetAllStatsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAllStatsQuery = {
@@ -5509,11 +5517,10 @@ export type UserEmailQueryVariables = Exact<{
 export type UserEmailQuery = {
   __typename?: 'Query';
   userEmail?: {
-    __typename?: 'Email';
+    __typename?: 'VerifyEmailResponse';
     id: number;
     emailAddress: string;
     isValidated: boolean;
-    activeToken: string;
     tokenExpiresAt: any;
   } | null;
 };
@@ -6784,7 +6791,6 @@ export const UserEmailDocument = gql`
       id
       emailAddress
       isValidated
-      activeToken
       tokenExpiresAt
     }
   }
