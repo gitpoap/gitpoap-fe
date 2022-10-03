@@ -7,7 +7,7 @@ import { Layout } from '../../../components/Layout';
 import { ProfileProvider } from '../../../components/profile/ProfileContext';
 import { EmailConnection } from '../../../components/settings/EmailConnection';
 import { ONE_DAY_IN_S } from '../../../constants';
-import { ProfileQuery, UserEmailQuery } from '../../../graphql/generated-gql';
+import { UserEmailQuery } from '../../../graphql/generated-gql';
 
 export default {
   title: 'Pages/Settings/Email',
@@ -28,7 +28,6 @@ const DefaultQueryResponse: UserEmailQuery['userEmail'] = {
   id: 1,
   emailAddress: 'test@gitpoap.io',
   isValidated: true,
-  activeToken: '1q2w3e4r5t6y7u8i9o0p',
   tokenExpiresAt: new Date(new Date().getTime() + ONE_DAY_IN_S * 1000),
 };
 
