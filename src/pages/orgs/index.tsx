@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid } from '@mantine/core';
 import { Page } from '../_app';
 import { OrgList } from '../../components/orgs/OrgList';
-import { Layout } from '../../components/Layout';
 import { SEO } from '../../components/shared/compounds/SEO';
 
 const Orgs: Page = () => {
