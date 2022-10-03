@@ -92,11 +92,11 @@ export const EmailConnection = ({ ethAddress }: Props) => {
                   <Button
                     onClick={async () => {
                       if (!validate().hasErrors) {
-                        const formData = new FormData();
-
-                        formData.append('email', values.email);
-
-                        const res = await makeGitPOAPAPIRequest('POST', '/email', formData);
+                        const res = await makeGitPOAPAPIRequest(
+                          'POST',
+                          '/email',
+                          JSON.stringify({ email: values.email }),
+                        );
 
                         if (!res || !res.ok) {
                           showNotification(
@@ -136,12 +136,11 @@ export const EmailConnection = ({ ethAddress }: Props) => {
                   <Button
                     color="red"
                     onClick={async () => {
-                      const formData = new FormData();
-
-                      // TODO
-                      formData.append('id', 'id');
-
-                      const res = await makeGitPOAPAPIRequest('DELETE', '/email', formData);
+                      const res = await makeGitPOAPAPIRequest(
+                        'DELETE',
+                        '/email',
+                        JSON.stringify({ id: userEmail?.id }),
+                      );
 
                       if (!res || !res.ok) {
                         showNotification(
@@ -166,12 +165,11 @@ export const EmailConnection = ({ ethAddress }: Props) => {
                   <Button
                     color="red"
                     onClick={async () => {
-                      const formData = new FormData();
-
-                      // TODO
-                      formData.append('id', 'id');
-
-                      const res = await makeGitPOAPAPIRequest('DELETE', '/email', formData);
+                      const res = await makeGitPOAPAPIRequest(
+                        'DELETE',
+                        '/email',
+                        JSON.stringify({ id: userEmail?.id }),
+                      );
 
                       if (!res || !res.ok) {
                         showNotification(
