@@ -742,7 +742,6 @@ query userEmail($ethAddress: String!) {
     id
     emailAddress
     isValidated
-    activeToken
     tokenExpiresAt
   }
 }
