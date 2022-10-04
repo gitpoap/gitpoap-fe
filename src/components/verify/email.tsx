@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from '../shared/compounds/Link';
 import { Text, Loader } from '../shared/elements';
 import { GITPOAP_API_URL } from '../../constants';
+import { showNotification } from '@mantine/notifications';
+import { NotificationFactory } from '../../notifications';
 
 type Props = {
   token: string;
@@ -14,19 +16,28 @@ type Status = 'VALID' | 'INVALID' | 'EXPIRED' | 'USED' | 'LOADING';
 export const VerifyEmail = ({ token }: Props) => {
   const [status, setStatus] = useState<Status>('LOADING');
 
-  useEffect(() => {
-    if (token) {
-      setStatus('LOADING');
-      fetch(`${GITPOAP_API_URL}/email/verify`, {
+  const verifyToken = async () => {
+    try {
+      const response = await fetch(`${GITPOAP_API_URL}/email/verify`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ activeToken: token }),
-      })
-        .then((response) => response.json())
-        .then((data) => setStatus(data.msg ?? 'INVALID'));
+      });
+      const data = await response.json();
+      setStatus(data.msg ?? 'INVALID');
+    } catch (err) {
+      showNotification(NotificationFactory.createError('Oops, something went wrong! 🤥'));
+      setStatus('INVALID');
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      setStatus('LOADING');
+      verifyToken();
     }
   }, [token]);
 
