@@ -5,7 +5,13 @@ import { Group, Popover } from '@mantine/core';
 import { Image, Stack } from '@mantine/core';
 import { Dropzone as DropzoneUI, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { HiOutlinePhotograph } from 'react-icons/hi';
-import { BackgroundPanel, BackgroundPanel2, ExtraRed, TextLight } from '../../colors';
+import {
+  BackgroundPanel,
+  BackgroundPanel2,
+  BackgroundPanel3,
+  ExtraRed,
+  TextLight,
+} from '../../colors';
 import { Text } from '../shared/elements/Text';
 import { LineClamp } from '../shared/compounds/GitPOAP';
 
@@ -13,9 +19,12 @@ type Props = Omit<React.ComponentProps<typeof DropzoneUI>, 'accept'>;
 
 export const Dropzone = styled(DropzoneUI)`
   background-color: ${BackgroundPanel};
+  border-color: ${BackgroundPanel2};
+  transition: background-color 150ms ease, border-color 150ms ease;
 
   &:hover {
     background-color: ${BackgroundPanel2};
+    border-color: ${BackgroundPanel3};
   }
 `;
 

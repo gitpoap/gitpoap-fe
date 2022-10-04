@@ -2,7 +2,9 @@ import { BREAKPOINTS } from '../../constants';
 import { MantineProviderProps } from '@mantine/core';
 import { BackgroundPanel, ExtraHover } from '../../colors';
 import { rem } from 'polished';
+
 import { buttonTheme } from './ButtonTheme';
+import { datePickerTheme } from './DatePickerTheme';
 
 export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
@@ -10,6 +12,7 @@ export const theme: MantineProviderProps['theme'] = {
   respectReducedMotion: false,
   components: {
     Button: buttonTheme,
+    DatePicker: datePickerTheme,
     Modal: {
       styles: {
         modal: {

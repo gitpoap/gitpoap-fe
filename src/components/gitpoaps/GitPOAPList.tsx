@@ -20,7 +20,7 @@ import { GitPOAP, GitPOAPSkeleton } from '../shared/compounds/GitPOAP';
 type SortOptions = 'count' | 'year';
 
 const selectOptions: SelectOption<SortOptions>[] = [
-  { value: 'count', label: 'Claims' },
+  { value: 'count', label: 'Popularity' },
   { value: 'year', label: 'Year' },
 ];
 
