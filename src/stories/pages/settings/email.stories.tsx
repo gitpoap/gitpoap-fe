@@ -7,7 +7,7 @@ import { Layout } from '../../../components/Layout';
 import { ProfileProvider } from '../../../components/profile/ProfileContext';
 import { EmailConnection } from '../../../components/settings/EmailConnection';
 import { ONE_DAY_IN_S } from '../../../constants';
-import { UserEmailQuery } from '../../../graphql/generated-gql';
+import { EmailByEthAddressQuery } from '../../../graphql/generated-gql';
 
 export default {
   title: 'Pages/Settings/Email',
@@ -24,7 +24,7 @@ const Template: ComponentStory<typeof EmailConnection> = () => (
   </Layout>
 );
 
-const DefaultQueryResponse: UserEmailQuery['userEmail'] = {
+const DefaultQueryResponse: EmailByEthAddressQuery['findFirstEmail'] = {
   id: 1,
   emailAddress: 'test@gitpoap.io',
   isValidated: true,
