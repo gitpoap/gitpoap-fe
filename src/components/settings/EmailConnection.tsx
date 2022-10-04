@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { Button, Input, Text } from '../shared/elements';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { NotificationFactory } from '../../notifications';
-import { useUserEmailQuery } from '../../graphql/generated-gql';
+import { useEmailByEthAddressQuery } from '../../graphql/generated-gql';
 import { GITPOAP_API_URL } from '../../constants';
 
 type Props = {
@@ -22,8 +22,10 @@ export const EmailConnection = ({ ethAddress }: Props) => {
   const [status, setStatus] =
     useState<'CONNECT' | 'SUBMITTED' | 'PENDING' | 'DISCONNECT'>('CONNECT');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [userEmailResponse] = useUserEmailQuery({ variables: { ethAddress } });
-  const userEmail = userEmailResponse.data?.userEmail;
+  const [userEmailResponse] = useEmailByEthAddressQuery({
+    variables: { ethAddress: ethAddress.toLowerCase() },
+  });
+  const userEmail = userEmailResponse.data?.findFirstEmail;
 
   useEffect(() => {
     if (userEmail) {

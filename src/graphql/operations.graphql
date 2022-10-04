@@ -737,8 +737,8 @@ query trendingRepos($count: Float!, $numDays: Float!) {
   }
 }
 
-query userEmail($ethAddress: String!) {
-  emails(where: { address: { is: { ethAddress: { equals: $ethAddress } } } }) {
+query emailByEthAddress($ethAddress: String!) {
+  findFirstEmail(where: { address: { is: { ethAddress: { equals: $ethAddress } } } }) {
     id
     emailAddress
     isValidated
