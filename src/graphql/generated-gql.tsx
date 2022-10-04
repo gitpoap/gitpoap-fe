@@ -641,13 +641,24 @@ export type DateTimeWithAggregatesFilter = {
 export type Email = {
   __typename?: 'Email';
   _count?: Maybe<EmailCount>;
+  address: Address;
   addressId: Scalars['Int'];
+  claims: Array<Claim>;
   createdAt: Scalars['DateTime'];
   emailAddress: Scalars['String'];
   id: Scalars['Int'];
   isValidated: Scalars['Boolean'];
   tokenExpiresAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+};
+
+export type EmailClaimsArgs = {
+  cursor?: InputMaybe<ClaimWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ClaimScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ClaimOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ClaimWhereInput>;
 };
 
 export type EmailAvgAggregate = {
@@ -5723,19 +5734,19 @@ export type TrendingReposQuery = {
   }> | null;
 };
 
-export type UserEmailQueryVariables = Exact<{
+export type EmailByEthAddressQueryVariables = Exact<{
   ethAddress: Scalars['String'];
 }>;
 
-export type UserEmailQuery = {
+export type EmailByEthAddressQuery = {
   __typename?: 'Query';
-  emails: Array<{
+  findFirstEmail?: {
     __typename?: 'Email';
     id: number;
     emailAddress: string;
     isValidated: boolean;
     tokenExpiresAt: any;
-  }>;
+  } | null;
 };
 
 export const GetAllStatsDocument = gql`
@@ -6998,9 +7009,9 @@ export function useTrendingReposQuery(
     ...options,
   });
 }
-export const UserEmailDocument = gql`
-  query userEmail($ethAddress: String!) {
-    emails(where: { address: { is: { ethAddress: { equals: $ethAddress } } } }) {
+export const EmailByEthAddressDocument = gql`
+  query emailByEthAddress($ethAddress: String!) {
+    findFirstEmail(where: { address: { is: { ethAddress: { equals: $ethAddress } } } }) {
       id
       emailAddress
       isValidated
@@ -7009,11 +7020,11 @@ export const UserEmailDocument = gql`
   }
 `;
 
-export function useUserEmailQuery(
-  options: Omit<Urql.UseQueryArgs<UserEmailQueryVariables>, 'query'>,
+export function useEmailByEthAddressQuery(
+  options: Omit<Urql.UseQueryArgs<EmailByEthAddressQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<UserEmailQuery, UserEmailQueryVariables>({
-    query: UserEmailDocument,
+  return Urql.useQuery<EmailByEthAddressQuery, EmailByEthAddressQueryVariables>({
+    query: EmailByEthAddressDocument,
     ...options,
   });
 }
