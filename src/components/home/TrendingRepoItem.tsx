@@ -14,6 +14,7 @@ import { Body, BodyAsAnchor, InfoHexBase } from '../shared/elements/InfoHexBase'
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { BREAKPOINTS } from '../../constants';
 import { useRepoDataQuery } from '../../graphql/generated-gql';
+import { TextSkeleton } from '../shared/elements';
 
 type Props = {
   repoId: number;
@@ -142,9 +143,25 @@ const GitPoapContainer = styled(Group)`
   gap: ${rem(2)};
 `;
 
+export const TrendingRepoInfoHexLoading = () => {
+  return (
+    <Content align="center" spacing="xs">
+      <TextSkeleton width={rem(170)} height={rem(22)} />
+      <Icons spacing="xs">
+        <TextSkeleton width={rem(150)} height={rem(26)} />
+      </Icons>
+      <TextSkeleton width={rem(80)} height={rem(18)} />
+      <GitPoapContainer position="center">
+        <TextSkeleton width={rem(150)} height={rem(30)} />
+      </GitPoapContainer>
+    </Content>
+  );
+};
+
 export const TrendingRepoItem = ({ repoId, index, claimedCount, numDays }: Props) => {
   const router = useRouter();
   const [result] = useRepoDataQuery({ variables: { repoId } });
+  const isLoading = result.fetching;
   const repo = result?.data?.repoData;
   const gitPoaps = result?.data?.repoData?.project?.gitPOAPs;
   const repoName = result?.data?.repoData?.name ?? '';
@@ -159,39 +176,50 @@ export const TrendingRepoItem = ({ repoId, index, claimedCount, numDays }: Props
     <Item position="center" spacing="xl">
       <IndexText>{index}</IndexText>
       <InfoHexBaseStyled onClick={handleClick} hoverEffects>
-        <Content align="center" spacing="xs">
-          <TitleStyled>{repo?.name}</TitleStyled>
-          <Icons spacing="xs">
-            {repo?.contributorCount !== undefined && (
-              <IconCount count={repo?.contributorCount} icon={<People width="13" height="11" />} />
-            )}
-            {repo?.gitPOAPCount !== undefined && (
-              <IconCount count={repo?.gitPOAPCount} icon={<GitPOAP width="14" height="12" />} />
-            )}
-            {starCount !== undefined && (
-              <IconCount count={starCount} icon={<Star width="13" height="11" />} />
-            )}
-          </Icons>
-          <BadgeStyled>{repo?.organization?.name}</BadgeStyled>
-          <GitPoapContainer position="center">
-            {gitPoaps &&
-              gitPoaps.map((gitPoap) => (
-                <GitPOAPBadge
-                  key={gitPoap.id}
-                  size="xxxs"
-                  imgUrl={gitPoap?.imageUrl}
-                  altText={gitPoap?.name.replace('GitPOAP: ', '') ?? ''}
-                  disableHoverEffects
+        {isLoading ? (
+          <TrendingRepoInfoHexLoading />
+        ) : (
+          <Content align="center" spacing="xs">
+            <TitleStyled>{repo?.name}</TitleStyled>
+            <Icons spacing="xs">
+              {repo?.contributorCount !== undefined && (
+                <IconCount
+                  count={repo?.contributorCount}
+                  icon={<People width="13" height="11" />}
                 />
-              ))}
-          </GitPoapContainer>
-        </Content>
+              )}
+              {repo?.gitPOAPCount !== undefined && (
+                <IconCount count={repo?.gitPOAPCount} icon={<GitPOAP width="14" height="12" />} />
+              )}
+              {starCount !== undefined && (
+                <IconCount count={starCount} icon={<Star width="13" height="11" />} />
+              )}
+            </Icons>
+            <BadgeStyled>{repo?.organization?.name}</BadgeStyled>
+            <GitPoapContainer position="center">
+              {gitPoaps &&
+                gitPoaps.map((gitPoap) => (
+                  <GitPOAPBadge
+                    key={gitPoap.id}
+                    size="xxxs"
+                    imgUrl={gitPoap?.imageUrl}
+                    altText={gitPoap?.name.replace('GitPOAP: ', '') ?? ''}
+                    disableHoverEffects
+                  />
+                ))}
+            </GitPoapContainer>
+          </Content>
+        )}
       </InfoHexBaseStyled>
       <MintInfo align="start">
         <LastXDaysMintInfo spacing="xs">
           <LastXDaysMintText>{`${claimedCount} minted in last ${numDays} days`}</LastXDaysMintText>
         </LastXDaysMintInfo>
-        <SubText>{`${repo?.mintedGitPOAPCount} minted total`}</SubText>
+        {isLoading ? (
+          <TextSkeleton width={rem(100)} height={rem(22)} />
+        ) : (
+          <SubText>{`${repo?.mintedGitPOAPCount} minted total`}</SubText>
+        )}
       </MintInfo>
     </Item>
   );
