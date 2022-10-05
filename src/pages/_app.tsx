@@ -5,6 +5,7 @@ import { createClient, Provider as URQLProvider } from 'urql';
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import * as Sentry from '@sentry/browser';
+import '../styles/styles.css';
 import { GlobalStyles } from '../styles/globalStyles';
 import { Web3ContextProvider } from '../components/wallet/Web3ContextProvider';
 import { AuthProvider } from '../components/github/AuthContext';
