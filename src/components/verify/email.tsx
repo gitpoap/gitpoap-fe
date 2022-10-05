@@ -58,7 +58,11 @@ export const VerifyEmail = ({ token }: Props) => {
                 <Title>Invalid Link</Title>
                 <Text>The verification link provided is invalid.</Text>
                 <Text>
-                  You can generate a new one on the <Link href="/settings">settings page</Link>.
+                  {'You can generate a new one in your '}
+                  <Link href="/settings">
+                    <Text>settings</Text>
+                  </Link>
+                  {'.'}
                 </Text>
               </>
             ),
@@ -67,7 +71,11 @@ export const VerifyEmail = ({ token }: Props) => {
                 <Title>Expired Link</Title>
                 <Text>The verification link provided is expired.</Text>
                 <Text>
-                  You can generate a new one on the <Link href="/settings">settings page</Link>.
+                  {'You can generate a new one in your '}
+                  <Link href="/settings">
+                    <Text>settings</Text>
+                  </Link>
+                  {'.'}
                 </Text>
               </>
             ),
@@ -76,7 +84,11 @@ export const VerifyEmail = ({ token }: Props) => {
                 <Title>Used Link</Title>
                 <Text>The verification link provided has already been used.</Text>
                 <Text>
-                  You can generate a new one on the <Link href="/settings">settings page</Link>.
+                  {'You can generate a new one in your '}
+                  <Link href="/settings">
+                    <Text>settings</Text>
+                  </Link>
+                  {'.'}
                 </Text>
               </>
             ),
