@@ -109,15 +109,6 @@ export type AggregateClaim = {
   _sum?: Maybe<ClaimSumAggregate>;
 };
 
-export type AggregateEmail = {
-  __typename?: 'AggregateEmail';
-  _avg?: Maybe<EmailAvgAggregate>;
-  _count?: Maybe<EmailCountAggregate>;
-  _max?: Maybe<EmailMaxAggregate>;
-  _min?: Maybe<EmailMinAggregate>;
-  _sum?: Maybe<EmailSumAggregate>;
-};
-
 export type AggregateFeaturedPoap = {
   __typename?: 'AggregateFeaturedPOAP';
   _avg?: Maybe<FeaturedPoapAvgAggregate>;
@@ -641,72 +632,6 @@ export type DateTimeWithAggregatesFilter = {
 export type Email = {
   __typename?: 'Email';
   _count?: Maybe<EmailCount>;
-  address: Address;
-  addressId: Scalars['Int'];
-  claims: Array<Claim>;
-  createdAt: Scalars['DateTime'];
-  emailAddress: Scalars['String'];
-  id: Scalars['Int'];
-  isValidated: Scalars['Boolean'];
-  tokenExpiresAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-};
-
-export type EmailClaimsArgs = {
-  cursor?: InputMaybe<ClaimWhereUniqueInput>;
-  distinct?: InputMaybe<Array<ClaimScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<ClaimOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ClaimWhereInput>;
-};
-
-export type EmailAvgAggregate = {
-  __typename?: 'EmailAvgAggregate';
-  addressId?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-};
-
-export type EmailAvgOrderByAggregateInput = {
-  addressId?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-};
-
-export type EmailCount = {
-  __typename?: 'EmailCount';
-  claims: Scalars['Int'];
-};
-
-export type EmailCountAggregate = {
-  __typename?: 'EmailCountAggregate';
-  _all: Scalars['Int'];
-  activeToken: Scalars['Int'];
-  addressId: Scalars['Int'];
-  createdAt: Scalars['Int'];
-  emailAddress: Scalars['Int'];
-  id: Scalars['Int'];
-  isValidated: Scalars['Int'];
-  tokenExpiresAt: Scalars['Int'];
-  updatedAt: Scalars['Int'];
-};
-
-export type EmailCountOrderByAggregateInput = {
-  addressId?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  emailAddress?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  isValidated?: InputMaybe<SortOrder>;
-  tokenExpiresAt?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-};
-
-export type EmailGroupBy = {
-  __typename?: 'EmailGroupBy';
-  _avg?: Maybe<EmailAvgAggregate>;
-  _count?: Maybe<EmailCountAggregate>;
-  _max?: Maybe<EmailMaxAggregate>;
-  _min?: Maybe<EmailMinAggregate>;
-  _sum?: Maybe<EmailSumAggregate>;
   activeToken: Scalars['String'];
   addressId: Scalars['Int'];
   createdAt: Scalars['DateTime'];
@@ -717,66 +642,13 @@ export type EmailGroupBy = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type EmailMaxAggregate = {
-  __typename?: 'EmailMaxAggregate';
-  activeToken?: Maybe<Scalars['String']>;
-  addressId?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  emailAddress?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  isValidated?: Maybe<Scalars['Boolean']>;
-  tokenExpiresAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type EmailMaxOrderByAggregateInput = {
-  addressId?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  emailAddress?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  isValidated?: InputMaybe<SortOrder>;
-  tokenExpiresAt?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-};
-
-export type EmailMinAggregate = {
-  __typename?: 'EmailMinAggregate';
-  activeToken?: Maybe<Scalars['String']>;
-  addressId?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  emailAddress?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  isValidated?: Maybe<Scalars['Boolean']>;
-  tokenExpiresAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type EmailMinOrderByAggregateInput = {
-  addressId?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  emailAddress?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  isValidated?: InputMaybe<SortOrder>;
-  tokenExpiresAt?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-};
-
-export type EmailOrderByWithAggregationInput = {
-  _avg?: InputMaybe<EmailAvgOrderByAggregateInput>;
-  _count?: InputMaybe<EmailCountOrderByAggregateInput>;
-  _max?: InputMaybe<EmailMaxOrderByAggregateInput>;
-  _min?: InputMaybe<EmailMinOrderByAggregateInput>;
-  _sum?: InputMaybe<EmailSumOrderByAggregateInput>;
-  addressId?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  emailAddress?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  isValidated?: InputMaybe<SortOrder>;
-  tokenExpiresAt?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
+export type EmailCount = {
+  __typename?: 'EmailCount';
+  claims: Scalars['Int'];
 };
 
 export type EmailOrderByWithRelationInput = {
+  activeToken?: InputMaybe<SortOrder>;
   address?: InputMaybe<AddressOrderByWithRelationInput>;
   addressId?: InputMaybe<SortOrder>;
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
@@ -793,45 +665,11 @@ export type EmailRelationFilter = {
   isNot?: InputMaybe<EmailWhereInput>;
 };
 
-export enum EmailScalarFieldEnum {
-  ActiveToken = 'activeToken',
-  AddressId = 'addressId',
-  CreatedAt = 'createdAt',
-  EmailAddress = 'emailAddress',
-  Id = 'id',
-  IsValidated = 'isValidated',
-  TokenExpiresAt = 'tokenExpiresAt',
-  UpdatedAt = 'updatedAt',
-}
-
-export type EmailScalarWhereWithAggregatesInput = {
-  AND?: InputMaybe<Array<EmailScalarWhereWithAggregatesInput>>;
-  NOT?: InputMaybe<Array<EmailScalarWhereWithAggregatesInput>>;
-  OR?: InputMaybe<Array<EmailScalarWhereWithAggregatesInput>>;
-  addressId?: InputMaybe<IntWithAggregatesFilter>;
-  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  emailAddress?: InputMaybe<StringWithAggregatesFilter>;
-  id?: InputMaybe<IntWithAggregatesFilter>;
-  isValidated?: InputMaybe<BoolWithAggregatesFilter>;
-  tokenExpiresAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-};
-
-export type EmailSumAggregate = {
-  __typename?: 'EmailSumAggregate';
-  addressId?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-};
-
-export type EmailSumOrderByAggregateInput = {
-  addressId?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-};
-
 export type EmailWhereInput = {
   AND?: InputMaybe<Array<EmailWhereInput>>;
   NOT?: InputMaybe<Array<EmailWhereInput>>;
   OR?: InputMaybe<Array<EmailWhereInput>>;
+  activeToken?: InputMaybe<StringFilter>;
   address?: InputMaybe<AddressRelationFilter>;
   addressId?: InputMaybe<IntFilter>;
   claims?: InputMaybe<ClaimListRelationFilter>;
@@ -841,11 +679,6 @@ export type EmailWhereInput = {
   isValidated?: InputMaybe<BoolFilter>;
   tokenExpiresAt?: InputMaybe<DateTimeFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
-};
-
-export type EmailWhereUniqueInput = {
-  addressId?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type EnumClaimStatusFilter = {
@@ -3455,7 +3288,6 @@ export type ProjectWhereUniqueInput = {
 export type Query = {
   __typename?: 'Query';
   aggregateClaim: AggregateClaim;
-  aggregateEmail: AggregateEmail;
   aggregateFeaturedPOAP: AggregateFeaturedPoap;
   aggregateGitPOAP: AggregateGitPoap;
   aggregateGithubIssue: AggregateGithubIssue;
@@ -3470,12 +3302,9 @@ export type Query = {
   allRepos?: Maybe<Array<Repo>>;
   claim?: Maybe<Claim>;
   claims: Array<Claim>;
-  email?: Maybe<Email>;
-  emails: Array<Email>;
   featuredPOAP?: Maybe<FeaturedPoap>;
   featuredPOAPS: Array<FeaturedPoap>;
   findFirstClaim?: Maybe<Claim>;
-  findFirstEmail?: Maybe<Email>;
   findFirstFeaturedPOAP?: Maybe<FeaturedPoap>;
   findFirstGitPOAP?: Maybe<GitPoap>;
   findFirstGithubIssue?: Maybe<GithubIssue>;
@@ -3497,7 +3326,6 @@ export type Query = {
   githubPullRequest?: Maybe<GithubPullRequest>;
   githubPullRequests: Array<GithubPullRequest>;
   groupByClaim: Array<ClaimGroupBy>;
-  groupByEmail: Array<EmailGroupBy>;
   groupByFeaturedPOAP: Array<FeaturedPoapGroupBy>;
   groupByGitPOAP: Array<GitPoapGroupBy>;
   groupByGithubIssue: Array<GithubIssueGroupBy>;
@@ -3549,14 +3377,6 @@ export type QueryAggregateClaimArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ClaimWhereInput>;
-};
-
-export type QueryAggregateEmailArgs = {
-  cursor?: InputMaybe<EmailWhereUniqueInput>;
-  orderBy?: InputMaybe<Array<EmailOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<EmailWhereInput>;
 };
 
 export type QueryAggregateFeaturedPoapArgs = {
@@ -3664,19 +3484,6 @@ export type QueryClaimsArgs = {
   where?: InputMaybe<ClaimWhereInput>;
 };
 
-export type QueryEmailArgs = {
-  where: EmailWhereUniqueInput;
-};
-
-export type QueryEmailsArgs = {
-  cursor?: InputMaybe<EmailWhereUniqueInput>;
-  distinct?: InputMaybe<Array<EmailScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<EmailOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<EmailWhereInput>;
-};
-
 export type QueryFeaturedPoapArgs = {
   where: FeaturedPoapWhereUniqueInput;
 };
@@ -3697,15 +3504,6 @@ export type QueryFindFirstClaimArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ClaimWhereInput>;
-};
-
-export type QueryFindFirstEmailArgs = {
-  cursor?: InputMaybe<EmailWhereUniqueInput>;
-  distinct?: InputMaybe<Array<EmailScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<EmailOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<EmailWhereInput>;
 };
 
 export type QueryFindFirstFeaturedPoapArgs = {
@@ -3868,15 +3666,6 @@ export type QueryGroupByClaimArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ClaimWhereInput>;
-};
-
-export type QueryGroupByEmailArgs = {
-  by: Array<EmailScalarFieldEnum>;
-  having?: InputMaybe<EmailScalarWhereWithAggregatesInput>;
-  orderBy?: InputMaybe<Array<EmailOrderByWithAggregationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<EmailWhereInput>;
 };
 
 export type QueryGroupByFeaturedPoapArgs = {
@@ -5734,21 +5523,6 @@ export type TrendingReposQuery = {
   }> | null;
 };
 
-export type EmailByEthAddressQueryVariables = Exact<{
-  ethAddress: Scalars['String'];
-}>;
-
-export type EmailByEthAddressQuery = {
-  __typename?: 'Query';
-  findFirstEmail?: {
-    __typename?: 'Email';
-    id: number;
-    emailAddress: string;
-    isValidated: boolean;
-    tokenExpiresAt: any;
-  } | null;
-};
-
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -7006,25 +6780,6 @@ export function useTrendingReposQuery(
 ) {
   return Urql.useQuery<TrendingReposQuery, TrendingReposQueryVariables>({
     query: TrendingReposDocument,
-    ...options,
-  });
-}
-export const EmailByEthAddressDocument = gql`
-  query emailByEthAddress($ethAddress: String!) {
-    findFirstEmail(where: { address: { is: { ethAddress: { equals: $ethAddress } } } }) {
-      id
-      emailAddress
-      isValidated
-      tokenExpiresAt
-    }
-  }
-`;
-
-export function useEmailByEthAddressQuery(
-  options: Omit<Urql.UseQueryArgs<EmailByEthAddressQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<EmailByEthAddressQuery, EmailByEthAddressQueryVariables>({
-    query: EmailByEthAddressDocument,
     ...options,
   });
 }

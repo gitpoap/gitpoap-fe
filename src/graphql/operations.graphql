@@ -737,12 +737,3 @@ query trendingRepos($count: Float!, $numDays: Float!) {
     mintedGitPOAPCount
   }
 }
-
-query emailByEthAddress($ethAddress: String!) {
-  findFirstEmail(where: { address: { is: { ethAddress: { equals: $ethAddress } } } }) {
-    id
-    emailAddress
-    isValidated
-    tokenExpiresAt
-  }
-}
