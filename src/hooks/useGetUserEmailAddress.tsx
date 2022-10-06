@@ -25,9 +25,9 @@ export const useGetUserEmailAddress = (ethAddress: string): EmailReturnType => {
       });
 
       if (res.ok) {
-        const emailAddress = (await res.json()) as EmailReturnType;
+        const data = (await res.json()) as { email: EmailReturnType };
 
-        setEmailAddress(emailAddress);
+        setEmailAddress(data.email);
       } else {
         throw res;
       }
