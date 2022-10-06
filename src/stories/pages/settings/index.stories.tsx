@@ -43,7 +43,13 @@ Default.parameters = {
   msw: {
     handlers: [
       graphql.query('profile', (req, res, ctx) => res(ctx.data(ProfileQueryResponse))),
-      graphql.query('userEmail', (req, res, ctx) => res(ctx.data(ProfileQueryResponse))),
+      rest.get('*/email/asdfasdfasdf', (req, res, ctx) => {
+        return res(
+          ctx.json({
+            email: null,
+          }),
+        );
+      }),
       rest.post('*/email', (req, res, ctx) => {
         return res(
           ctx.json({

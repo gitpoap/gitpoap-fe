@@ -1,30 +1,30 @@
 import { Container } from '@mantine/core';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { graphql } from 'msw';
+import { rest } from 'msw';
 import React from 'react';
 
 import { Layout } from '../../../components/Layout';
 import { ProfileProvider } from '../../../components/profile/ProfileContext';
 import { EmailConnection } from '../../../components/settings/EmailConnection';
 import { ONE_DAY_IN_S } from '../../../constants';
-import { EmailByEthAddressQuery } from '../../../graphql/generated-gql';
+import { EmailReturnType } from '../../../hooks/useGetUserEmailAddress';
 
 export default {
   title: 'Pages/Settings/Email',
   component: EmailConnection,
 } as ComponentMeta<typeof EmailConnection>;
 
-const Template: ComponentStory<typeof EmailConnection> = () => (
+const Template: ComponentStory<typeof EmailConnection> = ({ ethAddress }) => (
   <Layout>
     <ProfileProvider addressOrEns="asdfasdfasdf">
       <Container my={48} size={600} style={{ width: '100%' }}>
-        <EmailConnection ethAddress="1q2w4r6tyy78ui9i0o" />
+        <EmailConnection ethAddress={ethAddress} />
       </Container>
     </ProfileProvider>
   </Layout>
 );
 
-const DefaultQueryResponse: EmailByEthAddressQuery['findFirstEmail'] = {
+const DefaultQueryResponse: EmailReturnType = {
   id: 1,
   emailAddress: 'test@gitpoap.io',
   isValidated: true,
@@ -32,49 +32,65 @@ const DefaultQueryResponse: EmailByEthAddressQuery['findFirstEmail'] = {
 };
 
 export const Connected = Template.bind({});
-Connected.args = {};
+Connected.args = { ethAddress: 'connected' };
 Connected.parameters = {
   msw: {
     handlers: [
-      graphql.query('userEmail', (req, res, ctx) =>
-        res(ctx.data({ userEmail: { ...DefaultQueryResponse } })),
-      ),
+      rest.get('*/email/connected', (req, res, ctx) => {
+        return res(
+          ctx.json({
+            email: { ...DefaultQueryResponse },
+          }),
+        );
+      }),
     ],
   },
 };
 
 export const Disconnected = Template.bind({});
-Disconnected.args = {};
+Disconnected.args = { ethAddress: 'disconnected' };
 Disconnected.parameters = {
   msw: {
-    handlers: [graphql.query('userEmail', (req, res, ctx) => res(ctx.data({})))],
+    handlers: [
+      rest.get('*/email/disconnected', (req, res, ctx) => {
+        return res(
+          ctx.json({
+            email: null,
+          }),
+        );
+      }),
+    ],
   },
 };
 
 export const Pending = Template.bind({});
-Pending.args = {};
+Pending.args = { ethAddress: 'pending' };
 Pending.parameters = {
   msw: {
     handlers: [
-      graphql.query('userEmail', (req, res, ctx) =>
-        res(ctx.data({ userEmail: { ...DefaultQueryResponse, isValidated: false } })),
-      ),
+      rest.get('*/email/pending', (req, res, ctx) => {
+        return res(
+          ctx.json({
+            email: { ...DefaultQueryResponse, isValidated: false },
+          }),
+        );
+      }),
     ],
   },
 };
 
 export const Expired = Template.bind({});
-Expired.args = {};
+Expired.args = { ethAddress: 'expired' };
 Expired.parameters = {
   msw: {
     handlers: [
-      graphql.query('userEmail', (req, res, ctx) =>
-        res(
-          ctx.data({
-            userEmail: { ...DefaultQueryResponse, isValidated: false, tokenExpiresAt: new Date() },
+      rest.get('*/email/expired', (req, res, ctx) => {
+        return res(
+          ctx.json({
+            email: { ...DefaultQueryResponse, isValidated: false, tokenExpiresAt: new Date() },
           }),
-        ),
-      ),
+        );
+      }),
     ],
   },
 };
