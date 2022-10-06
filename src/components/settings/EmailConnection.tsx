@@ -2,15 +2,15 @@ import { Stack, Group, Title, Modal } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import { HiOutlineMail } from 'react-icons/hi';
 
+import { useGetUserEmailAddress } from '../../hooks/useGetUserEmailAddress';
 import { Button, Text } from '../shared/elements';
-import { useEmailByEthAddressQuery } from '../../graphql/generated-gql';
-import { useEmailConnectionForm } from './useEmailConnectionForm';
 import {
   EmailConnectionModalConnect,
   EmailConnectionModalDisconnect,
   EmailConnectionModalPending,
   EmailConnectionModalSubmitted,
 } from './EmailConnectionModalStates';
+import { useEmailConnectionForm } from './useEmailConnectionForm';
 
 type Props = {
   ethAddress: string;
@@ -21,10 +21,8 @@ export type EmailConnectionStatus = 'CONNECT' | 'SUBMITTED' | 'PENDING' | 'DISCO
 export const EmailConnection = ({ ethAddress }: Props) => {
   const [status, setStatus] = useState<EmailConnectionStatus>('CONNECT');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [userEmailResponse] = useEmailByEthAddressQuery({
-    variables: { ethAddress: ethAddress.toLowerCase() },
-  });
-  const userEmail = userEmailResponse.data?.findFirstEmail;
+
+  const userEmail = useGetUserEmailAddress(ethAddress.toLowerCase());
 
   useEffect(() => {
     if (userEmail) {

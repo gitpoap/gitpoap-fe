@@ -9,7 +9,7 @@ import { EmailConnectionFormReturnTypes } from './useEmailConnectionForm';
 import { Button, Input, Text } from '../shared/elements';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { GITPOAP_API_URL } from '../../constants';
-import { EmailByEthAddressQuery } from '../../graphql/generated-gql';
+import { EmailReturnType } from '../../hooks/useGetUserEmailAddress';
 import { NotificationFactory } from '../../notifications';
 
 type ConnectProps = {
@@ -110,7 +110,7 @@ export const EmailConnectionModalSubmitted = ({ values }: SubmittedProps) => {
 type PendingProps = {
   closeModal: () => void;
   setStatus: (status: EmailConnectionStatus) => void;
-  userEmail: EmailByEthAddressQuery['findFirstEmail'];
+  userEmail: EmailReturnType;
 };
 
 export const EmailConnectionModalPending = ({ closeModal, setStatus, userEmail }: PendingProps) => {
@@ -176,7 +176,7 @@ export const EmailConnectionModalPending = ({ closeModal, setStatus, userEmail }
 type DisconnectProps = {
   closeModal: () => void;
   setStatus: (status: EmailConnectionStatus) => void;
-  userEmail: EmailByEthAddressQuery['findFirstEmail'];
+  userEmail: EmailReturnType;
 };
 
 export const EmailConnectionModalDisconnect = ({
