@@ -13,6 +13,7 @@ import { BackgroundPanel2 } from '../../colors';
 import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
 import { Errors } from './ErrorText';
 import { createGitPOAP } from '../../lib/gitpoap';
+import { InfoTooltip } from './InfoTooltip';
 
 const FormInput = styled(Input)`
   width: ${rem(375)};
@@ -244,17 +245,34 @@ export const CreateRow = (props: Props) => {
             hideControls
             {...getInputProps('numRequestedCodes')}
           />
-          <Checkbox mt="md" label="Ongoing?" {...getInputProps('ongoing', { type: 'checkbox' })} />
-          <Checkbox
-            mt="md"
-            label="PR-Based?"
-            {...getInputProps('isPRBased', { type: 'checkbox' })}
-          />
-          <Checkbox
-            mt="md"
-            label="Enabled?"
-            {...getInputProps('isEnabled', { type: 'checkbox' })}
-          />
+
+          <InfoTooltip text="Prevents a newly created GitPOAP from appearing on the site as claimable AND prevents it from being claimed.">
+            <Checkbox
+              mt="md"
+              label="Ongoing?"
+              {...getInputProps('ongoing', { type: 'checkbox' })}
+            />
+          </InfoTooltip>
+
+          <InfoTooltip
+            text={
+              'Toggles whether merged PRs are counted as valid contributions. For example, ethers.js and ethereum/EIPs have this set to false.'
+            }
+          >
+            <Checkbox
+              mt="md"
+              label="PR-Based?"
+              {...getInputProps('isPRBased', { type: 'checkbox' })}
+            />
+          </InfoTooltip>
+
+          <InfoTooltip text="Set this field only when claims will continue to be created on an ongoing basis. When set to true, the flag triggers a background process that automatically fetches claim codes when needed.">
+            <Checkbox
+              mt="md"
+              label="Enabled?"
+              {...getInputProps('isEnabled', { type: 'checkbox' })}
+            />
+          </InfoTooltip>
         </Group>
       </Group>
 

@@ -8,6 +8,7 @@ import Document, {
 } from 'next/document';
 import { ServerStyles, createStylesServer } from '@mantine/next';
 import { ServerStyleSheet } from 'styled-components';
+import { PrimaryBlue } from '../colors';
 
 const stylesServer = createStylesServer();
 
@@ -74,6 +75,9 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
             rel="stylesheet"
           />
+
+          {/* <!-- Theme Color --> */}
+          <meta name="theme-color" content={`${PrimaryBlue}`} />
 
           {/* <!-- Icon files for mobile, mac, windows, legacy --> */}
           <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
