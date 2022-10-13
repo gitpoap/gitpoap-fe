@@ -12,11 +12,11 @@ import { BackgroundPanel2 } from '../../colors';
 import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
 import { Errors } from './ErrorText';
 import { createGitPOAP } from '../../lib/gitpoap';
+import { useTokens } from '../../hooks/useTokens';
 
 type Props = {
   rowId: string;
   onDelete: (rowId: string) => void;
-  token: string;
   eventName: string;
   eventStartDate: Date;
   eventEndDate: Date;
@@ -92,6 +92,7 @@ type FormValues = {
 };
 
 export const EventCreateRow = (props: Props) => {
+  const { tokens } = useTokens();
   const [repoUrlSeed, setRepoUrlSeed] = useState<string>('');
   const [projectNameSeed, setProjectNameSeed] = useState<string>('');
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
@@ -211,9 +212,9 @@ export const EventCreateRow = (props: Props) => {
     /* do not include setFieldValue or setErrors below */
   }, []);
 
-  const submitCreateGitPOAP = useCallback(async (formValues: FormValues, token: string) => {
+  const submitCreateGitPOAP = useCallback(async (formValues: FormValues, token: string | null) => {
     setButtonStatus(ButtonStatus.LOADING);
-    if (formValues['image'] === null || formValues.githubRepoId === undefined) {
+    if (formValues['image'] === null || formValues.githubRepoId === undefined || token === null) {
       setButtonStatus(ButtonStatus.ERROR);
       return;
     }
@@ -311,7 +312,7 @@ export const EventCreateRow = (props: Props) => {
         data={values}
         clearData={clearData}
         buttonStatus={buttonStatus}
-        onSubmit={onSubmit((values) => submitCreateGitPOAP(values, props.token))}
+        onSubmit={onSubmit((values) => submitCreateGitPOAP(values, tokens?.accessToken ?? null))}
         onDelete={() => props.onDelete(props.rowId)}
       />
 

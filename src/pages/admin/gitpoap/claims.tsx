@@ -4,12 +4,12 @@ import { rem } from 'polished';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Grid, Loader } from '@mantine/core';
-import { useAuthContext } from '../../../components/github/AuthContext';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { useAdminClaimsQuery, useGetAllStatsQuery } from '../../../graphql/generated-gql';
 import { DateTime } from 'luxon';
 import { truncateAddress, truncateString } from '../../../helpers';
 import { TableDashboard, TD } from '../../../components/admin/TableDashboard';
+import { useIsAdmin } from '../../../hooks/useIsAdmin';
 
 const LoaderContainer = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ type RowData = {
 };
 
 const ClaimsDashboard: NextPage = () => {
-  const { isLoggedIntoGitHub, isDev } = useAuthContext();
+  const isAdmin = useIsAdmin();
   const [result] = useAdminClaimsQuery({
     variables: {
       count: 200,
@@ -98,7 +98,7 @@ const ClaimsDashboard: NextPage = () => {
         }}
       >
         <Grid.Col xs={12} sm={12} md={12} lg={12} xl={12}>
-          {isLoggedIntoGitHub || isDev ? (
+          {isAdmin ? (
             <>
               {result.fetching && (
                 <LoaderContainer>

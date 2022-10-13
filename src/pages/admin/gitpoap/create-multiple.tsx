@@ -7,14 +7,14 @@ import { Grid, Group, Stack } from '@mantine/core';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, Header } from '../../../components/shared/elements';
 import { Divider } from '../../../components/shared/elements';
-import { useAuthContext } from '../../../components/github/AuthContext';
 import { CreateRow } from '../../../components/admin/CreateRow';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
+import { useIsAdmin } from '../../../hooks/useIsAdmin';
 
 type Row = { id: string };
 
 const CreateMultiple: NextPage = () => {
-  const { canSeeAdmin, tokens } = useAuthContext();
+  const isAdmin = useIsAdmin();
   const [rows, setRows] = useState<Row[]>([{ id: uuidv4() }]);
 
   const deleteRow = useCallback(
@@ -30,7 +30,7 @@ const CreateMultiple: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {canSeeAdmin && tokens ? (
+          {isAdmin ? (
             <Group position="center">
               <Stack style={{ width: '100%' }}>
                 <Group position="apart" style={{ width: '100%' }}>
@@ -49,7 +49,6 @@ const CreateMultiple: NextPage = () => {
                     <CreateRow
                       key={row.id}
                       rowNumber={index + 1}
-                      token={tokens.accessToken}
                       onDelete={deleteRow}
                       rowId={row.id}
                     />
