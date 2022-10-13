@@ -6,12 +6,13 @@ import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
 import { Text } from '../shared/elements/Text';
 import { Stack, Divider, Group, Title } from '@mantine/core';
 import { ExtraHover, ExtraPressed, TextGray, TextLight } from '../../colors';
-import { useAuthContext } from '../github/AuthContext';
+import { useOAuthContext } from '../oauth/OAuthContext';
 import { FaCheckCircle, FaRegEdit } from 'react-icons/fa';
 import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
-import { ProfileQuery, useProfileQuery } from '../../graphql/generated-gql';
+import { ProfileQuery } from '../../graphql/generated-gql';
 import { useProfileContext } from '../profile/ProfileContext';
 import { GoMarkGithub } from 'react-icons/go';
+import { useUser } from '../../hooks/useUser';
 
 const Header = styled.div`
   font-family: VT323;
@@ -53,11 +54,6 @@ export const SettingsText = styled(Text)`
   padding-right: ${rem(30)};
 `;
 
-type Props = {
-  profileData: ProfileQuery['profileData'];
-  refetch: ReturnType<typeof useProfileQuery>[1];
-};
-
 export type EditableProfileData = Partial<
   Pick<
     Exclude<ProfileQuery['profileData'], null | undefined>,
@@ -66,8 +62,9 @@ export type EditableProfileData = Partial<
 >;
 
 export const SettingsPage = () => {
+  const user = useUser();
   const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
-  const { authorizeGitHub, handleLogout, isLoggedIntoGitHub, user } = useAuthContext();
+  const { github } = useOAuthContext();
 
   const [personSiteUrlValue, setPersonalSiteUrlValue] = useState<string | undefined | null>(
     profileData?.personalSiteUrl,
@@ -84,10 +81,6 @@ export const SettingsPage = () => {
   >(profileData?.isVisibleOnLeaderboard);
 
   const [haveChangesBeenMade, setHaveChangesBeenMade] = useState<boolean>(false);
-
-  useEffect(() => {
-    console.log(profileData);
-  }, [profileData]);
 
   useEffect(() => {
     setPersonalSiteUrlValue(profileData?.personalSiteUrl);
@@ -136,7 +129,7 @@ export const SettingsPage = () => {
         placeholder="gitpoap"
         label={'GitHub Handle'}
         description={
-          isLoggedIntoGitHub && (
+          user?.capabilities.hasGithub && (
             <ConnectGithubAccount onClick={() => setGithubHandleValue(user?.githubHandle)}>
               <FaRegEdit />
               {' Use the currently authenticated GitHub account'}
@@ -212,10 +205,10 @@ export const SettingsPage = () => {
           <Title order={5}>GitHub</Title>
         </Group>
         <Button
-          variant={isLoggedIntoGitHub ? 'outline' : 'filled'}
-          onClick={isLoggedIntoGitHub ? handleLogout : authorizeGitHub}
+          variant={user?.capabilities.hasGithub ? 'outline' : 'filled'}
+          onClick={user?.capabilities.hasGithub ? github.disconnect : github.authorize}
         >
-          {isLoggedIntoGitHub ? 'DISCONNECT' : 'CONNECT'}
+          {user?.capabilities.hasGithub ? 'DISCONNECT' : 'CONNECT'}
         </Button>
       </Group>
     </Stack>
