@@ -209,8 +209,8 @@ export const GitPOAPList = () => {
                       name={gitPOAP.name}
                       imgSrc={gitPOAP.imageUrl}
                       size={size}
-                      repoName={gitPOAP.project.repos[0]?.name}
-                      orgName={gitPOAP.project.repos[0]?.organization.name}
+                      repoName={gitPOAP.project?.repos[0]?.name}
+                      orgName={gitPOAP.project?.repos[0]?.organization.name}
                     />
                   );
                 })
@@ -223,8 +223,8 @@ export const GitPOAPList = () => {
                       name={gitPOAP.name}
                       imgSrc={gitPOAP.imageUrl}
                       size={size}
-                      repoName={gitPOAP.project.repos[0]?.name}
-                      orgName={gitPOAP.project.repos[0]?.organization.name}
+                      repoName={gitPOAP.project?.repos[0]?.name}
+                      orgName={gitPOAP.project?.repos[0]?.organization.name}
                     />
                   );
                 })}

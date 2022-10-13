@@ -110,7 +110,7 @@ export const GitPOAPs = ({ repoId }: Props) => {
           <GitPOAPBadge
             key={`${gitPOAPItem.gitPOAP.id}-minting`}
             gitPOAPId={gitPOAPItem.gitPOAP.id}
-            repoName={gitPOAPItem.gitPOAP.project.repos[0].name}
+            repoName={gitPOAPItem.gitPOAP.project?.repos[0].name}
             name={gitPOAPItem.event.name}
             imgSrc={gitPOAPItem.event.image_url}
           />

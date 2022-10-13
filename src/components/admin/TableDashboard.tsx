@@ -63,7 +63,7 @@ type Props<T> = {
   topRowData: Record<string, string | number>;
 };
 
-export const TableDashboard = <T extends Record<string, TD<string | number>>[]>({
+export const TableDashboard = <T extends Record<string, TD<string | number | undefined>>[]>({
   data,
   topRowData,
   name,
