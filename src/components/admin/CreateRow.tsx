@@ -14,6 +14,7 @@ import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
 import { Errors } from './ErrorText';
 import { createGitPOAP } from '../../lib/gitpoap';
 import { InfoTooltip } from './InfoTooltip';
+import { useTokens } from '../../hooks/useTokens';
 
 const FormInput = styled(Input)`
   width: ${rem(375)};
@@ -73,7 +74,6 @@ type FormValues = z.infer<typeof schema>;
 
 type Props = {
   rowNumber: number;
-  token: string;
   onDelete: (id: string) => void;
   rowId: string;
 };
@@ -84,6 +84,7 @@ export const CreateRow = (props: Props) => {
   const [githubRepoId, eventUrl] = useGetGHRepoId(repoUrlSeed);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const firstUpdate = useRef(true);
+  const { tokens } = useTokens();
 
   const { values, setFieldValue, getInputProps, onSubmit, errors, setErrors } = useForm<
     z.infer<typeof schema>
@@ -165,9 +166,9 @@ export const CreateRow = (props: Props) => {
     /* do not include setFieldValue below */
   }, []);
 
-  const submitCreateGitPOAP = useCallback(async (formValues: FormValues, token: string) => {
+  const submitCreateGitPOAP = useCallback(async (formValues: FormValues, token: string | null) => {
     setButtonStatus(ButtonStatus.LOADING);
-    if (formValues['image'] === null || formValues.githubRepoId === undefined) {
+    if (formValues['image'] === null || formValues.githubRepoId === undefined || token === null) {
       setButtonStatus(ButtonStatus.ERROR);
       return;
     }
@@ -333,7 +334,7 @@ export const CreateRow = (props: Props) => {
         data={values}
         clearData={clearData}
         buttonStatus={buttonStatus}
-        onSubmit={onSubmit((values) => submitCreateGitPOAP(values, props.token))}
+        onSubmit={onSubmit((values) => submitCreateGitPOAP(values, tokens?.accessToken ?? null))}
         onDelete={() => props.onDelete(props.rowId)}
       />
       {/* Errors Section */}

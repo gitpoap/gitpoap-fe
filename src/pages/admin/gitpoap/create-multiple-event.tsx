@@ -11,11 +11,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { DateTime } from 'luxon';
 import { Input, Button, NumberInput, Header, Checkbox } from '../../../components/shared/elements';
 import { Divider } from '../../../components/shared/elements';
-import { useAuthContext } from '../../../components/github/AuthContext';
 import { DateInput } from '../../../components/shared/elements/DateInput';
 import { EventCreateRow } from '../../../components/admin/EventCreateRow';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { THIS_YEAR } from '../../../constants';
+import { useIsAdmin } from '../../../hooks/useIsAdmin';
 
 const FormInput = styled(Input)`
   width: ${rem(375)};
@@ -51,7 +51,7 @@ const DEFAULT_EXPIRY_DATE = DateTime.local(THIS_YEAR + 1, 4, 1).toJSDate();
 type Row = { id: string };
 
 const CreateMultipleEvent: NextPage = () => {
-  const { isLoggedIntoGitHub, tokens } = useAuthContext();
+  const isAdmin = useIsAdmin();
   const [rows, setRows] = useState<Row[]>([{ id: uuidv4() }]);
   const { values, setFieldValue, getInputProps } = useForm<z.infer<typeof schema>>({
     validate: zodResolver(schema),
@@ -94,7 +94,7 @@ const CreateMultipleEvent: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isLoggedIntoGitHub && tokens ? (
+          {isAdmin ? (
             <Group position="center">
               <Stack>
                 <Header style={{ alignSelf: 'start' }}>
@@ -189,7 +189,6 @@ const CreateMultipleEvent: NextPage = () => {
                       key={row.id}
                       rowId={row.id}
                       onDelete={deleteRow}
-                      token={tokens.accessToken}
                       rowNumber={index + 1}
                       eventName={values.eventName}
                       eventStartDate={values.startDate}

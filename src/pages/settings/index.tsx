@@ -22,7 +22,7 @@ const Settings: Page = () => {
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/settings`}
       />
-      {connectionStatus === 'connected' ? (
+      {connectionStatus === 'connected-to-wallet' ? (
         <ProfileProvider addressOrEns={address}>
           <SettingsPage />
         </ProfileProvider>
@@ -31,7 +31,7 @@ const Settings: Page = () => {
           {connectionStatus === 'disconnected' && (
             <Button onClick={() => connect()}>{'Connect Wallet'}</Button>
           )}
-          {connectionStatus === 'connecting' && <Loader />}
+          {connectionStatus === 'connecting-wallet' && <Loader />}
         </Center>
       )}
     </Wrapper>

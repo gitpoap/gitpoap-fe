@@ -23,6 +23,7 @@ import { Header, LinkHoverStyles } from '../shared/elements';
 import { Box, Group, BoxProps, Stack } from '@mantine/core';
 import { Link } from '../shared/compounds/Link';
 import { TextLight } from '../../colors';
+import { useTokens } from '../../hooks/useTokens';
 
 const ItemContainer = styled(Box)`
   display: flex;
@@ -93,11 +94,8 @@ const getPercent = (numerator?: number, denominator?: number) => {
 const getFormattedDate = (date?: string) =>
   date ? DateTime.fromISO(date).toFormat('dd-LLL-yy HH:mm') : '';
 
-type Props = {
-  accessToken: string | null;
-};
-
-export const VitalsDashboard = (props: Props) => {
+export const VitalsDashboard = () => {
+  const { tokens } = useTokens();
   const todayMinus7Days = DateTime.local().minus({ days: 7 }).toFormat('yyyy-MM-dd');
   const todayMinus30Days = DateTime.local().minus({ days: 30 }).toFormat('yyyy-MM-dd');
   const todayMinus90Days = DateTime.local().minus({ days: 90 }).toFormat('yyyy-MM-dd');
@@ -136,11 +134,17 @@ export const VitalsDashboard = (props: Props) => {
   const [totalClaimsWithPullRequestEarnedResult] = useCountClaimsWithPullRequestEarnedQuery();
 
   const { data: ongoingIssuanceResult } = useSWR<{ lastRun: string }>(
-    [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/vitals/ongoing-issuance`, props.accessToken],
+    [
+      `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/vitals/ongoing-issuance`,
+      tokens?.accessToken ?? null,
+    ],
     fetchWithToken,
   );
   const { data: checkForCodesResult } = useSWR<{ lastRun: string }>(
-    [`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/vitals/check-for-codes`, props.accessToken],
+    [
+      `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/vitals/check-for-codes`,
+      tokens?.accessToken ?? null,
+    ],
     fetchWithToken,
   );
   const { data: botInstallResults } = useSWR<{ totalInstalls: number }>(

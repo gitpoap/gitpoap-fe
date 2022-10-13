@@ -4,10 +4,10 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Grid } from '@mantine/core';
 import { DateTime } from 'luxon';
-import { useAuthContext } from '../../components/github/AuthContext';
 import { ConnectGitHub } from '../../components/admin/ConnectGitHub';
 import { useAllReposQuery, useGetAllStatsQuery } from '../../graphql/generated-gql';
 import { TableDashboard, TD } from '../../components/admin/TableDashboard';
+import { useIsAdmin } from '../../hooks/useIsAdmin';
 
 type RowData = {
   'Repo ID': TD<number>;
@@ -18,7 +18,7 @@ type RowData = {
 };
 
 const ReposDashboard: NextPage = () => {
-  const { isLoggedIntoGitHub } = useAuthContext();
+  const isAdmin = useIsAdmin();
   const [result] = useAllReposQuery({
     variables: {
       count: 200,
@@ -51,7 +51,7 @@ const ReposDashboard: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isLoggedIntoGitHub ? (
+          {isAdmin ? (
             <>
               {data && (
                 <TableDashboard<RowData[]>

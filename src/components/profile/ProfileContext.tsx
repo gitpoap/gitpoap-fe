@@ -11,10 +11,10 @@ import { useProfileQuery, ProfileQuery } from '../../graphql/generated-gql';
 import { useWeb3Context } from '../../components/wallet/Web3ContextProvider';
 import { EditProfileModal } from '../../components/profile/EditProfileModal';
 import { GITPOAP_API_URL } from '../../constants';
-import { useAuthContext } from '../github/AuthContext';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
+import { useTokens } from '../../hooks/useTokens';
 
 export type EditableProfileData = Partial<
   Pick<
@@ -47,9 +47,8 @@ type Props = {
 };
 
 export const ProfileProvider = ({ children, addressOrEns }: Props) => {
-  const { tokens } = useAuthContext();
-  const { web3Provider, address: connectedWalletAddress } = useWeb3Context();
-  const signer = web3Provider?.getSigner();
+  const { tokens } = useTokens();
+  const { address: connectedWalletAddress } = useWeb3Context();
   const [profileData, setProfileData] = useState<ProfileQuery['profileData']>();
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
@@ -135,7 +134,7 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
         setIsSaveSuccessful(false);
       }
     },
-    [signer, tokens?.accessToken, refetch, connectedWalletAddress],
+    [tokens?.accessToken, refetch],
   );
 
   return (
