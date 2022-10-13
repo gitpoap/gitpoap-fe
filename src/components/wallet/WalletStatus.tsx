@@ -4,7 +4,7 @@ import { rem } from 'polished';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { Button } from '../shared/elements/Button';
 import { shortenAddress } from '../../helpers';
-import { useWeb3Context } from './Web3ContextProvider';
+import { useWeb3Context } from './Web3Context';
 import { Avatar } from '../shared/elements';
 
 type Props = {

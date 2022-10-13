@@ -4,7 +4,7 @@ import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { NextRouter } from 'next/router';
 import { Provider as URQLProvider } from 'urql';
 import { Navbar } from '../../src/components/Navbar';
-import { Web3ContextProvider } from '../../src/components/wallet/Web3ContextProvider';
+import { Web3ContextProvider } from '../../src/components/wallet/Web3Context';
 
 const mockClient = {
   executeQuery: jest.fn(() => {}),

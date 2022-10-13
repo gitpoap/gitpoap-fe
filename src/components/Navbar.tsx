@@ -11,7 +11,7 @@ import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
 import { Wallet } from './wallet/Wallet';
 import { GitHub } from './oauth/GitHub';
 import { SearchBox } from './search/box/SearchBox';
-import { useWeb3Context } from './wallet/Web3ContextProvider';
+import { useWeb3Context } from './wallet/Web3Context';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
 import { useFeatures } from './FeaturesContext';
 

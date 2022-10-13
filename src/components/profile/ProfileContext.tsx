@@ -8,7 +8,7 @@ import React, {
   SetStateAction,
 } from 'react';
 import { useProfileQuery, ProfileQuery } from '../../graphql/generated-gql';
-import { useWeb3Context } from '../../components/wallet/Web3ContextProvider';
+import { useWeb3Context } from '../wallet/Web3Context';
 import { EditProfileModal } from '../../components/profile/EditProfileModal';
 import { GITPOAP_API_URL } from '../../constants';
 import { showNotification } from '@mantine/notifications';

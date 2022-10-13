@@ -5,7 +5,7 @@ import { GITPOAP_API_URL } from '../../constants';
 import { ClaimStatus, OpenClaimsQuery, useOpenClaimsQuery } from '../../graphql/generated-gql';
 import { NotificationFactory } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { useWeb3Context } from '../wallet/Web3Context';
 import { ClaimModal } from '.';
 import { useTokens } from '../../hooks/useTokens';
 import { useUser } from '../../hooks/useUser';
