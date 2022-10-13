@@ -127,33 +127,15 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
 
   const addFeaturedPOAP = useCallback(
     async (poapTokenId: string) => {
-      const timestamp = Date.now();
       setLoadingIds((prevState) => ({ ...prevState, [poapTokenId]: true }));
 
       try {
-        const signature = await signer?.signMessage(
-          JSON.stringify({
-            site: 'gitpoap.io',
-            method: 'PUT /featured',
-            createdAt: timestamp,
-            poapTokenId,
-          }),
-        );
-
-        await fetch(`${GITPOAP_API_URL}/featured`, {
+        await fetch(`${GITPOAP_API_URL}/featured/${poapTokenId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${tokens?.accessToken}`,
           },
-          body: JSON.stringify({
-            address: walletAddress,
-            poapTokenId,
-            signature: {
-              data: signature,
-              createdAt: timestamp,
-            },
-          }),
         });
         const results = await refetchData();
         saveData(results.data);
@@ -177,37 +159,20 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
         });
       }
     },
-    [walletAddress, signer, tokens?.accessToken, saveData, refetchData],
+    [tokens?.accessToken, saveData, refetchData],
   );
 
   const removeFeaturedPOAP = useCallback(
     async (poapTokenId: string) => {
-      const timestamp = Date.now();
       setLoadingIds((prevState) => ({ ...prevState, [poapTokenId]: true }));
 
       try {
-        const signature = await signer?.signMessage(
-          JSON.stringify({
-            site: 'gitpoap.io',
-            method: 'DELETE /featured/:id',
-            createdAt: timestamp,
-            poapTokenId,
-          }),
-        );
-
         await fetch(`${GITPOAP_API_URL}/featured/${poapTokenId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${tokens?.accessToken}`,
           },
-          body: JSON.stringify({
-            address: walletAddress,
-            signature: {
-              data: signature,
-              createdAt: timestamp,
-            },
-          }),
         });
 
         const results = await refetchData();
@@ -232,7 +197,7 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
         });
       }
     },
-    [walletAddress, signer, tokens?.accessToken, saveData, refetchData],
+    [tokens?.accessToken, saveData, refetchData],
   );
 
   return (
