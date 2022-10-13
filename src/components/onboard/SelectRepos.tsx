@@ -3,7 +3,7 @@ import { rem } from 'polished';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { BackgroundPanel2, ExtraRed, ExtraRedDark, PrimaryBlue, TextGray } from '../../colors';
-import { useAuthContext } from '../github/AuthContext';
+import { useUser } from '../../hooks/useUser';
 import { Checkbox, Input, Text } from '../shared/elements';
 import { StyledLink } from './IntakeForm';
 import { FormReturnTypes, Repo } from './types';
@@ -39,7 +39,7 @@ const BadgeStyled = styled(Badge)<BadgeProps & React.ComponentPropsWithoutRef<'d
 `;
 
 export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props) => {
-  const { user } = useAuthContext();
+  const user = useUser();
   const [searchValue, setSearchValue] = useState<string>('');
   const [checkedSelectAll, setCheckedSelectAll] = useState(false);
   const filteredRepos = repos.filter((repo) =>

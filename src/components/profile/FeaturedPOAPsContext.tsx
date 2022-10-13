@@ -8,10 +8,10 @@ import {
 import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { useWeb3Context } from '../wallet/Web3ContextProvider';
 import { GITPOAP_API_URL } from '../../constants';
-import { useAuthContext } from '../github/AuthContext';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';
 import { useProfileContext } from './ProfileContext';
+import { useTokens } from '../../hooks/useTokens';
 
 export type GitPOAP = Exclude<
   FeaturedPoapsQuery['profileFeaturedPOAPs'],
@@ -62,10 +62,9 @@ type Props = {
 };
 
 export const FeaturedPOAPsProvider = ({ children }: Props) => {
-  const { web3Provider, address: walletAddress } = useWeb3Context();
-  const signer = web3Provider?.getSigner();
+  const { address: walletAddress } = useWeb3Context();
   const { profileData } = useProfileContext();
-  const { tokens } = useAuthContext();
+  const { tokens } = useTokens();
   const [showHearts, setShowHearts] = useState(false);
   const [featuredPOAPsState, setFeaturedPOAPsState] = useState<FeaturedPOAPsState>(
     getInitialState(),

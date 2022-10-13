@@ -6,10 +6,11 @@ import { FaArrowRight } from 'react-icons/fa';
 import { TextGray, TextLight } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { useClaimContext } from '../ClaimModal/ClaimContext';
-import { useAuthContext } from '../github/AuthContext';
+import { useOAuthContext } from '../oauth/OAuthContext';
 import { Link } from '../shared/compounds/Link';
 import { TitleLink } from '../shared/elements';
 import { useLocalStorage } from '@mantine/hooks';
+import { useUser } from '../../hooks/useUser';
 
 const StyledStack = styled(Stack)`
   margin-bottom: ${rem(48)};
@@ -80,7 +81,9 @@ const CTAButtons = styled(Group)`
 `;
 
 export const Banner = () => {
-  const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
+  const { github } = useOAuthContext();
+  const user = useUser();
+  const hasGithub = user?.capabilities.hasGithub ?? false;
   const { setIsOpen } = useClaimContext();
   const [isStartMintingButtonClicked, setIsStartMintingButtonClicked] = useLocalStorage<boolean>({
     key: 'isStartMintingButtonClicked',
@@ -89,11 +92,11 @@ export const Banner = () => {
 
   /* Hook is used to open the claim modal after github auth */
   useEffect(() => {
-    if (isLoggedIntoGitHub && isStartMintingButtonClicked) {
+    if (hasGithub && isStartMintingButtonClicked) {
       setIsOpen(true);
       setIsStartMintingButtonClicked(false);
     }
-  }, [isLoggedIntoGitHub, isStartMintingButtonClicked]);
+  }, [hasGithub, isStartMintingButtonClicked]);
 
   return (
     <StyledStack spacing={24}>
@@ -111,9 +114,9 @@ export const Banner = () => {
         </Link>
         <StartMintingButton
           onClick={() => {
-            if (!isLoggedIntoGitHub) {
+            if (!hasGithub) {
               setIsStartMintingButtonClicked(true);
-              authorizeGitHub();
+              github.authorize();
             } else {
               setIsOpen(true);
             }

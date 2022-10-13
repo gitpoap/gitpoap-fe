@@ -24,7 +24,7 @@ import { Link } from '../shared/compounds/Link';
 
 type Props = {
   isConnected: boolean;
-  isLoggedIntoGitHub: boolean;
+  hasGithub: boolean;
   isOpen: boolean;
   claims: Exclude<OpenClaimsQuery['userClaims'], null | undefined>;
   claimedIds: number[];
@@ -103,10 +103,10 @@ const getClaimText = (
   isConnected: boolean,
   numClaims: number,
   numClaimed: number,
-  isLoggedIntoGitHub: boolean,
+  hasGithub: boolean,
 ): string => {
   const netClaims = numClaims - numClaimed;
-  if (!isLoggedIntoGitHub) return 'Connect your GitHub to mint!';
+  if (!hasGithub) return 'Connect your GitHub to mint!';
   if (!isConnected && netClaims > 0) return 'Connect your wallet to mint!';
 
   if (netClaims < 1) {
@@ -120,7 +120,7 @@ const getClaimText = (
 
 export const ClaimModal = ({
   isConnected,
-  isLoggedIntoGitHub,
+  hasGithub,
   isOpen,
   claims,
   claimedIds,
@@ -140,7 +140,7 @@ export const ClaimModal = ({
   const { connect, address, ensName } = useWeb3Context();
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = !!loadingClaimIds && loadingClaimIds.length === claims.length;
-  const claimText = getClaimText(isConnected, claims.length, claimedIds.length, isLoggedIntoGitHub);
+  const claimText = getClaimText(isConnected, claims.length, claimedIds.length, hasGithub);
   const allClaimIds = claims.map((userClaim) => userClaim.claim.id);
 
   return (

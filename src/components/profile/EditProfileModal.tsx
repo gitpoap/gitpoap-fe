@@ -10,7 +10,7 @@ import { ExtraHover, ExtraPressed, MidnightBlue, TextGray } from '../../colors';
 import { EditableProfileData, useProfileContext } from './ProfileContext';
 import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
 import { FaCheckCircle, FaRegEdit } from 'react-icons/fa';
-import { useAuthContext } from '../github/AuthContext';
+import { useUser } from '../../hooks/useUser';
 
 type Props = {
   isOpen: boolean;
@@ -103,7 +103,7 @@ export const EditProfileModal = ({
   onClickSave,
   isSaveLoading,
 }: Props) => {
-  const { isLoggedIntoGitHub, user } = useAuthContext();
+  const user = useUser();
   const { isSaveSuccessful } = useProfileContext();
   const [personSiteUrlValue, setPersonalSiteUrlValue] =
     useState<string | undefined | null>(personalSiteUrl);
@@ -151,7 +151,7 @@ export const EditProfileModal = ({
               placeholder="gitpoap"
               label={'GitHub Handle'}
               description={
-                isLoggedIntoGitHub && (
+                user?.capabilities.hasGithub && (
                   <ConnectGithubAccount onClick={() => setGithubHandleValue(user?.githubHandle)}>
                     <FaRegEdit />
                     {' Use the currently authenticated github account'}

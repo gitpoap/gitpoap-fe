@@ -9,7 +9,7 @@ import { DividerGray1, TextLight, MidnightBlue } from '../colors';
 import { BREAKPOINTS, TYPEFORM_LINKS } from '../constants';
 import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
 import { Wallet } from './wallet/Wallet';
-import { GitHub } from './github/GitHub';
+import { GitHub } from './oauth/GitHub';
 import { SearchBox } from './search/box/SearchBox';
 import { useWeb3Context } from './wallet/Web3ContextProvider';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
@@ -111,7 +111,7 @@ export const Navbar = () => {
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
       </NavLinkAnchor>
-      {connectionStatus === 'connected' && matches950 && !hasSettingsPage && (
+      {connectionStatus === 'connected-to-wallet' && matches950 && !hasSettingsPage && (
         <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
       )}
       <ClaimButton hideText={!matchesLg} />
@@ -129,7 +129,7 @@ export const Navbar = () => {
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
       </NavLinkAnchor>
-      {connectionStatus === 'connected' && (
+      {connectionStatus === 'connected-to-wallet' && (
         <>
           <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
           <NavLink href={`/settings`}>{'Settings'}</NavLink>

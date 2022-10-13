@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useClaimContext } from '../ClaimModal/ClaimContext';
-import { useAuthContext } from './AuthContext';
+import { useOAuthContext } from './OAuthContext';
 import { rem } from 'polished';
 import { GoMarkGithub } from 'react-icons/go';
 import { DisconnectPopover } from '../shared/compounds/DisconnectPopover';
 import { Button, ClaimCircle } from '../shared/elements';
 import { useRouter } from 'next/router';
 import { useFeatures } from '../FeaturesContext';
+import { useUser } from '../../hooks/useUser';
 
 const Content = styled.div`
   display: flex;
@@ -28,19 +29,20 @@ type Props = {
 
 export const GitHub = ({ className, hideText }: Props) => {
   const { claimedIds, userClaims, setIsOpen } = useClaimContext();
-  const { handleLogout, authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
+  const { github } = useOAuthContext();
+  const user = useUser();
   const { hasSettingsPage } = useFeatures();
   const [isGHPopoverOpen, setIsGHPopoverOpen] = useState<boolean>(false);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const userClaimCount = userClaims?.length;
   const router = useRouter();
 
-  /* Not connected to GitHub */
-  if (!isLoggedIntoGitHub) {
+  /* User has no connected GitHub account */
+  if (!user?.capabilities.hasGithub) {
     return (
       <Content className={className}>
         <Button
-          onClick={hasSettingsPage ? () => router.push(`/settings#integrations`) : authorizeGitHub}
+          onClick={hasSettingsPage ? () => router.push(`/settings#integrations`) : github.authorize}
           leftIcon={!hideText && <GoMarkGithub size={16} />}
         >
           {hideText ? <GoMarkGithub size={16} /> : 'CONNECT TO MINT'}
@@ -55,12 +57,13 @@ export const GitHub = ({ className, hideText }: Props) => {
     return (
       <Content className={className}>
         <DisconnectPopover
-          isOpen={isGHPopoverOpen}
+          // @TODO: Remove this popover and redirect to the settings page */
+          isOpen={false}
           setIsOpen={setIsGHPopoverOpen}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           onClose={() => setIsGHPopoverOpen(false)}
-          handleOnClick={handleLogout}
+          handleOnClick={github.disconnect}
           icon={<GoMarkGithub size={16} />}
           buttonText={'DISCONNECT'}
           isHovering={isHovering}
@@ -98,7 +101,7 @@ export const GitHub = ({ className, hideText }: Props) => {
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         onClose={() => setIsGHPopoverOpen(false)}
-        handleOnClick={handleLogout}
+        handleOnClick={github.disconnect}
         icon={<GoMarkGithub size={16} />}
         buttonText={'DISCONNECT'}
         isHovering={isHovering}
