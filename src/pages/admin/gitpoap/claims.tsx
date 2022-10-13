@@ -22,7 +22,7 @@ type RowData = {
   'Claim ID': TD<number>;
   'Github User': TD<string>;
   'PR #': TD<string>;
-  'User ID': TD<number>;
+  'User ID': TD<number | undefined>;
   Repo: TD<string>;
   GitPOAP: TD<number>;
   Year: TD<number>;
@@ -53,8 +53,8 @@ const ClaimsDashboard: NextPage = () => {
     return {
       'Claim ID': { value: claim.id },
       'Github User': {
-        value: truncateString(claim.user.githubHandle, 12),
-        href: `https://github.com/${claim.user.githubHandle}`,
+        value: truncateString(claim.user?.githubHandle ?? '', 12),
+        href: `https://github.com/${claim.user?.githubHandle}`,
       },
       'PR #': {
         value: ghPullNumber ? `#${ghPullNumber}` : '',
@@ -62,7 +62,7 @@ const ClaimsDashboard: NextPage = () => {
           ? `https://github.com/${org?.name}/${repo?.name}/pull/${claim.pullRequestEarned?.githubPullNumber}`
           : '',
       },
-      'User ID': { value: claim.user.id },
+      'User ID': { value: claim.user?.id },
       Org: {
         value: truncateString(org?.name ?? '', 12),
         href: `https://gitpoap.io/org/${org?.id}`,
