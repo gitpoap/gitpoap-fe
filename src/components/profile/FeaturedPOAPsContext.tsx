@@ -6,7 +6,7 @@ import {
   useFeaturedPoapsQuery,
 } from '../../graphql/generated-gql';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { useWeb3Context } from '../wallet/Web3Context';
 import { GITPOAP_API_URL } from '../../constants';
 import { showNotification } from '@mantine/notifications';
 import { NotificationFactory } from '../../notifications';

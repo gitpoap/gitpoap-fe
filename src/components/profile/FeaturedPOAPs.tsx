@@ -12,7 +12,7 @@ import { Text as TextUI } from '../shared/elements/Text';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { FaHeartBroken } from 'react-icons/fa';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { useWeb3Context } from '../wallet/Web3Context';
 import { useProfileContext } from './ProfileContext';
 
 const Container = styled.div`

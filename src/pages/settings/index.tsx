@@ -1,7 +1,7 @@
 import { Page } from '../_app';
 import { SEO } from '../../components/shared/compounds/SEO';
 import { SettingsPage } from '../../components/settings/SettingsPage';
-import { useWeb3Context } from '../../components/wallet/Web3ContextProvider';
+import { useWeb3Context } from '../../components/wallet/Web3Context';
 import styled from 'styled-components';
 import { Center, Container, Loader } from '@mantine/core';
 import { Button } from '../../components/shared/elements';

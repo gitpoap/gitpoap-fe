@@ -7,7 +7,7 @@ import { GoMarkGithub } from 'react-icons/go';
 import { useUser } from '../../hooks/useUser';
 import { useOAuthContext } from '../oauth/OAuthContext';
 import { Button, Text } from '../shared/elements';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { useWeb3Context } from '../wallet/Web3Context';
 import { StyledLink } from './Completed';
 import { IntakeForm } from './IntakeForm';
 

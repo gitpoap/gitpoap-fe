@@ -7,7 +7,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 import * as Sentry from '@sentry/browser';
 import '../styles/styles.css';
 import { GlobalStyles } from '../styles/globalStyles';
-import { Web3ContextProvider } from '../components/wallet/Web3ContextProvider';
+import { Web3ContextProvider } from '../components/wallet/Web3Context';
 import { OAuthProvider } from '../components/oauth/OAuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
