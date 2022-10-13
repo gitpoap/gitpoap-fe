@@ -78,7 +78,6 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
   const updateProfile = useCallback(
     async (newProfileData: EditableProfileData) => {
       setIsSaveLoading(true);
-      const timestamp = Date.now();
       const data: EditableProfileData = {
         bio: newProfileData.bio,
         personalSiteUrl: newProfileData.personalSiteUrl,
@@ -88,15 +87,6 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
       };
 
       try {
-        const signature = await signer?.signMessage(
-          JSON.stringify({
-            site: 'gitpoap.io',
-            method: 'POST /profiles',
-            createdAt: timestamp,
-            data,
-          }),
-        );
-
         const res = await fetch(`${GITPOAP_API_URL}/profiles`, {
           method: 'POST',
           headers: {
@@ -104,14 +94,7 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${tokens?.accessToken}`,
           },
-          body: JSON.stringify({
-            address: connectedWalletAddress,
-            data,
-            signature: {
-              data: signature,
-              createdAt: timestamp,
-            },
-          }),
+          body: JSON.stringify({ data }),
         });
 
         if (res.status === 200) {
