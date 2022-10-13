@@ -5,6 +5,7 @@ import { NextRouter } from 'next/router';
 import { Provider as URQLProvider } from 'urql';
 import { Navbar } from '../../src/components/Navbar';
 import { Web3ContextProvider } from '../../src/components/wallet/Web3Context';
+import { OAuthProvider } from '../../src/components/oauth/OAuthContext';
 
 const mockClient = {
   executeQuery: jest.fn(() => {}),
@@ -42,9 +43,11 @@ describe('Navbar', () => {
     const { container } = render(
       <RouterContext.Provider value={mockRouter}>
         <Web3ContextProvider>
-          <URQLProvider value={mockClient}>
-            <Navbar />
-          </URQLProvider>
+          <OAuthProvider>
+            <URQLProvider value={mockClient}>
+              <Navbar />
+            </URQLProvider>
+          </OAuthProvider>
         </Web3ContextProvider>
       </RouterContext.Provider>,
     );
