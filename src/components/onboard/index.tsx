@@ -68,17 +68,26 @@ export const OnboardingPage = () => {
             </Text>
             <Button
               onClick={() => {
-                if (!isLoggedIntoGitHub) {
+                if (!user) {
+                  /* User's ETH wallet isn't connected */
+                  connect();
+                } else if (!user?.capabilities.hasGithub) {
+                  /* User doesn't have a connected Github */
                   setIsOnboardingConnectButtonActive(true);
-                  authorizeGitHub();
+                  github.authorize();
                 } else {
+                  /* If ETH wallet is connected & Github is connected, then progress */
                   setGetStarted(true);
                 }
               }}
-              leftIcon={<GoMarkGithub size={16} />}
+              leftIcon={!user ? <FaEthereum /> : <GoMarkGithub />}
               style={{ margin: `${rem(16)} auto`, width: 'fit-content' }}
             >
-              {isLoggedIntoGitHub ? 'GET STARTED' : 'CONNECT GITHUB'}
+              {!user
+                ? 'CONNECT WALLET'
+                : !user?.capabilities.hasGithub
+                ? 'CONNECT GITHUB'
+                : 'GET STARTED'}
             </Button>
           </Stack>
         </Center>
