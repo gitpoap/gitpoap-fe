@@ -4,8 +4,8 @@ import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { NextRouter } from 'next/router';
-import { Web3ContextProvider } from '../../src/components/wallet/Web3ContextProvider';
-import { AuthProvider } from '../../src/components/github/AuthContext';
+import { Web3ContextProvider } from '../../src/components/wallet/Web3Context';
+import { OAuthProvider } from '../../src/components/oauth/OAuthContext';
 import { FeaturesProvider } from '../../src/components/FeaturesContext';
 import { theme } from '../../src/lib/theme';
 
@@ -45,9 +45,9 @@ export const withProviders = (storyFn) => {
         <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider autoClose={5000}>
             <URQLProvider value={client}>
-              <AuthProvider>
+              <OAuthProvider>
                 <FeaturesProvider>{storyFn()}</FeaturesProvider>
-              </AuthProvider>
+              </OAuthProvider>
             </URQLProvider>
           </NotificationsProvider>
         </MantineProvider>
