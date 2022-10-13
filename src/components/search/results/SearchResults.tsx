@@ -132,8 +132,8 @@ export const SearchResults = ({ searchQuery }: Props) => {
                       gitPOAPId={gitPOAP.id}
                       imgSrc={gitPOAP.imageUrl}
                       name={gitPOAP.name}
-                      repoName={gitPOAP.project.repos[0].name}
-                      orgName={gitPOAP.project.repos[0].organization.name}
+                      repoName={gitPOAP.project?.repos[0].name}
+                      orgName={gitPOAP.project?.repos[0].organization.name}
                     />
                   ))}
               </GitPoapList>
