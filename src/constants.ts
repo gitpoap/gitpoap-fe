@@ -42,6 +42,16 @@ interface Network {
   blockExplorerUrls: string[];
 }
 
+/* GitPOAP Staff ~ used for soft-gating admin pages */
+export const ADMIN_GITHUB_IDS = [
+  914240, // colfax23
+  8076957, // peebeejay
+  1555326, // burz
+  23272494, // kayleen / nixorokish
+  109097759, // Kayla
+  19416312, // Aldo
+];
+
 /**
  * These networks will be available for users to select. Other networks may be functional
  *(e.g. testnets, or mainnets being prepared for launch) but need to be selected directly via the wallet.
