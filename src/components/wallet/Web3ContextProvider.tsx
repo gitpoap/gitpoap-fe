@@ -10,6 +10,9 @@ import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 import { NETWORKS } from '../../constants';
 import { BackgroundPanel, BackgroundPanel2, TextLight, TextGray } from '../../colors';
 import WalletConnectProvider from '@walletconnect/web3-provider';
+import { useTokens } from '../../hooks/useTokens';
+import { useRefreshTokens } from '../../hooks/useRefreshTokens';
+import { useApi } from '../../hooks/useApi';
 
 type Props = {
   children: React.ReactNode;
@@ -50,22 +53,24 @@ if (typeof window !== 'undefined') {
 
 type onChainProvider = {
   connect: () => Promise<Web3Provider | undefined>;
-  disconnect: () => void;
+  disconnectWallet: () => void;
   hasCachedProvider: () => boolean;
   address: string | null;
   ensName: string | null;
   connectionStatus: ConnectionStatus;
   web3Provider: JsonRpcProvider | null;
   infuraProvider: InfuraProvider | null;
-  web3Modal: Web3Modal;
-  chainId: number | null;
 };
 
 type Web3ContextState = {
   onChainProvider: onChainProvider;
 } | null;
 
-type ConnectionStatus = 'connecting' | 'connected' | 'disconnecting' | 'disconnected';
+type ConnectionStatus =
+  | 'disconnected' /* Not connected to any wallet */
+  | 'disconnecting' /* Disconnecting from wallet */
+  | 'connecting-wallet' /* Connecting to wallet & authenticating*/
+  | 'connected-to-wallet'; /* Connected to wallet & authenticated */
 
 const Web3Context = createContext<Web3ContextState>(null);
 
@@ -92,23 +97,49 @@ export const Web3ContextProvider = (props: Props) => {
   const [address, setAddress] = useState<string | null>(null);
   const [web3Provider, setWeb3Provider] = useState<JsonRpcProvider | null>(null);
   const [infuraProvider, setInfuraProvider] = useState<InfuraProvider | null>(null);
-  const [chainId, setChainId] = useState<number | null>(null);
   const [ensName, setEnsName] = useState<string | null>(null);
+  const api = useApi();
+  const { setRefreshToken, setAccessToken, tokens } = useTokens();
+  /* This hook can only be used once here ~ it contains token refresh logic */
+  useRefreshTokens();
 
-  const disconnect = useCallback(async () => {
+  const disconnectWallet = useCallback(async () => {
     web3Modal.clearCachedProvider();
 
     setConnectionStatus('disconnected');
     setAddress('');
     setWeb3Provider(null);
     setEnsName(null);
+    setRefreshToken(null);
+    setAccessToken(null);
   }, [web3Modal]);
 
-  const initialize = useCallback(
+  /* Authenticate with GitPOAP */
+  const authenticate = useCallback(
+    async (web3Provider: JsonRpcProvider) => {
+      if (tokens?.accessToken) {
+        setConnectionStatus('connected-to-wallet');
+      } else {
+        const signer = web3Provider.getSigner();
+        const tokens = await api.auth.authenticate(signer);
+
+        if (tokens) {
+          setAccessToken(tokens.accessToken);
+          setRefreshToken(tokens.refreshToken);
+          setConnectionStatus('connected-to-wallet');
+        } else {
+          disconnectWallet();
+          setConnectionStatus('disconnected');
+        }
+      }
+    },
+    [disconnectWallet, setAccessToken, setRefreshToken, tokens, api.auth],
+  );
+
+  const initializeProvider = useCallback(
     async (provider: ConstructorParameters<typeof Web3Provider>[0]): Promise<Web3Provider> => {
       const web3Provider = new Web3Provider(provider, 'any');
       const connectedAddress = await web3Provider?.getSigner().getAddress();
-      const chainId = (await web3Provider?.getNetwork()).chainId;
 
       const ensName = await infuraProvider?.lookupAddress(connectedAddress);
       if (ensName) {
@@ -119,9 +150,6 @@ export const Web3ContextProvider = (props: Props) => {
 
       setAddress(connectedAddress);
       setWeb3Provider(web3Provider);
-      setChainId(chainId);
-      setConnectionStatus('connected');
-
       return web3Provider;
     },
     [infuraProvider],
@@ -132,42 +160,44 @@ export const Web3ContextProvider = (props: Props) => {
       provider.on('accountsChanged', async (accounts: string[]) => {
         if (accounts.length > 0 && address !== accounts[0]) {
           const provider = await web3Modal.connect();
-          await initialize(provider);
+          const web3Provider = await initializeProvider(provider);
+          await authenticate(web3Provider);
         } else {
-          await disconnect();
+          await disconnectWallet();
         }
       });
 
       provider.on('chainChanged', async (chainId: number) => {
-        await initialize(provider as unknown as ExternalProvider);
+        await initializeProvider(provider as unknown as ExternalProvider);
       });
 
       provider.on('disconnect', async (error: { code: number; message: string }) => {
-        await disconnect();
+        await disconnectWallet();
       });
 
       provider.on('connect', async (info: { chainId: number }) => {
         if (connectionStatus === 'disconnected') {
-          await initialize(provider as unknown as ExternalProvider);
+          const web3Provider = await initializeProvider(provider as unknown as ExternalProvider);
+          await authenticate(web3Provider);
         }
       });
     },
-    [disconnect, web3Modal, connectionStatus, address, initialize],
+    [disconnectWallet, web3Modal, connectionStatus, address, initializeProvider, authenticate],
   );
 
   const connect = useCallback(async () => {
-    setConnectionStatus('connecting');
+    setConnectionStatus('connecting-wallet');
 
     try {
       const provider = await web3Modal.connect();
-      const web3Provider = await initialize(provider);
+      const web3Provider = await initializeProvider(provider);
+      await authenticate(web3Provider);
       await addListeners(provider);
-
       return web3Provider;
     } catch (err) {
       console.warn(err);
     }
-  }, [web3Modal, addListeners, initialize]);
+  }, [web3Modal, addListeners, initializeProvider, authenticate]);
 
   const hasCachedProvider = useCallback(() => {
     if (!web3Modal?.cachedProvider) {
@@ -219,27 +249,23 @@ export const Web3ContextProvider = (props: Props) => {
   const onChainProvider = useMemo(
     () => ({
       connect,
-      disconnect,
+      disconnectWallet,
       hasCachedProvider,
       connectionStatus,
       address,
       ensName,
       web3Provider,
       infuraProvider,
-      web3Modal,
-      chainId,
     }),
     [
       connect,
-      disconnect,
+      disconnectWallet,
       hasCachedProvider,
       connectionStatus,
       address,
       ensName,
       web3Provider,
       infuraProvider,
-      web3Modal,
-      chainId,
     ],
   );
 

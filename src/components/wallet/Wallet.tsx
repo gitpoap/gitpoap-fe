@@ -31,11 +31,11 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   const router = useRouter();
   const [isHovering, setIsHovering] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { connectionStatus, address, connect, disconnect, ensName } = useWeb3Context();
+  const { connectionStatus, address, connect, disconnectWallet, ensName } = useWeb3Context();
 
   /* Ensure the popover is closed when the button switches to a connected state */
   useEffect(() => {
-    if (connectionStatus === 'connected') {
+    if (connectionStatus === 'connected-to-wallet') {
       setIsOpen(false);
       setIsHovering(false);
     }
@@ -43,7 +43,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
 
   return (
     <Content>
-      {connectionStatus === 'connected' && address ? (
+      {connectionStatus === 'connected-to-wallet' && address ? (
         hasSettingsPage && !isMobile ? (
           <Menu
             closeDelay={POPOVER_HOVER_TIME}
@@ -77,7 +77,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                 {'Help'}
               </Menu.Item>
               <Menu.Divider />
-              <Menu.Item onClick={() => disconnect()}>{'Disconnect'}</Menu.Item>
+              <Menu.Item onClick={() => disconnectWallet()}>{'Disconnect'}</Menu.Item>
             </Menu.Dropdown>
           </Menu>
         ) : (
@@ -90,7 +90,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             handleOnClick={() => {
               setIsOpen(false);
               setIsHovering(false);
-              disconnect();
+              disconnectWallet();
             }}
             icon={<FaEthereum size={16} />}
             buttonText={'DISCONNECT'}
