@@ -1,9 +1,9 @@
 import { BackgroundPanel2, ExtraRed, PrimaryBlue, TextLight } from './colors';
-import { NotificationProps } from '@mantine/notifications';
+import { showNotification } from '@mantine/notifications';
 
-export class NotificationFactory {
-  public static createSuccess = (title: string, message?: string) => {
-    return <NotificationProps>{
+export class Notifications {
+  public static success = (title: string, message?: string) =>
+    showNotification({
       title,
       message,
       styles: (_) => ({
@@ -21,10 +21,10 @@ export class NotificationFactory {
           },
         },
       }),
-    };
-  };
-  public static createError = (title: string, message?: string) => {
-    return <NotificationProps>{
+    });
+
+  public static error = (title: string, message?: string) =>
+    showNotification({
       title,
       message,
       styles: (_) => ({
@@ -42,6 +42,5 @@ export class NotificationFactory {
           },
         },
       }),
-    };
-  };
+    });
 }

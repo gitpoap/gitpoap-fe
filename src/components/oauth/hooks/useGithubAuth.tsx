@@ -1,10 +1,9 @@
-import { showNotification } from '@mantine/notifications';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { REACT_APP_CLIENT_ID } from '../../../constants';
 import { useApi } from '../../../hooks/useApi';
 import { useTokens } from '../../../hooks/useTokens';
-import { NotificationFactory } from '../../../notifications';
+import { Notifications } from '../../../notifications';
 
 export const useGithubAuth = () => {
   const api = useApi();
@@ -36,9 +35,7 @@ export const useGithubAuth = () => {
         setAccessToken(tokens.accessToken);
         setRefreshToken(tokens.refreshToken);
       } else {
-        showNotification(
-          NotificationFactory.createError('Error', 'Unable to authenticate with GitHub'),
-        );
+        Notifications.error('Error', 'Unable to authenticate with GitHub');
       }
     },
     [setAccessToken, setRefreshToken, api.auth],
