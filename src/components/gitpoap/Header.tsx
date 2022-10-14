@@ -156,7 +156,7 @@ const StyledTable = styled(Table)`
 export const Header = ({ gitPOAPId }: Props) => {
   const { github } = useOAuthContext();
   const user = useUser();
-  const hasGithub = user?.capabilities.hasGithub ?? false;
+  const hasGithubConnection = user?.capabilities.hasGithub ?? false;
   const [opened, { close, open }] = useDisclosure(false);
 
   const [result] = useGitPoapEventQuery({
@@ -174,11 +174,11 @@ export const Header = ({ gitPOAPId }: Props) => {
   });
 
   useEffect(() => {
-    if (hasGithub && isCheckButtonClicked) {
+    if (hasGithubConnection && isCheckButtonClicked) {
       setIsOpen(true);
       setIsCheckButtonClicked(false);
     }
-  }, [hasGithub, isCheckButtonClicked]);
+  }, [hasGithubConnection, isCheckButtonClicked]);
 
   return (
     <Wrapper>
@@ -260,7 +260,7 @@ export const Header = ({ gitPOAPId }: Props) => {
       )}
       <CheckEligibilityButton
         onClick={() => {
-          if (!hasGithub) {
+          if (!hasGithubConnection) {
             setIsCheckButtonClicked(true);
             github.authorize();
           } else {
