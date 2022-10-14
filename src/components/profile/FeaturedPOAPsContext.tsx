@@ -8,8 +8,7 @@ import {
 import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { useWeb3Context } from '../wallet/Web3Context';
 import { GITPOAP_API_URL } from '../../constants';
-import { showNotification } from '@mantine/notifications';
-import { NotificationFactory } from '../../notifications';
+import { Notifications } from '../../notifications';
 import { useProfileContext } from './ProfileContext';
 import { useTokens } from '../../hooks/useTokens';
 
@@ -146,11 +145,9 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.error(err);
-          showNotification(
-            NotificationFactory.createError(
-              'Error - Request to add a featured POAP failed',
-              'Oops, something went wrong! 🤥',
-            ),
+          Notifications.error(
+            'Error - Request to add a featured POAP failed',
+            'Oops, something went wrong! 🤥',
           );
         }
         setLoadingIds((prevState) => {
@@ -184,11 +181,9 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.error(err);
-          showNotification(
-            NotificationFactory.createError(
-              'Error - Request to remove a featured POAP failed',
-              'Oops, something went wrong! 🤥',
-            ),
+          Notifications.error(
+            'Error - Request to remove a featured POAP failed',
+            'Oops, something went wrong! 🤥',
           );
         }
         setLoadingIds((prevState) => {

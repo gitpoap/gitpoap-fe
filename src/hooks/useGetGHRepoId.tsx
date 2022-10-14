@@ -1,7 +1,6 @@
-import { showNotification } from '@mantine/notifications';
 import { useCallback, useEffect, useState } from 'react';
 import { isValidURL } from '../helpers';
-import { NotificationFactory } from '../notifications';
+import { Notifications } from '../notifications';
 
 type UserGHRepoReturnType = [number | null, string | null];
 
@@ -43,9 +42,7 @@ export const useGetGHRepoId = (repoUrlSeed: string): UserGHRepoReturnType => {
       }
 
       console.warn(err);
-      showNotification(
-        NotificationFactory.createError('Error - Request to fetch Github Repo ID failed'),
-      );
+      Notifications.error('Error - Request to fetch Github Repo ID failed');
     }
   }, []);
 

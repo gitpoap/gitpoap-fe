@@ -11,8 +11,7 @@ import { useProfileQuery, ProfileQuery } from '../../graphql/generated-gql';
 import { useWeb3Context } from '../wallet/Web3Context';
 import { EditProfileModal } from '../../components/profile/EditProfileModal';
 import { GITPOAP_API_URL } from '../../constants';
-import { showNotification } from '@mantine/notifications';
-import { NotificationFactory } from '../../notifications';
+import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { useTokens } from '../../hooks/useTokens';
 
@@ -106,11 +105,9 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.warn(err);
-          showNotification(
-            NotificationFactory.createError(
-              'Error - Request to update profile failed',
-              'Oops, something went wrong! 🤥',
-            ),
+          Notifications.error(
+            'Error - Request to update profile failed',
+            'Oops, something went wrong! 🤥',
           );
         }
         setIsSaveLoading(false);

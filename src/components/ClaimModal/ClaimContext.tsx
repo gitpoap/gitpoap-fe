@@ -1,9 +1,8 @@
 import React, { useEffect, createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useListState } from '@mantine/hooks';
-import { showNotification } from '@mantine/notifications';
 import { GITPOAP_API_URL } from '../../constants';
 import { ClaimStatus, OpenClaimsQuery, useOpenClaimsQuery } from '../../graphql/generated-gql';
-import { NotificationFactory } from '../../notifications';
+import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { useWeb3Context } from '../wallet/Web3Context';
 import { ClaimModal } from '.';
@@ -95,11 +94,9 @@ export const ClaimContextProvider = ({ children }: Props) => {
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.warn(err);
-          showNotification(
-            NotificationFactory.createError(
-              'Error - Request to claim GitPOAP failed',
-              'Oops, something went wrong! 🤥',
-            ),
+          Notifications.error(
+            'Error - Request to claim GitPOAP failed',
+            'Oops, something went wrong! 🤥',
           );
         }
         setLoadingClaimIds([]);
