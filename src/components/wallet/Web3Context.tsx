@@ -116,8 +116,8 @@ export const Web3ContextProvider = (props: Props) => {
 
   /* Authenticate with GitPOAP */
   const authenticate = useCallback(
-    async (web3Provider: JsonRpcProvider) => {
-      if (tokens?.accessToken) {
+    async (web3Provider: JsonRpcProvider, token: string | null) => {
+      if (token) {
         setConnectionStatus('connected-to-wallet');
       } else {
         const signer = web3Provider.getSigner();
@@ -133,7 +133,7 @@ export const Web3ContextProvider = (props: Props) => {
         }
       }
     },
-    [disconnectWallet, setAccessToken, setRefreshToken, tokens, api.auth],
+    [disconnectWallet, setAccessToken, setRefreshToken, api.auth],
   );
 
   const initializeProvider = useCallback(
@@ -161,7 +161,7 @@ export const Web3ContextProvider = (props: Props) => {
         if (accounts.length > 0 && address !== accounts[0]) {
           const provider = await web3Modal.connect();
           const web3Provider = await initializeProvider(provider);
-          await authenticate(web3Provider);
+          await authenticate(web3Provider, null);
         } else {
           await disconnectWallet();
         }
@@ -174,15 +174,8 @@ export const Web3ContextProvider = (props: Props) => {
       provider.on('disconnect', async (error: { code: number; message: string }) => {
         await disconnectWallet();
       });
-
-      provider.on('connect', async (info: { chainId: number }) => {
-        if (connectionStatus === 'disconnected') {
-          const web3Provider = await initializeProvider(provider as unknown as ExternalProvider);
-          await authenticate(web3Provider);
-        }
-      });
     },
-    [disconnectWallet, web3Modal, connectionStatus, address, initializeProvider, authenticate],
+    [disconnectWallet, web3Modal, address, initializeProvider, authenticate],
   );
 
   const connect = useCallback(async () => {
@@ -191,13 +184,13 @@ export const Web3ContextProvider = (props: Props) => {
     try {
       const provider = await web3Modal.connect();
       const web3Provider = await initializeProvider(provider);
-      await authenticate(web3Provider);
+      await authenticate(web3Provider, tokens?.accessToken ?? null);
       await addListeners(provider);
       return web3Provider;
     } catch (err) {
       console.warn(err);
     }
-  }, [web3Modal, addListeners, initializeProvider, authenticate]);
+  }, [web3Modal, addListeners, initializeProvider, authenticate, tokens?.accessToken]);
 
   const hasCachedProvider = useCallback(() => {
     if (!web3Modal?.cachedProvider) {
