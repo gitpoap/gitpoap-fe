@@ -1,6 +1,6 @@
 import { GITPOAP_API_URL } from '../../constants';
 import { JsonRpcSigner } from '@ethersproject/providers';
-import { Methods } from './types';
+import { Methods } from './client';
 
 /**
  * This function makes a generic API request to the GitPOAP API.

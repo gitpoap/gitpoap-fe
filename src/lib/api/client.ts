@@ -1,6 +1,12 @@
 import { AuthAPI } from './auth';
 import { GitPOAPAPI } from './gitpoap';
-import { Tokens } from './types';
+
+export type Tokens = {
+  accessToken: string;
+  refreshToken: string;
+};
+
+export type Methods = 'POST /auth';
 
 export class API {
   protected token: string | null;

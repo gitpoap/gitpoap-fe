@@ -1,11 +1,13 @@
-import { Tokens } from './types';
 import { JsonRpcSigner } from '@ethersproject/providers';
 import { makeAPIRequest, makeAPIRequestWithAuth, sign } from './utils';
-import { API } from './client';
+import { API, Tokens } from './client';
 
 export class AuthAPI extends API {
+  protected refreshToken: string | null;
+
   constructor(tokens: Tokens | null) {
     super(tokens?.accessToken);
+    this.refreshToken = tokens?.refreshToken ?? null;
   }
 
   async authenticate(signer: JsonRpcSigner) {
@@ -42,7 +44,7 @@ export class AuthAPI extends API {
     const res = await makeAPIRequest(
       '/auth/refresh',
       'POST',
-      JSON.stringify({ token: this.token }),
+      JSON.stringify({ token: this.refreshToken }),
     );
 
     if (!res) {
