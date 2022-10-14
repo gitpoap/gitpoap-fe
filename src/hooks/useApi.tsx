@@ -1,4 +1,4 @@
-import { APIClient } from '../lib/api';
+import { APIClient } from '../lib/api/client';
 import { useTokens } from './useTokens';
 
 export const useApi = () => {
