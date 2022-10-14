@@ -1,12 +1,11 @@
 import { Tokens } from './types';
 import { JsonRpcSigner } from '@ethersproject/providers';
 import { makeAPIRequest, makeAPIRequestWithAuth, sign } from './utils';
+import { API } from './client';
 
-export class AuthAPI {
-  protected tokens: Tokens | null;
-
+export class AuthAPI extends API {
   constructor(tokens: Tokens | null) {
-    this.tokens = tokens;
+    super(tokens?.accessToken);
   }
 
   async authenticate(signer: JsonRpcSigner) {
@@ -14,6 +13,11 @@ export class AuthAPI {
     const address = await signer.getAddress();
 
     const signatureString = await sign<string>(signer, timestamp, 'POST /auth', address);
+
+    if (!signatureString) {
+      return null;
+    }
+
     const res = await makeAPIRequest(
       '/auth',
       'POST',
@@ -38,7 +42,7 @@ export class AuthAPI {
     const res = await makeAPIRequest(
       '/auth/refresh',
       'POST',
-      JSON.stringify({ token: this.tokens?.refreshToken }),
+      JSON.stringify({ token: this.token }),
     );
 
     if (!res) {
@@ -53,7 +57,7 @@ export class AuthAPI {
     const res = await makeAPIRequestWithAuth(
       '/auth/github',
       'POST',
-      this.tokens?.accessToken ?? null,
+      this.token,
       JSON.stringify({ code }),
     );
     if (!res) {
