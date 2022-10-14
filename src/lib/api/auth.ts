@@ -1,6 +1,5 @@
 import { JsonRpcSigner } from '@ethersproject/providers';
-import { makeAPIRequest, makeAPIRequestWithAuth, sign } from './utils';
-import { API, Tokens } from './client';
+import { API, Tokens, makeAPIRequest, makeAPIRequestWithAuth, sign } from './utils';
 
 export class AuthAPI extends API {
   protected refreshToken: string | null;

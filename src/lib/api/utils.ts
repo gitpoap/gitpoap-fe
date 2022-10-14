@@ -1,6 +1,24 @@
 import { GITPOAP_API_URL } from '../../constants';
 import { JsonRpcSigner } from '@ethersproject/providers';
-import { Methods } from './client';
+
+export type Tokens = {
+  accessToken: string;
+  refreshToken: string;
+};
+
+/* The methods that can be passed to the sign function */
+export type Methods = 'POST /auth';
+
+/* The parent class of all API endpoint collection classes - it handles
+ * basic token management
+ */
+export class API {
+  protected token: string | null;
+
+  constructor(token?: string | null) {
+    this.token = token ?? null;
+  }
+}
 
 /**
  * This function makes a generic API request to the GitPOAP API.
