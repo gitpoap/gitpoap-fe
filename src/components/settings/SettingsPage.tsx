@@ -201,8 +201,9 @@ export const SettingsPage = ({ ethAddress }: Props) => {
         {'Integrations'}
       </Header>
 
-      <Divider />
-      <EmailConnection />
+      {/* Comment out until we're ready to release */}
+      {/* <Divider /> */}
+      {/* <EmailConnection /> */}
 
       <Divider />
       <Group position="apart" p={16}>
