@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import React from 'react';
 
 import { Layout } from '../../../components/Layout';
-import { VerifyEmail as Component } from '../../../components/verify/email';
+import { VerifyEmail as Component } from '../../../components/verify/VerifyEmail';
 
 export default {
   title: 'Pages/VerifyEmail',

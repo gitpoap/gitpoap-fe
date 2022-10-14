@@ -1,10 +1,8 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { Container, Grid } from '@mantine/core';
-
 import { Page } from '../../_app';
-import { VerifyEmail } from '../../../components/verify/email';
+import { VerifyEmail } from '../../../components/verify/VerifyEmail';
 
 const Search: Page = () => {
   const router = useRouter();
