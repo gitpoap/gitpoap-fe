@@ -1,5 +1,4 @@
 import { Stack, Group, Text as TextUI } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
 import React from 'react';
 import { FaAt } from 'react-icons/fa';
 import { HiOutlineMailOpen } from 'react-icons/hi';
@@ -7,10 +6,10 @@ import { HiOutlineMailOpen } from 'react-icons/hi';
 import { EmailConnectionStatus } from './EmailConnection';
 import { EmailConnectionFormReturnTypes } from './useEmailConnectionForm';
 import { Button, Input, Text } from '../shared/elements';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { useWeb3Context } from '../wallet/Web3Context';
 import { GITPOAP_API_URL } from '../../constants';
-import { EmailReturnType } from '../../hooks/useGetUserEmailAddress';
-import { NotificationFactory } from '../../notifications';
+import { Notifications } from '../../notifications';
+import { EmailReturnType } from '../../lib/api/email';
 
 type ConnectProps = {
   closeModal: () => void;
@@ -75,7 +74,7 @@ export const EmailConnectionModalConnect = ({
                   setStatus('SUBMITTED');
                 }
               } catch (err) {
-                showNotification(NotificationFactory.createError('Oops, something went wrong! 🤥'));
+                Notifications.error('Oops, something went wrong! 🤥');
               }
             }
           }}
@@ -162,7 +161,7 @@ export const EmailConnectionModalPending = ({ closeModal, setStatus, userEmail }
                 setStatus('CONNECT');
               }
             } catch (err) {
-              showNotification(NotificationFactory.createError('Oops, something went wrong! 🤥'));
+              Notifications.error('Oops, something went wrong! 🤥');
             }
           }}
         >
@@ -229,7 +228,7 @@ export const EmailConnectionModalDisconnect = ({
                 setStatus('CONNECT');
               }
             } catch (err) {
-              showNotification(NotificationFactory.createError('Oops, something went wrong! 🤥'));
+              Notifications.error('Oops, something went wrong! 🤥');
             }
           }}
         >

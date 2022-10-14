@@ -2,23 +2,22 @@ import { Container } from '@mantine/core';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { rest } from 'msw';
 import React from 'react';
-
 import { Layout } from '../../../components/Layout';
 import { ProfileProvider } from '../../../components/profile/ProfileContext';
 import { EmailConnection } from '../../../components/settings/EmailConnection';
 import { ONE_DAY_IN_S } from '../../../constants';
-import { EmailReturnType } from '../../../hooks/useGetUserEmailAddress';
+import { EmailReturnType } from '../../../lib/api/email';
 
 export default {
   title: 'Pages/Settings/Email',
   component: EmailConnection,
 } as ComponentMeta<typeof EmailConnection>;
 
-const Template: ComponentStory<typeof EmailConnection> = ({ ethAddress }) => (
+const Template: ComponentStory<typeof EmailConnection> = () => (
   <Layout>
-    <ProfileProvider addressOrEns="asdfasdfasdf">
+    <ProfileProvider addressOrEns="0x12345">
       <Container my={48} size={600} style={{ width: '100%' }}>
-        <EmailConnection ethAddress={ethAddress} />
+        <EmailConnection />
       </Container>
     </ProfileProvider>
   </Layout>

@@ -2,7 +2,7 @@ import { Stack, Group, Title, Modal } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import { HiOutlineMail } from 'react-icons/hi';
 
-import { useGetUserEmailAddress } from '../../hooks/useGetUserEmailAddress';
+import { useGetEmail } from '../../hooks/useGetEmail';
 import { Button, Text } from '../shared/elements';
 import {
   EmailConnectionModalConnect,
@@ -12,17 +12,12 @@ import {
 } from './EmailConnectionModalStates';
 import { useEmailConnectionForm } from './useEmailConnectionForm';
 
-type Props = {
-  ethAddress: string;
-};
-
 export type EmailConnectionStatus = 'CONNECT' | 'SUBMITTED' | 'PENDING' | 'DISCONNECT';
 
-export const EmailConnection = ({ ethAddress }: Props) => {
+export const EmailConnection = () => {
   const [status, setStatus] = useState<EmailConnectionStatus>('CONNECT');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  const userEmail = useGetUserEmailAddress(ethAddress.toLowerCase());
+  const userEmail = useGetEmail();
 
   useEffect(() => {
     if (userEmail) {

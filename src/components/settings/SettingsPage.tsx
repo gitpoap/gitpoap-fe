@@ -202,7 +202,7 @@ export const SettingsPage = ({ ethAddress }: Props) => {
       </Header>
 
       <Divider />
-      <EmailConnection ethAddress={ethAddress} />
+      <EmailConnection />
 
       <Divider />
       <Group position="apart" p={16}>
