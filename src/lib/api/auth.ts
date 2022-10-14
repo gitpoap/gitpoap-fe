@@ -56,7 +56,7 @@ export class AuthAPI extends API {
 
   async githubAuth(code: string) {
     const res = await makeAPIRequestWithAuth(
-      '/auth/github',
+      '/github',
       'POST',
       this.token,
       JSON.stringify({ code }),
