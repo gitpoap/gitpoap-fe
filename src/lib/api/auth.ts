@@ -68,4 +68,14 @@ export class AuthAPI extends API {
     const tokens: Tokens = await res.json();
     return tokens;
   }
+
+  async githubDisconnect() {
+    const res = await makeAPIRequestWithAuth('/github', 'DELETE', this.token);
+    if (!res) {
+      return null;
+    }
+
+    const tokens: Tokens = await res.json();
+    return tokens;
+  }
 }

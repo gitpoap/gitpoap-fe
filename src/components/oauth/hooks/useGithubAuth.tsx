@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { REACT_APP_CLIENT_ID } from '../../../constants';
 import { useApi } from '../../../hooks/useApi';
 import { useTokens } from '../../../hooks/useTokens';
@@ -8,7 +8,6 @@ import { Notifications } from '../../../notifications';
 export const useGithubAuth = () => {
   const api = useApi();
   const { tokens, setAccessToken, setRefreshToken } = useTokens();
-  const [isLoading, setIsLoading] = useState(false);
   /* A react ref that tracks if GitHub auth is loading */
   const isGitHubAuthLoading = useRef(false);
   const { asPath, push } = useRouter();
@@ -16,26 +15,29 @@ export const useGithubAuth = () => {
   const scopes = ['read'].join('%20');
   const githubAuthURL = `https://github.com/login/oauth/authorize?scope=${scopes}&client_id=${REACT_APP_CLIENT_ID}&redirect_uri=${redirectUri}`;
 
-  /* @TODO: THIS NEEDS TO CHANGE -> need to hit endpoint & refetch token */
-  const disconnect = useCallback(() => {
-    setAccessToken(null);
-    setRefreshToken(null);
-  }, []);
+  const disconnect = useCallback(async () => {
+    const tokens = await api.auth.githubDisconnect();
+
+    if (tokens) {
+      setAccessToken(tokens.accessToken);
+      setRefreshToken(tokens.refreshToken);
+    } else {
+      Notifications.error('Unable to disconnect GitHub account');
+    }
+  }, [api.auth, setAccessToken, setRefreshToken]);
 
   /* Redirect to github to authorize if not connected / logged in */
   const authorize = useCallback(() => push(githubAuthURL), [githubAuthURL, push]);
 
   const authenticate = useCallback(
     async (code: string) => {
-      setIsLoading(true);
-
       const tokens = await api.auth.githubAuth(code);
 
       if (tokens) {
         setAccessToken(tokens.accessToken);
         setRefreshToken(tokens.refreshToken);
       } else {
-        Notifications.error('Error', 'Unable to authenticate with GitHub');
+        Notifications.error('Unable to authenticate with GitHub');
       }
     },
     [setAccessToken, setRefreshToken, api.auth],
@@ -47,19 +49,18 @@ export const useGithubAuth = () => {
     const hasCode = url.includes('?code=');
 
     /* If Github API returns the code parameter */
-    if (hasCode && isLoading === false && isGitHubAuthLoading.current === false && tokens) {
+    if (hasCode && isGitHubAuthLoading.current === false && tokens) {
       const newUrl = url.split('?code=');
       const code = newUrl[1];
       isGitHubAuthLoading.current = true;
       setIsLoading(true);
       push(newUrl[0]);
-      authenticate(code);
+      authenticate(codeWithNoHash);
     }
-  }, [authenticate, asPath, push, isLoading, tokens]);
+  }, [authenticate, asPath, push, tokens]);
 
   return {
     disconnect,
     authorize,
-    isLoading,
   };
 };
