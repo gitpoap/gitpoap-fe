@@ -2,6 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Group, Stack } from '@mantine/core';
 import { GitPOAPBadge } from '../../components/shared/elements/GitPOAPBadge';
+import realBadge0 from '../assets/gitPOAPs/real_badge0.png';
 import realBadge1 from '../assets/gitPOAPs/real_badge1.png';
 import realBadge2 from '../assets/gitPOAPs/real_badge2.png';
 import realBadge3 from '../assets/gitPOAPs/real_badge3.png';
@@ -17,6 +18,7 @@ import realBadge12 from '../assets/gitPOAPs/real_badge12.png';
 import { Level } from '../../types';
 
 const badges = [
+  realBadge0,
   realBadge1,
   realBadge2,
   realBadge3,
@@ -31,9 +33,9 @@ const badges = [
   realBadge12,
 ];
 
-const url = realBadge1 as unknown as string;
+const url = realBadge0 as unknown as string;
 
-const levels: (Level | undefined)[] = ['bronze', 'silver', 'gold', undefined];
+const levels: (Level | undefined)[] = [undefined, 'bronze', 'silver', 'gold'];
 
 type Size = 'xxxs' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
 
