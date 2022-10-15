@@ -51,9 +51,8 @@ export const useGithubAuth = () => {
     /* If Github API returns the code parameter */
     if (hasCode && isGitHubAuthLoading.current === false && tokens) {
       const newUrl = url.split('?code=');
-      const code = newUrl[1];
+      const codeWithNoHash = newUrl[1].split('#')[0];
       isGitHubAuthLoading.current = true;
-      setIsLoading(true);
       push(newUrl[0]);
       authenticate(codeWithNoHash);
     }
