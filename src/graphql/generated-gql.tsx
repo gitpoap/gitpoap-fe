@@ -6297,6 +6297,7 @@ export const EligibleClaimsDocument = gql`
       skip: $skip
       where: {
         mintedAddressId: { equals: null }
+        gitPOAP: { is: { isEnabled: { equals: true } } }
         OR: [
           { user: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
           { email: { is: { emailAddress: { contains: $query, mode: insensitive } } } }

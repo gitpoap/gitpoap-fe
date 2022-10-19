@@ -321,6 +321,7 @@ query eligibleClaims($query: String!, $skip: Int, $take: Int) {
     skip: $skip
     where: {
       mintedAddressId: { equals: null }
+      gitPOAP: { is: { isEnabled: { equals: true } } }
       OR: [
         { user: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
         { email: { is: { emailAddress: { contains: $query, mode: insensitive } } } }
