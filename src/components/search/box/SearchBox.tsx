@@ -157,14 +157,14 @@ export const SearchBox = ({ className }: Props) => {
   );
 
   const repos = useMemo(
-    () => repoResults.data?.repos.filter((repo) => repo.project.gitPOAPs.length > 0) || [],
+    () => repoResults.data?.repos.filter((repo) => repo.project.gitPOAPs.length > 0) ?? [],
     [repoResults.data?.repos],
   );
   const orgs = useMemo(
     () =>
       orgResults.data?.organizations.filter(
         (org) => org.repos.length > 0 && org.repos[0].project.gitPOAPs.length > 0,
-      ) || [],
+      ) ?? [],
     [orgResults.data?.organizations],
   );
   const gitPOAPs = gitPOAPResults.data?.gitPOAPS;

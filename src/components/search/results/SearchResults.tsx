@@ -55,11 +55,11 @@ export const SearchResults = ({ searchQuery }: Props) => {
     () =>
       orgResult.data?.organizations.filter(
         (org) => org.repos.length > 0 && org.repos[0].project.gitPOAPs.length > 0,
-      ) || [],
+      ) ?? [],
     [orgResult.data?.organizations],
   );
   const repos = useMemo(
-    () => repoResult.data?.repos.filter((repo) => repo.project.gitPOAPs.length > 0) || [],
+    () => repoResult.data?.repos.filter((repo) => repo.project.gitPOAPs.length > 0) ?? [],
     [repoResult.data?.repos],
   );
 
