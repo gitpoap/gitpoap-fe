@@ -89,7 +89,7 @@ export const CheckEligibility = () => {
   });
   const [result] = useEligibleClaimsQuery({
     variables: {
-      query: urlSearchQuery ?? '',
+      query: decodeURIComponent(urlSearchQuery ?? ''),
       take: variables.perPage,
       skip: (variables.page - 1) * variables.perPage,
     },
