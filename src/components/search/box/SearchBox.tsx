@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
 import { useRouter } from 'next/router';
@@ -156,8 +156,17 @@ export const SearchBox = ({ className }: Props) => {
     profileResult,
   );
 
-  const repos = repoResults.data?.repos;
-  const orgs = orgResults.data?.organizations;
+  const repos = useMemo(
+    () => repoResults.data?.repos.filter((repo) => repo.project.gitPOAPs.length > 0) ?? [],
+    [repoResults.data?.repos],
+  );
+  const orgs = useMemo(
+    () =>
+      orgResults.data?.organizations.filter(
+        (org) => org.repos.length > 0 && org.repos[0].project.gitPOAPs.length > 0,
+      ) ?? [],
+    [orgResults.data?.organizations],
+  );
   const gitPOAPs = gitPOAPResults.data?.gitPOAPS;
   const isLoading =
     profileResult.fetching ||

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import {
@@ -51,8 +51,18 @@ export const SearchResults = ({ searchQuery }: Props) => {
   const [profileResult] = useSearchForStringQuery({ variables: { text: searchQuery } });
   const [profileResults] = useGeneratedProfileResult(searchQuery, profileResult);
 
-  const orgs = orgResult.data?.organizations;
-  const repos = repoResult.data?.repos;
+  const orgs = useMemo(
+    () =>
+      orgResult.data?.organizations.filter(
+        (org) => org.repos.length > 0 && org.repos[0].project.gitPOAPs.length > 0,
+      ) ?? [],
+    [orgResult.data?.organizations],
+  );
+  const repos = useMemo(
+    () => repoResult.data?.repos.filter((repo) => repo.project.gitPOAPs.length > 0) ?? [],
+    [repoResult.data?.repos],
+  );
+
   const gitPOAPS = gitPoapResult.data?.gitPOAPS;
 
   const orgsLength = orgs?.length ?? 0;
