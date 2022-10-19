@@ -88,17 +88,6 @@ const Home: Page = () => {
       <Grid justify="center" gutter={40} style={{ zIndex: 0, marginBottom: rem(75) }}>
         <FurtherInfoFor />
       </Grid>
-
-      <Grid align="center" justify="center" style={{ zIndex: 0, marginBottom: rem(50) }}>
-        <Grid.Col xs={11} md={10}>
-          <Stack justify="center" align="center">
-            <Divider style={{ width: '75%', borderTopColor: BackgroundPanel2 }} />
-            <Center style={{ marginTop: rem(30) }}>
-              <SuggestionForm />
-            </Center>
-          </Stack>
-        </Grid.Col>
-      </Grid>
     </>
   );
 };
