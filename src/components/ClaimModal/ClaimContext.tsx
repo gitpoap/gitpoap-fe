@@ -5,7 +5,7 @@ import { ClaimStatus, OpenClaimsQuery, useOpenClaimsQuery } from '../../graphql/
 import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { useWeb3Context } from '../wallet/Web3Context';
-import { ClaimModal } from '.';
+import { ClaimModal } from './index';
 import { useTokens } from '../../hooks/useTokens';
 import { useUser } from '../../hooks/useUser';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { ClaimModal } from '../../components/ClaimModal';
+import { ClaimModal } from '../../components/claimModal';
 import badgeImg1 from '../assets/gitPOAPs/badge1.png';
 import badgeImg2 from '../assets/gitPOAPs/badge2.png';
 import badgeImg3 from '../assets/gitPOAPs/badge3.png';
