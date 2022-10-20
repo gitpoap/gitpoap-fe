@@ -17,7 +17,7 @@ import {
 } from '../shared/elements';
 import { ExtraHover, ExtraPressed, TextGray, TextLight } from '../../colors';
 import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
-import { ProfileQuery } from '../../graphql/generated-gql';
+import { useFeatures } from '../FeaturesContext';
 
 const Header = styled.div`
   font-family: VT323;
@@ -176,7 +176,7 @@ export const SettingsPage = ({ ethAddress }: Props) => {
         onChange={(e) => setIsVisibleOnLeaderboardValue(e.target.checked)}
       />
 
-      <div>
+      <div style={{ marginBottom: rem(24) }}>
         <Button
           onClick={() =>
             updateProfile({
@@ -201,7 +201,7 @@ export const SettingsPage = ({ ethAddress }: Props) => {
       {/* Wait until we're ready to release */}
       {hasEmailVerification && (
         <>
-          <Header id="integrations" style={{ marginTop: rem(24), textAlign: 'left' }}>
+          <Header id="integrations" style={{ textAlign: 'left' }}>
             {'Integrations'}
           </Header>
 
