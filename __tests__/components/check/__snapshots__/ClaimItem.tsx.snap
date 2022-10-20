@@ -1,0 +1,582 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClaimItem should render correctly 1`] = `
+.c5 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c3 {
+  -webkit-transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  transition: 150ms background-color ease-in-out,150ms opacity ease-in-out;
+  -webkit-clip-path: url('#hexagonPath');
+  clip-path: url('#hexagonPath');
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.c9 {
+  --s: 9.375rem;
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  display: inline-block;
+  font-size: initial;
+  background: #292B3D;
+}
+
+.c6 {
+  position: relative;
+  --s: 10.125rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #E2E2EE;
+}
+
+.c6:hover:not([disabled]) {
+  cursor: pointer;
+  background-color: #5596F6;
+}
+
+.c6:hover:not([disabled]) .c8 {
+  opacity: 0.7;
+}
+
+.c6:active:not([disabled]) {
+  background-color: #1761CF;
+}
+
+.c6:active:not([disabled]) .c8 {
+  opacity: 0.5;
+}
+
+.c6[disabled] {
+  cursor: not-allowed;
+  background-color: #838495;
+}
+
+.c6[disabled] .c8:before {
+  background: #10111E;
+}
+
+.c7 {
+  --s: 9.75rem;
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+  background: #10111E;
+}
+
+.c4 {
+  --s: 10.125rem;
+  width: var(--s);
+  height: calc(var(--s) * 1);
+}
+
+.c11 {
+  display: inline-block;
+  font-family: 'PT Mono',monospace;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1.0625rem;
+  -webkit-letter-spacing: 0.03125rem;
+  -moz-letter-spacing: 0.03125rem;
+  -ms-letter-spacing: 0.03125rem;
+  letter-spacing: 0.03125rem;
+  text-align: center;
+  color: #307AE8;
+  -webkit-transition: color 150ms ease-in-out;
+  transition: color 150ms ease-in-out;
+  cursor: pointer;
+  color: #307AE8;
+}
+
+.c12:hover:not([disabled]) {
+  color: #5596F6;
+}
+
+.c12:active:not([disabled]) {
+  color: #1761CF;
+}
+
+.c12[disabled] {
+  color: #393A51;
+  cursor: not-allowed;
+}
+
+.c15 {
+  font-family: VT323;
+  font-size: 3rem;
+  line-height: 3rem;
+}
+
+.c1 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  max-width: 9.375rem;
+}
+
+.c13 {
+  margin-top: 0.625rem;
+  text-align: center;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.c14 {
+  font-family: PT Mono;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 0.6875rem;
+  line-height: 1.125rem;
+  text-align: center;
+  -webkit-letter-spacing: 0.075rem;
+  -moz-letter-spacing: 0.075rem;
+  -ms-letter-spacing: 0.075rem;
+  letter-spacing: 0.075rem;
+  text-transform: uppercase;
+  color: #E2E2EE;
+  margin-top: 0.5rem;
+  -webkit-transition: color 200ms ease-in-out;
+  transition: color 200ms ease-in-out;
+}
+
+.c2 {
+  position: relative;
+}
+
+.c0 {
+  max-width: 100%;
+}
+
+.c16 {
+  text-align: left;
+  font-size: 1.5rem;
+  line-height: 1.75rem;
+}
+
+@media (max-width:56.25rem) {
+  .c15 {
+    font-size: 2.5rem;
+  }
+}
+
+.emotion-1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  -webkit-box-flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0.625rem;
+}
+
+.emotion-1>* {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  -webkit-box-pack: top;
+  -ms-flex-pack: top;
+  -webkit-justify-content: top;
+  justify-content: top;
+  gap: 16px;
+}
+
+.emotion-5 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-5:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-5:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.emotion-11 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-align: left;
+}
+
+.emotion-11:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-11:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-13 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: top;
+  -ms-flex-pack: top;
+  -webkit-justify-content: top;
+  justify-content: top;
+  gap: 0;
+}
+
+.emotion-15 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.emotion-15>* {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-17 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.emotion-17:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-17:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-21 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.emotion-21>* {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-25 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: #1c7ed6;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.emotion-25:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-25:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-25:hover {
+    -webkit-text-decoration: underline;
+    text-decoration: underline;
+  }
+}
+
+@media (hover: none) {
+  .emotion-25:active {
+    -webkit-text-decoration: underline;
+    text-decoration: underline;
+  }
+}
+
+<div>
+  <div
+    class="emotion-0 c0 emotion-1"
+  >
+    <div
+      class="emotion-2 emotion-3"
+    >
+      <div
+        class="c1"
+      >
+        <div
+          class="c1 c2"
+        >
+          <a
+            class="c3 c4"
+            href="/gp/1"
+          >
+            <div
+              class="c5 c6"
+            >
+              <div
+                class="c5 c7"
+              >
+                <div
+                  class="c8 c5 c9"
+                >
+                  <span
+                    style="box-sizing: border-box; display: block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"
+                  >
+                    <img
+                      alt=""
+                      data-nimg="fill"
+                      decoding="async"
+                      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                      style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+                    />
+                    <noscript />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <svg
+              height="0"
+              style="position: absolute;"
+              width="0"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <clippath
+                clipPathUnits="objectBoundingBox"
+                id="hexagonPath"
+              >
+                <path
+                  d="M 0.3857 0.038 Q 0.5 -0.028 0.6143 0.038 L 0.8429 0.17 Q 0.9573 0.236 0.9573 0.368 L 0.9573 0.632 Q 0.9573 0.764 0.8429 0.83 L 0.6143 0.962 Q 0.5 1.028 0.3857 0.962 L 0.1571 0.83 Q 0.0427 0.764 0.0427 0.632 L 0.0427 0.368 Q 0.0427 0.236 0.1571 0.17 Z"
+                />
+              </clippath>
+            </svg>
+          </a>
+        </div>
+        <div
+          class="c10"
+        >
+          <a
+            href="/gp/1"
+          >
+            <div
+              class="emotion-4 c11 c12 c13 emotion-5"
+            />
+          </a>
+          <div
+            class="c14"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="emotion-2 emotion-7"
+    >
+      <div
+        class="emotion-4 c15 c16 emotion-5"
+      >
+        Test Name of the GitPOAP
+      </div>
+      <div
+        class="emotion-4 emotion-11"
+      >
+        Test description
+      </div>
+      <div
+        class="emotion-2 emotion-13"
+      >
+        <div
+          class="emotion-0 emotion-15"
+        >
+          <div
+            class="emotion-4 emotion-17"
+          >
+            Issued to: 
+          </div>
+          <div
+            class="emotion-4 emotion-5"
+          >
+            peebeejay
+          </div>
+        </div>
+        <div
+          class="emotion-0 emotion-21"
+        >
+          <div
+            class="emotion-4 emotion-17"
+          >
+            For: 
+          </div>
+          <a
+            href="/gh/test-org/test-repo"
+          >
+            <div
+              class="emotion-4 emotion-25"
+            >
+              test-org/test-repo
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
