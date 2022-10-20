@@ -9,6 +9,7 @@ import { Button, ClaimCircle } from '../shared/elements';
 import { useRouter } from 'next/router';
 import { useFeatures } from '../FeaturesContext';
 import { useUser } from '../../hooks/useUser';
+import { useWeb3Context } from '../wallet/Web3Context';
 
 const Content = styled.div`
   display: flex;
@@ -29,6 +30,7 @@ type Props = {
 
 export const GitHub = ({ className, hideText }: Props) => {
   const { claimedIds, userClaims, setIsOpen } = useClaimContext();
+  const { connectionStatus } = useWeb3Context();
   const { github } = useOAuthContext();
   const user = useUser();
   const { hasCheckEligibility } = useFeatures();
@@ -39,22 +41,19 @@ export const GitHub = ({ className, hideText }: Props) => {
 
   /* User has no connected GitHub account */
   if (!user?.capabilities.hasGithub) {
-    return hasCheckEligibility ? (
-      <Content className={className}>
-        <Button
-          onClick={() => router.push('/eligibility')}
-          leftIcon={!hideText && <GoMarkGithub size={16} />}
-        >
-          {hideText ? <GoMarkGithub size={16} /> : 'Start Earning'}
-        </Button>
-      </Content>
+    return connectionStatus !== 'connected-to-wallet' && hasCheckEligibility ? (
+      !hideText && (
+        <Content className={className}>
+          <Button onClick={() => router.push('/eligibility')}>{'Check Eligibility'}</Button>
+        </Content>
+      )
     ) : (
       <Content className={className}>
         <Button
           onClick={() => router.push(`/settings#integrations`)}
           leftIcon={!hideText && <GoMarkGithub size={16} />}
         >
-          {hideText ? <GoMarkGithub size={16} /> : 'CONNECT TO MINT'}
+          {hideText ? <GoMarkGithub size={16} /> : 'Connect GitHub'}
         </Button>
       </Content>
     );
