@@ -8,7 +8,6 @@ import styled from 'styled-components';
 import { WalletStatus } from './WalletStatus';
 import { useWeb3Context } from './Web3Context';
 import { DisconnectPopover } from '../shared/compounds/DisconnectPopover';
-import { useFeatures } from '../FeaturesContext';
 import { Button } from '../shared/elements/Button';
 
 const Content = styled.div`
@@ -27,7 +26,6 @@ type Props = {
 };
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
-  const { hasSettingsPage } = useFeatures();
   const router = useRouter();
   const [isHovering, setIsHovering] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +42,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   return (
     <Content>
       {connectionStatus === 'connected-to-wallet' && address ? (
-        hasSettingsPage && !isMobile ? (
+        !isMobile ? (
           <Menu
             closeDelay={POPOVER_HOVER_TIME}
             closeOnClickOutside
@@ -108,8 +106,8 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
           />
         )
       ) : (
-        <Button onClick={() => connect()}>
-          {!hideText ? 'Connect Wallet' : <FaEthereum size={16} />}
+        <Button leftIcon={<FaEthereum size={16} />} onClick={() => connect()}>
+          {'Sign In'}
         </Button>
       )}
     </Content>

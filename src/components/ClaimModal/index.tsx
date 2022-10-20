@@ -129,7 +129,6 @@ export const ClaimModal = ({
   onClickClaim,
 }: Props) => {
   const [page, setPage] = useState(1);
-  const { hasClaimAllButton } = useFeatures();
   const matchesBreakpoint750 = useMediaQuery(`(min-width: ${rem(750)})`, false);
   const matchesBreakpoint500 = useMediaQuery(`(min-width: ${rem(500)})`, false);
   const perPage = matchesBreakpoint750 ? 3 : matchesBreakpoint500 ? 2 : 1;
@@ -193,7 +192,7 @@ export const ClaimModal = ({
           </>
         )}
 
-        {hasClaimAllButton && claims.length > 1 && !hasClaimedAll && (
+        {claims.length > 1 && !hasClaimedAll && (
           <ClaimAll>
             <Button
               onClick={() => onClickClaim(allClaimIds)}

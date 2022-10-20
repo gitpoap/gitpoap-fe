@@ -67,6 +67,7 @@ export const SettingsPage = ({ ethAddress }: Props) => {
   const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
   const { github } = useOAuthContext();
   const user = useUser();
+  const { hasEmailVerification } = useFeatures();
 
   const [personSiteUrlValue, setPersonalSiteUrlValue] = useState<string | undefined | null>(
     profileData?.personalSiteUrl,
@@ -197,13 +198,17 @@ export const SettingsPage = ({ ethAddress }: Props) => {
         </Button>
       </div>
 
-      <Header id="integrations" style={{ marginTop: rem(24), textAlign: 'left' }}>
-        {'Integrations'}
-      </Header>
+      {/* Wait until we're ready to release */}
+      {hasEmailVerification && (
+        <>
+          <Header id="integrations" style={{ marginTop: rem(24), textAlign: 'left' }}>
+            {'Integrations'}
+          </Header>
 
-      {/* Comment out until we're ready to release */}
-      {/* <Divider /> */}
-      {/* <EmailConnection /> */}
+          <Divider />
+          <EmailConnection />
+        </>
+      )}
 
       <Divider />
       <Group position="apart" p={16}>
