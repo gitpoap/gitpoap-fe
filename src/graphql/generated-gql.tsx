@@ -5028,6 +5028,14 @@ export type EligibleClaimsQuery = {
       name: string;
       description: string;
       imageUrl: string;
+      project: {
+        __typename?: 'Project';
+        repos: Array<{
+          __typename?: 'Repo';
+          name: string;
+          organization: { __typename?: 'Organization'; name: string };
+        }>;
+      };
     };
   }>;
 };
@@ -6035,6 +6043,7 @@ export const EligibleClaimsDocument = gql`
         ]
       }
     ) {
+      id
       email {
         emailAddress
       }
@@ -6050,8 +6059,15 @@ export const EligibleClaimsDocument = gql`
         name
         description
         imageUrl
+        project {
+          repos(take: 1) {
+            name
+            organization {
+              name
+            }
+          }
+        }
       }
-      id
     }
   }
 `;

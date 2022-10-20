@@ -330,6 +330,7 @@ query eligibleClaims($query: String!, $skip: Int, $take: Int) {
       ]
     }
   ) {
+    id
     email {
       emailAddress
     }
@@ -345,8 +346,15 @@ query eligibleClaims($query: String!, $skip: Int, $take: Int) {
       name
       description
       imageUrl
+      project {
+        repos(take: 1) {
+          name
+          organization {
+            name
+          }
+        }
+      }
     }
-    id
   }
 }
 
