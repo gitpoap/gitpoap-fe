@@ -315,6 +315,41 @@ query adminClaims($count: Int!) {
   }
 }
 
+query eligibleClaims($query: String!, $skip: Int, $take: Int) {
+  claims(
+    take: $take
+    skip: $skip
+    where: {
+      mintedAddressId: { equals: null }
+      gitPOAP: { is: { isEnabled: { equals: true } } }
+      OR: [
+        { user: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
+        { email: { is: { emailAddress: { contains: $query, mode: insensitive } } } }
+        { issuedAddress: { is: { ethAddress: { contains: $query, mode: insensitive } } } }
+        { issuedAddress: { is: { ensName: { contains: $query, mode: insensitive } } } }
+      ]
+    }
+  ) {
+    email {
+      emailAddress
+    }
+    issuedAddress {
+      ethAddress
+      ensName
+    }
+    user {
+      githubHandle
+    }
+    gitPOAP {
+      id
+      name
+      description
+      imageUrl
+    }
+    id
+  }
+}
+
 query repoData($repoId: Float!) {
   repoData(repoId: $repoId) {
     id
