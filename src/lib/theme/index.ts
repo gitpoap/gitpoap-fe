@@ -2,9 +2,9 @@ import { BREAKPOINTS } from '../../constants';
 import { MantineProviderProps } from '@mantine/core';
 import { BackgroundPanel, Black, ExtraHover, MidnightBlue } from '../../colors';
 import { rem } from 'polished';
-import { buttonTheme } from './buttonTheme';
-import { datePickerTheme } from './datePickerTheme';
-import { textTheme } from './textTheme';
+import { buttonTheme } from './buttonThemes';
+import { datePickerTheme } from './datePickerThemes';
+import { textTheme } from './textThemes';
 
 export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
