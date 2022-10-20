@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react';
 import 'jest-styled-components';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { NextRouter } from 'next/router';
@@ -6,6 +5,7 @@ import { Provider as URQLProvider } from 'urql';
 import { Navbar } from '../../src/components/Navbar';
 import { Web3ContextProvider } from '../../src/components/wallet/Web3Context';
 import { OAuthProvider } from '../../src/components/oauth/OAuthContext';
+import { renderWithTheme } from '../__utils__/renderWithTheme';
 
 const mockClient = {
   executeQuery: jest.fn(() => {}),
@@ -40,7 +40,7 @@ const mockRouter: NextRouter = {
 
 describe('Navbar', () => {
   it('renders a Navbar', () => {
-    const { container } = render(
+    const { container } = renderWithTheme(
       <RouterContext.Provider value={mockRouter}>
         <Web3ContextProvider>
           <OAuthProvider>

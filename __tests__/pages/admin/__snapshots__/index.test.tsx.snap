@@ -38,7 +38,7 @@ exports[`Admin Page renders the Admin List 1`] = `
   max-width: 83.33333333333334%;
 }
 
-@media (min-width: 577px) {
+@media (min-width: 401px) {
   .emotion-3 {
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
@@ -47,7 +47,7 @@ exports[`Admin Page renders the Admin List 1`] = `
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 601px) {
   .emotion-3 {
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
@@ -56,7 +56,7 @@ exports[`Admin Page renders the Admin List 1`] = `
   }
 }
 
-@media (min-width: 993px) {
+@media (min-width: 901px) {
   .emotion-3 {
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
@@ -74,7 +74,7 @@ exports[`Admin Page renders the Admin List 1`] = `
   }
 }
 
-@media (min-width: 1401px) {
+@media (min-width: 1537px) {
   .emotion-3 {
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
@@ -102,6 +102,31 @@ exports[`Admin Page renders the Admin List 1`] = `
   gap: 16px;
 }
 
+.emotion-7 {
+  font-family: PT Mono,monospace;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: normal;
+  color: #E2E2EE;
+  letter-spacing: 0.0125rem;
+  line-height: 1.25rem;
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
+}
+
+.emotion-7:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-7:focus:not(:focus-visible) {
+  outline: none;
+}
+
 <div>
   <div
     class="emotion-0 emotion-1"
@@ -116,56 +141,56 @@ exports[`Admin Page renders the Admin List 1`] = `
         <a
           href="/admin/codes"
         >
-          <span
-            class="sc-dba4da35-0 sc-e5f22f22-0 dENMWf ebzISv"
+          <div
+            class="emotion-6 sc-313abcb3-0 sc-e5f22f22-0 hOflFZ ebzISv emotion-7"
           >
             Add Codes
-          </span>
+          </div>
         </a>
         <a
           href="/admin/gitpoap/create-multiple"
         >
-          <span
-            class="sc-dba4da35-0 sc-e5f22f22-0 dENMWf ebzISv"
+          <div
+            class="emotion-6 sc-313abcb3-0 sc-e5f22f22-0 hOflFZ ebzISv emotion-7"
           >
             Create GitPOAPs
-          </span>
+          </div>
         </a>
         <a
           href="/admin/gitpoap/create-multiple-event"
         >
-          <span
-            class="sc-dba4da35-0 sc-e5f22f22-0 dENMWf ebzISv"
+          <div
+            class="emotion-6 sc-313abcb3-0 sc-e5f22f22-0 hOflFZ ebzISv emotion-7"
           >
             Create GitPOAPs for Events
-          </span>
+          </div>
         </a>
         <a
           href="/admin/gitpoap/claims"
         >
-          <span
-            class="sc-dba4da35-0 sc-e5f22f22-0 dENMWf ebzISv"
+          <div
+            class="emotion-6 sc-313abcb3-0 sc-e5f22f22-0 hOflFZ ebzISv emotion-7"
           >
             Claims Dashboard
-          </span>
+          </div>
         </a>
         <a
           href="/admin/repos"
         >
-          <span
-            class="sc-dba4da35-0 sc-e5f22f22-0 dENMWf ebzISv"
+          <div
+            class="emotion-6 sc-313abcb3-0 sc-e5f22f22-0 hOflFZ ebzISv emotion-7"
           >
             Repos Dashboard
-          </span>
+          </div>
         </a>
         <a
           href="/admin/vitals"
         >
-          <span
-            class="sc-dba4da35-0 sc-e5f22f22-0 dENMWf ebzISv"
+          <div
+            class="emotion-6 sc-313abcb3-0 sc-e5f22f22-0 hOflFZ ebzISv emotion-7"
           >
             Vitals Dashboard
-          </span>
+          </div>
         </a>
       </div>
     </div>

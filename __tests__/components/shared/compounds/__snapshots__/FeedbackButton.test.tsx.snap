@@ -1,32 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FeedbackButton should render "Give Feedback" button on MouseEnter 1`] = `
-.c0 {
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  -webkit-letter-spacing: 0.0125rem;
-  -moz-letter-spacing: 0.0125rem;
-  -ms-letter-spacing: 0.0125rem;
-  letter-spacing: 0.0125rem;
-  color: #E2E2EE;
-}
-
 .emotion-1 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-family: PT Mono,monospace;
   -webkit-tap-highlight-color: transparent;
   color: inherit;
-  font-size: inherit;
+  font-size: 0.875rem;
   line-height: 1.55;
   -webkit-text-decoration: none;
   text-decoration: none;
+  font-weight: normal;
+  color: #E2E2EE;
+  letter-spacing: 0.0125rem;
+  line-height: 1.25rem;
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
 }
 
 .emotion-1:focus {
   outline-offset: 2px;
-  outline: 2px solid #339af0;
+  outline: 2px solid #1c7ed6;
 }
 
 .emotion-1:focus:not(:focus-visible) {
@@ -34,7 +27,7 @@ exports[`FeedbackButton should render "Give Feedback" button on MouseEnter 1`] =
 }
 
 <div
-  class="emotion-0 c0 emotion-1"
+  class="emotion-0 emotion-1"
 >
   Give Feedback
 </div>
