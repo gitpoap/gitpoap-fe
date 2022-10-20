@@ -769,6 +769,12 @@ exports[`Footer renders a Footer 1`] = `
         >
           Orgs
         </a>
+        <a
+          class="c9"
+          href="/gitpoaps"
+        >
+          GitPOAPs
+        </a>
       </div>
       <div
         class="c7"
