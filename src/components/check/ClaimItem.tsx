@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { EligibleClaimsQuery } from '../../graphql/generated-gql';
-import { Group, Stack } from '@mantine/core';
+import { Group, Stack, Text } from '@mantine/core';
 import { GitPOAP } from '../shared/compounds/GitPOAP';
-import { Header, Text } from '../shared/elements';
+import { Header } from '../shared/elements';
 import { truncateString } from '../../helpers';
+import { Link } from '../shared/compounds/Link';
 
 const Container = styled(Group)`
   max-width: 100%;
@@ -40,6 +41,10 @@ const getIssuedTo = ({ issuedAddress, email, user }: Claim) => {
 export const ClaimItem = ({ claim }: ClaimItemProps) => {
   const issuedTo = getIssuedTo(claim);
   const hasRepo = claim.gitPOAP.project.repos.length > 0;
+  const fullRepoName = hasRepo
+    ? `${claim.gitPOAP.project.repos[0].organization.name}/${claim.gitPOAP.project.repos[0].name}`
+    : '';
+
   return (
     <Container position="center" align="start" noWrap p={rem(10)}>
       <Stack align="start">
@@ -57,7 +62,9 @@ export const ClaimItem = ({ claim }: ClaimItemProps) => {
           {hasRepo && (
             <Group spacing="xs">
               <Text weight={600}>{'For: '}</Text>
-              <Text>{`${claim.gitPOAP.project.repos[0].organization.name}/${claim.gitPOAP.project.repos[0].name}`}</Text>
+              <Link href={`/gh/${fullRepoName}`}>
+                <Text weight="bold" variant="link">{`${fullRepoName}`}</Text>
+              </Link>
             </Group>
           )}
         </Stack>
