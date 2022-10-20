@@ -106,7 +106,7 @@ export const createGitPOAPRequest = async (
 };
 
 export const approveGitPOAPRequest = async (id: number, accessToken: string) => {
-  const res = await makeGitPOAPRequestAPIRequest('POST', `/gitpoaps/custom/approve/${id}`, {
+  const res = await makeGitPOAPRequestAPIRequest('PUT', `/gitpoaps/custom/approve/${id}`, {
     Authorization: `Bearer ${accessToken}`,
   });
 
@@ -128,7 +128,7 @@ export const approveGitPOAPRequest = async (id: number, accessToken: string) => 
 };
 
 export const rejectGitPOAPRequest = async (id: number, accessToken: string) => {
-  const res = await makeGitPOAPRequestAPIRequest('POST', `/gitpoaps/custom/approve/${id}`, {
+  const res = await makeGitPOAPRequestAPIRequest('PUT', `/gitpoaps/custom/approve/${id}`, {
     Authorization: `Bearer ${accessToken}`,
   });
 

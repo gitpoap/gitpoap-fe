@@ -71,6 +71,7 @@ const GitPoapRequests: NextPage = () => {
                   gitPOAPRequests.map((gitPOAPRequest) => (
                     <GitPOAPRequest
                       key={gitPOAPRequest.id}
+                      id={gitPOAPRequest.id}
                       name={gitPOAPRequest.name}
                       description={gitPOAPRequest.description}
                       imageKey={''}
