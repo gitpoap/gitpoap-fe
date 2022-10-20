@@ -59,14 +59,6 @@ export const ClaimListContainer = styled.div`
   @media (max-width: ${rem(1000)}) {
     grid-template-columns: repeat(1, 1fr);
   }
-
-  @media (max-width: ${rem(750)}) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-
-  @media (max-width: ${rem(500)}) {
-    grid-template-columns: repeat(1, 1fr);
-  }
 `;
 
 export type Claim = Exclude<EligibleClaimsQuery['claims'], undefined | null>[number];
@@ -138,9 +130,7 @@ export const CheckEligibility = () => {
       !result.fetching &&
       debouncedSearch &&
       debouncedSearch.length > 0 ? (
-        <Text size="lg" style={{ marginBottom: rem(40), fontSize: rem(18) }}>
-          {'No results found'}
-        </Text>
+        <Text style={{ marginBottom: rem(40), fontSize: rem(18) }}>{'No results found'}</Text>
       ) : (
         <ClaimListContainer>
           <>
