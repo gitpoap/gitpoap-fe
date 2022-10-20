@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Grid, Loader } from '@mantine/core';
+import { Grid, Loader, Stack } from '@mantine/core';
 import { useAuthContext } from '../../../components/github/AuthContext';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { useGitPoapRequestsQuery } from '../../../graphql/generated-gql';
+import { GitPOAPRequest } from '../../../components/admin/GitPOAPRequest';
 import { DateTime } from 'luxon';
 import { truncateAddress, truncateString } from '../../../helpers';
 import { TableDashboard, TD } from '../../../components/admin/TableDashboard';
@@ -65,12 +66,25 @@ const GitPoapRequests: NextPage = () => {
                   <Loader size="xl" variant="dots" />
                 </LoaderContainer>
               )}
-              {gitPOAPRequests &&
-                gitPOAPRequests.map((cg) => (
-                  <div key={cg.id}>
-                    <p>{cg.name}</p>
-                  </div>
-                ))}
+              <Stack align="center" justify="flex-start" spacing="sm">
+                {gitPOAPRequests &&
+                  gitPOAPRequests.map((gitPOAPRequest) => (
+                    <GitPOAPRequest
+                      key={gitPOAPRequest.id}
+                      name={gitPOAPRequest.name}
+                      description={gitPOAPRequest.description}
+                      imageKey={''}
+                      startDate={gitPOAPRequest.startDate}
+                      endDate={gitPOAPRequest.endDate}
+                      expiryDate={gitPOAPRequest.expiryDate}
+                      numRequestedCodes={gitPOAPRequest.numRequestedCodes}
+                      email={gitPOAPRequest.email}
+                      contributors={gitPOAPRequest.contributors}
+                      projectName={gitPOAPRequest.project?.repos[0].name}
+                      organizationName={gitPOAPRequest.organization?.name}
+                    />
+                  ))}
+              </Stack>
             </>
           ) : (
             <ConnectGitHub />

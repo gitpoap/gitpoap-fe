@@ -786,11 +786,13 @@ query gitPOAPRequests($count: Int!) {
     id
     name
     description
+    imageKey
     startDate
     endDate
     expiryDate
     numRequestedCodes
     email
+    contributors
 
     project {
       repos(take: 1) {

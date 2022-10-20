@@ -6271,11 +6271,13 @@ export type GitPoapRequestsQuery = {
     id: number;
     name: string;
     description: string;
+    imageKey: string;
     startDate: any;
     endDate: any;
     expiryDate: any;
     numRequestedCodes: number;
     email: string;
+    contributors: any;
     project?: {
       __typename?: 'Project';
       repos: Array<{ __typename?: 'Repo'; name: string }>;
@@ -7606,11 +7608,13 @@ export const GitPoapRequestsDocument = gql`
       id
       name
       description
+      imageKey
       startDate
       endDate
       expiryDate
       numRequestedCodes
       email
+      contributors
       project {
         repos(take: 1) {
           name
