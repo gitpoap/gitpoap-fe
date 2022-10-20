@@ -41,7 +41,12 @@ export const GitHub = ({ className, hideText }: Props) => {
   if (!user?.capabilities.hasGithub) {
     return hasCheckEligibility ? (
       <Content className={className}>
-        <Button onClick={() => router.push('/eligibility')}>{'Start Earning'}</Button>
+        <Button
+          onClick={() => router.push('/eligibility')}
+          leftIcon={!hideText && <GoMarkGithub size={16} />}
+        >
+          {hideText ? <GoMarkGithub size={16} /> : 'Start Earning'}
+        </Button>
       </Content>
     ) : (
       <Content className={className}>
