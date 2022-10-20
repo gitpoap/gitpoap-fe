@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { Box, BoxProps, Stack } from '@mantine/core';
 import { Header, Input, Loader, Text } from '../shared/elements';
 import { useDebouncedValue } from '@mantine/hooks';
 import { EligibleClaimsQuery, useEligibleClaimsQuery } from '../../graphql/generated-gql';
@@ -8,46 +9,25 @@ import { FaSearch } from 'react-icons/fa';
 import { ClaimItem } from './ClaimItem';
 import { useRouter } from 'next/router';
 
-const HeaderWrapper = styled.div`
-  margin-bottom: ${rem(40)};
-`;
 const StyledHeader = styled(Header)`
   display: block;
   max-width: 100%;
-  margin-bottom: ${rem(18)};
 `;
 
 const SubHeader = styled(Text)`
   width: ${rem(750)};
   max-width: 100%;
   line-height: ${rem(24)};
-  font-size: ${rem(16)};
-`;
-
-const Wrapper = styled.div`
-  margin-top: ${rem(80)};
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const StyledSearch = styled(Input)`
-  margin-bottom: ${rem(40)};
   width: ${rem(400)};
   max-width: 100%;
 `;
 
-export const ClaimListContainer = styled.div`
+export const ClaimListContainer = styled(Box)<BoxProps>`
   display: grid;
   width: 100%;
-  margin-top: ${rem(50)};
-  margin-bottom: ${rem(55)};
-
-  justify-content: center;
-  align-content: center;
-  align-items: flex-start;
-
   grid-template-columns: repeat(3, 1fr);
   column-gap: ${rem(16)};
   row-gap: ${rem(32)};
@@ -109,16 +89,17 @@ export const CheckEligibility = () => {
   }
 
   return (
-    <Wrapper>
-      <HeaderWrapper>
-        <StyledHeader>{'Check Eligibility'}</StyledHeader>
-        <SubHeader>
+    <Stack align="center" mt={rem(80)} justify="center">
+      <Stack mb={rem(40)} align="center">
+        <StyledHeader mb={rem(18)}>{'Check Eligibility'}</StyledHeader>
+        <SubHeader align="center" size="md">
           {
             "Check  whether you're eligible for any GitPOAPs. Search for ETH addresses, ENS Names, Emails, and GitHub Handles"
           }
         </SubHeader>
-      </HeaderWrapper>
+      </Stack>
       <StyledSearch
+        mb={rem(40)}
         style={{ marginBottom: rem(40), width: rem(500) }}
         placeholder={'GITPOAP, TEAM@GITPOAP.IO, GITPOAP.ETH, 0x...'}
         value={searchValue ?? ''}
@@ -132,7 +113,7 @@ export const CheckEligibility = () => {
       debouncedSearch.length > 0 ? (
         <Text style={{ marginBottom: rem(40), fontSize: rem(18) }}>{'No results found'}</Text>
       ) : (
-        <ClaimListContainer>
+        <ClaimListContainer mt={rem(50)} mb={rem(55)}>
           <>
             {allClaims &&
               debouncedSearch &&
@@ -144,6 +125,6 @@ export const CheckEligibility = () => {
           </>
         </ClaimListContainer>
       )}
-    </Wrapper>
+    </Stack>
   );
 };
