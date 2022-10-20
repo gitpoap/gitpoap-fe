@@ -6,7 +6,7 @@ import { Body, BodyAsAnchor, Button, Header, InfoHexBase, Text } from '../shared
 import { FaArrowRight } from 'react-icons/fa';
 import { GoMarkGithub } from 'react-icons/go';
 import { BREAKPOINTS } from '../../constants';
-import { useClaimContext } from '../claimModal/ClaimContext';
+import { useClaimContext } from '../claims/ClaimContext';
 import { ExtraHover, ExtraPressed } from '../../colors';
 import { useOAuthContext } from '../oauth/OAuthContext';
 import { useLocalStorage } from '@mantine/hooks';

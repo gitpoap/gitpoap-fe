@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components';
 import { FaArrowRight } from 'react-icons/fa';
 import { TextGray, TextLight } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
-import { useClaimContext } from '../claimModal/ClaimContext';
+import { useClaimContext } from '../claims/ClaimContext';
 import { useOAuthContext } from '../oauth/OAuthContext';
 import { Link } from '../shared/compounds/Link';
 import { TitleLink } from '../shared/elements';

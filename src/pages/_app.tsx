@@ -12,7 +12,7 @@ import { OAuthProvider } from '../components/oauth/OAuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
 import { theme } from '../lib/theme';
-import { ClaimContextProvider } from '../components/claimModal/ClaimContext';
+import { ClaimContextProvider } from '../components/claims/ClaimContext';
 import { LoadingBar } from '../components/LoadingBar';
 
 const client = createClient({
