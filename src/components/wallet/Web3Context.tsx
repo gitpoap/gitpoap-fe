@@ -13,6 +13,8 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import { useTokens } from '../../hooks/useTokens';
 import { useRefreshTokens } from '../../hooks/useRefreshTokens';
 import { useApi } from '../../hooks/useApi';
+import { useLocalStorage } from '@mantine/hooks';
+import { Router, useRouter } from 'next/router';
 
 type Props = {
   children: React.ReactNode;
@@ -100,6 +102,11 @@ export const Web3ContextProvider = (props: Props) => {
   const [ensName, setEnsName] = useState<string | null>(null);
   const api = useApi();
   const { setRefreshToken, setAccessToken, tokens } = useTokens();
+  const router = useRouter();
+  const [hasConnectedBefore, setHasConnectedBefore] = useLocalStorage<boolean>({
+    key: 'hasConnectedBefore',
+    defaultValue: false,
+  });
   /* This hook can only be used once here ~ it contains token refresh logic */
   useRefreshTokens();
 
@@ -186,6 +193,10 @@ export const Web3ContextProvider = (props: Props) => {
       const web3Provider = await initializeProvider(provider);
       await authenticate(web3Provider, tokens?.accessToken ?? null);
       await addListeners(provider);
+      if (!hasConnectedBefore) {
+        setHasConnectedBefore(true);
+        router.push('/settings#integrations');
+      }
       return web3Provider;
     } catch (err) {
       console.warn(err);
