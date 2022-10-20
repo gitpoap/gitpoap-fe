@@ -31,7 +31,7 @@ export const GitHub = ({ className, hideText }: Props) => {
   const { claimedIds, userClaims, setIsOpen } = useClaimContext();
   const { github } = useOAuthContext();
   const user = useUser();
-  const { hasSettingsPage } = useFeatures();
+  const { hasCheckEligibility } = useFeatures();
   const [isGHPopoverOpen, setIsGHPopoverOpen] = useState<boolean>(false);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const userClaimCount = userClaims?.length;
@@ -39,10 +39,19 @@ export const GitHub = ({ className, hideText }: Props) => {
 
   /* User has no connected GitHub account */
   if (!user?.capabilities.hasGithub) {
-    return (
+    return hasCheckEligibility ? (
       <Content className={className}>
         <Button
-          onClick={hasSettingsPage ? () => router.push(`/settings#integrations`) : github.authorize}
+          onClick={() => router.push('/eligibility')}
+          leftIcon={!hideText && <GoMarkGithub size={16} />}
+        >
+          {hideText ? <GoMarkGithub size={16} /> : 'Start Earning'}
+        </Button>
+      </Content>
+    ) : (
+      <Content className={className}>
+        <Button
+          onClick={() => router.push(`/settings#integrations`)}
           leftIcon={!hideText && <GoMarkGithub size={16} />}
         >
           {hideText ? <GoMarkGithub size={16} /> : 'CONNECT TO MINT'}

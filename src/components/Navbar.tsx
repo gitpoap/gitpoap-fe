@@ -85,7 +85,6 @@ const CollapseMenuContent = styled(Stack)`
 `;
 
 export const Navbar = () => {
-  const { hasSettingsPage } = useFeatures();
   const router = useRouter();
   const { connectionStatus, address, ensName } = useWeb3Context();
   const matches1330 = useMediaQuery(`(min-width: ${rem(1330)})`, false);
@@ -111,9 +110,6 @@ export const Navbar = () => {
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
       </NavLinkAnchor>
-      {connectionStatus === 'connected-to-wallet' && matches950 && !hasSettingsPage && (
-        <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
-      )}
       <ClaimButton hideText={!matchesLg} />
       <Wallet hideText={!matches1330} isMobile={false} />
     </>

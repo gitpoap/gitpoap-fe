@@ -1,6 +1,7 @@
 import React, { useEffect, ComponentProps } from 'react';
 import { Button, ButtonProps, Group, Stack, Text, TextProps } from '@mantine/core';
 import { rem } from 'polished';
+import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
 import { FaArrowRight } from 'react-icons/fa';
 import { TextGray, TextLight } from '../../colors';
@@ -11,6 +12,7 @@ import { Link } from '../shared/compounds/Link';
 import { TitleLink } from '../shared/elements';
 import { useLocalStorage } from '@mantine/hooks';
 import { useUser } from '../../hooks/useUser';
+import { useFeatures } from '../FeaturesContext';
 
 const StyledStack = styled(Stack)`
   margin-bottom: ${rem(48)};
@@ -85,6 +87,8 @@ export const Banner = () => {
   const user = useUser();
   const hasGithub = user?.capabilities.hasGithub ?? false;
   const { setIsOpen } = useClaimContext();
+  const { hasCheckEligibility } = useFeatures();
+  const router = useRouter();
   const [isStartMintingButtonClicked, setIsStartMintingButtonClicked] = useLocalStorage<boolean>({
     key: 'isStartMintingButtonClicked',
     defaultValue: false,
@@ -113,14 +117,18 @@ export const Banner = () => {
           </StartIssuingButton>
         </Link>
         <StartMintingButton
-          onClick={() => {
-            if (!hasGithub) {
-              setIsStartMintingButtonClicked(true);
-              github.authorize();
-            } else {
-              setIsOpen(true);
-            }
-          }}
+          onClick={
+            hasCheckEligibility
+              ? () => router.push('/eligibility')
+              : () => {
+                  if (!hasGithub) {
+                    setIsStartMintingButtonClicked(true);
+                    github.authorize();
+                  } else {
+                    setIsOpen(true);
+                  }
+                }
+          }
           radius="md"
           size="md"
           rightIcon={<FaArrowRight />}

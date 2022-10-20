@@ -9,7 +9,6 @@ import React, {
 } from 'react';
 import { useProfileQuery, ProfileQuery } from '../../graphql/generated-gql';
 import { useWeb3Context } from '../wallet/Web3Context';
-import { EditProfileModal } from '../../components/profile/EditProfileModal';
 import { GITPOAP_API_URL } from '../../constants';
 import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
@@ -25,7 +24,6 @@ export type EditableProfileData = Partial<
 type ProfileContext = {
   profileData?: ProfileQuery['profileData'];
   setProfileData: Dispatch<SetStateAction<ProfileQuery['profileData']>>;
-  setIsUpdateModalOpen: Dispatch<SetStateAction<boolean>>;
   updateProfile: (newProfileData: EditableProfileData) => void;
   showEditProfileButton: boolean;
   isSaveLoading: boolean;
@@ -49,7 +47,6 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
   const { tokens } = useTokens();
   const { address: connectedWalletAddress } = useWeb3Context();
   const [profileData, setProfileData] = useState<ProfileQuery['profileData']>();
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
   const [isSaveSuccessful, setIsSaveSuccessful] = useState<boolean>(false);
   const [result, refetch] = useProfileQuery({
@@ -101,7 +98,6 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
         }
         setIsSaveSuccessful(true);
         setIsSaveLoading(false);
-        setIsUpdateModalOpen(false);
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.warn(err);
@@ -124,7 +120,6 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
         setProfileData,
         showEditProfileButton,
         updateProfile,
-        setIsUpdateModalOpen,
         isSaveLoading,
         isSaveSuccessful,
         setIsSaveSuccessful,
@@ -132,19 +127,6 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
       }}
     >
       {children}
-      {result.data && (
-        <EditProfileModal
-          bio={profileData?.bio}
-          personalSiteUrl={profileData?.personalSiteUrl}
-          githubHandle={profileData?.githubHandle}
-          twitterHandle={profileData?.twitterHandle}
-          isVisibleOnLeaderboard={profileData?.isVisibleOnLeaderboard}
-          isOpen={isUpdateModalOpen}
-          onClose={() => setIsUpdateModalOpen(false)}
-          onClickSave={updateProfile}
-          isSaveLoading={isSaveLoading}
-        />
-      )}
     </ProfileContext.Provider>
   );
 };

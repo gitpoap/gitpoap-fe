@@ -1,6 +1,6 @@
 import { BREAKPOINTS } from '../../constants';
 import { MantineProviderProps } from '@mantine/core';
-import { BackgroundPanel, ExtraHover, MidnightBlue } from '../../colors';
+import { BackgroundPanel, Black, ExtraHover, MidnightBlue } from '../../colors';
 import { rem } from 'polished';
 
 import { buttonTheme } from './ButtonTheme';
@@ -14,6 +14,9 @@ export const theme: MantineProviderProps['theme'] = {
     Button: buttonTheme,
     DatePicker: datePickerTheme,
     Modal: {
+      defaultProps: {
+        overlayColor: Black,
+      },
       styles: {
         modal: {
           background: MidnightBlue,
