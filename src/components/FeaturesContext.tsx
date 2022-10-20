@@ -16,7 +16,7 @@ export const getInitialState = (): FeaturesState => ({
   hasCheckIfImEligible: false,
   hasOrganizations: false,
   hasEmailVerification: false,
-  hasCheckEligibility: false,
+  hasCheckEligibility: true,
   hasTrendingReposPage: false,
 });
 
