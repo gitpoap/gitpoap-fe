@@ -41,7 +41,7 @@ export const GitHub = ({ className, hideText }: Props) => {
   if (!user?.capabilities.hasGithub) {
     return hasCheckEligibility ? (
       <Content className={className}>
-        <Button onClick={() => router.push('/check')}>{'Start Earning'}</Button>
+        <Button onClick={() => router.push('/eligibility')}>{'Start Earning'}</Button>
       </Content>
     ) : (
       <Content className={className}>

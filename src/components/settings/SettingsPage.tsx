@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Stack, Divider, Group, Title } from '@mantine/core';
+import { Stack, Divider, Group, Title, Box } from '@mantine/core';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { useOAuthContext } from '../oauth/OAuthContext';
@@ -176,7 +176,7 @@ export const SettingsPage = ({ ethAddress }: Props) => {
         onChange={(e) => setIsVisibleOnLeaderboardValue(e.target.checked)}
       />
 
-      <div style={{ marginBottom: rem(24) }}>
+      <Box mb={rem(24)}>
         <Button
           onClick={() =>
             updateProfile({
@@ -196,7 +196,7 @@ export const SettingsPage = ({ ethAddress }: Props) => {
         >
           {'Save'}
         </Button>
-      </div>
+      </Box>
 
       {/* Wait until we're ready to release */}
       {hasEmailVerification && (

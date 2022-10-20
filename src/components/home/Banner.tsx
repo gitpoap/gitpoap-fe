@@ -119,7 +119,7 @@ export const Banner = () => {
         <StartMintingButton
           onClick={
             hasCheckEligibility
-              ? () => router.push('/check')
+              ? () => router.push('/eligibility')
               : () => {
                   if (!hasGithub) {
                     setIsStartMintingButtonClicked(true);
