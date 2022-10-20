@@ -9,17 +9,12 @@ import { truncateString } from '../../helpers';
 
 const Container = styled(Group)`
   max-width: 100%;
-  padding: ${rem(10)};
 `;
 
 const Title = styled(Header)`
   text-align: left;
   font-size: ${rem(24)};
-  line-height: ${rem(32)};
-`;
-
-const Name = styled(Text)`
-  font-weight: 600;
+  line-height: ${rem(28)};
 `;
 
 export type Claim = Exclude<EligibleClaimsQuery['claims'], undefined | null>[number];
@@ -44,18 +39,28 @@ const getIssuedTo = ({ issuedAddress, email, user }: Claim) => {
 
 export const ClaimItem = ({ claim }: ClaimItemProps) => {
   const issuedTo = getIssuedTo(claim);
+  const hasRepo = claim.gitPOAP.project.repos.length > 0;
   return (
-    <Container position="center" align="start" noWrap>
+    <Container position="center" align="start" noWrap p={rem(10)}>
       <Stack align="start">
         <GitPOAP gitPOAPId={claim.gitPOAP.id} imgSrc={claim.gitPOAP.imageUrl} size="sm" />
       </Stack>
-      <Stack align="flex-start" justify="flex-start">
+      <Stack align="flex-start" justify="flex-start" spacing={10}>
         <Title>{claim.gitPOAP.name.replace('GitPOAP: ', '')}</Title>
+
         <Text align="left">{claim.gitPOAP.description}</Text>
-        <Group position="left" align="flex-start" spacing={'xs'}>
-          <Text>{'Issued to:'}</Text>
-          <Name weight={600}>{truncateString(issuedTo, 24)}</Name>
-        </Group>
+        <Stack spacing={0}>
+          <Group position="left" align="flex-start" spacing="xs">
+            <Text weight={600}>{'Issued to: '}</Text>
+            <Text>{truncateString(issuedTo, 24)}</Text>
+          </Group>
+          {hasRepo && (
+            <Group spacing="xs">
+              <Text weight={600}>{'For: '}</Text>
+              <Text>{`${claim.gitPOAP.project.repos[0].organization.name}/${claim.gitPOAP.project.repos[0].name}`}</Text>
+            </Group>
+          )}
+        </Stack>
       </Stack>
     </Container>
   );
