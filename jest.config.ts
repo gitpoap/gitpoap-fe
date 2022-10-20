@@ -26,6 +26,7 @@ const customJestConfig: Config = {
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+test.[jt]s?(x)'],
   transformIgnorePatterns: [`node_modules/(?!(${namespacesToTransform.join('|')})/)`],
   clearMocks: true,
+  testPathIgnorePatterns: ['/.next/', '/node_modules/', '/__tests__/__utils__/'],
 };
 
 /*
