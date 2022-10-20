@@ -780,3 +780,26 @@ query trendingRepos($count: Float!, $numDays: Float!) {
     mintedGitPOAPCount
   }
 }
+
+query gitPOAPRequests($count: Int!) {
+  gitPOAPRequests(take: $count) {
+    id
+    name
+    description
+    startDate
+    endDate
+    expiryDate
+    numRequestedCodes
+    email
+
+    project {
+      repos(take: 1) {
+        name
+      }
+    }
+
+    organization {
+      name
+    }
+  }
+}
