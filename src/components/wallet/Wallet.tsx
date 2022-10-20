@@ -106,8 +106,8 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
           />
         )
       ) : (
-        <Button leftIcon={<FaEthereum size={16} />} onClick={() => connect()}>
-          {'Sign In'}
+        <Button leftIcon={!hideText && <FaEthereum size={16} />} onClick={() => connect()}>
+          {!hideText ? 'Sign In' : <FaEthereum size={16} />}
         </Button>
       )}
     </Content>
