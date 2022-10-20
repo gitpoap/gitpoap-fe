@@ -6,7 +6,7 @@ import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
 
-import { useClaimContext } from '../ClaimModal/ClaimContext';
+import { useClaimContext } from '../claimModal/ClaimContext';
 import { Index } from '../home/LeaderBoardItem';
 import { IconLink } from '../shared/compounds/Link';
 import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleLink } from '../shared/elements';
