@@ -39,6 +39,7 @@ query gitpoapByPoapEventId($poapEventId: Int!) {
   gitPOAP(where: { poapEventId: $poapEventId }) {
     id
     poapEventId
+    poapApprovalStatus
     project {
       repos {
         name
