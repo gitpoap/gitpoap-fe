@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { rem } from 'polished';
-import { Stack, Group, Divider as DividerUI } from '@mantine/core';
+import { Stack, Group, Divider as DividerUI, Popover, Image } from '@mantine/core';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { Text, Button } from '../../components/shared/elements';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
@@ -63,6 +63,7 @@ const dateToTimeAgo = (date: string): string => {
 
 export const GitPOAPRequest = (props: Props) => {
   const { canSeeAdmin, tokens } = useAuthContext();
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const [approveStatus, setApproveStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [rejectStatus, setRejectStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
 
@@ -97,12 +98,39 @@ export const GitPOAPRequest = (props: Props) => {
   return (
     <GitPOAPRequestContainer>
       <Group align="center" position="center" spacing="md">
-        <GitPOAPBadge
-          imgUrl={props.imageKey}
-          altText=""
-          size="sm"
-          onClick={() => console.log('click image')}
-        />
+        <Popover
+          opened={isPopoverOpen}
+          onClose={() => setIsPopoverOpen(false)}
+          position="left"
+          withArrow
+          trapFocus={false}
+          closeOnEscape={false}
+          transition="pop-top-left"
+          styles={{
+            dropdown: {
+              backgroundColor: BackgroundPanel2,
+              borderColor: BackgroundPanel2,
+            },
+          }}
+          radius="lg"
+        >
+          <Popover.Target>
+            <Image
+              style={{ pointerEvents: 'auto' }}
+              width={90}
+              height={90}
+              src={props.imageKey}
+              alt="preview"
+              onMouseEnter={() => setIsPopoverOpen(true)}
+              onMouseLeave={() => setIsPopoverOpen(false)}
+            />
+          </Popover.Target>
+          <Popover.Dropdown>
+            <div style={{ display: 'flex' }}>
+              <Image width={470} height={470} src={props.imageKey} alt="preview" />
+            </div>
+          </Popover.Dropdown>
+        </Popover>
         <Group align="start" spacing="sm">
           <Stack>
             <Group spacing="sm">

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Group, Loader, Stack } from '@mantine/core';
+import { Group, Loader, Stack, Text } from '@mantine/core';
 import { FaPlus } from 'react-icons/fa';
 import { useAuthContext } from '../github/AuthContext';
 import { ConnectGitHub } from './ConnectGitHub';
@@ -143,7 +143,11 @@ export const GitPOAPRequestList = () => {
                 <Select data={selectOptions} value={filter} onChange={onSelectChange} />
               </Sorting>
             </Heading>
+            {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
+              <Text>{'No GitPoap Requests Found'}</Text>
+            )}
             {gitPOAPRequests &&
+              gitPOAPRequests.length > 0 &&
               gitPOAPRequests.map((gitPOAPRequest) => (
                 <GitPOAPRequest
                   key={gitPOAPRequest.id}
