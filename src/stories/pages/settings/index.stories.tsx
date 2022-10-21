@@ -16,7 +16,7 @@ const Template: ComponentStory<typeof SettingsPage> = () => (
   <Layout>
     <ProfileProvider addressOrEns="asdfasdfasdf">
       <Container my={48} size={600} style={{ width: '100%' }}>
-        <SettingsPage ethAddress="asdfasdfasdf" />
+        <SettingsPage />
       </Container>
     </ProfileProvider>
   </Layout>
