@@ -3,7 +3,7 @@ import { Stack, Divider, Group, Title, Box } from '@mantine/core';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { useOAuthContext } from '../oauth/OAuthContext';
-import { FaCheckCircle, FaRegEdit } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
 import { GoMarkGithub } from 'react-icons/go';
 import { useUser } from '../../hooks/useUser';
 import { EmailConnection } from './EmailConnection';
@@ -12,20 +12,16 @@ import {
   Button,
   Input as InputUI,
   Checkbox,
+  Header,
   Text,
   TextArea as TextAreaUI,
+  Avatar as AvatarUI,
+  CopyableText,
 } from '../shared/elements';
-import { ExtraHover, ExtraPressed, TextGray, TextLight } from '../../colors';
-import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
+import { ExtraHover, ExtraPressed, TextAccent, TextGray } from '../../colors';
+import { isValidTwitterHandle, isValidURL, truncateAddress } from '../../helpers';
 import { useFeatures } from '../FeaturesContext';
-
-const Header = styled.div`
-  font-family: VT323;
-  font-size: ${rem(48)};
-  text-align: center;
-  color: ${TextLight};
-  line-height: normal;
-`;
+import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 
 const Input = styled(InputUI)`
   flex: 1;
@@ -55,15 +51,26 @@ const ConnectGithubAccount = styled(Text)`
   }
 `;
 
+const Name = styled(Header)`
+  font-size: ${rem(32)};
+  color: ${TextAccent};
+`;
+
+const Avatar = styled(AvatarUI)`
+  height: ${rem(100)};
+  width: ${rem(100)};
+`;
+
+const JazzIcon = styled(JazzIconReact)`
+  height: ${rem(100)};
+  width: ${rem(100)};
+`;
+
 export const SettingsText = styled(Text)`
   padding-right: ${rem(30)};
 `;
 
-type Props = {
-  ethAddress: string;
-};
-
-export const SettingsPage = ({ ethAddress }: Props) => {
+export const SettingsPage = () => {
   const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
   const { github } = useOAuthContext();
   const user = useUser();
@@ -73,9 +80,6 @@ export const SettingsPage = ({ ethAddress }: Props) => {
     profileData?.personalSiteUrl,
   );
   const [bioValue, setBioValue] = useState<string | undefined | null>(profileData?.bio);
-  const [githubHandleValue, setGithubHandleValue] = useState<string | undefined | null>(
-    profileData?.githubHandle,
-  );
   const [twitterHandleValue, setTwitterHandleValue] = useState<string | undefined | null>(
     profileData?.twitterHandle,
   );
@@ -94,10 +98,6 @@ export const SettingsPage = ({ ethAddress }: Props) => {
   }, [profileData?.bio]);
 
   useEffect(() => {
-    setGithubHandleValue(profileData?.githubHandle);
-  }, [profileData?.githubHandle]);
-
-  useEffect(() => {
     setTwitterHandleValue(profileData?.twitterHandle);
   }, [profileData?.twitterHandle]);
 
@@ -109,40 +109,54 @@ export const SettingsPage = ({ ethAddress }: Props) => {
     setHaveChangesBeenMade(
       profileData?.personalSiteUrl !== personSiteUrlValue ||
         profileData?.bio !== bioValue ||
-        profileData?.githubHandle !== githubHandleValue ||
         profileData?.twitterHandle !== twitterHandleValue ||
         profileData?.isVisibleOnLeaderboard !== isVisibleOnLeaderboardValue,
     );
-  }, [
-    profileData,
-    personSiteUrlValue,
-    bioValue,
-    githubHandleValue,
-    twitterHandleValue,
-    isVisibleOnLeaderboardValue,
-  ]);
+  }, [profileData, personSiteUrlValue, bioValue, twitterHandleValue, isVisibleOnLeaderboardValue]);
+
+  if (!user) {
+    return <></>;
+  }
 
   return (
     <Stack spacing={16} mb={32}>
-      <Header id="settings" style={{ textAlign: 'left' }}>
-        {'Settings'}
-      </Header>
-      <Divider />
-      <Input
-        placeholder="gitpoap"
-        label={'GitHub Handle'}
-        description={
-          user?.capabilities.hasGithub && (
-            <ConnectGithubAccount onClick={() => setGithubHandleValue(user?.githubHandle)}>
-              <FaRegEdit />
-              {' Use the currently authenticated GitHub account'}
-            </ConnectGithubAccount>
-          )
-        }
-        value={githubHandleValue ?? ''}
-        onChange={(e) => setGithubHandleValue(e.target.value)}
-        error={githubHandleValue && !isValidGithubHandle(githubHandleValue)}
-      />
+      <Group mb={48}>
+        {user.ensAvatarImageUrl ? (
+          <Avatar src={user.ensAvatarImageUrl} />
+        ) : (
+          <JazzIcon address={user.address} />
+        )}
+        <Stack spacing={0}>
+          <Name>{user.ensName ?? truncateAddress(user.address, 14)}</Name>
+          <CopyableText text={truncateAddress(user.address, 14)} textToCopy={user.address} />
+        </Stack>
+      </Group>
+
+      <Group position="apart" my={4}>
+        <Group>
+          <GoMarkGithub size={32} />
+          <Stack spacing={0}>
+            <Title order={5}>GitHub</Title>
+            {user.githubHandle && (
+              <Text size="xs">
+                {`You're connected as `}
+                <b>{user.githubHandle}</b>
+              </Text>
+            )}
+          </Stack>
+        </Group>
+        <Button
+          variant={user.capabilities.hasGithub ? 'outline' : 'filled'}
+          onClick={user.capabilities.hasGithub ? github.disconnect : github.authorize}
+        >
+          {user.capabilities.hasGithub ? 'DISCONNECT' : 'CONNECT'}
+        </Button>
+      </Group>
+
+      {/* Wait until we're ready to release */}
+      {hasEmailVerification && <EmailConnection />}
+
+      <Divider my={32} />
 
       <Input
         placeholder="gitpoap"
@@ -183,7 +197,6 @@ export const SettingsPage = ({ ethAddress }: Props) => {
               twitterHandle: twitterHandleValue,
               bio: bioValue,
               personalSiteUrl: personSiteUrlValue,
-              githubHandle: githubHandleValue,
               isVisibleOnLeaderboard: isVisibleOnLeaderboardValue,
             })
           }
@@ -197,32 +210,6 @@ export const SettingsPage = ({ ethAddress }: Props) => {
           {'Save'}
         </Button>
       </Box>
-
-      {/* Wait until we're ready to release */}
-      {hasEmailVerification && (
-        <>
-          <Header id="integrations" style={{ textAlign: 'left' }}>
-            {'Integrations'}
-          </Header>
-
-          <Divider />
-          <EmailConnection />
-        </>
-      )}
-
-      <Divider />
-      <Group position="apart" p={16}>
-        <Group>
-          <GoMarkGithub size={32} />
-          <Title order={5}>GitHub</Title>
-        </Group>
-        <Button
-          variant={user?.capabilities.hasGithub ? 'outline' : 'filled'}
-          onClick={user?.capabilities.hasGithub ? github.disconnect : github.authorize}
-        >
-          {user?.capabilities.hasGithub ? 'DISCONNECT' : 'CONNECT'}
-        </Button>
-      </Group>
     </Stack>
   );
 };

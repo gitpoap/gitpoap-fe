@@ -39,22 +39,21 @@ export const GitHub = ({ className, hideText }: Props) => {
 
   /* User has no connected GitHub account */
   if (!user?.capabilities.hasGithub) {
-    return hasCheckEligibility ? (
-      <Content className={className}>
-        <Button
-          onClick={() => router.push('/eligibility')}
-          leftIcon={!hideText && <GoMarkGithub size={16} />}
-        >
-          {hideText ? <GoMarkGithub size={16} /> : 'Start Earning'}
-        </Button>
-      </Content>
+    return user === null && hasCheckEligibility ? (
+      !hideText ? (
+        <Content className={className}>
+          <Button onClick={() => router.push('/eligibility')}>{'Check Eligibility'}</Button>
+        </Content>
+      ) : (
+        <></>
+      )
     ) : (
       <Content className={className}>
         <Button
           onClick={() => router.push(`/settings#integrations`)}
           leftIcon={!hideText && <GoMarkGithub size={16} />}
         >
-          {hideText ? <GoMarkGithub size={16} /> : 'CONNECT TO MINT'}
+          {hideText ? <GoMarkGithub size={16} /> : 'Connect GitHub'}
         </Button>
       </Content>
     );

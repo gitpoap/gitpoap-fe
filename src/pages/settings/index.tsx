@@ -25,7 +25,7 @@ const Settings: Page = () => {
       />
       {address && connectionStatus === 'connected-to-wallet' ? (
         <ProfileProvider addressOrEns={address}>
-          <SettingsPage ethAddress={address} />
+          <SettingsPage />
         </ProfileProvider>
       ) : (
         <Center style={{ width: '100%', height: 600 }}>

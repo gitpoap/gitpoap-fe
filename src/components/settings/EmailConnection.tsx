@@ -34,7 +34,7 @@ export const EmailConnection = () => {
   const { values, getInputProps, validate } = useEmailConnectionForm();
 
   return (
-    <Group position="apart" p={16}>
+    <Group position="apart" my={4}>
       <Stack spacing={0}>
         <Group>
           <HiOutlineMail size={32} />
@@ -45,7 +45,7 @@ export const EmailConnection = () => {
             CONNECT: <></>,
             SUBMITTED: <Text size="xs">{`Pending verification for ${values.email}`}</Text>,
             PENDING: <Text size="xs">{`Pending verification for ${userEmail?.emailAddress}`}</Text>,
-            DISCONNECT: <Text size="xs">{`You are connected as ${userEmail?.emailAddress}`}</Text>,
+            DISCONNECT: <Text size="xs">{`You're connected as ${userEmail?.emailAddress}`}</Text>,
           }[status]
         }
       </Stack>
