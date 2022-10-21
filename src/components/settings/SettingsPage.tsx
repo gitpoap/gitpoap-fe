@@ -3,7 +3,7 @@ import { Stack, Divider, Group, Title, Box } from '@mantine/core';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { useOAuthContext } from '../oauth/OAuthContext';
-import { FaCheckCircle, FaRegEdit } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
 import { GoMarkGithub } from 'react-icons/go';
 import { useUser } from '../../hooks/useUser';
 import { EmailConnection } from './EmailConnection';
@@ -12,23 +12,16 @@ import {
   Button,
   Input as InputUI,
   Checkbox,
+  Header,
   Text,
   TextArea as TextAreaUI,
-  Avatar,
+  Avatar as AvatarUI,
   CopyableText,
 } from '../shared/elements';
-import { ExtraHover, ExtraPressed, TextGray, TextLight } from '../../colors';
-import { isValidTwitterHandle, isValidURL } from '../../helpers';
+import { ExtraHover, ExtraPressed, TextAccent, TextGray } from '../../colors';
+import { isValidTwitterHandle, isValidURL, truncateAddress } from '../../helpers';
 import { useFeatures } from '../FeaturesContext';
-import { Jazzicon } from '@ukstv/jazzicon-react';
-
-const Header = styled.div`
-  font-family: VT323;
-  font-size: ${rem(48)};
-  text-align: center;
-  color: ${TextLight};
-  line-height: normal;
-`;
+import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 
 const Input = styled(InputUI)`
   flex: 1;
@@ -56,6 +49,21 @@ const ConnectGithubAccount = styled(Text)`
     color: ${ExtraHover};
     cursor: pointer;
   }
+`;
+
+const Name = styled(Header)`
+  font-size: ${rem(32)};
+  color: ${TextAccent};
+`;
+
+const Avatar = styled(AvatarUI)`
+  height: ${rem(100)};
+  width: ${rem(100)};
+`;
+
+const JazzIcon = styled(JazzIconReact)`
+  height: ${rem(100)};
+  width: ${rem(100)};
 `;
 
 export const SettingsText = styled(Text)`
@@ -112,29 +120,31 @@ export const SettingsPage = () => {
 
   return (
     <Stack spacing={16} mb={32}>
-      <Group>
+      <Group mb={48}>
         {user.ensAvatarImageUrl ? (
           <Avatar src={user.ensAvatarImageUrl} />
         ) : (
-          <Jazzicon address={user.address} />
+          <JazzIcon address={user.address} />
         )}
-        <Stack spacing={8}>
-          <Title order={3}>{user.ensName ?? user.address}</Title>
-          <CopyableText text={user.address} textToCopy={user.address} />
+        <Stack spacing={0}>
+          <Name>{user.ensName ?? truncateAddress(user.address, 14)}</Name>
+          <CopyableText text={truncateAddress(user.address, 14)} textToCopy={user.address} />
         </Stack>
       </Group>
 
-      {/* Wait until we're ready to release */}
-      {hasEmailVerification && <EmailConnection />}
-
-      <Group position="apart" p={16}>
-        <Stack spacing={0}>
-          <Group>
-            <GoMarkGithub size={32} />
+      <Group position="apart" my={4}>
+        <Group>
+          <GoMarkGithub size={32} />
+          <Stack spacing={0}>
             <Title order={5}>GitHub</Title>
-          </Group>
-          {user.githubHandle && <Text size="xs">{`You're connected as ${user.githubHandle}`}</Text>}
-        </Stack>
+            {user.githubHandle && (
+              <Text size="xs">
+                {`You're connected as `}
+                <b>{user.githubHandle}</b>
+              </Text>
+            )}
+          </Stack>
+        </Group>
         <Button
           variant={user.capabilities.hasGithub ? 'outline' : 'filled'}
           onClick={user.capabilities.hasGithub ? github.disconnect : github.authorize}
@@ -143,7 +153,10 @@ export const SettingsPage = () => {
         </Button>
       </Group>
 
-      <Divider my={16} />
+      {/* Wait until we're ready to release */}
+      {hasEmailVerification && <EmailConnection />}
+
+      <Divider my={32} />
 
       <Input
         placeholder="gitpoap"

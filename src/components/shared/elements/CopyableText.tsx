@@ -15,6 +15,8 @@ type Props = {
 };
 
 const CopyableTextStyled = styled(Title)`
+  display: flex;
+  flex-direction: row;
   font-family: PT Mono;
   font-style: normal;
   font-weight: normal;

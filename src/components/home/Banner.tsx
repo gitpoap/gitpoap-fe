@@ -134,7 +134,7 @@ export const Banner = () => {
           rightIcon={<FaArrowRight />}
           variant="outline"
         >
-          {'START EARNING'}
+          {'Check Eligibility'}
         </StartMintingButton>
       </CTAButtons>
       <HowItWorks href="https://docs.gitpoap.io" target="_blank" rel="noopener noreferrer">

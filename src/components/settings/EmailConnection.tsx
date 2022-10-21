@@ -34,7 +34,7 @@ export const EmailConnection = () => {
   const { values, getInputProps, validate } = useEmailConnectionForm();
 
   return (
-    <Group position="apart" p={16}>
+    <Group position="apart" my={4}>
       <Stack spacing={0}>
         <Group>
           <HiOutlineMail size={32} />
