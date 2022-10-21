@@ -115,7 +115,7 @@ export const SettingsPage = () => {
   }, [profileData, personSiteUrlValue, bioValue, twitterHandleValue, isVisibleOnLeaderboardValue]);
 
   if (!user) {
-    return null;
+    return <></>;
   }
 
   return (
