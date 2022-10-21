@@ -1,19 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
+import { rem } from 'polished';
+import { Stack, Group, Divider as DividerUI } from '@mantine/core';
 import { useAuthContext } from '../../components/github/AuthContext';
-import { Stack, Group, Text, Button, Divider as DividerUI } from '@mantine/core';
+import { Text, Button } from '../../components/shared/elements';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
-import { BackgroundPanel2, ExtraRedDark } from '../../colors';
+import { BackgroundPanel2, TextLight, TextGray } from '../../colors';
 import { approveGitPOAPRequest, rejectGitPOAPRequest } from '../../lib/gitpoapRequest';
-
-type ContributorsType = {
-  githubHandles?: string[];
-  ethAddresses?: string[];
-  ensNames?: string[];
-  emails?: string[];
-};
+import { ContributorsType } from './GitPOAPRequestList';
 
 type Props = {
   id: number;
@@ -30,8 +26,30 @@ type Props = {
   organizationName?: string;
 };
 
+const GitPOAPRequestContainer = styled.div`
+  width: fit-content;
+`;
+
+const Value = styled(Text)`
+  font-family: VT323;
+  font-weight: normal;
+  color: ${TextLight};
+  font-size: ${rem(20)};
+  line-height: ${rem(24)};
+`;
+
+const Label = styled(Text)`
+  font-family: PT Mono, monospace;
+  font-style: normal;
+  font-weight: normal;
+  color: ${TextGray};
+  font-size: ${rem(12)};
+  line-height: ${rem(15)};
+`;
+
 const Divider = styled(DividerUI)`
   border-top-color: ${BackgroundPanel2};
+  width: 100%;
 
   &:last-child {
     display: none;
@@ -77,8 +95,8 @@ export const GitPOAPRequest = (props: Props) => {
   }, [props.id, accessToken]);
 
   return (
-    <>
-      <Group align="center" spacing="md">
+    <GitPOAPRequestContainer>
+      <Group align="center" position="center" spacing="md">
         <GitPOAPBadge
           imgUrl={props.imageKey}
           altText=""
@@ -87,15 +105,36 @@ export const GitPOAPRequest = (props: Props) => {
         />
         <Group align="start" spacing="sm">
           <Stack>
-            <Text size={'sm'}>Name: {props.name}</Text>
-            <Text size={'sm'}>Description: {props.description}</Text>
-            <Text size={'sm'}>Email: {props.email}</Text>
-            <Text size={'sm'}>RequestCodes: {props.numRequestedCodes}</Text>
+            <Group spacing="sm">
+              <Label>Name:</Label>
+              <Value>{props.name}</Value>
+            </Group>
+            <Group spacing="sm">
+              <Label>Description:</Label>
+              <Value>{props.description}</Value>
+            </Group>
+            <Group spacing="sm">
+              <Label>Email:</Label>
+              <Value>{props.email}</Value>
+            </Group>
+            <Group spacing="sm">
+              <Label>RequestCodes:</Label>
+              <Value>{props.numRequestedCodes}</Value>
+            </Group>
           </Stack>
           <Stack>
-            <Text size={'sm'}>StartedAt: {dateToTimeAgo(props.startDate)}</Text>
-            <Text size={'sm'}>EndAt: {dateToTimeAgo(props.endDate)}</Text>
-            <Text size={'sm'}>ExpiryAt: {dateToTimeAgo(props.expiryDate)}</Text>
+            <Group spacing="sm">
+              <Label>StartedAt:</Label>
+              <Value>{dateToTimeAgo(props.startDate)}</Value>
+            </Group>
+            <Group spacing="sm">
+              <Label>EndAt:</Label>
+              <Value>{dateToTimeAgo(props.endDate)}</Value>
+            </Group>
+            <Group spacing="sm">
+              <Label>ExpiryAt:</Label>
+              <Value>{dateToTimeAgo(props.expiryDate)}</Value>
+            </Group>
           </Stack>
         </Group>
         <Stack align="center" spacing="md">
@@ -120,6 +159,6 @@ export const GitPOAPRequest = (props: Props) => {
         </Stack>
       </Group>
       <Divider />
-    </>
+    </GitPOAPRequestContainer>
   );
 };

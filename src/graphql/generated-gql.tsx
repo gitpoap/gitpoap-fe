@@ -6261,7 +6261,9 @@ export type TrendingReposQuery = {
 };
 
 export type GitPoapRequestsQueryVariables = Exact<{
-  count: Scalars['Int'];
+  take?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  approvalStatus?: InputMaybe<AdminApprovalStatus>;
 }>;
 
 export type GitPoapRequestsQuery = {
@@ -6284,6 +6286,18 @@ export type GitPoapRequestsQuery = {
     } | null;
     organization?: { __typename?: 'Organization'; name: string } | null;
   }>;
+};
+
+export type TotalGitPoapRequestsCountQueryVariables = Exact<{
+  approvalStatus?: InputMaybe<AdminApprovalStatus>;
+}>;
+
+export type TotalGitPoapRequestsCountQuery = {
+  __typename?: 'Query';
+  aggregateGitPOAPRequest: {
+    __typename?: 'AggregateGitPOAPRequest';
+    _count?: { __typename?: 'GitPOAPRequestCountAggregate'; id: number } | null;
+  };
 };
 
 export const GetAllStatsDocument = gql`
@@ -7603,8 +7617,13 @@ export function useTrendingReposQuery(
   });
 }
 export const GitPoapRequestsDocument = gql`
-  query gitPOAPRequests($count: Int!) {
-    gitPOAPRequests(take: $count) {
+  query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStatus) {
+    gitPOAPRequests(
+      take: $take
+      skip: $skip
+      where: { adminApprovalStatus: { equals: $approvalStatus } }
+      orderBy: { adminApprovalStatus: desc }
+    ) {
       id
       name
       description
@@ -7628,10 +7647,28 @@ export const GitPoapRequestsDocument = gql`
 `;
 
 export function useGitPoapRequestsQuery(
-  options: Omit<Urql.UseQueryArgs<GitPoapRequestsQueryVariables>, 'query'>,
+  options?: Omit<Urql.UseQueryArgs<GitPoapRequestsQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GitPoapRequestsQuery, GitPoapRequestsQueryVariables>({
     query: GitPoapRequestsDocument,
+    ...options,
+  });
+}
+export const TotalGitPoapRequestsCountDocument = gql`
+  query totalGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus) {
+    aggregateGitPOAPRequest(where: { adminApprovalStatus: { equals: $approvalStatus } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalGitPoapRequestsCountQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalGitPoapRequestsCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalGitPoapRequestsCountQuery, TotalGitPoapRequestsCountQueryVariables>({
+    query: TotalGitPoapRequestsCountDocument,
     ...options,
   });
 }

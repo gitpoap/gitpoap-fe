@@ -781,8 +781,13 @@ query trendingRepos($count: Float!, $numDays: Float!) {
   }
 }
 
-query gitPOAPRequests($count: Int!) {
-  gitPOAPRequests(take: $count) {
+query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStatus) {
+  gitPOAPRequests(
+    take: $take
+    skip: $skip
+    where: { adminApprovalStatus: { equals: $approvalStatus } }
+    orderBy: { adminApprovalStatus: desc }
+  ) {
     id
     name
     description
@@ -802,6 +807,14 @@ query gitPOAPRequests($count: Int!) {
 
     organization {
       name
+    }
+  }
+}
+
+query totalGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus) {
+  aggregateGitPOAPRequest(where: { adminApprovalStatus: { equals: $approvalStatus } }) {
+    _count {
+      id
     }
   }
 }
