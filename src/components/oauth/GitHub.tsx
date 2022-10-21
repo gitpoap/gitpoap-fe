@@ -9,7 +9,6 @@ import { Button, ClaimCircle } from '../shared/elements';
 import { useRouter } from 'next/router';
 import { useFeatures } from '../FeaturesContext';
 import { useUser } from '../../hooks/useUser';
-import { useWeb3Context } from '../wallet/Web3Context';
 
 const Content = styled.div`
   display: flex;
@@ -30,7 +29,6 @@ type Props = {
 
 export const GitHub = ({ className, hideText }: Props) => {
   const { claimedIds, userClaims, setIsOpen } = useClaimContext();
-  const { connectionStatus } = useWeb3Context();
   const { github } = useOAuthContext();
   const user = useUser();
   const { hasCheckEligibility } = useFeatures();
@@ -41,7 +39,7 @@ export const GitHub = ({ className, hideText }: Props) => {
 
   /* User has no connected GitHub account */
   if (!user?.capabilities.hasGithub) {
-    return connectionStatus !== 'connected-to-wallet' && hasCheckEligibility ? (
+    return user && hasCheckEligibility ? (
       !hideText && (
         <Content className={className}>
           <Button onClick={() => router.push('/eligibility')}>{'Check Eligibility'}</Button>
