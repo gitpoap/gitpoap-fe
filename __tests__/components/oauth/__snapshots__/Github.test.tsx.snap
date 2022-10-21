@@ -205,7 +205,7 @@ exports[`Github Button renders a Button 1`] = `
       <span
         class="emotion-8 emotion-9"
       >
-        CONNECT TO MINT
+        Connect GitHub
       </span>
     </div>
   </button>

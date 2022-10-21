@@ -1305,7 +1305,7 @@ exports[`Navbar renders a Navbar 1`] = `
                 class="emotion-9 emotion-10"
                 style="text-transform: uppercase;"
               >
-                CONNECT TO MINT
+                Connect GitHub
               </span>
             </div>
           </button>
