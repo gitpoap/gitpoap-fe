@@ -39,7 +39,7 @@ export const GitHub = ({ className, hideText }: Props) => {
 
   /* User has no connected GitHub account */
   if (!user?.capabilities.hasGithub) {
-    return user && hasCheckEligibility ? (
+    return user === null && hasCheckEligibility ? (
       !hideText && (
         <Content className={className}>
           <Button onClick={() => router.push('/eligibility')}>{'Check Eligibility'}</Button>
