@@ -68,11 +68,6 @@ const HeaderStyled = styled(Header)`
   }
 `;
 
-const dateToTimeAgo = (date: string): string => {
-  const startDate = DateTime.fromISO(date);
-  return startDate.toRelative() ?? '';
-};
-
 export const GitPOAPRequest = (props: Props) => {
   const { canSeeAdmin, tokens } = useAuthContext();
   const [opened, { open, close }] = useDisclosure(false);
@@ -166,15 +161,15 @@ export const GitPOAPRequest = (props: Props) => {
           <Stack>
             <Group spacing="sm">
               <Label>{'StartedAt:'}</Label>
-              <Value>{dateToTimeAgo(props.startDate)}</Value>
+              <Value>{props.startDate}</Value>
             </Group>
             <Group spacing="sm">
               <Label>{'EndAt:'}</Label>
-              <Value>{dateToTimeAgo(props.endDate)}</Value>
+              <Value>{props.endDate}</Value>
             </Group>
             <Group spacing="sm">
               <Label>{'ExpiryAt:'}</Label>
-              <Value>{dateToTimeAgo(props.expiryDate)}</Value>
+              <Value>{props.expiryDate}</Value>
             </Group>
             <Group spacing="sm">
               <ShowContributors onClick={open}>{'Show Contributors'}</ShowContributors>
