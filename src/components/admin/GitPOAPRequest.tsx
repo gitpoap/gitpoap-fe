@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { DateTime } from 'luxon';
 import { rem } from 'polished';
-import { Stack, Group, Divider as DividerUI, Popover, Image, Modal } from '@mantine/core';
+import { Stack, Group, Divider as DividerUI, Popover, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { Text, Button } from '../../components/shared/elements';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Header } from '../shared/elements/Header';
 import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
-import { BackgroundPanel2, TextLight, TextGray } from '../../colors';
+import { BackgroundPanel2, TextLight, TextGray, ExtraHover } from '../../colors';
 import { approveGitPOAPRequest, rejectGitPOAPRequest } from '../../lib/gitpoapRequest';
 import { ContributorsType } from './GitPOAPRequestList';
 import { BREAKPOINTS } from '../../constants';
 
-type Props = {
+export type GitPOAPRequestType = {
+  __typename?: 'GitPOAPRequest';
   id: number;
   name: string;
   description: string;
@@ -25,8 +25,15 @@ type Props = {
   numRequestedCodes: number;
   email: string;
   contributors: ContributorsType;
-  projectName?: string;
-  organizationName?: string;
+  project?: {
+    __typename?: 'Project';
+    repos: Array<{ __typename?: 'Repo'; id: number; name: string }>;
+  } | null;
+  organization?: { __typename?: 'Organization'; id: number; name: string } | null;
+};
+
+type Props = {
+  gitPOAPRequest: GitPOAPRequestType;
 };
 
 const Value = styled(Text)`
@@ -46,8 +53,17 @@ const Label = styled(Text)`
   line-height: ${rem(15)};
 `;
 
-const ShowContributors = styled(Value)`
+const Link = styled.a`
+  font-family: VT323;
+  font-weight: normal;
+  color: ${TextLight};
+  font-size: ${rem(20)};
+  line-height: ${rem(24)};
   cursor: pointer;
+
+  &:hover {
+    color: ${ExtraHover};
+  }
 `;
 
 const Divider = styled(DividerUI)`
@@ -68,7 +84,7 @@ const HeaderStyled = styled(Header)`
   }
 `;
 
-export const GitPOAPRequest = (props: Props) => {
+export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const { canSeeAdmin, tokens } = useAuthContext();
   const [opened, { open, close }] = useDisclosure(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
@@ -80,7 +96,7 @@ export const GitPOAPRequest = (props: Props) => {
   const submitApproveGitPOAPRequest = useCallback(async () => {
     setApproveStatus(ButtonStatus.LOADING);
 
-    const data = await approveGitPOAPRequest(props.id, accessToken);
+    const data = await approveGitPOAPRequest(gitPOAPRequest.id, accessToken);
 
     if (data === null) {
       setApproveStatus(ButtonStatus.ERROR);
@@ -88,12 +104,12 @@ export const GitPOAPRequest = (props: Props) => {
     }
 
     setApproveStatus(ButtonStatus.SUCCESS);
-  }, [props.id, accessToken]);
+  }, [gitPOAPRequest.id, accessToken]);
 
   const submitRejectGitPOAPRequest = useCallback(async () => {
     setRejectStatus(ButtonStatus.LOADING);
 
-    const data = await rejectGitPOAPRequest(props.id, accessToken);
+    const data = await rejectGitPOAPRequest(gitPOAPRequest.id, accessToken);
 
     if (data === null) {
       setRejectStatus(ButtonStatus.ERROR);
@@ -101,7 +117,7 @@ export const GitPOAPRequest = (props: Props) => {
     }
 
     setRejectStatus(ButtonStatus.SUCCESS);
-  }, [props.id, accessToken]);
+  }, [gitPOAPRequest.id, accessToken]);
 
   return (
     <>
@@ -123,19 +139,28 @@ export const GitPOAPRequest = (props: Props) => {
           radius="lg"
         >
           <Popover.Target>
-            <Image
-              style={{ pointerEvents: 'auto' }}
-              width={90}
-              height={90}
-              src={props.imageKey}
-              alt="preview"
+            <div
               onMouseEnter={() => setIsPopoverOpen(true)}
               onMouseLeave={() => setIsPopoverOpen(false)}
-            />
+            >
+              <GitPOAPBadge
+                imgUrl={
+                  'https://assets.poap.xyz/geos-second-foundation-drop-party-2021-logo-1633391228062.png'
+                }
+                altText="preview"
+                size={'sm'}
+              />
+            </div>
           </Popover.Target>
           <Popover.Dropdown>
             <div style={{ display: 'flex' }}>
-              <Image width={470} height={470} src={props.imageKey} alt="preview" />
+              <GitPOAPBadge
+                imgUrl={
+                  'https://assets.poap.xyz/geos-second-foundation-drop-party-2021-logo-1633391228062.png'
+                }
+                altText="preview"
+                size={'lg'}
+              />
             </div>
           </Popover.Dropdown>
         </Popover>
@@ -143,54 +168,72 @@ export const GitPOAPRequest = (props: Props) => {
           <Stack>
             <Group spacing="sm">
               <Label>{'Name:'}</Label>
-              <Value>{props.name}</Value>
+              <Value>{gitPOAPRequest.name}</Value>
             </Group>
             <Group spacing="sm">
               <Label>{'Description:'}</Label>
-              <Value>{props.description}</Value>
+              <Value>{gitPOAPRequest.description}</Value>
             </Group>
             <Group spacing="sm">
               <Label>{'Email:'}</Label>
-              <Value>{props.email}</Value>
+              <Value>{gitPOAPRequest.email}</Value>
             </Group>
-            <Group spacing="sm">
-              <Label>{'RequestCodes:'}</Label>
-              <Value>{props.numRequestedCodes}</Value>
-            </Group>
+            {gitPOAPRequest.project && gitPOAPRequest.project.repos && (
+              <Group spacing="sm">
+                <Label>{'Project:'}</Label>
+                <Link href={`/rp/${gitPOAPRequest.project.repos[0].id}`}>
+                  {gitPOAPRequest.project.repos[0].name}
+                </Link>
+              </Group>
+            )}
+            {gitPOAPRequest.organization && (
+              <Group spacing="sm">
+                <Label>{'Organization:'}</Label>
+                <Link href={`/org/${gitPOAPRequest.organization.id}`}>
+                  {gitPOAPRequest.organization.name}
+                </Link>
+              </Group>
+            )}
           </Stack>
           <Stack>
             <Group spacing="sm">
               <Label>{'StartedAt:'}</Label>
-              <Value>{props.startDate}</Value>
+              <Value>{gitPOAPRequest.startDate}</Value>
             </Group>
             <Group spacing="sm">
               <Label>{'EndAt:'}</Label>
-              <Value>{props.endDate}</Value>
+              <Value>{gitPOAPRequest.endDate}</Value>
             </Group>
             <Group spacing="sm">
               <Label>{'ExpiryAt:'}</Label>
-              <Value>{props.expiryDate}</Value>
+              <Value>{gitPOAPRequest.expiryDate}</Value>
             </Group>
             <Group spacing="sm">
-              <ShowContributors onClick={open}>{'Show Contributors'}</ShowContributors>
+              <Label>{'RequestCodes:'}</Label>
+              <Value>{gitPOAPRequest.numRequestedCodes}</Value>
+            </Group>
+            <Group spacing="sm">
+              <Link onClick={open}>{'Show Contributors'}</Link>
               <Modal
                 centered
                 opened={opened}
                 onClose={close}
                 title={<HeaderStyled>{'Contributors'}</HeaderStyled>}
               >
-                {props.contributors.githubHandles &&
-                  props.contributors.githubHandles.map((githubHandle) => (
+                {gitPOAPRequest.contributors.githubHandles &&
+                  gitPOAPRequest.contributors.githubHandles.map((githubHandle) => (
                     <p key={githubHandle}>{githubHandle}</p>
                   ))}
-                {props.contributors.ethAddresses &&
-                  props.contributors.ethAddresses.map((ethAddress) => (
+                {gitPOAPRequest.contributors.ethAddresses &&
+                  gitPOAPRequest.contributors.ethAddresses.map((ethAddress) => (
                     <p key={ethAddress}>{ethAddress}</p>
                   ))}
-                {props.contributors.ensNames &&
-                  props.contributors.ensNames.map((ensName) => <p key={ensName}>{ensName}</p>)}
-                {props.contributors.emails &&
-                  props.contributors.emails.map((email) => <p key={email}>{email}</p>)}
+                {gitPOAPRequest.contributors.ensNames &&
+                  gitPOAPRequest.contributors.ensNames.map((ensName) => (
+                    <p key={ensName}>{ensName}</p>
+                  ))}
+                {gitPOAPRequest.contributors.emails &&
+                  gitPOAPRequest.contributors.emails.map((email) => <p key={email}>{email}</p>)}
               </Modal>
             </Group>
           </Stack>

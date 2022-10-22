@@ -6282,9 +6282,9 @@ export type GitPoapRequestsQuery = {
     contributors: any;
     project?: {
       __typename?: 'Project';
-      repos: Array<{ __typename?: 'Repo'; name: string }>;
+      repos: Array<{ __typename?: 'Repo'; id: number; name: string }>;
     } | null;
-    organization?: { __typename?: 'Organization'; name: string } | null;
+    organization?: { __typename?: 'Organization'; id: number; name: string } | null;
   }>;
 };
 
@@ -7636,10 +7636,12 @@ export const GitPoapRequestsDocument = gql`
       contributors
       project {
         repos(take: 1) {
+          id
           name
         }
       }
       organization {
+        id
         name
       }
     }

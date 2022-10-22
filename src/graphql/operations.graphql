@@ -801,11 +801,13 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStat
 
     project {
       repos(take: 1) {
+        id
         name
       }
     }
 
     organization {
+      id
       name
     }
   }

@@ -11,7 +11,7 @@ import {
   useTotalGitPoapRequestsCountQuery,
   AdminApprovalStatus,
 } from '../../graphql/generated-gql';
-import { GitPOAPRequest } from './GitPOAPRequest';
+import { GitPOAPRequest, GitPOAPRequestType } from './GitPOAPRequest';
 import { Select } from '../../components/shared/elements/Select';
 import { Button } from '../../components/shared/elements/Button';
 import { Header } from '../../components/shared/elements/Header';
@@ -86,32 +86,13 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'Rejected', label: 'REJECTED' },
 ];
 
-const perPage = 2;
-
-type GitPOAPRequest = {
-  __typename?: 'GitPOAPRequest';
-  id: number;
-  name: string;
-  description: string;
-  imageKey: string;
-  startDate: string;
-  endDate: string;
-  expiryDate: string;
-  numRequestedCodes: number;
-  email: string;
-  contributors: ContributorsType;
-  project?: {
-    __typename?: 'Project';
-    repos: Array<{ __typename?: 'Repo'; name: string }>;
-  } | null;
-  organization?: { __typename?: 'Organization'; name: string } | null;
-};
+const perPage = 20;
 
 export const GitPOAPRequestList = () => {
   const { tokens } = useAuthContext();
   const [skip, setSkip] = useState(0);
   const [filter, setFilter] = useState<SortOptions>('Pending');
-  const [gitPOAPRequests, setGitPOAPRequests] = useState<GitPOAPRequest[]>([]);
+  const [gitPOAPRequests, setGitPOAPRequests] = useState<GitPOAPRequestType[]>([]);
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
 
   const [totalCountResult] = useTotalGitPoapRequestsCountQuery({
@@ -126,8 +107,6 @@ export const GitPOAPRequestList = () => {
       approvalStatus: AdminApprovalStatus[filter],
     },
   });
-
-  console.log('gitPOAPRequests', gitPOAPRequests, skip);
 
   const showMoreOnClick = useCallback(() => {
     setSkip((prev) => prev + perPage);
@@ -147,7 +126,6 @@ export const GitPOAPRequestList = () => {
 
   useEffect(() => {
     if (!result.fetching && result.data?.gitPOAPRequests) {
-      console.log('result', result.fetching, result.data?.gitPOAPRequests);
       const newGitPOAPRequests = result.data?.gitPOAPRequests ?? [];
       setGitPOAPRequests([...gitPOAPRequests, ...newGitPOAPRequests]);
     }
@@ -172,23 +150,7 @@ export const GitPOAPRequestList = () => {
               {gitPOAPRequests &&
                 gitPOAPRequests.length > 0 &&
                 gitPOAPRequests.map((gitPOAPRequest) => (
-                  <GitPOAPRequest
-                    key={gitPOAPRequest.id}
-                    id={gitPOAPRequest.id}
-                    name={gitPOAPRequest.name}
-                    description={gitPOAPRequest.description}
-                    imageKey={
-                      'https://assets.poap.xyz/geos-second-foundation-drop-party-2021-logo-1633391228062.png'
-                    }
-                    startDate={gitPOAPRequest.startDate}
-                    endDate={gitPOAPRequest.endDate}
-                    expiryDate={gitPOAPRequest.expiryDate}
-                    numRequestedCodes={gitPOAPRequest.numRequestedCodes}
-                    email={gitPOAPRequest.email}
-                    contributors={gitPOAPRequest.contributors}
-                    projectName={gitPOAPRequest.project?.repos[0].name}
-                    organizationName={gitPOAPRequest.organization?.name}
-                  />
+                  <GitPOAPRequest key={gitPOAPRequest.id} gitPOAPRequest={gitPOAPRequest} />
                 ))}
             </Stack>
             {result.fetching && (
