@@ -8,7 +8,7 @@ import { Text, Button } from '../../components/shared/elements';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Header } from '../shared/elements/Header';
 import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
-import { BackgroundPanel2, TextLight, TextGray, ExtraHover } from '../../colors';
+import { BackgroundPanel2, TextLight, TextGray, ExtraHover, ExtraRed } from '../../colors';
 import { approveGitPOAPRequest, rejectGitPOAPRequest } from '../../lib/gitpoapRequest';
 import { ContributorsType } from './GitPOAPRequestList';
 import { BREAKPOINTS } from '../../constants';
@@ -81,6 +81,14 @@ const HeaderStyled = styled(Header)`
 
   @media (max-width: ${BREAKPOINTS.md}px) {
     font-size: ${rem(40)};
+  }
+`;
+
+const ButtonContainer = styled(Stack)`
+  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
+    flex-direction: revert;
+    justify-content: space-around;
+    width: 100%;
   }
 `;
 
@@ -238,7 +246,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
             </Group>
           </Stack>
         </Group>
-        <Stack align="center" spacing="md">
+        <ButtonContainer align="center" spacing="md">
           <Button
             onClick={submitApproveGitPOAPRequest}
             loading={approveStatus === ButtonStatus.LOADING}
@@ -257,7 +265,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
           >
             {'Reject'}
           </Button>
-        </Stack>
+        </ButtonContainer>
       </Group>
       <Divider />
     </>
