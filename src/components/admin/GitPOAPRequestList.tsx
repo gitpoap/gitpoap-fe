@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Group, Loader, Stack, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { FaPlus } from 'react-icons/fa';
 import { useAuthContext } from '../github/AuthContext';
 import { ConnectGitHub } from './ConnectGitHub';
@@ -14,8 +15,13 @@ import { GitPOAPRequest } from './GitPOAPRequest';
 import { Select } from '../../components/shared/elements/Select';
 import { Button } from '../../components/shared/elements/Button';
 import { Header } from '../../components/shared/elements/Header';
+import { TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { SelectOption } from '../shared/compounds/ItemList';
+
+const Container = styled(Group)`
+  padding: 0 ${rem(20)};
+`;
 
 const LoaderContainer = styled.div`
   display: flex;
@@ -29,11 +35,13 @@ const ShowMore = styled(Button)`
 `;
 
 const Heading = styled.div`
+  width: 100%;
   display: inline-flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${rem(30)};
+  margin-top: ${rem(30)};
+  margin-bottom: ${rem(15)};
 `;
 
 const Sorting = styled.div`
@@ -49,6 +57,18 @@ const ListTitle = styled(Header)`
     font-size: ${rem(26)};
     line-height: ${rem(32)};
   }
+`;
+
+const FilterBy = styled(Text)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: ${rem(12)};
+  line-height: ${rem(18)};
+  letter-spacing: ${rem(2)};
+  text-transform: uppercase;
+  color: ${TextGray};
+  margin-right: ${rem(10)};
 `;
 
 export type ContributorsType = {
@@ -92,6 +112,7 @@ export const GitPOAPRequestList = () => {
   const [skip, setSkip] = useState(0);
   const [filter, setFilter] = useState<SortOptions>('Pending');
   const [gitPOAPRequests, setGitPOAPRequests] = useState<GitPOAPRequest[]>([]);
+  const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
 
   const [totalCountResult] = useTotalGitPoapRequestsCountQuery({
     variables: {
@@ -133,38 +154,43 @@ export const GitPOAPRequestList = () => {
   }, [result]);
 
   return (
-    <Group position="center">
+    <Container position="center">
       {!accessToken ? (
         <>
           <Stack align="center" justify="flex-start" spacing="sm">
             <Heading>
-              {/* <ListTitle>Approve CGs</ListTitle> */}
+              <ListTitle>{'GitPoap Requests'}</ListTitle>
               <Sorting>
+                {!matchesBreakpointSmall && <FilterBy>{'Filter By: '}</FilterBy>}
                 <Select data={selectOptions} value={filter} onChange={onSelectChange} />
               </Sorting>
             </Heading>
             {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
               <Text>{'No GitPoap Requests Found'}</Text>
             )}
-            {gitPOAPRequests &&
-              gitPOAPRequests.length > 0 &&
-              gitPOAPRequests.map((gitPOAPRequest) => (
-                <GitPOAPRequest
-                  key={gitPOAPRequest.id}
-                  id={gitPOAPRequest.id}
-                  name={gitPOAPRequest.name}
-                  description={gitPOAPRequest.description}
-                  imageKey={''}
-                  startDate={gitPOAPRequest.startDate}
-                  endDate={gitPOAPRequest.endDate}
-                  expiryDate={gitPOAPRequest.expiryDate}
-                  numRequestedCodes={gitPOAPRequest.numRequestedCodes}
-                  email={gitPOAPRequest.email}
-                  contributors={gitPOAPRequest.contributors}
-                  projectName={gitPOAPRequest.project?.repos[0].name}
-                  organizationName={gitPOAPRequest.organization?.name}
-                />
-              ))}
+            <Stack>
+              {gitPOAPRequests &&
+                gitPOAPRequests.length > 0 &&
+                gitPOAPRequests.map((gitPOAPRequest) => (
+                  <GitPOAPRequest
+                    key={gitPOAPRequest.id}
+                    id={gitPOAPRequest.id}
+                    name={gitPOAPRequest.name}
+                    description={gitPOAPRequest.description}
+                    imageKey={
+                      'https://assets.poap.xyz/geos-second-foundation-drop-party-2021-logo-1633391228062.png'
+                    }
+                    startDate={gitPOAPRequest.startDate}
+                    endDate={gitPOAPRequest.endDate}
+                    expiryDate={gitPOAPRequest.expiryDate}
+                    numRequestedCodes={gitPOAPRequest.numRequestedCodes}
+                    email={gitPOAPRequest.email}
+                    contributors={gitPOAPRequest.contributors}
+                    projectName={gitPOAPRequest.project?.repos[0].name}
+                    organizationName={gitPOAPRequest.organization?.name}
+                  />
+                ))}
+            </Stack>
             {result.fetching && (
               <LoaderContainer>
                 <Loader size="xl" variant="dots" />
@@ -185,6 +211,6 @@ export const GitPOAPRequestList = () => {
       ) : (
         <ConnectGitHub />
       )}
-    </Group>
+    </Container>
   );
 };

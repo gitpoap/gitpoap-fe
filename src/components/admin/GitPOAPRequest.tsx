@@ -2,14 +2,17 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { rem } from 'polished';
-import { Stack, Group, Divider as DividerUI, Popover, Image } from '@mantine/core';
+import { Stack, Group, Divider as DividerUI, Popover, Image, Modal } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { Text, Button } from '../../components/shared/elements';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
+import { Header } from '../shared/elements/Header';
 import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
 import { BackgroundPanel2, TextLight, TextGray } from '../../colors';
 import { approveGitPOAPRequest, rejectGitPOAPRequest } from '../../lib/gitpoapRequest';
 import { ContributorsType } from './GitPOAPRequestList';
+import { BREAKPOINTS } from '../../constants';
 
 type Props = {
   id: number;
@@ -25,10 +28,6 @@ type Props = {
   projectName?: string;
   organizationName?: string;
 };
-
-const GitPOAPRequestContainer = styled.div`
-  width: fit-content;
-`;
 
 const Value = styled(Text)`
   font-family: VT323;
@@ -47,12 +46,25 @@ const Label = styled(Text)`
   line-height: ${rem(15)};
 `;
 
+const ShowContributors = styled(Value)`
+  cursor: pointer;
+`;
+
 const Divider = styled(DividerUI)`
   border-top-color: ${BackgroundPanel2};
   width: 100%;
 
   &:last-child {
     display: none;
+  }
+`;
+
+const HeaderStyled = styled(Header)`
+  font-size: ${rem(30)};
+  line-height: ${rem(48)};
+
+  @media (max-width: ${BREAKPOINTS.md}px) {
+    font-size: ${rem(40)};
   }
 `;
 
@@ -63,6 +75,7 @@ const dateToTimeAgo = (date: string): string => {
 
 export const GitPOAPRequest = (props: Props) => {
   const { canSeeAdmin, tokens } = useAuthContext();
+  const [opened, { open, close }] = useDisclosure(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const [approveStatus, setApproveStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [rejectStatus, setRejectStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
@@ -96,7 +109,7 @@ export const GitPOAPRequest = (props: Props) => {
   }, [props.id, accessToken]);
 
   return (
-    <GitPOAPRequestContainer>
+    <>
       <Group align="center" position="center" spacing="md">
         <Popover
           opened={isPopoverOpen}
@@ -134,34 +147,56 @@ export const GitPOAPRequest = (props: Props) => {
         <Group align="start" spacing="sm">
           <Stack>
             <Group spacing="sm">
-              <Label>Name:</Label>
+              <Label>{'Name:'}</Label>
               <Value>{props.name}</Value>
             </Group>
             <Group spacing="sm">
-              <Label>Description:</Label>
+              <Label>{'Description:'}</Label>
               <Value>{props.description}</Value>
             </Group>
             <Group spacing="sm">
-              <Label>Email:</Label>
+              <Label>{'Email:'}</Label>
               <Value>{props.email}</Value>
             </Group>
             <Group spacing="sm">
-              <Label>RequestCodes:</Label>
+              <Label>{'RequestCodes:'}</Label>
               <Value>{props.numRequestedCodes}</Value>
             </Group>
           </Stack>
           <Stack>
             <Group spacing="sm">
-              <Label>StartedAt:</Label>
+              <Label>{'StartedAt:'}</Label>
               <Value>{dateToTimeAgo(props.startDate)}</Value>
             </Group>
             <Group spacing="sm">
-              <Label>EndAt:</Label>
+              <Label>{'EndAt:'}</Label>
               <Value>{dateToTimeAgo(props.endDate)}</Value>
             </Group>
             <Group spacing="sm">
-              <Label>ExpiryAt:</Label>
+              <Label>{'ExpiryAt:'}</Label>
               <Value>{dateToTimeAgo(props.expiryDate)}</Value>
+            </Group>
+            <Group spacing="sm">
+              <ShowContributors onClick={open}>{'Show Contributors'}</ShowContributors>
+              <Modal
+                centered
+                opened={opened}
+                onClose={close}
+                title={<HeaderStyled>{'Contributors'}</HeaderStyled>}
+              >
+                {props.contributors.githubHandles &&
+                  props.contributors.githubHandles.map((githubHandle) => (
+                    <p key={githubHandle}>{githubHandle}</p>
+                  ))}
+                {props.contributors.ethAddresses &&
+                  props.contributors.ethAddresses.map((ethAddress) => (
+                    <p key={ethAddress}>{ethAddress}</p>
+                  ))}
+                {props.contributors.ensNames &&
+                  props.contributors.ensNames.map((ensName) => <p key={ensName}>{ensName}</p>)}
+                {props.contributors.emails &&
+                  props.contributors.emails.map((email) => <p key={email}>{email}</p>)}
+              </Modal>
             </Group>
           </Stack>
         </Group>
@@ -173,7 +208,7 @@ export const GitPOAPRequest = (props: Props) => {
               approveStatus === ButtonStatus.LOADING || rejectStatus === ButtonStatus.LOADING
             }
           >
-            Accept
+            {'Accept'}
           </Button>
           <Button
             onClick={submitRejectGitPOAPRequest}
@@ -182,11 +217,11 @@ export const GitPOAPRequest = (props: Props) => {
               approveStatus === ButtonStatus.LOADING || rejectStatus === ButtonStatus.LOADING
             }
           >
-            Reject
+            {'Reject'}
           </Button>
         </Stack>
       </Group>
       <Divider />
-    </GitPOAPRequestContainer>
+    </>
   );
 };
