@@ -170,9 +170,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
           <Popover.Dropdown>
             <div style={{ display: 'flex' }}>
               <GitPOAPBadge
-                imgUrl={
-                  'https://assets.poap.xyz/geos-second-foundation-drop-party-2021-logo-1633391228062.png'
-                }
+                imgUrl={`https://s3.us-east-2.amazonaws.com/${gitPOAPRequest.imageKey}`}
                 altText="preview"
                 size={'lg'}
               />
