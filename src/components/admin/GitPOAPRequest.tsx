@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Stack, Group, Divider as DividerUI, Popover, Modal } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useAuthContext } from '../../components/github/AuthContext';
 import { Text, Button } from '../../components/shared/elements';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
@@ -85,7 +85,7 @@ const HeaderStyled = styled(Header)`
 `;
 
 const ButtonContainer = styled(Stack)`
-  @media (max-width: ${rem(BREAKPOINTS.sm)}) {
+  @media (max-width: ${rem(BREAKPOINTS.md)}) {
     flex-direction: revert;
     justify-content: space-around;
     width: 100%;
@@ -98,6 +98,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const [approveStatus, setApproveStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [rejectStatus, setRejectStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
+  const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
 
   const accessToken = tokens?.accessToken ?? '';
 
@@ -151,13 +152,23 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
               onMouseEnter={() => setIsPopoverOpen(true)}
               onMouseLeave={() => setIsPopoverOpen(false)}
             >
-              <GitPOAPBadge
-                imgUrl={
-                  'https://assets.poap.xyz/geos-second-foundation-drop-party-2021-logo-1633391228062.png'
-                }
-                altText="preview"
-                size={'sm'}
-              />
+              {matchesBreakpointSmall ? (
+                <GitPOAPBadge
+                  imgUrl={
+                    'https://assets.poap.xyz/geos-second-foundation-drop-party-2021-logo-1633391228062.png'
+                  }
+                  altText="preview"
+                  size={'md'}
+                />
+              ) : (
+                <GitPOAPBadge
+                  imgUrl={
+                    'https://assets.poap.xyz/geos-second-foundation-drop-party-2021-logo-1633391228062.png'
+                  }
+                  altText="preview"
+                  size={'sm'}
+                />
+              )}
             </div>
           </Popover.Target>
           <Popover.Dropdown>
