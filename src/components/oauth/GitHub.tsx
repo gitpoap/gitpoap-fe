@@ -48,10 +48,7 @@ export const GitHub = ({ className, hideText }: Props) => {
   if (!user?.capabilities.hasGithub) {
     return user === null && hasCheckEligibility ? (
       <Content className={className}>
-        <Button
-          onClick={() => router.push('/eligibility')}
-          leftIcon={!hideText && <GitPOAPIcon size={16} />}
-        >
+        <Button onClick={() => router.push('/eligibility')} leftIcon={!hideText && <GitPOAPIcon />}>
           {hideText ? <GitPOAPIcon /> : 'Check Eligibility'}
         </Button>
       </Content>
