@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import 'jest-styled-components';
-import { ClaimItem, Claim } from '../../../src/components/check/ClaimItem';
+import { ClaimItem, Claim } from '../../../src/components/eligibility/ClaimItem';
 
 const CLAIM: Claim = {
   id: 1,

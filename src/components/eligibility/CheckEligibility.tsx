@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Box, BoxProps, Stack } from '@mantine/core';
-import { Header, Input, Loader, Text } from '../shared/elements';
+import { Button, Header, Input, Loader, Text } from '../shared/elements';
 import { useDebouncedValue } from '@mantine/hooks';
 import { EligibleClaimsQuery, useEligibleClaimsQuery } from '../../graphql/generated-gql';
-import { FaSearch } from 'react-icons/fa';
+import { FaEthereum, FaSearch } from 'react-icons/fa';
 import { ClaimItem } from './ClaimItem';
 import { useRouter } from 'next/router';
+import { useWeb3Context } from '../wallet/Web3Context';
 
 const StyledHeader = styled(Header)`
   display: block;
@@ -52,6 +53,7 @@ export const CheckEligibility = () => {
   const router = useRouter();
   const isRouterReady = router.isReady;
   const urlSearchQuery = router.query.search as string | undefined;
+  const { connectionStatus, connect } = useWeb3Context();
 
   const [searchValue, setSearchValue] = useState<string | undefined>(undefined);
   const [debouncedSearch] = useDebouncedValue(searchValue, 200);
@@ -90,11 +92,16 @@ export const CheckEligibility = () => {
 
   return (
     <Stack align="center" mt={rem(80)} justify="center">
-      <Stack mb={rem(40)} align="center">
+      <Stack align="center">
         <StyledHeader mb={rem(18)}>{'Check Eligibility'}</StyledHeader>
         <SubHeader align="center" size="md">
           {"Search for your GitHub handle & check if you're eligible for any GitPOAPs"}
         </SubHeader>
+        {connectionStatus !== 'connected-to-wallet' && (
+          <Button leftIcon={<FaEthereum size={16} />} onClick={() => connect()}>
+            {'Sign In'}
+          </Button>
+        )}
       </Stack>
       <StyledSearch
         mb={rem(40)}
@@ -102,7 +109,7 @@ export const CheckEligibility = () => {
         placeholder={'VBUTERIN...'}
         value={searchValue ?? ''}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
-        icon={result.fetching ? <Loader size={18} /> : <FaSearch />}
+        icon={result.fetching && !!debouncedSearch ? <Loader size={18} /> : <FaSearch />}
       />
       {allClaims &&
       allClaims.length === 0 &&
