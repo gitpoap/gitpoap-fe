@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Stack, Group, Divider as DividerUI, Popover, Modal } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { useAuthContext } from '../../components/github/AuthContext';
 import { Text, Button } from '../../components/shared/elements';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Header } from '../shared/elements/Header';
@@ -12,6 +11,7 @@ import { BackgroundPanel2, TextLight, TextGray, ExtraHover, ExtraRed } from '../
 import { approveGitPOAPRequest, rejectGitPOAPRequest } from '../../lib/gitpoapRequest';
 import { ContributorsType } from './GitPOAPRequestList';
 import { BREAKPOINTS } from '../../constants';
+import { useTokens } from '../../hooks/useTokens';
 
 export type GitPOAPRequestType = {
   __typename?: 'GitPOAPRequest';
@@ -101,7 +101,7 @@ const generateS3ImageUrl = (imageKey: string): string => {
 };
 
 export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
-  const { canSeeAdmin, tokens } = useAuthContext();
+  const { tokens } = useTokens();
   const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
     useDisclosure(false);
   const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
