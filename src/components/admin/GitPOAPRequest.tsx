@@ -8,10 +8,10 @@ import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Header } from '../shared/elements/Header';
 import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
 import { BackgroundPanel2, TextLight, TextGray, ExtraHover, ExtraRed } from '../../colors';
-import { approveGitPOAPRequest, rejectGitPOAPRequest } from '../../lib/gitpoapRequest';
 import { ContributorsType } from './GitPOAPRequestList';
 import { BREAKPOINTS } from '../../constants';
 import { useTokens } from '../../hooks/useTokens';
+import { useApi } from '../../hooks/useApi';
 
 export type GitPOAPRequestType = {
   __typename?: 'GitPOAPRequest';
@@ -102,6 +102,8 @@ const generateS3ImageUrl = (imageKey: string): string => {
 
 export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const { tokens } = useTokens();
+  const api = useApi();
+
   const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
     useDisclosure(false);
   const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
@@ -117,7 +119,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const submitApproveGitPOAPRequest = useCallback(async () => {
     setApproveStatus(ButtonStatus.LOADING);
 
-    const data = await approveGitPOAPRequest(gitPOAPRequest.id, accessToken);
+    const data = await api.gitpoapRequest.approve(gitPOAPRequest.id);
 
     if (data === null) {
       setApproveStatus(ButtonStatus.ERROR);
@@ -130,7 +132,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const submitRejectGitPOAPRequest = useCallback(async () => {
     setRejectStatus(ButtonStatus.LOADING);
 
-    const data = await rejectGitPOAPRequest(gitPOAPRequest.id, accessToken);
+    const data = await api.gitpoapRequest.reject(gitPOAPRequest.id);
 
     if (data === null) {
       setRejectStatus(ButtonStatus.ERROR);
