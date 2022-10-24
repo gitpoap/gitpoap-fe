@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Layout } from '../../../components/Layout';
 import { SettingsPage } from '../../../components/settings/SettingsPage';
 import { ProfileProvider } from '../../../components/profile/ProfileContext';
-import { graphql } from 'msw';
+import { graphql, rest } from 'msw';
 import { ProfileQuery } from '../../../graphql/generated-gql';
 import { Container } from '@mantine/core';
 
@@ -41,6 +41,22 @@ export const Default = Template.bind({});
 Default.args = {};
 Default.parameters = {
   msw: {
-    handlers: [graphql.query('profile', (req, res, ctx) => res(ctx.data(ProfileQueryResponse)))],
+    handlers: [
+      graphql.query('profile', (req, res, ctx) => res(ctx.data(ProfileQueryResponse))),
+      rest.get('*/email/asdfasdfasdf', (req, res, ctx) => {
+        return res(
+          ctx.json({
+            email: null,
+          }),
+        );
+      }),
+      rest.post('*/email', (req, res, ctx) => {
+        return res(
+          ctx.json({
+            msg: 'ADDED',
+          }),
+        );
+      }),
+    ],
   },
 };

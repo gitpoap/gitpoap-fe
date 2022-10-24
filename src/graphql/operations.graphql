@@ -39,7 +39,6 @@ query gitpoapByPoapEventId($poapEventId: Int!) {
   gitPOAP(where: { poapEventId: $poapEventId }) {
     id
     poapEventId
-    status
     project {
       repos {
         name
@@ -312,6 +311,49 @@ query adminClaims($count: Int!) {
       name
       year
       imageUrl
+    }
+  }
+}
+
+query eligibleClaims($query: String!, $skip: Int, $take: Int) {
+  claims(
+    take: $take
+    skip: $skip
+    where: {
+      mintedAddressId: { equals: null }
+      gitPOAP: { is: { isEnabled: { equals: true } } }
+      OR: [
+        { user: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
+        { email: { is: { emailAddress: { contains: $query, mode: insensitive } } } }
+        { issuedAddress: { is: { ethAddress: { contains: $query, mode: insensitive } } } }
+        { issuedAddress: { is: { ensName: { contains: $query, mode: insensitive } } } }
+      ]
+    }
+  ) {
+    id
+    email {
+      emailAddress
+    }
+    issuedAddress {
+      ethAddress
+      ensName
+    }
+    user {
+      githubHandle
+    }
+    gitPOAP {
+      id
+      name
+      description
+      imageUrl
+      project {
+        repos(take: 1) {
+          name
+          organization {
+            name
+          }
+        }
+      }
     }
   }
 }

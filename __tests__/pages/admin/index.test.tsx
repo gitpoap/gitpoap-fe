@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import Admin from '../../../src/pages/admin';
+import { renderWithTheme } from '../../__utils__/renderWithTheme';
 
 describe('Admin Page', () => {
   it('renders the Admin List', () => {
-    const { container } = render(<Admin />);
+    const { container } = renderWithTheme(<Admin />);
     const adminPage = container.firstChild;
 
     const createGitpoapsItems = screen.getAllByText(/Create GitPOAPs/);

@@ -4,21 +4,19 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 type FeaturesState = {
   /* Whether user should see a page showing all gitpoaps */
   hasGitPOAPsPage: boolean;
-  hasProjectsPage: boolean;
   hasCheckIfImEligible: boolean;
-  hasClaimAllButton: boolean;
   hasOrganizations: boolean;
-  hasSettingsPage: boolean;
+  hasEmailVerification: boolean;
+  hasCheckEligibility: boolean;
   hasTrendingReposPage: boolean;
 };
 
 export const getInitialState = (): FeaturesState => ({
   hasGitPOAPsPage: false,
-  hasProjectsPage: true,
   hasCheckIfImEligible: false,
-  hasClaimAllButton: true,
   hasOrganizations: false,
-  hasSettingsPage: false,
+  hasEmailVerification: false,
+  hasCheckEligibility: true,
   hasTrendingReposPage: false,
 });
 

@@ -9,9 +9,9 @@ import { DividerGray1, TextLight, MidnightBlue } from '../colors';
 import { BREAKPOINTS, TYPEFORM_LINKS } from '../constants';
 import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
 import { Wallet } from './wallet/Wallet';
-import { GitHub } from './github/GitHub';
+import { GitHub } from './oauth/GitHub';
 import { SearchBox } from './search/box/SearchBox';
-import { useWeb3Context } from './wallet/Web3ContextProvider';
+import { useWeb3Context } from './wallet/Web3Context';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
 import { useFeatures } from './FeaturesContext';
 
@@ -85,7 +85,6 @@ const CollapseMenuContent = styled(Stack)`
 `;
 
 export const Navbar = () => {
-  const { hasSettingsPage } = useFeatures();
   const router = useRouter();
   const { connectionStatus, address, ensName } = useWeb3Context();
   const matches1330 = useMediaQuery(`(min-width: ${rem(1330)})`, false);
@@ -111,9 +110,6 @@ export const Navbar = () => {
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
       </NavLinkAnchor>
-      {connectionStatus === 'connected' && matches950 && !hasSettingsPage && (
-        <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
-      )}
       <ClaimButton hideText={!matchesLg} />
       <Wallet hideText={!matches1330} isMobile={false} />
     </>
@@ -129,7 +125,7 @@ export const Navbar = () => {
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
       </NavLinkAnchor>
-      {connectionStatus === 'connected' && (
+      {connectionStatus === 'connected-to-wallet' && (
         <>
           <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
           <NavLink href={`/settings`}>{'Settings'}</NavLink>

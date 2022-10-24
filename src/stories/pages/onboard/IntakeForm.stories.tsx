@@ -15,7 +15,7 @@ const Template: ComponentStory<typeof Component> = () => {
   return (
     <Layout>
       <Container size={800}>
-        <Component accessToken="1234567890" githubHandle="aldolamb" />
+        <Component githubHandle="aldolamb" />
       </Container>
     </Layout>
   );

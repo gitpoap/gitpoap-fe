@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useClaimContext } from '../ClaimModal/ClaimContext';
-import { useAuthContext } from './AuthContext';
+import { useClaimContext } from '../claims/ClaimContext';
+import { useOAuthContext } from './OAuthContext';
 import { rem } from 'polished';
 import { GoMarkGithub } from 'react-icons/go';
 import { DisconnectPopover } from '../shared/compounds/DisconnectPopover';
 import { Button, ClaimCircle } from '../shared/elements';
 import { useRouter } from 'next/router';
 import { useFeatures } from '../FeaturesContext';
+import { useUser } from '../../hooks/useUser';
+import { GitPOAP } from '../shared/elements/icons';
 
 const Content = styled.div`
   display: flex;
@@ -21,6 +23,12 @@ const ConnectedButton = styled(Button)<{ hideText?: boolean }>`
   min-width: ${(props) => (props.hideText ? 0 : rem(125))};
 `;
 
+const GitPOAPIcon = styled(GitPOAP)`
+  path {
+    fill: white;
+  }
+`;
+
 type Props = {
   className?: string;
   hideText?: boolean;
@@ -28,22 +36,29 @@ type Props = {
 
 export const GitHub = ({ className, hideText }: Props) => {
   const { claimedIds, userClaims, setIsOpen } = useClaimContext();
-  const { handleLogout, authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
-  const { hasSettingsPage } = useFeatures();
+  const { github } = useOAuthContext();
+  const user = useUser();
+  const { hasCheckEligibility } = useFeatures();
   const [isGHPopoverOpen, setIsGHPopoverOpen] = useState<boolean>(false);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const userClaimCount = userClaims?.length;
   const router = useRouter();
 
-  /* Not connected to GitHub */
-  if (!isLoggedIntoGitHub) {
-    return (
+  /* User has no connected GitHub account */
+  if (!user?.capabilities.hasGithub) {
+    return user === null && hasCheckEligibility ? (
+      <Content className={className}>
+        <Button onClick={() => router.push('/eligibility')} leftIcon={!hideText && <GitPOAPIcon />}>
+          {hideText ? <GitPOAPIcon /> : 'Check Eligibility'}
+        </Button>
+      </Content>
+    ) : (
       <Content className={className}>
         <Button
-          onClick={hasSettingsPage ? () => router.push(`/settings#integrations`) : authorizeGitHub}
+          onClick={() => router.push(`/settings#integrations`)}
           leftIcon={!hideText && <GoMarkGithub size={16} />}
         >
-          {hideText ? <GoMarkGithub size={16} /> : 'CONNECT TO MINT'}
+          {hideText ? <GoMarkGithub size={16} /> : 'Connect GitHub'}
         </Button>
       </Content>
     );
@@ -55,12 +70,13 @@ export const GitHub = ({ className, hideText }: Props) => {
     return (
       <Content className={className}>
         <DisconnectPopover
-          isOpen={isGHPopoverOpen}
+          // @TODO: Remove this popover and redirect to the settings page */
+          isOpen={false}
           setIsOpen={setIsGHPopoverOpen}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           onClose={() => setIsGHPopoverOpen(false)}
-          handleOnClick={handleLogout}
+          handleOnClick={github.disconnect}
           icon={<GoMarkGithub size={16} />}
           buttonText={'DISCONNECT'}
           isHovering={isHovering}
@@ -98,7 +114,7 @@ export const GitHub = ({ className, hideText }: Props) => {
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         onClose={() => setIsGHPopoverOpen(false)}
-        handleOnClick={handleLogout}
+        handleOnClick={github.disconnect}
         icon={<GoMarkGithub size={16} />}
         buttonText={'DISCONNECT'}
         isHovering={isHovering}

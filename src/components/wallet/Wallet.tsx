@@ -6,10 +6,10 @@ import { FaEthereum } from 'react-icons/fa';
 import styled from 'styled-components';
 
 import { WalletStatus } from './WalletStatus';
-import { useWeb3Context } from './Web3ContextProvider';
+import { useWeb3Context } from './Web3Context';
 import { DisconnectPopover } from '../shared/compounds/DisconnectPopover';
-import { useFeatures } from '../FeaturesContext';
 import { Button } from '../shared/elements/Button';
+import { useUser } from '../../hooks/useUser';
 
 const Content = styled.div`
   display: flex;
@@ -27,15 +27,17 @@ type Props = {
 };
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
-  const { hasSettingsPage } = useFeatures();
   const router = useRouter();
   const [isHovering, setIsHovering] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { connectionStatus, address, connect, disconnect, ensName } = useWeb3Context();
+  const { connectionStatus, address, connect, disconnectWallet } = useWeb3Context();
+  const user = useUser();
+  const ensName = user?.ensName ?? null;
+  const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
 
   /* Ensure the popover is closed when the button switches to a connected state */
   useEffect(() => {
-    if (connectionStatus === 'connected') {
+    if (connectionStatus === 'connected-to-wallet') {
       setIsOpen(false);
       setIsHovering(false);
     }
@@ -43,25 +45,23 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
 
   return (
     <Content>
-      {connectionStatus === 'connected' && address ? (
-        hasSettingsPage && !isMobile ? (
+      {connectionStatus === 'connected-to-wallet' && address ? (
+        !isMobile ? (
           <Menu
             closeDelay={POPOVER_HOVER_TIME}
             closeOnClickOutside
             openDelay={POPOVER_HOVER_TIME}
             position="bottom-end"
             radius="md"
-            trigger="hover"
+            trigger="click"
             width={160}
           >
             <Menu.Target>
               <Box>
                 <WalletStatus
-                  onClick={() => {
-                    router.push(`/p/${ensName ?? address}`);
-                  }}
                   address={address}
                   ensName={ensName}
+                  ensAvatarUrl={ensAvatarUrl}
                   hideText={hideText}
                 />
               </Box>
@@ -77,7 +77,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                 {'Help'}
               </Menu.Item>
               <Menu.Divider />
-              <Menu.Item onClick={() => disconnect()}>{'Disconnect'}</Menu.Item>
+              <Menu.Item onClick={() => disconnectWallet()}>{'Disconnect'}</Menu.Item>
             </Menu.Dropdown>
           </Menu>
         ) : (
@@ -90,26 +90,24 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             handleOnClick={() => {
               setIsOpen(false);
               setIsHovering(false);
-              disconnect();
+              disconnectWallet();
             }}
             icon={<FaEthereum size={16} />}
             buttonText={'DISCONNECT'}
             isHovering={isHovering}
             target={
               <WalletStatus
-                onClick={() => {
-                  router.push(`/p/${ensName ?? address}`);
-                }}
                 address={address}
                 ensName={ensName}
+                ensAvatarUrl={ensAvatarUrl}
                 hideText={hideText}
               />
             }
           />
         )
       ) : (
-        <Button onClick={() => connect()}>
-          {!hideText ? 'Connect Wallet' : <FaEthereum size={16} />}
+        <Button leftIcon={!hideText && <FaEthereum size={16} />} onClick={() => connect()}>
+          {!hideText ? 'Sign In' : <FaEthereum size={16} />}
         </Button>
       )}
     </Content>

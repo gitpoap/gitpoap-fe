@@ -33,6 +33,13 @@ exports[`CopyableText renders a CopyableText 1`] = `
 }
 
 .c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
   font-family: PT Mono;
   font-style: normal;
   font-weight: normal;

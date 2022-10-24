@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { ClaimModal } from '../../components/ClaimModal';
+import { ClaimModal } from '../../components/claims';
 import badgeImg1 from '../assets/gitPOAPs/badge1.png';
 import badgeImg2 from '../assets/gitPOAPs/badge2.png';
 import badgeImg3 from '../assets/gitPOAPs/badge3.png';
@@ -154,4 +154,4 @@ ClaimsNotConnected.args = { claims: claims.slice(0, 2), isConnected: false };
 
 /* -- GitHub Connection  -- */
 export const NoClaimsGithubNotConnected = Template.bind({});
-NoClaimsGithubNotConnected.args = { claims: [], isLoggedIntoGitHub: false };
+NoClaimsGithubNotConnected.args = { claims: [], hasGithub: false };

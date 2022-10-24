@@ -7,12 +7,12 @@ import { NotificationsProvider } from '@mantine/notifications';
 import * as Sentry from '@sentry/browser';
 import '../styles/styles.css';
 import { GlobalStyles } from '../styles/globalStyles';
-import { Web3ContextProvider } from '../components/wallet/Web3ContextProvider';
-import { AuthProvider } from '../components/github/AuthContext';
+import { Web3ContextProvider } from '../components/wallet/Web3Context';
+import { OAuthProvider } from '../components/oauth/OAuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
 import { theme } from '../lib/theme';
-import { ClaimContextProvider } from '../components/ClaimModal/ClaimContext';
+import { ClaimContextProvider } from '../components/claims/ClaimContext';
 import { LoadingBar } from '../components/LoadingBar';
 
 const client = createClient({
@@ -22,8 +22,8 @@ const client = createClient({
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
-  /* Do not send errors to sentry if app is in development mode */
-  enabled: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT !== 'development',
+  /* Only enable Sentry if the app is in production mode */
+  enabled: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT === 'production',
   // Set tracesSampleRate to 1.0 to capture 100%
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
@@ -66,7 +66,7 @@ const TheApp = ({ Component, pageProps }: Props) => {
         <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider autoClose={5000}>
             <URQLProvider value={client}>
-              <AuthProvider>
+              <OAuthProvider>
                 <FeaturesProvider>
                   <ClaimContextProvider>
                     <GlobalStyles />
@@ -76,7 +76,7 @@ const TheApp = ({ Component, pageProps }: Props) => {
                     </Layout>
                   </ClaimContextProvider>
                 </FeaturesProvider>
-              </AuthProvider>
+              </OAuthProvider>
             </URQLProvider>
           </NotificationsProvider>
         </MantineProvider>

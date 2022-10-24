@@ -4,12 +4,12 @@ import { rem } from 'polished';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Grid, Loader } from '@mantine/core';
-import { useAuthContext } from '../../../components/github/AuthContext';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { useAdminClaimsQuery, useGetAllStatsQuery } from '../../../graphql/generated-gql';
 import { DateTime } from 'luxon';
 import { truncateAddress, truncateString } from '../../../helpers';
 import { TableDashboard, TD } from '../../../components/admin/TableDashboard';
+import { useIsAdmin } from '../../../hooks/useIsAdmin';
 
 const LoaderContainer = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ type RowData = {
   'Claim ID': TD<number>;
   'Github User': TD<string>;
   'PR #': TD<string>;
-  'User ID': TD<number>;
+  'User ID': TD<number | undefined>;
   Repo: TD<string>;
   GitPOAP: TD<number>;
   Year: TD<number>;
@@ -33,7 +33,7 @@ type RowData = {
 };
 
 const ClaimsDashboard: NextPage = () => {
-  const { isLoggedIntoGitHub, isDev } = useAuthContext();
+  const isAdmin = useIsAdmin();
   const [result] = useAdminClaimsQuery({
     variables: {
       count: 200,
@@ -53,8 +53,8 @@ const ClaimsDashboard: NextPage = () => {
     return {
       'Claim ID': { value: claim.id },
       'Github User': {
-        value: truncateString(claim.user.githubHandle, 12),
-        href: `https://github.com/${claim.user.githubHandle}`,
+        value: truncateString(claim.user?.githubHandle ?? '', 12),
+        href: `https://github.com/${claim.user?.githubHandle}`,
       },
       'PR #': {
         value: ghPullNumber ? `#${ghPullNumber}` : '',
@@ -62,7 +62,7 @@ const ClaimsDashboard: NextPage = () => {
           ? `https://github.com/${org?.name}/${repo?.name}/pull/${claim.pullRequestEarned?.githubPullNumber}`
           : '',
       },
-      'User ID': { value: claim.user.id },
+      'User ID': { value: claim.user?.id },
       Org: {
         value: truncateString(org?.name ?? '', 12),
         href: `https://gitpoap.io/org/${org?.id}`,
@@ -98,7 +98,7 @@ const ClaimsDashboard: NextPage = () => {
         }}
       >
         <Grid.Col xs={12} sm={12} md={12} lg={12} xl={12}>
-          {isLoggedIntoGitHub || isDev ? (
+          {isAdmin ? (
             <>
               {result.fetching && (
                 <LoaderContainer>

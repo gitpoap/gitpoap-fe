@@ -3,11 +3,8 @@
 exports[`Header renders an Header 1`] = `
 .c0 {
   font-family: VT323;
-  font-style: normal;
-  font-weight: normal;
   font-size: 3rem;
   line-height: 3rem;
-  color: #E2E2EE;
 }
 
 @media (max-width:56.25rem) {
@@ -16,7 +13,32 @@ exports[`Header renders an Header 1`] = `
   }
 }
 
-<span
-  class="c0"
+.emotion-1 {
+  font-family: PT Mono,monospace;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: normal;
+  color: #E2E2EE;
+  letter-spacing: 0.0125rem;
+  line-height: 1.25rem;
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
+}
+
+.emotion-1:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-1:focus:not(:focus-visible) {
+  outline: none;
+}
+
+<div
+  class="emotion-0 c0 emotion-1"
 />
 `;

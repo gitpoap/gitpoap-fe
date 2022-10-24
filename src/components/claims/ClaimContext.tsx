@@ -1,13 +1,13 @@
 import React, { useEffect, createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useListState } from '@mantine/hooks';
-import { showNotification } from '@mantine/notifications';
 import { GITPOAP_API_URL } from '../../constants';
 import { ClaimStatus, OpenClaimsQuery, useOpenClaimsQuery } from '../../graphql/generated-gql';
-import { NotificationFactory } from '../../notifications';
+import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
-import { useAuthContext } from '../github/AuthContext';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
-import { ClaimModal } from '.';
+import { useWeb3Context } from '../wallet/Web3Context';
+import { ClaimModal } from './index';
+import { useTokens } from '../../hooks/useTokens';
+import { useUser } from '../../hooks/useUser';
 
 type ClaimState = {
   isOpen: boolean;
@@ -27,9 +27,9 @@ type Props = {
 };
 
 export const ClaimContextProvider = ({ children }: Props) => {
-  const { connectionStatus, web3Provider } = useWeb3Context();
-  const { isLoggedIntoGitHub, tokens, user } = useAuthContext();
-  const signer = web3Provider?.getSigner();
+  const { connectionStatus } = useWeb3Context();
+  const user = useUser();
+  const { tokens } = useTokens();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [claimedIds, handlers] = useListState<number>([]);
   const [loadingClaimIds, setLoadingClaimIds] = useState<number[]>([]);
@@ -45,10 +45,10 @@ export const ClaimContextProvider = ({ children }: Props) => {
 
   /* Initially fetch the user claims */
   useEffect(() => {
-    if (user && !userClaims) {
+    if (user && user?.githubId && !userClaims && !result.fetching) {
       refetchUserClaims();
     }
-  }, [user, refetchUserClaims, userClaims]);
+  }, [user, refetchUserClaims, userClaims, result]);
 
   /*
    * useOpenClaimsQuery includes all claimed GitPOAPs from the previous month
@@ -70,19 +70,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
   const claimGitPOAPs = useCallback(
     async (claimIds: number[]) => {
       setLoadingClaimIds(claimIds);
-      const address = await signer?.getAddress();
-      const timestamp = Date.now();
-
       try {
-        const signature = await signer?.signMessage(
-          JSON.stringify({
-            site: 'gitpoap.io',
-            method: 'POST /claims',
-            createdAt: timestamp,
-            claimIds: claimIds,
-          }),
-        );
-
         const res = await fetch(`${GITPOAP_API_URL}/claims`, {
           method: 'POST',
           headers: {
@@ -90,14 +78,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${tokens?.accessToken}`,
           },
-          body: JSON.stringify({
-            claimIds,
-            address,
-            signature: {
-              data: signature,
-              createdAt: timestamp,
-            },
-          }),
+          body: JSON.stringify({ claimIds }),
         });
 
         if (!res.ok) {
@@ -113,17 +94,12 @@ export const ClaimContextProvider = ({ children }: Props) => {
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.warn(err);
-          showNotification(
-            NotificationFactory.createError(
-              'Error - Request to claim GitPOAP failed',
-              'Oops, something went wrong! 🤥',
-            ),
-          );
+          Notifications.error('Error - Request to claim GitPOAP failed');
         }
         setLoadingClaimIds([]);
       }
     },
-    [signer, tokens?.accessToken, refetchUserClaims],
+    [tokens?.accessToken, refetchUserClaims],
   );
 
   const value = useMemo(
@@ -143,8 +119,8 @@ export const ClaimContextProvider = ({ children }: Props) => {
       {children}
       <ClaimModal
         claims={userClaims ?? []}
-        isConnected={connectionStatus === 'connected'}
-        isLoggedIntoGitHub={isLoggedIntoGitHub}
+        isConnected={connectionStatus === 'connected-to-wallet'}
+        hasGithub={user?.capabilities.hasGithub ?? false}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onClickClaim={claimGitPOAPs}

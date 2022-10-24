@@ -8,13 +8,11 @@ import React, {
   SetStateAction,
 } from 'react';
 import { useProfileQuery, ProfileQuery } from '../../graphql/generated-gql';
-import { useWeb3Context } from '../../components/wallet/Web3ContextProvider';
-import { EditProfileModal } from '../../components/profile/EditProfileModal';
+import { useWeb3Context } from '../wallet/Web3Context';
 import { GITPOAP_API_URL } from '../../constants';
-import { useAuthContext } from '../github/AuthContext';
-import { showNotification } from '@mantine/notifications';
-import { NotificationFactory } from '../../notifications';
+import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
+import { useTokens } from '../../hooks/useTokens';
 
 export type EditableProfileData = Partial<
   Pick<
@@ -26,7 +24,6 @@ export type EditableProfileData = Partial<
 type ProfileContext = {
   profileData?: ProfileQuery['profileData'];
   setProfileData: Dispatch<SetStateAction<ProfileQuery['profileData']>>;
-  setIsUpdateModalOpen: Dispatch<SetStateAction<boolean>>;
   updateProfile: (newProfileData: EditableProfileData) => void;
   showEditProfileButton: boolean;
   isSaveLoading: boolean;
@@ -47,11 +44,9 @@ type Props = {
 };
 
 export const ProfileProvider = ({ children, addressOrEns }: Props) => {
-  const { tokens } = useAuthContext();
-  const { web3Provider, address: connectedWalletAddress } = useWeb3Context();
-  const signer = web3Provider?.getSigner();
+  const { tokens } = useTokens();
+  const { address: connectedWalletAddress } = useWeb3Context();
   const [profileData, setProfileData] = useState<ProfileQuery['profileData']>();
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
   const [isSaveSuccessful, setIsSaveSuccessful] = useState<boolean>(false);
   const [result, refetch] = useProfileQuery({
@@ -79,7 +74,6 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
   const updateProfile = useCallback(
     async (newProfileData: EditableProfileData) => {
       setIsSaveLoading(true);
-      const timestamp = Date.now();
       const data: EditableProfileData = {
         bio: newProfileData.bio,
         personalSiteUrl: newProfileData.personalSiteUrl,
@@ -89,15 +83,6 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
       };
 
       try {
-        const signature = await signer?.signMessage(
-          JSON.stringify({
-            site: 'gitpoap.io',
-            method: 'POST /profiles',
-            createdAt: timestamp,
-            data,
-          }),
-        );
-
         const res = await fetch(`${GITPOAP_API_URL}/profiles`, {
           method: 'POST',
           headers: {
@@ -105,14 +90,7 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${tokens?.accessToken}`,
           },
-          body: JSON.stringify({
-            address: connectedWalletAddress,
-            data,
-            signature: {
-              data: signature,
-              createdAt: timestamp,
-            },
-          }),
+          body: JSON.stringify({ data }),
         });
 
         if (res.status === 200) {
@@ -120,22 +98,16 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
         }
         setIsSaveSuccessful(true);
         setIsSaveLoading(false);
-        setIsUpdateModalOpen(false);
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.warn(err);
-          showNotification(
-            NotificationFactory.createError(
-              'Error - Request to update profile failed',
-              'Oops, something went wrong! 🤥',
-            ),
-          );
+          Notifications.error('Error - Request to update profile failed');
         }
         setIsSaveLoading(false);
         setIsSaveSuccessful(false);
       }
     },
-    [signer, tokens?.accessToken, refetch, connectedWalletAddress],
+    [tokens?.accessToken, refetch],
   );
 
   return (
@@ -145,7 +117,6 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
         setProfileData,
         showEditProfileButton,
         updateProfile,
-        setIsUpdateModalOpen,
         isSaveLoading,
         isSaveSuccessful,
         setIsSaveSuccessful,
@@ -153,19 +124,6 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
       }}
     >
       {children}
-      {result.data && (
-        <EditProfileModal
-          bio={profileData?.bio}
-          personalSiteUrl={profileData?.personalSiteUrl}
-          githubHandle={profileData?.githubHandle}
-          twitterHandle={profileData?.twitterHandle}
-          isVisibleOnLeaderboard={profileData?.isVisibleOnLeaderboard}
-          isOpen={isUpdateModalOpen}
-          onClose={() => setIsUpdateModalOpen(false)}
-          onClickSave={updateProfile}
-          isSaveLoading={isSaveLoading}
-        />
-      )}
     </ProfileContext.Provider>
   );
 };

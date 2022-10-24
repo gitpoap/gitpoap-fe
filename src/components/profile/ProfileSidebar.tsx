@@ -3,7 +3,6 @@ import { InfoHexProfileDetail } from './InfoHexProfileDetail';
 import { truncateAddress } from '../../helpers';
 import { useProfileContext } from './ProfileContext';
 import { useRouter } from 'next/router';
-import { useFeatures } from '../FeaturesContext';
 
 const getName = (ensName: string | null, address: string | null) => {
   if (ensName) {
@@ -16,10 +15,8 @@ const getName = (ensName: string | null, address: string | null) => {
 };
 
 export const ProfileSidebar = () => {
-  const { profileData, showEditProfileButton, setIsUpdateModalOpen, isLoading } =
-    useProfileContext();
+  const { profileData, showEditProfileButton, isLoading } = useProfileContext();
   const router = useRouter();
-  const { hasSettingsPage } = useFeatures();
 
   const sidebarAddress = profileData?.address ?? null;
   const ensName = profileData?.ensName ?? null;
@@ -41,9 +38,7 @@ export const ProfileSidebar = () => {
         profileData?.githubHandle ? `https://github.com/${profileData.githubHandle}` : undefined
       }
       websiteHref={profileData?.personalSiteUrl}
-      onClickEditProfile={() =>
-        hasSettingsPage ? router.push('/settings') : setIsUpdateModalOpen(true)
-      }
+      onClickEditProfile={() => router.push('/settings')}
       showEditProfileButton={showEditProfileButton}
     />
   );

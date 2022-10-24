@@ -2,15 +2,19 @@ import { Center, Container, List, Stack } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
+import { FaEthereum } from 'react-icons/fa';
 import { GoMarkGithub } from 'react-icons/go';
-
-import { useAuthContext } from '../github/AuthContext';
+import { useUser } from '../../hooks/useUser';
+import { useOAuthContext } from '../oauth/OAuthContext';
 import { Button, Text } from '../shared/elements';
+import { useWeb3Context } from '../wallet/Web3Context';
 import { StyledLink } from './Completed';
 import { IntakeForm } from './IntakeForm';
 
 export const OnboardingPage = () => {
-  const { tokens, authorizeGitHub, isLoggedIntoGitHub, user } = useAuthContext();
+  const { github } = useOAuthContext();
+  const { connect } = useWeb3Context();
+  const user = useUser();
   const [getStarted, setGetStarted] = useState(false);
 
   const [isOnboardingConnectButtonActive, setIsOnboardingConnectButtonActive] =
@@ -21,13 +25,13 @@ export const OnboardingPage = () => {
 
   /* Hook is used to enter the first stage of the form after github auth */
   useEffect(() => {
-    if (isLoggedIntoGitHub && isOnboardingConnectButtonActive) {
+    if (user?.githubHandle && isOnboardingConnectButtonActive) {
       setGetStarted(true);
       setIsOnboardingConnectButtonActive(false);
     }
-  }, [isLoggedIntoGitHub, isOnboardingConnectButtonActive]);
+  }, [user?.githubHandle, isOnboardingConnectButtonActive]);
 
-  if (!getStarted || !isLoggedIntoGitHub || !tokens || !user) {
+  if (!getStarted || !user?.githubHandle) {
     return (
       <Container mt={32}>
         <Center>
@@ -64,17 +68,26 @@ export const OnboardingPage = () => {
             </Text>
             <Button
               onClick={() => {
-                if (!isLoggedIntoGitHub) {
+                if (!user) {
+                  /* User's ETH wallet isn't connected */
+                  connect();
+                } else if (!user?.capabilities.hasGithub) {
+                  /* User doesn't have a connected Github */
                   setIsOnboardingConnectButtonActive(true);
-                  authorizeGitHub();
+                  github.authorize();
                 } else {
+                  /* If ETH wallet is connected & Github is connected, then progress */
                   setGetStarted(true);
                 }
               }}
-              leftIcon={<GoMarkGithub size={16} />}
+              leftIcon={!user ? <FaEthereum /> : <GoMarkGithub />}
               style={{ margin: `${rem(16)} auto`, width: 'fit-content' }}
             >
-              {isLoggedIntoGitHub ? 'GET STARTED' : 'CONNECT GITHUB'}
+              {!user
+                ? 'CONNECT WALLET'
+                : !user?.capabilities.hasGithub
+                ? 'CONNECT GITHUB'
+                : 'GET STARTED'}
             </Button>
           </Stack>
         </Center>
@@ -84,7 +97,7 @@ export const OnboardingPage = () => {
 
   return (
     <Container size={800}>
-      <IntakeForm accessToken={tokens.accessToken} githubHandle={user.githubHandle} />
+      <IntakeForm githubHandle={user.githubHandle} />
     </Container>
   );
 };

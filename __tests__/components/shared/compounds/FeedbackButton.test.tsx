@@ -1,6 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import 'jest-styled-components';
 import { FeedbackButton } from '../../../../src/components/shared/compounds/FeedbackButton';
+import { renderWithTheme } from '../../../__utils__/renderWithTheme';
 
 const renderFeedbackButton = (href: string) => {
   global.ResizeObserver = jest.fn().mockImplementation(() => ({
@@ -9,7 +10,7 @@ const renderFeedbackButton = (href: string) => {
     disconnect: jest.fn(),
   }));
 
-  return render(<FeedbackButton href={href} />);
+  return renderWithTheme(<FeedbackButton href={href} />);
 };
 
 describe('FeedbackButton', () => {

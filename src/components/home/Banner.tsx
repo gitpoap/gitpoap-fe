@@ -1,15 +1,18 @@
 import React, { useEffect, ComponentProps } from 'react';
 import { Button, ButtonProps, Group, Stack, Text, TextProps } from '@mantine/core';
 import { rem } from 'polished';
+import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
 import { FaArrowRight } from 'react-icons/fa';
 import { TextGray, TextLight } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
-import { useClaimContext } from '../ClaimModal/ClaimContext';
-import { useAuthContext } from '../github/AuthContext';
+import { useClaimContext } from '../claims/ClaimContext';
+import { useOAuthContext } from '../oauth/OAuthContext';
 import { Link } from '../shared/compounds/Link';
 import { TitleLink } from '../shared/elements';
 import { useLocalStorage } from '@mantine/hooks';
+import { useUser } from '../../hooks/useUser';
+import { useFeatures } from '../FeaturesContext';
 
 const StyledStack = styled(Stack)`
   margin-bottom: ${rem(48)};
@@ -80,8 +83,12 @@ const CTAButtons = styled(Group)`
 `;
 
 export const Banner = () => {
-  const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
+  const { github } = useOAuthContext();
+  const user = useUser();
+  const hasGithub = user?.capabilities.hasGithub ?? false;
   const { setIsOpen } = useClaimContext();
+  const { hasCheckEligibility } = useFeatures();
+  const router = useRouter();
   const [isStartMintingButtonClicked, setIsStartMintingButtonClicked] = useLocalStorage<boolean>({
     key: 'isStartMintingButtonClicked',
     defaultValue: false,
@@ -89,11 +96,11 @@ export const Banner = () => {
 
   /* Hook is used to open the claim modal after github auth */
   useEffect(() => {
-    if (isLoggedIntoGitHub && isStartMintingButtonClicked) {
+    if (hasGithub && isStartMintingButtonClicked) {
       setIsOpen(true);
       setIsStartMintingButtonClicked(false);
     }
-  }, [isLoggedIntoGitHub, isStartMintingButtonClicked]);
+  }, [hasGithub, isStartMintingButtonClicked]);
 
   return (
     <StyledStack spacing={24}>
@@ -110,20 +117,24 @@ export const Banner = () => {
           </StartIssuingButton>
         </Link>
         <StartMintingButton
-          onClick={() => {
-            if (!isLoggedIntoGitHub) {
-              setIsStartMintingButtonClicked(true);
-              authorizeGitHub();
-            } else {
-              setIsOpen(true);
-            }
-          }}
+          onClick={
+            hasCheckEligibility
+              ? () => router.push('/eligibility')
+              : () => {
+                  if (!hasGithub) {
+                    setIsStartMintingButtonClicked(true);
+                    github.authorize();
+                  } else {
+                    setIsOpen(true);
+                  }
+                }
+          }
           radius="md"
           size="md"
           rightIcon={<FaArrowRight />}
           variant="outline"
         >
-          {'START EARNING'}
+          {'Check Eligibility'}
         </StartMintingButton>
       </CTAButtons>
       <HowItWorks href="https://docs.gitpoap.io" target="_blank" rel="noopener noreferrer">

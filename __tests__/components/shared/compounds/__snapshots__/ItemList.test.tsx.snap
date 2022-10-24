@@ -40,7 +40,7 @@ exports[`ItemList should render search input 1`] = `
 }
 
 .emotion-2 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-family: PT Mono,monospace;
   height: 36px;
   -webkit-tap-highlight-color: transparent;
   line-height: 34px;
@@ -52,21 +52,21 @@ exports[`ItemList should render search input 1`] = `
   box-sizing: border-box;
   font-size: 14px;
   width: 100%;
-  color: #000;
+  color: #C1C2C5;
   display: block;
   text-align: left;
   min-height: 36px;
   padding-left: 12px;
   padding-right: 12px;
   border-radius: 4px;
-  border: 1px solid #ced4da;
-  background-color: #fff;
+  border: 1px solid #373A40;
+  background-color: #25262b;
   -webkit-transition: border-color 100ms ease;
   transition: border-color 100ms ease;
 }
 
 .emotion-2:disabled {
-  background-color: #f1f3f5;
+  background-color: #25262b;
   color: #909296;
   opacity: 0.6;
   cursor: not-allowed;
@@ -94,7 +94,7 @@ exports[`ItemList should render search input 1`] = `
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #adb5bd;
+  color: #5c5f66;
 }
 
 .emotion-2::-moz-placeholder {
@@ -103,7 +103,7 @@ exports[`ItemList should render search input 1`] = `
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #adb5bd;
+  color: #5c5f66;
 }
 
 .emotion-2:-ms-input-placeholder {
@@ -112,7 +112,7 @@ exports[`ItemList should render search input 1`] = `
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #adb5bd;
+  color: #5c5f66;
 }
 
 .emotion-2::placeholder {
@@ -121,7 +121,7 @@ exports[`ItemList should render search input 1`] = `
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #adb5bd;
+  color: #5c5f66;
 }
 
 .emotion-2::-webkit-inner-spin-button,
@@ -143,7 +143,7 @@ exports[`ItemList should render search input 1`] = `
 .emotion-2:focus,
 .emotion-2:focus-within {
   outline: none;
-  border-color: #228be6;
+  border-color: #1971c2;
 }
 
 <input
@@ -174,7 +174,7 @@ exports[`ItemList should render show more button 1`] = `
 
 .emotion-2 {
   -webkit-tap-highlight-color: transparent;
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-family: PT Mono,monospace;
   cursor: pointer;
   border: 0;
   padding: 0;
@@ -185,18 +185,18 @@ exports[`ItemList should render show more button 1`] = `
   font-size: 16px;
   background-color: transparent;
   text-align: left;
-  color: #000;
+  color: #C1C2C5;
   -webkit-text-decoration: none;
   text-decoration: none;
   box-sizing: border-box;
   height: 36px;
   padding-left: 12px;
   padding-right: 18px;
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-family: PT Mono,monospace;
   -webkit-tap-highlight-color: transparent;
   display: inline-block;
   width: auto;
-  border-radius: 4px;
+  border-radius: 6px;
   font-weight: 600;
   position: relative;
   line-height: 1;
@@ -206,14 +206,21 @@ exports[`ItemList should render show more button 1`] = `
   -ms-user-select: none;
   user-select: none;
   cursor: pointer;
-  border: 1px solid #228be6;
+  border: 1px solid #339af0;
   background-color: transparent;
-  color: #228be6;
+  color: #339af0;
+  border-width: 0.125rem;
+  letter-spacing: 0.125rem;
+  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
+  transition: 150ms background ease,150ms color ease,150ms border ease;
+  background-color: transparent;
+  border-color: #838495;
+  color: #FFFFFF;
 }
 
 .emotion-2:focus {
   outline-offset: 2px;
-  outline: 2px solid #339af0;
+  outline: 2px solid #1c7ed6;
 }
 
 .emotion-2:focus:not(:focus-visible) {
@@ -222,7 +229,7 @@ exports[`ItemList should render show more button 1`] = `
 
 .emotion-2:focus {
   outline-offset: 2px;
-  outline: 2px solid #339af0;
+  outline: 2px solid #1c7ed6;
 }
 
 .emotion-2:focus:not(:focus-visible) {
@@ -231,13 +238,13 @@ exports[`ItemList should render show more button 1`] = `
 
 @media (hover: hover) {
   .emotion-2:hover {
-    background-color: rgba(231, 245, 255, 0.35);
+    background-color: rgba(51, 154, 240, 0.05);
   }
 }
 
 @media (hover: none) {
   .emotion-2:active {
-    background-color: rgba(231, 245, 255, 0.35);
+    background-color: rgba(51, 154, 240, 0.05);
   }
 }
 
@@ -251,8 +258,8 @@ exports[`ItemList should render show more button 1`] = `
 .emotion-2:disabled,
 .emotion-2[data-disabled] {
   border-color: transparent;
-  background-color: #e9ecef;
-  color: #adb5bd;
+  background-color: #373A40;
+  color: #25262b;
   cursor: not-allowed;
   background-image: none;
   pointer-events: none;
@@ -277,9 +284,36 @@ exports[`ItemList should render show more button 1`] = `
   left: -1px;
   right: -1px;
   bottom: -1px;
-  background-color: rgba(255, 255, 255, .5);
-  border-radius: 4px;
+  background-color: rgba(26, 27, 30, 0.5);
+  border-radius: 6px;
   cursor: not-allowed;
+}
+
+.emotion-2:disabled {
+  background-color: transparent;
+  border-color: #838495;
+}
+
+.emotion-2:disabled .emotion-9 {
+  color: #838495;
+}
+
+.emotion-2:active:not(:disabled) {
+  border-color: #1761CF;
+  color: #1761CF;
+}
+
+.emotion-2:hover:not(:disabled) {
+  border-color: #5596F6;
+  color: #5596F6;
+}
+
+.emotion-2[data-loading] .emotion-9 {
+  color: #838495;
+}
+
+.emotion-2[data-loading]::before {
+  content: none;
 }
 
 .emotion-3 {
@@ -325,6 +359,30 @@ exports[`ItemList should render show more button 1`] = `
   align-items: center;
 }
 
+.mantine-1h127la:disabled .emotion-9 {
+  color: #838495;
+}
+
+.mantine-1h127la[data-loading] .emotion-9 {
+  color: #838495;
+}
+
+.mantine-19561ee:disabled .emotion-9 {
+  color: #838495;
+}
+
+.mantine-19561ee[data-loading] .emotion-9 {
+  color: #838495;
+}
+
+.mantine-ml2k2h:disabled .emotion-9 {
+  color: #838495;
+}
+
+.mantine-ml2k2h[data-loading] .emotion-9 {
+  color: #838495;
+}
+
 <button
   class="emotion-0 emotion-1 c0 emotion-2"
   data-button="true"
@@ -352,6 +410,7 @@ exports[`ItemList should render show more button 1`] = `
     </span>
     <span
       class="emotion-8 emotion-9"
+      style="text-transform: uppercase;"
     >
       Show more
     </span>
@@ -362,11 +421,8 @@ exports[`ItemList should render show more button 1`] = `
 exports[`ItemList should render title 1`] = `
 .c0 {
   font-family: VT323;
-  font-style: normal;
-  font-weight: normal;
   font-size: 3rem;
   line-height: 3rem;
-  color: #E2E2EE;
 }
 
 .c1 {
@@ -387,9 +443,34 @@ exports[`ItemList should render title 1`] = `
   }
 }
 
-<span
-  class="c0 c1"
+.emotion-1 {
+  font-family: PT Mono,monospace;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: normal;
+  color: #E2E2EE;
+  letter-spacing: 0.0125rem;
+  line-height: 1.25rem;
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
+}
+
+.emotion-1:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-1:focus:not(:focus-visible) {
+  outline: none;
+}
+
+<div
+  class="emotion-0 c0 c1 emotion-1"
 >
   colors
-</span>
+</div>
 `;

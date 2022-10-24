@@ -737,7 +737,7 @@ exports[`Footer renders a Footer 1`] = `
         class="emotion-4 c5 emotion-5"
         style="margin-top: 1.25rem;"
       >
-        We're memorializing software contributions as GitPOAPs to help usher in new era of #web3
+        We're memorializing software contributions as GitPOAPs to help usher in a new era of #web3
       </div>
     </div>
     <div
@@ -768,6 +768,12 @@ exports[`Footer renders a Footer 1`] = `
           href="/orgs"
         >
           Orgs
+        </a>
+        <a
+          class="c9"
+          href="/gitpoaps"
+        >
+          GitPOAPs
         </a>
       </div>
       <div

@@ -2,9 +2,8 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Notification } from '@mantine/core';
 import { Button } from '../components/shared/elements/Button';
-import { showNotification } from '@mantine/notifications';
 import styled from 'styled-components';
-import { NotificationFactory } from '../notifications';
+import { Notifications } from '../notifications';
 
 export default {
   title: 'Compounds/Notification',
@@ -20,14 +19,7 @@ export const Error: ComponentStory<typeof Notification> = () => {
     <Container>
       <Button
         variant="outline"
-        onClick={() =>
-          showNotification(
-            NotificationFactory.createError(
-              'Error - Request Failed',
-              'Oops, something went wrong! 🤥',
-            ),
-          )
-        }
+        onClick={() => Notifications.error('Error - Request Failed', 'Oops, something went wrong!')}
       >
         Show customized notification
       </Button>

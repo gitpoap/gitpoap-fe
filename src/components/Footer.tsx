@@ -259,7 +259,7 @@ export const Footer = () => {
           </GitPOAPLink>
           <FooterText style={{ marginTop: rem(20) }}>
             {
-              "We're memorializing software contributions as GitPOAPs to help usher in new era of #web3"
+              "We're memorializing software contributions as GitPOAPs to help usher in a new era of #web3"
             }
           </FooterText>
         </GitPOAPContent>
@@ -270,7 +270,7 @@ export const Footer = () => {
             <InternalLink href="/">{'Home'}</InternalLink>
             <InternalLink href="/repos">{'Repos'}</InternalLink>
             <InternalLink href="/orgs">{'Orgs'}</InternalLink>
-            {/* <InternalLink href="/events">{'Events'}</InternalLink> */}
+            <InternalLink href="/gitpoaps">{'GitPOAPs'}</InternalLink>
           </LinkColumn>
           <LinkColumn>
             <FooterHeader>{'Community'}</FooterHeader>

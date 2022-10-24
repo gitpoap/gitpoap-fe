@@ -16,6 +16,7 @@ import { SelectReposList } from './SelectRepos';
 import { Repo } from './types';
 import { UploadDesigns } from './UploadDesigns';
 import { useMantineForm } from './useMantineForm';
+import { useTokens } from '../../hooks/useTokens';
 
 export const StyledLink = styled(Link)`
   color: ${PrimaryBlue};
@@ -63,11 +64,11 @@ const StyledStepper = styled(Stepper)`
 `;
 
 type Props = {
-  accessToken: string;
   githubHandle: string;
 };
 
-export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
+export const IntakeForm = ({ githubHandle }: Props) => {
+  const { tokens } = useTokens();
   const [queueNumber, setQueueNumber] = useLocalStorage<number>({
     key: `onboarding-${githubHandle}`,
   });
@@ -83,7 +84,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
       try {
         const data = await fetchWithToken(
           `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`,
-          accessToken,
+          tokens?.accessToken ?? null,
         );
         setRepos(data);
       } catch (err: unknown) {
@@ -95,7 +96,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
     if (!repos) {
       fetchData();
     }
-  }, [accessToken, repos]);
+  }, [tokens?.accessToken, repos]);
 
   const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
     useMantineForm(stage, githubHandle);
@@ -137,7 +138,7 @@ export const IntakeForm = ({ accessToken, githubHandle }: Props) => {
             method: 'POST',
             headers: {
               Accept: 'application/json',
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${tokens?.accessToken}`,
             },
             body: formData,
           },

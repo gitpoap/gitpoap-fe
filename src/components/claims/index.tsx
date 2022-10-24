@@ -17,14 +17,14 @@ import { Button } from '../shared/elements/Button';
 import { TwitterShareButton } from '../shared/elements/TwitterShareButton';
 import { ClaimBlock } from '../shared/compounds/ClaimBlock';
 import { useFeatures } from '../FeaturesContext';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { useWeb3Context } from '../wallet/Web3Context';
 import { BREAKPOINTS } from '../../constants';
 import { OpenClaimsQuery } from '../../graphql/generated-gql';
 import { Link } from '../shared/compounds/Link';
 
 type Props = {
   isConnected: boolean;
-  isLoggedIntoGitHub: boolean;
+  hasGithub: boolean;
   isOpen: boolean;
   claims: Exclude<OpenClaimsQuery['userClaims'], null | undefined>;
   claimedIds: number[];
@@ -103,10 +103,10 @@ const getClaimText = (
   isConnected: boolean,
   numClaims: number,
   numClaimed: number,
-  isLoggedIntoGitHub: boolean,
+  hasGithub: boolean,
 ): string => {
   const netClaims = numClaims - numClaimed;
-  if (!isLoggedIntoGitHub) return 'Connect your GitHub to mint!';
+  if (!hasGithub) return 'Connect your GitHub to mint!';
   if (!isConnected && netClaims > 0) return 'Connect your wallet to mint!';
 
   if (netClaims < 1) {
@@ -120,7 +120,7 @@ const getClaimText = (
 
 export const ClaimModal = ({
   isConnected,
-  isLoggedIntoGitHub,
+  hasGithub,
   isOpen,
   claims,
   claimedIds,
@@ -129,7 +129,6 @@ export const ClaimModal = ({
   onClickClaim,
 }: Props) => {
   const [page, setPage] = useState(1);
-  const { hasClaimAllButton } = useFeatures();
   const matchesBreakpoint750 = useMediaQuery(`(min-width: ${rem(750)})`, false);
   const matchesBreakpoint500 = useMediaQuery(`(min-width: ${rem(500)})`, false);
   const perPage = matchesBreakpoint750 ? 3 : matchesBreakpoint500 ? 2 : 1;
@@ -140,7 +139,7 @@ export const ClaimModal = ({
   const { connect, address, ensName } = useWeb3Context();
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = !!loadingClaimIds && loadingClaimIds.length === claims.length;
-  const claimText = getClaimText(isConnected, claims.length, claimedIds.length, isLoggedIntoGitHub);
+  const claimText = getClaimText(isConnected, claims.length, claimedIds.length, hasGithub);
   const allClaimIds = claims.map((userClaim) => userClaim.claim.id);
 
   return (
@@ -193,7 +192,7 @@ export const ClaimModal = ({
           </>
         )}
 
-        {hasClaimAllButton && claims.length > 1 && !hasClaimedAll && (
+        {claims.length > 1 && !hasClaimedAll && (
           <ClaimAll>
             <Button
               onClick={() => onClickClaim(allClaimIds)}

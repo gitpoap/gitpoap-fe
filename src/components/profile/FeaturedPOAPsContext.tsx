@@ -6,12 +6,11 @@ import {
   useFeaturedPoapsQuery,
 } from '../../graphql/generated-gql';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
-import { useWeb3Context } from '../wallet/Web3ContextProvider';
+import { useWeb3Context } from '../wallet/Web3Context';
 import { GITPOAP_API_URL } from '../../constants';
-import { useAuthContext } from '../github/AuthContext';
-import { showNotification } from '@mantine/notifications';
-import { NotificationFactory } from '../../notifications';
+import { Notifications } from '../../notifications';
 import { useProfileContext } from './ProfileContext';
+import { useTokens } from '../../hooks/useTokens';
 
 export type GitPOAP = Exclude<
   FeaturedPoapsQuery['profileFeaturedPOAPs'],
@@ -62,10 +61,9 @@ type Props = {
 };
 
 export const FeaturedPOAPsProvider = ({ children }: Props) => {
-  const { web3Provider, address: walletAddress } = useWeb3Context();
-  const signer = web3Provider?.getSigner();
+  const { address: walletAddress } = useWeb3Context();
   const { profileData } = useProfileContext();
-  const { tokens } = useAuthContext();
+  const { tokens } = useTokens();
   const [showHearts, setShowHearts] = useState(false);
   const [featuredPOAPsState, setFeaturedPOAPsState] = useState<FeaturedPOAPsState>(
     getInitialState(),
@@ -128,33 +126,15 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
 
   const addFeaturedPOAP = useCallback(
     async (poapTokenId: string) => {
-      const timestamp = Date.now();
       setLoadingIds((prevState) => ({ ...prevState, [poapTokenId]: true }));
 
       try {
-        const signature = await signer?.signMessage(
-          JSON.stringify({
-            site: 'gitpoap.io',
-            method: 'PUT /featured',
-            createdAt: timestamp,
-            poapTokenId,
-          }),
-        );
-
-        await fetch(`${GITPOAP_API_URL}/featured`, {
+        await fetch(`${GITPOAP_API_URL}/featured/${poapTokenId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${tokens?.accessToken}`,
           },
-          body: JSON.stringify({
-            address: walletAddress,
-            poapTokenId,
-            signature: {
-              data: signature,
-              createdAt: timestamp,
-            },
-          }),
         });
         const results = await refetchData();
         saveData(results.data);
@@ -165,12 +145,7 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.error(err);
-          showNotification(
-            NotificationFactory.createError(
-              'Error - Request to add a featured POAP failed',
-              'Oops, something went wrong! 🤥',
-            ),
-          );
+          Notifications.error('Error - Request to add a featured POAP failed');
         }
         setLoadingIds((prevState) => {
           const { [poapTokenId]: _, ...newState } = prevState;
@@ -178,37 +153,20 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
         });
       }
     },
-    [walletAddress, signer, tokens?.accessToken, saveData, refetchData],
+    [tokens?.accessToken, saveData, refetchData],
   );
 
   const removeFeaturedPOAP = useCallback(
     async (poapTokenId: string) => {
-      const timestamp = Date.now();
       setLoadingIds((prevState) => ({ ...prevState, [poapTokenId]: true }));
 
       try {
-        const signature = await signer?.signMessage(
-          JSON.stringify({
-            site: 'gitpoap.io',
-            method: 'DELETE /featured/:id',
-            createdAt: timestamp,
-            poapTokenId,
-          }),
-        );
-
         await fetch(`${GITPOAP_API_URL}/featured/${poapTokenId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${tokens?.accessToken}`,
           },
-          body: JSON.stringify({
-            address: walletAddress,
-            signature: {
-              data: signature,
-              createdAt: timestamp,
-            },
-          }),
         });
 
         const results = await refetchData();
@@ -220,12 +178,7 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.error(err);
-          showNotification(
-            NotificationFactory.createError(
-              'Error - Request to remove a featured POAP failed',
-              'Oops, something went wrong! 🤥',
-            ),
-          );
+          Notifications.error('Error - Request to remove a featured POAP failed');
         }
         setLoadingIds((prevState) => {
           const { [poapTokenId]: _, ...newState } = prevState;
@@ -233,7 +186,7 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
         });
       }
     },
-    [walletAddress, signer, tokens?.accessToken, saveData, refetchData],
+    [tokens?.accessToken, saveData, refetchData],
   );
 
   return (

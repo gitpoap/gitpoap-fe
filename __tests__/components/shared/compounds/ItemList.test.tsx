@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import 'jest-styled-components';
 import { ItemList, SelectOption } from '../../../../src/components/shared/compounds/ItemList';
+import { renderWithTheme } from '../../../__utils__/renderWithTheme';
 
 type SortOptions = 'date' | 'alphabetical';
 const selectOptions: SelectOption<SortOptions>[] = [
@@ -12,7 +13,7 @@ const colors = ['test1', 'test2'];
 
 describe('ItemList', () => {
   it('should render title', () => {
-    render(
+    renderWithTheme(
       <ItemList
         title="colors"
         selectOptions={selectOptions}
@@ -35,7 +36,7 @@ describe('ItemList', () => {
   });
 
   it('should render search input', () => {
-    render(
+    renderWithTheme(
       <ItemList
         title="colors"
         selectOptions={selectOptions}
@@ -63,7 +64,7 @@ describe('ItemList', () => {
   });
 
   it('should render items', () => {
-    render(
+    renderWithTheme(
       <ItemList
         selectOptions={selectOptions}
         selectValue="date"
@@ -88,7 +89,7 @@ describe('ItemList', () => {
   });
 
   it('should render show more button', () => {
-    render(
+    renderWithTheme(
       <ItemList
         selectOptions={selectOptions}
         selectValue="date"
@@ -110,7 +111,7 @@ describe('ItemList', () => {
   });
 
   it('should not render show more button', () => {
-    render(
+    renderWithTheme(
       <ItemList
         selectOptions={selectOptions}
         selectValue="date"

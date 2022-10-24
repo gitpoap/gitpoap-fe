@@ -6,16 +6,17 @@ import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
 
-import { useClaimContext } from '../ClaimModal/ClaimContext';
+import { useClaimContext } from '../claims/ClaimContext';
 import { Index } from '../home/LeaderBoardItem';
 import { IconLink } from '../shared/compounds/Link';
 import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleLink } from '../shared/elements';
 import { textEllipses } from '../shared/styles';
 import { TextGray, ExtraHover, PrimaryBlue } from '../../colors';
-import { useAuthContext } from '../../components/github/AuthContext';
+import { useOAuthContext } from '../oauth/OAuthContext';
 import { useFeatures } from '../../components/FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
+import { useUser } from '../../hooks/useUser';
 
 type Props = {
   gitPOAPId: number;
@@ -153,7 +154,9 @@ const StyledTable = styled(Table)`
 `;
 
 export const Header = ({ gitPOAPId }: Props) => {
-  const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
+  const { github } = useOAuthContext();
+  const user = useUser();
+  const hasGithubConnection = user?.capabilities.hasGithub ?? false;
   const [opened, { close, open }] = useDisclosure(false);
 
   const [result] = useGitPoapEventQuery({
@@ -162,7 +165,7 @@ export const Header = ({ gitPOAPId }: Props) => {
     },
   });
   const event = result?.data?.gitPOAPEvent?.event;
-  const repos = result?.data?.gitPOAPEvent?.gitPOAP.project.repos;
+  const repos = result?.data?.gitPOAPEvent?.gitPOAP.project?.repos;
   const { setIsOpen } = useClaimContext();
   const features = useFeatures();
   const [isCheckButtonClicked, setIsCheckButtonClicked] = useLocalStorage<boolean>({
@@ -171,11 +174,11 @@ export const Header = ({ gitPOAPId }: Props) => {
   });
 
   useEffect(() => {
-    if (isLoggedIntoGitHub && isCheckButtonClicked) {
+    if (hasGithubConnection && isCheckButtonClicked) {
       setIsOpen(true);
       setIsCheckButtonClicked(false);
     }
-  }, [isLoggedIntoGitHub, isCheckButtonClicked]);
+  }, [hasGithubConnection, isCheckButtonClicked]);
 
   return (
     <Wrapper>
@@ -257,9 +260,9 @@ export const Header = ({ gitPOAPId }: Props) => {
       )}
       <CheckEligibilityButton
         onClick={() => {
-          if (!isLoggedIntoGitHub) {
+          if (!hasGithubConnection) {
             setIsCheckButtonClicked(true);
-            authorizeGitHub();
+            github.authorize();
           } else {
             setIsOpen(true);
           }

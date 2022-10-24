@@ -12,7 +12,7 @@ import { BaseSkeleton, TextSkeleton } from '../elements';
 type Props = {
   gitPOAPId: number;
   imgSrc: string;
-  name: string;
+  name?: string;
   repoName?: string;
   repoId?: number;
   orgName?: string;
@@ -135,7 +135,7 @@ export const GitPOAP = ({
           href={`/gp/${gitPOAPId}`}
           size={size}
           imgUrl={imgSrc}
-          altText={name}
+          altText={name ?? ''}
           onClick={() => onClick && onClick()}
           level={level}
         />
@@ -144,7 +144,7 @@ export const GitPOAP = ({
       <Info>
         <Link href={`/gp/${gitPOAPId}`} passHref>
           <TitleStyled onClick={() => onClick && onClick()}>
-            {name.replace('GitPOAP: ', '')}
+            {name && name.replace('GitPOAP: ', '')}
           </TitleStyled>
         </Link>
         {orgName && repoName ? (

@@ -7,17 +7,17 @@ import Head from 'next/head';
 import { HiDocumentText } from 'react-icons/hi';
 import { useForm, zodResolver } from '@mantine/form';
 import { Group, Grid } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
 import { Dropzone as DropzoneUI } from '@mantine/dropzone';
 import { useGitpoapByPoapEventIdQuery } from '../../graphql/generated-gql';
 import { NumberInput, Text, Header } from '../../components/shared/elements';
 import { GITPOAP_API_URL } from '../../constants';
-import { useAuthContext } from '../../components/github/AuthContext';
 import { BackgroundPanel, BackgroundPanel2, ExtraRed, TextLight } from '../../colors';
-import { NotificationFactory } from '../../notifications';
+import { Notifications } from '../../notifications';
 import { ConnectGitHub } from '../../components/admin/ConnectGitHub';
 import { ButtonStatus, SubmitButtonRow } from '../../components/admin/SubmitButtonRow';
 import { Errors } from '../../components/admin/ErrorText';
+import { useTokens } from '../../hooks/useTokens';
+import { useIsAdmin } from '../../hooks/useIsAdmin';
 
 export const Dropzone = styled(DropzoneUI)`
   background-color: ${BackgroundPanel};
@@ -97,7 +97,8 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const AddCodesPage: NextPage = () => {
-  const { tokens, canSeeAdmin } = useAuthContext();
+  const { tokens } = useTokens();
+  const isAdmin = useIsAdmin();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const { setFieldValue, values, errors, onSubmit, getInputProps, setErrors, setValues } =
     useForm<FormValues>({
@@ -165,11 +166,11 @@ const AddCodesPage: NextPage = () => {
           throw new Error(res.statusText);
         }
         setButtonStatus(ButtonStatus.SUCCESS);
-        showNotification(NotificationFactory.createSuccess('✨ Success - Codes Added '));
+        Notifications.success('✨ Success - Codes Added ');
         clearData();
       } catch (err) {
         console.error(err);
-        showNotification(NotificationFactory.createError('🚫 Error - Request Failed'));
+        Notifications.error('🚫 Error - Request Failed');
         setButtonStatus(ButtonStatus.ERROR);
       }
     },
@@ -200,7 +201,7 @@ const AddCodesPage: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(40) }}>
         <Grid.Col span={10}>
-          {canSeeAdmin ? (
+          {isAdmin ? (
             <FormContainer>
               <AddCodesForm onSubmit={onSubmit((values) => submitCodes(values))}>
                 <Header style={{ alignSelf: 'start' }}>{'Admin - Add Codes'}</Header>

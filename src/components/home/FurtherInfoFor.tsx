@@ -6,10 +6,11 @@ import { Body, BodyAsAnchor, Button, Header, InfoHexBase, Text } from '../shared
 import { FaArrowRight } from 'react-icons/fa';
 import { GoMarkGithub } from 'react-icons/go';
 import { BREAKPOINTS } from '../../constants';
-import { useClaimContext } from '../ClaimModal/ClaimContext';
+import { useClaimContext } from '../claims/ClaimContext';
 import { ExtraHover, ExtraPressed } from '../../colors';
-import { useAuthContext } from '../github/AuthContext';
+import { useOAuthContext } from '../oauth/OAuthContext';
 import { useLocalStorage } from '@mantine/hooks';
+import { useUser } from '../../hooks/useUser';
 
 const InfoHexHeader = styled(Header)`
   margin-bottom: ${rem(20)};
@@ -95,7 +96,9 @@ const Container = styled(Grid.Col)`
 
 export const FurtherInfoFor = () => {
   const { setIsOpen } = useClaimContext();
-  const { authorizeGitHub, isLoggedIntoGitHub } = useAuthContext();
+  const { github } = useOAuthContext();
+  const user = useUser();
+  const hasGithub = user?.capabilities.hasGithub ?? false;
   const [isFurtherInfoClaimButtonClicked, setIsFurtherInfoClaimButtonClicked] =
     useLocalStorage<boolean>({
       key: 'isFurtherInfoClaimButtonClicked',
@@ -103,20 +106,20 @@ export const FurtherInfoFor = () => {
     });
 
   useEffect(() => {
-    if (isLoggedIntoGitHub && isFurtherInfoClaimButtonClicked) {
+    if (hasGithub && isFurtherInfoClaimButtonClicked) {
       setIsOpen(true);
       setIsFurtherInfoClaimButtonClicked(false);
     }
-  }, [isLoggedIntoGitHub, isFurtherInfoClaimButtonClicked]);
+  }, [hasGithub, isFurtherInfoClaimButtonClicked]);
 
   return (
     <>
       <Container xs={10} sm={10} md={5} lg={5} xl={5}>
         <InfoHex
           onClick={() => {
-            if (!isLoggedIntoGitHub) {
+            if (!hasGithub) {
               setIsFurtherInfoClaimButtonClicked(true);
-              authorizeGitHub();
+              github.authorize();
             } else {
               setIsOpen(true);
             }
@@ -129,7 +132,7 @@ export const FurtherInfoFor = () => {
               {`Create a public, immutable, & unbiased record of your contributions to the open source community & show it off via your profile.`}
             </InfoHexText>
             <ButtonStyled style={{ marginTop: rem(40) }} leftIcon={<GoMarkGithub size={16} />}>
-              {'Start Earning'}
+              {'Check Eligibility'}
             </ButtonStyled>
           </Content>
         </InfoHex>

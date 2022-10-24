@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { Stack, Divider, Group, Title, Box } from '@mantine/core';
+import { useRouter } from 'next/router';
 import { rem } from 'polished';
-import { Button, Input as InputUI, Checkbox } from '../shared/elements';
-import { TextArea as TextAreaUI } from '../shared/elements/TextArea';
-import { Text } from '../shared/elements/Text';
-import { Stack, Divider, Group, Title } from '@mantine/core';
-import { ExtraHover, ExtraPressed, TextGray, TextLight } from '../../colors';
-import { useAuthContext } from '../github/AuthContext';
-import { FaCheckCircle, FaRegEdit } from 'react-icons/fa';
-import { isValidGithubHandle, isValidTwitterHandle, isValidURL } from '../../helpers';
-import { ProfileQuery, useProfileQuery } from '../../graphql/generated-gql';
-import { useProfileContext } from '../profile/ProfileContext';
+import styled from 'styled-components';
+import { useOAuthContext } from '../oauth/OAuthContext';
+import { FaCheckCircle } from 'react-icons/fa';
 import { GoMarkGithub } from 'react-icons/go';
-
-const Header = styled.div`
-  font-family: VT323;
-  font-size: ${rem(48)};
-  text-align: center;
-  color: ${TextLight};
-  line-height: normal;
-`;
+import { useUser } from '../../hooks/useUser';
+import { EmailConnection } from './EmailConnection';
+import { useProfileContext } from '../profile/ProfileContext';
+import {
+  Button,
+  Input as InputUI,
+  Checkbox,
+  Header,
+  Text,
+  TextArea as TextAreaUI,
+} from '../shared/elements';
+import { ExtraHover, ExtraPressed } from '../../colors';
+import { isValidTwitterHandle, isValidURL } from '../../helpers';
+import { useFeatures } from '../FeaturesContext';
 
 const Input = styled(InputUI)`
   flex: 1;
@@ -29,53 +29,21 @@ const TextArea = styled(TextAreaUI)`
   flex: 1;
 `;
 
-const ConnectGithubAccount = styled(Text)`
-  color: ${TextGray};
-  font-size: ${rem(12)};
-  line-height: 1.2;
-
-  display: inline-flex;
-  gap: ${rem(8)};
-  transition: 150ms color ease;
-
-  &:active {
-    color: ${ExtraPressed};
-    cursor: pointer;
-  }
-
-  &:hover:not(:active) {
-    color: ${ExtraHover};
-    cursor: pointer;
-  }
-`;
-
 export const SettingsText = styled(Text)`
   padding-right: ${rem(30)};
 `;
 
-type Props = {
-  profileData: ProfileQuery['profileData'];
-  refetch: ReturnType<typeof useProfileQuery>[1];
-};
-
-export type EditableProfileData = Partial<
-  Pick<
-    Exclude<ProfileQuery['profileData'], null | undefined>,
-    'bio' | 'githubHandle' | 'personalSiteUrl' | 'twitterHandle' | 'isVisibleOnLeaderboard'
-  >
->;
-
 export const SettingsPage = () => {
   const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
-  const { authorizeGitHub, handleLogout, isLoggedIntoGitHub, user } = useAuthContext();
+  const { github } = useOAuthContext();
+  const user = useUser();
+  const { hasEmailVerification } = useFeatures();
+  const router = useRouter();
 
   const [personSiteUrlValue, setPersonalSiteUrlValue] = useState<string | undefined | null>(
     profileData?.personalSiteUrl,
   );
   const [bioValue, setBioValue] = useState<string | undefined | null>(profileData?.bio);
-  const [githubHandleValue, setGithubHandleValue] = useState<string | undefined | null>(
-    profileData?.githubHandle,
-  );
   const [twitterHandleValue, setTwitterHandleValue] = useState<string | undefined | null>(
     profileData?.twitterHandle,
   );
@@ -86,20 +54,12 @@ export const SettingsPage = () => {
   const [haveChangesBeenMade, setHaveChangesBeenMade] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(profileData);
-  }, [profileData]);
-
-  useEffect(() => {
     setPersonalSiteUrlValue(profileData?.personalSiteUrl);
   }, [profileData?.personalSiteUrl]);
 
   useEffect(() => {
     setBioValue(profileData?.bio);
   }, [profileData?.bio]);
-
-  useEffect(() => {
-    setGithubHandleValue(profileData?.githubHandle);
-  }, [profileData?.githubHandle]);
 
   useEffect(() => {
     setTwitterHandleValue(profileData?.twitterHandle);
@@ -113,40 +73,46 @@ export const SettingsPage = () => {
     setHaveChangesBeenMade(
       profileData?.personalSiteUrl !== personSiteUrlValue ||
         profileData?.bio !== bioValue ||
-        profileData?.githubHandle !== githubHandleValue ||
         profileData?.twitterHandle !== twitterHandleValue ||
         profileData?.isVisibleOnLeaderboard !== isVisibleOnLeaderboardValue,
     );
-  }, [
-    profileData,
-    personSiteUrlValue,
-    bioValue,
-    githubHandleValue,
-    twitterHandleValue,
-    isVisibleOnLeaderboardValue,
-  ]);
+  }, [profileData, personSiteUrlValue, bioValue, twitterHandleValue, isVisibleOnLeaderboardValue]);
+
+  if (!user) {
+    return <></>;
+  }
 
   return (
     <Stack spacing={16} mb={32}>
-      <Header id="settings" style={{ textAlign: 'left' }}>
-        {'Settings'}
-      </Header>
-      <Divider />
-      <Input
-        placeholder="gitpoap"
-        label={'GitHub Handle'}
-        description={
-          isLoggedIntoGitHub && (
-            <ConnectGithubAccount onClick={() => setGithubHandleValue(user?.githubHandle)}>
-              <FaRegEdit />
-              {' Use the currently authenticated GitHub account'}
-            </ConnectGithubAccount>
-          )
-        }
-        value={githubHandleValue ?? ''}
-        onChange={(e) => setGithubHandleValue(e.target.value)}
-        error={githubHandleValue && !isValidGithubHandle(githubHandleValue)}
-      />
+      <Header style={{ textAlign: 'left' }}>{'User Settings'}</Header>
+      <Text>{'Here you can manage your profile data and GitHub account connection.'}</Text>
+      <Divider mb={32} />
+
+      <Group position="apart" my={4}>
+        <Group>
+          <GoMarkGithub size={32} />
+          <Stack spacing={0}>
+            <Title order={5}>GitHub</Title>
+            {user.githubHandle && (
+              <Text size="xs">
+                {`You're connected as `}
+                <b>{user.githubHandle}</b>
+              </Text>
+            )}
+          </Stack>
+        </Group>
+        <Button
+          variant={user.capabilities.hasGithub ? 'outline' : 'filled'}
+          onClick={user.capabilities.hasGithub ? github.disconnect : github.authorize}
+        >
+          {user.capabilities.hasGithub ? 'DISCONNECT' : 'CONNECT'}
+        </Button>
+      </Group>
+
+      {/* Wait until we're ready to release */}
+      {hasEmailVerification && <EmailConnection />}
+
+      <Divider my={32} />
 
       <Input
         placeholder="gitpoap"
@@ -180,44 +146,31 @@ export const SettingsPage = () => {
         onChange={(e) => setIsVisibleOnLeaderboardValue(e.target.checked)}
       />
 
-      <div>
-        <Button
-          onClick={() =>
-            updateProfile({
-              twitterHandle: twitterHandleValue,
-              bio: bioValue,
-              personalSiteUrl: personSiteUrlValue,
-              githubHandle: githubHandleValue,
-              isVisibleOnLeaderboard: isVisibleOnLeaderboardValue,
-            })
-          }
-          disabled={!haveChangesBeenMade}
-          loading={isSaveLoading}
-          style={{ minWidth: rem(100) }}
-          leftIcon={
-            !haveChangesBeenMade && isSaveSuccessful ? <FaCheckCircle size={18} /> : undefined
-          }
-        >
-          {'Save'}
-        </Button>
-      </div>
-
-      <Header id="integrations" style={{ marginTop: rem(24), textAlign: 'left' }}>
-        {'Integrations'}
-      </Header>
-      <Divider />
-      <Group position="apart" p={16}>
-        <Group>
-          <GoMarkGithub size={32} />
-          <Title order={5}>GitHub</Title>
+      <Box my={rem(24)}>
+        <Group position="left">
+          <Button
+            onClick={() =>
+              updateProfile({
+                twitterHandle: twitterHandleValue,
+                bio: bioValue,
+                personalSiteUrl: personSiteUrlValue,
+                isVisibleOnLeaderboard: isVisibleOnLeaderboardValue,
+              })
+            }
+            disabled={!haveChangesBeenMade}
+            loading={isSaveLoading}
+            style={{ minWidth: rem(100) }}
+            leftIcon={
+              !haveChangesBeenMade && isSaveSuccessful ? <FaCheckCircle size={18} /> : undefined
+            }
+          >
+            {'Save'}
+          </Button>
+          <Button onClick={() => router.push(`/p/${user.ensName ?? user.address}`)}>
+            {'Visit Profile'}
+          </Button>
         </Group>
-        <Button
-          variant={isLoggedIntoGitHub ? 'outline' : 'filled'}
-          onClick={isLoggedIntoGitHub ? handleLogout : authorizeGitHub}
-        >
-          {isLoggedIntoGitHub ? 'DISCONNECT' : 'CONNECT'}
-        </Button>
-      </Group>
+      </Box>
     </Stack>
   );
 };

@@ -10,8 +10,7 @@ import { BREAKPOINTS, GITPOAP_API_URL } from '../../constants';
 import { RadioGroup } from '../shared/elements/Radio';
 import { Header } from '../shared/elements/Header';
 import { Text } from '../shared/elements/Text';
-import { showNotification } from '@mantine/notifications';
-import { NotificationFactory } from '../../notifications';
+import { Notifications } from '../../notifications';
 
 enum UserType {
   Contributor = 'Contributor',
@@ -166,15 +165,12 @@ export const SuggestionForm = () => {
         setEmail('');
         setRepoURL('');
         setUserType(undefined);
-        showNotification(
-          NotificationFactory.createSuccess('Success - Repo Submitted', 'Thanks! 🤓'),
-        );
+        Notifications.success('Success - Repo Submitted', 'Thanks! 🤓');
       }
     } catch (e) {
       console.warn(e);
-      showNotification(
-        NotificationFactory.createError('Error - Request Failed', 'Oops, something went wrong! 🤥'),
-      );
+
+      Notifications.error('Error - Request Failed');
     }
   }, [email, repoUrl, userType]);
 
