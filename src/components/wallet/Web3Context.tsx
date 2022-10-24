@@ -1,4 +1,12 @@
-import React, { useContext, useState, useCallback, createContext, useMemo, useEffect } from 'react';
+import React, {
+  useContext,
+  useState,
+  useCallback,
+  createContext,
+  useMemo,
+  useEffect,
+  useRef,
+} from 'react';
 import Web3Modal, { IProviderOptions, getInjectedProviderName } from 'web3modal';
 import { JsonRpcProvider, Web3Provider, ExternalProvider } from '@ethersproject/providers';
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
@@ -51,7 +59,6 @@ if (typeof window !== 'undefined') {
 type onChainProvider = {
   connect: () => Promise<Web3Provider | undefined>;
   disconnectWallet: () => void;
-  hasCachedProvider: () => boolean;
   address: string | null;
   ensName: string | null;
   connectionStatus: ConnectionStatus;
@@ -92,9 +99,10 @@ export const Web3ContextProvider = (props: Props) => {
   const [web3Modal, _] = useState<Web3Modal>(initWeb3Modal);
   const [address, setAddress] = useState<string | null>(null);
   const [web3Provider, setWeb3Provider] = useState<JsonRpcProvider | null>(null);
+  const hasAttemptedEagerConnect = useRef<boolean>(false);
+  const { setRefreshToken, setAccessToken, tokens } = useTokens();
   const api = useApi();
   const user = useUser();
-  const { setRefreshToken, setAccessToken, tokens } = useTokens();
   const router = useRouter();
   const [hasConnectedBefore, setHasConnectedBefore] = useLocalStorage<boolean>({
     key: 'hasConnectedBefore',
@@ -188,14 +196,6 @@ export const Web3ContextProvider = (props: Props) => {
     }
   }, [web3Modal, addListeners, initializeProvider, authenticate, tokens?.accessToken]);
 
-  const hasCachedProvider = useCallback(() => {
-    if (!web3Modal?.cachedProvider) {
-      return false;
-    }
-
-    return true;
-  }, [web3Modal]);
-
   /**
    * Hook to check whether a cached provider exists. If it does, connect to provider. It also
    * prevents MetaMask from prompting login on page load if the wallet is cached, but locked.
@@ -206,6 +206,7 @@ export const Web3ContextProvider = (props: Props) => {
         web3Modal.cachedProvider === 'injected' &&
         getInjectedProviderName()?.toLowerCase() === 'metamask'
       ) {
+        hasAttemptedEagerConnect.current = true;
         if (window.ethereum.request) {
           const accounts = await window.ethereum.request({ method: 'eth_accounts' });
           if (!accounts.length) {
@@ -217,33 +218,29 @@ export const Web3ContextProvider = (props: Props) => {
       await connect();
     };
 
-    const isCached = hasCachedProvider();
+    const isCached = !!web3Modal?.cachedProvider;
 
     /* Attempt to connect to cached provider */
-    if (connectionStatus === 'disconnected' && isCached) {
+    if (
+      connectionStatus === 'disconnected' &&
+      isCached &&
+      hasAttemptedEagerConnect.current === false &&
+      tokens?.accessToken
+    ) {
       connectToCachedProvider();
     }
-  }, [hasCachedProvider, connectionStatus, connect, web3Modal]);
+  }, [connectionStatus, connect, web3Modal, tokens?.accessToken]);
 
   const onChainProvider = useMemo(
     () => ({
       connect,
       disconnectWallet,
-      hasCachedProvider,
       connectionStatus,
       address,
       ensName: user?.ensName ?? null,
       web3Provider,
     }),
-    [
-      connect,
-      disconnectWallet,
-      hasCachedProvider,
-      connectionStatus,
-      address,
-      web3Provider,
-      user?.ensName,
-    ],
+    [connect, disconnectWallet, connectionStatus, address, web3Provider, user?.ensName],
   );
 
   return <Web3Context.Provider value={{ onChainProvider }}>{props.children}</Web3Context.Provider>;
