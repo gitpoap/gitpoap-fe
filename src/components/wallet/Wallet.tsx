@@ -49,19 +49,12 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             openDelay={POPOVER_HOVER_TIME}
             position="bottom-end"
             radius="md"
-            trigger="hover"
+            trigger="click"
             width={160}
           >
             <Menu.Target>
               <Box>
-                <WalletStatus
-                  onClick={() => {
-                    router.push(`/p/${ensName ?? address}`);
-                  }}
-                  address={address}
-                  ensName={ensName}
-                  hideText={hideText}
-                />
+                <WalletStatus address={address} ensName={ensName} hideText={hideText} />
               </Box>
             </Menu.Target>
             <Menu.Dropdown>
@@ -93,16 +86,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             icon={<FaEthereum size={16} />}
             buttonText={'DISCONNECT'}
             isHovering={isHovering}
-            target={
-              <WalletStatus
-                onClick={() => {
-                  router.push(`/p/${ensName ?? address}`);
-                }}
-                address={address}
-                ensName={ensName}
-                hideText={hideText}
-              />
-            }
+            target={<WalletStatus address={address} ensName={ensName} hideText={hideText} />}
           />
         )
       ) : (

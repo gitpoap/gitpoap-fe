@@ -10,6 +10,8 @@ import { TextDarkGray } from '../../colors';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { useGitPoapsQuery, GitPoapsQuery } from '../../graphql/generated-gql';
 import { Level } from '../../types';
+import { useUser } from '../../hooks/useUser';
+import { Link } from '../shared/compounds/Link';
 
 type Props = {
   address: string;
@@ -37,12 +39,14 @@ const determineLevel = (contributionCount: number): Level | undefined => {
 };
 
 export const GitPOAPs = ({ address }: Props) => {
+  const user = useUser();
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortOptions>('date');
   const [gitPOAPItems, setGitPOAPItems] = useState<GitPOAPItems>([]);
   const [total, setTotal] = useState<number>();
   const [searchValue, setSearchValue] = useState('');
   const perPage = 10;
+  const isCurrentUser = user?.address === address;
 
   const [result] = useGitPoapsQuery({
     variables: {
@@ -114,15 +118,25 @@ export const GitPOAPs = ({ address }: Props) => {
             })}
           </>
         )}
-        {result.operation && gitPOAPItems.length === 0 && (
-          <EmptyState icon={<FaTrophy color={TextDarkGray} size={rem(74)} />}>
-            <a href={'https://gitpoap.io/discord'} target="_blank" rel="noopener noreferrer">
-              <Title style={{ marginTop: rem(20) }}>
-                {'Get contributing! Head over to our Discord to get started.'}
-              </Title>
-            </a>
-          </EmptyState>
-        )}
+        {result.operation &&
+          gitPOAPItems.length === 0 &&
+          (isCurrentUser && !user.capabilities.hasGithub ? (
+            <EmptyState icon={<FaTrophy color={TextDarkGray} size={rem(74)} />}>
+              <Link href={'/settings'} passHref>
+                <Title style={{ marginTop: rem(20) }}>
+                  {'Connect GitHub account to check for GitPOAPs'}
+                </Title>
+              </Link>
+            </EmptyState>
+          ) : (
+            <EmptyState icon={<FaTrophy color={TextDarkGray} size={rem(74)} />}>
+              <a href={'https://gitpoap.io/discord'} target="_blank" rel="noopener noreferrer">
+                <Title style={{ marginTop: rem(20) }}>
+                  {'Get contributing! Head over to our Discord to get started.'}
+                </Title>
+              </a>
+            </EmptyState>
+          ))}
 
         {/* Fully Claimed GitPOAPs rendered next */}
         {gitPOAPItems &&

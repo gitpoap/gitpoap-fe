@@ -9,6 +9,7 @@ import { Button, ClaimCircle } from '../shared/elements';
 import { useRouter } from 'next/router';
 import { useFeatures } from '../FeaturesContext';
 import { useUser } from '../../hooks/useUser';
+import { GitPOAP } from '../shared/elements/icons';
 
 const Content = styled.div`
   display: flex;
@@ -20,6 +21,12 @@ const Content = styled.div`
 
 const ConnectedButton = styled(Button)<{ hideText?: boolean }>`
   min-width: ${(props) => (props.hideText ? 0 : rem(125))};
+`;
+
+const GitPOAPIcon = styled(GitPOAP)`
+  path {
+    fill: white;
+  }
 `;
 
 type Props = {
@@ -40,13 +47,11 @@ export const GitHub = ({ className, hideText }: Props) => {
   /* User has no connected GitHub account */
   if (!user?.capabilities.hasGithub) {
     return user === null && hasCheckEligibility ? (
-      !hideText ? (
-        <Content className={className}>
-          <Button onClick={() => router.push('/eligibility')}>{'Check Eligibility'}</Button>
-        </Content>
-      ) : (
-        <></>
-      )
+      <Content className={className}>
+        <Button onClick={() => router.push('/eligibility')}>
+          {hideText ? <GitPOAPIcon /> : 'Check Eligibility'}
+        </Button>
+      </Content>
     ) : (
       <Content className={className}>
         <Button

@@ -9,7 +9,6 @@ import { Avatar } from '../shared/elements';
 
 type Props = {
   address: string;
-  onClick: React.MouseEventHandler<HTMLDivElement>;
   ensName: string | null;
   hideText?: boolean;
 };
@@ -42,7 +41,7 @@ const StyledAvatar = styled(Avatar)`
   width: ${rem(16)};
 `;
 
-export const WalletStatus = ({ address, onClick, ensName, hideText }: Props) => {
+export const WalletStatus = ({ address, ensName, hideText }: Props) => {
   const { web3Provider, infuraProvider } = useWeb3Context();
   const [ensAvatarUrl, setEnsAvatarUrl] = useState<string | null>(null);
 
@@ -62,7 +61,7 @@ export const WalletStatus = ({ address, onClick, ensName, hideText }: Props) => 
 
   if (hideText) {
     return (
-      <Container onClick={onClick} variant="outline">
+      <Container variant="outline">
         {ensAvatarUrl ? (
           <StyledAvatar src={ensAvatarUrl} useDefaultImageTag />
         ) : (
@@ -80,7 +79,6 @@ export const WalletStatus = ({ address, onClick, ensName, hideText }: Props) => 
           <JazzIcon address={address} />
         )
       }
-      onClick={onClick}
       variant="outline"
     >
       {ensName ? ensName : shortenAddress(address)}
