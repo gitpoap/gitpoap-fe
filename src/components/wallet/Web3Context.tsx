@@ -1,13 +1,7 @@
 import React, { useContext, useState, useCallback, createContext, useMemo, useEffect } from 'react';
 import Web3Modal, { IProviderOptions, getInjectedProviderName } from 'web3modal';
-import {
-  JsonRpcProvider,
-  Web3Provider,
-  InfuraProvider,
-  ExternalProvider,
-} from '@ethersproject/providers';
+import { JsonRpcProvider, Web3Provider, ExternalProvider } from '@ethersproject/providers';
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
-import { NETWORKS } from '../../constants';
 import { BackgroundPanel, BackgroundPanel2, TextLight, TextGray } from '../../colors';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { useTokens } from '../../hooks/useTokens';
@@ -62,7 +56,6 @@ type onChainProvider = {
   ensName: string | null;
   connectionStatus: ConnectionStatus;
   web3Provider: JsonRpcProvider | null;
-  infuraProvider: InfuraProvider | null;
 };
 
 type Web3ContextState = {
@@ -99,7 +92,6 @@ export const Web3ContextProvider = (props: Props) => {
   const [web3Modal, _] = useState<Web3Modal>(initWeb3Modal);
   const [address, setAddress] = useState<string | null>(null);
   const [web3Provider, setWeb3Provider] = useState<JsonRpcProvider | null>(null);
-  const [infuraProvider, setInfuraProvider] = useState<InfuraProvider | null>(null);
   const api = useApi();
   const user = useUser();
   const { setRefreshToken, setAccessToken, tokens } = useTokens();
@@ -152,7 +144,7 @@ export const Web3ContextProvider = (props: Props) => {
       setWeb3Provider(web3Provider);
       return web3Provider;
     },
-    [infuraProvider],
+    [],
   );
 
   const addListeners = useCallback(
@@ -228,20 +220,10 @@ export const Web3ContextProvider = (props: Props) => {
     const isCached = hasCachedProvider();
 
     /* Attempt to connect to cached provider */
-    if (connectionStatus === 'disconnected' && isCached && infuraProvider) {
+    if (connectionStatus === 'disconnected' && isCached) {
       connectToCachedProvider();
     }
-  }, [hasCachedProvider, connectionStatus, connect, infuraProvider, web3Modal]);
-
-  useEffect(() => {
-    /* Always initialize a backup provider for when no wallet is connected */
-    if (!infuraProvider) {
-      const provider = new InfuraProvider(NETWORKS[1].chainId, {
-        projectId: process.env.NEXT_PUBLIC_INFURA_ID,
-      });
-      setInfuraProvider(provider);
-    }
-  }, [infuraProvider]);
+  }, [hasCachedProvider, connectionStatus, connect, web3Modal]);
 
   const onChainProvider = useMemo(
     () => ({
@@ -252,7 +234,6 @@ export const Web3ContextProvider = (props: Props) => {
       address,
       ensName: user?.ensName ?? null,
       web3Provider,
-      infuraProvider,
     }),
     [
       connect,
@@ -261,7 +242,6 @@ export const Web3ContextProvider = (props: Props) => {
       connectionStatus,
       address,
       web3Provider,
-      infuraProvider,
       user?.ensName,
     ],
   );
