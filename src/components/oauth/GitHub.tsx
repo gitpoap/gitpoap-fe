@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useClaimContext } from '../claims/ClaimContext';
-import { useOAuthContext } from './OAuthContext';
 import { rem } from 'polished';
 import { GoMarkGithub } from 'react-icons/go';
-import { DisconnectPopover } from '../shared/compounds/DisconnectPopover';
 import { Button, ClaimCircle } from '../shared/elements';
 import { useRouter } from 'next/router';
 import { useFeatures } from '../FeaturesContext';
@@ -36,11 +34,8 @@ type Props = {
 
 export const GitHub = ({ className, hideText }: Props) => {
   const { claimedIds, userClaims, setIsOpen } = useClaimContext();
-  const { github } = useOAuthContext();
   const user = useUser();
   const { hasCheckEligibility } = useFeatures();
-  const [isGHPopoverOpen, setIsGHPopoverOpen] = useState<boolean>(false);
-  const [isHovering, setIsHovering] = useState<boolean>(false);
   const userClaimCount = userClaims?.length;
   const router = useRouter();
 
@@ -69,38 +64,19 @@ export const GitHub = ({ className, hideText }: Props) => {
     const netClaims = userClaimCount - claimedIds.length;
     return (
       <Content className={className}>
-        <DisconnectPopover
-          // @TODO: Remove this popover and redirect to the settings page */
-          isOpen={false}
-          setIsOpen={setIsGHPopoverOpen}
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
-          onClose={() => setIsGHPopoverOpen(false)}
-          handleOnClick={github.disconnect}
-          icon={<GoMarkGithub size={16} />}
-          buttonText={'DISCONNECT'}
-          isHovering={isHovering}
-          target={
-            <Button
-              onClick={() => {
-                setIsOpen(true);
-                setIsGHPopoverOpen(false);
-              }}
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
-              leftIcon={!hideText && <GoMarkGithub size={16} />}
-              rightIcon={
-                !hideText && <ClaimCircle key={`claim-circle-${netClaims}`} value={netClaims} />
-              }
-            >
-              {hideText ? (
-                <ClaimCircle key={`claim-circle-${netClaims}`} value={netClaims} />
-              ) : (
-                'VIEW & MINT'
-              )}
-            </Button>
+        <Button
+          onClick={() => setIsOpen(true)}
+          leftIcon={!hideText && <GoMarkGithub size={16} />}
+          rightIcon={
+            !hideText && <ClaimCircle key={`claim-circle-${netClaims}`} value={netClaims} />
           }
-        />
+        >
+          {hideText ? (
+            <ClaimCircle key={`claim-circle-${netClaims}`} value={netClaims} />
+          ) : (
+            'VIEW & MINT'
+          )}
+        </Button>
       </Content>
     );
   }
@@ -108,30 +84,14 @@ export const GitHub = ({ className, hideText }: Props) => {
   /* Connected to GitHub, but NO open claims */
   return (
     <Content className={className}>
-      <DisconnectPopover
-        isOpen={isGHPopoverOpen}
-        setIsOpen={setIsGHPopoverOpen}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-        onClose={() => setIsGHPopoverOpen(false)}
-        handleOnClick={github.disconnect}
-        icon={<GoMarkGithub size={16} />}
-        buttonText={'DISCONNECT'}
-        isHovering={isHovering}
-        target={
-          <ConnectedButton
-            onClick={() => {
-              setIsOpen(true);
-              setIsGHPopoverOpen(false);
-            }}
-            variant="outline"
-            leftIcon={!hideText && <GoMarkGithub size={16} />}
-            hideText={hideText}
-          >
-            {hideText ? <GoMarkGithub size={16} /> : 'NONE TO MINT'}
-          </ConnectedButton>
-        }
-      />
+      <ConnectedButton
+        onClick={() => setIsOpen(true)}
+        variant="outline"
+        leftIcon={!hideText && <GoMarkGithub size={16} />}
+        hideText={hideText}
+      >
+        {hideText ? <GoMarkGithub size={16} /> : 'NONE TO MINT'}
+      </ConnectedButton>
     </Content>
   );
 };
