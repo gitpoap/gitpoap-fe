@@ -19,10 +19,6 @@ import { TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { SelectOption } from '../shared/compounds/ItemList';
 
-const LoaderContainer = styled(Group)`
-  height: 100%;
-`;
-
 const ShowMore = styled(Button)`
   align-self: center;
 `;
@@ -35,11 +31,6 @@ const Heading = styled.div`
   align-items: center;
   margin-top: ${rem(30)};
   margin-bottom: ${rem(15)};
-`;
-
-const Sorting = styled.div`
-  display: inline-flex;
-  flex-direction: row;
 `;
 
 const ListTitle = styled(Header)`
@@ -129,10 +120,10 @@ export const GitPOAPRequestList = () => {
       <Stack align="center" justify="flex-start" spacing="sm">
         <Heading>
           <ListTitle>{'GitPoap Requests'}</ListTitle>
-          <Sorting>
+          <Group>
             {!matchesBreakpointSmall && <FilterBy>{'Filter By: '}</FilterBy>}
             <Select data={selectOptions} value={filter} onChange={onSelectChange} />
-          </Sorting>
+          </Group>
         </Heading>
         {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
           <Text>{'No GitPoap Requests Found'}</Text>
@@ -145,9 +136,9 @@ export const GitPOAPRequestList = () => {
             ))}
         </Stack>
         {result.fetching && (
-          <LoaderContainer position="center" align="center">
+          <Group position="center" align="center" grow>
             <Loader size="xl" variant="dots" />
-          </LoaderContainer>
+          </Group>
         )}
         {!result.fetching && hasShowMoreButton && (
           <ShowMore

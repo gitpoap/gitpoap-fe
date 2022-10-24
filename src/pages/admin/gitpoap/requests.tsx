@@ -4,12 +4,14 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Grid } from '@mantine/core';
 import { Header } from '../../../components/shared/elements';
-import { useAuthContext } from '../../../components/github/AuthContext';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { GitPOAPRequestList } from '../../../components/admin/GitPOAPRequestList';
+import { useUser } from '../../../hooks/useUser';
+import { useIsDev } from '../../../hooks/useIsDev';
 
 const GitPoapRequestsDashboard: NextPage = () => {
-  const { isLoggedIntoGitHub, isDev } = useAuthContext();
+  const user = useUser();
+  const isDev = useIsDev();
 
   return (
     <>
@@ -27,7 +29,7 @@ const GitPoapRequestsDashboard: NextPage = () => {
       >
         <Header>{'Approve CGs'}</Header>
         <Grid.Col xs={12} sm={12} md={12} lg={12} xl={12}>
-          {isLoggedIntoGitHub || isDev ? <GitPOAPRequestList /> : <ConnectGitHub />}
+          {user || isDev ? <GitPOAPRequestList /> : <ConnectGitHub />}
         </Grid.Col>
       </Grid>
     </>
