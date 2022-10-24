@@ -97,7 +97,7 @@ export const CheckEligibility = () => {
         <SubHeader align="center" size="md">
           {"Search for your GitHub handle & check if you're eligible for any GitPOAPs"}
         </SubHeader>
-        {connectionStatus !== 'connected-to-wallet' && (
+        {connectionStatus === 'disconnected' && (
           <Button leftIcon={<FaEthereum size={16} />} onClick={() => connect()}>
             {'Sign In'}
           </Button>

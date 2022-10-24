@@ -70,6 +70,7 @@ type Web3ContextState = {
 } | null;
 
 type ConnectionStatus =
+  | 'uninitialized' /* Wallet connection hasn't been attempted yet */
   | 'disconnected' /* Not connected to any wallet */
   | 'disconnecting' /* Disconnecting from wallet */
   | 'connecting-wallet' /* Connecting to wallet & authenticating*/
@@ -95,7 +96,7 @@ export const useWeb3Context = () => {
 };
 
 export const Web3ContextProvider = (props: Props) => {
-  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('disconnected');
+  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('uninitialized');
   const [web3Modal, _] = useState<Web3Modal>(initWeb3Modal);
   const [address, setAddress] = useState<string | null>(null);
   const [web3Provider, setWeb3Provider] = useState<JsonRpcProvider | null>(null);
@@ -222,12 +223,14 @@ export const Web3ContextProvider = (props: Props) => {
 
     /* Attempt to connect to cached provider */
     if (
-      connectionStatus === 'disconnected' &&
+      connectionStatus === 'uninitialized' &&
       isCached &&
       hasAttemptedEagerConnect.current === false &&
       tokens?.accessToken
     ) {
       connectToCachedProvider();
+    } else if (!isCached && hasAttemptedEagerConnect.current === false) {
+      setConnectionStatus('disconnected');
     }
   }, [connectionStatus, connect, web3Modal, tokens?.accessToken]);
 
