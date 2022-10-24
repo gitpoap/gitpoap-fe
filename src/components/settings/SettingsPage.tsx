@@ -144,25 +144,28 @@ export const SettingsPage = () => {
         onChange={(e) => setIsVisibleOnLeaderboardValue(e.target.checked)}
       />
 
-      <Box mb={rem(24)}>
-        <Button
-          onClick={() =>
-            updateProfile({
-              twitterHandle: twitterHandleValue,
-              bio: bioValue,
-              personalSiteUrl: personSiteUrlValue,
-              isVisibleOnLeaderboard: isVisibleOnLeaderboardValue,
-            })
-          }
-          disabled={!haveChangesBeenMade}
-          loading={isSaveLoading}
-          style={{ minWidth: rem(100) }}
-          leftIcon={
-            !haveChangesBeenMade && isSaveSuccessful ? <FaCheckCircle size={18} /> : undefined
-          }
-        >
-          {'Save'}
-        </Button>
+      <Box my={rem(24)}>
+        <Group position="left">
+          <Button
+            onClick={() =>
+              updateProfile({
+                twitterHandle: twitterHandleValue,
+                bio: bioValue,
+                personalSiteUrl: personSiteUrlValue,
+                isVisibleOnLeaderboard: isVisibleOnLeaderboardValue,
+              })
+            }
+            disabled={!haveChangesBeenMade}
+            loading={isSaveLoading}
+            style={{ minWidth: rem(100) }}
+            leftIcon={
+              !haveChangesBeenMade && isSaveSuccessful ? <FaCheckCircle size={18} /> : undefined
+            }
+          >
+            {'Save'}
+          </Button>
+          <Button>Visit Profile</Button>
+        </Group>
       </Box>
     </Stack>
   );
