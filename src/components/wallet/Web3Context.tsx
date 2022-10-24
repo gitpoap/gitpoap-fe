@@ -14,7 +14,8 @@ import { useTokens } from '../../hooks/useTokens';
 import { useRefreshTokens } from '../../hooks/useRefreshTokens';
 import { useApi } from '../../hooks/useApi';
 import { useLocalStorage } from '@mantine/hooks';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
+import { useUser } from '../../hooks/useUser';
 
 type Props = {
   children: React.ReactNode;
@@ -99,8 +100,8 @@ export const Web3ContextProvider = (props: Props) => {
   const [address, setAddress] = useState<string | null>(null);
   const [web3Provider, setWeb3Provider] = useState<JsonRpcProvider | null>(null);
   const [infuraProvider, setInfuraProvider] = useState<InfuraProvider | null>(null);
-  const [ensName, setEnsName] = useState<string | null>(null);
   const api = useApi();
+  const user = useUser();
   const { setRefreshToken, setAccessToken, tokens } = useTokens();
   const router = useRouter();
   const [hasConnectedBefore, setHasConnectedBefore] = useLocalStorage<boolean>({
@@ -116,7 +117,6 @@ export const Web3ContextProvider = (props: Props) => {
     setConnectionStatus('disconnected');
     setAddress('');
     setWeb3Provider(null);
-    setEnsName(null);
     setRefreshToken(null);
     setAccessToken(null);
   }, [web3Modal]);
@@ -147,13 +147,6 @@ export const Web3ContextProvider = (props: Props) => {
     async (provider: ConstructorParameters<typeof Web3Provider>[0]): Promise<Web3Provider> => {
       const web3Provider = new Web3Provider(provider, 'any');
       const connectedAddress = await web3Provider?.getSigner().getAddress();
-
-      const ensName = await infuraProvider?.lookupAddress(connectedAddress);
-      if (ensName) {
-        setEnsName(ensName);
-      } else {
-        setEnsName(null);
-      }
 
       setAddress(connectedAddress);
       setWeb3Provider(web3Provider);
@@ -257,7 +250,7 @@ export const Web3ContextProvider = (props: Props) => {
       hasCachedProvider,
       connectionStatus,
       address,
-      ensName,
+      ensName: user?.ensName ?? null,
       web3Provider,
       infuraProvider,
     }),
@@ -267,9 +260,9 @@ export const Web3ContextProvider = (props: Props) => {
       hasCachedProvider,
       connectionStatus,
       address,
-      ensName,
       web3Provider,
       infuraProvider,
+      user?.ensName,
     ],
   );
 

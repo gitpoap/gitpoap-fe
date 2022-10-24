@@ -9,6 +9,7 @@ import { WalletStatus } from './WalletStatus';
 import { useWeb3Context } from './Web3Context';
 import { DisconnectPopover } from '../shared/compounds/DisconnectPopover';
 import { Button } from '../shared/elements/Button';
+import { useUser } from '../../hooks/useUser';
 
 const Content = styled.div`
   display: flex;
@@ -29,7 +30,10 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   const router = useRouter();
   const [isHovering, setIsHovering] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { connectionStatus, address, connect, disconnectWallet, ensName } = useWeb3Context();
+  const { connectionStatus, address, connect, disconnectWallet } = useWeb3Context();
+  const user = useUser();
+  const ensName = user?.ensName ?? null;
+  const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
 
   /* Ensure the popover is closed when the button switches to a connected state */
   useEffect(() => {
@@ -54,7 +58,12 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
           >
             <Menu.Target>
               <Box>
-                <WalletStatus address={address} ensName={ensName} hideText={hideText} />
+                <WalletStatus
+                  address={address}
+                  ensName={ensName}
+                  ensAvatarUrl={ensAvatarUrl}
+                  hideText={hideText}
+                />
               </Box>
             </Menu.Target>
             <Menu.Dropdown>
@@ -86,7 +95,14 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             icon={<FaEthereum size={16} />}
             buttonText={'DISCONNECT'}
             isHovering={isHovering}
-            target={<WalletStatus address={address} ensName={ensName} hideText={hideText} />}
+            target={
+              <WalletStatus
+                address={address}
+                ensName={ensName}
+                ensAvatarUrl={ensAvatarUrl}
+                hideText={hideText}
+              />
+            }
           />
         )
       ) : (
