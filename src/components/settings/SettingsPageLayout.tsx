@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Group, Header, NavLink, Stack } from '@mantine/core';
+import { Box, Container, Group, NavLink, Stack } from '@mantine/core';
 import { Jazzicon } from '@ukstv/jazzicon-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -40,7 +40,7 @@ const JazzIcon = styled(Jazzicon)`
 `;
 
 export const SettingsPageLayout = ({ children }: { children: React.ReactNode }) => {
-  const { asPath, router } = useRouter();
+  const router = useRouter();
   const user = useUser();
 
   if (!user) {
@@ -70,7 +70,7 @@ export const SettingsPageLayout = ({ children }: { children: React.ReactNode }) 
         <Box sx={() => ({ minWidth: rem(200) })} mb={48}>
           <Link href="/settings/profile" passHref>
             <NavLink
-              active={asPath === '/settings' || asPath === '/settings/profile'}
+              active={router.asPath === '/settings' || router.asPath === '/settings/profile'}
               label="Settings"
               icon={<PeopleIcon />}
             />
