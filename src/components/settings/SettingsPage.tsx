@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Stack, Divider, Group, Title, Box } from '@mantine/core';
+import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { useOAuthContext } from '../oauth/OAuthContext';
@@ -37,6 +38,7 @@ export const SettingsPage = () => {
   const { github } = useOAuthContext();
   const user = useUser();
   const { hasEmailVerification } = useFeatures();
+  const router = useRouter();
 
   const [personSiteUrlValue, setPersonalSiteUrlValue] = useState<string | undefined | null>(
     profileData?.personalSiteUrl,
@@ -164,7 +166,9 @@ export const SettingsPage = () => {
           >
             {'Save'}
           </Button>
-          <Button>Visit Profile</Button>
+          <Button onClick={() => router.push(`/p/${user.ensName ?? user.address}`)}>
+            {'Visit Profile'}
+          </Button>
         </Group>
       </Box>
     </Stack>
