@@ -104,7 +104,8 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const { canSeeAdmin, tokens } = useAuthContext();
   const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
     useDisclosure(false);
-  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
+  const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
+    useDisclosure(false);
   const [approveStatus, setApproveStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [rejectStatus, setRejectStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
@@ -143,8 +144,8 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
     <>
       <Group align="center" position="center" spacing="md">
         <Popover
-          opened={isPopoverOpen}
-          onClose={() => setIsPopoverOpen(false)}
+          opened={isImagePopoverOpen}
+          onClose={closeImagePopover}
           position="left"
           withArrow
           trapFocus={false}
@@ -159,10 +160,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
           radius="lg"
         >
           <Popover.Target>
-            <div
-              onMouseEnter={() => setIsPopoverOpen(true)}
-              onMouseLeave={() => setIsPopoverOpen(false)}
-            >
+            <div onMouseEnter={openImagePopover} onMouseLeave={closeImagePopover}>
               {matchesBreakpointSmall ? (
                 <GitPOAPBadge
                   imgUrl={generateS3ImageUrl(gitPOAPRequest.imageKey)}
