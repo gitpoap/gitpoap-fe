@@ -93,15 +93,13 @@ export const CheckEligibility = () => {
       <Stack mb={rem(40)} align="center">
         <StyledHeader mb={rem(18)}>{'Check Eligibility'}</StyledHeader>
         <SubHeader align="center" size="md">
-          {
-            "Check  whether you're eligible for any GitPOAPs. Search for ETH addresses, ENS Names, Emails, and GitHub Handles"
-          }
+          {"Search for your GitHub handle & check if you're eligible for any GitPOAPs"}
         </SubHeader>
       </Stack>
       <StyledSearch
         mb={rem(40)}
         style={{ marginBottom: rem(40), width: rem(500) }}
-        placeholder={'GITPOAP, TEAM@GITPOAP.IO, GITPOAP.ETH, 0x...'}
+        placeholder={'VBUTERIN...'}
         value={searchValue ?? ''}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
         icon={result.fetching ? <Loader size={18} /> : <FaSearch />}
@@ -111,7 +109,9 @@ export const CheckEligibility = () => {
       !result.fetching &&
       debouncedSearch &&
       debouncedSearch.length > 0 ? (
-        <Text style={{ marginBottom: rem(40), fontSize: rem(18) }}>{'No results found'}</Text>
+        <Text style={{ marginBottom: rem(40), fontSize: rem(18) }}>
+          {'No unminted GitPOAPs found'}
+        </Text>
       ) : (
         <ClaimListContainer mt={rem(50)} mb={rem(55)}>
           <>
