@@ -85,7 +85,7 @@ export const SettingsPage = () => {
   return (
     <Stack spacing={16} mb={32}>
       <Header style={{ textAlign: 'left' }}>{'User Settings'}</Header>
-      <Text>{'Here you can manage your Profile data and Github account connection.'}</Text>
+      <Text>{'Here you can manage your profile data and GitHub account connection.'}</Text>
       <Divider mb={32} />
 
       <Group position="apart" my={4}>
