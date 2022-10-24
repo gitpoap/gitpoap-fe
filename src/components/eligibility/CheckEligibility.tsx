@@ -93,7 +93,7 @@ export const CheckEligibility = () => {
   return (
     <Stack align="center" mt={rem(80)} justify="center">
       <Stack align="center">
-        <StyledHeader mb={rem(18)}>{'Check Eligibility'}</StyledHeader>
+        <StyledHeader>{'Check Eligibility'}</StyledHeader>
         <SubHeader align="center" size="md">
           {"Search for your GitHub handle & check if you're eligible for any GitPOAPs"}
         </SubHeader>
