@@ -17,7 +17,6 @@ import {
   Text,
   TextArea as TextAreaUI,
 } from '../shared/elements';
-import { ExtraHover, ExtraPressed } from '../../colors';
 import { isValidTwitterHandle, isValidURL } from '../../helpers';
 import { useFeatures } from '../FeaturesContext';
 
@@ -84,9 +83,8 @@ export const SettingsPage = () => {
 
   return (
     <Stack spacing={16} mb={32}>
-      <Header style={{ textAlign: 'left' }}>{'User Settings'}</Header>
-      <Text>{'Here you can manage your Profile data and Github account connection.'}</Text>
-      <Divider mb={32} />
+      <Header style={{ textAlign: 'left' }}>{'Connect GitHub'}</Header>
+      <Divider />
 
       <Group position="apart" my={4}>
         <Group>
@@ -112,8 +110,8 @@ export const SettingsPage = () => {
       {/* Wait until we're ready to release */}
       {hasEmailVerification && <EmailConnection />}
 
-      <Divider my={32} />
-
+      <Header style={{ textAlign: 'left', marginTop: rem(32) }}>{'Public Profile'}</Header>
+      <Divider />
       <Input
         placeholder="gitpoap"
         label={'Twitter Handle'}

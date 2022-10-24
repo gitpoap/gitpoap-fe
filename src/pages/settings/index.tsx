@@ -7,6 +7,8 @@ import { useWeb3Context } from '../../components/wallet/Web3Context';
 import { Button, Header } from '../../components/shared/elements';
 import { ProfileProvider } from '../../components/profile/ProfileContext';
 import { FaEthereum } from 'react-icons/fa';
+import { SettingsPageLayout } from '../../components/settings/SettingsPageLayout';
+import React from 'react';
 
 const Wrapper = styled(Container)`
   width: 100vw;
@@ -16,7 +18,7 @@ const Settings: Page = () => {
   const { address, connect, connectionStatus } = useWeb3Context();
 
   return (
-    <Wrapper size={600} my={48}>
+    <Wrapper size={600} style={{ width: '100%' }}>
       <SEO
         title={`Settings | GitPOAP`}
         description={`GitPOAP - a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.`}
@@ -42,6 +44,10 @@ const Settings: Page = () => {
       )}
     </Wrapper>
   );
+};
+
+Settings.getLayout = function getLayout(page: React.ReactNode) {
+  return <SettingsPageLayout>{page}</SettingsPageLayout>;
 };
 
 export default Settings;
