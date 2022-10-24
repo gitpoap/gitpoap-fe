@@ -4,10 +4,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import styled from 'styled-components';
-
 import { WalletStatus } from './WalletStatus';
 import { useWeb3Context } from './Web3Context';
-import { DisconnectPopover } from '../shared/compounds/DisconnectPopover';
 import { Button } from '../shared/elements/Button';
 import { useUser } from '../../hooks/useUser';
 
@@ -81,28 +79,11 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             </Menu.Dropdown>
           </Menu>
         ) : (
-          <DisconnectPopover
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-            onClose={() => setIsOpen(false)}
-            handleOnClick={() => {
-              setIsOpen(false);
-              setIsHovering(false);
-              disconnectWallet();
-            }}
-            icon={<FaEthereum size={16} />}
-            buttonText={'DISCONNECT'}
-            isHovering={isHovering}
-            target={
-              <WalletStatus
-                address={address}
-                ensName={ensName}
-                ensAvatarUrl={ensAvatarUrl}
-                hideText={hideText}
-              />
-            }
+          <WalletStatus
+            address={address}
+            ensName={ensName}
+            ensAvatarUrl={ensAvatarUrl}
+            hideText={hideText}
           />
         )
       ) : (
