@@ -19,14 +19,7 @@ import { TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { SelectOption } from '../shared/compounds/ItemList';
 
-const Container = styled(Group)`
-  padding: 0 ${rem(20)};
-`;
-
-const LoaderContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const LoaderContainer = styled(Group)`
   height: 100%;
 `;
 
@@ -132,47 +125,41 @@ export const GitPOAPRequestList = () => {
   }, [result]);
 
   return (
-    <Container position="center">
-      {!accessToken ? (
-        <>
-          <Stack align="center" justify="flex-start" spacing="sm">
-            <Heading>
-              <ListTitle>{'GitPoap Requests'}</ListTitle>
-              <Sorting>
-                {!matchesBreakpointSmall && <FilterBy>{'Filter By: '}</FilterBy>}
-                <Select data={selectOptions} value={filter} onChange={onSelectChange} />
-              </Sorting>
-            </Heading>
-            {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
-              <Text>{'No GitPoap Requests Found'}</Text>
-            )}
-            <Stack>
-              {gitPOAPRequests &&
-                gitPOAPRequests.length > 0 &&
-                gitPOAPRequests.map((gitPOAPRequest) => (
-                  <GitPOAPRequest key={gitPOAPRequest.id} gitPOAPRequest={gitPOAPRequest} />
-                ))}
-            </Stack>
-            {result.fetching && (
-              <LoaderContainer>
-                <Loader size="xl" variant="dots" />
-              </LoaderContainer>
-            )}
-            {!result.fetching && hasShowMoreButton && (
-              <ShowMore
-                onClick={showMoreOnClick}
-                leftIcon={<FaPlus />}
-                variant="outline"
-                loading={result.fetching}
-              >
-                {'Show more'}
-              </ShowMore>
-            )}
-          </Stack>
-        </>
-      ) : (
-        <ConnectGitHub />
-      )}
-    </Container>
+    <Group position="center" py={0} px={rem(20)}>
+      <Stack align="center" justify="flex-start" spacing="sm">
+        <Heading>
+          <ListTitle>{'GitPoap Requests'}</ListTitle>
+          <Sorting>
+            {!matchesBreakpointSmall && <FilterBy>{'Filter By: '}</FilterBy>}
+            <Select data={selectOptions} value={filter} onChange={onSelectChange} />
+          </Sorting>
+        </Heading>
+        {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
+          <Text>{'No GitPoap Requests Found'}</Text>
+        )}
+        <Stack>
+          {gitPOAPRequests &&
+            gitPOAPRequests.length > 0 &&
+            gitPOAPRequests.map((gitPOAPRequest) => (
+              <GitPOAPRequest key={gitPOAPRequest.id} gitPOAPRequest={gitPOAPRequest} />
+            ))}
+        </Stack>
+        {result.fetching && (
+          <LoaderContainer position="center" align="center">
+            <Loader size="xl" variant="dots" />
+          </LoaderContainer>
+        )}
+        {!result.fetching && hasShowMoreButton && (
+          <ShowMore
+            onClick={showMoreOnClick}
+            leftIcon={<FaPlus />}
+            variant="outline"
+            loading={result.fetching}
+          >
+            {'Show more'}
+          </ShowMore>
+        )}
+      </Stack>
+    </Group>
   );
 };

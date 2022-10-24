@@ -27,9 +27,13 @@ export type GitPOAPRequestType = {
   contributors: ContributorsType;
   project?: {
     __typename?: 'Project';
-    repos: Array<{ __typename?: 'Repo'; id: number; name: string }>;
+    repos: Array<{
+      __typename?: 'Repo';
+      id: number;
+      name: string;
+      organization: { __typename?: 'Organization'; id: number; name: string };
+    }>;
   } | null;
-  organization?: { __typename?: 'Organization'; id: number; name: string } | null;
 };
 
 type Props = {
@@ -92,6 +96,10 @@ const ButtonContainer = styled(Stack)`
   }
 `;
 
+const generateS3ImageUrl = (imageKey: string): string => {
+  return `https://s3.us-east-2.amazonaws.com/${imageKey}`;
+};
+
 export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const { canSeeAdmin, tokens } = useAuthContext();
   const [opened, { open, close }] = useDisclosure(false);
@@ -101,6 +109,8 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
 
   const accessToken = tokens?.accessToken ?? '';
+  const project = gitPOAPRequest.project?.repos[0];
+  const organization = gitPOAPRequest.project?.repos[0]?.organization;
 
   const submitApproveGitPOAPRequest = useCallback(async () => {
     setApproveStatus(ButtonStatus.LOADING);
@@ -154,13 +164,13 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
             >
               {matchesBreakpointSmall ? (
                 <GitPOAPBadge
-                  imgUrl={`https://s3.us-east-2.amazonaws.com/${gitPOAPRequest.imageKey}`}
+                  imgUrl={generateS3ImageUrl(gitPOAPRequest.imageKey)}
                   altText="preview"
                   size={'md'}
                 />
               ) : (
                 <GitPOAPBadge
-                  imgUrl={`https://s3.us-east-2.amazonaws.com/${gitPOAPRequest.imageKey}`}
+                  imgUrl={generateS3ImageUrl(gitPOAPRequest.imageKey)}
                   altText="preview"
                   size={'sm'}
                 />
@@ -168,13 +178,13 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
             </div>
           </Popover.Target>
           <Popover.Dropdown>
-            <div style={{ display: 'flex' }}>
+            <Group>
               <GitPOAPBadge
-                imgUrl={`https://s3.us-east-2.amazonaws.com/${gitPOAPRequest.imageKey}`}
+                imgUrl={generateS3ImageUrl(gitPOAPRequest.imageKey)}
                 altText="preview"
                 size={'lg'}
               />
-            </div>
+            </Group>
           </Popover.Dropdown>
         </Popover>
         <Group align="start" spacing="sm">
@@ -191,20 +201,16 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
               <Label>{'Email:'}</Label>
               <Value>{gitPOAPRequest.email}</Value>
             </Group>
-            {gitPOAPRequest.project && gitPOAPRequest.project.repos && (
+            {project && (
               <Group spacing="sm">
                 <Label>{'Project:'}</Label>
-                <Link href={`/rp/${gitPOAPRequest.project.repos[0].id}`}>
-                  {gitPOAPRequest.project.repos[0].name}
-                </Link>
+                <Link href={`/rp/${project.id}`}>{project.name}</Link>
               </Group>
             )}
-            {gitPOAPRequest.organization && (
+            {organization && (
               <Group spacing="sm">
                 <Label>{'Organization:'}</Label>
-                <Link href={`/org/${gitPOAPRequest.organization.id}`}>
-                  {gitPOAPRequest.organization.name}
-                </Link>
+                <Link href={`/org/${organization.id}`}>{organization.name}</Link>
               </Group>
             )}
           </Stack>
@@ -235,15 +241,15 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
               >
                 {gitPOAPRequest.contributors.githubHandles &&
                   gitPOAPRequest.contributors.githubHandles.map((githubHandle) => (
-                    <p key={githubHandle}>{githubHandle}</p>
+                    <Text key={githubHandle}>{githubHandle}</Text>
                   ))}
                 {gitPOAPRequest.contributors.ethAddresses &&
                   gitPOAPRequest.contributors.ethAddresses.map((ethAddress) => (
-                    <p key={ethAddress}>{ethAddress}</p>
+                    <Text key={ethAddress}>{ethAddress}</Text>
                   ))}
                 {gitPOAPRequest.contributors.ensNames &&
                   gitPOAPRequest.contributors.ensNames.map((ensName) => (
-                    <p key={ensName}>{ensName}</p>
+                    <Text key={ensName}>{ensName}</Text>
                   ))}
                 {gitPOAPRequest.contributors.emails &&
                   gitPOAPRequest.contributors.emails.map((email) => <p key={email}>{email}</p>)}

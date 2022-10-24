@@ -803,12 +803,12 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStat
       repos(take: 1) {
         id
         name
-      }
-    }
 
-    organization {
-      id
-      name
+        organization {
+          id
+          name
+        }
+      }
     }
   }
 }

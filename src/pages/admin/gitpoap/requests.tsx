@@ -14,15 +14,15 @@ const GitPoapRequestsDashboard: NextPage = () => {
   return (
     <>
       <Head>
-        <title>{'GitPoap Requests | GitPOAP'}</title>
+        <title>{'Requests | GitPOAP'}</title>
         <meta name="description" content="GitPOAP Admin" />
       </Head>
       <Grid
         justify="center"
+        mt={rem(20)}
+        mb={rem(20)}
         style={{
           flex: 1,
-          marginTop: rem(20),
-          marginBottom: rem(20),
         }}
       >
         <Header>{'Approve CGs'}</Header>

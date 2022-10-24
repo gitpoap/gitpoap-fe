@@ -5721,21 +5721,21 @@ export type EligibleClaimsQuery = {
     id: number;
     email?: { __typename?: 'Email'; emailAddress: string } | null;
     issuedAddress?: { __typename?: 'Address'; ethAddress: string; ensName?: string | null } | null;
-    user: { __typename?: 'User'; githubHandle: string };
+    user?: { __typename?: 'User'; githubHandle: string } | null;
     gitPOAP: {
       __typename?: 'GitPOAP';
       id: number;
       name: string;
       description: string;
       imageUrl: string;
-      project: {
+      project?: {
         __typename?: 'Project';
         repos: Array<{
           __typename?: 'Repo';
           name: string;
           organization: { __typename?: 'Organization'; name: string };
         }>;
-      };
+      } | null;
     };
   }>;
 };
@@ -6282,9 +6282,13 @@ export type GitPoapRequestsQuery = {
     contributors: any;
     project?: {
       __typename?: 'Project';
-      repos: Array<{ __typename?: 'Repo'; id: number; name: string }>;
+      repos: Array<{
+        __typename?: 'Repo';
+        id: number;
+        name: string;
+        organization: { __typename?: 'Organization'; id: number; name: string };
+      }>;
     } | null;
-    organization?: { __typename?: 'Organization'; id: number; name: string } | null;
   }>;
 };
 
@@ -6367,10 +6371,7 @@ export const GitpoapByPoapEventIdDocument = gql`
     gitPOAP(where: { poapEventId: $poapEventId }) {
       id
       poapEventId
-<<<<<<< HEAD
-=======
       poapApprovalStatus
->>>>>>> fix: gitpoap status name
       project {
         repos {
           name
@@ -7638,11 +7639,11 @@ export const GitPoapRequestsDocument = gql`
         repos(take: 1) {
           id
           name
+          organization {
+            id
+            name
+          }
         }
-      }
-      organization {
-        id
-        name
       }
     }
   }
