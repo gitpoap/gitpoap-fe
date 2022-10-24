@@ -50,10 +50,7 @@ export class GitPOAPAPI extends API {
     );
 
     if (!res) {
-      Notifications.error(
-        `Error - Request Failed for ${values.name}`,
-        'Oops, something went wrong! 🤥',
-      );
+      Notifications.error(`Error - Request Failed for ${values.name}`);
 
       return null;
     }

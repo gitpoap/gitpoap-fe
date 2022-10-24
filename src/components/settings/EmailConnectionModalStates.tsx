@@ -74,7 +74,7 @@ export const EmailConnectionModalConnect = ({
                   setStatus('SUBMITTED');
                 }
               } catch (err) {
-                Notifications.error('Oops, something went wrong! 🤥');
+                Notifications.error('Oops, something went wrong!');
               }
             }
           }}
@@ -161,7 +161,7 @@ export const EmailConnectionModalPending = ({ closeModal, setStatus, userEmail }
                 setStatus('CONNECT');
               }
             } catch (err) {
-              Notifications.error('Oops, something went wrong! 🤥');
+              Notifications.error('Oops, something went wrong!');
             }
           }}
         >
@@ -228,7 +228,7 @@ export const EmailConnectionModalDisconnect = ({
                 setStatus('CONNECT');
               }
             } catch (err) {
-              Notifications.error('Oops, something went wrong! 🤥');
+              Notifications.error('Oops, something went wrong!');
             }
           }}
         >

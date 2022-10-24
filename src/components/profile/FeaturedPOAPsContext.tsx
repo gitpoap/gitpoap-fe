@@ -145,10 +145,7 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.error(err);
-          Notifications.error(
-            'Error - Request to add a featured POAP failed',
-            'Oops, something went wrong! 🤥',
-          );
+          Notifications.error('Error - Request to add a featured POAP failed');
         }
         setLoadingIds((prevState) => {
           const { [poapTokenId]: _, ...newState } = prevState;
@@ -181,10 +178,7 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.error(err);
-          Notifications.error(
-            'Error - Request to remove a featured POAP failed',
-            'Oops, something went wrong! 🤥',
-          );
+          Notifications.error('Error - Request to remove a featured POAP failed');
         }
         setLoadingIds((prevState) => {
           const { [poapTokenId]: _, ...newState } = prevState;

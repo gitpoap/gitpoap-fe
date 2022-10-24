@@ -19,7 +19,7 @@ export const VerifyEmail = ({ token }: Props) => {
 
     if (!data) {
       setStatus('INVALID');
-      Notifications.error('Oops, something went wrong! 🤥');
+      Notifications.error('Oops, something went wrong!');
       return;
     }
 

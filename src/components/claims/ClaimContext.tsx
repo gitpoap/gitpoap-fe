@@ -94,10 +94,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.warn(err);
-          Notifications.error(
-            'Error - Request to claim GitPOAP failed',
-            'Oops, something went wrong! 🤥',
-          );
+          Notifications.error('Error - Request to claim GitPOAP failed');
         }
         setLoadingClaimIds([]);
       }

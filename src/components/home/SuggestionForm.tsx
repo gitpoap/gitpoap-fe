@@ -170,7 +170,7 @@ export const SuggestionForm = () => {
     } catch (e) {
       console.warn(e);
 
-      Notifications.error('Error - Request Failed', 'Oops, something went wrong! 🤥');
+      Notifications.error('Error - Request Failed');
     }
   }, [email, repoUrl, userType]);
 

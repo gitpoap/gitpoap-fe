@@ -19,9 +19,7 @@ export const Error: ComponentStory<typeof Notification> = () => {
     <Container>
       <Button
         variant="outline"
-        onClick={() =>
-          Notifications.error('Error - Request Failed', 'Oops, something went wrong! 🤥')
-        }
+        onClick={() => Notifications.error('Error - Request Failed', 'Oops, something went wrong!')}
       >
         Show customized notification
       </Button>
