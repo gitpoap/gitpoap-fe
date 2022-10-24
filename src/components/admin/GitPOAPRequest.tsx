@@ -102,7 +102,8 @@ const generateS3ImageUrl = (imageKey: string): string => {
 
 export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const { canSeeAdmin, tokens } = useAuthContext();
-  const [opened, { open, close }] = useDisclosure(false);
+  const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
+    useDisclosure(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const [approveStatus, setApproveStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [rejectStatus, setRejectStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
@@ -232,11 +233,11 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
               <Value>{gitPOAPRequest.numRequestedCodes}</Value>
             </Group>
             <Group spacing="sm">
-              <Link onClick={open}>{'Show Contributors'}</Link>
+              <Link onClick={openContributorModal}>{'Show Contributors'}</Link>
               <Modal
                 centered
-                opened={opened}
-                onClose={close}
+                opened={isContributorModalOpen}
+                onClose={closeContributorModal}
                 title={<HeaderStyled>{'Contributors'}</HeaderStyled>}
               >
                 {gitPOAPRequest.contributors.githubHandles &&
