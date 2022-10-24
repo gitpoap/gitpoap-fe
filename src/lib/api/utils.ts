@@ -77,25 +77,31 @@ export const makeAPIRequestWithAuth = async (
   return response;
 };
 
+type SignatureData = {
+  message: string;
+  createdAt: number;
+};
+
+export function generateSignatureMessage(address: string, createdAt: number): string {
+  return `This signature attests that I am ${address.toLowerCase()}, for the purpose of signing into GitPOAP.
+Signing this message requires no ETH and will not create or send a transaction.
+Created at: ${createdAt}.`;
+}
+
+export function generateSignatureData(address: string): SignatureData {
+  const createdAt = Date.now();
+  const message = generateSignatureMessage(address, createdAt);
+
+  return { message, createdAt };
+}
+
 /**
  * This utility function signs a message with the user's wallet & returns the resulting
  * signature.
  */
-export const sign = async <DataType = unknown>(
-  signer: JsonRpcSigner,
-  timestamp: number,
-  method: Methods,
-  data: DataType,
-) => {
+export const sign = async (signer: JsonRpcSigner, message: string) => {
   try {
-    return await signer.signMessage(
-      JSON.stringify({
-        site: 'gitpoap.io',
-        method,
-        createdAt: timestamp,
-        data,
-      }),
-    );
+    return await signer.signMessage(message);
   } catch (e) {
     console.error(e);
     return null;

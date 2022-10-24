@@ -1,5 +1,12 @@
 import { JsonRpcSigner } from '@ethersproject/providers';
-import { API, Tokens, makeAPIRequest, makeAPIRequestWithAuth, sign } from './utils';
+import {
+  API,
+  Tokens,
+  makeAPIRequest,
+  makeAPIRequestWithAuth,
+  sign,
+  generateSignatureData,
+} from './utils';
 
 export class AuthAPI extends API {
   protected refreshToken: string | null;
@@ -10,10 +17,9 @@ export class AuthAPI extends API {
   }
 
   async authenticate(signer: JsonRpcSigner) {
-    const timestamp = Date.now();
     const address = await signer.getAddress();
-
-    const signatureString = await sign<string>(signer, timestamp, 'POST /auth', address);
+    const signatureData = generateSignatureData(address);
+    const signatureString = await sign(signer, signatureData.message);
 
     if (!signatureString) {
       return null;
@@ -24,9 +30,10 @@ export class AuthAPI extends API {
       'POST',
       JSON.stringify({
         address,
-        signature: {
-          data: signatureString,
-          createdAt: timestamp,
+        signatureData: {
+          signature: signatureString,
+          message: signatureData.message,
+          createdAt: signatureData.createdAt,
         },
       }),
     );
