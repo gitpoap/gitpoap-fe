@@ -4,8 +4,6 @@ import { rem } from 'polished';
 import { Group, Loader, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { FaPlus } from 'react-icons/fa';
-import { useAuthContext } from '../github/AuthContext';
-import { ConnectGitHub } from './ConnectGitHub';
 import {
   useGitPoapRequestsQuery,
   useTotalGitPoapRequestsCountQuery,
@@ -18,6 +16,7 @@ import { Header } from '../../components/shared/elements/Header';
 import { TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { SelectOption } from '../shared/compounds/ItemList';
+import { useTokens } from '../../hooks/useTokens';
 
 const ShowMore = styled(Button)`
   align-self: center;
@@ -73,7 +72,7 @@ const selectOptions: SelectOption<SortOptions>[] = [
 const perPage = 20;
 
 export const GitPOAPRequestList = () => {
-  const { tokens } = useAuthContext();
+  const { tokens } = useTokens();
   const [skip, setSkip] = useState(0);
   const [filter, setFilter] = useState<SortOptions>('Pending');
   const [gitPOAPRequests, setGitPOAPRequests] = useState<GitPOAPRequestType[]>([]);
