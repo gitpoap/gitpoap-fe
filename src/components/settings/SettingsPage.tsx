@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Stack, Divider, Group, Title, Box } from '@mantine/core';
+import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { useOAuthContext } from '../oauth/OAuthContext';
@@ -15,13 +16,10 @@ import {
   Header,
   Text,
   TextArea as TextAreaUI,
-  Avatar as AvatarUI,
-  CopyableText,
 } from '../shared/elements';
-import { ExtraHover, ExtraPressed, TextAccent, TextGray } from '../../colors';
-import { isValidTwitterHandle, isValidURL, truncateAddress } from '../../helpers';
+import { ExtraHover, ExtraPressed } from '../../colors';
+import { isValidTwitterHandle, isValidURL } from '../../helpers';
 import { useFeatures } from '../FeaturesContext';
-import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 
 const Input = styled(InputUI)`
   flex: 1;
@@ -29,41 +27,6 @@ const Input = styled(InputUI)`
 
 const TextArea = styled(TextAreaUI)`
   flex: 1;
-`;
-
-const ConnectGithubAccount = styled(Text)`
-  color: ${TextGray};
-  font-size: ${rem(12)};
-  line-height: 1.2;
-
-  display: inline-flex;
-  gap: ${rem(8)};
-  transition: 150ms color ease;
-
-  &:active {
-    color: ${ExtraPressed};
-    cursor: pointer;
-  }
-
-  &:hover:not(:active) {
-    color: ${ExtraHover};
-    cursor: pointer;
-  }
-`;
-
-const Name = styled(Header)`
-  font-size: ${rem(32)};
-  color: ${TextAccent};
-`;
-
-const Avatar = styled(AvatarUI)`
-  height: ${rem(100)};
-  width: ${rem(100)};
-`;
-
-const JazzIcon = styled(JazzIconReact)`
-  height: ${rem(100)};
-  width: ${rem(100)};
 `;
 
 export const SettingsText = styled(Text)`
@@ -75,6 +38,7 @@ export const SettingsPage = () => {
   const { github } = useOAuthContext();
   const user = useUser();
   const { hasEmailVerification } = useFeatures();
+  const router = useRouter();
 
   const [personSiteUrlValue, setPersonalSiteUrlValue] = useState<string | undefined | null>(
     profileData?.personalSiteUrl,
@@ -120,17 +84,9 @@ export const SettingsPage = () => {
 
   return (
     <Stack spacing={16} mb={32}>
-      <Group mb={48}>
-        {user.ensAvatarImageUrl ? (
-          <Avatar src={user.ensAvatarImageUrl} />
-        ) : (
-          <JazzIcon address={user.address} />
-        )}
-        <Stack spacing={0}>
-          <Name>{user.ensName ?? truncateAddress(user.address, 14)}</Name>
-          <CopyableText text={truncateAddress(user.address, 14)} textToCopy={user.address} />
-        </Stack>
-      </Group>
+      <Header style={{ textAlign: 'left' }}>{'User Settings'}</Header>
+      <Text>{'Here you can manage your profile data and GitHub account connection.'}</Text>
+      <Divider mb={32} />
 
       <Group position="apart" my={4}>
         <Group>
@@ -190,25 +146,30 @@ export const SettingsPage = () => {
         onChange={(e) => setIsVisibleOnLeaderboardValue(e.target.checked)}
       />
 
-      <Box mb={rem(24)}>
-        <Button
-          onClick={() =>
-            updateProfile({
-              twitterHandle: twitterHandleValue,
-              bio: bioValue,
-              personalSiteUrl: personSiteUrlValue,
-              isVisibleOnLeaderboard: isVisibleOnLeaderboardValue,
-            })
-          }
-          disabled={!haveChangesBeenMade}
-          loading={isSaveLoading}
-          style={{ minWidth: rem(100) }}
-          leftIcon={
-            !haveChangesBeenMade && isSaveSuccessful ? <FaCheckCircle size={18} /> : undefined
-          }
-        >
-          {'Save'}
-        </Button>
+      <Box my={rem(24)}>
+        <Group position="left">
+          <Button
+            onClick={() =>
+              updateProfile({
+                twitterHandle: twitterHandleValue,
+                bio: bioValue,
+                personalSiteUrl: personSiteUrlValue,
+                isVisibleOnLeaderboard: isVisibleOnLeaderboardValue,
+              })
+            }
+            disabled={!haveChangesBeenMade}
+            loading={isSaveLoading}
+            style={{ minWidth: rem(100) }}
+            leftIcon={
+              !haveChangesBeenMade && isSaveSuccessful ? <FaCheckCircle size={18} /> : undefined
+            }
+          >
+            {'Save'}
+          </Button>
+          <Button onClick={() => router.push(`/p/${user.ensName ?? user.address}`)}>
+            {'Visit Profile'}
+          </Button>
+        </Group>
       </Box>
     </Stack>
   );
