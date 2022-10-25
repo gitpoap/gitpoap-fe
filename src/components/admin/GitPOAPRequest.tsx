@@ -78,7 +78,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const submitApproveGitPOAPRequest = useCallback(async () => {
     setApproveStatus(ButtonStatus.LOADING);
 
-    const data = await api.gitpoapRequest.approve(gitPOAPRequest.id);
+    const data = await api.gitPOAPRequest.approve(gitPOAPRequest.id);
 
     if (data === null) {
       setApproveStatus(ButtonStatus.ERROR);
@@ -91,7 +91,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const submitRejectGitPOAPRequest = useCallback(async () => {
     setRejectStatus(ButtonStatus.LOADING);
 
-    const data = await api.gitpoapRequest.reject(gitPOAPRequest.id);
+    const data = await api.gitPOAPRequest.reject(gitPOAPRequest.id);
 
     if (data === null) {
       setRejectStatus(ButtonStatus.ERROR);

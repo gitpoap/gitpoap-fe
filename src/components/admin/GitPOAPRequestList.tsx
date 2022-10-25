@@ -90,7 +90,7 @@ export const GitPOAPRequestList = () => {
     <Group position="center" py={0} px={rem(20)}>
       <Stack align="center" justify="flex-start" spacing="sm">
         <Heading position="apart" align="center" grow mt={rem(30)} mb={rem(15)}>
-          <ListTitle>{'GitPoap Requests'}</ListTitle>
+          <ListTitle>{'GitPOAP Requests'}</ListTitle>
           <Group position="right" spacing="lg">
             {!matchesBreakpointSmall && (
               <Text size={12} color={TextGray} transform="uppercase">
@@ -101,7 +101,7 @@ export const GitPOAPRequestList = () => {
           </Group>
         </Heading>
         {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
-          <Text>{'No GitPoap Requests Found'}</Text>
+          <Text>{'No GitPOAP Requests Found'}</Text>
         )}
         <Stack>
           {gitPOAPRequests &&

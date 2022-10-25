@@ -7,12 +7,12 @@ export class APIClient {
   public auth: AuthAPI;
   public gitpoap: GitPOAPAPI;
   public email: EmailAPI;
-  public gitpoapRequest: GitPOAPRequestAPI;
+  public gitPOAPRequest: GitPOAPRequestAPI;
 
   constructor(tokens: Tokens | null) {
     this.auth = new AuthAPI(tokens);
     this.gitpoap = new GitPOAPAPI(tokens);
     this.email = new EmailAPI(tokens);
-    this.gitpoapRequest = new GitPOAPRequestAPI(tokens);
+    this.gitPOAPRequest = new GitPOAPRequestAPI(tokens);
   }
 }
