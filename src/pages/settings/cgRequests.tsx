@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Center, Container, Loader, Stack } from '@mantine/core';
 import { Page } from '../_app';
 import { SEO } from '../../components/shared/compounds/SEO';
-import { SettingsPage } from '../../components/settings/SettingsPage';
+import { UserGitPOAPRequestList } from '../../components/settings/UserGitPOAPRequestList';
 import { useWeb3Context } from '../../components/wallet/Web3Context';
 import { Button, Header } from '../../components/shared/elements';
 import { ProfileProvider } from '../../components/profile/ProfileContext';
@@ -25,7 +25,7 @@ const CGRequests: Page = () => {
       />
       {address && connectionStatus === 'connected-to-wallet' ? (
         <ProfileProvider addressOrEns={address}>
-          <SettingsPage />
+          <UserGitPOAPRequestList />
         </ProfileProvider>
       ) : (
         <Center style={{ width: '100%', height: 600 }}>
