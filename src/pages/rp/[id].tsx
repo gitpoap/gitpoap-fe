@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
-import { withUrqlClient, initUrqlClient } from 'next-urql';
+import { withUrqlClient, initUrqlClient, SSRData } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { Grid } from '@mantine/core';
 import { Page } from '../_app';
 import { RepoPage, RepoNotFound } from '../../components/repo/RepoPage';
 import { SEO } from '../../components/shared/compounds/SEO';
-import { Layout } from '../../components/Layout';
 import { Header } from '../../components/shared/elements/Header';
 import {
   RepoSeoByIdQuery,
@@ -26,7 +25,8 @@ const Error = styled(Header)`
 `;
 
 type PageProps = {
-  data: RepoSeoByIdQuery;
+  urqlState: SSRData;
+  data: RepoSeoByIdQuery | null;
 };
 
 const Repo: Page<PageProps> = (props) => {
@@ -43,7 +43,7 @@ const Repo: Page<PageProps> = (props) => {
     return <Error>{'404'}</Error>;
   }
 
-  const repo = props.data.repoData;
+  const repo = props.data?.repoData;
 
   return (
     <Grid justify="center" style={{ zIndex: 1 }}>
@@ -65,7 +65,9 @@ const Repo: Page<PageProps> = (props) => {
  *
  * Revalidation isn't necessary since metadata is not changing - namely the repo name & organization name.
  */
-export const getStaticProps = async (context: GetStaticPropsContext<{ id: string }>) => {
+export const getStaticProps = async (
+  context: GetStaticPropsContext<{ id: string }>,
+): Promise<{ props: PageProps }> => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     {
