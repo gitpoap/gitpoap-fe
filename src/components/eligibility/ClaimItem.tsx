@@ -40,9 +40,9 @@ const getIssuedTo = ({ issuedAddress, email, user }: Claim) => {
 
 export const ClaimItem = ({ claim }: ClaimItemProps) => {
   const issuedTo = getIssuedTo(claim);
-  const hasRepo = claim.gitPOAP.project.repos.length > 0;
+  const hasRepo = claim.gitPOAP.project && claim.gitPOAP.project.repos.length > 0;
   const fullRepoName = hasRepo
-    ? `${claim.gitPOAP.project.repos[0].organization.name}/${claim.gitPOAP.project.repos[0].name}`
+    ? `${claim.gitPOAP.project?.repos[0].organization.name}/${claim.gitPOAP.project?.repos[0].name}`
     : '';
 
   return (

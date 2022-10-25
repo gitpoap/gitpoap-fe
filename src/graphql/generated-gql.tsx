@@ -14,6 +14,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  JSON: any;
 };
 
 export type Address = {
@@ -101,6 +102,12 @@ export type AddressWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
 };
 
+export enum AdminApprovalStatus {
+  Approved = 'APPROVED',
+  Pending = 'PENDING',
+  Rejected = 'REJECTED',
+}
+
 export type AggregateClaim = {
   __typename?: 'AggregateClaim';
   _avg?: Maybe<ClaimAvgAggregate>;
@@ -126,6 +133,15 @@ export type AggregateGitPoap = {
   _max?: Maybe<GitPoapMaxAggregate>;
   _min?: Maybe<GitPoapMinAggregate>;
   _sum?: Maybe<GitPoapSumAggregate>;
+};
+
+export type AggregateGitPoapRequest = {
+  __typename?: 'AggregateGitPOAPRequest';
+  _avg?: Maybe<GitPoapRequestAvgAggregate>;
+  _count?: Maybe<GitPoapRequestCountAggregate>;
+  _max?: Maybe<GitPoapRequestMaxAggregate>;
+  _min?: Maybe<GitPoapRequestMinAggregate>;
+  _sum?: Maybe<GitPoapRequestSumAggregate>;
 };
 
 export type AggregateGithubIssue = {
@@ -234,8 +250,8 @@ export type Claim = {
   pullRequestEarnedId?: Maybe<Scalars['Int']>;
   status: ClaimStatus;
   updatedAt: Scalars['DateTime'];
-  user: User;
-  userId: Scalars['Int'];
+  user?: Maybe<User>;
+  userId?: Maybe<Scalars['Int']>;
 };
 
 export type ClaimAvgAggregate = {
@@ -339,7 +355,7 @@ export type ClaimGroupBy = {
   qrHash?: Maybe<Scalars['String']>;
   status: ClaimStatus;
   updatedAt: Scalars['DateTime'];
-  userId: Scalars['Int'];
+  userId?: Maybe<Scalars['Int']>;
 };
 
 export type ClaimListRelationFilter = {
@@ -505,7 +521,7 @@ export type ClaimScalarWhereWithAggregatesInput = {
   pullRequestEarnedId?: InputMaybe<IntNullableWithAggregatesFilter>;
   status?: InputMaybe<EnumClaimStatusWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  userId?: InputMaybe<IntWithAggregatesFilter>;
+  userId?: InputMaybe<IntNullableWithAggregatesFilter>;
 };
 
 export enum ClaimStatus {
@@ -538,12 +554,6 @@ export type ClaimSumOrderByAggregateInput = {
   userId?: InputMaybe<SortOrder>;
 };
 
-export enum ClaimType {
-  Annual = 'ANNUAL',
-  Manual = 'MANUAL',
-  Quarterly = 'QUARTERLY',
-}
-
 export type ClaimWhereInput = {
   AND?: InputMaybe<Array<ClaimWhereInput>>;
   NOT?: InputMaybe<Array<ClaimWhereInput>>;
@@ -568,7 +578,7 @@ export type ClaimWhereInput = {
   status?: InputMaybe<EnumClaimStatusFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
-  userId?: InputMaybe<IntFilter>;
+  userId?: InputMaybe<IntNullableFilter>;
 };
 
 export type ClaimWhereUniqueInput = {
@@ -633,13 +643,13 @@ export type DateTimeWithAggregatesFilter = {
 export type Email = {
   __typename?: 'Email';
   _count?: Maybe<EmailCount>;
-  activeToken: Scalars['String'];
-  addressId: Scalars['Int'];
+  activeToken?: Maybe<Scalars['String']>;
+  addressId?: Maybe<Scalars['Int']>;
   createdAt: Scalars['DateTime'];
   emailAddress: Scalars['String'];
   id: Scalars['Int'];
   isValidated: Scalars['Boolean'];
-  tokenExpiresAt: Scalars['DateTime'];
+  tokenExpiresAt?: Maybe<Scalars['DateTime']>;
   updatedAt: Scalars['DateTime'];
 };
 
@@ -670,16 +680,33 @@ export type EmailWhereInput = {
   AND?: InputMaybe<Array<EmailWhereInput>>;
   NOT?: InputMaybe<Array<EmailWhereInput>>;
   OR?: InputMaybe<Array<EmailWhereInput>>;
-  activeToken?: InputMaybe<StringFilter>;
+  activeToken?: InputMaybe<StringNullableFilter>;
   address?: InputMaybe<AddressRelationFilter>;
-  addressId?: InputMaybe<IntFilter>;
+  addressId?: InputMaybe<IntNullableFilter>;
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   emailAddress?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
   isValidated?: InputMaybe<BoolFilter>;
-  tokenExpiresAt?: InputMaybe<DateTimeFilter>;
+  tokenExpiresAt?: InputMaybe<DateTimeNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type EnumAdminApprovalStatusNullableFilter = {
+  equals?: InputMaybe<AdminApprovalStatus>;
+  in?: InputMaybe<Array<AdminApprovalStatus>>;
+  not?: InputMaybe<NestedEnumAdminApprovalStatusNullableFilter>;
+  notIn?: InputMaybe<Array<AdminApprovalStatus>>;
+};
+
+export type EnumAdminApprovalStatusNullableWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntNullableFilter>;
+  _max?: InputMaybe<NestedEnumAdminApprovalStatusNullableFilter>;
+  _min?: InputMaybe<NestedEnumAdminApprovalStatusNullableFilter>;
+  equals?: InputMaybe<AdminApprovalStatus>;
+  in?: InputMaybe<Array<AdminApprovalStatus>>;
+  not?: InputMaybe<NestedEnumAdminApprovalStatusNullableWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<AdminApprovalStatus>>;
 };
 
 export type EnumClaimStatusFilter = {
@@ -699,23 +726,6 @@ export type EnumClaimStatusWithAggregatesFilter = {
   notIn?: InputMaybe<Array<ClaimStatus>>;
 };
 
-export type EnumClaimTypeFilter = {
-  equals?: InputMaybe<ClaimType>;
-  in?: InputMaybe<Array<ClaimType>>;
-  not?: InputMaybe<NestedEnumClaimTypeFilter>;
-  notIn?: InputMaybe<Array<ClaimType>>;
-};
-
-export type EnumClaimTypeWithAggregatesFilter = {
-  _count?: InputMaybe<NestedIntFilter>;
-  _max?: InputMaybe<NestedEnumClaimTypeFilter>;
-  _min?: InputMaybe<NestedEnumClaimTypeFilter>;
-  equals?: InputMaybe<ClaimType>;
-  in?: InputMaybe<Array<ClaimType>>;
-  not?: InputMaybe<NestedEnumClaimTypeWithAggregatesFilter>;
-  notIn?: InputMaybe<Array<ClaimType>>;
-};
-
 export type EnumGitPoapStatusFilter = {
   equals?: InputMaybe<GitPoapStatus>;
   in?: InputMaybe<Array<GitPoapStatus>>;
@@ -731,6 +741,23 @@ export type EnumGitPoapStatusWithAggregatesFilter = {
   in?: InputMaybe<Array<GitPoapStatus>>;
   not?: InputMaybe<NestedEnumGitPoapStatusWithAggregatesFilter>;
   notIn?: InputMaybe<Array<GitPoapStatus>>;
+};
+
+export type EnumGitPoapTypeFilter = {
+  equals?: InputMaybe<GitPoapType>;
+  in?: InputMaybe<Array<GitPoapType>>;
+  not?: InputMaybe<NestedEnumGitPoapTypeFilter>;
+  notIn?: InputMaybe<Array<GitPoapType>>;
+};
+
+export type EnumGitPoapTypeWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumGitPoapTypeFilter>;
+  _min?: InputMaybe<NestedEnumGitPoapTypeFilter>;
+  equals?: InputMaybe<GitPoapType>;
+  in?: InputMaybe<Array<GitPoapType>>;
+  not?: InputMaybe<NestedEnumGitPoapTypeWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<GitPoapType>>;
 };
 
 export type EnumMembershipRoleFilter = {
@@ -760,6 +787,7 @@ export type Event = {
 
 export type EventCount = {
   __typename?: 'EventCount';
+  gitPOAPRequests: Scalars['Int'];
   gitPOAPs: Scalars['Int'];
 };
 
@@ -767,6 +795,7 @@ export type EventOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
   endDate?: InputMaybe<SortOrder>;
+  gitPOAPRequests?: InputMaybe<GitPoapRequestOrderByRelationAggregateInput>;
   gitPOAPs?: InputMaybe<GitPoapOrderByRelationAggregateInput>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
@@ -792,6 +821,7 @@ export type EventWhereInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   description?: InputMaybe<StringNullableFilter>;
   endDate?: InputMaybe<DateTimeFilter>;
+  gitPOAPRequests?: InputMaybe<GitPoapRequestListRelationFilter>;
   gitPOAPs?: InputMaybe<GitPoapListRelationFilter>;
   githubHandle?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
@@ -971,6 +1001,7 @@ export type GitPoap = {
   description: Scalars['String'];
   event?: Maybe<Event>;
   eventId?: Maybe<Scalars['Int']>;
+  gitpoapRequest?: Maybe<GitPoapRequest>;
   id: Scalars['Int'];
   imageUrl: Scalars['String'];
   isEnabled: Scalars['Boolean'];
@@ -978,13 +1009,15 @@ export type GitPoap = {
   level: Scalars['Int'];
   name: Scalars['String'];
   ongoing: Scalars['Boolean'];
+  organization?: Maybe<Organization>;
+  organizationId?: Maybe<Scalars['Int']>;
+  poapApprovalStatus: GitPoapStatus;
   poapEventId: Scalars['Int'];
-  project: Project;
-  projectId: Scalars['Int'];
+  project?: Maybe<Project>;
+  projectId?: Maybe<Scalars['Int']>;
   redeemCodes: Array<RedeemCode>;
-  status: GitPoapStatus;
   threshold: Scalars['Int'];
-  type: ClaimType;
+  type: GitPoapType;
   updatedAt: Scalars['DateTime'];
   year: Scalars['Int'];
 };
@@ -1012,6 +1045,7 @@ export type GitPoapAvgAggregate = {
   eventId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   level?: Maybe<Scalars['Float']>;
+  organizationId?: Maybe<Scalars['Float']>;
   poapEventId?: Maybe<Scalars['Float']>;
   projectId?: Maybe<Scalars['Float']>;
   threshold?: Maybe<Scalars['Float']>;
@@ -1022,6 +1056,7 @@ export type GitPoapAvgOrderByAggregateInput = {
   eventId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
+  organizationId?: InputMaybe<SortOrder>;
   poapEventId?: InputMaybe<SortOrder>;
   projectId?: InputMaybe<SortOrder>;
   threshold?: InputMaybe<SortOrder>;
@@ -1047,10 +1082,11 @@ export type GitPoapCountAggregate = {
   level: Scalars['Int'];
   name: Scalars['Int'];
   ongoing: Scalars['Int'];
+  organizationId: Scalars['Int'];
+  poapApprovalStatus: Scalars['Int'];
   poapEventId: Scalars['Int'];
   poapSecret: Scalars['Int'];
   projectId: Scalars['Int'];
-  status: Scalars['Int'];
   threshold: Scalars['Int'];
   type: Scalars['Int'];
   updatedAt: Scalars['Int'];
@@ -1068,9 +1104,10 @@ export type GitPoapCountOrderByAggregateInput = {
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
+  organizationId?: InputMaybe<SortOrder>;
+  poapApprovalStatus?: InputMaybe<SortOrder>;
   poapEventId?: InputMaybe<SortOrder>;
   projectId?: InputMaybe<SortOrder>;
-  status?: InputMaybe<SortOrder>;
   threshold?: InputMaybe<SortOrder>;
   type?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -1094,12 +1131,13 @@ export type GitPoapGroupBy = {
   level: Scalars['Int'];
   name: Scalars['String'];
   ongoing: Scalars['Boolean'];
+  organizationId?: Maybe<Scalars['Int']>;
+  poapApprovalStatus: GitPoapStatus;
   poapEventId: Scalars['Int'];
   poapSecret: Scalars['String'];
-  projectId: Scalars['Int'];
-  status: GitPoapStatus;
+  projectId?: Maybe<Scalars['Int']>;
   threshold: Scalars['Int'];
-  type: ClaimType;
+  type: GitPoapType;
   updatedAt: Scalars['DateTime'];
   year: Scalars['Int'];
 };
@@ -1122,12 +1160,13 @@ export type GitPoapMaxAggregate = {
   level?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   ongoing?: Maybe<Scalars['Boolean']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  poapApprovalStatus?: Maybe<GitPoapStatus>;
   poapEventId?: Maybe<Scalars['Int']>;
   poapSecret?: Maybe<Scalars['String']>;
   projectId?: Maybe<Scalars['Int']>;
-  status?: Maybe<GitPoapStatus>;
   threshold?: Maybe<Scalars['Int']>;
-  type?: Maybe<ClaimType>;
+  type?: Maybe<GitPoapType>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   year?: Maybe<Scalars['Int']>;
 };
@@ -1143,9 +1182,10 @@ export type GitPoapMaxOrderByAggregateInput = {
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
+  organizationId?: InputMaybe<SortOrder>;
+  poapApprovalStatus?: InputMaybe<SortOrder>;
   poapEventId?: InputMaybe<SortOrder>;
   projectId?: InputMaybe<SortOrder>;
-  status?: InputMaybe<SortOrder>;
   threshold?: InputMaybe<SortOrder>;
   type?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -1164,12 +1204,13 @@ export type GitPoapMinAggregate = {
   level?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   ongoing?: Maybe<Scalars['Boolean']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  poapApprovalStatus?: Maybe<GitPoapStatus>;
   poapEventId?: Maybe<Scalars['Int']>;
   poapSecret?: Maybe<Scalars['String']>;
   projectId?: Maybe<Scalars['Int']>;
-  status?: Maybe<GitPoapStatus>;
   threshold?: Maybe<Scalars['Int']>;
-  type?: Maybe<ClaimType>;
+  type?: Maybe<GitPoapType>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   year?: Maybe<Scalars['Int']>;
 };
@@ -1185,9 +1226,10 @@ export type GitPoapMinOrderByAggregateInput = {
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
+  organizationId?: InputMaybe<SortOrder>;
+  poapApprovalStatus?: InputMaybe<SortOrder>;
   poapEventId?: InputMaybe<SortOrder>;
   projectId?: InputMaybe<SortOrder>;
-  status?: InputMaybe<SortOrder>;
   threshold?: InputMaybe<SortOrder>;
   type?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -1214,9 +1256,10 @@ export type GitPoapOrderByWithAggregationInput = {
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
+  organizationId?: InputMaybe<SortOrder>;
+  poapApprovalStatus?: InputMaybe<SortOrder>;
   poapEventId?: InputMaybe<SortOrder>;
   projectId?: InputMaybe<SortOrder>;
-  status?: InputMaybe<SortOrder>;
   threshold?: InputMaybe<SortOrder>;
   type?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -1229,6 +1272,7 @@ export type GitPoapOrderByWithRelationInput = {
   description?: InputMaybe<SortOrder>;
   event?: InputMaybe<EventOrderByWithRelationInput>;
   eventId?: InputMaybe<SortOrder>;
+  gitpoapRequest?: InputMaybe<GitPoapRequestOrderByWithRelationInput>;
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
   isEnabled?: InputMaybe<SortOrder>;
@@ -1236,11 +1280,13 @@ export type GitPoapOrderByWithRelationInput = {
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   ongoing?: InputMaybe<SortOrder>;
+  organization?: InputMaybe<OrganizationOrderByWithRelationInput>;
+  organizationId?: InputMaybe<SortOrder>;
+  poapApprovalStatus?: InputMaybe<SortOrder>;
   poapEventId?: InputMaybe<SortOrder>;
   project?: InputMaybe<ProjectOrderByWithRelationInput>;
   projectId?: InputMaybe<SortOrder>;
   redeemCodes?: InputMaybe<RedeemCodeOrderByRelationAggregateInput>;
-  status?: InputMaybe<SortOrder>;
   threshold?: InputMaybe<SortOrder>;
   type?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -1250,6 +1296,470 @@ export type GitPoapOrderByWithRelationInput = {
 export type GitPoapRelationFilter = {
   is?: InputMaybe<GitPoapWhereInput>;
   isNot?: InputMaybe<GitPoapWhereInput>;
+};
+
+export type GitPoapRequest = {
+  __typename?: 'GitPOAPRequest';
+  adminApprovalStatus?: Maybe<AdminApprovalStatus>;
+  contributors: Scalars['JSON'];
+  createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
+  email: Scalars['String'];
+  endDate: Scalars['DateTime'];
+  event?: Maybe<Event>;
+  eventId?: Maybe<Scalars['Int']>;
+  eventUrl: Scalars['String'];
+  expiryDate: Scalars['DateTime'];
+  gitPOAP?: Maybe<GitPoap>;
+  gitPOAPId?: Maybe<Scalars['Int']>;
+  id: Scalars['Int'];
+  imageKey: Scalars['String'];
+  isEnabled: Scalars['Boolean'];
+  isPRBased: Scalars['Boolean'];
+  level: Scalars['Int'];
+  name: Scalars['String'];
+  numRequestedCodes: Scalars['Int'];
+  ongoing: Scalars['Boolean'];
+  organization?: Maybe<Organization>;
+  organizationId?: Maybe<Scalars['Int']>;
+  project?: Maybe<Project>;
+  projectId?: Maybe<Scalars['Int']>;
+  startDate: Scalars['DateTime'];
+  threshold: Scalars['Int'];
+  type: GitPoapType;
+  updatedAt: Scalars['DateTime'];
+  year: Scalars['Int'];
+};
+
+export type GitPoapRequestAvgAggregate = {
+  __typename?: 'GitPOAPRequestAvgAggregate';
+  eventId?: Maybe<Scalars['Float']>;
+  gitPOAPId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  level?: Maybe<Scalars['Float']>;
+  numRequestedCodes?: Maybe<Scalars['Float']>;
+  organizationId?: Maybe<Scalars['Float']>;
+  projectId?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
+  year?: Maybe<Scalars['Float']>;
+};
+
+export type GitPoapRequestAvgOrderByAggregateInput = {
+  eventId?: InputMaybe<SortOrder>;
+  gitPOAPId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  level?: InputMaybe<SortOrder>;
+  numRequestedCodes?: InputMaybe<SortOrder>;
+  organizationId?: InputMaybe<SortOrder>;
+  projectId?: InputMaybe<SortOrder>;
+  threshold?: InputMaybe<SortOrder>;
+  year?: InputMaybe<SortOrder>;
+};
+
+export type GitPoapRequestCountAggregate = {
+  __typename?: 'GitPOAPRequestCountAggregate';
+  _all: Scalars['Int'];
+  adminApprovalStatus: Scalars['Int'];
+  contributors: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  description: Scalars['Int'];
+  email: Scalars['Int'];
+  endDate: Scalars['Int'];
+  eventId: Scalars['Int'];
+  eventUrl: Scalars['Int'];
+  expiryDate: Scalars['Int'];
+  gitPOAPId: Scalars['Int'];
+  id: Scalars['Int'];
+  imageKey: Scalars['Int'];
+  isEnabled: Scalars['Int'];
+  isPRBased: Scalars['Int'];
+  level: Scalars['Int'];
+  name: Scalars['Int'];
+  numRequestedCodes: Scalars['Int'];
+  ongoing: Scalars['Int'];
+  organizationId: Scalars['Int'];
+  projectId: Scalars['Int'];
+  startDate: Scalars['Int'];
+  threshold: Scalars['Int'];
+  type: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  year: Scalars['Int'];
+};
+
+export type GitPoapRequestCountOrderByAggregateInput = {
+  adminApprovalStatus?: InputMaybe<SortOrder>;
+  contributors?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
+  endDate?: InputMaybe<SortOrder>;
+  eventId?: InputMaybe<SortOrder>;
+  eventUrl?: InputMaybe<SortOrder>;
+  expiryDate?: InputMaybe<SortOrder>;
+  gitPOAPId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  imageKey?: InputMaybe<SortOrder>;
+  isEnabled?: InputMaybe<SortOrder>;
+  isPRBased?: InputMaybe<SortOrder>;
+  level?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  numRequestedCodes?: InputMaybe<SortOrder>;
+  ongoing?: InputMaybe<SortOrder>;
+  organizationId?: InputMaybe<SortOrder>;
+  projectId?: InputMaybe<SortOrder>;
+  startDate?: InputMaybe<SortOrder>;
+  threshold?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  year?: InputMaybe<SortOrder>;
+};
+
+export type GitPoapRequestGroupBy = {
+  __typename?: 'GitPOAPRequestGroupBy';
+  _avg?: Maybe<GitPoapRequestAvgAggregate>;
+  _count?: Maybe<GitPoapRequestCountAggregate>;
+  _max?: Maybe<GitPoapRequestMaxAggregate>;
+  _min?: Maybe<GitPoapRequestMinAggregate>;
+  _sum?: Maybe<GitPoapRequestSumAggregate>;
+  adminApprovalStatus?: Maybe<AdminApprovalStatus>;
+  contributors: Scalars['JSON'];
+  createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
+  email: Scalars['String'];
+  endDate: Scalars['DateTime'];
+  eventId?: Maybe<Scalars['Int']>;
+  eventUrl: Scalars['String'];
+  expiryDate: Scalars['DateTime'];
+  gitPOAPId?: Maybe<Scalars['Int']>;
+  id: Scalars['Int'];
+  imageKey: Scalars['String'];
+  isEnabled: Scalars['Boolean'];
+  isPRBased: Scalars['Boolean'];
+  level: Scalars['Int'];
+  name: Scalars['String'];
+  numRequestedCodes: Scalars['Int'];
+  ongoing: Scalars['Boolean'];
+  organizationId?: Maybe<Scalars['Int']>;
+  projectId?: Maybe<Scalars['Int']>;
+  startDate: Scalars['DateTime'];
+  threshold: Scalars['Int'];
+  type: GitPoapType;
+  updatedAt: Scalars['DateTime'];
+  year: Scalars['Int'];
+};
+
+export type GitPoapRequestListRelationFilter = {
+  every?: InputMaybe<GitPoapRequestWhereInput>;
+  none?: InputMaybe<GitPoapRequestWhereInput>;
+  some?: InputMaybe<GitPoapRequestWhereInput>;
+};
+
+export type GitPoapRequestMaxAggregate = {
+  __typename?: 'GitPOAPRequestMaxAggregate';
+  adminApprovalStatus?: Maybe<AdminApprovalStatus>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  endDate?: Maybe<Scalars['DateTime']>;
+  eventId?: Maybe<Scalars['Int']>;
+  eventUrl?: Maybe<Scalars['String']>;
+  expiryDate?: Maybe<Scalars['DateTime']>;
+  gitPOAPId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  imageKey?: Maybe<Scalars['String']>;
+  isEnabled?: Maybe<Scalars['Boolean']>;
+  isPRBased?: Maybe<Scalars['Boolean']>;
+  level?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  numRequestedCodes?: Maybe<Scalars['Int']>;
+  ongoing?: Maybe<Scalars['Boolean']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  projectId?: Maybe<Scalars['Int']>;
+  startDate?: Maybe<Scalars['DateTime']>;
+  threshold?: Maybe<Scalars['Int']>;
+  type?: Maybe<GitPoapType>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  year?: Maybe<Scalars['Int']>;
+};
+
+export type GitPoapRequestMaxOrderByAggregateInput = {
+  adminApprovalStatus?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
+  endDate?: InputMaybe<SortOrder>;
+  eventId?: InputMaybe<SortOrder>;
+  eventUrl?: InputMaybe<SortOrder>;
+  expiryDate?: InputMaybe<SortOrder>;
+  gitPOAPId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  imageKey?: InputMaybe<SortOrder>;
+  isEnabled?: InputMaybe<SortOrder>;
+  isPRBased?: InputMaybe<SortOrder>;
+  level?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  numRequestedCodes?: InputMaybe<SortOrder>;
+  ongoing?: InputMaybe<SortOrder>;
+  organizationId?: InputMaybe<SortOrder>;
+  projectId?: InputMaybe<SortOrder>;
+  startDate?: InputMaybe<SortOrder>;
+  threshold?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  year?: InputMaybe<SortOrder>;
+};
+
+export type GitPoapRequestMinAggregate = {
+  __typename?: 'GitPOAPRequestMinAggregate';
+  adminApprovalStatus?: Maybe<AdminApprovalStatus>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  endDate?: Maybe<Scalars['DateTime']>;
+  eventId?: Maybe<Scalars['Int']>;
+  eventUrl?: Maybe<Scalars['String']>;
+  expiryDate?: Maybe<Scalars['DateTime']>;
+  gitPOAPId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  imageKey?: Maybe<Scalars['String']>;
+  isEnabled?: Maybe<Scalars['Boolean']>;
+  isPRBased?: Maybe<Scalars['Boolean']>;
+  level?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  numRequestedCodes?: Maybe<Scalars['Int']>;
+  ongoing?: Maybe<Scalars['Boolean']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  projectId?: Maybe<Scalars['Int']>;
+  startDate?: Maybe<Scalars['DateTime']>;
+  threshold?: Maybe<Scalars['Int']>;
+  type?: Maybe<GitPoapType>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  year?: Maybe<Scalars['Int']>;
+};
+
+export type GitPoapRequestMinOrderByAggregateInput = {
+  adminApprovalStatus?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
+  endDate?: InputMaybe<SortOrder>;
+  eventId?: InputMaybe<SortOrder>;
+  eventUrl?: InputMaybe<SortOrder>;
+  expiryDate?: InputMaybe<SortOrder>;
+  gitPOAPId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  imageKey?: InputMaybe<SortOrder>;
+  isEnabled?: InputMaybe<SortOrder>;
+  isPRBased?: InputMaybe<SortOrder>;
+  level?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  numRequestedCodes?: InputMaybe<SortOrder>;
+  ongoing?: InputMaybe<SortOrder>;
+  organizationId?: InputMaybe<SortOrder>;
+  projectId?: InputMaybe<SortOrder>;
+  startDate?: InputMaybe<SortOrder>;
+  threshold?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  year?: InputMaybe<SortOrder>;
+};
+
+export type GitPoapRequestOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type GitPoapRequestOrderByWithAggregationInput = {
+  _avg?: InputMaybe<GitPoapRequestAvgOrderByAggregateInput>;
+  _count?: InputMaybe<GitPoapRequestCountOrderByAggregateInput>;
+  _max?: InputMaybe<GitPoapRequestMaxOrderByAggregateInput>;
+  _min?: InputMaybe<GitPoapRequestMinOrderByAggregateInput>;
+  _sum?: InputMaybe<GitPoapRequestSumOrderByAggregateInput>;
+  adminApprovalStatus?: InputMaybe<SortOrder>;
+  contributors?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
+  endDate?: InputMaybe<SortOrder>;
+  eventId?: InputMaybe<SortOrder>;
+  eventUrl?: InputMaybe<SortOrder>;
+  expiryDate?: InputMaybe<SortOrder>;
+  gitPOAPId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  imageKey?: InputMaybe<SortOrder>;
+  isEnabled?: InputMaybe<SortOrder>;
+  isPRBased?: InputMaybe<SortOrder>;
+  level?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  numRequestedCodes?: InputMaybe<SortOrder>;
+  ongoing?: InputMaybe<SortOrder>;
+  organizationId?: InputMaybe<SortOrder>;
+  projectId?: InputMaybe<SortOrder>;
+  startDate?: InputMaybe<SortOrder>;
+  threshold?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  year?: InputMaybe<SortOrder>;
+};
+
+export type GitPoapRequestOrderByWithRelationInput = {
+  adminApprovalStatus?: InputMaybe<SortOrder>;
+  contributors?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
+  endDate?: InputMaybe<SortOrder>;
+  event?: InputMaybe<EventOrderByWithRelationInput>;
+  eventId?: InputMaybe<SortOrder>;
+  eventUrl?: InputMaybe<SortOrder>;
+  expiryDate?: InputMaybe<SortOrder>;
+  gitPOAP?: InputMaybe<GitPoapOrderByWithRelationInput>;
+  gitPOAPId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  imageKey?: InputMaybe<SortOrder>;
+  isEnabled?: InputMaybe<SortOrder>;
+  isPRBased?: InputMaybe<SortOrder>;
+  level?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  numRequestedCodes?: InputMaybe<SortOrder>;
+  ongoing?: InputMaybe<SortOrder>;
+  organization?: InputMaybe<OrganizationOrderByWithRelationInput>;
+  organizationId?: InputMaybe<SortOrder>;
+  project?: InputMaybe<ProjectOrderByWithRelationInput>;
+  projectId?: InputMaybe<SortOrder>;
+  startDate?: InputMaybe<SortOrder>;
+  threshold?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  year?: InputMaybe<SortOrder>;
+};
+
+export type GitPoapRequestRelationFilter = {
+  is?: InputMaybe<GitPoapRequestWhereInput>;
+  isNot?: InputMaybe<GitPoapRequestWhereInput>;
+};
+
+export enum GitPoapRequestScalarFieldEnum {
+  AdminApprovalStatus = 'adminApprovalStatus',
+  Contributors = 'contributors',
+  CreatedAt = 'createdAt',
+  Description = 'description',
+  Email = 'email',
+  EndDate = 'endDate',
+  EventId = 'eventId',
+  EventUrl = 'eventUrl',
+  ExpiryDate = 'expiryDate',
+  GitPoapId = 'gitPOAPId',
+  Id = 'id',
+  ImageKey = 'imageKey',
+  IsEnabled = 'isEnabled',
+  IsPrBased = 'isPRBased',
+  Level = 'level',
+  Name = 'name',
+  NumRequestedCodes = 'numRequestedCodes',
+  Ongoing = 'ongoing',
+  OrganizationId = 'organizationId',
+  ProjectId = 'projectId',
+  StartDate = 'startDate',
+  Threshold = 'threshold',
+  Type = 'type',
+  UpdatedAt = 'updatedAt',
+  Year = 'year',
+}
+
+export type GitPoapRequestScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<GitPoapRequestScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<GitPoapRequestScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<GitPoapRequestScalarWhereWithAggregatesInput>>;
+  adminApprovalStatus?: InputMaybe<EnumAdminApprovalStatusNullableWithAggregatesFilter>;
+  contributors?: InputMaybe<JsonWithAggregatesFilter>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  description?: InputMaybe<StringWithAggregatesFilter>;
+  email?: InputMaybe<StringWithAggregatesFilter>;
+  endDate?: InputMaybe<DateTimeWithAggregatesFilter>;
+  eventId?: InputMaybe<IntNullableWithAggregatesFilter>;
+  eventUrl?: InputMaybe<StringWithAggregatesFilter>;
+  expiryDate?: InputMaybe<DateTimeWithAggregatesFilter>;
+  gitPOAPId?: InputMaybe<IntNullableWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  imageKey?: InputMaybe<StringWithAggregatesFilter>;
+  isEnabled?: InputMaybe<BoolWithAggregatesFilter>;
+  isPRBased?: InputMaybe<BoolWithAggregatesFilter>;
+  level?: InputMaybe<IntWithAggregatesFilter>;
+  name?: InputMaybe<StringWithAggregatesFilter>;
+  numRequestedCodes?: InputMaybe<IntWithAggregatesFilter>;
+  ongoing?: InputMaybe<BoolWithAggregatesFilter>;
+  organizationId?: InputMaybe<IntNullableWithAggregatesFilter>;
+  projectId?: InputMaybe<IntNullableWithAggregatesFilter>;
+  startDate?: InputMaybe<DateTimeWithAggregatesFilter>;
+  threshold?: InputMaybe<IntWithAggregatesFilter>;
+  type?: InputMaybe<EnumGitPoapTypeWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  year?: InputMaybe<IntWithAggregatesFilter>;
+};
+
+export type GitPoapRequestSumAggregate = {
+  __typename?: 'GitPOAPRequestSumAggregate';
+  eventId?: Maybe<Scalars['Int']>;
+  gitPOAPId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  level?: Maybe<Scalars['Int']>;
+  numRequestedCodes?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  projectId?: Maybe<Scalars['Int']>;
+  threshold?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['Int']>;
+};
+
+export type GitPoapRequestSumOrderByAggregateInput = {
+  eventId?: InputMaybe<SortOrder>;
+  gitPOAPId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  level?: InputMaybe<SortOrder>;
+  numRequestedCodes?: InputMaybe<SortOrder>;
+  organizationId?: InputMaybe<SortOrder>;
+  projectId?: InputMaybe<SortOrder>;
+  threshold?: InputMaybe<SortOrder>;
+  year?: InputMaybe<SortOrder>;
+};
+
+export type GitPoapRequestWhereInput = {
+  AND?: InputMaybe<Array<GitPoapRequestWhereInput>>;
+  NOT?: InputMaybe<Array<GitPoapRequestWhereInput>>;
+  OR?: InputMaybe<Array<GitPoapRequestWhereInput>>;
+  adminApprovalStatus?: InputMaybe<EnumAdminApprovalStatusNullableFilter>;
+  contributors?: InputMaybe<JsonFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  description?: InputMaybe<StringFilter>;
+  email?: InputMaybe<StringFilter>;
+  endDate?: InputMaybe<DateTimeFilter>;
+  event?: InputMaybe<EventRelationFilter>;
+  eventId?: InputMaybe<IntNullableFilter>;
+  eventUrl?: InputMaybe<StringFilter>;
+  expiryDate?: InputMaybe<DateTimeFilter>;
+  gitPOAP?: InputMaybe<GitPoapRelationFilter>;
+  gitPOAPId?: InputMaybe<IntNullableFilter>;
+  id?: InputMaybe<IntFilter>;
+  imageKey?: InputMaybe<StringFilter>;
+  isEnabled?: InputMaybe<BoolFilter>;
+  isPRBased?: InputMaybe<BoolFilter>;
+  level?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringFilter>;
+  numRequestedCodes?: InputMaybe<IntFilter>;
+  ongoing?: InputMaybe<BoolFilter>;
+  organization?: InputMaybe<OrganizationRelationFilter>;
+  organizationId?: InputMaybe<IntNullableFilter>;
+  project?: InputMaybe<ProjectRelationFilter>;
+  projectId?: InputMaybe<IntNullableFilter>;
+  startDate?: InputMaybe<DateTimeFilter>;
+  threshold?: InputMaybe<IntFilter>;
+  type?: InputMaybe<EnumGitPoapTypeFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  year?: InputMaybe<IntFilter>;
+};
+
+export type GitPoapRequestWhereUniqueInput = {
+  gitPOAPId?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export enum GitPoapScalarFieldEnum {
@@ -1263,10 +1773,11 @@ export enum GitPoapScalarFieldEnum {
   Level = 'level',
   Name = 'name',
   Ongoing = 'ongoing',
+  OrganizationId = 'organizationId',
+  PoapApprovalStatus = 'poapApprovalStatus',
   PoapEventId = 'poapEventId',
   PoapSecret = 'poapSecret',
   ProjectId = 'projectId',
-  Status = 'status',
   Threshold = 'threshold',
   Type = 'type',
   UpdatedAt = 'updatedAt',
@@ -1287,11 +1798,12 @@ export type GitPoapScalarWhereWithAggregatesInput = {
   level?: InputMaybe<IntWithAggregatesFilter>;
   name?: InputMaybe<StringWithAggregatesFilter>;
   ongoing?: InputMaybe<BoolWithAggregatesFilter>;
+  organizationId?: InputMaybe<IntNullableWithAggregatesFilter>;
+  poapApprovalStatus?: InputMaybe<EnumGitPoapStatusWithAggregatesFilter>;
   poapEventId?: InputMaybe<IntWithAggregatesFilter>;
-  projectId?: InputMaybe<IntWithAggregatesFilter>;
-  status?: InputMaybe<EnumGitPoapStatusWithAggregatesFilter>;
+  projectId?: InputMaybe<IntNullableWithAggregatesFilter>;
   threshold?: InputMaybe<IntWithAggregatesFilter>;
-  type?: InputMaybe<EnumClaimTypeWithAggregatesFilter>;
+  type?: InputMaybe<EnumGitPoapTypeWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   year?: InputMaybe<IntWithAggregatesFilter>;
 };
@@ -1308,6 +1820,7 @@ export type GitPoapSumAggregate = {
   eventId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   level?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
   poapEventId?: Maybe<Scalars['Int']>;
   projectId?: Maybe<Scalars['Int']>;
   threshold?: Maybe<Scalars['Int']>;
@@ -1318,11 +1831,17 @@ export type GitPoapSumOrderByAggregateInput = {
   eventId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
+  organizationId?: InputMaybe<SortOrder>;
   poapEventId?: InputMaybe<SortOrder>;
   projectId?: InputMaybe<SortOrder>;
   threshold?: InputMaybe<SortOrder>;
   year?: InputMaybe<SortOrder>;
 };
+
+export enum GitPoapType {
+  Annual = 'ANNUAL',
+  Custom = 'CUSTOM',
+}
 
 export type GitPoapWhereInput = {
   AND?: InputMaybe<Array<GitPoapWhereInput>>;
@@ -1333,6 +1852,7 @@ export type GitPoapWhereInput = {
   description?: InputMaybe<StringFilter>;
   event?: InputMaybe<EventRelationFilter>;
   eventId?: InputMaybe<IntNullableFilter>;
+  gitpoapRequest?: InputMaybe<GitPoapRequestRelationFilter>;
   id?: InputMaybe<IntFilter>;
   imageUrl?: InputMaybe<StringFilter>;
   isEnabled?: InputMaybe<BoolFilter>;
@@ -1340,13 +1860,15 @@ export type GitPoapWhereInput = {
   level?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
   ongoing?: InputMaybe<BoolFilter>;
+  organization?: InputMaybe<OrganizationRelationFilter>;
+  organizationId?: InputMaybe<IntNullableFilter>;
+  poapApprovalStatus?: InputMaybe<EnumGitPoapStatusFilter>;
   poapEventId?: InputMaybe<IntFilter>;
   project?: InputMaybe<ProjectRelationFilter>;
-  projectId?: InputMaybe<IntFilter>;
+  projectId?: InputMaybe<IntNullableFilter>;
   redeemCodes?: InputMaybe<RedeemCodeListRelationFilter>;
-  status?: InputMaybe<EnumGitPoapStatusFilter>;
   threshold?: InputMaybe<IntFilter>;
-  type?: InputMaybe<EnumClaimTypeFilter>;
+  type?: InputMaybe<EnumGitPoapTypeFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   year?: InputMaybe<IntFilter>;
 };
@@ -2213,6 +2735,41 @@ export type IntWithAggregatesFilter = {
   notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
+export type JsonFilter = {
+  array_contains?: InputMaybe<Scalars['JSON']>;
+  array_ends_with?: InputMaybe<Scalars['JSON']>;
+  array_starts_with?: InputMaybe<Scalars['JSON']>;
+  equals?: InputMaybe<Scalars['JSON']>;
+  gt?: InputMaybe<Scalars['JSON']>;
+  gte?: InputMaybe<Scalars['JSON']>;
+  lt?: InputMaybe<Scalars['JSON']>;
+  lte?: InputMaybe<Scalars['JSON']>;
+  not?: InputMaybe<Scalars['JSON']>;
+  path?: InputMaybe<Array<Scalars['String']>>;
+  string_contains?: InputMaybe<Scalars['String']>;
+  string_ends_with?: InputMaybe<Scalars['String']>;
+  string_starts_with?: InputMaybe<Scalars['String']>;
+};
+
+export type JsonWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedJsonFilter>;
+  _min?: InputMaybe<NestedJsonFilter>;
+  array_contains?: InputMaybe<Scalars['JSON']>;
+  array_ends_with?: InputMaybe<Scalars['JSON']>;
+  array_starts_with?: InputMaybe<Scalars['JSON']>;
+  equals?: InputMaybe<Scalars['JSON']>;
+  gt?: InputMaybe<Scalars['JSON']>;
+  gte?: InputMaybe<Scalars['JSON']>;
+  lt?: InputMaybe<Scalars['JSON']>;
+  lte?: InputMaybe<Scalars['JSON']>;
+  not?: InputMaybe<Scalars['JSON']>;
+  path?: InputMaybe<Array<Scalars['String']>>;
+  string_contains?: InputMaybe<Scalars['String']>;
+  string_ends_with?: InputMaybe<Scalars['String']>;
+  string_starts_with?: InputMaybe<Scalars['String']>;
+};
+
 export enum MembershipRole {
   Admin = 'ADMIN',
   Member = 'MEMBER',
@@ -2282,6 +2839,23 @@ export type NestedDateTimeWithAggregatesFilter = {
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
+export type NestedEnumAdminApprovalStatusNullableFilter = {
+  equals?: InputMaybe<AdminApprovalStatus>;
+  in?: InputMaybe<Array<AdminApprovalStatus>>;
+  not?: InputMaybe<NestedEnumAdminApprovalStatusNullableFilter>;
+  notIn?: InputMaybe<Array<AdminApprovalStatus>>;
+};
+
+export type NestedEnumAdminApprovalStatusNullableWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntNullableFilter>;
+  _max?: InputMaybe<NestedEnumAdminApprovalStatusNullableFilter>;
+  _min?: InputMaybe<NestedEnumAdminApprovalStatusNullableFilter>;
+  equals?: InputMaybe<AdminApprovalStatus>;
+  in?: InputMaybe<Array<AdminApprovalStatus>>;
+  not?: InputMaybe<NestedEnumAdminApprovalStatusNullableWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<AdminApprovalStatus>>;
+};
+
 export type NestedEnumClaimStatusFilter = {
   equals?: InputMaybe<ClaimStatus>;
   in?: InputMaybe<Array<ClaimStatus>>;
@@ -2299,23 +2873,6 @@ export type NestedEnumClaimStatusWithAggregatesFilter = {
   notIn?: InputMaybe<Array<ClaimStatus>>;
 };
 
-export type NestedEnumClaimTypeFilter = {
-  equals?: InputMaybe<ClaimType>;
-  in?: InputMaybe<Array<ClaimType>>;
-  not?: InputMaybe<NestedEnumClaimTypeFilter>;
-  notIn?: InputMaybe<Array<ClaimType>>;
-};
-
-export type NestedEnumClaimTypeWithAggregatesFilter = {
-  _count?: InputMaybe<NestedIntFilter>;
-  _max?: InputMaybe<NestedEnumClaimTypeFilter>;
-  _min?: InputMaybe<NestedEnumClaimTypeFilter>;
-  equals?: InputMaybe<ClaimType>;
-  in?: InputMaybe<Array<ClaimType>>;
-  not?: InputMaybe<NestedEnumClaimTypeWithAggregatesFilter>;
-  notIn?: InputMaybe<Array<ClaimType>>;
-};
-
 export type NestedEnumGitPoapStatusFilter = {
   equals?: InputMaybe<GitPoapStatus>;
   in?: InputMaybe<Array<GitPoapStatus>>;
@@ -2331,6 +2888,23 @@ export type NestedEnumGitPoapStatusWithAggregatesFilter = {
   in?: InputMaybe<Array<GitPoapStatus>>;
   not?: InputMaybe<NestedEnumGitPoapStatusWithAggregatesFilter>;
   notIn?: InputMaybe<Array<GitPoapStatus>>;
+};
+
+export type NestedEnumGitPoapTypeFilter = {
+  equals?: InputMaybe<GitPoapType>;
+  in?: InputMaybe<Array<GitPoapType>>;
+  not?: InputMaybe<NestedEnumGitPoapTypeFilter>;
+  notIn?: InputMaybe<Array<GitPoapType>>;
+};
+
+export type NestedEnumGitPoapTypeWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumGitPoapTypeFilter>;
+  _min?: InputMaybe<NestedEnumGitPoapTypeFilter>;
+  equals?: InputMaybe<GitPoapType>;
+  in?: InputMaybe<Array<GitPoapType>>;
+  not?: InputMaybe<NestedEnumGitPoapTypeWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<GitPoapType>>;
 };
 
 export type NestedEnumMembershipRoleFilter = {
@@ -2414,6 +2988,22 @@ export type NestedIntWithAggregatesFilter = {
   lte?: InputMaybe<Scalars['Int']>;
   not?: InputMaybe<NestedIntWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export type NestedJsonFilter = {
+  array_contains?: InputMaybe<Scalars['JSON']>;
+  array_ends_with?: InputMaybe<Scalars['JSON']>;
+  array_starts_with?: InputMaybe<Scalars['JSON']>;
+  equals?: InputMaybe<Scalars['JSON']>;
+  gt?: InputMaybe<Scalars['JSON']>;
+  gte?: InputMaybe<Scalars['JSON']>;
+  lt?: InputMaybe<Scalars['JSON']>;
+  lte?: InputMaybe<Scalars['JSON']>;
+  not?: InputMaybe<Scalars['JSON']>;
+  path?: InputMaybe<Array<Scalars['String']>>;
+  string_contains?: InputMaybe<Scalars['String']>;
+  string_ends_with?: InputMaybe<Scalars['String']>;
+  string_starts_with?: InputMaybe<Scalars['String']>;
 };
 
 export type NestedStringFilter = {
@@ -2502,6 +3092,8 @@ export type Organization = {
   _count?: Maybe<OrganizationCount>;
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
+  gitPOAPRequests: Array<GitPoapRequest>;
+  gitPOAPs: Array<GitPoap>;
   githubOrgId: Scalars['Int'];
   id: Scalars['Int'];
   memberships: Array<OrganizationMembership>;
@@ -2510,6 +3102,24 @@ export type Organization = {
   twitterHandle?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   url?: Maybe<Scalars['String']>;
+};
+
+export type OrganizationGitPoapRequestsArgs = {
+  cursor?: InputMaybe<GitPoapRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GitPoapRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GitPoapRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GitPoapRequestWhereInput>;
+};
+
+export type OrganizationGitPoaPsArgs = {
+  cursor?: InputMaybe<GitPoapWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GitPoapScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GitPoapOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GitPoapWhereInput>;
 };
 
 export type OrganizationMembershipsArgs = {
@@ -2543,6 +3153,8 @@ export type OrganizationAvgOrderByAggregateInput = {
 
 export type OrganizationCount = {
   __typename?: 'OrganizationCount';
+  gitPOAPRequests: Scalars['Int'];
+  gitPOAPs: Scalars['Int'];
   memberships: Scalars['Int'];
   repos: Scalars['Int'];
 };
@@ -2578,6 +3190,8 @@ export type OrganizationData = {
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   gitPOAPCount: Scalars['Float'];
+  gitPOAPRequests: Array<GitPoapRequest>;
+  gitPOAPs: Array<GitPoap>;
   githubOrgId: Scalars['Int'];
   id: Scalars['Int'];
   memberships: Array<OrganizationMembership>;
@@ -2588,6 +3202,24 @@ export type OrganizationData = {
   twitterHandle?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   url?: Maybe<Scalars['String']>;
+};
+
+export type OrganizationDataGitPoapRequestsArgs = {
+  cursor?: InputMaybe<GitPoapRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GitPoapRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GitPoapRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GitPoapRequestWhereInput>;
+};
+
+export type OrganizationDataGitPoaPsArgs = {
+  cursor?: InputMaybe<GitPoapWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GitPoapScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GitPoapOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GitPoapWhereInput>;
 };
 
 export type OrganizationDataMembershipsArgs = {
@@ -2754,6 +3386,8 @@ export type OrganizationOrderByWithAggregationInput = {
 export type OrganizationOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
+  gitPOAPRequests?: InputMaybe<GitPoapRequestOrderByRelationAggregateInput>;
+  gitPOAPs?: InputMaybe<GitPoapOrderByRelationAggregateInput>;
   githubOrgId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   memberships?: InputMaybe<OrganizationMembershipOrderByRelationAggregateInput>;
@@ -2811,6 +3445,8 @@ export type OrganizationWhereInput = {
   OR?: InputMaybe<Array<OrganizationWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
   description?: InputMaybe<StringNullableFilter>;
+  gitPOAPRequests?: InputMaybe<GitPoapRequestListRelationFilter>;
+  gitPOAPs?: InputMaybe<GitPoapListRelationFilter>;
   githubOrgId?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
   memberships?: InputMaybe<OrganizationMembershipListRelationFilter>;
@@ -3132,10 +3768,20 @@ export type Project = {
   __typename?: 'Project';
   _count?: Maybe<ProjectCount>;
   createdAt: Scalars['DateTime'];
+  gitPOAPRequests: Array<GitPoapRequest>;
   gitPOAPs: Array<GitPoap>;
   id: Scalars['Int'];
   repos: Array<Repo>;
   updatedAt: Scalars['DateTime'];
+};
+
+export type ProjectGitPoapRequestsArgs = {
+  cursor?: InputMaybe<GitPoapRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GitPoapRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GitPoapRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GitPoapRequestWhereInput>;
 };
 
 export type ProjectGitPoaPsArgs = {
@@ -3167,6 +3813,7 @@ export type ProjectAvgOrderByAggregateInput = {
 
 export type ProjectCount = {
   __typename?: 'ProjectCount';
+  gitPOAPRequests: Scalars['Int'];
   gitPOAPs: Scalars['Int'];
   repos: Scalars['Int'];
 };
@@ -3236,6 +3883,7 @@ export type ProjectOrderByWithAggregationInput = {
 
 export type ProjectOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
+  gitPOAPRequests?: InputMaybe<GitPoapRequestOrderByRelationAggregateInput>;
   gitPOAPs?: InputMaybe<GitPoapOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
   repos?: InputMaybe<RepoOrderByRelationAggregateInput>;
@@ -3276,6 +3924,7 @@ export type ProjectWhereInput = {
   NOT?: InputMaybe<Array<ProjectWhereInput>>;
   OR?: InputMaybe<Array<ProjectWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  gitPOAPRequests?: InputMaybe<GitPoapRequestListRelationFilter>;
   gitPOAPs?: InputMaybe<GitPoapListRelationFilter>;
   id?: InputMaybe<IntFilter>;
   repos?: InputMaybe<RepoListRelationFilter>;
@@ -3291,6 +3940,7 @@ export type Query = {
   aggregateClaim: AggregateClaim;
   aggregateFeaturedPOAP: AggregateFeaturedPoap;
   aggregateGitPOAP: AggregateGitPoap;
+  aggregateGitPOAPRequest: AggregateGitPoapRequest;
   aggregateGithubIssue: AggregateGithubIssue;
   aggregateGithubMention: AggregateGithubMention;
   aggregateGithubPullRequest: AggregateGithubPullRequest;
@@ -3308,6 +3958,7 @@ export type Query = {
   findFirstClaim?: Maybe<Claim>;
   findFirstFeaturedPOAP?: Maybe<FeaturedPoap>;
   findFirstGitPOAP?: Maybe<GitPoap>;
+  findFirstGitPOAPRequest?: Maybe<GitPoapRequest>;
   findFirstGithubIssue?: Maybe<GithubIssue>;
   findFirstGithubMention?: Maybe<GithubMention>;
   findFirstGithubPullRequest?: Maybe<GithubPullRequest>;
@@ -3319,6 +3970,8 @@ export type Query = {
   gitPOAP?: Maybe<GitPoap>;
   gitPOAPEvent?: Maybe<FullGitPoapEventData>;
   gitPOAPHolders?: Maybe<Holders>;
+  gitPOAPRequest?: Maybe<GitPoapRequest>;
+  gitPOAPRequests: Array<GitPoapRequest>;
   gitPOAPS: Array<GitPoap>;
   githubIssue?: Maybe<GithubIssue>;
   githubIssues: Array<GithubIssue>;
@@ -3329,6 +3982,7 @@ export type Query = {
   groupByClaim: Array<ClaimGroupBy>;
   groupByFeaturedPOAP: Array<FeaturedPoapGroupBy>;
   groupByGitPOAP: Array<GitPoapGroupBy>;
+  groupByGitPOAPRequest: Array<GitPoapRequestGroupBy>;
   groupByGithubIssue: Array<GithubIssueGroupBy>;
   groupByGithubMention: Array<GithubMentionGroupBy>;
   groupByGithubPullRequest: Array<GithubPullRequestGroupBy>;
@@ -3394,6 +4048,14 @@ export type QueryAggregateGitPoapArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GitPoapWhereInput>;
+};
+
+export type QueryAggregateGitPoapRequestArgs = {
+  cursor?: InputMaybe<GitPoapRequestWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<GitPoapRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GitPoapRequestWhereInput>;
 };
 
 export type QueryAggregateGithubIssueArgs = {
@@ -3525,6 +4187,15 @@ export type QueryFindFirstGitPoapArgs = {
   where?: InputMaybe<GitPoapWhereInput>;
 };
 
+export type QueryFindFirstGitPoapRequestArgs = {
+  cursor?: InputMaybe<GitPoapRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GitPoapRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GitPoapRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GitPoapRequestWhereInput>;
+};
+
 export type QueryFindFirstGithubIssueArgs = {
   cursor?: InputMaybe<GithubIssueWhereUniqueInput>;
   distinct?: InputMaybe<Array<GithubIssueScalarFieldEnum>>;
@@ -3612,6 +4283,19 @@ export type QueryGitPoapHoldersArgs = {
   sort?: InputMaybe<Scalars['String']>;
 };
 
+export type QueryGitPoapRequestArgs = {
+  where: GitPoapRequestWhereUniqueInput;
+};
+
+export type QueryGitPoapRequestsArgs = {
+  cursor?: InputMaybe<GitPoapRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GitPoapRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GitPoapRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GitPoapRequestWhereInput>;
+};
+
 export type QueryGitPoapsArgs = {
   cursor?: InputMaybe<GitPoapWhereUniqueInput>;
   distinct?: InputMaybe<Array<GitPoapScalarFieldEnum>>;
@@ -3685,6 +4369,15 @@ export type QueryGroupByGitPoapArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GitPoapWhereInput>;
+};
+
+export type QueryGroupByGitPoapRequestArgs = {
+  by: Array<GitPoapRequestScalarFieldEnum>;
+  having?: InputMaybe<GitPoapRequestScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<GitPoapRequestOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GitPoapRequestWhereInput>;
 };
 
 export type QueryGroupByGithubIssueArgs = {
@@ -4679,7 +5372,11 @@ export type GitpoapByPoapEventIdQuery = {
     __typename?: 'GitPOAP';
     id: number;
     poapEventId: number;
-    project: { __typename?: 'Project'; repos: Array<{ __typename?: 'Repo'; name: string }> };
+    poapApprovalStatus: GitPoapStatus;
+    project?: {
+      __typename?: 'Project';
+      repos: Array<{ __typename?: 'Repo'; name: string }>;
+    } | null;
   } | null;
 };
 
@@ -4722,14 +5419,14 @@ export type MostClaimedGitPoapsQuery = {
     gitPOAP: {
       __typename?: 'GitPOAP';
       id: number;
-      project: {
+      project?: {
         __typename?: 'Project';
         repos: Array<{
           __typename?: 'Repo';
           name: string;
           organization: { __typename?: 'Organization'; name: string };
         }>;
-      };
+      } | null;
     };
     event: { __typename?: 'POAPEvent'; name: string; image_url: string };
   }> | null;
@@ -4829,7 +5526,10 @@ export type RepoGitPoapsQuery = {
       gitPOAP: {
         __typename?: 'GitPOAP';
         id: number;
-        project: { __typename?: 'Project'; repos: Array<{ __typename?: 'Repo'; name: string }> };
+        project?: {
+          __typename?: 'Project';
+          repos: Array<{ __typename?: 'Repo'; name: string }>;
+        } | null;
       };
       event: { __typename?: 'POAPEvent'; name: string; image_url: string; description: string };
     }>;
@@ -4887,7 +5587,7 @@ export type GitPoapEventQuery = {
     __typename?: 'FullGitPOAPEventData';
     gitPOAP: {
       __typename?: 'GitPOAP';
-      project: {
+      project?: {
         __typename?: 'Project';
         repos: Array<{
           __typename?: 'Repo';
@@ -4902,7 +5602,7 @@ export type GitPoapEventQuery = {
             url?: string | null;
           };
         }>;
-      };
+      } | null;
     };
     event: { __typename?: 'POAPEvent'; name: string; image_url: string; description: string };
   } | null;
@@ -4992,7 +5692,7 @@ export type AdminClaimsQuery = {
     updatedAt: any;
     createdAt: any;
     mintedAt?: any | null;
-    user: { __typename?: 'User'; id: number; githubHandle: string };
+    user?: { __typename?: 'User'; id: number; githubHandle: string } | null;
     mintedAddress?: { __typename?: 'Address'; ethAddress: string } | null;
     pullRequestEarned?: {
       __typename?: 'GithubPullRequest';
@@ -5021,21 +5721,21 @@ export type EligibleClaimsQuery = {
     id: number;
     email?: { __typename?: 'Email'; emailAddress: string } | null;
     issuedAddress?: { __typename?: 'Address'; ethAddress: string; ensName?: string | null } | null;
-    user: { __typename?: 'User'; githubHandle: string };
+    user?: { __typename?: 'User'; githubHandle: string } | null;
     gitPOAP: {
       __typename?: 'GitPOAP';
       id: number;
       name: string;
       description: string;
       imageUrl: string;
-      project: {
+      project?: {
         __typename?: 'Project';
         repos: Array<{
           __typename?: 'Repo';
           name: string;
           organization: { __typename?: 'Organization'; name: string };
         }>;
-      };
+      } | null;
     };
   }>;
 };
@@ -5493,14 +6193,14 @@ export type GitPoapSearchByNameQuery = {
     name: string;
     description: string;
     imageUrl: string;
-    project: {
+    project?: {
       __typename?: 'Project';
       repos: Array<{
         __typename?: 'Repo';
         name: string;
         organization: { __typename?: 'Organization'; name: string };
       }>;
-    };
+    } | null;
   }>;
 };
 
@@ -5519,7 +6219,7 @@ export type GitPoaPsWithClaimCountQuery = {
     description: string;
     imageUrl: string;
     _count?: { __typename?: 'GitPOAPCount'; claims: number } | null;
-    project: {
+    project?: {
       __typename?: 'Project';
       id: number;
       repos: Array<{
@@ -5527,7 +6227,7 @@ export type GitPoaPsWithClaimCountQuery = {
         name: string;
         organization: { __typename?: 'Organization'; name: string };
       }>;
-    };
+    } | null;
   }>;
 };
 
@@ -5558,6 +6258,50 @@ export type TrendingReposQuery = {
       gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number; imageUrl: string }>;
     };
   }> | null;
+};
+
+export type GitPoapRequestsQueryVariables = Exact<{
+  take?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  approvalStatus?: InputMaybe<AdminApprovalStatus>;
+}>;
+
+export type GitPoapRequestsQuery = {
+  __typename?: 'Query';
+  gitPOAPRequests: Array<{
+    __typename?: 'GitPOAPRequest';
+    id: number;
+    name: string;
+    description: string;
+    imageKey: string;
+    startDate: any;
+    endDate: any;
+    expiryDate: any;
+    numRequestedCodes: number;
+    email: string;
+    contributors: any;
+    project?: {
+      __typename?: 'Project';
+      repos: Array<{
+        __typename?: 'Repo';
+        id: number;
+        name: string;
+        organization: { __typename?: 'Organization'; id: number; name: string };
+      }>;
+    } | null;
+  }>;
+};
+
+export type TotalGitPoapRequestsCountQueryVariables = Exact<{
+  approvalStatus?: InputMaybe<AdminApprovalStatus>;
+}>;
+
+export type TotalGitPoapRequestsCountQuery = {
+  __typename?: 'Query';
+  aggregateGitPOAPRequest: {
+    __typename?: 'AggregateGitPOAPRequest';
+    _count?: { __typename?: 'GitPOAPRequestCountAggregate'; id: number } | null;
+  };
 };
 
 export const GetAllStatsDocument = gql`
@@ -5627,6 +6371,7 @@ export const GitpoapByPoapEventIdDocument = gql`
     gitPOAP(where: { poapEventId: $poapEventId }) {
       id
       poapEventId
+      poapApprovalStatus
       project {
         repos {
           name
@@ -6869,6 +7614,64 @@ export function useTrendingReposQuery(
 ) {
   return Urql.useQuery<TrendingReposQuery, TrendingReposQueryVariables>({
     query: TrendingReposDocument,
+    ...options,
+  });
+}
+export const GitPoapRequestsDocument = gql`
+  query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStatus) {
+    gitPOAPRequests(
+      take: $take
+      skip: $skip
+      where: { adminApprovalStatus: { equals: $approvalStatus } }
+      orderBy: { adminApprovalStatus: desc }
+    ) {
+      id
+      name
+      description
+      imageKey
+      startDate
+      endDate
+      expiryDate
+      numRequestedCodes
+      email
+      contributors
+      project {
+        repos(take: 1) {
+          id
+          name
+          organization {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+export function useGitPoapRequestsQuery(
+  options?: Omit<Urql.UseQueryArgs<GitPoapRequestsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<GitPoapRequestsQuery, GitPoapRequestsQueryVariables>({
+    query: GitPoapRequestsDocument,
+    ...options,
+  });
+}
+export const TotalGitPoapRequestsCountDocument = gql`
+  query totalGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus) {
+    aggregateGitPOAPRequest(where: { adminApprovalStatus: { equals: $approvalStatus } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalGitPoapRequestsCountQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalGitPoapRequestsCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalGitPoapRequestsCountQuery, TotalGitPoapRequestsCountQueryVariables>({
+    query: TotalGitPoapRequestsCountDocument,
     ...options,
   });
 }

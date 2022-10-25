@@ -39,6 +39,7 @@ query gitpoapByPoapEventId($poapEventId: Int!) {
   gitPOAP(where: { poapEventId: $poapEventId }) {
     id
     poapEventId
+    poapApprovalStatus
     project {
       repos {
         name
@@ -777,5 +778,45 @@ query trendingRepos($count: Float!, $numDays: Float!) {
     }
     contributorCount
     mintedGitPOAPCount
+  }
+}
+
+query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStatus) {
+  gitPOAPRequests(
+    take: $take
+    skip: $skip
+    where: { adminApprovalStatus: { equals: $approvalStatus } }
+    orderBy: { adminApprovalStatus: desc }
+  ) {
+    id
+    name
+    description
+    imageKey
+    startDate
+    endDate
+    expiryDate
+    numRequestedCodes
+    email
+    contributors
+
+    project {
+      repos(take: 1) {
+        id
+        name
+
+        organization {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
+query totalGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus) {
+  aggregateGitPOAPRequest(where: { adminApprovalStatus: { equals: $approvalStatus } }) {
+    _count {
+      id
+    }
   }
 }
