@@ -643,8 +643,10 @@ export type DateTimeWithAggregatesFilter = {
 export type Email = {
   __typename?: 'Email';
   _count?: Maybe<EmailCount>;
+  activeToken?: Maybe<Scalars['String']>;
   addressId?: Maybe<Scalars['Int']>;
   createdAt: Scalars['DateTime'];
+  emailAddress: Scalars['String'];
   id: Scalars['Int'];
   isValidated: Scalars['Boolean'];
   tokenExpiresAt?: Maybe<Scalars['DateTime']>;
@@ -657,10 +659,12 @@ export type EmailCount = {
 };
 
 export type EmailOrderByWithRelationInput = {
+  activeToken?: InputMaybe<SortOrder>;
   address?: InputMaybe<AddressOrderByWithRelationInput>;
   addressId?: InputMaybe<SortOrder>;
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
+  emailAddress?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isValidated?: InputMaybe<SortOrder>;
   tokenExpiresAt?: InputMaybe<SortOrder>;
@@ -676,10 +680,12 @@ export type EmailWhereInput = {
   AND?: InputMaybe<Array<EmailWhereInput>>;
   NOT?: InputMaybe<Array<EmailWhereInput>>;
   OR?: InputMaybe<Array<EmailWhereInput>>;
+  activeToken?: InputMaybe<StringNullableFilter>;
   address?: InputMaybe<AddressRelationFilter>;
   addressId?: InputMaybe<IntNullableFilter>;
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  emailAddress?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
   isValidated?: InputMaybe<BoolFilter>;
   tokenExpiresAt?: InputMaybe<DateTimeNullableFilter>;
@@ -6297,6 +6303,50 @@ export type TotalGitPoapRequestsCountQuery = {
   };
 };
 
+export type UserGitPoapRequestsQueryVariables = Exact<{
+  take?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  approvalStatus?: InputMaybe<AdminApprovalStatus>;
+}>;
+
+export type UserGitPoapRequestsQuery = {
+  __typename?: 'Query';
+  gitPOAPRequests: Array<{
+    __typename?: 'GitPOAPRequest';
+    id: number;
+    name: string;
+    description: string;
+    imageKey: string;
+    startDate: any;
+    endDate: any;
+    expiryDate: any;
+    numRequestedCodes: number;
+    email: string;
+    contributors: any;
+    project?: {
+      __typename?: 'Project';
+      repos: Array<{
+        __typename?: 'Repo';
+        id: number;
+        name: string;
+        organization: { __typename?: 'Organization'; id: number; name: string };
+      }>;
+    } | null;
+  }>;
+};
+
+export type TotalUserGitPoapRequestsCountQueryVariables = Exact<{
+  approvalStatus?: InputMaybe<AdminApprovalStatus>;
+}>;
+
+export type TotalUserGitPoapRequestsCountQuery = {
+  __typename?: 'Query';
+  aggregateGitPOAPRequest: {
+    __typename?: 'AggregateGitPOAPRequest';
+    _count?: { __typename?: 'GitPOAPRequestCountAggregate'; id: number } | null;
+  };
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -7663,4 +7713,62 @@ export function useTotalGitPoapRequestsCountQuery(
     query: TotalGitPoapRequestsCountDocument,
     ...options,
   });
+}
+export const UserGitPoapRequestsDocument = gql`
+  query userGitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStatus) {
+    gitPOAPRequests(
+      take: $take
+      skip: $skip
+      where: { adminApprovalStatus: { equals: $approvalStatus } }
+      orderBy: { adminApprovalStatus: desc }
+    ) {
+      id
+      name
+      description
+      imageKey
+      startDate
+      endDate
+      expiryDate
+      numRequestedCodes
+      email
+      contributors
+      project {
+        repos(take: 1) {
+          id
+          name
+          organization {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+export function useUserGitPoapRequestsQuery(
+  options?: Omit<Urql.UseQueryArgs<UserGitPoapRequestsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<UserGitPoapRequestsQuery, UserGitPoapRequestsQueryVariables>({
+    query: UserGitPoapRequestsDocument,
+    ...options,
+  });
+}
+export const TotalUserGitPoapRequestsCountDocument = gql`
+  query totalUserGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus) {
+    aggregateGitPOAPRequest(where: { adminApprovalStatus: { equals: $approvalStatus } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalUserGitPoapRequestsCountQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalUserGitPoapRequestsCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<
+    TotalUserGitPoapRequestsCountQuery,
+    TotalUserGitPoapRequestsCountQueryVariables
+  >({ query: TotalUserGitPoapRequestsCountDocument, ...options });
 }
