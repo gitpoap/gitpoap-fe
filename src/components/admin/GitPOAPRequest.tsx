@@ -1,13 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Stack, Group, Divider as DividerUI, Popover, Modal } from '@mantine/core';
+import { Stack, Group, Divider as DividerUI, Popover, Modal, TextProps } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Text, Button } from '../../components/shared/elements';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Header } from '../shared/elements/Header';
+import { Link } from '../shared/compounds/Link';
 import { ButtonStatus } from './SubmitButtonRow';
-import { BackgroundPanel2, TextLight, TextGray, ExtraHover } from '../../colors';
+import { BackgroundPanel2, TextLight, TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { useTokens } from '../../hooks/useTokens';
 import { useApi } from '../../hooks/useApi';
@@ -30,33 +31,15 @@ type Props = {
   gitPOAPRequest: GitPOAPRequestType;
 };
 
-const Value = styled(Header)`
-  font-weight: normal;
-  color: ${TextLight};
-  font-size: ${rem(20)};
-  line-height: ${rem(24)};
-`;
-
-const Label = styled(Text)`
-  font-family: PT Mono, monospace;
-  font-style: normal;
-  font-weight: normal;
-  color: ${TextGray};
-  font-size: ${rem(12)};
-  line-height: ${rem(15)};
-`;
-
-const Link = styled.a`
+const Value = styled(Text)<TextProps>`
   font-family: VT323;
-  font-weight: normal;
-  color: ${TextLight};
-  font-size: ${rem(20)};
   line-height: ${rem(24)};
-  cursor: pointer;
+`;
 
-  &:hover {
-    color: ${ExtraHover};
-  }
+const Label = styled(Text)<TextProps>`
+  font-family: PT Mono, monospace;
+  color: ${TextGray};
+  line-height: ${rem(15)};
 `;
 
 const Divider = styled(DividerUI)`
@@ -65,15 +48,6 @@ const Divider = styled(DividerUI)`
 
   &:last-child {
     display: none;
-  }
-`;
-
-const HeaderStyled = styled(Header)`
-  font-size: ${rem(30)};
-  line-height: ${rem(48)};
-
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    font-size: ${rem(40)};
   }
 `;
 
@@ -180,54 +154,78 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
         <Group align="start" spacing="sm">
           <Stack>
             <Group spacing="sm">
-              <Label>{'Name:'}</Label>
-              <Value>{gitPOAPRequest.name}</Value>
+              <Label size={12}>{'Name:'}</Label>
+              <Value size={20} color={TextLight} weight="normal">
+                {gitPOAPRequest.name}
+              </Value>
             </Group>
             <Group spacing="sm">
-              <Label>{'Description:'}</Label>
-              <Value>{gitPOAPRequest.description}</Value>
+              <Label size={12}>{'Description:'}</Label>
+              <Value size={20} color={TextLight} weight="normal">
+                {gitPOAPRequest.description}
+              </Value>
             </Group>
             <Group spacing="sm">
-              <Label>{'Email:'}</Label>
-              <Value>{gitPOAPRequest.email}</Value>
+              <Label size={12}>{'Email:'}</Label>
+              <Value size={20} color={TextLight} weight="normal">
+                {gitPOAPRequest.email}
+              </Value>
             </Group>
             {project && (
               <Group spacing="sm">
-                <Label>{'Project:'}</Label>
-                <Link href={`/rp/${project.id}`}>{project.name}</Link>
+                <Label size={12}>{'Project:'}</Label>
+                <Link href={`/rp/${project.id}`}>
+                  <Value variant="link" size={20} underline={false}>
+                    {project.name}
+                  </Value>
+                </Link>
               </Group>
             )}
             {organization && (
               <Group spacing="sm">
-                <Label>{'Organization:'}</Label>
-                <Link href={`/org/${organization.id}`}>{organization.name}</Link>
+                <Label size={12}>{'Organization:'}</Label>
+                <Link href={`/org/${organization.id}`}>
+                  <Value variant="link" size={20} underline={false}>
+                    {organization.name}
+                  </Value>
+                </Link>
               </Group>
             )}
           </Stack>
           <Stack>
             <Group spacing="sm">
-              <Label>{'StartedAt:'}</Label>
-              <Value>{gitPOAPRequest.startDate}</Value>
+              <Label size={12}>{'StartedAt:'}</Label>
+              <Value size={20} color={TextLight} weight="normal">
+                {gitPOAPRequest.startDate}
+              </Value>
             </Group>
             <Group spacing="sm">
-              <Label>{'EndAt:'}</Label>
-              <Value>{gitPOAPRequest.endDate}</Value>
+              <Label size={12}>{'EndAt:'}</Label>
+              <Value size={20} color={TextLight} weight="normal">
+                {gitPOAPRequest.endDate}
+              </Value>
             </Group>
             <Group spacing="sm">
-              <Label>{'ExpiryAt:'}</Label>
-              <Value>{gitPOAPRequest.expiryDate}</Value>
+              <Label size={12}>{'ExpiryAt:'}</Label>
+              <Value size={20} color={TextLight} weight="normal">
+                {gitPOAPRequest.expiryDate}
+              </Value>
             </Group>
             <Group spacing="sm">
-              <Label>{'RequestCodes:'}</Label>
-              <Value>{gitPOAPRequest.numRequestedCodes}</Value>
+              <Label size={12}>{'RequestCodes:'}</Label>
+              <Value size={20} color={TextLight} weight="normal">
+                {gitPOAPRequest.numRequestedCodes}
+              </Value>
             </Group>
             <Group spacing="sm">
-              <Link onClick={openContributorModal}>{'Show Contributors'}</Link>
+              <Value variant="link" onClick={openContributorModal} size={20} underline={false}>
+                {'Show Contributors'}
+              </Value>
               <Modal
                 centered
                 opened={isContributorModalOpen}
                 onClose={closeContributorModal}
-                title={<HeaderStyled>{'Contributors'}</HeaderStyled>}
+                title={<Header size={30}>{'Contributors'}</Header>}
               >
                 {gitPOAPRequest.contributors.githubHandles &&
                   gitPOAPRequest.contributors.githubHandles.map((githubHandle) => (
