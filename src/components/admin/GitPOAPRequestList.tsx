@@ -35,18 +35,6 @@ const ListTitle = styled(Header)`
   }
 `;
 
-const FilterBy = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: ${rem(12)};
-  line-height: ${rem(18)};
-  letter-spacing: ${rem(2)};
-  text-transform: uppercase;
-  color: ${TextGray};
-  margin-right: ${rem(10)};
-`;
-
 export type ContributorsType = {
   githubHandles?: string[];
   ethAddresses?: string[];
@@ -110,8 +98,12 @@ export const GitPOAPRequestList = () => {
       <Stack align="center" justify="flex-start" spacing="sm">
         <Heading position="apart" align="center" grow mt={rem(30)} mb={rem(15)}>
           <ListTitle>{'GitPoap Requests'}</ListTitle>
-          <Group>
-            {!matchesBreakpointSmall && <FilterBy>{'Filter By: '}</FilterBy>}
+          <Group position="right" spacing="lg">
+            {!matchesBreakpointSmall && (
+              <Text size={12} color={TextGray} transform="uppercase">
+                {'Filter By: '}
+              </Text>
+            )}
             <Select data={selectOptions} value={filter} onChange={onSelectChange} />
           </Group>
         </Heading>
