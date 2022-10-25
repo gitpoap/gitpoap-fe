@@ -10,7 +10,6 @@ import { Link } from '../shared/compounds/Link';
 import { ButtonStatus } from './SubmitButtonRow';
 import { BackgroundPanel2, TextLight, TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
-import { useTokens } from '../../hooks/useTokens';
 import { useApi } from '../../hooks/useApi';
 import { GitPoapRequestsQuery } from '../../graphql/generated-gql';
 
@@ -37,7 +36,6 @@ const Value = styled(Text)<TextProps>`
 `;
 
 const Label = styled(Text)<TextProps>`
-  font-family: PT Mono, monospace;
   color: ${TextGray};
   line-height: ${rem(15)};
 `;
@@ -64,7 +62,6 @@ const generateS3ImageUrl = (imageKey: string): string => {
 };
 
 export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
-  const { tokens } = useTokens();
   const api = useApi();
 
   const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
@@ -75,7 +72,6 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const [rejectStatus, setRejectStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
 
-  const accessToken = tokens?.accessToken ?? '';
   const project = gitPOAPRequest.project?.repos[0];
   const organization = gitPOAPRequest.project?.repos[0]?.organization;
 
@@ -90,7 +86,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
     }
 
     setApproveStatus(ButtonStatus.SUCCESS);
-  }, [gitPOAPRequest.id, accessToken]);
+  }, [gitPOAPRequest.id]);
 
   const submitRejectGitPOAPRequest = useCallback(async () => {
     setRejectStatus(ButtonStatus.LOADING);
@@ -103,7 +99,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
     }
 
     setRejectStatus(ButtonStatus.SUCCESS);
-  }, [gitPOAPRequest.id, accessToken]);
+  }, [gitPOAPRequest.id]);
 
   return (
     <>
