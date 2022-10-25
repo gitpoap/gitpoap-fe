@@ -24,14 +24,16 @@ type ClaimItemProps = {
   claim: Claim;
 };
 
-const getIssuedTo = ({ issuedAddress, email, user }: Claim) => {
+const getIssuedTo = ({ issuedAddress, user }: Claim) => {
   if (issuedAddress?.ensName) {
     return issuedAddress.ensName;
   } else if (issuedAddress?.ethAddress) {
     return issuedAddress.ethAddress;
-  } else if (email) {
-    return email.emailAddress;
-  } else if (user?.githubHandle) {
+  }
+  // else if (email) {
+  //   return email.emailAddress;
+  // }
+  else if (user?.githubHandle) {
     return user.githubHandle;
   }
 
