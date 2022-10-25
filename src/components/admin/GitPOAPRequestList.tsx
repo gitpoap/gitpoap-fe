@@ -1,25 +1,24 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Group, Loader, Stack, Text } from '@mantine/core';
+import { Group, Loader, Stack, Text, Pagination } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { FaPlus } from 'react-icons/fa';
 import {
   useGitPoapRequestsQuery,
   useTotalGitPoapRequestsCountQuery,
   AdminApprovalStatus,
 } from '../../graphql/generated-gql';
-import { GitPOAPRequest, GitPOAPRequestType } from './GitPOAPRequest';
+import { GitPOAPRequest } from './GitPOAPRequest';
 import { Select } from '../../components/shared/elements/Select';
-import { Button } from '../../components/shared/elements/Button';
 import { Header } from '../../components/shared/elements/Header';
 import { TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { SelectOption } from '../shared/compounds/ItemList';
 
-const ShowMore = styled(Button)`
-  align-self: center;
-`;
+type QueryVars = {
+  page: number;
+  perPage: number;
+};
 
 const Heading = styled(Group)`
   width: 100%;
@@ -43,12 +42,12 @@ const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'Rejected', label: 'REJECTED' },
 ];
 
-const perPage = 20;
-
 export const GitPOAPRequestList = () => {
-  const [skip, setSkip] = useState(0);
+  const [variables, setVariables] = useState<QueryVars>({
+    page: 1,
+    perPage: 10,
+  });
   const [filter, setFilter] = useState<SortOptions>('Pending');
-  const [gitPOAPRequests, setGitPOAPRequests] = useState<GitPOAPRequestType[]>([]);
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
 
   const [totalCountResult] = useTotalGitPoapRequestsCountQuery({
@@ -58,33 +57,28 @@ export const GitPOAPRequestList = () => {
   });
   const [result] = useGitPoapRequestsQuery({
     variables: {
-      take: perPage,
-      skip,
+      take: variables.perPage,
+      skip: (variables.page - 1) * variables.perPage,
       approvalStatus: AdminApprovalStatus[filter],
     },
   });
 
-  const showMoreOnClick = useCallback(() => {
-    setSkip((prev) => prev + perPage);
+  const handlePageChange = useCallback((page: number) => {
+    setVariables({
+      ...variables,
+      page,
+    });
   }, []);
 
   const onSelectChange = (filterValue: SortOptions) => {
     if (filterValue !== filter) {
       setFilter(filterValue as SortOptions);
-      setGitPOAPRequests([]);
-      setSkip(0);
     }
   };
 
   const totalCount = totalCountResult.data?.aggregateGitPOAPRequest._count?.id ?? 0;
-  const hasShowMoreButton = gitPOAPRequests.length < totalCount;
-
-  useEffect(() => {
-    if (!result.fetching && result.data?.gitPOAPRequests) {
-      const newGitPOAPRequests = result.data?.gitPOAPRequests ?? [];
-      setGitPOAPRequests([...gitPOAPRequests, ...newGitPOAPRequests]);
-    }
-  }, [result]);
+  const totalPage = totalCount / variables.perPage + 1;
+  const gitPOAPRequests = result.data?.gitPOAPRequests;
 
   return (
     <Group position="center" py={0} px={rem(20)}>
@@ -100,31 +94,28 @@ export const GitPOAPRequestList = () => {
             <Select data={selectOptions} value={filter} onChange={onSelectChange} />
           </Group>
         </Heading>
-        {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
-          <Text>{'No GitPOAP Requests Found'}</Text>
-        )}
-        <Stack>
-          {gitPOAPRequests &&
-            gitPOAPRequests.length > 0 &&
-            gitPOAPRequests.map((gitPOAPRequest) => (
-              <GitPOAPRequest key={gitPOAPRequest.id} gitPOAPRequest={gitPOAPRequest} />
-            ))}
-        </Stack>
         {result.fetching && (
           <Group position="center" align="center" grow>
             <Loader size="xl" variant="dots" />
           </Group>
         )}
-        {!result.fetching && hasShowMoreButton && (
-          <ShowMore
-            onClick={showMoreOnClick}
-            leftIcon={<FaPlus />}
-            variant="outline"
-            loading={result.fetching}
-          >
-            {'Show more'}
-          </ShowMore>
+        {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
+          <Text>{'No GitPOAP Requests Found'}</Text>
         )}
+        <Stack>
+          {!result.fetching &&
+            gitPOAPRequests &&
+            gitPOAPRequests.length > 0 &&
+            gitPOAPRequests.map((gitPOAPRequest) => (
+              <GitPOAPRequest key={gitPOAPRequest.id} gitPOAPRequest={gitPOAPRequest} />
+            ))}
+        </Stack>
+        <Pagination
+          page={variables.page}
+          onChange={handlePageChange}
+          total={totalPage}
+          mt={rem(20)}
+        />
       </Stack>
     </Group>
   );
