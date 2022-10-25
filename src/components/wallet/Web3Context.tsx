@@ -193,7 +193,14 @@ export const Web3ContextProvider = (props: Props) => {
     } catch (err) {
       console.warn(err);
     }
-  }, [web3Modal, addListeners, initializeProvider, authenticate, tokens?.accessToken]);
+  }, [
+    web3Modal,
+    addListeners,
+    initializeProvider,
+    authenticate,
+    tokens?.accessToken,
+    hasConnectedBefore,
+  ]);
 
   /**
    * Hook to check whether a cached provider exists. If it does, connect to provider. It also
@@ -201,11 +208,11 @@ export const Web3ContextProvider = (props: Props) => {
    */
   useEffect(() => {
     const connectToCachedProvider = async () => {
+      hasAttemptedEagerConnect.current = true;
       if (
         web3Modal.cachedProvider === 'injected' &&
         getInjectedProviderName()?.toLowerCase() === 'metamask'
       ) {
-        hasAttemptedEagerConnect.current = true;
         if (window.ethereum.request) {
           const accounts = await window.ethereum.request({ method: 'eth_accounts' });
           if (!accounts.length) {
@@ -227,7 +234,11 @@ export const Web3ContextProvider = (props: Props) => {
       tokens?.accessToken
     ) {
       connectToCachedProvider();
-    } else if (!isCached && hasAttemptedEagerConnect.current === false) {
+    } else if (
+      connectionStatus === 'uninitialized' &&
+      !isCached &&
+      hasAttemptedEagerConnect.current === false
+    ) {
       setConnectionStatus('disconnected');
     }
   }, [connectionStatus, connect, web3Modal, tokens?.accessToken]);
