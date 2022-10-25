@@ -6,12 +6,10 @@ import { Grid } from '@mantine/core';
 import { Header } from '../../../components/shared/elements';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { GitPOAPRequestList } from '../../../components/admin/GitPOAPRequestList';
-import { useUser } from '../../../hooks/useUser';
-import { useIsDev } from '../../../hooks/useIsDev';
+import { useIsAdmin } from '../../../hooks/useIsAdmin';
 
 const GitPoapRequestsDashboard: NextPage = () => {
-  const user = useUser();
-  const isDev = useIsDev();
+  const isAdmin = useIsAdmin();
 
   return (
     <>
@@ -29,7 +27,7 @@ const GitPoapRequestsDashboard: NextPage = () => {
       >
         <Header>{'Approve CGs'}</Header>
         <Grid.Col xs={12} sm={12} md={12} lg={12} xl={12}>
-          {user || isDev ? <GitPOAPRequestList /> : <ConnectGitHub />}
+          {isAdmin ? <GitPOAPRequestList /> : <ConnectGitHub />}
         </Grid.Col>
       </Grid>
     </>
