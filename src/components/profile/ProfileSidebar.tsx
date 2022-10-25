@@ -1,8 +1,9 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { InfoHexProfileDetail } from './InfoHexProfileDetail';
 import { truncateAddress } from '../../helpers';
 import { useProfileContext } from './ProfileContext';
-import { useRouter } from 'next/router';
+import { useUser } from '../../hooks/useUser';
 
 const getName = (ensName: string | null, address: string | null) => {
   if (ensName) {
@@ -17,12 +18,14 @@ const getName = (ensName: string | null, address: string | null) => {
 export const ProfileSidebar = () => {
   const { profileData, showEditProfileButton, isLoading } = useProfileContext();
   const router = useRouter();
+  const user = useUser();
 
   const sidebarAddress = profileData?.address ?? null;
   const ensName = profileData?.ensName ?? null;
   const bio = profileData?.bio ?? null;
   const name = getName(ensName, sidebarAddress);
   const ensAvatarUrl = profileData?.ensAvatarImageUrl ?? null;
+  const githubHandle = user?.githubHandle ?? profileData?.githubHandle;
 
   return (
     <InfoHexProfileDetail
@@ -34,9 +37,7 @@ export const ProfileSidebar = () => {
       twitterHref={
         profileData?.twitterHandle ? `https://twitter.com/${profileData.twitterHandle}` : undefined
       }
-      githubHref={
-        profileData?.githubHandle ? `https://github.com/${profileData.githubHandle}` : undefined
-      }
+      githubHref={githubHandle ? `https://github.com/${githubHandle}` : undefined}
       websiteHref={profileData?.personalSiteUrl}
       onClickEditProfile={() => router.push('/settings')}
       showEditProfileButton={showEditProfileButton}
