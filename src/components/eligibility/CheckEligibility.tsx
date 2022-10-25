@@ -10,22 +10,6 @@ import { ClaimItem } from './ClaimItem';
 import { useRouter } from 'next/router';
 import { useWeb3Context } from '../wallet/Web3Context';
 
-const StyledHeader = styled(Header)`
-  display: block;
-  max-width: 100%;
-`;
-
-const SubHeader = styled(Text)`
-  width: ${rem(750)};
-  max-width: 100%;
-  line-height: ${rem(24)};
-`;
-
-const StyledSearch = styled(Input)`
-  width: ${rem(400)};
-  max-width: 100%;
-`;
-
 export const ClaimListContainer = styled(Box)<BoxProps>`
   display: grid;
   width: 100%;
@@ -93,18 +77,19 @@ export const CheckEligibility = () => {
   return (
     <Stack align="center" mt={rem(80)} justify="center">
       <Stack align="center">
-        <StyledHeader>{'Check Eligibility'}</StyledHeader>
-        <SubHeader align="center" size="md">
+        <Header>{'Check Eligibility'}</Header>
+        <Text align="center" size="md">
           {"Search for your GitHub handle & check if you're eligible for any GitPOAPs"}
-        </SubHeader>
+        </Text>
         {connectionStatus === 'disconnected' && (
           <Button leftIcon={<FaEthereum size={16} />} onClick={() => connect()}>
             {'Sign In'}
           </Button>
         )}
       </Stack>
-      <StyledSearch
+      <Input
         mb={rem(40)}
+        px={rem(15)}
         style={{ marginBottom: rem(40), width: rem(500) }}
         placeholder={'VBUTERIN...'}
         value={searchValue ?? ''}
