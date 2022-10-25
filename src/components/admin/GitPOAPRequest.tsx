@@ -6,42 +6,31 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Text, Button } from '../../components/shared/elements';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Header } from '../shared/elements/Header';
-import { SubmitButtonRow, ButtonStatus } from './SubmitButtonRow';
-import { BackgroundPanel2, TextLight, TextGray, ExtraHover, ExtraRed } from '../../colors';
-import { ContributorsType } from './GitPOAPRequestList';
+import { ButtonStatus } from './SubmitButtonRow';
+import { BackgroundPanel2, TextLight, TextGray, ExtraHover } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { useTokens } from '../../hooks/useTokens';
 import { useApi } from '../../hooks/useApi';
+import { GitPoapRequestsQuery } from '../../graphql/generated-gql';
 
-export type GitPOAPRequestType = {
-  __typename?: 'GitPOAPRequest';
-  id: number;
-  name: string;
-  description: string;
-  imageKey: string;
-  startDate: string;
-  endDate: string;
-  expiryDate: string;
-  numRequestedCodes: number;
-  email: string;
-  contributors: ContributorsType;
-  project?: {
-    __typename?: 'Project';
-    repos: Array<{
-      __typename?: 'Repo';
-      id: number;
-      name: string;
-      organization: { __typename?: 'Organization'; id: number; name: string };
-    }>;
-  } | null;
+type ContributorsType = {
+  githubHandles?: string[];
+  ethAddresses?: string[];
+  ensNames?: string[];
+  emails?: string[];
 };
+
+type GitPOAPRequestRawType = GitPoapRequestsQuery['gitPOAPRequests'][number];
+
+export interface GitPOAPRequestType extends GitPOAPRequestRawType {
+  contributors: ContributorsType;
+}
 
 type Props = {
   gitPOAPRequest: GitPOAPRequestType;
 };
 
-const Value = styled(Text)`
-  font-family: VT323;
+const Value = styled(Header)`
   font-weight: normal;
   color: ${TextLight};
   font-size: ${rem(20)};

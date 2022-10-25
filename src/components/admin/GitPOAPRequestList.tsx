@@ -35,13 +35,6 @@ const ListTitle = styled(Header)`
   }
 `;
 
-export type ContributorsType = {
-  githubHandles?: string[];
-  ethAddresses?: string[];
-  ensNames?: string[];
-  emails?: string[];
-};
-
 type SortOptions = 'Pending' | 'Approved' | 'Rejected';
 
 const selectOptions: SelectOption<SortOptions>[] = [
