@@ -16,20 +16,13 @@ import { Header } from '../../components/shared/elements/Header';
 import { TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { SelectOption } from '../shared/compounds/ItemList';
-import { useTokens } from '../../hooks/useTokens';
 
 const ShowMore = styled(Button)`
   align-self: center;
 `;
 
-const Heading = styled.div`
+const Heading = styled(Group)`
   width: 100%;
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: ${rem(30)};
-  margin-bottom: ${rem(15)};
 `;
 
 const ListTitle = styled(Header)`
@@ -72,7 +65,6 @@ const selectOptions: SelectOption<SortOptions>[] = [
 const perPage = 20;
 
 export const GitPOAPRequestList = () => {
-  const { tokens } = useTokens();
   const [skip, setSkip] = useState(0);
   const [filter, setFilter] = useState<SortOptions>('Pending');
   const [gitPOAPRequests, setGitPOAPRequests] = useState<GitPOAPRequestType[]>([]);
@@ -103,7 +95,6 @@ export const GitPOAPRequestList = () => {
     }
   };
 
-  const accessToken = tokens?.accessToken;
   const totalCount = totalCountResult.data?.aggregateGitPOAPRequest._count?.id ?? 0;
   const hasShowMoreButton = gitPOAPRequests.length < totalCount;
 
@@ -117,7 +108,7 @@ export const GitPOAPRequestList = () => {
   return (
     <Group position="center" py={0} px={rem(20)}>
       <Stack align="center" justify="flex-start" spacing="sm">
-        <Heading>
+        <Heading position="apart" align="center" grow mt={rem(30)} mb={rem(15)}>
           <ListTitle>{'GitPoap Requests'}</ListTitle>
           <Group>
             {!matchesBreakpointSmall && <FilterBy>{'Filter By: '}</FilterBy>}
