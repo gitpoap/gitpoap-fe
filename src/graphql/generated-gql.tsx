@@ -643,10 +643,8 @@ export type DateTimeWithAggregatesFilter = {
 export type Email = {
   __typename?: 'Email';
   _count?: Maybe<EmailCount>;
-  activeToken?: Maybe<Scalars['String']>;
   addressId?: Maybe<Scalars['Int']>;
   createdAt: Scalars['DateTime'];
-  emailAddress: Scalars['String'];
   id: Scalars['Int'];
   isValidated: Scalars['Boolean'];
   tokenExpiresAt?: Maybe<Scalars['DateTime']>;
@@ -659,12 +657,10 @@ export type EmailCount = {
 };
 
 export type EmailOrderByWithRelationInput = {
-  activeToken?: InputMaybe<SortOrder>;
   address?: InputMaybe<AddressOrderByWithRelationInput>;
   addressId?: InputMaybe<SortOrder>;
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
-  emailAddress?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isValidated?: InputMaybe<SortOrder>;
   tokenExpiresAt?: InputMaybe<SortOrder>;
@@ -680,12 +676,10 @@ export type EmailWhereInput = {
   AND?: InputMaybe<Array<EmailWhereInput>>;
   NOT?: InputMaybe<Array<EmailWhereInput>>;
   OR?: InputMaybe<Array<EmailWhereInput>>;
-  activeToken?: InputMaybe<StringNullableFilter>;
   address?: InputMaybe<AddressRelationFilter>;
   addressId?: InputMaybe<IntNullableFilter>;
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  emailAddress?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
   isValidated?: InputMaybe<BoolFilter>;
   tokenExpiresAt?: InputMaybe<DateTimeNullableFilter>;
@@ -5719,7 +5713,6 @@ export type EligibleClaimsQuery = {
   claims: Array<{
     __typename?: 'Claim';
     id: number;
-    email?: { __typename?: 'Email'; emailAddress: string } | null;
     issuedAddress?: { __typename?: 'Address'; ethAddress: string; ensName?: string | null } | null;
     user?: { __typename?: 'User'; githubHandle: string } | null;
     gitPOAP: {
@@ -6782,16 +6775,12 @@ export const EligibleClaimsDocument = gql`
         gitPOAP: { is: { isEnabled: { equals: true } } }
         OR: [
           { user: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
-          { email: { is: { emailAddress: { contains: $query, mode: insensitive } } } }
           { issuedAddress: { is: { ethAddress: { contains: $query, mode: insensitive } } } }
           { issuedAddress: { is: { ensName: { contains: $query, mode: insensitive } } } }
         ]
       }
     ) {
       id
-      email {
-        emailAddress
-      }
       issuedAddress {
         ethAddress
         ensName

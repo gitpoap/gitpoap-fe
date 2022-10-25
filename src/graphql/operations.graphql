@@ -325,16 +325,12 @@ query eligibleClaims($query: String!, $skip: Int, $take: Int) {
       gitPOAP: { is: { isEnabled: { equals: true } } }
       OR: [
         { user: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
-        { email: { is: { emailAddress: { contains: $query, mode: insensitive } } } }
         { issuedAddress: { is: { ethAddress: { contains: $query, mode: insensitive } } } }
         { issuedAddress: { is: { ensName: { contains: $query, mode: insensitive } } } }
       ]
     }
   ) {
     id
-    email {
-      emailAddress
-    }
     issuedAddress {
       ethAddress
       ensName
