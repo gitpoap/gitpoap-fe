@@ -17,7 +17,6 @@ import { useRefreshTokens } from '../../hooks/useRefreshTokens';
 import { useApi } from '../../hooks/useApi';
 import { useLocalStorage } from '@mantine/hooks';
 import { useRouter } from 'next/router';
-import { useUser } from '../../hooks/useUser';
 
 type Props = {
   children: React.ReactNode;
@@ -101,9 +100,8 @@ export const Web3ContextProvider = (props: Props) => {
   const [address, setAddress] = useState<string | null>(null);
   const [web3Provider, setWeb3Provider] = useState<JsonRpcProvider | null>(null);
   const hasAttemptedEagerConnect = useRef<boolean>(false);
-  const { setRefreshToken, setAccessToken, tokens } = useTokens();
+  const { setRefreshToken, setAccessToken, tokens, payload } = useTokens();
   const api = useApi();
-  const user = useUser();
   const router = useRouter();
   const [hasConnectedBefore, setHasConnectedBefore] = useLocalStorage<boolean>({
     key: 'hasConnectedBefore',
@@ -240,10 +238,10 @@ export const Web3ContextProvider = (props: Props) => {
       disconnectWallet,
       connectionStatus,
       address,
-      ensName: user?.ensName ?? null,
+      ensName: payload?.ensName ?? null,
       web3Provider,
     }),
-    [connect, disconnectWallet, connectionStatus, address, web3Provider, user?.ensName],
+    [connect, disconnectWallet, connectionStatus, address, web3Provider, payload?.ensName],
   );
 
   return <Web3Context.Provider value={{ onChainProvider }}>{props.children}</Web3Context.Provider>;

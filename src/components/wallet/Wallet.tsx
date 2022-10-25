@@ -1,7 +1,6 @@
 import { Box, Menu } from '@mantine/core';
 import { NextLink } from '@mantine/next';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import styled from 'styled-components';
 import { WalletStatus } from './WalletStatus';
@@ -25,21 +24,10 @@ type Props = {
 };
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
-  const router = useRouter();
-  const [isHovering, setIsHovering] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const { connectionStatus, address, connect, disconnectWallet } = useWeb3Context();
   const user = useUser();
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
-
-  /* Ensure the popover is closed when the button switches to a connected state */
-  useEffect(() => {
-    if (connectionStatus === 'connected-to-wallet') {
-      setIsOpen(false);
-      setIsHovering(false);
-    }
-  }, [connectionStatus]);
 
   return (
     <Content>
