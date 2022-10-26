@@ -32,6 +32,7 @@ export type Address = {
 export type AddressCount = {
   __typename?: 'AddressCount';
   authTokens: Scalars['Int'];
+  gitPOAPRequests: Scalars['Int'];
   issuedClaims: Scalars['Int'];
   memberships: Scalars['Int'];
   mintedClaims: Scalars['Int'];
@@ -53,6 +54,7 @@ export type AddressOrderByWithRelationInput = {
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
   ethAddress?: InputMaybe<SortOrder>;
+  gitPOAPRequests?: InputMaybe<GitPoapRequestOrderByRelationAggregateInput>;
   githubUser?: InputMaybe<UserOrderByWithRelationInput>;
   githubUserId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
@@ -87,6 +89,7 @@ export type AddressWhereInput = {
   ensAvatarImageUrl?: InputMaybe<StringNullableFilter>;
   ensName?: InputMaybe<StringNullableFilter>;
   ethAddress?: InputMaybe<StringFilter>;
+  gitPOAPRequests?: InputMaybe<GitPoapRequestListRelationFilter>;
   githubUser?: InputMaybe<UserRelationFilter>;
   githubUserId?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<IntFilter>;
@@ -643,10 +646,8 @@ export type DateTimeWithAggregatesFilter = {
 export type Email = {
   __typename?: 'Email';
   _count?: Maybe<EmailCount>;
-  activeToken?: Maybe<Scalars['String']>;
   addressId?: Maybe<Scalars['Int']>;
   createdAt: Scalars['DateTime'];
-  emailAddress: Scalars['String'];
   id: Scalars['Int'];
   isValidated: Scalars['Boolean'];
   tokenExpiresAt?: Maybe<Scalars['DateTime']>;
@@ -659,12 +660,10 @@ export type EmailCount = {
 };
 
 export type EmailOrderByWithRelationInput = {
-  activeToken?: InputMaybe<SortOrder>;
   address?: InputMaybe<AddressOrderByWithRelationInput>;
   addressId?: InputMaybe<SortOrder>;
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
-  emailAddress?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isValidated?: InputMaybe<SortOrder>;
   tokenExpiresAt?: InputMaybe<SortOrder>;
@@ -680,12 +679,10 @@ export type EmailWhereInput = {
   AND?: InputMaybe<Array<EmailWhereInput>>;
   NOT?: InputMaybe<Array<EmailWhereInput>>;
   OR?: InputMaybe<Array<EmailWhereInput>>;
-  activeToken?: InputMaybe<StringNullableFilter>;
   address?: InputMaybe<AddressRelationFilter>;
   addressId?: InputMaybe<IntNullableFilter>;
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  emailAddress?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
   isValidated?: InputMaybe<BoolFilter>;
   tokenExpiresAt?: InputMaybe<DateTimeNullableFilter>;
@@ -1300,6 +1297,8 @@ export type GitPoapRelationFilter = {
 
 export type GitPoapRequest = {
   __typename?: 'GitPOAPRequest';
+  address: Address;
+  addressId: Scalars['Int'];
   adminApprovalStatus?: Maybe<AdminApprovalStatus>;
   contributors: Scalars['JSON'];
   createdAt: Scalars['DateTime'];
@@ -1333,6 +1332,7 @@ export type GitPoapRequest = {
 
 export type GitPoapRequestAvgAggregate = {
   __typename?: 'GitPOAPRequestAvgAggregate';
+  addressId?: Maybe<Scalars['Float']>;
   eventId?: Maybe<Scalars['Float']>;
   gitPOAPId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
@@ -1345,6 +1345,7 @@ export type GitPoapRequestAvgAggregate = {
 };
 
 export type GitPoapRequestAvgOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   eventId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
@@ -1359,6 +1360,7 @@ export type GitPoapRequestAvgOrderByAggregateInput = {
 export type GitPoapRequestCountAggregate = {
   __typename?: 'GitPOAPRequestCountAggregate';
   _all: Scalars['Int'];
+  addressId: Scalars['Int'];
   adminApprovalStatus: Scalars['Int'];
   contributors: Scalars['Int'];
   createdAt: Scalars['Int'];
@@ -1387,6 +1389,7 @@ export type GitPoapRequestCountAggregate = {
 };
 
 export type GitPoapRequestCountOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   adminApprovalStatus?: InputMaybe<SortOrder>;
   contributors?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
@@ -1421,6 +1424,7 @@ export type GitPoapRequestGroupBy = {
   _max?: Maybe<GitPoapRequestMaxAggregate>;
   _min?: Maybe<GitPoapRequestMinAggregate>;
   _sum?: Maybe<GitPoapRequestSumAggregate>;
+  addressId: Scalars['Int'];
   adminApprovalStatus?: Maybe<AdminApprovalStatus>;
   contributors: Scalars['JSON'];
   createdAt: Scalars['DateTime'];
@@ -1456,6 +1460,7 @@ export type GitPoapRequestListRelationFilter = {
 
 export type GitPoapRequestMaxAggregate = {
   __typename?: 'GitPOAPRequestMaxAggregate';
+  addressId?: Maybe<Scalars['Int']>;
   adminApprovalStatus?: Maybe<AdminApprovalStatus>;
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
@@ -1483,6 +1488,7 @@ export type GitPoapRequestMaxAggregate = {
 };
 
 export type GitPoapRequestMaxOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   adminApprovalStatus?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
@@ -1511,6 +1517,7 @@ export type GitPoapRequestMaxOrderByAggregateInput = {
 
 export type GitPoapRequestMinAggregate = {
   __typename?: 'GitPOAPRequestMinAggregate';
+  addressId?: Maybe<Scalars['Int']>;
   adminApprovalStatus?: Maybe<AdminApprovalStatus>;
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
@@ -1538,6 +1545,7 @@ export type GitPoapRequestMinAggregate = {
 };
 
 export type GitPoapRequestMinOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   adminApprovalStatus?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
@@ -1574,6 +1582,7 @@ export type GitPoapRequestOrderByWithAggregationInput = {
   _max?: InputMaybe<GitPoapRequestMaxOrderByAggregateInput>;
   _min?: InputMaybe<GitPoapRequestMinOrderByAggregateInput>;
   _sum?: InputMaybe<GitPoapRequestSumOrderByAggregateInput>;
+  addressId?: InputMaybe<SortOrder>;
   adminApprovalStatus?: InputMaybe<SortOrder>;
   contributors?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
@@ -1602,6 +1611,8 @@ export type GitPoapRequestOrderByWithAggregationInput = {
 };
 
 export type GitPoapRequestOrderByWithRelationInput = {
+  address?: InputMaybe<AddressOrderByWithRelationInput>;
+  addressId?: InputMaybe<SortOrder>;
   adminApprovalStatus?: InputMaybe<SortOrder>;
   contributors?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
@@ -1639,6 +1650,7 @@ export type GitPoapRequestRelationFilter = {
 };
 
 export enum GitPoapRequestScalarFieldEnum {
+  AddressId = 'addressId',
   AdminApprovalStatus = 'adminApprovalStatus',
   Contributors = 'contributors',
   CreatedAt = 'createdAt',
@@ -1670,6 +1682,7 @@ export type GitPoapRequestScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<GitPoapRequestScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<GitPoapRequestScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<GitPoapRequestScalarWhereWithAggregatesInput>>;
+  addressId?: InputMaybe<IntWithAggregatesFilter>;
   adminApprovalStatus?: InputMaybe<EnumAdminApprovalStatusNullableWithAggregatesFilter>;
   contributors?: InputMaybe<JsonWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
@@ -1699,6 +1712,7 @@ export type GitPoapRequestScalarWhereWithAggregatesInput = {
 
 export type GitPoapRequestSumAggregate = {
   __typename?: 'GitPOAPRequestSumAggregate';
+  addressId?: Maybe<Scalars['Int']>;
   eventId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
@@ -1711,6 +1725,7 @@ export type GitPoapRequestSumAggregate = {
 };
 
 export type GitPoapRequestSumOrderByAggregateInput = {
+  addressId?: InputMaybe<SortOrder>;
   eventId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
@@ -1726,6 +1741,8 @@ export type GitPoapRequestWhereInput = {
   AND?: InputMaybe<Array<GitPoapRequestWhereInput>>;
   NOT?: InputMaybe<Array<GitPoapRequestWhereInput>>;
   OR?: InputMaybe<Array<GitPoapRequestWhereInput>>;
+  address?: InputMaybe<AddressRelationFilter>;
+  addressId?: InputMaybe<IntFilter>;
   adminApprovalStatus?: InputMaybe<EnumAdminApprovalStatusNullableFilter>;
   contributors?: InputMaybe<JsonFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -6307,6 +6324,7 @@ export type UserGitPoapRequestsQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
   approvalStatus?: InputMaybe<AdminApprovalStatus>;
+  address?: InputMaybe<Scalars['String']>;
 }>;
 
 export type UserGitPoapRequestsQuery = {
@@ -6337,6 +6355,7 @@ export type UserGitPoapRequestsQuery = {
 
 export type TotalUserGitPoapRequestsCountQueryVariables = Exact<{
   approvalStatus?: InputMaybe<AdminApprovalStatus>;
+  address?: InputMaybe<Scalars['String']>;
 }>;
 
 export type TotalUserGitPoapRequestsCountQuery = {
@@ -7715,11 +7734,19 @@ export function useTotalGitPoapRequestsCountQuery(
   });
 }
 export const UserGitPoapRequestsDocument = gql`
-  query userGitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStatus) {
+  query userGitPOAPRequests(
+    $take: Int
+    $skip: Int
+    $approvalStatus: AdminApprovalStatus
+    $address: String
+  ) {
     gitPOAPRequests(
       take: $take
       skip: $skip
-      where: { adminApprovalStatus: { equals: $approvalStatus } }
+      where: {
+        adminApprovalStatus: { equals: $approvalStatus }
+        address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
+      }
       orderBy: { adminApprovalStatus: desc }
     ) {
       id
@@ -7755,8 +7782,13 @@ export function useUserGitPoapRequestsQuery(
   });
 }
 export const TotalUserGitPoapRequestsCountDocument = gql`
-  query totalUserGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus) {
-    aggregateGitPOAPRequest(where: { adminApprovalStatus: { equals: $approvalStatus } }) {
+  query totalUserGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus, $address: String) {
+    aggregateGitPOAPRequest(
+      where: {
+        adminApprovalStatus: { equals: $approvalStatus }
+        address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
+      }
+    ) {
       _count {
         id
       }

@@ -55,6 +55,7 @@ export const UserGitPOAPRequestList = () => {
   const [totalCountResult] = useTotalUserGitPoapRequestsCountQuery({
     variables: {
       approvalStatus: AdminApprovalStatus[filter],
+      address: profileData?.address ?? '',
     },
   });
   const [result] = useUserGitPoapRequestsQuery({
@@ -62,6 +63,7 @@ export const UserGitPOAPRequestList = () => {
       take: variables.perPage,
       skip: (variables.page - 1) * variables.perPage,
       approvalStatus: AdminApprovalStatus[filter],
+      address: profileData?.address ?? '',
     },
   });
 
@@ -113,12 +115,14 @@ export const UserGitPOAPRequestList = () => {
               <UserGitPOAPRequest key={gitPOAPRequest.id} gitPOAPRequest={gitPOAPRequest} />
             ))}
         </Stack>
-        <Pagination
-          page={variables.page}
-          onChange={handlePageChange}
-          total={totalPage}
-          mt={rem(20)}
-        />
+        {gitPOAPRequests && gitPOAPRequests.length > 0 && (
+          <Pagination
+            page={variables.page}
+            onChange={handlePageChange}
+            total={totalPage}
+            mt={rem(20)}
+          />
+        )}
       </Stack>
     </Group>
   );
