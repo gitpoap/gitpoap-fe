@@ -6,7 +6,6 @@ import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { Grid } from '@mantine/core';
 import { Page } from '../../_app';
 import { RepoPage, RepoNotFound } from '../../../components/repo/RepoPage';
-import { Layout } from '../../../components/Layout';
 import {
   RepoSeoByNameQuery,
   RepoSeoByNameDocument,
