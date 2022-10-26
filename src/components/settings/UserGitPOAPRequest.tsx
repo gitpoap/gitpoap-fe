@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Stack, Group, Divider as DividerUI, Popover, Modal, TextProps } from '@mantine/core';
@@ -11,13 +11,6 @@ import { BackgroundPanel2, TextLight, TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { useApi } from '../../hooks/useApi';
 import { GitPoapRequestsQuery } from '../../graphql/generated-gql';
-
-enum ButtonStatus {
-  INITIAL,
-  LOADING,
-  SUCCESS,
-  ERROR,
-}
 
 type ContributorsType = {
   githubHandles?: string[];
@@ -74,38 +67,10 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
     useDisclosure(false);
   const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
     useDisclosure(false);
-  const [approveStatus, setApproveStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
-  const [rejectStatus, setRejectStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
 
   const project = gitPOAPRequest.project?.repos[0];
   const organization = gitPOAPRequest.project?.repos[0]?.organization;
-
-  const submitApproveGitPOAPRequest = useCallback(async () => {
-    setApproveStatus(ButtonStatus.LOADING);
-
-    const data = await api.gitPOAPRequest.approve(gitPOAPRequest.id);
-
-    if (data === null) {
-      setApproveStatus(ButtonStatus.ERROR);
-      return;
-    }
-
-    setApproveStatus(ButtonStatus.SUCCESS);
-  }, [gitPOAPRequest.id]);
-
-  const submitRejectGitPOAPRequest = useCallback(async () => {
-    setRejectStatus(ButtonStatus.LOADING);
-
-    const data = await api.gitPOAPRequest.reject(gitPOAPRequest.id);
-
-    if (data === null) {
-      setRejectStatus(ButtonStatus.ERROR);
-      return;
-    }
-
-    setRejectStatus(ButtonStatus.SUCCESS);
-  }, [gitPOAPRequest.id]);
 
   return (
     <>
@@ -248,24 +213,8 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
           </Stack>
         </Group>
         <ButtonContainer align="center" spacing="md">
-          <Button
-            onClick={submitApproveGitPOAPRequest}
-            loading={approveStatus === ButtonStatus.LOADING}
-            disabled={
-              approveStatus === ButtonStatus.LOADING || rejectStatus === ButtonStatus.LOADING
-            }
-          >
-            {'View'}
-          </Button>
-          <Button
-            onClick={submitRejectGitPOAPRequest}
-            loading={rejectStatus === ButtonStatus.LOADING}
-            disabled={
-              approveStatus === ButtonStatus.LOADING || rejectStatus === ButtonStatus.LOADING
-            }
-          >
-            {'Edit'}
-          </Button>
+          <Button>{'View'}</Button>
+          <Button>{'Edit'}</Button>
         </ButtonContainer>
       </Group>
       <Divider />

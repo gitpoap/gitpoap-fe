@@ -19,7 +19,7 @@ const CGRequests: Page = () => {
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/settings`}
       />
-      {/* {address && connectionStatus === 'connected-to-wallet' ? (
+      {address && connectionStatus === 'connected-to-wallet' ? (
         <ProfileProvider addressOrEns={address}>
           <UserGitPOAPRequestList />
         </ProfileProvider>
@@ -35,10 +35,7 @@ const CGRequests: Page = () => {
           )}
           {connectionStatus === 'connecting-wallet' && <Loader />}
         </Center>
-      )} */}
-      <ProfileProvider addressOrEns={address}>
-        <UserGitPOAPRequestList />
-      </ProfileProvider>
+      )}
     </>
   );
 };
