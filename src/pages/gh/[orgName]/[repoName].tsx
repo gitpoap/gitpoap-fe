@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
-import { withUrqlClient, initUrqlClient } from 'next-urql';
+import { withUrqlClient, initUrqlClient, SSRData } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { Grid } from '@mantine/core';
 import { Page } from '../../_app';
@@ -15,7 +15,8 @@ import {
 import { SEO } from '../../../components/shared/compounds/SEO';
 
 type PageProps = {
-  data: RepoSeoByNameQuery;
+  urqlState: SSRData;
+  data: RepoSeoByNameQuery | null;
 };
 
 const Repo: Page<PageProps> = (props) => {
@@ -26,7 +27,7 @@ const Repo: Page<PageProps> = (props) => {
     return <></>;
   }
 
-  const repo = props.data.repoData;
+  const repo = props.data?.repoData;
 
   return (
     <Grid justify="center" style={{ zIndex: 1 }}>
@@ -50,7 +51,7 @@ const Repo: Page<PageProps> = (props) => {
  */
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ orgName: string; repoName: string }>,
-) => {
+): Promise<{ props: PageProps }> => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     {

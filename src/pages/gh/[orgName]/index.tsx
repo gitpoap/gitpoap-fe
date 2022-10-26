@@ -1,11 +1,9 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
-import { withUrqlClient, initUrqlClient } from 'next-urql';
+import { withUrqlClient, initUrqlClient, SSRData } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
-
 import { Page } from '../../_app';
-import { Layout } from '../../../components/Layout';
 import { Grid } from '@mantine/core';
 import { SEO } from '../../../components/shared/compounds/SEO';
 import { OrgPage, OrgNotFound } from '../../../components/organization/OrgPage';
@@ -17,7 +15,8 @@ import {
 } from '../../../graphql/generated-gql';
 
 type PageProps = {
-  data: OrganizationSeoByNameQuery;
+  urqlState: SSRData;
+  data: OrganizationSeoByNameQuery | null;
 };
 
 const Organization: Page<PageProps> = (props) => {
@@ -28,7 +27,7 @@ const Organization: Page<PageProps> = (props) => {
     return <></>;
   }
 
-  const org = props.data.organizationData;
+  const org = props.data?.organizationData;
 
   return (
     <Grid justify="center" style={{ zIndex: 1 }}>
@@ -48,7 +47,9 @@ const Organization: Page<PageProps> = (props) => {
 /* Based on the path objects generated in getStaticPaths, statically generate pages for all
  * unique org names at built time.
  */
-export const getStaticProps = async (context: GetStaticPropsContext<{ orgName: string }>) => {
+export const getStaticProps = async (
+  context: GetStaticPropsContext<{ orgName: string }>,
+): Promise<{ props: PageProps }> => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     {

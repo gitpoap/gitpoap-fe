@@ -5,7 +5,6 @@ import { Grid } from '@mantine/core';
 import { isAddress } from 'ethers/lib/utils';
 import { GetStaticPropsContext } from 'next';
 import { Page } from '../_app';
-import { Layout } from '../../components/Layout';
 import { AllPOAPs } from '../../components/profile/AllPOAPs';
 import { GitPOAPs } from '../../components/profile/GitPOAPs';
 import { ProfileSidebar } from '../../components/profile/ProfileSidebar';
