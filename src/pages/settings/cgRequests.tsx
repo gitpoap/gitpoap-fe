@@ -8,22 +8,18 @@ import { Button, Header } from '../../components/shared/elements';
 import { ProfileProvider } from '../../components/profile/ProfileContext';
 import { FaEthereum } from 'react-icons/fa';
 
-const Wrapper = styled(Container)`
-  width: 100vw;
-`;
-
 const CGRequests: Page = () => {
   const { address, connect, connectionStatus } = useWeb3Context();
 
   return (
-    <Wrapper size={600} my={48}>
+    <>
       <SEO
         title={`CG Requests | GitPOAP`}
         description={`GitPOAP - a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.`}
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/settings`}
       />
-      {address && connectionStatus === 'connected-to-wallet' ? (
+      {/* {address && connectionStatus === 'connected-to-wallet' ? (
         <ProfileProvider addressOrEns={address}>
           <UserGitPOAPRequestList />
         </ProfileProvider>
@@ -39,8 +35,11 @@ const CGRequests: Page = () => {
           )}
           {connectionStatus === 'connecting-wallet' && <Loader />}
         </Center>
-      )}
-    </Wrapper>
+      )} */}
+      <ProfileProvider addressOrEns={address}>
+        <UserGitPOAPRequestList />
+      </ProfileProvider>
+    </>
   );
 };
 

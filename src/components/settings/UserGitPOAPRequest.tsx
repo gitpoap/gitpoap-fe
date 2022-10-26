@@ -255,7 +255,7 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
               approveStatus === ButtonStatus.LOADING || rejectStatus === ButtonStatus.LOADING
             }
           >
-            {'Approve'}
+            {'View'}
           </Button>
           <Button
             onClick={submitRejectGitPOAPRequest}
@@ -264,7 +264,7 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
               approveStatus === ButtonStatus.LOADING || rejectStatus === ButtonStatus.LOADING
             }
           >
-            {'Reject'}
+            {'Edit'}
           </Button>
         </ButtonContainer>
       </Group>
