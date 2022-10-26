@@ -42,12 +42,7 @@ export class GitPOAPAPI extends API {
     formData.append('isPRBased', values['isPRBased'].toString());
     formData.append('image', values['image'] ?? '');
 
-    const res = await makeAPIRequestWithAuth(
-      '/gitpoaps',
-      'POST',
-      this.token,
-      JSON.stringify(formData),
-    );
+    const res = await makeAPIRequestWithAuth('/gitpoaps', 'POST', this.token, formData, {});
 
     if (!res) {
       Notifications.error(`Error - Request Failed for ${values.name}`);
