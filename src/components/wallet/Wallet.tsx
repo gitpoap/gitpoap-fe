@@ -7,6 +7,7 @@ import { WalletStatus } from './WalletStatus';
 import { useWeb3Context } from './Web3Context';
 import { Button } from '../shared/elements/Button';
 import { useUser } from '../../hooks/useUser';
+import { useIsAdmin } from '../../hooks/useIsAdmin';
 
 const Content = styled.div`
   display: flex;
@@ -28,6 +29,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   const user = useUser();
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
+  const isAdmin = useIsAdmin();
 
   return (
     <Content>
@@ -62,6 +64,11 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               <Menu.Item component="a" href="https://docs.gitpoap.io" target="_blank">
                 {'Help'}
               </Menu.Item>
+              {isAdmin && (
+                <Menu.Item component={NextLink} href="/admin">
+                  {'Admin'}
+                </Menu.Item>
+              )}
               <Menu.Divider />
               <Menu.Item onClick={() => disconnectWallet()}>{'Disconnect'}</Menu.Item>
             </Menu.Dropdown>
