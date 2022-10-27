@@ -57,7 +57,9 @@ const SelectType: NextPage = () => {
               </Group>
             </BreadCrumbs>
           </Link>
-          <Header mt={rem(10)}>{'Create GitPOAP'}</Header>
+          <Header mt={rem(10)} size={32}>
+            {'Create GitPOAP'}
+          </Header>
           <SubHeder mt={rem(20)}>{'Select a type of a GitPOAP'}</SubHeder>
         </Grid.Col>
         <Grid.Col xs={12} sm={12} md={12} lg={12} xl={12}>
