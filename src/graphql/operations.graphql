@@ -816,3 +816,56 @@ query totalGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus) {
     }
   }
 }
+
+query userGitPOAPRequests(
+  $take: Int
+  $skip: Int
+  $approvalStatus: AdminApprovalStatus
+  $address: String
+) {
+  gitPOAPRequests(
+    take: $take
+    skip: $skip
+    where: {
+      adminApprovalStatus: { equals: $approvalStatus }
+      address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
+    }
+    orderBy: { adminApprovalStatus: desc }
+  ) {
+    id
+    name
+    description
+    imageKey
+    startDate
+    endDate
+    expiryDate
+    numRequestedCodes
+    email
+    contributors
+
+    project {
+      repos(take: 1) {
+        id
+        name
+
+        organization {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
+query totalUserGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus, $address: String) {
+  aggregateGitPOAPRequest(
+    where: {
+      adminApprovalStatus: { equals: $approvalStatus }
+      address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
+    }
+  ) {
+    _count {
+      id
+    }
+  }
+}
