@@ -31,7 +31,7 @@ export const Metrics: ComponentStory<typeof InfoHexMetric> = (args) => {
   );
 };
 
-export const Profile: ComponentStory<typeof InfoHexBase> = (args) => {
+export const Summary: ComponentStory<typeof InfoHexBase> = (args) => {
   return (
     <InfoHexSummary
       {...args}
