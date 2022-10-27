@@ -9,7 +9,7 @@ import { useOAuthContext } from '../oauth/OAuthContext';
 import { Button, Text } from '../shared/elements';
 import { useWeb3Context } from '../wallet/Web3Context';
 import { StyledLink } from './Completed';
-import { SelectGitPOAPType } from './SelectGitPOAPType';
+import { IntakeForm } from './IntakeForm';
 
 export const OnboardingPage = () => {
   const { github } = useOAuthContext();
@@ -97,7 +97,7 @@ export const OnboardingPage = () => {
 
   return (
     <Container size={800}>
-      <SelectGitPOAPType />
+      <IntakeForm githubHandle={user.githubHandle} />
     </Container>
   );
 };
