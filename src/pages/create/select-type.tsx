@@ -40,14 +40,7 @@ const SelectType: NextPage = () => {
           content="Submit Repos"
         />
       </Head>
-      <Container
-        justify="left"
-        mt={rem(20)}
-        mb={rem(20)}
-        style={{
-          flex: 1,
-        }}
-      >
+      <Container justify="left" mt={rem(20)} mb={rem(20)} px={rem(45)}>
         <Grid.Col>
           <Link href="\">
             <BreadCrumbs size={12} transform="uppercase">

@@ -25,11 +25,6 @@ export const SelectGitPOAPType = () => {
 
   const [gitPOAPType, setGitPOAPType] = useState<string>(GitPOAPType.GITHUB_BASED);
 
-  const handleContinue = useCallback(() => {
-    // based on gitPOAPType selected, we redirect to different pages
-    router.push(`/onboard`);
-  }, []);
-
   return (
     <Group position="center">
       <SelectionContainer align="flex-start" py={0} px={rem(20)}>
@@ -74,7 +69,7 @@ export const SelectGitPOAPType = () => {
           </Stack>
         </RadioGroup>
 
-        <Button onClick={handleContinue} mt={rem(30)}>
+        <Button onClick={() => router.push(`/onboard`)} mt={rem(30)}>
           {'Continue'}
         </Button>
       </SelectionContainer>
