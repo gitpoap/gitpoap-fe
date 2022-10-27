@@ -8,6 +8,18 @@ import styled from 'styled-components';
 import { Header } from '../../components/shared/elements';
 import { SelectGitPOAPType } from '../../components/onboard/SelectGitPOAPType';
 import { TextGray } from '../../colors';
+import { BREAKPOINTS } from '../../constants';
+
+const Container = styled(Grid)`
+  width: 100%;
+  height: ${rem(84)};
+  padding: 0 ${rem(45)};
+  flex: 1;
+
+  @media (max-width: ${rem(BREAKPOINTS.lg)}) {
+    padding: 0 ${rem(30)};
+  }
+`;
 
 const SubHeder = styled(Header)`
   font-size: ${rem(32)};
@@ -28,14 +40,13 @@ const SelectType: NextPage = () => {
           content="Submit Repos"
         />
       </Head>
-      <Grid
+      <Container
         justify="left"
         mt={rem(20)}
         mb={rem(20)}
         style={{
           flex: 1,
         }}
-        px={rem(45)}
       >
         <Grid.Col>
           <Link href="\">
@@ -52,7 +63,7 @@ const SelectType: NextPage = () => {
         <Grid.Col xs={12} sm={12} md={12} lg={12} xl={12}>
           <SelectGitPOAPType />
         </Grid.Col>
-      </Grid>
+      </Container>
     </>
   );
 };
