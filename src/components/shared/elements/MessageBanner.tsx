@@ -4,11 +4,12 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 import { Group, Text, TextProps, Alert } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { BackgroundPanel2, TextGray, TextLight } from '../../colors';
-import { BREAKPOINTS } from '../../constants';
+import { BackgroundPanel2, TextGray, TextLight } from '../../../colors';
+import { BREAKPOINTS } from '../../../constants';
 
 const MessageBannerContent = styled(Alert)`
   background-color: ${BackgroundPanel2};
+  cursor: pointer;
 `;
 
 const Title = styled(Text)<TextProps>`
