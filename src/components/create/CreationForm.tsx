@@ -10,6 +10,7 @@ import { ACCEPTED_IMAGE_TYPES, defaultInitialValues, MAX_FILE_SIZE } from './sch
 import { Dropzone } from '@mantine/dropzone';
 import { DatePicker } from '@mantine/dates';
 import { SelectContributors } from './SelectContributors';
+import Image from 'next/image';
 
 export const StyledLink = styled(Link)`
   color: ${PrimaryBlue};
@@ -44,6 +45,8 @@ export const CreationForm = () => {
   const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
     useCreationForm(defaultInitialValues);
 
+  const imageUrl = values.image ? URL.createObjectURL(values.image) : null;
+
   return (
     <Container my="xl" p={0} style={{ zIndex: 1 }}>
       <Stack align="center" spacing={64}>
@@ -70,7 +73,11 @@ export const CreationForm = () => {
                   },
                 })}
               >
-                {'Artwork Upload'}
+                {imageUrl ? (
+                  <Image alt={values.name} src={imageUrl} layout="fill" />
+                ) : (
+                  <>{'Artwork Upload'}</>
+                )}
               </StyledDropzone>
             </DropzoneBorder>
           </Center>
