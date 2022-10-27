@@ -14,8 +14,9 @@ const Template: ComponentStory<typeof MessageBanner> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  title: 'title',
-  message: 'message',
+  title: 'GitPOAP Swag at Devcon Bogota',
+  message:
+    'If you are going to Devcon, register at swag.gitpoap.io to get your personalized GitPOAP swag!',
   href: '/',
   leftIcon: <FaEdge />,
   rightIcon: <FaArrowRight />,
