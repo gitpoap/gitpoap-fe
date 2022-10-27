@@ -1,40 +1,40 @@
-import styled from 'styled-components';
 import { rem } from 'polished';
-import { TextGray, TextLight } from '../../../colors';
+import { TextGray } from '../../../colors';
+import { Group, Text } from '@mantine/core';
 
 type Props = {
   icon: React.ReactNode;
   count: number;
 };
 
-const Count = styled.span`
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: bold;
-  line-height: ${rem(17)};
-  letter-spacing: ${rem(0.5)};
-  text-transform: uppercase;
-  color: ${TextLight};
-  margin-left: ${rem(6)};
-`;
-
-const Container = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  path {
-    transition: 200ms fill ease;
-    fill: ${TextGray};
-  }
-`;
-
 export const IconCount = ({ icon, count }: Props) => {
   return (
-    <Container>
+    <Group
+      align="center"
+      position="center"
+      spacing={0}
+      sx={{
+        display: 'inline-flex',
+        path: {
+          transition: '200ms fill ease',
+          fill: TextGray,
+        },
+      }}
+    >
       {icon}
-      <Count>{count}</Count>
-    </Container>
+      <Text
+        size={14}
+        ml={rem(6)}
+        transform="uppercase"
+        span
+        weight="bold"
+        styles={{
+          lineHeight: rem(17),
+          letterSpacing: rem(0.5),
+        }}
+      >
+        {count}
+      </Text>
+    </Group>
   );
 };
