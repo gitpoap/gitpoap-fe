@@ -87,7 +87,6 @@ exports[`ClaimItem should render correctly 1`] = `
 
 .c11 {
   display: inline-block;
-  font-family: 'PT Mono',monospace;
   font-weight: 700;
   font-size: 0.8125rem;
   line-height: 1.0625rem;

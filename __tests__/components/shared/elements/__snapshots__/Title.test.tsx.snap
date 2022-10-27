@@ -3,7 +3,6 @@
 exports[`Title renders a Title 1`] = `
 .c0 {
   display: inline-block;
-  font-family: 'PT Mono',monospace;
   font-weight: 700;
   font-size: 0.8125rem;
   line-height: 1.0625rem;

@@ -3,7 +3,6 @@
 exports[`POAPBadge heart renders a POAPBadge with a heart 1`] = `
 .c7 {
   display: inline-block;
-  font-family: 'PT Mono',monospace;
   font-weight: 700;
   font-size: 0.8125rem;
   line-height: 1.0625rem;
@@ -208,7 +207,6 @@ exports[`POAPBadge heart renders a POAPBadge with a heart 1`] = `
 exports[`POAPBadge heart renders a POAPBadge without a heart 1`] = `
 .c4 {
   display: inline-block;
-  font-family: 'PT Mono',monospace;
   font-weight: 700;
   font-size: 0.8125rem;
   line-height: 1.0625rem;
@@ -367,7 +365,6 @@ exports[`POAPBadge heart renders a POAPBadge without a heart 1`] = `
 exports[`POAPBadge isFeatured renders a POAPBadge with isFeatured = false 1`] = `
 .c7 {
   display: inline-block;
-  font-family: 'PT Mono',monospace;
   font-weight: 700;
   font-size: 0.8125rem;
   line-height: 1.0625rem;
@@ -572,7 +569,6 @@ exports[`POAPBadge isFeatured renders a POAPBadge with isFeatured = false 1`] = 
 exports[`POAPBadge isFeatured renders a POAPBadge with isFeatured = true 1`] = `
 .c7 {
   display: inline-block;
-  font-family: 'PT Mono',monospace;
   font-weight: 700;
   font-size: 0.8125rem;
   line-height: 1.0625rem;
@@ -777,7 +773,6 @@ exports[`POAPBadge isFeatured renders a POAPBadge with isFeatured = true 1`] = `
 exports[`POAPBadge isFeaturedLoading renders a POAPBadge with isFeaturedLoading = false 1`] = `
 .c7 {
   display: inline-block;
-  font-family: 'PT Mono',monospace;
   font-weight: 700;
   font-size: 0.8125rem;
   line-height: 1.0625rem;
@@ -982,7 +977,6 @@ exports[`POAPBadge isFeaturedLoading renders a POAPBadge with isFeaturedLoading 
 exports[`POAPBadge isFeaturedLoading renders a POAPBadge with isFeaturedLoading = true 1`] = `
 .c7 {
   display: inline-block;
-  font-family: 'PT Mono',monospace;
   font-weight: 700;
   font-size: 0.8125rem;
   line-height: 1.0625rem;

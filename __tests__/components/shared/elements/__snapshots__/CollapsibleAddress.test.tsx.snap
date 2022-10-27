@@ -3,7 +3,6 @@
 exports[`CollapsibleAddress renders an CollapsibleAddress - NOT collapsed 1`] = `
 .c0 {
   display: inline-block;
-  font-family: 'PT Mono',monospace;
   font-weight: 700;
   font-size: 0.8125rem;
   line-height: 1.0625rem;
@@ -40,8 +39,6 @@ exports[`CollapsibleAddress renders an CollapsibleAddress - NOT collapsed 1`] = 
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
-  font-family: PT Mono;
-  font-style: normal;
   font-weight: normal;
   font-size: 0.875rem;
   line-height: 1.125rem;
@@ -109,7 +106,6 @@ exports[`CollapsibleAddress renders an CollapsibleAddress - NOT collapsed 1`] = 
 exports[`CollapsibleAddress renders an CollapsibleAddress - collapsed 1`] = `
 .c0 {
   display: inline-block;
-  font-family: 'PT Mono',monospace;
   font-weight: 700;
   font-size: 0.8125rem;
   line-height: 1.0625rem;
@@ -146,8 +142,6 @@ exports[`CollapsibleAddress renders an CollapsibleAddress - collapsed 1`] = `
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
-  font-family: PT Mono;
-  font-style: normal;
   font-weight: normal;
   font-size: 0.875rem;
   line-height: 1.125rem;

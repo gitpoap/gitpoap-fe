@@ -2,9 +2,6 @@
 
 exports[`GitPOAP should render with description 1`] = `
 .c0 {
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: normal;
   font-size: 0.6875rem;
   line-height: 0.875rem;
   text-align: center;
@@ -12,16 +9,34 @@ exports[`GitPOAP should render with description 1`] = `
   -moz-letter-spacing: -0.00625rem;
   -ms-letter-spacing: -0.00625rem;
   letter-spacing: -0.00625rem;
-  color: #E2E2EE;
-  margin-top: 0.5rem;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
+.emotion-1 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  margin-top: 0.5rem;
+}
+
+.emotion-1:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-1:focus:not(:focus-visible) {
+  outline: none;
+}
+
 <div
-  class="c0"
+  class="emotion-0 c0 emotion-1"
 >
   To the creators of Polygon Network
 </div>
@@ -30,7 +45,6 @@ exports[`GitPOAP should render with description 1`] = `
 exports[`GitPOAP should render with name 1`] = `
 .c0 {
   display: inline-block;
-  font-family: 'PT Mono',monospace;
   font-weight: 700;
   font-size: 0.8125rem;
   line-height: 1.0625rem;
