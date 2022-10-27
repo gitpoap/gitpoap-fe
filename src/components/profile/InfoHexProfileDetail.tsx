@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Divider as DividerUI, Text } from '@mantine/core';
+import { Box, Divider as DividerUI, Group, Stack, Text, TextProps } from '@mantine/core';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
-import { DividerGray1, TextAccent, TextLight } from '../../colors';
+import { DividerGray1, TextAccent } from '../../colors';
 import { InfoHexBase } from '../shared/elements/InfoHexBase';
 import { Project } from '../../types';
 import { RepoHexSmall } from '../shared/compounds/RepoHexSmall';
 import { Globe, GitHub, Twitter } from '../shared/elements/icons';
-import { useFeatures } from '../FeaturesContext';
 import {
   ProfileImageSkeleton,
   TextSkeleton,
@@ -34,19 +33,6 @@ type Props = {
   isLoading: boolean;
 };
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: ${rem(200)};
-  padding: 0 ${rem(17)};
-`;
-
-const ImageWrapper = styled.div`
-  margin-bottom: ${rem(14)};
-`;
-
 const Avatar = styled(AvatarUI)`
   width: ${rem(160)};
   height: ${rem(160)};
@@ -57,41 +43,24 @@ const JazzIcon = styled(JazzIconReact)`
   width: ${rem(160)};
 `;
 
-const Name = styled.div`
+const Name = styled(Text)<TextProps & { title: string }>`
   font-family: VT323;
-  font-style: normal;
-  font-weight: normal;
-  font-size: ${rem(36)};
   line-height: ${rem(42)};
-  text-align: center;
   letter-spacing: ${rem(-1)};
   color: ${TextAccent};
-  margin-bottom: ${rem(4)};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: ${rem(230)};
 `;
 
-const Bio = styled(Text)`
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: normal;
-  font-size: ${rem(13)};
+const Bio = styled(Text)<TextProps>`
   line-height: ${rem(16)};
-  text-align: center;
   letter-spacing: ${rem(-0.1)};
-  color: ${TextLight};
   max-width: ${rem(220)};
-  margin-bottom: ${rem(15)};
 `;
 
-const Social = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: ${rem(14)};
+const Social = styled(Group)`
   > *:not(:last-child) {
     margin-right: ${rem(16)};
   }
@@ -107,28 +76,15 @@ const Address = styled(CollapsibleAddress)`
   margin-bottom: ${rem(17)};
 `;
 
-const ProjectCount = styled.span`
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: bold;
-  font-size: ${rem(13)};
+const ProjectCount = styled(Text)<TextProps>`
   line-height: ${rem(17)};
-  text-align: center;
   letter-spacing: ${rem(0.5)};
-  color: ${TextLight};
-  margin-bottom: ${rem(14)};
 `;
 
 const Divider = styled(DividerUI)`
-  margin-top: ${rem(37)};
-  margin-bottom: ${rem(26)};
   border-color-top: ${DividerGray1};
   height: ${rem(2)};
   width: ${rem(100)};
-`;
-
-const ShareStyled = styled(Share)`
-  margin-top: ${rem(20)};
 `;
 
 const getWebsiteHref = (url: string | undefined | null) => {
@@ -159,8 +115,15 @@ export const InfoHexProfileDetail = ({
 
   return (
     <StyledInfoHex>
-      <Content>
-        <ImageWrapper>
+      <Stack
+        align="center"
+        justify="center"
+        py={0}
+        px={rem(17)}
+        sx={{ minHeight: rem(200) }}
+        spacing={0}
+      >
+        <Box mb={rem(14)}>
           {isLoading ? (
             <ProfileImageSkeleton />
           ) : ensAvatarUrl ? (
@@ -168,10 +131,12 @@ export const InfoHexProfileDetail = ({
           ) : address ? (
             <JazzIcon address={address} />
           ) : null}
-        </ImageWrapper>
+        </Box>
 
         {name ? (
-          <Name title={name}>{name}</Name>
+          <Name title={name} size={36} align="center" mb={rem(4)}>
+            {name}
+          </Name>
         ) : (
           <TextSkeleton height={rem(42)} style={{ marginBottom: rem(10) }} />
         )}
@@ -181,8 +146,12 @@ export const InfoHexProfileDetail = ({
         ) : (
           <TextSkeleton style={{ marginBottom: rem(17) }} />
         )}
-        {bio && <Bio>{bio}</Bio>}
-        <Social>
+        {bio && (
+          <Bio mb={rem(15)} size={13} align="center">
+            {bio}
+          </Bio>
+        )}
+        <Social mt={rem(14)} align="center" position="apart" spacing={0}>
           {twitterHref && (
             <IconLink href={twitterHref} target="_blank" rel="noopener noreferrer" passHref>
               <Twitter />
@@ -211,8 +180,8 @@ export const InfoHexProfileDetail = ({
         )}
         {projects && (
           <>
-            <Divider />
-            <ProjectCount>
+            <Divider mt={rem(37)} mb={rem(26)} />
+            <ProjectCount span weight="bold" size={13} align="center" mb={rem(14)}>
               {`${projects.length} ${projects.length > 1 ? 'Projects' : 'Project'}`}
             </ProjectCount>
             {projects.map((project) => {
@@ -226,8 +195,8 @@ export const InfoHexProfileDetail = ({
             })}
           </>
         )}
-        {address && <ShareStyled textToCopy={textToCopy} />}
-      </Content>
+        {address && <Share textToCopy={textToCopy} mt={rem(20)} />}
+      </Stack>
     </StyledInfoHex>
   );
 };
