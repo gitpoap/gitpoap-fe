@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { FaArrowRight } from 'react-icons/fa';
-import { FaQuestion } from 'react-icons/fa';
 import { RepoHexSmall as RepoHexSmallUI } from '../shared/compounds/RepoHexSmall';
 import { RepoListSmall } from '../shared/compounds/RepoList';
 import { Header as HeaderUI } from '../shared/elements/Header';
 import { Button } from '../shared/elements/Button';
 import { TextGray, TextLight } from '../../colors';
-import { RecentlyAddedPopover } from './RecentlyAddedPopover';
 import { useRecentReposQuery } from '../../graphql/generated-gql';
 import { BREAKPOINTS } from '../../constants';
 import { Link } from '../shared/compounds/Link';
@@ -64,24 +62,10 @@ export const RecentlyAdded = () => {
     },
   });
   const [isOpen, setIsOpen] = useState(false);
-  const displayPopover = false;
 
   return (
     <Container>
-      <Header>
-        {'Recently added repos'}
-        {displayPopover && (
-          <RecentlyAddedPopover
-            isOpen={isOpen}
-            onClose={() => setIsOpen(false)}
-            target={
-              <Question onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-                <FaQuestion />
-              </Question>
-            }
-          />
-        )}
-      </Header>
+      <Header>{'Recently added repos'}</Header>
       <RepoListSmall>
         {result.data?.recentlyAddedRepos.map((repo) => {
           return <RepoHexSmall key={repo.id} orgName={repo.organization.name} name={repo.name} />;
