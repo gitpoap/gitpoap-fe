@@ -4,6 +4,7 @@ import { InfoHexBase } from '../../components/shared/elements/InfoHexBase';
 import { InfoHexMetric } from '../../components/home/InfoHexMetric';
 import { InfoHexSummary } from '../../components/gitpoap/InfoHexSummary';
 import { People } from '../../components/shared/elements/icons/People';
+import { rem } from 'polished';
 
 export default {
   title: 'Compounds/InfoHex',
@@ -25,7 +26,7 @@ export const Metrics: ComponentStory<typeof InfoHexMetric> = (args) => {
       value={Number('17545').toLocaleString()}
       unit={'contributors'}
       rate={'+345 / past week '}
-      icon={<People />}
+      icon={<People style={{ height: rem(70), width: rem(70) }} />}
     />
   );
 };

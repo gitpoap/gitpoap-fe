@@ -6,12 +6,9 @@ import { InfoHexBase } from '../shared/elements/InfoHexBase';
 import { BREAKPOINTS } from '../../constants';
 import { TextSkeleton } from '../shared/elements';
 import { textEllipses } from '../shared/styles';
+import { Text, Stack } from '@mantine/core';
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+const Content = styled(Stack)`
   height: ${rem(190)};
   @media (max-width: ${BREAKPOINTS.sm}px) {
     height: unset;
@@ -62,15 +59,11 @@ const Unit = styled.div`
   }
 `;
 
-const Rate = styled.div`
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: normal;
+const Rate = styled(Text)`
   font-size: ${rem(12)};
   line-height: ${rem(16)};
   text-align: center;
   letter-spacing: ${rem(-0.1)};
-  color: ${TextLight};
 `;
 
 const RateSkeleton = styled(TextSkeleton)`
@@ -90,7 +83,7 @@ type Props = {
 export const InfoHexMetric = ({ className, rate, value, unit, icon, href }: Props) => {
   return (
     <InfoHexBase className={className} href={href} hoverEffects={!!href}>
-      <Content>
+      <Content align="center" justify="center" spacing={0}>
         <Icon>{icon}</Icon>
         {value ? <Value>{value}</Value> : <ValueSkeleton width={rem(100)} />}
         <Unit>{unit}</Unit>
