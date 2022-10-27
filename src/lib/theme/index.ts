@@ -5,6 +5,7 @@ import { rem } from 'polished';
 import { buttonTheme } from './buttonThemes';
 import { datePickerTheme } from './datePickerThemes';
 import { textTheme } from './textThemes';
+import { tooltipThemes } from './tooltipThemes';
 
 export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
@@ -14,6 +15,7 @@ export const theme: MantineProviderProps['theme'] = {
     Button: buttonTheme,
     DatePicker: datePickerTheme,
     Text: textTheme,
+    Tooltip: tooltipThemes,
     Modal: {
       defaultProps: {
         overlayColor: Black,

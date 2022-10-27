@@ -1,5 +1,5 @@
 import { Box } from '@mantine/core';
-import { Tooltip } from '../shared/elements';
+import { Tooltip } from '@mantine/core';
 
 type Props = {
   children: React.ReactNode;

@@ -6,7 +6,6 @@ import { Link } from '../compounds/Link';
 
 export const TitleStyles = css`
   display: inline-block;
-  font-family: 'PT Mono', monospace;
   font-weight: 700;
   font-size: ${rem(13)};
   line-height: ${rem(17)};
