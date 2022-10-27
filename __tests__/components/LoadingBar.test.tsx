@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react';
 import 'jest-styled-components';
 import { LoadingBar } from '../../src/components/LoadingBar';
+import { renderWithTheme } from '../__utils__/renderWithTheme';
 
 describe('LoadingBar', () => {
   it('renders a LoadingBar', () => {
-    const { container } = render(<LoadingBar />);
+    const { container } = renderWithTheme(<LoadingBar />);
     const loadingBar = container.firstChild;
 
     expect(loadingBar).toBeInTheDocument();

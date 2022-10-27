@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react';
 import 'jest-styled-components';
 import { GitPOAPBadge, Sizes } from '../../../../src/components/shared/elements';
 import { Level } from '../../../../src/types';
+import { renderWithTheme } from '../../../__utils__/renderWithTheme';
 
 const renderBadge = (size: Sizes, level?: Level, href?: string) => {
-  return render(
+  return renderWithTheme(
     <GitPOAPBadge
       size={size}
       level={level}
