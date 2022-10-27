@@ -37,9 +37,9 @@ export const MessageBanner = ({
   return (
     <Group position="center" my={rem(20)}>
       <Link href={href}>
-        <MessageBannerContent icon={leftIcon} title={<Title size={20}>{title}</Title>} radius="md">
+        <MessageBannerContent icon={leftIcon} title={<Title size={16}>{title}</Title>} radius="md">
           <Group align="center" spacing="sm">
-            <Message size={16}>{message}</Message>
+            <Message size={12}>{message}</Message>
             {!matchesBreakpointSmall && rightIcon ? rightIcon : ''}
           </Group>
         </MessageBannerContent>
