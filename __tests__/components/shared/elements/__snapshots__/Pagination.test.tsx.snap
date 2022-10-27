@@ -1,16 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Pagination renders a Pagination 1`] = `
-.c0 .mantine-Pagination-item {
-  background-color: #292B3D;
-  color: white;
-}
-
-.c0 .mantine-Pagination-item[data-active='true'] {
-  background-color: #307AE8;
-  color: white;
-}
-
 .emotion-1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -44,6 +34,7 @@ exports[`Pagination renders a Pagination 1`] = `
 }
 
 .emotion-2 {
+  font-family: PT Mono,monospace;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   -webkit-user-select: none;
@@ -62,21 +53,23 @@ exports[`Pagination renders a Pagination 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  font-weight: 500;
-  border: 1px solid #ced4da;
-  color: #000;
+  border: 1px solid #373A40;
+  color: #C1C2C5;
   height: 32px;
   min-width: 32px;
   padding: 0 8px;
   font-size: 16px;
   border-radius: 4px;
   line-height: 1;
-  background-color: #fff;
+  background-color: #25262b;
+  background-color: #292B3D;
+  font-family: PT Mono;
+  color: white;
 }
 
 .emotion-2:focus {
   outline-offset: 2px;
-  outline: 2px solid #339af0;
+  outline: 2px solid #1c7ed6;
 }
 
 .emotion-2:focus:not(:focus-visible) {
@@ -93,7 +86,7 @@ exports[`Pagination renders a Pagination 1`] = `
 .emotion-2:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  color: #adb5bd;
+  color: #5c5f66;
 }
 
 .emotion-2[data-dots] {
@@ -105,11 +98,16 @@ exports[`Pagination renders a Pagination 1`] = `
 .emotion-2[data-active] {
   border-color: transparent;
   color: #fff;
-  background-color: #228be6;
+  background-color: #1971c2;
+}
+
+.emotion-2[data-active="true"] {
+  background-color: #307AE8;
+  color: white;
 }
 
 <div
-  class="emotion-0 c0 emotion-1"
+  class="emotion-0 emotion-1"
   role="navigation"
 >
   <button

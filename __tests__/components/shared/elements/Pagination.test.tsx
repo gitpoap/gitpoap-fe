@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react';
 import 'jest-styled-components';
 import { Pagination } from '../../../../src/components/shared/elements';
+import { renderWithTheme } from '../../../__utils__/renderWithTheme';
 
 describe('Pagination', () => {
   it('renders a Pagination', () => {
-    const { container } = render(<Pagination total={10} />);
+    const { container } = renderWithTheme(<Pagination total={10} />);
     const pagination = container.firstChild;
 
     expect(pagination).toBeInTheDocument();
