@@ -22,7 +22,7 @@ import {
 import { SEO } from '../../components/shared/compounds/SEO';
 import { ONE_WEEK_IN_S } from '../../constants';
 
-const Background = styled(BackgroundHexes)`
+export const Background = styled(BackgroundHexes)`
   position: fixed;
   top: 0;
   display: flex;
