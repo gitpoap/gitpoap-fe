@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { rem } from 'polished';
+import { Grid, Group } from '@mantine/core';
 import { GitPOAP as GitPOAPBadge } from '../shared/compounds/GitPOAP';
 import { POAPList } from '../shared/compounds/POAPList';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
@@ -85,7 +86,7 @@ export const GitPOAPs = ({ repoId }: Props) => {
         }
       }}
     >
-      <POAPList>
+      <Grid align="center">
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => {
@@ -107,15 +108,18 @@ export const GitPOAPs = ({ repoId }: Props) => {
 
         {/* Fully Claimed GitPOAPs rendered next */}
         {gitPOAPItems.map((gitPOAPItem) => (
-          <GitPOAPBadge
-            key={`${gitPOAPItem.gitPOAP.id}-minting`}
-            gitPOAPId={gitPOAPItem.gitPOAP.id}
-            repoName={gitPOAPItem.gitPOAP.project?.repos[0].name}
-            name={gitPOAPItem.event.name}
-            imgSrc={gitPOAPItem.event.image_url}
-          />
+          <Grid.Col key={`${gitPOAPItem.gitPOAP.id}-minting`} sm={6} md={4} lg={3} xl={2}>
+            <Group position="center">
+              <GitPOAPBadge
+                gitPOAPId={gitPOAPItem.gitPOAP.id}
+                repoName={gitPOAPItem.gitPOAP.project?.repos[0].name}
+                name={gitPOAPItem.event.name}
+                imgSrc={gitPOAPItem.event.image_url}
+              />
+            </Group>
+          </Grid.Col>
         ))}
-      </POAPList>
+      </Grid>
     </ItemList>
   );
 };
