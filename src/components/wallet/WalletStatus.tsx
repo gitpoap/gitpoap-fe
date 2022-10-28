@@ -4,6 +4,7 @@ import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { Button } from '../shared/elements/Button';
 import { shortenAddress } from '../../helpers';
 import { Avatar } from '../shared/elements';
+import { FaChevronDown } from 'react-icons/fa';
 
 type Props = {
   address: string;
@@ -61,6 +62,7 @@ export const WalletStatus = ({ address, ensName, hideText, ensAvatarUrl }: Props
           <JazzIcon address={address} />
         )
       }
+      rightIcon={<FaChevronDown />}
       variant="outline"
     >
       {ensName ? ensName : shortenAddress(address)}

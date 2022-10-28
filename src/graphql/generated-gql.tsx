@@ -650,7 +650,6 @@ export type Email = {
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   isValidated: Scalars['Boolean'];
-  tokenExpiresAt?: Maybe<Scalars['DateTime']>;
   updatedAt: Scalars['DateTime'];
 };
 
@@ -664,9 +663,9 @@ export type EmailOrderByWithRelationInput = {
   addressId?: InputMaybe<SortOrder>;
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
+  emailAddress?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isValidated?: InputMaybe<SortOrder>;
-  tokenExpiresAt?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -683,9 +682,9 @@ export type EmailWhereInput = {
   addressId?: InputMaybe<IntNullableFilter>;
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  emailAddress?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
   isValidated?: InputMaybe<BoolFilter>;
-  tokenExpiresAt?: InputMaybe<DateTimeNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
@@ -6844,6 +6843,7 @@ export const EligibleClaimsDocument = gql`
         gitPOAP: { is: { isEnabled: { equals: true } } }
         OR: [
           { user: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
+          { email: { is: { emailAddress: { contains: $query, mode: insensitive } } } }
           { issuedAddress: { is: { ethAddress: { contains: $query, mode: insensitive } } } }
           { issuedAddress: { is: { ensName: { contains: $query, mode: insensitive } } } }
         ]
