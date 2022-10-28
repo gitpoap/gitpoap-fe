@@ -28,6 +28,7 @@ exports[`Admin Page renders the Admin List 1`] = `
   -ms-flex-positive: 0;
   flex-grow: 0;
   padding: 8px;
+  margin-left: 0;
   -webkit-flex-basis: 83.33333333333334%;
   -ms-flex-preferred-size: 83.33333333333334%;
   flex-basis: 83.33333333333334%;
@@ -37,43 +38,48 @@ exports[`Admin Page renders the Admin List 1`] = `
   max-width: 83.33333333333334%;
 }
 
-@media (min-width: 400px) {
+@media (min-width: 401px) {
   .emotion-3 {
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
     flex-shrink: 0;
+    margin-left: 0;
   }
 }
 
-@media (min-width: 600px) {
+@media (min-width: 601px) {
   .emotion-3 {
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
     flex-shrink: 0;
+    margin-left: 0;
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 901px) {
   .emotion-3 {
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
     flex-shrink: 0;
+    margin-left: 0;
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1201px) {
   .emotion-3 {
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
     flex-shrink: 0;
+    margin-left: 0;
   }
 }
 
-@media (min-width: 1536px) {
+@media (min-width: 1537px) {
   .emotion-3 {
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
     flex-shrink: 0;
+    margin-left: 0;
   }
 }
 

@@ -36,7 +36,6 @@ exports[`Checkbox renders an Checkbox and label 1`] = `
 
 .emotion-0:checked+.__mantine-ref-icon {
   opacity: 1;
-  color: #fff;
   -webkit-transform: translateY(0) scale(1);
   -moz-transform: translateY(0) scale(1);
   -ms-transform: translateY(0) scale(1);
