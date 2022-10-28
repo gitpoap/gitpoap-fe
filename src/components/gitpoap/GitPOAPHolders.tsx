@@ -32,6 +32,12 @@ const StyledItemList = styled(ItemList)`
   margin-bottom: ${rem(50)};
 `;
 
+const ItemContainer = styled(Grid.Col)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 type SortOptions = 'claim-date' | 'claim-count';
 
 const selectOptions: SelectOption<SortOptions>[] = [
@@ -124,7 +130,13 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       {total ? (
         <Grid align="center" gutter="sm">
           {holders.map((holder: Holder) => (
-            <Grid.Col key={`${holder.githubHandle}-${holder.address}`} sm={6} md={4} lg={3} xl={2}>
+            <ItemContainer
+              key={`${holder.githubHandle}-${holder.address}`}
+              sm={6}
+              md={4}
+              lg={3}
+              xl={2}
+            >
               <InfoHexSummary
                 address={holder.address}
                 bio={holder.bio}
@@ -135,7 +147,7 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
                 ensAvatarUrl={holder.ensAvatarUrl}
                 ensName={holder.ensName}
               />
-            </Grid.Col>
+            </ItemContainer>
           ))}
         </Grid>
       ) : (
