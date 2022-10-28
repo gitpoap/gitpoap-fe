@@ -2,6 +2,7 @@ import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { FaUsers } from 'react-icons/fa';
 import styled from 'styled-components';
+import { Grid } from '@mantine/core';
 import { useListState } from '@mantine/hooks';
 import { GitPoapHoldersQueryVariables, useGitPoapHoldersQuery } from '../../graphql/generated-gql';
 import { InfoHexSummary } from './InfoHexSummary';
@@ -70,7 +71,7 @@ type QueryVars = {
 export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   const [variables, setVariables] = useState<QueryVars>({
     page: 1,
-    perPage: 20,
+    perPage: 24,
     sort: 'claim-count',
     gitPOAPId,
   });
@@ -143,21 +144,22 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       }}
     >
       {total ? (
-        <HoldersWrapper>
+        <Grid>
           {holders.map((holder: Holder) => (
-            <StyledInfoHexSummary
-              key={`${holder.githubHandle}-${holder.address}`}
-              address={holder.address}
-              bio={holder.bio}
-              gitpoapId={gitPOAPId}
-              twitterHandle={holder.twitterHandle}
-              personalSiteUrl={holder.personalSiteUrl}
-              numGitPOAPs={holder.gitPOAPCount}
-              ensAvatarUrl={holder.ensAvatarUrl}
-              ensName={holder.ensName}
-            />
+            <Grid.Col key={`${holder.githubHandle}-${holder.address}`} sm={12} md={6} lg={2}>
+              <StyledInfoHexSummary
+                address={holder.address}
+                bio={holder.bio}
+                gitpoapId={gitPOAPId}
+                twitterHandle={holder.twitterHandle}
+                personalSiteUrl={holder.personalSiteUrl}
+                numGitPOAPs={holder.gitPOAPCount}
+                ensAvatarUrl={holder.ensAvatarUrl}
+                ensName={holder.ensName}
+              />
+            </Grid.Col>
           ))}
-        </HoldersWrapper>
+        </Grid>
       ) : (
         <EmptyState icon={<FaUsers color={TextDarkGray} size={rem(74)} />}>
           <Text style={{ marginTop: rem(20) }}>{'No one has minted this GitPOAP'}</Text>
