@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { POAP } from '../../types';
 import { POAPBadge } from '../shared/elements/POAPBadge';
-import { POAPList } from '../shared/compounds/POAPList';
 import { TextAccent, TextDarkGray } from '../../colors';
 import { GitPOAP } from '../shared/compounds/GitPOAP';
 import { useFeaturedPOAPs, GitPOAP as GitPOAPType } from './FeaturedPOAPsContext';
-import { Text } from '@mantine/core';
+import { Text, Grid, Group } from '@mantine/core';
 import { Text as TextUI } from '../shared/elements/Text';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
@@ -56,7 +55,7 @@ export const FeaturedPOAPs = () => {
   return (
     <Container>
       <SectionTitle>{'Featured POAPs'}</SectionTitle>
-      <POAPList>
+      <Grid align="center">
         {isLoading && !hasFetched && (
           <>
             {[...Array(5)].map((_, i) => {
@@ -76,32 +75,38 @@ export const FeaturedPOAPs = () => {
           featuredPOAPsFull.map((featuredPOAP) => {
             if (isGitPOAP(featuredPOAP)) {
               return (
-                <GitPOAP
-                  key={featuredPOAP.claim.id}
-                  gitPOAPId={featuredPOAP.claim.gitPOAP.id}
-                  name={featuredPOAP.poap.event.name}
-                  imgSrc={featuredPOAP.poap.event.image_url}
-                  repoName={featuredPOAP.claim.pullRequestEarned?.repo.name}
-                  orgName={featuredPOAP.claim.pullRequestEarned?.repo.organization.name}
-                  poapTokenId={featuredPOAP.poap.tokenId}
-                />
+                <Grid.Col key={featuredPOAP.claim.id} sm={6} md={4} lg={3} xl={2}>
+                  <Group position="center">
+                    <GitPOAP
+                      gitPOAPId={featuredPOAP.claim.gitPOAP.id}
+                      name={featuredPOAP.poap.event.name}
+                      imgSrc={featuredPOAP.poap.event.image_url}
+                      repoName={featuredPOAP.claim.pullRequestEarned?.repo.name}
+                      orgName={featuredPOAP.claim.pullRequestEarned?.repo.organization.name}
+                      poapTokenId={featuredPOAP.poap.tokenId}
+                    />
+                  </Group>
+                </Grid.Col>
               );
             }
 
             return (
-              <POAPBadge
-                key={featuredPOAP.tokenId}
-                poapTokenId={featuredPOAP.tokenId}
-                name={featuredPOAP.event.name}
-                imgSrc={featuredPOAP.event.image_url}
-                href={`https://poap.gallery/event/${featuredPOAP.event.id}`}
-                isFeatured={!!featuredPOAPTokenIDs[featuredPOAP.tokenId]}
-                isFeaturedLoading={!!loadingIds[featuredPOAP.tokenId]}
-                showHeart={showHearts}
-              />
+              <Grid.Col key={featuredPOAP.tokenId} sm={6} md={4} lg={3} xl={2}>
+                <Group position="center">
+                  <POAPBadge
+                    poapTokenId={featuredPOAP.tokenId}
+                    name={featuredPOAP.event.name}
+                    imgSrc={featuredPOAP.event.image_url}
+                    href={`https://poap.gallery/event/${featuredPOAP.event.id}`}
+                    isFeatured={!!featuredPOAPTokenIDs[featuredPOAP.tokenId]}
+                    isFeaturedLoading={!!loadingIds[featuredPOAP.tokenId]}
+                    showHeart={showHearts}
+                  />
+                </Group>
+              </Grid.Col>
             );
           })}
-      </POAPList>
+      </Grid>
     </Container>
   );
 };

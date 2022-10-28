@@ -2,6 +2,7 @@ import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { FaUsers } from 'react-icons/fa';
 import styled from 'styled-components';
+import { Grid, Group } from '@mantine/core';
 import { useListState } from '@mantine/hooks';
 import { GitPoapHoldersQueryVariables, useGitPoapHoldersQuery } from '../../graphql/generated-gql';
 import { InfoHexSummary } from './InfoHexSummary';
@@ -9,7 +10,6 @@ import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { Text } from '../shared/elements/Text';
 import { TextDarkGray } from '../../colors';
-import { BREAKPOINTS } from '../../constants';
 
 type Props = {
   gitPOAPId: number;
@@ -31,28 +31,6 @@ const StyledItemList = styled(ItemList)`
   margin-bottom: ${rem(50)};
 `;
 
-const HoldersWrapper = styled.div`
-  display: grid;
-  margin-bottom: ${rem(50)};
-  margin-top: ${rem(40)};
-  column-gap: ${rem(24)};
-  row-gap: ${rem(40)};
-  grid-template-columns: repeat(auto-fit, ${rem(215)});
-  justify-content: center;
-
-  @media (max-width: ${BREAKPOINTS.sm}px) {
-    grid-template-columns: repeat(auto-fit, 48%);
-    justify-content: center;
-    column-gap: 4%;
-  }
-`;
-
-const StyledInfoHexSummary = styled(InfoHexSummary)`
-  @media (max-width: ${BREAKPOINTS.sm}px) {
-    min-width: unset;
-  }
-`;
-
 type SortOptions = 'claim-date' | 'claim-count';
 
 const selectOptions: SelectOption<SortOptions>[] = [
@@ -70,7 +48,7 @@ type QueryVars = {
 export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   const [variables, setVariables] = useState<QueryVars>({
     page: 1,
-    perPage: 20,
+    perPage: 24,
     sort: 'claim-count',
     gitPOAPId,
   });
@@ -88,8 +66,8 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   useEffect(() => {
     handlers.setState([]);
     setVariables({
+      ...variables,
       page: 1,
-      perPage: 20,
       sort: 'claim-count',
       gitPOAPId,
     });
@@ -143,21 +121,24 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       }}
     >
       {total ? (
-        <HoldersWrapper>
+        <Grid align="center">
           {holders.map((holder: Holder) => (
-            <StyledInfoHexSummary
-              key={`${holder.githubHandle}-${holder.address}`}
-              address={holder.address}
-              bio={holder.bio}
-              gitpoapId={gitPOAPId}
-              twitterHandle={holder.twitterHandle}
-              personalSiteUrl={holder.personalSiteUrl}
-              numGitPOAPs={holder.gitPOAPCount}
-              ensAvatarUrl={holder.ensAvatarUrl}
-              ensName={holder.ensName}
-            />
+            <Grid.Col key={`${holder.githubHandle}-${holder.address}`} sm={6} md={4} lg={3} xl={2}>
+              <Group position="center">
+                <InfoHexSummary
+                  address={holder.address}
+                  bio={holder.bio}
+                  gitpoapId={gitPOAPId}
+                  twitterHandle={holder.twitterHandle}
+                  personalSiteUrl={holder.personalSiteUrl}
+                  numGitPOAPs={holder.gitPOAPCount}
+                  ensAvatarUrl={holder.ensAvatarUrl}
+                  ensName={holder.ensName}
+                />
+              </Group>
+            </Grid.Col>
           ))}
-        </HoldersWrapper>
+        </Grid>
       ) : (
         <EmptyState icon={<FaUsers color={TextDarkGray} size={rem(74)} />}>
           <Text style={{ marginTop: rem(20) }}>{'No one has minted this GitPOAP'}</Text>

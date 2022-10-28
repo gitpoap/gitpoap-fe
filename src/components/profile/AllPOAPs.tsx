@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { rem } from 'polished';
+import { Grid, Group } from '@mantine/core';
 import { POAP } from '../../types';
 import { POAPBadge } from '../shared/elements/POAPBadge';
-import { POAPList } from '../shared/compounds/POAPList';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { TextDarkGray } from '../../colors';
@@ -28,7 +28,7 @@ export const AllPOAPs = ({ address }: Props) => {
   const [sort, setSort] = useState<SortOptions>('date');
   const [poaps, setPoaps] = useState<POAP[]>([]);
   const [total, setTotal] = useState<number>();
-  const perPage = 10;
+  const perPage = 12;
   const [result] = useAllPoapsQuery({
     variables: {
       address,
@@ -89,7 +89,7 @@ export const AllPOAPs = ({ address }: Props) => {
         }
       }}
     >
-      <POAPList>
+      <Grid align="center">
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => {
@@ -107,19 +107,22 @@ export const AllPOAPs = ({ address }: Props) => {
         {poaps &&
           poaps.map((poap) => {
             return (
-              <POAPBadge
-                key={poap.tokenId}
-                name={poap.event.name}
-                imgSrc={poap.event.image_url}
-                poapTokenId={poap.tokenId}
-                href={`https://poap.gallery/event/${poap.event.id}`}
-                isFeatured={!!featuredPOAPTokenIDs[poap.tokenId]}
-                isFeaturedLoading={!!loadingIds[poap.tokenId]}
-                showHeart={showHearts}
-              />
+              <Grid.Col key={poap.tokenId} sm={6} md={4} lg={3} xl={2}>
+                <Group position="center">
+                  <POAPBadge
+                    name={poap.event.name}
+                    imgSrc={poap.event.image_url}
+                    poapTokenId={poap.tokenId}
+                    href={`https://poap.gallery/event/${poap.event.id}`}
+                    isFeatured={!!featuredPOAPTokenIDs[poap.tokenId]}
+                    isFeaturedLoading={!!loadingIds[poap.tokenId]}
+                    showHeart={showHearts}
+                  />
+                </Group>
+              </Grid.Col>
             );
           })}
-      </POAPList>
+      </Grid>
     </ItemList>
   );
 };

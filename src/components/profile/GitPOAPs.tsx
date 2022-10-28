@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { rem } from 'polished';
+import { Grid, Group } from '@mantine/core';
 import { GitPOAP as GitPOAPBadge } from '../shared/compounds/GitPOAP';
-import { POAPList } from '../shared/compounds/POAPList';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { Title } from '../shared/elements/Title';
@@ -45,7 +45,7 @@ export const GitPOAPs = ({ address }: Props) => {
   const [gitPOAPItems, setGitPOAPItems] = useState<GitPOAPItems>([]);
   const [total, setTotal] = useState<number>();
   const [searchValue, setSearchValue] = useState('');
-  const perPage = 10;
+  const perPage = 12;
   const isCurrentUser = user?.address === address;
 
   const [result] = useGitPoapsQuery({
@@ -108,7 +108,7 @@ export const GitPOAPs = ({ address }: Props) => {
         setSearchValue(e.target.value)
       }
     >
-      <POAPList>
+      <Grid align="center">
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => {
@@ -155,19 +155,28 @@ export const GitPOAPs = ({ address }: Props) => {
             })
             .map((gitPOAPItem) => {
               return (
-                <GitPOAPBadge
+                <Grid.Col
                   key={gitPOAPItem.claim.poapTokenId ?? `${gitPOAPItem.claim.gitPOAP.id}-minting`}
-                  gitPOAPId={gitPOAPItem.claim.gitPOAP.id}
-                  repoName={gitPOAPItem.claim.pullRequestEarned?.repo.name}
-                  orgName={gitPOAPItem.claim.pullRequestEarned?.repo.organization.name}
-                  name={gitPOAPItem.event.name}
-                  imgSrc={gitPOAPItem.event.image_url}
-                  poapTokenId={gitPOAPItem.claim.poapTokenId}
-                  level={determineLevel(gitPOAPItem.contributionCount)}
-                />
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={2}
+                >
+                  <Group position="center">
+                    <GitPOAPBadge
+                      gitPOAPId={gitPOAPItem.claim.gitPOAP.id}
+                      repoName={gitPOAPItem.claim.pullRequestEarned?.repo.name}
+                      orgName={gitPOAPItem.claim.pullRequestEarned?.repo.organization.name}
+                      name={gitPOAPItem.event.name}
+                      imgSrc={gitPOAPItem.event.image_url}
+                      poapTokenId={gitPOAPItem.claim.poapTokenId}
+                      level={determineLevel(gitPOAPItem.contributionCount)}
+                    />
+                  </Group>
+                </Grid.Col>
               );
             })}
-      </POAPList>
+      </Grid>
     </ItemList>
   );
 };
