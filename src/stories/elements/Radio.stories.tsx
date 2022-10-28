@@ -13,7 +13,7 @@ const Template: ComponentStory<typeof Radio> = (args) => {
   const [value, setValue] = React.useState('react');
 
   return (
-    <RadioGroup {...args} defaultValue="react" value={value} onChange={setValue}>
+    <RadioGroup defaultValue="react" value={value} onChange={setValue}>
       <Radio {...args} value="contributor" label={'Contributor'} />
     </RadioGroup>
   );

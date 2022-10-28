@@ -1,46 +1,77 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IconCount renders an IconCount 1`] = `
-.c1 {
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: bold;
-  line-height: 1.0625rem;
-  -webkit-letter-spacing: 0.03125rem;
-  -moz-letter-spacing: 0.03125rem;
-  -ms-letter-spacing: 0.03125rem;
-  letter-spacing: 0.03125rem;
-  text-transform: uppercase;
-  color: #E2E2EE;
-  margin-left: 0.375rem;
-}
-
-.c0 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
+.emotion-1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 0;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
 }
 
-.c0 path {
+.emotion-1>* {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-1 path {
   -webkit-transition: 200ms fill ease;
   transition: 200ms fill ease;
   fill: #838495;
 }
 
+.emotion-3 {
+  font-family: PT Mono,monospace;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #E2E2EE;
+  letter-spacing: 0.0125rem;
+  line-height: 1.25rem;
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
+  margin-left: 0.375rem;
+}
+
+.emotion-3:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-3:focus:not(:focus-visible) {
+  outline: none;
+}
+
 <div
-  class="c0"
+  class="emotion-0 emotion-1"
 >
   <svg
     fill="currentColor"
@@ -56,7 +87,7 @@ exports[`IconCount renders an IconCount 1`] = `
     />
   </svg>
   <span
-    class="c1"
+    class="emotion-2 emotion-3"
   >
     10
   </span>

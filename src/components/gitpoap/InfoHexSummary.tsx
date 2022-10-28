@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Text, TextProps } from '@mantine/core';
+import { Group, Stack, Text, TextProps } from '@mantine/core';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
-import { TextAccent, TextLight, ExtraHover, ExtraPressed } from '../../colors';
+import { TextAccent, ExtraHover, ExtraPressed } from '../../colors';
 import { GitPOAP, Twitter, GitHub, GlobeNoHover } from '../shared/elements/icons';
 import { InfoHexBase, Body } from '../shared/elements/InfoHexBase';
 import { Avatar as AvatarUI } from '../shared/elements/Avatar';
@@ -23,18 +23,8 @@ type Props = {
   ensName: string | null;
 };
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: ${rem(200)};
-  padding: 0 ${rem(17)};
-`;
-
 const Avatar = styled(AvatarUI)`
   margin-bottom: ${rem(14)};
-
   flex: none;
   order: 0;
   flex-grow: 0;
@@ -57,28 +47,16 @@ const Name = styled.div`
   flex-grow: 0;
 `;
 
-const Bio = styled(Text)<TextProps & React.ComponentPropsWithoutRef<'div'>>`
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: normal;
-  font-size: ${rem(11)};
+const Bio = styled(Text)<TextProps>`
   line-height: ${rem(16)};
-  text-align: center;
   letter-spacing: ${rem(-0.1)};
-  color: ${TextLight};
-
   flex: none;
   order: 2;
   flex-grow: 0;
   max-width: ${rem(180)};
 `;
 
-const Social = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: ${rem(14)};
+const Social = styled(Group)`
   > *:not(:last-child) {
     margin-right: ${rem(16)};
   }
@@ -125,17 +103,28 @@ export const InfoHexSummary = ({
 }: Props) => {
   return (
     <StyledInfoHex className={className} hoverEffects href={`/p/${ensName ?? address}`}>
-      <Content>
+      <Stack
+        py={0}
+        px={rem(17)}
+        align="center"
+        justify="center"
+        spacing={0}
+        sx={{ minHeight: rem(200) }}
+      >
         {ensAvatarUrl ? <Avatar src={ensAvatarUrl} /> : <JazzIcon address={address} />}
         <Name>{ensName ?? truncateAddress(address, 10)}</Name>
-        {bio && <Bio lineClamp={3}>{bio}</Bio>}
-        <Social>
+        {bio && (
+          <Bio lineClamp={3} align="center" size={11}>
+            {bio}
+          </Bio>
+        )}
+        <Social align="center" position="apart" spacing={0} mt={rem(14)}>
           {twitterHandle && <Twitter />}
           {githubHandle && <GitHub />}
           {personalSiteUrl && <GlobeNoHover />}
           {gitpoapId && <IconCount icon={<GitPOAP />} count={numGitPOAPs ?? 0} />}
         </Social>
-      </Content>
+      </Stack>
     </StyledInfoHex>
   );
 };

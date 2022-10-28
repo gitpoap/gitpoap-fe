@@ -1,11 +1,12 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import 'jest-styled-components';
 import { rem } from 'polished';
 import { ClaimCircle } from '../../../../src/components/shared/elements';
+import { renderWithTheme } from '../../../__utils__/renderWithTheme';
 
 describe('ClaimCircle', () => {
   it('renders an ClaimCircle - small text', () => {
-    const { container } = render(<ClaimCircle value={15} />);
+    const { container } = renderWithTheme(<ClaimCircle value={15} />);
     const claimCircle = container.firstChild;
 
     expect(claimCircle).toBeInTheDocument();
@@ -15,7 +16,7 @@ describe('ClaimCircle', () => {
   });
 
   it('renders an ClaimCircle - large text', () => {
-    const { container } = render(<ClaimCircle value={5} />);
+    const { container } = renderWithTheme(<ClaimCircle value={5} />);
     const claimCircle = container.firstChild;
 
     expect(claimCircle).toBeInTheDocument();

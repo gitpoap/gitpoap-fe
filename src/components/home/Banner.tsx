@@ -43,7 +43,7 @@ const HeaderStyled = styled.span`
   color: ${TextLight};
 `;
 
-const BannerSubHeader = styled(Text)<TextProps & React.ComponentPropsWithoutRef<'div'>>`
+const BannerSubHeader = styled(Text)<TextProps>`
   font-family: PT Mono;
   font-style: normal;
   font-weight: 400;

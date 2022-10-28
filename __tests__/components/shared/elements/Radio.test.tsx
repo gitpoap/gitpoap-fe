@@ -1,11 +1,11 @@
 import { Radio } from '@mantine/core';
-import { render } from '@testing-library/react';
 import 'jest-styled-components';
 import { RadioGroup } from '../../../../src/components/shared/elements';
+import { renderWithTheme } from '../../../__utils__/renderWithTheme';
 
 describe('Radio', () => {
   it('renders a RadioGroup', () => {
-    const { container } = render(
+    const { container } = renderWithTheme(
       <RadioGroup>
         <Radio value="radio-test" />
       </RadioGroup>,

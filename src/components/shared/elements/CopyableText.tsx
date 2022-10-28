@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { Box, Tooltip } from '@mantine/core';
 import { useClipboard } from '@mantine/hooks';
-import { Box } from '@mantine/core';
 import { FiCopy } from 'react-icons/fi';
-import { Tooltip } from './Tooltip';
 import { Title } from './Title';
 import { TextGray } from '../../../colors';
 
@@ -17,8 +16,6 @@ type Props = {
 const CopyableTextStyled = styled(Title)`
   display: flex;
   flex-direction: row;
-  font-family: PT Mono;
-  font-style: normal;
   font-weight: normal;
   font-size: ${rem(14)};
   line-height: ${rem(18)};

@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { FaDiscord, FaTwitter, FaMedium, FaGithub, FaCheckCircle } from 'react-icons/fa';
 import { MdOutlineError, MdSend } from 'react-icons/md';
-import { Box, BoxProps, Divider, Text, TextProps, Loader } from '@mantine/core';
+import { Box, Divider, Text, TextProps, Loader, Group, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { validate } from 'email-validator';
 import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
@@ -19,26 +19,12 @@ import { Link } from './shared/compounds/Link';
 import { Button, Input } from './shared/elements';
 import { BREAKPOINTS } from '../constants';
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0 ${rem(45)};
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
+const Container = styled(Group)`
   justify-content: space-evenly;
-  flex-wrap: wrap;
   gap: ${rem(20)};
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: normal;
   font-size: ${rem(12)};
   line-height: ${rem(17)};
   letter-spacing: ${rem(0.5)};
-  color: ${TextGray};
-  padding: ${rem(32)} 0;
 `;
 
 const GitPOAPLink = styled.a`
@@ -47,22 +33,13 @@ const GitPOAPLink = styled.a`
   align-items: center;
 `;
 
-const FooterText = styled(Text)<TextProps & React.ComponentPropsWithoutRef<'div'>>`
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: normal;
-  font-weight: 400;
-  font-size: ${rem(13)};
+const FooterText = styled(Text)<TextProps>`
   line-height: ${rem(16)};
   letter-spacing: ${rem(-0.1)};
 `;
 
-const GitPOAPContent = styled(Box)<BoxProps & React.ComponentPropsWithoutRef<'div'>>`
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
+const GitPOAPContent = styled(Stack)`
   max-width: ${rem(340)};
-
   @media (max-width: ${rem(BREAKPOINTS.lg)}) {
     width: ${rem(340)};
   }
@@ -78,10 +55,7 @@ const GitPOAPContent = styled(Box)<BoxProps & React.ComponentPropsWithoutRef<'di
   }
 `;
 
-const FooterLinks = styled(Box)`
-  display: flex;
-  flex-direction: row;
-
+const FooterLinks = styled(Group)`
   @media (max-width: ${rem(BREAKPOINTS.lg)}) {
     margin-bottom: ${rem(20)};
   }
@@ -98,10 +72,7 @@ const FooterLinks = styled(Box)`
   }
 `;
 
-const Subscribe = styled(Box)`
-  display: flex;
-  flex-direction: column;
-
+const Subscribe = styled(Stack)`
   @media (max-width: ${rem(BREAKPOINTS.lg)}) {
     width: ${rem(340)};
     margin-bottom: ${rem(20)};
@@ -118,11 +89,7 @@ const Subscribe = styled(Box)`
   }
 `;
 
-const LinkColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
+const LinkColumn = styled(Stack)`
   &:not(:last-child) {
     margin-right: ${rem(72)};
 
@@ -142,16 +109,17 @@ const LinkColumn = styled.div`
   }
 `;
 
-const FooterHeader = styled.div`
-  font-family: 'PT Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-size: ${rem(11)};
-  line-height: ${rem(18)};
-  letter-spacing: ${rem(1.2)};
-  text-transform: uppercase;
-  color: ${TextLight};
-`;
+const FooterHeader = (props: { children: React.ReactNode }) => (
+  <Text
+    size={11}
+    color={TextLight}
+    transform="uppercase"
+    weight={700}
+    sx={{ lineHeight: rem(18), letterSpacing: rem(1.2) }}
+  >
+    {props.children}
+  </Text>
+);
 
 const LinkStyles = css`
   font-size: ${rem(13)};
@@ -250,29 +218,29 @@ export const Footer = () => {
   }, [formStatus]);
 
   return (
-    <Content id="contact">
+    <Stack id="contact" py={0} px={rem(45)} spacing={0}>
       <Divider style={{ borderTopColor: BackgroundPanel2 }} />
-      <Container>
-        <GitPOAPContent>
+      <Container py={rem(32)} px={0} spacing={0} align="flex-start">
+        <GitPOAPContent spacing={0}>
           <GitPOAPLink href={`https://gitpoap.io`} target="_blank" rel="noopener noreferrer">
             <StyledGitPOAPLogo style={{}} />
           </GitPOAPLink>
-          <FooterText style={{ marginTop: rem(20) }}>
+          <FooterText style={{ marginTop: rem(20) }} weight={400} size={13}>
             {
               "We're memorializing software contributions as GitPOAPs to help usher in a new era of #web3"
             }
           </FooterText>
         </GitPOAPContent>
 
-        <FooterLinks>
-          <LinkColumn>
+        <FooterLinks spacing={0} align="flex-start">
+          <LinkColumn spacing={0} justify="flex-start">
             <FooterHeader>{'Explore'}</FooterHeader>
             <InternalLink href="/">{'Home'}</InternalLink>
             <InternalLink href="/repos">{'Repos'}</InternalLink>
             <InternalLink href="/orgs">{'Orgs'}</InternalLink>
             <InternalLink href="/gitpoaps">{'GitPOAPs'}</InternalLink>
           </LinkColumn>
-          <LinkColumn>
+          <LinkColumn spacing={0} justify="flex-start">
             <FooterHeader>{'Community'}</FooterHeader>
             <OutboundLink
               href={'https://medium.com/gitpoap'}
@@ -307,7 +275,7 @@ export const Footer = () => {
               {'GitHub'}
             </OutboundLink>
           </LinkColumn>
-          <LinkColumn>
+          <LinkColumn spacing={0} justify="flex-start">
             <FooterHeader>{'About'}</FooterHeader>
             <OutboundLink href="https://docs.gitpoap.io" target="_blank" rel="noopener noreferrer">
               {'Docs'}
@@ -323,7 +291,7 @@ export const Footer = () => {
           </LinkColumn>
         </FooterLinks>
 
-        <Subscribe>
+        <Subscribe spacing={0} justify="flex-start">
           <FooterHeader>{'Sign up for updates'}</FooterHeader>
           <Box style={{ marginTop: rem(12), display: 'flex' }}>
             <Input
@@ -363,6 +331,6 @@ export const Footer = () => {
           </Box>
         </Subscribe>
       </Container>
-    </Content>
+    </Stack>
   );
 };

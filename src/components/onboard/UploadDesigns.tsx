@@ -1,4 +1,12 @@
-import { CloseButton, Image, Radio, SimpleGrid, Divider, Stack } from '@mantine/core';
+import {
+  CloseButton,
+  Image,
+  Radio,
+  SimpleGrid,
+  Divider,
+  Stack,
+  CloseButtonProps,
+} from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
 import styled from 'styled-components';
 
@@ -23,7 +31,7 @@ const StyledDropzone = styled(Dropzone)`
   transition: 150ms border ease;
 `;
 
-const RemoveImageButton = styled(CloseButton)`
+const RemoveImageButton = styled(CloseButton)<CloseButtonProps>`
   position: absolute;
   top: 0;
   right: 0;
