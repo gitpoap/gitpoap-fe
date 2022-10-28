@@ -2,7 +2,7 @@ import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { FaUsers } from 'react-icons/fa';
 import styled from 'styled-components';
-import { Grid } from '@mantine/core';
+import { Grid, Group } from '@mantine/core';
 import { useListState } from '@mantine/hooks';
 import { GitPoapHoldersQueryVariables, useGitPoapHoldersQuery } from '../../graphql/generated-gql';
 import { InfoHexSummary } from './InfoHexSummary';
@@ -30,28 +30,6 @@ export type Holder = {
 
 const StyledItemList = styled(ItemList)`
   margin-bottom: ${rem(50)};
-`;
-
-const HoldersWrapper = styled.div`
-  display: grid;
-  margin-bottom: ${rem(50)};
-  margin-top: ${rem(40)};
-  column-gap: ${rem(24)};
-  row-gap: ${rem(40)};
-  grid-template-columns: repeat(auto-fit, ${rem(215)});
-  justify-content: center;
-
-  @media (max-width: ${BREAKPOINTS.sm}px) {
-    grid-template-columns: repeat(auto-fit, 48%);
-    justify-content: center;
-    column-gap: 4%;
-  }
-`;
-
-const StyledInfoHexSummary = styled(InfoHexSummary)`
-  @media (max-width: ${BREAKPOINTS.sm}px) {
-    min-width: unset;
-  }
 `;
 
 type SortOptions = 'claim-date' | 'claim-count';
@@ -147,16 +125,18 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
         <Grid align="center" gutter="sm">
           {holders.map((holder: Holder) => (
             <Grid.Col key={`${holder.githubHandle}-${holder.address}`} sm={6} md={4} lg={3} xl={2}>
-              <StyledInfoHexSummary
-                address={holder.address}
-                bio={holder.bio}
-                gitpoapId={gitPOAPId}
-                twitterHandle={holder.twitterHandle}
-                personalSiteUrl={holder.personalSiteUrl}
-                numGitPOAPs={holder.gitPOAPCount}
-                ensAvatarUrl={holder.ensAvatarUrl}
-                ensName={holder.ensName}
-              />
+              <Group position="center">
+                <InfoHexSummary
+                  address={holder.address}
+                  bio={holder.bio}
+                  gitpoapId={gitPOAPId}
+                  twitterHandle={holder.twitterHandle}
+                  personalSiteUrl={holder.personalSiteUrl}
+                  numGitPOAPs={holder.gitPOAPCount}
+                  ensAvatarUrl={holder.ensAvatarUrl}
+                  ensName={holder.ensName}
+                />
+              </Group>
             </Grid.Col>
           ))}
         </Grid>
