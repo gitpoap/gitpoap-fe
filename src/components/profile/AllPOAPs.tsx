@@ -3,7 +3,6 @@ import { rem } from 'polished';
 import { Grid, Group } from '@mantine/core';
 import { POAP } from '../../types';
 import { POAPBadge } from '../shared/elements/POAPBadge';
-import { POAPList } from '../shared/compounds/POAPList';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { TextDarkGray } from '../../colors';

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { POAP } from '../../types';
 import { POAPBadge } from '../shared/elements/POAPBadge';
-import { POAPList } from '../shared/compounds/POAPList';
 import { TextAccent, TextDarkGray } from '../../colors';
 import { GitPOAP } from '../shared/compounds/GitPOAP';
 import { useFeaturedPOAPs, GitPOAP as GitPOAPType } from './FeaturedPOAPsContext';

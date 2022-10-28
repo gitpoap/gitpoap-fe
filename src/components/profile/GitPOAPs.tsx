@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { rem } from 'polished';
 import { Grid, Group } from '@mantine/core';
 import { GitPOAP as GitPOAPBadge } from '../shared/compounds/GitPOAP';
-import { POAPList } from '../shared/compounds/POAPList';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { Title } from '../shared/elements/Title';
