@@ -130,24 +130,20 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       {total ? (
         <Grid align="center" gutter="sm">
           {holders.map((holder: Holder) => (
-            <ItemContainer
-              key={`${holder.githubHandle}-${holder.address}`}
-              sm={6}
-              md={4}
-              lg={3}
-              xl={2}
-            >
-              <InfoHexSummary
-                address={holder.address}
-                bio={holder.bio}
-                gitpoapId={gitPOAPId}
-                twitterHandle={holder.twitterHandle}
-                personalSiteUrl={holder.personalSiteUrl}
-                numGitPOAPs={holder.gitPOAPCount}
-                ensAvatarUrl={holder.ensAvatarUrl}
-                ensName={holder.ensName}
-              />
-            </ItemContainer>
+            <Grid.Col key={`${holder.githubHandle}-${holder.address}`} sm={6} md={4} lg={3} xl={2}>
+              <Group position="center">
+                <InfoHexSummary
+                  address={holder.address}
+                  bio={holder.bio}
+                  gitpoapId={gitPOAPId}
+                  twitterHandle={holder.twitterHandle}
+                  personalSiteUrl={holder.personalSiteUrl}
+                  numGitPOAPs={holder.gitPOAPCount}
+                  ensAvatarUrl={holder.ensAvatarUrl}
+                  ensName={holder.ensName}
+                />
+              </Group>
+            </Grid.Col>
           ))}
         </Grid>
       ) : (
