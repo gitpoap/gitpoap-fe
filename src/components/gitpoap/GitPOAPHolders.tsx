@@ -32,12 +32,6 @@ const StyledItemList = styled(ItemList)`
   margin-bottom: ${rem(50)};
 `;
 
-const ItemContainer = styled(Grid.Col)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 type SortOptions = 'claim-date' | 'claim-count';
 
 const selectOptions: SelectOption<SortOptions>[] = [
