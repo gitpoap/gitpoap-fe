@@ -89,8 +89,8 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
   useEffect(() => {
     handlers.setState([]);
     setVariables({
+      ...variables,
       page: 1,
-      perPage: 20,
       sort: 'claim-count',
       gitPOAPId,
     });
@@ -144,9 +144,9 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       }}
     >
       {total ? (
-        <Grid>
+        <Grid align="center" gutter="sm">
           {holders.map((holder: Holder) => (
-            <Grid.Col key={`${holder.githubHandle}-${holder.address}`} sm={12} md={6} lg={2}>
+            <Grid.Col key={`${holder.githubHandle}-${holder.address}`} sm={6} md={4} lg={3} xl={2}>
               <StyledInfoHexSummary
                 address={holder.address}
                 bio={holder.bio}
