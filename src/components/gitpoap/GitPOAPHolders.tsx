@@ -2,14 +2,14 @@ import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { FaUsers } from 'react-icons/fa';
 import styled from 'styled-components';
-import { Grid, Group } from '@mantine/core';
 import { useListState } from '@mantine/hooks';
-import { GitPoapHoldersQueryVariables, useGitPoapHoldersQuery } from '../../graphql/generated-gql';
+import { useGitPoapHoldersQuery } from '../../graphql/generated-gql';
 import { InfoHexSummary } from './InfoHexSummary';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { Text } from '../shared/elements/Text';
 import { TextDarkGray } from '../../colors';
+import { Group } from '@mantine/core';
 
 type Props = {
   gitPOAPId: number;
@@ -29,6 +29,33 @@ export type Holder = {
 
 const StyledItemList = styled(ItemList)`
   margin-bottom: ${rem(50)};
+`;
+
+const HoldersWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  column-gap: ${rem(40)};
+  row-gap: ${rem(40)};
+
+  @media (max-width: ${rem(2050)}) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  @media (max-width: ${rem(1550)}) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (max-width: ${rem(1130)}) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: ${rem(850)}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: ${rem(550)}) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 type SortOptions = 'claim-date' | 'claim-count';
@@ -57,17 +84,14 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
 
   const gitPOAPHolders = result?.data?.gitPOAPHolders;
   const total = gitPOAPHolders?.totalHolders;
-
-  // Assert type until following issue is resolved:
-  // https://github.com/dotansimha/graphql-code-generator/issues/7976
-  const queryVariables = result.operation?.variables as GitPoapHoldersQueryVariables | undefined;
+  const queryVariables = result.operation?.variables;
 
   /* Hook to clear list of holders when the gitPOAPId changes */
   useEffect(() => {
     handlers.setState([]);
     setVariables({
-      ...variables,
       page: 1,
+      perPage: 24,
       sort: 'claim-count',
       gitPOAPId,
     });
@@ -121,10 +145,10 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       }}
     >
       {total ? (
-        <Grid align="center">
-          {holders.map((holder: Holder) => (
-            <Grid.Col key={`${holder.githubHandle}-${holder.address}`} sm={6} md={4} lg={3} xl={2}>
-              <Group position="center">
+        <Group mb={rem(50)} mt={rem(40)} spacing={0} position="center">
+          <HoldersWrapper>
+            {holders.map((holder: Holder) => (
+              <Group key={`${holder.githubHandle}-${holder.address}`}>
                 <InfoHexSummary
                   address={holder.address}
                   bio={holder.bio}
@@ -136,9 +160,9 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
                   ensName={holder.ensName}
                 />
               </Group>
-            </Grid.Col>
-          ))}
-        </Grid>
+            ))}
+          </HoldersWrapper>
+        </Group>
       ) : (
         <EmptyState icon={<FaUsers color={TextDarkGray} size={rem(74)} />}>
           <Text style={{ marginTop: rem(20) }}>{'No one has minted this GitPOAP'}</Text>
