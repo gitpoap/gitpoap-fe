@@ -6,7 +6,6 @@ import { OrgList as OrgListContainer } from '../shared/compounds/OrgList';
 import { OrganizationHex, OrganizationHexSkeleton } from './OrgHex';
 import {
   OrganizationsListQuery,
-  OrganizationsListQueryVariables,
   useOrganizationsListQuery,
   useTotalOrganizationCountQuery,
 } from '../../graphql/generated-gql';
@@ -69,10 +68,7 @@ export const OrgList = () => {
   const allOrganizations = result.data?.allOrganizations;
   const [totalResult] = useTotalOrganizationCountQuery({});
   const total = totalResult.data?.aggregateOrganization._count?.id;
-
-  // Assert type until following issue is resolved:
-  // https://github.com/dotansimha/graphql-code-generator/issues/7976
-  const queryVariables = result.operation?.variables as OrganizationsListQueryVariables | undefined;
+  const queryVariables = result.operation?.variables;
 
   /* Hook to append new data onto existing list of orgs */
   useEffect(() => {

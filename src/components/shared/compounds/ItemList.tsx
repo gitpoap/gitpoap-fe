@@ -1,17 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Header } from '../elements/Header';
-import { Button } from '../elements/Button';
-import { FaPlus } from 'react-icons/fa';
-import { Select } from '../elements/Select';
-import { Text } from '../elements/Text';
-import { TextGray } from '../../../colors';
-import { Input } from '../elements/Input';
+import { Box, BoxProps } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { FaPlus } from 'react-icons/fa';
+import { Header, Button, Select, Text, Input } from '../elements';
+import { TextGray } from '../../../colors';
 import { BREAKPOINTS } from '../../../constants';
 
-type Props = {
+type Props = BoxProps & {
   title?: string;
   className?: string;
   children?: React.ReactNode;
@@ -28,7 +25,7 @@ type Props = {
 
 export type SelectOption<T = string> = { value: T; label: string };
 
-const Container = styled.div`
+const Container = styled(Box)<BoxProps>`
   display: inline-flex;
   flex-direction: column;
   width: 100%;
@@ -90,11 +87,12 @@ export const ItemList = ({
   searchInputPlaceholder,
   searchInputValue,
   onSearchInputChange,
+  ...boxProps
 }: Props) => {
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
 
   return (
-    <Container className={className}>
+    <Container className={className} {...boxProps}>
       <Heading>
         <ListTitle>{title}</ListTitle>
         <Sorting>
