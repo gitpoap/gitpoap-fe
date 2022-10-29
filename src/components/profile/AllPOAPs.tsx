@@ -71,6 +71,7 @@ export const AllPOAPs = ({ address }: Props) => {
 
   return (
     <ItemList
+      mb={rem(50)}
       title={`All POAPs: ${total ?? ''}`}
       selectOptions={selectOptions}
       selectValue={sort}
@@ -89,7 +90,7 @@ export const AllPOAPs = ({ address }: Props) => {
         }
       }}
     >
-      <Grid align="center">
+      <Grid align="center" mb={rem(40)}>
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => {
