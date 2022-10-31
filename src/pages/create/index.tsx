@@ -2,7 +2,7 @@ import { Grid } from '@mantine/core';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { CreationForm } from '../../components/create/CreationForm';
-import { Background } from '../gp/[id]';
+import { BackgroundHexes } from '../../components/gitpoap/BackgroundHexes';
 
 const Create: NextPage = () => {
   return (
@@ -15,7 +15,7 @@ const Create: NextPage = () => {
         />
       </Head>
       <Grid justify="center" style={{ zIndex: 1 }}>
-        <Background />
+        <BackgroundHexes />
         <CreationForm />
       </Grid>
     </>
