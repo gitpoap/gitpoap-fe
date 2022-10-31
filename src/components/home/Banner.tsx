@@ -111,7 +111,7 @@ export const Banner = () => {
         }
       </BannerSubHeader>
       <CTAButtons position="center">
-        <Link href="/create/select-type" passHref>
+        <Link href="/onboard" passHref>
           <StartIssuingButton radius="md" size="md" rightIcon={<FaArrowRight />} variant="filled">
             {'START ISSUING'}
           </StartIssuingButton>

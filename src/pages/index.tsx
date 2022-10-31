@@ -1,16 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Center, Grid, Stack } from '@mantine/core';
+import { Grid } from '@mantine/core';
 import { Page } from './_app';
-import { BackgroundPanel2 } from '../colors';
 import { BannerStats } from '../components/home/BannerStats';
 import { MostClaimed } from '../components/home/MostClaimed';
 import { LeaderBoard } from '../components/home/LeaderBoard';
 import { RecentlyAdded } from '../components/home/RecentlyAdded';
-import { SuggestionForm } from '../components/home/SuggestionForm';
 import { BackgroundHexes } from '../components/home/BackgroundHexes';
-import { Divider } from '@mantine/core';
 import { SEO } from '../components/shared/compounds/SEO';
 import { FurtherInfoFor } from '../components/home/FurtherInfoFor';
 import { FurtherInfoHow } from '../components/home/FurtherInfoHow';
