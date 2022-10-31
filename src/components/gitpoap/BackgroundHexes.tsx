@@ -1,6 +1,9 @@
+import { rem, rgba } from 'polished';
 import { forwardRef, Ref, SVGAttributes } from 'react';
+import styled from 'styled-components';
+import { MidnightBlue } from '../../colors';
 
-export const BackgroundHexes = forwardRef(
+const BackgroundHexesSVG = forwardRef(
   (props: SVGAttributes<SVGSVGElement>, ref: Ref<SVGSVGElement>) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -114,3 +117,23 @@ export const BackgroundHexes = forwardRef(
     </svg>
   ),
 );
+
+export const BackgroundHexes = styled(BackgroundHexesSVG)`
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 0;
+  width: ${rem(1840)};
+
+  mask-image: linear-gradient(
+    to bottom,
+    ${rgba(MidnightBlue, 0)} 0%,
+    ${rgba(MidnightBlue, 1)} 20%,
+    ${rgba(MidnightBlue, 1)} 80%,
+    ${rgba(MidnightBlue, 0)} 100%
+  );
+`;

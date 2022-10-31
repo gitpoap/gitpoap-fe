@@ -1,6 +1,4 @@
 import {
-  Badge,
-  BadgeProps,
   CloseButton,
   Container,
   Divider,
@@ -15,23 +13,16 @@ import { rem } from 'polished';
 import { useState } from 'react';
 import { MdOutlineFileUpload } from 'react-icons/md';
 import styled from 'styled-components';
-import { BackgroundPanel, BackgroundPanel2, BackgroundPanel3, ExtraRed } from '../../colors';
-import { useUser } from '../../hooks/useUser';
+import {
+  BackgroundPanel,
+  BackgroundPanel2,
+  BackgroundPanel3,
+  DarkGray,
+  ExtraRed,
+} from '../../colors';
 import { Button, Input, Text, TextArea } from '../shared/elements';
 import { FormReturnTypes } from './types';
 import Papa from 'papaparse';
-
-const StyledContainer = styled(Container)`
-  border: ${rem(1)} solid ${BackgroundPanel2};
-`;
-
-const StyledScrollArea = styled(ScrollArea)`
-  height: ${rem(320)};
-  max-height: 80vh;
-  padding-left: ${rem(16)};
-  border-top: ${rem(1)} solid ${BackgroundPanel3};
-  border-bottom: ${rem(1)} solid ${BackgroundPanel3};
-`;
 
 const Contributor = styled(Group)`
   button {
@@ -42,18 +33,19 @@ const Contributor = styled(Group)`
   }
 `;
 
+const StyledTextArea = styled(TextArea)`
+  .mantine-Textarea-input {
+    border: ${rem(1)} solid ${DarkGray} !important;
+  }
+`;
+
 type Props = {
   contributors: string[];
   errors: FormReturnTypes['errors'];
   setFieldValue: FormReturnTypes['setFieldValue'];
 };
 
-const BadgeStyled = styled(Badge)<BadgeProps & React.ComponentPropsWithoutRef<'div'>>`
-  font-family: PT Mono;
-`;
-
 export const SelectContributors = ({ contributors, errors, setFieldValue }: Props) => {
-  const user = useUser();
   const [searchValue, setSearchValue] = useState<string>('');
   const [contributorsTA, setContributorsTA] = useState('');
   const filteredContributors = contributors.filter((contributor) =>
@@ -61,11 +53,11 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
   );
 
   return (
-    <Grid style={{ backgroundColor: BackgroundPanel, borderRadius: 12 }}>
+    <Grid sx={{ backgroundColor: BackgroundPanel, borderRadius: 12 }}>
       <Grid.Col p={16} span={6}>
         <Stack>
-          <TextArea
-            label="Contributors' GitHub Usernames, E-Mails, Eth or ENS Addresses (Separated by Commas)"
+          <StyledTextArea
+            label="Enter GitHub Handles, E-Mails, Eth or ENS Addresses (Separated by Commas)"
             placeholder="colfax23, mail@gmail.com, dude.eth, 0x1234567890b"
             value={contributorsTA}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -100,8 +92,11 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
             }}
             styles={() => ({
               root: {
-                width: 160,
+                backgroundColor: BackgroundPanel,
                 height: 160,
+                '&:hover': {
+                  backgroundColor: BackgroundPanel2,
+                },
               },
               inner: {
                 alignItems: 'center',
@@ -118,12 +113,25 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
           </Dropzone>
         </Stack>
       </Grid.Col>
-      <Grid.Col p={16} span={6} style={{ backgroundColor: BackgroundPanel2, borderRadius: 12 }}>
-        <StyledContainer p="0">
+      <Grid.Col p={16} span={6} sx={{ backgroundColor: BackgroundPanel2, borderRadius: 12 }}>
+        <Container
+          p="0"
+          sx={{
+            border: `${rem(1)} solid ${BackgroundPanel2}`,
+          }}
+        >
           <Text mb="xs">{`${contributors.length} Selected`}</Text>
-          <StyledScrollArea>
-            <List listStyleType="none" style={{ paddingBottom: rem(10) }}>
-              {filteredContributors.map((contributor: string) => {
+          <ScrollArea
+            pl={rem(16)}
+            sx={{
+              height: rem(320),
+              maxHeight: '80vh',
+              borderTop: `${rem(1)} solid ${BackgroundPanel3}`,
+              borderBottom: `${rem(1)} solid ${BackgroundPanel3}`,
+            }}
+          >
+            <List listStyleType="none" pb={rem(10)}>
+              {filteredContributors.map((contributor) => {
                 return (
                   <List.Item key={contributor + 'list-item'}>
                     <Contributor key={contributor} mt="xs" position="apart">
@@ -137,26 +145,25 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
                           ]);
                         }}
                       />
-                      {/* }
-                    /> */}
                     </Contributor>
                   </List.Item>
                 );
               })}
             </List>
-          </StyledScrollArea>
+          </ScrollArea>
           <Input
             placeholder={'QUICK SEARCH...'}
             value={searchValue}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setSearchValue(e.target.value);
             }}
-            style={{ marginTop: 20, width: '100%' }}
+            sx={{ width: '100%' }}
+            mt={20}
           />
-        </StyledContainer>
+        </Container>
 
         {errors.repos && (
-          <Text style={{ color: ExtraRed }} size="xl" mt="xl" inline>
+          <Text sx={{ color: ExtraRed }} size="xl" mt="xl" inline>
             {errors.repos}
           </Text>
         )}

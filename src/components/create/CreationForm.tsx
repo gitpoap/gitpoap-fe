@@ -1,26 +1,21 @@
-import { Center, Container, Group, Stack } from '@mantine/core';
+import { Center, Container, Group, Stack, Input as InputUI } from '@mantine/core';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
-import { ExtraHover, PrimaryBlue } from '../../colors';
-import { Link } from '../shared/compounds/Link';
-import { Button, HexagonPath, HexagonStyles, Input, Text, TextArea } from '../shared/elements';
+import {
+  Button,
+  DateInput,
+  HexagonPath,
+  HexagonStyles,
+  Input,
+  TextArea,
+  TextInputLabelStyles,
+} from '../shared/elements';
 import { useCreationForm } from './useCreationForm';
 import { ACCEPTED_IMAGE_TYPES, defaultInitialValues, MAX_FILE_SIZE } from './schema';
 import { Dropzone } from '@mantine/dropzone';
-import { DatePicker } from '@mantine/dates';
 import { SelectContributors } from './SelectContributors';
 import Image from 'next/image';
-
-export const StyledLink = styled(Link)`
-  color: ${PrimaryBlue};
-  &:hover {
-    text-decoration: underline;
-    &:not(:active) {
-      color: ${ExtraHover};
-    }
-  }
-`;
 
 const StyledDropzone = styled(Dropzone)`
   ${HexagonStyles}
@@ -41,6 +36,11 @@ const DropzoneBorder = styled.div`
   width: ${rem(380)};
 `;
 
+const Label = styled(InputUI.Label)`
+  ${TextInputLabelStyles};
+  margin-bottom: ${rem(11)};
+`;
+
 export const CreationForm = () => {
   const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
     useCreationForm(defaultInitialValues);
@@ -48,7 +48,7 @@ export const CreationForm = () => {
   const imageUrl = values.image ? URL.createObjectURL(values.image) : null;
 
   return (
-    <Container my="xl" p={0} style={{ zIndex: 1 }}>
+    <Container mt={24} mb={72} p={0} style={{ zIndex: 1 }}>
       <Stack align="center" spacing={64}>
         <Container>
           <Center mt={44}>
@@ -83,7 +83,7 @@ export const CreationForm = () => {
           </Center>
           <Input
             style={{ width: '100%' }}
-            label="POAP Name"
+            label="GitPOAP Name"
             placeholder="Contributor 2022"
             {...getInputProps('name')}
           />
@@ -93,10 +93,10 @@ export const CreationForm = () => {
             placeholder="For all our valuable contributors in 2022"
             {...getInputProps('description')}
           />
-          <Text>{'Accomplishment Period'}</Text>
+          <Label>{'Accomplishment Period'}</Label>
           <Group>
-            <DatePicker placeholder="Start Date" {...getInputProps('startDate')} />
-            <DatePicker placeholder="End Date" {...getInputProps('endDate')} />
+            <DateInput placeholder="Start Date" {...getInputProps('startDate')} />
+            <DateInput placeholder="End Date" {...getInputProps('endDate')} />
           </Group>
         </Container>
         <SelectContributors
