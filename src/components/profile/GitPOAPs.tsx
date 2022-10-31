@@ -109,7 +109,7 @@ export const GitPOAPs = ({ address }: Props) => {
         setSearchValue(e.target.value)
       }
     >
-      <Grid align="center" mb={rem(40)} gutter={50}>
+      <Grid align="start" mb={rem(40)} gutter={50}>
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => {

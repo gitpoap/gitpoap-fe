@@ -90,7 +90,7 @@ export const AllPOAPs = ({ address }: Props) => {
         }
       }}
     >
-      <Grid align="center" mb={rem(40)}>
+      <Grid align="start" mb={rem(40)}>
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => {

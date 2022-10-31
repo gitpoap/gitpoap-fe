@@ -53,7 +53,7 @@ export const FeaturedPOAPs = () => {
       <SectionTitle size={30} mb={rem(30)}>
         {'Featured POAPs'}
       </SectionTitle>
-      <Grid align="center" mb={rem(50)}>
+      <Grid align="start" mb={rem(50)}>
         {isLoading && !hasFetched && (
           <>
             {[...Array(5)].map((_, i) => {
