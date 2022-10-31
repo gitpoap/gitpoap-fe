@@ -85,7 +85,7 @@ export const GitPOAPs = ({ repoId }: Props) => {
         }
       }}
     >
-      <Grid align="center">
+      <Grid align="start">
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => {

@@ -12,7 +12,6 @@ import {
   AllReposOnRepoPageQuery,
   useAllReposOnRepoPageQuery,
   useTotalRepoCountQuery,
-  AllReposOnRepoPageQueryVariables,
   useRepoSearchOnRepoPageQuery,
 } from '../../graphql/generated-gql';
 
@@ -80,12 +79,7 @@ export const RepoList = () => {
   const [totalResult] = useTotalRepoCountQuery({});
   const total = totalResult.data?.aggregateRepo._count?.id;
   const allRepos = result.data?.allRepos;
-
-  // Assert type until following issue is resolved:
-  // https://github.com/dotansimha/graphql-code-generator/issues/7976
-  const queryVariables = result.operation?.variables as
-    | AllReposOnRepoPageQueryVariables
-    | undefined;
+  const queryVariables = result.operation?.variables;
 
   /* Hook to append new data onto existing list of repos */
   useEffect(() => {
