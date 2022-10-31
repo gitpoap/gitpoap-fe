@@ -108,7 +108,7 @@ export const AllPOAPs = ({ address }: Props) => {
         {poaps &&
           poaps.map((poap) => {
             return (
-              <Grid.Col key={poap.tokenId} sm={6} md={4} lg={3} xl={2}>
+              <Grid.Col key={poap.tokenId} xs={6} sm={4} md={3} lg={3} xl={2}>
                 <Group position="center">
                   <POAPBadge
                     name={poap.event.name}

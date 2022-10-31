@@ -158,8 +158,9 @@ export const GitPOAPs = ({ address }: Props) => {
               return (
                 <Grid.Col
                   key={gitPOAPItem.claim.poapTokenId ?? `${gitPOAPItem.claim.gitPOAP.id}-minting`}
-                  sm={6}
-                  md={4}
+                  xs={6}
+                  sm={4}
+                  md={3}
                   lg={3}
                   xl={2}
                 >

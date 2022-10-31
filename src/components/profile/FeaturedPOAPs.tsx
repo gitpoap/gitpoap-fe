@@ -73,7 +73,7 @@ export const FeaturedPOAPs = () => {
           featuredPOAPsFull.map((featuredPOAP) => {
             if (isGitPOAP(featuredPOAP)) {
               return (
-                <Grid.Col key={featuredPOAP.claim.id} sm={6} md={4} lg={3} xl={2}>
+                <Grid.Col key={featuredPOAP.claim.id} xs={6} sm={4} md={3} lg={3} xl={2}>
                   <Group position="center">
                     <GitPOAP
                       gitPOAPId={featuredPOAP.claim.gitPOAP.id}
@@ -89,7 +89,7 @@ export const FeaturedPOAPs = () => {
             }
 
             return (
-              <Grid.Col key={featuredPOAP.tokenId} sm={6} md={4} lg={3} xl={2}>
+              <Grid.Col key={featuredPOAP.tokenId} xs={6} sm={4} md={3} lg={3} xl={2}>
                 <Group position="center">
                   <POAPBadge
                     poapTokenId={featuredPOAP.tokenId}
