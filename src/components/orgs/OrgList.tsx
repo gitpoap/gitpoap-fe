@@ -60,12 +60,10 @@ type QueryVars = {
 
 export const OrgList = () => {
   const [searchValue, setSearchValue] = useState('');
-  const [page, setPage] = useState(1);
-  const perPage = 15;
   const [variables, setVariables] = useState<QueryVars>({
     sort: 'date',
-    perPage,
-    page,
+    perPage: 15,
+    page: 1,
   });
   const [orgListItems, handlers] = useListState<Org>([]);
   const [result] = useOrganizationsListQuery({ variables });
@@ -78,7 +76,7 @@ export const OrgList = () => {
   useEffect(() => {
     if (allOrganizations) {
       const newOrgListItems = allOrganizations;
-      handlers.setState(newOrgListItems);
+      handlers.setState([...orgListItems, ...newOrgListItems]);
     }
     /* Do not include handlers below */
   }, [allOrganizations, queryVariables?.sort]);
@@ -94,7 +92,7 @@ export const OrgList = () => {
       }
       return true;
     })
-    .slice(0, page * perPage);
+    .slice(0, variables.page * variables.perPage);
 
   return (
     <Wrapper>
@@ -116,15 +114,20 @@ export const OrgList = () => {
             setVariables({
               ...variables,
               sort: sortValue as SortOptions,
+              page: 1,
             });
-            setPage(1);
           }
         }}
         isLoading={result.fetching}
-        hasShowMoreButton={!!total && page * perPage < total && searchValue.length === 0}
+        hasShowMoreButton={
+          !!total && variables.page * variables.perPage < total && searchValue.length === 0
+        }
         showMoreOnClick={() => {
           if (!result.fetching) {
-            setPage(page + 1);
+            setVariables({
+              ...variables,
+              page: variables.page + 1,
+            });
           }
         }}
       >
