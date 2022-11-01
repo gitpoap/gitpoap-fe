@@ -54,14 +54,16 @@ export type Org = Exclude<OrganizationsListQuery['allOrganizations'], undefined 
 
 type QueryVars = {
   sort: SortOptions;
+  perPage: number;
+  page: number;
 };
 
 export const OrgList = () => {
   const [searchValue, setSearchValue] = useState('');
-  const [page, setPage] = useState(1);
-  const perPage = 15;
   const [variables, setVariables] = useState<QueryVars>({
     sort: 'date',
+    perPage: 15,
+    page: 1,
   });
   const [orgListItems, handlers] = useListState<Org>([]);
   const [result] = useOrganizationsListQuery({ variables });
@@ -69,15 +71,17 @@ export const OrgList = () => {
   const [totalResult] = useTotalOrganizationCountQuery({});
   const total = totalResult.data?.aggregateOrganization._count?.id;
   const queryVariables = result.operation?.variables;
+  const hasMore = !!total && variables.page * variables.perPage < total;
+  const hasSearch = searchValue.length === 0;
 
   /* Hook to append new data onto existing list of orgs */
   useEffect(() => {
     if (allOrganizations) {
       const newOrgListItems = allOrganizations;
-      handlers.setState(newOrgListItems);
+      handlers.setState([...orgListItems, ...newOrgListItems]);
     }
     /* Do not include handlers below */
-  }, [allOrganizations, queryVariables?.sort]);
+  }, [allOrganizations, queryVariables?.sort, orgListItems]);
 
   if (result.error) {
     return null;
@@ -90,7 +94,7 @@ export const OrgList = () => {
       }
       return true;
     })
-    .slice(0, page * perPage);
+    .slice(0, variables.page * variables.perPage);
 
   return (
     <Wrapper>
@@ -112,15 +116,18 @@ export const OrgList = () => {
             setVariables({
               ...variables,
               sort: sortValue as SortOptions,
+              page: 1,
             });
-            setPage(1);
           }
         }}
         isLoading={result.fetching}
-        hasShowMoreButton={!!total && page * perPage < total && searchValue.length === 0}
+        hasShowMoreButton={hasMore && hasSearch}
         showMoreOnClick={() => {
           if (!result.fetching) {
-            setPage(page + 1);
+            setVariables({
+              ...variables,
+              page: variables.page + 1,
+            });
           }
         }}
       >
