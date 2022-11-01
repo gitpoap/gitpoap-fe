@@ -26,6 +26,7 @@ const SubHeder = styled(Header)`
 `;
 
 const BreadCrumbs = styled(Text)<TextProps>`
+  display: inline-flex;
   color: ${TextGray};
   cursor: pointer;
 `;
