@@ -71,6 +71,8 @@ export const OrgList = () => {
   const [totalResult] = useTotalOrganizationCountQuery({});
   const total = totalResult.data?.aggregateOrganization._count?.id;
   const queryVariables = result.operation?.variables;
+  const hasMore = !!total && variables.page * variables.perPage < total;
+  const hasSearch = searchValue.length === 0;
 
   /* Hook to append new data onto existing list of orgs */
   useEffect(() => {
@@ -79,7 +81,7 @@ export const OrgList = () => {
       handlers.setState([...orgListItems, ...newOrgListItems]);
     }
     /* Do not include handlers below */
-  }, [allOrganizations, queryVariables?.sort]);
+  }, [allOrganizations, queryVariables?.sort, orgListItems]);
 
   if (result.error) {
     return null;
@@ -119,9 +121,7 @@ export const OrgList = () => {
           }
         }}
         isLoading={result.fetching}
-        hasShowMoreButton={
-          !!total && variables.page * variables.perPage < total && searchValue.length === 0
-        }
+        hasShowMoreButton={hasMore && hasSearch}
         showMoreOnClick={() => {
           if (!result.fetching) {
             setVariables({
