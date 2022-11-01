@@ -37,8 +37,9 @@ export const SelectGitPOAPType = () => {
                   {'Custom'}
                 </Text>
               }
+              sx={{ label: { display: 'flex', alignItems: 'center' } }}
             />
-            <Description size={12} ml={rem(30)}>
+            <Description size={14} ml={rem(33)}>
               {
                 'Description text description text description text description text description text description text'
               }
@@ -52,8 +53,9 @@ export const SelectGitPOAPType = () => {
                   {'Github-based'}
                 </Text>
               }
+              sx={{ label: { display: 'flex', alignItems: 'center' } }}
             />
-            <Description size={12} ml={rem(30)}>
+            <Description size={14} ml={rem(33)}>
               {'Description text description text'}
             </Description>
           </Stack>
