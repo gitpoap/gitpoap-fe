@@ -54,6 +54,8 @@ export type Org = Exclude<OrganizationsListQuery['allOrganizations'], undefined 
 
 type QueryVars = {
   sort: SortOptions;
+  perPage: number;
+  page: number;
 };
 
 export const OrgList = () => {
@@ -62,6 +64,8 @@ export const OrgList = () => {
   const perPage = 15;
   const [variables, setVariables] = useState<QueryVars>({
     sort: 'date',
+    perPage,
+    page,
   });
   const [orgListItems, handlers] = useListState<Org>([]);
   const [result] = useOrganizationsListQuery({ variables });
