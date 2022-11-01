@@ -16,6 +16,7 @@ import { ACCEPTED_IMAGE_TYPES, defaultInitialValues, MAX_FILE_SIZE } from './sch
 import { Dropzone } from '@mantine/dropzone';
 import { SelectContributors } from './SelectContributors';
 import Image from 'next/image';
+import { BackgroundPanel, BackgroundPanel2, BackgroundPanel3 } from '../../colors';
 
 const StyledDropzone = styled(Dropzone)`
   ${HexagonStyles}
@@ -25,12 +26,17 @@ const StyledDropzone = styled(Dropzone)`
 
   height: ${rem(372)};
   width: ${rem(372)};
+
+  background: ${BackgroundPanel};
+  &:hover {
+    background: ${BackgroundPanel2};
+  }
 `;
 
 const DropzoneBorder = styled.div`
   ${HexagonStyles}
 
-  background-image: repeating-conic-gradient(#373A40 0 3deg, #25262b 3deg 6deg);
+  background-image: repeating-conic-gradient(${BackgroundPanel} 0 3deg, ${BackgroundPanel3} 3deg 6deg);
 
   height: ${rem(380)};
   width: ${rem(380)};

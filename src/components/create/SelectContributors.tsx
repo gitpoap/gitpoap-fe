@@ -66,11 +66,15 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
             id="contributorsInput"
           />
           <Button
+            disabled={contributorsTA.length === 0}
             onClick={() => {
               setFieldValue('contributors', [
                 ...new Set([
                   ...contributors,
-                  ...contributorsTA.split(',').map((element) => element.trim()),
+                  ...contributorsTA
+                    .split(',')
+                    .map((element) => element.trim())
+                    .filter((element) => element.length),
                 ]),
               ]);
               setContributorsTA('');
@@ -81,7 +85,7 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
           <Divider />
           <Text>{'Upload CSV'}</Text>
           <Dropzone
-            accept={['.csv']}
+            accept={['text/csv']}
             onDrop={(files) => {
               Papa.parse(files[0], {
                 complete: (results) => {
@@ -93,6 +97,7 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
             styles={() => ({
               root: {
                 backgroundColor: BackgroundPanel,
+                border: `${rem(2)} dashed ${BackgroundPanel3}`,
                 height: 160,
                 '&:hover': {
                   backgroundColor: BackgroundPanel2,
