@@ -26,6 +26,7 @@ const SubHeder = styled(Header)`
 `;
 
 const BreadCrumbs = styled(Text)<TextProps>`
+  display: inline-flex;
   color: ${TextGray};
   cursor: pointer;
 `;
@@ -40,10 +41,10 @@ const SelectType: NextPage = () => {
           content="Submit Repos"
         />
       </Head>
-      <Container justify="left" mt={rem(20)} mb={rem(20)} px={rem(45)}>
-        <Grid.Col>
+      <Container justify="center" mt={rem(20)} mb={rem(20)} px={rem(45)}>
+        <Grid.Col span={10}>
           <Link href="\">
-            <BreadCrumbs size={12} transform="uppercase">
+            <BreadCrumbs variant="link" size={12} transform="uppercase">
               <Group align="center" spacing="sm">
                 <IoIosArrowBack />
                 {'Back to Home'}
@@ -53,9 +54,9 @@ const SelectType: NextPage = () => {
           <Header mt={rem(10)} size={32}>
             {'Create GitPOAP'}
           </Header>
-          <SubHeder mt={rem(20)}>{'Select a type of a GitPOAP'}</SubHeder>
+          <SubHeder mt={rem(20)}>{'Select GitPOAP type'}</SubHeder>
         </Grid.Col>
-        <Grid.Col xs={12} sm={12} md={12} lg={12} xl={12}>
+        <Grid.Col span={10}>
           <SelectGitPOAPType />
         </Grid.Col>
       </Container>

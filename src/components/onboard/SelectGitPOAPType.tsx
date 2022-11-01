@@ -27,9 +27,9 @@ export const SelectGitPOAPType = () => {
 
   return (
     <Group position="center">
-      <SelectionContainer align="flex-start" py={0} px={rem(20)}>
+      <SelectionContainer align="center" py={0} px={rem(20)}>
         <RadioGroup value={gitPOAPType} onChange={setGitPOAPType} orientation="vertical" required>
-          <Stack>
+          <Stack spacing="xs">
             <Radio
               value={GitPOAPType.CUSTOM}
               label={
@@ -37,14 +37,15 @@ export const SelectGitPOAPType = () => {
                   {'Custom'}
                 </Text>
               }
+              sx={{ label: { display: 'flex', alignItems: 'center' } }}
             />
-            <Description size={12} ml={rem(30)}>
+            <Description size={14} ml={rem(33)}>
               {
                 'Description text description text description text description text description text description text'
               }
             </Description>
           </Stack>
-          <Stack mt={rem(10)}>
+          <Stack mt={rem(10)} spacing="xs">
             <Radio
               value={GitPOAPType.GITHUB_BASED}
               label={
@@ -52,19 +53,10 @@ export const SelectGitPOAPType = () => {
                   {'Github-based'}
                 </Text>
               }
+              sx={{ label: { display: 'flex', alignItems: 'center' } }}
             />
-            <Description size={12} ml={rem(30)}>
+            <Description size={14} ml={rem(33)}>
               {'Description text description text'}
-            </Description>
-          </Stack>
-          <Stack mt={rem(10)}>
-            <Radio
-              value={GitPOAPType.DISCORD_BASED}
-              label={<Description size={20}>{'Discord-based'}</Description>}
-              disabled
-            />
-            <Description size={12} ml={rem(30)}>
-              {'Coming soon'}
             </Description>
           </Stack>
         </RadioGroup>
