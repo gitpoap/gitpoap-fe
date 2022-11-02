@@ -1,5 +1,10 @@
 import { Center, Container, Group, Stack, Input as InputUI } from '@mantine/core';
+import { Dropzone } from '@mantine/dropzone';
+import Image from 'next/image';
 import { rem } from 'polished';
+import { useCallback, useEffect, useState } from 'react';
+import { FaCheckCircle } from 'react-icons/fa';
+import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
 
 import {
@@ -12,11 +17,15 @@ import {
   TextInputLabelStyles,
 } from '../shared/elements';
 import { useCreationForm } from './useCreationForm';
-import { ACCEPTED_IMAGE_TYPES, defaultInitialValues, MAX_FILE_SIZE } from './schema';
-import { Dropzone } from '@mantine/dropzone';
 import { SelectContributors } from './SelectContributors';
-import Image from 'next/image';
 import { BackgroundPanel, BackgroundPanel2, BackgroundPanel3 } from '../../colors';
+import { useTokens } from '../../hooks/useTokens';
+import { useApi } from '../../hooks/useApi';
+import {
+  ACCEPTED_IMAGE_TYPES,
+  GitPOAPRequestCreateValues,
+  MAX_FILE_SIZE,
+} from '../../lib/api/gitpoapRequest';
 
 const StyledDropzone = styled(Dropzone)`
   ${HexagonStyles}
@@ -47,11 +56,71 @@ const Label = styled(InputUI.Label)`
   margin-bottom: ${rem(11)};
 `;
 
-export const CreationForm = () => {
-  const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
-    useCreationForm(defaultInitialValues);
+export enum ButtonStatus {
+  INITIAL,
+  LOADING,
+  SUCCESS,
+  ERROR,
+}
+
+type Props = {
+  gitPOAPId?: string;
+};
+
+export const CreationForm = ({ gitPOAPId }: Props) => {
+  const api = useApi();
+  const { tokens } = useTokens();
+  const { errors, values, getInputProps, setFieldError, setFieldValue, setValues, validate } =
+    useCreationForm();
+  const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
 
   const imageUrl = values.image ? URL.createObjectURL(values.image) : null;
+
+  const loadInitialValues = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/gitpoaps`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${tokens?.accessToken}`,
+        },
+        body: JSON.stringify(values),
+      });
+      const data = await response.json();
+      if (response.status >= 400) {
+        throw new Error(JSON.stringify(data));
+      }
+      setValues(data);
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
+  useEffect(() => {
+    if (gitPOAPId) {
+      loadInitialValues();
+    }
+  }, [gitPOAPId]);
+
+  const submitCreateCustomGitPOAP = useCallback(
+    async (formValues: GitPOAPRequestCreateValues) => {
+      setButtonStatus(ButtonStatus.LOADING);
+      if (formValues['image'] === null) {
+        setButtonStatus(ButtonStatus.ERROR);
+        return;
+      }
+
+      const data = await api.gitPOAPRequest.create(formValues);
+
+      if (data === null) {
+        setButtonStatus(ButtonStatus.ERROR);
+        return;
+      }
+
+      setButtonStatus(ButtonStatus.SUCCESS);
+    },
+    [api.gitPOAPRequest],
+  );
 
   return (
     <Container mt={24} mb={72} p={0} style={{ zIndex: 1 }}>
@@ -110,7 +179,24 @@ export const CreationForm = () => {
           errors={errors}
           setFieldValue={setFieldValue}
         />
-        <Button>{'Create & Submit For Review'}</Button>
+        <Button
+          onClick={() => {
+            if (!validate().hasErrors) {
+              submitCreateCustomGitPOAP(values);
+            }
+          }}
+          loading={buttonStatus === ButtonStatus.LOADING}
+          disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}
+          leftIcon={
+            buttonStatus === ButtonStatus.SUCCESS ? (
+              <FaCheckCircle size={18} />
+            ) : buttonStatus === ButtonStatus.ERROR ? (
+              <MdError size={18} />
+            ) : null
+          }
+        >
+          {'Create & Submit For Review'}
+        </Button>
       </Stack>
       <HexagonPath />
     </Container>

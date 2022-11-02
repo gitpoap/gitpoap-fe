@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   CloseButton,
   Container,
   Divider,
@@ -21,17 +22,12 @@ import {
   ExtraRed,
 } from '../../colors';
 import { Button, Input, Text, TextArea } from '../shared/elements';
-import { FormReturnTypes } from './types';
 import Papa from 'papaparse';
-
-const Contributor = styled(Group)`
-  button {
-    opacity: 0;
-  }
-  &:hover > button {
-    opacity: 1;
-  }
-`;
+import { CreationFormReturnTypes } from './useCreationForm';
+import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
+import { isValidEmailAddress, isValidGithubHandle } from '../../helpers';
+import { isAddress } from 'ethers/lib/utils';
+import { VscTrash } from 'react-icons/vsc';
 
 const StyledTextArea = styled(TextArea)`
   .mantine-Textarea-input {
@@ -40,16 +36,48 @@ const StyledTextArea = styled(TextArea)`
 `;
 
 type Props = {
-  contributors: string[];
-  errors: FormReturnTypes['errors'];
-  setFieldValue: FormReturnTypes['setFieldValue'];
+  contributors: GitPOAPRequestCreateValues['contributors'];
+  errors: CreationFormReturnTypes['errors'];
+  setFieldValue: CreationFormReturnTypes['setFieldValue'];
+};
+
+type ConnectionType = keyof GitPOAPRequestCreateValues['contributors'];
+type Contributor = {
+  type: ConnectionType;
+  value: string;
+};
+
+const formatContributors = (
+  newContributors: string[],
+  oldContributors: GitPOAPRequestCreateValues['contributors'],
+): GitPOAPRequestCreateValues['contributors'] => {
+  return newContributors.reduce((obj: GitPOAPRequestCreateValues['contributors'], c) => {
+    if (isValidGithubHandle(c)) {
+      obj['githubHandles'] = obj['githubHandles'] || [];
+      obj['githubHandles'].push(c);
+    } else if (isAddress(c)) {
+      obj['ethAddresses'] = obj['ethAddresses'] || [];
+      obj['ethAddresses'].push(c);
+    } else if (c.length > 4 && c.endsWith('.eth')) {
+      obj['ensNames'] = obj['ensNames'] || [];
+      obj['ensNames'].push(c);
+    } else if (isValidEmailAddress(c)) {
+      obj['emails'] = obj['emails'] || [];
+      obj['emails'].push(c);
+    }
+    return obj;
+  }, oldContributors ?? {});
 };
 
 export const SelectContributors = ({ contributors, errors, setFieldValue }: Props) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [contributorsTA, setContributorsTA] = useState('');
-  const filteredContributors = contributors.filter((contributor) =>
-    searchValue ? contributor.toLowerCase().includes(searchValue.toLowerCase()) : true,
+
+  const flattenedContributors: Contributor[] = Object.entries(contributors)
+    .map(([key, value]) => value.map((v) => ({ type: key as ConnectionType, value: v })))
+    .flat();
+  const filteredContributors = flattenedContributors.filter((contributor) =>
+    searchValue ? contributor.value.toLowerCase().includes(searchValue.toLowerCase()) : true,
   );
 
   return (
@@ -68,15 +96,25 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
           <Button
             disabled={contributorsTA.length === 0}
             onClick={() => {
-              setFieldValue('contributors', [
-                ...new Set([
-                  ...contributors,
-                  ...contributorsTA
+              setFieldValue(
+                'contributors',
+                formatContributors(
+                  contributorsTA
                     .split(',')
                     .map((element) => element.trim())
                     .filter((element) => element.length),
-                ]),
-              ]);
+                  contributors,
+                ),
+              );
+              // setFieldValue('contributors', [
+              //   ...new Set([
+              //     ...contributors,
+              //     ...contributorsTA
+              //       .split(',')
+              //       .map((element) => element.trim())
+              //       .filter((element) => element.length),
+              //   ]),
+              // ]);
               setContributorsTA('');
             }}
           >
@@ -90,7 +128,14 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
               Papa.parse(files[0], {
                 complete: (results) => {
                   const data = results.data[0] as string[];
-                  setFieldValue('contributors', [...new Set([...contributors, ...data])]);
+                  setFieldValue(
+                    'contributors',
+                    formatContributors(
+                      data.map((element) => element.trim()).filter((element) => element.length),
+                      contributors,
+                    ),
+                    // [...new Set([...contributors, ...data])]
+                  );
                 },
               });
             }}
@@ -125,7 +170,7 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
             border: `${rem(1)} solid ${BackgroundPanel2}`,
           }}
         >
-          <Text mb="xs">{`${contributors.length} Selected`}</Text>
+          <Text mb="xs">{`${flattenedContributors.length} Selected`}</Text>
           <ScrollArea
             pl={rem(16)}
             sx={{
@@ -136,21 +181,42 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
             }}
           >
             <List listStyleType="none" pb={rem(10)}>
-              {filteredContributors.map((contributor) => {
+              {filteredContributors.map(({ type, value }: Contributor) => {
                 return (
-                  <List.Item key={contributor + 'list-item'}>
-                    <Contributor key={contributor} mt="xs" position="apart">
-                      <Text>{contributor}</Text>
-                      <CloseButton
-                        size="sm"
-                        color="red"
+                  <List.Item key={value + 'list-item'}>
+                    <Group key={value} mt="xs" position="apart">
+                      <Stack spacing={0}>
+                        <Text>{value}</Text>
+                        <Text size="xs" color="grey">
+                          {
+                            {
+                              githubHandles: 'github',
+                              ethAddresses: 'eth',
+                              ensNames: 'ens',
+                              emails: 'e-mail',
+                            }[type]
+                          }
+                        </Text>
+                      </Stack>
+                      <ActionIcon
                         onClick={() => {
-                          setFieldValue('contributors', [
-                            ...contributors.filter((c) => c !== contributor),
-                          ]);
+                          const newContributors = flattenedContributors
+                            .filter((c) => c.value !== value)
+                            .reduce(
+                              (group: GitPOAPRequestCreateValues['contributors'], contributor) => {
+                                const { type, value }: Contributor = contributor;
+                                group[type] = group[type] || [];
+                                group[type]?.push(value);
+                                return group;
+                              },
+                              {},
+                            );
+                          setFieldValue('contributors', newContributors);
                         }}
-                      />
-                    </Contributor>
+                      >
+                        {<VscTrash />}
+                      </ActionIcon>
+                    </Group>
                   </List.Item>
                 );
               })}

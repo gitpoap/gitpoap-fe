@@ -9,7 +9,10 @@ export const textTheme = {
   },
   styles: (theme: MantineTheme, params: TextStylesParams) => ({
     root: {
-      color: TextLight,
+      // This allows us to use the color prop to set the color of the text
+      ...(!params.color && {
+        color: TextLight,
+      }),
       letterSpacing: rem(0.2),
       lineHeight: rem(20),
       transition: '150ms color ease',
