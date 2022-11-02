@@ -156,7 +156,7 @@ export const SelectContributors = ({ contributors, errors, setContributors }: Pr
             border: `${rem(1)} solid ${BackgroundPanel2}`,
           }}
         >
-          <Text mb="xs">{`${contributors.length} Selected`}</Text>
+          <Text mb="xs">{`${flattenedContributors.length} Selected`}</Text>
           <ScrollArea
             pl={rem(16)}
             sx={{
