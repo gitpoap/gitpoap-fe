@@ -9,7 +9,7 @@ import {
   useOrganizationsListQuery,
   useTotalOrganizationCountQuery,
 } from '../../graphql/generated-gql';
-import { useListState } from '@mantine/hooks';
+import { useDebouncedValue } from '@mantine/hooks';
 import { Header, Input, TextSkeleton } from '../shared/elements';
 
 type SortOptions = 'alphabetical' | 'date';
@@ -54,51 +54,59 @@ export type Org = Exclude<OrganizationsListQuery['allOrganizations'], undefined 
 
 type QueryVars = {
   sort: SortOptions;
+  search: string;
   perPage: number;
   page: number;
 };
 
 export const OrgList = () => {
   const [searchValue, setSearchValue] = useState('');
+  const [debouncedSearch] = useDebouncedValue(searchValue, 200);
+
   const [variables, setVariables] = useState<QueryVars>({
     sort: 'date',
+    search: '',
     perPage: 15,
     page: 1,
   });
-  const [orgListItems, handlers] = useListState<Org>([]);
+  const [orgListItems, setOrgListItems] = useState<Org[]>([]);
   const [result] = useOrganizationsListQuery({ variables });
+  const [totalResult] = useTotalOrganizationCountQuery({
+    variables: {
+      search: variables.search,
+    },
+  });
   const allOrganizations = result.data?.allOrganizations;
-  const [totalResult] = useTotalOrganizationCountQuery({});
   const total = totalResult.data?.aggregateOrganization._count?.id;
   const queryVariables = result.operation?.variables;
   const hasMore = !!total && variables.page * variables.perPage < total;
-  const hasSearch = searchValue.length === 0;
 
   /* Hook to append new data onto existing list of orgs */
   useEffect(() => {
-    if (allOrganizations) {
-      const newOrgListItems = allOrganizations;
-      handlers.setState([...orgListItems, ...newOrgListItems]);
+    const newOrgListItems = allOrganizations ?? [];
+    if (queryVariables?.page === 1) {
+      setOrgListItems(newOrgListItems);
+    } else {
+      setOrgListItems((prevOrgListItems) => [...prevOrgListItems, ...newOrgListItems]);
     }
-    /* Do not include handlers below */
-  }, [allOrganizations, queryVariables?.sort, orgListItems]);
+  }, [allOrganizations, queryVariables?.page]);
+
+  useEffect(() => {
+    const search = debouncedSearch.length >= 2 ? debouncedSearch : '';
+    setVariables((prevVariables) => ({
+      ...prevVariables,
+      page: 1,
+      search,
+    }));
+  }, [debouncedSearch]);
 
   if (result.error) {
     return null;
   }
 
-  const orgsToDisplay = orgListItems
-    .filter((org) => {
-      if (searchValue) {
-        return org.name.toLowerCase().includes(searchValue.toLowerCase());
-      }
-      return true;
-    })
-    .slice(0, variables.page * variables.perPage);
-
   return (
     <Wrapper>
-      {total ? (
+      {total !== undefined ? (
         <StyledHeader>{`${total} Organizations`}</StyledHeader>
       ) : (
         <HeaderSkeleton height={rem(48)} />
@@ -121,7 +129,7 @@ export const OrgList = () => {
           }
         }}
         isLoading={result.fetching}
-        hasShowMoreButton={hasMore && hasSearch}
+        hasShowMoreButton={hasMore}
         showMoreOnClick={() => {
           if (!result.fetching) {
             setVariables({
@@ -140,8 +148,8 @@ export const OrgList = () => {
             </>
           )}
 
-          {orgsToDisplay &&
-            orgsToDisplay.map((org, i) => <OrganizationHex key={'organization-' + i} org={org} />)}
+          {orgListItems &&
+            orgListItems.map((org, i) => <OrganizationHex key={'organization-' + i} org={org} />)}
         </OrgListContainer>
       </StyledItemList>
     </Wrapper>

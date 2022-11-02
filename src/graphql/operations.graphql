@@ -491,8 +491,8 @@ query organizationSEOByName($orgName: String!) {
   }
 }
 
-query organizationsList($sort: String, $page: Float, $perPage: Float) {
-  allOrganizations(sort: $sort, page: $page, perPage: $perPage) {
+query organizationsList($sort: String, $search: String, $page: Float, $perPage: Float) {
+  allOrganizations(sort: $sort, page: $page, perPage: $perPage, search: $search) {
     id
     name
     githubOrgId
@@ -527,8 +527,8 @@ query totalRepoCount {
   }
 }
 
-query totalOrganizationCount {
-  aggregateOrganization {
+query totalOrganizationCount($search: String) {
+  aggregateOrganization(where: { name: { contains: $search, mode: insensitive } }) {
     _count {
       id
     }
