@@ -325,6 +325,7 @@ query eligibleClaims($query: String!, $skip: Int, $take: Int) {
       gitPOAP: { is: { isEnabled: { equals: true } } }
       OR: [
         { user: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
+        { email: { is: { emailAddress: { contains: $query, mode: insensitive } } } }
         { issuedAddress: { is: { ethAddress: { contains: $query, mode: insensitive } } } }
         { issuedAddress: { is: { ensName: { contains: $query, mode: insensitive } } } }
       ]
@@ -490,8 +491,8 @@ query organizationSEOByName($orgName: String!) {
   }
 }
 
-query organizationsList($sort: String, $page: Float, $perPage: Float) {
-  allOrganizations(sort: $sort, page: $page, perPage: $perPage) {
+query organizationsList($sort: String, $search: String, $page: Float, $perPage: Float) {
+  allOrganizations(sort: $sort, page: $page, perPage: $perPage, search: $search) {
     id
     name
     githubOrgId
@@ -526,8 +527,8 @@ query totalRepoCount {
   }
 }
 
-query totalOrganizationCount {
-  aggregateOrganization {
+query totalOrganizationCount($search: String) {
+  aggregateOrganization(where: { name: { contains: $search, mode: insensitive } }) {
     _count {
       id
     }
@@ -811,6 +812,59 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStat
 
 query totalGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus) {
   aggregateGitPOAPRequest(where: { adminApprovalStatus: { equals: $approvalStatus } }) {
+    _count {
+      id
+    }
+  }
+}
+
+query userGitPOAPRequests(
+  $take: Int
+  $skip: Int
+  $approvalStatus: AdminApprovalStatus
+  $address: String
+) {
+  gitPOAPRequests(
+    take: $take
+    skip: $skip
+    where: {
+      adminApprovalStatus: { equals: $approvalStatus }
+      address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
+    }
+    orderBy: { adminApprovalStatus: desc }
+  ) {
+    id
+    name
+    description
+    imageKey
+    startDate
+    endDate
+    expiryDate
+    numRequestedCodes
+    email
+    contributors
+
+    project {
+      repos(take: 1) {
+        id
+        name
+
+        organization {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
+query totalUserGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus, $address: String) {
+  aggregateGitPOAPRequest(
+    where: {
+      adminApprovalStatus: { equals: $approvalStatus }
+      address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
+    }
+  ) {
     _count {
       id
     }

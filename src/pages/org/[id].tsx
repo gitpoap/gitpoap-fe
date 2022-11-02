@@ -3,11 +3,9 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
-import { withUrqlClient, initUrqlClient } from 'next-urql';
+import { withUrqlClient, initUrqlClient, SSRData } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
-
 import { Page } from '../_app';
-import { Layout } from '../../components/Layout';
 import { Grid } from '@mantine/core';
 import { SEO } from '../../components/shared/compounds/SEO';
 import { Header } from '../../components/shared/elements/Header';
@@ -27,7 +25,8 @@ const Error = styled(Header)`
 `;
 
 type PageProps = {
-  data: OrganizationSeoByIdQuery;
+  urqlState: SSRData;
+  data: OrganizationSeoByIdQuery | null;
 };
 
 const Organization: Page<PageProps> = (props) => {
@@ -44,7 +43,7 @@ const Organization: Page<PageProps> = (props) => {
     return <Error>{'404'}</Error>;
   }
 
-  const org = props.data.organizationData;
+  const org = props.data?.organizationData;
 
   return (
     <Grid justify="center" style={{ zIndex: 1 }}>
@@ -64,7 +63,9 @@ const Organization: Page<PageProps> = (props) => {
 /* Based on the path objects generated in getStaticPaths, statically generate pages for all
  * unique org ids at built time.
  */
-export const getStaticProps = async (context: GetStaticPropsContext<{ id: string }>) => {
+export const getStaticProps = async (
+  context: GetStaticPropsContext<{ id: string }>,
+): Promise<{ props: PageProps }> => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     {
@@ -83,7 +84,6 @@ export const getStaticProps = async (context: GetStaticPropsContext<{ id: string
   return {
     props: {
       urqlState: ssrCache.extractData(),
-      /* coalesce to null if no data is returned -> nextJS doesn't like 'undefined' */
       data: results.data ?? null,
     },
   };

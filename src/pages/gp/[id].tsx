@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
-import { withUrqlClient, initUrqlClient } from 'next-urql';
+import { withUrqlClient, initUrqlClient, SSRData } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { Grid } from '@mantine/core';
 
@@ -29,7 +29,8 @@ const Error = styled(Header)`
 `;
 
 type PageProps = {
-  gitpoap: GitPoapEventQuery;
+  urqlState: SSRData;
+  gitpoap: GitPoapEventQuery | null;
 };
 
 const GitPOAP: Page<PageProps> = (props) => {
@@ -46,7 +47,7 @@ const GitPOAP: Page<PageProps> = (props) => {
     return <Error>{'404'}</Error>;
   }
 
-  const event = props.gitpoap.gitPOAPEvent?.event;
+  const event = props.gitpoap?.gitPOAPEvent?.event;
 
   return (
     <>
@@ -74,7 +75,12 @@ const GitPOAP: Page<PageProps> = (props) => {
  *
  * Revalidation isn't necessary since metadata is not changing - namely the name, description, and img_url.
  */
-export const getStaticProps = async (context: GetStaticPropsContext<{ id: string }>) => {
+export const getStaticProps = async (
+  context: GetStaticPropsContext<{ id: string }>,
+): Promise<{
+  props: PageProps;
+  revalidate: number;
+}> => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     {

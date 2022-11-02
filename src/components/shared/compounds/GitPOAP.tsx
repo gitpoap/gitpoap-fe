@@ -2,6 +2,7 @@ import { Link } from './Link';
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { rem } from 'polished';
+import { Text, TextProps } from '@mantine/core';
 import { GitPOAPBadge } from '../elements/GitPOAPBadge';
 import { Title } from '../elements/Title';
 import { ExtraHover, ExtraPressed, TextLight } from '../../../colors';
@@ -77,16 +78,11 @@ const RepoName = styled.div<{ isLink?: boolean }>`
     `}
 `;
 
-const Description = styled.div`
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: normal;
+const Description = styled(Text)<TextProps>`
   font-size: ${rem(11)};
   line-height: ${rem(14)};
   text-align: center;
   letter-spacing: ${rem(-0.1)};
-  color: ${TextLight};
-  margin-top: ${rem(8)};
   ${LineClamp(2)};
 `;
 
@@ -158,7 +154,7 @@ export const GitPOAP = ({
         ) : (
           <RepoName>{repoName}</RepoName>
         )}
-        {description && <Description>{description}</Description>}
+        {description && <Description mt={rem(8)}>{description}</Description>}
       </Info>
     </Wrapper>
   );

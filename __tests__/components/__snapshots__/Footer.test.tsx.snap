@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Footer renders a Footer 1`] = `
-.c12 {
+.c10 {
   display: inline-block;
 }
 
-.c12 .mantine-TextInput-label {
+.c10 .mantine-TextInput-label {
   font-family: 'PT Mono',monospace;
   color: #E2E2EE;
   font-weight: 700;
@@ -19,7 +19,7 @@ exports[`Footer renders a Footer 1`] = `
   margin-bottom: 0.6875rem;
 }
 
-.c12 .mantine-TextInput-input {
+.c10 .mantine-TextInput-input {
   border-radius: 0.375rem;
   font-family: 'PT Mono',monospace;
   font-weight: 400;
@@ -35,36 +35,36 @@ exports[`Footer renders a Footer 1`] = `
   border: 0.0625rem solid transparent;
 }
 
-.c12 .mantine-TextInput-input:hover:not(:disabled):not(:focus) {
+.c10 .mantine-TextInput-input:hover:not(:disabled):not(:focus) {
   background-color: #292B3D;
 }
 
-.c12 .mantine-TextInput-input:focus {
+.c10 .mantine-TextInput-input:focus {
   background-color: #1E1F2E;
   border: 0.0625rem solid #393A51 !important;
 }
 
-.c12 .mantine-TextInput-input::-webkit-input-placeholder {
+.c10 .mantine-TextInput-input::-webkit-input-placeholder {
   color: #393A51;
 }
 
-.c12 .mantine-TextInput-input::-moz-placeholder {
+.c10 .mantine-TextInput-input::-moz-placeholder {
   color: #393A51;
 }
 
-.c12 .mantine-TextInput-input:-ms-input-placeholder {
+.c10 .mantine-TextInput-input:-ms-input-placeholder {
   color: #393A51;
 }
 
-.c12 .mantine-TextInput-input::placeholder {
+.c10 .mantine-TextInput-input::placeholder {
   color: #393A51;
 }
 
-.c12 .mantine-TextInput-input.mantine-TextInput-invalid {
+.c10 .mantine-TextInput-input.mantine-TextInput-invalid {
   color: #F77070;
 }
 
-.c12 .mantine-TextInput-error {
+.c10 .mantine-TextInput-error {
   font-family: 'PT Mono',monospace;
   font-size: 0.625rem;
   -webkit-letter-spacing: 1.2px;
@@ -76,46 +76,20 @@ exports[`Footer renders a Footer 1`] = `
 }
 
 .c0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  padding: 0 2.8125rem;
-}
-
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
   -webkit-box-pack: space-evenly;
   -webkit-justify-content: space-evenly;
   -ms-flex-pack: space-evenly;
   justify-content: space-evenly;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
   gap: 1.25rem;
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: normal;
   font-size: 0.75rem;
   line-height: 1.0625rem;
   -webkit-letter-spacing: 0.03125rem;
   -moz-letter-spacing: 0.03125rem;
   -ms-letter-spacing: 0.03125rem;
   letter-spacing: 0.03125rem;
-  color: #838495;
-  padding: 2rem 0;
 }
 
-.c3 {
+.c2 {
   -webkit-text-decoration: none;
   text-decoration: none;
   display: -webkit-box;
@@ -128,12 +102,7 @@ exports[`Footer renders a Footer 1`] = `
   align-items: center;
 }
 
-.c5 {
-  font-family: PT Mono;
-  font-style: normal;
-  font-weight: normal;
-  font-weight: 400;
-  font-size: 0.8125rem;
+.c4 {
   line-height: 1rem;
   -webkit-letter-spacing: -0.00625rem;
   -moz-letter-spacing: -0.00625rem;
@@ -141,78 +110,19 @@ exports[`Footer renders a Footer 1`] = `
   letter-spacing: -0.00625rem;
 }
 
-.c2 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
+.c1 {
   max-width: 21.25rem;
 }
 
-.c6 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-}
-
-.c11 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.c7 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c7:not(:last-child) {
+.c6:not(:last-child) {
   margin-right: 4.5rem;
 }
 
-.c7 > *:not(:first-child) {
+.c6 > *:not(:first-child) {
   margin-top: 0.875rem;
 }
 
-.c8 {
-  font-family: 'PT Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 0.6875rem;
-  line-height: 1.125rem;
-  -webkit-letter-spacing: 0.075rem;
-  -moz-letter-spacing: 0.075rem;
-  -ms-letter-spacing: 0.075rem;
-  letter-spacing: 0.075rem;
-  text-transform: uppercase;
-  color: #E2E2EE;
-}
-
-.c9 {
+.c7 {
   font-size: 0.8125rem;
   font-weight: 700;
   -webkit-letter-spacing: 0.03125rem;
@@ -224,38 +134,38 @@ exports[`Footer renders a Footer 1`] = `
   transition: 150ms color ease;
 }
 
-.c9 > * {
+.c7 > * {
   color: #838495;
   -webkit-transition: 150ms color ease;
   transition: 150ms color ease;
 }
 
-.c9:hover:not([disabled]) {
+.c7:hover:not([disabled]) {
   color: #5596F6;
   cursor: pointer;
 }
 
-.c9:hover:not([disabled]) > * {
+.c7:hover:not([disabled]) > * {
   color: #5596F6;
 }
 
-.c9:active:not([disabled]) {
+.c7:active:not([disabled]) {
   color: #1761CF;
 }
 
-.c9:active:not([disabled]) > * {
+.c7:active:not([disabled]) > * {
   color: #1761CF;
 }
 
-.c9[disabled] {
+.c7[disabled] {
   color: #393A51;
 }
 
-.c9[disabled] > * {
+.c7[disabled] > * {
   color: #393A51;
 }
 
-.c10 {
+.c8 {
   font-size: 0.8125rem;
   font-weight: 700;
   -webkit-letter-spacing: 0.03125rem;
@@ -278,60 +188,60 @@ exports[`Footer renders a Footer 1`] = `
   align-items: center;
 }
 
-.c10 > * {
+.c8 > * {
   color: #838495;
   -webkit-transition: 150ms color ease;
   transition: 150ms color ease;
 }
 
-.c10:hover:not([disabled]) {
+.c8:hover:not([disabled]) {
   color: #5596F6;
   cursor: pointer;
 }
 
-.c10:hover:not([disabled]) > * {
+.c8:hover:not([disabled]) > * {
   color: #5596F6;
 }
 
-.c10:active:not([disabled]) {
+.c8:active:not([disabled]) {
   color: #1761CF;
 }
 
-.c10:active:not([disabled]) > * {
+.c8:active:not([disabled]) > * {
   color: #1761CF;
 }
 
-.c10[disabled] {
+.c8[disabled] {
   color: #393A51;
 }
 
-.c10[disabled] > * {
+.c8[disabled] > * {
   color: #393A51;
 }
 
-.c4 {
+.c3 {
   margin-right: 0.5rem;
 }
 
-.c4 path {
+.c3 path {
   fill: #838495;
 }
 
 @media (max-width:75rem) {
-  .c2 {
+  .c1 {
     width: 21.25rem;
   }
 }
 
 @media (max-width:56.25rem) {
-  .c2 {
+  .c1 {
     width: 100%;
     margin-bottom: 1.25rem;
   }
 }
 
 @media (max-width:37.5rem) {
-  .c2 {
+  .c1 {
     width: 21.25rem;
     -webkit-order: 1;
     -ms-flex-order: 1;
@@ -340,13 +250,13 @@ exports[`Footer renders a Footer 1`] = `
 }
 
 @media (max-width:75rem) {
-  .c6 {
+  .c5 {
     margin-bottom: 1.25rem;
   }
 }
 
 @media (max-width:56.25rem) {
-  .c6 {
+  .c5 {
     margin-bottom: 1.25rem;
     width: 17.5rem;
     -webkit-box-pack: justify;
@@ -357,7 +267,7 @@ exports[`Footer renders a Footer 1`] = `
 }
 
 @media (max-width:37.5rem) {
-  .c6 {
+  .c5 {
     width: 21.25rem;
     -webkit-order: 3;
     -ms-flex-order: 3;
@@ -366,7 +276,7 @@ exports[`Footer renders a Footer 1`] = `
 }
 
 @media (max-width:75rem) {
-  .c11 {
+  .c9 {
     width: 21.25rem;
     margin-bottom: 1.25rem;
     -webkit-order: 1;
@@ -376,68 +286,231 @@ exports[`Footer renders a Footer 1`] = `
 }
 
 @media (max-width:56.25rem) {
-  .c11 {
+  .c9 {
     width: 21.25rem;
     margin-bottom: 1.25rem;
   }
 }
 
 @media (max-width:37.5rem) {
-  .c11 {
+  .c9 {
     margin-bottom: 2.5rem;
   }
 }
 
 @media (max-width:75rem) {
-  .c7:not(:last-child) {
+  .c6:not(:last-child) {
     margin-right: 3rem;
   }
 }
 
 @media (max-width:56.25rem) {
-  .c7:not(:last-child) {
+  .c6:not(:last-child) {
     margin-right: 1.75rem;
   }
 }
 
-.emotion-2 {
+.emotion-1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: top;
+  -ms-flex-pack: top;
+  -webkit-justify-content: top;
+  justify-content: top;
+  gap: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 2.8125rem;
+  padding-right: 2.8125rem;
+}
+
+.emotion-4 {
   border: 0;
   border-top-width: 1px;
-  border-top-color: #ced4da;
+  border-top-color: #373A40;
   border-top-style: solid;
   margin: 0;
 }
 
-.emotion-5 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+.emotion-6 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 0;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.emotion-6>* {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: top;
+  -ms-flex-pack: top;
+  -webkit-justify-content: top;
+  justify-content: top;
+  gap: 0;
+}
+
+.emotion-10 {
+  font-family: PT Mono,monospace;
   -webkit-tap-highlight-color: transparent;
   color: inherit;
-  font-size: inherit;
+  font-size: 13px;
   line-height: 1.55;
   -webkit-text-decoration: none;
   text-decoration: none;
+  font-weight: 400;
+  color: #E2E2EE;
+  letter-spacing: 0.0125rem;
+  line-height: 1.25rem;
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
 }
 
-.emotion-5:focus {
+.emotion-10:focus {
   outline-offset: 2px;
-  outline: 2px solid #339af0;
+  outline: 2px solid #1c7ed6;
 }
 
-.emotion-5:focus:not(:focus-visible) {
+.emotion-10:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-11 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  line-height: 1.55;
+.emotion-12 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 0;
+}
+
+.emotion-12>* {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
 }
 
 .emotion-14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 0;
+}
+
+.emotion-16 {
+  font-family: PT Mono,monospace;
+  -webkit-tap-highlight-color: transparent;
+  color: #E2E2EE;
+  font-size: 11px;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #E2E2EE;
+  letter-spacing: 0.0125rem;
+  line-height: 1.25rem;
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
+  line-height: 1.125rem;
+  letter-spacing: 0.075rem;
+}
+
+.emotion-16:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-16:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-32 {
+  font-family: PT Mono,monospace;
+  line-height: 1.55;
+}
+
+.emotion-35 {
   position: relative;
 }
 
-.emotion-17 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+.emotion-38 {
+  font-family: PT Mono,monospace;
   height: 36px;
   -webkit-tap-highlight-color: transparent;
   line-height: 34px;
@@ -449,103 +522,103 @@ exports[`Footer renders a Footer 1`] = `
   box-sizing: border-box;
   font-size: 14px;
   width: 100%;
-  color: #000;
+  color: #C1C2C5;
   display: block;
   text-align: left;
   min-height: 36px;
   padding-left: 12px;
   padding-right: 12px;
   border-radius: 4px;
-  border: 1px solid #ced4da;
-  background-color: #fff;
+  border: 1px solid #373A40;
+  background-color: #25262b;
   -webkit-transition: border-color 100ms ease;
   transition: border-color 100ms ease;
 }
 
-.emotion-17:disabled {
-  background-color: #f1f3f5;
+.emotion-38:disabled {
+  background-color: #25262b;
   color: #909296;
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.emotion-17:disabled::-webkit-input-placeholder {
+.emotion-38:disabled::-webkit-input-placeholder {
   color: #909296;
 }
 
-.emotion-17:disabled::-moz-placeholder {
+.emotion-38:disabled::-moz-placeholder {
   color: #909296;
 }
 
-.emotion-17:disabled:-ms-input-placeholder {
+.emotion-38:disabled:-ms-input-placeholder {
   color: #909296;
 }
 
-.emotion-17:disabled::placeholder {
+.emotion-38:disabled::placeholder {
   color: #909296;
 }
 
-.emotion-17::-webkit-input-placeholder {
+.emotion-38::-webkit-input-placeholder {
   opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #adb5bd;
+  color: #5c5f66;
 }
 
-.emotion-17::-moz-placeholder {
+.emotion-38::-moz-placeholder {
   opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #adb5bd;
+  color: #5c5f66;
 }
 
-.emotion-17:-ms-input-placeholder {
+.emotion-38:-ms-input-placeholder {
   opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #adb5bd;
+  color: #5c5f66;
 }
 
-.emotion-17::placeholder {
+.emotion-38::placeholder {
   opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #adb5bd;
+  color: #5c5f66;
 }
 
-.emotion-17::-webkit-inner-spin-button,
-.emotion-17::-webkit-outer-spin-button,
-.emotion-17::-webkit-search-decoration,
-.emotion-17::-webkit-search-cancel-button,
-.emotion-17::-webkit-search-results-button,
-.emotion-17::-webkit-search-results-decoration {
+.emotion-38::-webkit-inner-spin-button,
+.emotion-38::-webkit-outer-spin-button,
+.emotion-38::-webkit-search-decoration,
+.emotion-38::-webkit-search-cancel-button,
+.emotion-38::-webkit-search-results-button,
+.emotion-38::-webkit-search-results-decoration {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
 }
 
-.emotion-17[type=number] {
+.emotion-38[type=number] {
   -moz-appearance: textfield;
 }
 
-.emotion-17:focus,
-.emotion-17:focus-within {
+.emotion-38:focus,
+.emotion-38:focus-within {
   outline: none;
-  border-color: #228be6;
+  border-color: #1971c2;
 }
 
-.emotion-20 {
+.emotion-41 {
   -webkit-tap-highlight-color: transparent;
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-family: PT Mono,monospace;
   cursor: pointer;
   border: 0;
   padding: 0;
@@ -556,18 +629,18 @@ exports[`Footer renders a Footer 1`] = `
   font-size: 16px;
   background-color: transparent;
   text-align: left;
-  color: #000;
+  color: #C1C2C5;
   -webkit-text-decoration: none;
   text-decoration: none;
   box-sizing: border-box;
   height: 36px;
   padding-left: 18px;
   padding-right: 12px;
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-family: PT Mono,monospace;
   -webkit-tap-highlight-color: transparent;
   display: inline-block;
   width: auto;
-  border-radius: 4px;
+  border-radius: 6px;
   font-weight: 600;
   position: relative;
   line-height: 1;
@@ -578,82 +651,115 @@ exports[`Footer renders a Footer 1`] = `
   user-select: none;
   cursor: pointer;
   border: 1px solid transparent;
-  background-color: #228be6;
+  background-color: #1971c2;
   color: #fff;
+  border-width: 0.125rem;
+  letter-spacing: 0.125rem;
+  -webkit-transition: 150ms background ease,150ms color ease,150ms border ease;
+  transition: 150ms background ease,150ms color ease,150ms border ease;
+  background-color: #307AE8;
 }
 
-.emotion-20:focus {
+.emotion-41:focus {
   outline-offset: 2px;
-  outline: 2px solid #339af0;
+  outline: 2px solid #1c7ed6;
 }
 
-.emotion-20:focus:not(:focus-visible) {
+.emotion-41:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-20:focus {
+.emotion-41:focus {
   outline-offset: 2px;
-  outline: 2px solid #339af0;
+  outline: 2px solid #1c7ed6;
 }
 
-.emotion-20:focus:not(:focus-visible) {
+.emotion-41:focus:not(:focus-visible) {
   outline: none;
 }
 
 @media (hover: hover) {
-  .emotion-20:hover {
-    background-color: #1c7ed6;
+  .emotion-41:hover {
+    background-color: #1864ab;
   }
 }
 
 @media (hover: none) {
-  .emotion-20:active {
-    background-color: #1c7ed6;
+  .emotion-41:active {
+    background-color: #1864ab;
   }
 }
 
-.emotion-20:active {
+.emotion-41:active {
   -webkit-transform: translateY(1px);
   -moz-transform: translateY(1px);
   -ms-transform: translateY(1px);
   transform: translateY(1px);
 }
 
-.emotion-20:disabled,
-.emotion-20[data-disabled] {
+.emotion-41:disabled,
+.emotion-41[data-disabled] {
   border-color: transparent;
-  background-color: #e9ecef;
-  color: #adb5bd;
+  background-color: #373A40;
+  color: #25262b;
   cursor: not-allowed;
   background-image: none;
   pointer-events: none;
 }
 
-.emotion-20:disabled:active,
-.emotion-20[data-disabled]:active {
+.emotion-41:disabled:active,
+.emotion-41[data-disabled]:active {
   -webkit-transform: none;
   -moz-transform: none;
   -ms-transform: none;
   transform: none;
 }
 
-.emotion-20[data-loading] {
+.emotion-41[data-loading] {
   pointer-events: none;
 }
 
-.emotion-20[data-loading]::before {
+.emotion-41[data-loading]::before {
   content: "";
   position: absolute;
   top: -1px;
   left: -1px;
   right: -1px;
   bottom: -1px;
-  background-color: rgba(255, 255, 255, .5);
-  border-radius: 4px;
+  background-color: rgba(26, 27, 30, 0.5);
+  border-radius: 6px;
   cursor: not-allowed;
 }
 
-.emotion-21 {
+.emotion-41:disabled {
+  background-color: #393A51;
+}
+
+.emotion-41:disabled .emotion-45 {
+  color: #838495;
+}
+
+.emotion-41:active:not(:disabled) {
+  background-color: #1761CF;
+}
+
+.emotion-41:hover:not(:disabled) {
+  background-color: #5596F6;
+}
+
+.emotion-41[data-loading] {
+  background-color: #393A51;
+}
+
+.emotion-41[data-loading] .emotion-45 {
+  color: #838495;
+}
+
+.emotion-41[data-loading]::before {
+  content: none;
+}
+
+.emotion-42 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -670,7 +776,7 @@ exports[`Footer renders a Footer 1`] = `
   overflow: visible;
 }
 
-.emotion-23 {
+.emotion-44 {
   white-space: nowrap;
   height: 100%;
   overflow: hidden;
@@ -684,7 +790,31 @@ exports[`Footer renders a Footer 1`] = `
   align-items: center;
 }
 
-.emotion-27 {
+.mantine-1c0bi0f:disabled .emotion-45 {
+  color: #838495;
+}
+
+.mantine-1c0bi0f[data-loading] .emotion-45 {
+  color: #838495;
+}
+
+.mantine-1h02q3h:disabled .emotion-45 {
+  color: #838495;
+}
+
+.mantine-1h02q3h[data-loading] .emotion-45 {
+  color: #838495;
+}
+
+.mantine-1lu08fu:disabled .emotion-45 {
+  color: #838495;
+}
+
+.mantine-1lu08fu[data-loading] .emotion-45 {
+  color: #838495;
+}
+
+.emotion-48 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -698,28 +828,28 @@ exports[`Footer renders a Footer 1`] = `
 }
 
 <div
-  class="c0"
+  class="emotion-0 emotion-1"
   id="contact"
 >
   <div
-    class="emotion-0 emotion-1 emotion-2"
+    class="emotion-2 emotion-3 emotion-4"
     role="separator"
     style="border-top-color: #292B3D;"
   />
   <div
-    class="c1"
+    class="emotion-5 c0 emotion-6"
   >
     <div
-      class="c2 emotion-3"
+      class="emotion-0 c1 emotion-8"
     >
       <a
-        class="c3"
+        class="c2"
         href="https://gitpoap.io"
         rel="noopener noreferrer"
         target="_blank"
       >
         <svg
-          class="1 c4"
+          class="c3"
           fill="none"
           height="30"
           width="116"
@@ -734,58 +864,58 @@ exports[`Footer renders a Footer 1`] = `
         </svg>
       </a>
       <div
-        class="emotion-4 c5 emotion-5"
+        class="emotion-9 c4 emotion-10"
         style="margin-top: 1.25rem;"
       >
         We're memorializing software contributions as GitPOAPs to help usher in a new era of #web3
       </div>
     </div>
     <div
-      class="c6 emotion-3"
+      class="emotion-5 c5 emotion-12"
     >
       <div
-        class="c7"
+        class="emotion-0 c6 emotion-14"
       >
         <div
-          class="c8"
+          class="emotion-9 emotion-16"
         >
           Explore
         </div>
         <a
-          class="c9"
+          class="c7"
           href="/"
         >
           Home
         </a>
         <a
-          class="c9"
+          class="c7"
           href="/repos"
         >
           Repos
         </a>
         <a
-          class="c9"
+          class="c7"
           href="/orgs"
         >
           Orgs
         </a>
         <a
-          class="c9"
+          class="c7"
           href="/gitpoaps"
         >
           GitPOAPs
         </a>
       </div>
       <div
-        class="c7"
+        class="emotion-0 c6 emotion-14"
       >
         <div
-          class="c8"
+          class="emotion-9 emotion-16"
         >
           Community
         </div>
         <a
-          class="0 c10"
+          class="c8"
           href="https://medium.com/gitpoap"
           rel="noopener noreferrer"
           target="_blank"
@@ -807,7 +937,7 @@ exports[`Footer renders a Footer 1`] = `
           Medium
         </a>
         <a
-          class="0 c10"
+          class="c8"
           href="https://twitter.com/gitpoap"
           rel="noopener noreferrer"
           target="_blank"
@@ -829,7 +959,7 @@ exports[`Footer renders a Footer 1`] = `
           Twitter
         </a>
         <a
-          class="0 c10"
+          class="c8"
           href="https://gitpoap.io/discord"
           rel="noopener noreferrer"
           target="_blank"
@@ -851,7 +981,7 @@ exports[`Footer renders a Footer 1`] = `
           Discord
         </a>
         <a
-          class="0 c10"
+          class="c8"
           href="https://github.com/gitpoap"
           rel="noopener noreferrer"
           target="_blank"
@@ -874,15 +1004,15 @@ exports[`Footer renders a Footer 1`] = `
         </a>
       </div>
       <div
-        class="c7"
+        class="emotion-0 c6 emotion-14"
       >
         <div
-          class="c8"
+          class="emotion-9 emotion-16"
         >
           About
         </div>
         <a
-          class="0 c10"
+          class="c8"
           href="https://docs.gitpoap.io"
           rel="noopener noreferrer"
           target="_blank"
@@ -890,7 +1020,7 @@ exports[`Footer renders a Footer 1`] = `
           Docs
         </a>
         <a
-          class="0 c10"
+          class="c8"
           href="https://docs.gitpoap.io/about"
           rel="noopener noreferrer"
           target="_blank"
@@ -898,7 +1028,7 @@ exports[`Footer renders a Footer 1`] = `
           Team
         </a>
         <a
-          class="c9"
+          class="c7"
           href="mailto:team@gitpoap.io"
         >
           Contact
@@ -906,27 +1036,27 @@ exports[`Footer renders a Footer 1`] = `
       </div>
     </div>
     <div
-      class="c11 emotion-3"
+      class="emotion-0 c9 emotion-14"
     >
       <div
-        class="c8"
+        class="emotion-9 emotion-16"
       >
         Sign up for updates
       </div>
       <div
-        class="emotion-3"
+        class="emotion-29"
         style="margin-top: 0.75rem; display: flex;"
       >
         <div
-          class="emotion-9 emotion-10 c12 emotion-11"
+          class="emotion-30 emotion-31 c10 emotion-32"
           style="margin-right: 0.4375rem;"
         >
           <div
-            class="emotion-12 emotion-13 emotion-14"
+            class="emotion-33 emotion-34 emotion-35"
           >
             <input
               aria-invalid="false"
-              class="emotion-15 emotion-16 emotion-17"
+              class="emotion-36 emotion-37 emotion-38"
               id="mantine-r0"
               placeholder="Email"
               spellcheck="false"
@@ -936,7 +1066,7 @@ exports[`Footer renders a Footer 1`] = `
           </div>
         </div>
         <button
-          class="emotion-18 emotion-19 emotion-20"
+          class="emotion-39 emotion-40 emotion-41"
           data-button="true"
           data-disabled="true"
           disabled=""
@@ -944,13 +1074,14 @@ exports[`Footer renders a Footer 1`] = `
           type="button"
         >
           <div
-            class="emotion-21 emotion-22"
+            class="emotion-42 emotion-43"
           >
             <span
-              class="emotion-23 emotion-24"
+              class="emotion-44 emotion-45"
+              style="text-transform: uppercase;"
             />
             <span
-              class="emotion-25 emotion-26 emotion-27"
+              class="emotion-46 emotion-47 emotion-48"
             >
               <svg
                 color="#838495"

@@ -3,9 +3,8 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { useClipboard } from '@mantine/hooks';
 import { FiCopy } from 'react-icons/fi';
-import { Box } from '@mantine/core';
+import { Box, Tooltip } from '@mantine/core';
 import { utils } from 'ethers';
-import { Tooltip } from './Tooltip';
 import { Title } from '../../shared/elements/Title';
 import { TextGray } from '../../../colors';
 import { truncateAddress } from '../../../helpers';
@@ -19,8 +18,6 @@ type Props = {
 const Address = styled(Title)`
   display: flex;
   flex-direction: row;
-  font-family: PT Mono;
-  font-style: normal;
   font-weight: normal;
   font-size: ${rem(14)};
   line-height: ${rem(18)};

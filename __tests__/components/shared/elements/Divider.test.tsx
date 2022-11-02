@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react';
 import 'jest-styled-components';
 import { Divider } from '../../../../src/components/shared/elements';
+import { renderWithTheme } from '../../../__utils__/renderWithTheme';
 
 describe('Divider', () => {
   it('renders an Divider', () => {
-    const { container } = render(<Divider />);
+    const { container } = renderWithTheme(<Divider />);
     const divider = container.firstChild;
 
     expect(divider).toBeInTheDocument();

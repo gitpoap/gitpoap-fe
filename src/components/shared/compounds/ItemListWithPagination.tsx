@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Box, BoxProps } from '@mantine/core';
+import { Box, BoxProps, Pagination, Group, Loader } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { FaPlus } from 'react-icons/fa';
-import { Header, Button, Select, Text, Input } from '../elements';
+import { Header, Select, Text, Input } from '../elements';
 import { TextGray } from '../../../colors';
 import { BREAKPOINTS } from '../../../constants';
 
@@ -16,8 +15,9 @@ type Props = BoxProps & {
   selectValue: string;
   onSelectChange: (value: string) => void;
   isLoading: boolean;
-  hasShowMoreButton: boolean;
-  showMoreOnClick: () => void;
+  page: number;
+  totalPage: number;
+  handlePageChange: (page: number) => void;
   searchInputPlaceholder?: string;
   searchInputValue?: string;
   onSearchInputChange?: React.ChangeEventHandler<HTMLInputElement>;
@@ -54,10 +54,6 @@ const Sorting = styled.div`
   flex-direction: row;
 `;
 
-const ShowMore = styled(Button)`
-  align-self: center;
-`;
-
 const SortBy = styled(Text)`
   display: flex;
   align-items: center;
@@ -74,7 +70,7 @@ const SearchInput = styled(Input)`
   margin-right: ${rem(50)};
 `;
 
-export const ItemList = ({
+export const ItemListWithPagination = ({
   children,
   className,
   title,
@@ -82,8 +78,9 @@ export const ItemList = ({
   selectValue,
   onSelectChange,
   isLoading,
-  hasShowMoreButton,
-  showMoreOnClick,
+  page,
+  totalPage,
+  handlePageChange,
   searchInputPlaceholder,
   searchInputValue,
   onSearchInputChange,
@@ -107,17 +104,20 @@ export const ItemList = ({
           <Select data={selectOptions} value={selectValue} onChange={onSelectChange} />
         </Sorting>
       </Heading>
-      {children}
-      {hasShowMoreButton && (
-        <ShowMore
-          onClick={showMoreOnClick}
-          leftIcon={<FaPlus />}
-          variant="outline"
-          loading={isLoading}
-        >
-          {'Show more'}
-        </ShowMore>
+      {isLoading ? (
+        <Group position="center" align="center" grow>
+          <Loader size="xl" variant="dots" />
+        </Group>
+      ) : (
+        children
       )}
+      <Pagination
+        position="center"
+        page={page}
+        onChange={handlePageChange}
+        total={totalPage}
+        mt={rem(20)}
+      />
     </Container>
   );
 };

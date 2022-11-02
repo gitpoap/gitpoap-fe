@@ -17,9 +17,9 @@ import {
   Text,
   TextArea as TextAreaUI,
 } from '../shared/elements';
-import { ExtraHover, ExtraPressed } from '../../colors';
 import { isValidTwitterHandle, isValidURL } from '../../helpers';
 import { useFeatures } from '../FeaturesContext';
+import { Link } from '../shared/compounds/Link';
 
 const Input = styled(InputUI)`
   flex: 1;
@@ -96,7 +96,9 @@ export const SettingsPage = () => {
             {user.githubHandle && (
               <Text size="xs">
                 {`You're connected as `}
-                <b>{user.githubHandle}</b>
+                <Link href={`https://github.com/${user.githubHandle}`} passHref>
+                  <b>{`@${user.githubHandle}`}</b>
+                </Link>
               </Text>
             )}
           </Stack>

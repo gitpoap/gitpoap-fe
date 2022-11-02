@@ -27,5 +27,4 @@ export * from './Skeletons';
 export * from './Text';
 export * from './TextArea';
 export * from './Title';
-export * from './Tooltip';
 export * from './TwitterShareButton';

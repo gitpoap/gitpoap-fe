@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Tooltip } from '../../components/shared/elements/Tooltip';
+import { Group, Tooltip } from '@mantine/core';
 import { Text } from '../../components/shared/elements/Text';
 
 export default {
@@ -10,9 +10,11 @@ export default {
 
 const Template: ComponentStory<typeof Tooltip> = (args) => {
   return (
-    <Tooltip {...args}>
-      <Text>{'Exchanges'}</Text>
-    </Tooltip>
+    <Group>
+      <Tooltip {...args}>
+        <Text>{'Exchanges'}</Text>
+      </Tooltip>
+    </Group>
   );
 };
 

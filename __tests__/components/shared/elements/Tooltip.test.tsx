@@ -1,5 +1,6 @@
 import 'jest-styled-components';
-import { Text, Tooltip } from '../../../../src/components/shared/elements';
+import { Tooltip } from '@mantine/core';
+import { Text } from '../../../../src/components/shared/elements';
 import { renderWithTheme } from '../../../__utils__/renderWithTheme';
 
 describe('Tooltip', () => {

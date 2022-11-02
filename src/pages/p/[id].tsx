@@ -5,7 +5,6 @@ import { Grid } from '@mantine/core';
 import { isAddress } from 'ethers/lib/utils';
 import { GetStaticPropsContext } from 'next';
 import { Page } from '../_app';
-import { Layout } from '../../components/Layout';
 import { AllPOAPs } from '../../components/profile/AllPOAPs';
 import { GitPOAPs } from '../../components/profile/GitPOAPs';
 import { ProfileSidebar } from '../../components/profile/ProfileSidebar';
@@ -60,7 +59,7 @@ const Profile: Page<PageProps> = (props) => {
             <ProfileSidebarWrapper lg={2}>
               <ProfileSidebar />
             </ProfileSidebarWrapper>
-            <Grid.Col lg={8} style={{ zIndex: 1 }}>
+            <Grid.Col lg={8} xl={9} style={{ zIndex: 1 }}>
               <Grid justify="center">
                 <Grid.Col xs={11} md={10} style={{ marginTop: rem(60) }}>
                   <FeaturedPOAPs />

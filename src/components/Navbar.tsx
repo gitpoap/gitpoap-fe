@@ -13,7 +13,6 @@ import { GitHub } from './oauth/GitHub';
 import { SearchBox } from './search/box/SearchBox';
 import { useWeb3Context } from './wallet/Web3Context';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
-import { useFeatures } from './FeaturesContext';
 
 const Nav = styled(Group)`
   color: ${TextLight} !important;
@@ -89,7 +88,6 @@ export const Navbar = () => {
   const { connectionStatus, address, ensName } = useWeb3Context();
   const matches1330 = useMediaQuery(`(min-width: ${rem(1330)})`, false);
   const matchesLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
-  const matches950 = useMediaQuery(`(min-width: ${rem(950)})`, false);
   const matchesMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`, false);
   const [isOpen, setIsOpen] = useState(false);
   const title = isOpen ? 'Close navigation' : 'Open navigation';

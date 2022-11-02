@@ -3,11 +3,7 @@ import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { RepoList } from '../shared/compounds/RepoList';
 import { RepoHexSkeleton } from '../repos/RepoHex';
 import { OrgRepoHex } from './OrgRepoHex';
-import {
-  OrganizationReposQuery,
-  OrganizationReposQueryVariables,
-  useOrganizationReposQuery,
-} from '../../graphql/generated-gql';
+import { OrganizationReposQuery, useOrganizationReposQuery } from '../../graphql/generated-gql';
 import { useListState } from '@mantine/hooks';
 
 type SortOptions = 'alphabetical' | 'date' | 'contributor-count' | 'minted-count';
@@ -57,10 +53,7 @@ export const OrgRepoList = ({ orgId }: Props) => {
 
   const allRepoItems = result?.data?.organizationRepos;
   const repoCount = resultForCount.data?.organizationRepos?.length;
-
-  // Assert type until following issue is resolved:
-  // https://github.com/dotansimha/graphql-code-generator/issues/7976
-  const queryVariables = result.operation?.variables as OrganizationReposQueryVariables | undefined;
+  const queryVariables = result.operation?.variables;
 
   /* Hook to append new data onto existing list of repos */
   useEffect(() => {

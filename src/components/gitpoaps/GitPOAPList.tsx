@@ -9,7 +9,6 @@ import { Input, Loader, TextSkeleton } from '../shared/elements';
 import {
   useGitPoaPsWithClaimCountQuery,
   useTotalGitPoapCountQuery,
-  GitPoaPsWithClaimCountQueryVariables,
   GitPoaPsWithClaimCountQuery,
   useGitPoapSearchByNameQuery,
   SortOrder,
@@ -122,13 +121,7 @@ export const GitPOAPList = () => {
   const [totalResult] = useTotalGitPoapCountQuery({});
   const total = totalResult.data?.aggregateGitPOAP._count?.id;
   const allGitPOAPs = result.data?.gitPOAPS;
-
-  // Assert type until following issue is resolved:
-  // https://github.com/dotansimha/graphql-code-generator/issues/7976
-  const queryVariables = result.operation?.variables as
-    | GitPoaPsWithClaimCountQueryVariables
-    | undefined;
-
+  const queryVariables = result.operation?.variables;
   const size = matchesBreakpointSm ? 'sm' : 'md';
 
   /* Hook to append new data onto existing list of GitPOAPs */
