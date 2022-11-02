@@ -9,7 +9,7 @@ import {
   useOrganizationsListQuery,
   useTotalOrganizationCountQuery,
 } from '../../graphql/generated-gql';
-import { useListState, useDebouncedValue } from '@mantine/hooks';
+import { useDebouncedValue } from '@mantine/hooks';
 import { Header, Input, TextSkeleton } from '../shared/elements';
 
 type SortOptions = 'alphabetical' | 'date';
@@ -66,10 +66,10 @@ export const OrgList = () => {
   const [variables, setVariables] = useState<QueryVars>({
     sort: 'date',
     search: '',
-    perPage: 3,
+    perPage: 15,
     page: 1,
   });
-  const [orgListItems, handlers] = useListState<Org>([]);
+  const [orgListItems, setOrgListItems] = useState<Org[]>([]);
   const [result] = useOrganizationsListQuery({ variables });
   const [totalResult] = useTotalOrganizationCountQuery({
     variables: {
@@ -85,23 +85,20 @@ export const OrgList = () => {
   useEffect(() => {
     const newOrgListItems = allOrganizations ?? [];
     if (queryVariables?.page === 1) {
-      handlers.setState(newOrgListItems);
+      setOrgListItems(newOrgListItems);
     } else {
-      handlers.setState([...orgListItems, ...newOrgListItems]);
+      setOrgListItems((prevOrgListItems) => [...prevOrgListItems, ...newOrgListItems]);
     }
-    /* Do not include handlers below */
   }, [allOrganizations, queryVariables?.page]);
 
   useEffect(() => {
     const search = debouncedSearch.length >= 2 ? debouncedSearch : '';
-    setVariables({
-      ...variables,
+    setVariables((prevVariables) => ({
+      ...prevVariables,
       page: 1,
       search,
-    });
+    }));
   }, [debouncedSearch]);
-
-  const orgsToDisplay = orgListItems.slice(0, total);
 
   if (result.error) {
     return null;
@@ -151,8 +148,8 @@ export const OrgList = () => {
             </>
           )}
 
-          {orgsToDisplay &&
-            orgsToDisplay.map((org, i) => <OrganizationHex key={'organization-' + i} org={org} />)}
+          {orgListItems &&
+            orgListItems.map((org, i) => <OrganizationHex key={'organization-' + i} org={org} />)}
         </OrgListContainer>
       </StyledItemList>
     </Wrapper>
