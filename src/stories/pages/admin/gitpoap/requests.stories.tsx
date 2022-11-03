@@ -4,7 +4,7 @@ import GitPOAPRequestsDashboard from '../../../../pages/admin/gitpoap/requests';
 import { Layout } from '../../../../components/Layout';
 
 export default {
-  title: 'Admin/GitPOAP/Requests',
+  title: 'Pages/Admin/GitPOAP/Requests',
   component: GitPOAPRequestsDashboard,
 } as ComponentMeta<typeof GitPOAPRequestsDashboard>;
 

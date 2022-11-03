@@ -4,7 +4,7 @@ import CGRequests from '../../../pages/gitpoaps/requests';
 import { Layout } from '../../../components/Layout';
 
 export default {
-  title: 'GitPOAP/Requests',
+  title: 'Pages/GitPOAP/Requests',
   component: CGRequests,
 } as ComponentMeta<typeof CGRequests>;
 
