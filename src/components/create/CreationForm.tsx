@@ -2,7 +2,7 @@ import { Center, Container, Group, Stack, Input as InputUI } from '@mantine/core
 import { Dropzone } from '@mantine/dropzone';
 import Image from 'next/image';
 import { rem } from 'polished';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
@@ -17,7 +17,7 @@ import {
   TextInputLabelStyles,
 } from '../shared/elements';
 import { useCreationForm } from './useCreationForm';
-import { SelectContributors } from './SelectContributors';
+import { Contributor, SelectContributors } from './SelectContributors';
 import { BackgroundPanel, BackgroundPanel2, BackgroundPanel3 } from '../../colors';
 import { useTokens } from '../../hooks/useTokens';
 import { useApi } from '../../hooks/useApi';
@@ -73,38 +73,56 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
   const { errors, values, getInputProps, setFieldError, setFieldValue, setValues, validate } =
     useCreationForm();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
+  const [contributors, setContributors] = useState<Contributor[]>([]);
 
   const imageUrl = values.image ? URL.createObjectURL(values.image) : null;
 
-  const loadInitialValues = async () => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/gitpoaps`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${tokens?.accessToken}`,
-        },
-        body: JSON.stringify(values),
-      });
-      const data = await response.json();
-      if (response.status >= 400) {
-        throw new Error(JSON.stringify(data));
-      }
-      setValues(data);
-    } catch (error) {
-      console.warn(error);
-    }
-  };
+  // const loadInitialValues = async () => {
+  //   try {
+  //     const response = await fetch(`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/gitpoaps`, {
+  //       method: 'GET',
+  //       headers: {
+  //         Accept: 'application/json',
+  //         Authorization: `Bearer ${tokens?.accessToken}`,
+  //       },
+  //       body: JSON.stringify(values),
+  //     });
+  //     const data = await response.json();
+  //     if (response.status >= 400) {
+  //       throw new Error(JSON.stringify(data));
+  //     }
+  //     setValues(data);
+  //   } catch (error) {
+  //     console.warn(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (gitPOAPId) {
-      loadInitialValues();
-    }
-  }, [gitPOAPId]);
+  // useEffect(() => {
+  //   if (gitPOAPId) {
+  //     loadInitialValues();
+  //   }
+  // }, [gitPOAPId]);
 
   const submitCreateCustomGitPOAP = useCallback(
     async (formValues: GitPOAPRequestCreateValues) => {
       setButtonStatus(ButtonStatus.LOADING);
+
+      // Reformat Contributor[] to GitPOAPRequestCreateValues['contributors']
+      await setFieldValue(
+        'contributors',
+        contributors.reduce((group: GitPOAPRequestCreateValues['contributors'], contributor) => {
+          const { type, value }: Contributor = contributor;
+          group[type] = group[type] || [];
+          group[type]?.push(value);
+          return group;
+        }, {}),
+      );
+
+      if (validate().hasErrors) {
+        setButtonStatus(ButtonStatus.ERROR);
+        return;
+      }
+
       if (formValues['image'] === null) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
@@ -175,9 +193,9 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
           </Group>
         </Container>
         <SelectContributors
-          contributors={values.contributors}
+          contributors={contributors}
           errors={errors}
-          setFieldValue={setFieldValue}
+          setContributors={setContributors}
         />
         <Button
           onClick={() => {

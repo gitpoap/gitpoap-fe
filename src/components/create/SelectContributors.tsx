@@ -1,6 +1,5 @@
 import {
   ActionIcon,
-  CloseButton,
   Container,
   Divider,
   Grid,
@@ -35,48 +34,47 @@ const StyledTextArea = styled(TextArea)`
   }
 `;
 
-type Props = {
-  contributors: GitPOAPRequestCreateValues['contributors'];
-  errors: CreationFormReturnTypes['errors'];
-  setFieldValue: CreationFormReturnTypes['setFieldValue'];
-};
-
 type ConnectionType = keyof GitPOAPRequestCreateValues['contributors'];
-type Contributor = {
+export type Contributor = {
   type: ConnectionType;
   value: string;
 };
 
-const formatContributors = (
-  newContributors: string[],
-  oldContributors: GitPOAPRequestCreateValues['contributors'],
-): GitPOAPRequestCreateValues['contributors'] => {
-  return newContributors.reduce((obj: GitPOAPRequestCreateValues['contributors'], c) => {
-    if (isValidGithubHandle(c)) {
-      obj['githubHandles'] = obj['githubHandles'] || [];
-      obj['githubHandles'].push(c);
-    } else if (isAddress(c)) {
-      obj['ethAddresses'] = obj['ethAddresses'] || [];
-      obj['ethAddresses'].push(c);
-    } else if (c.length > 4 && c.endsWith('.eth')) {
-      obj['ensNames'] = obj['ensNames'] || [];
-      obj['ensNames'].push(c);
-    } else if (isValidEmailAddress(c)) {
-      obj['emails'] = obj['emails'] || [];
-      obj['emails'].push(c);
-    }
-    return obj;
-  }, oldContributors ?? {});
+type Props = {
+  contributors: Contributor[];
+  setContributors: (contributors: Contributor[]) => void;
+  errors: CreationFormReturnTypes['errors'];
 };
 
-export const SelectContributors = ({ contributors, errors, setFieldValue }: Props) => {
+const formatContributors = (
+  newContributors: string[],
+  oldContributors: Contributor[],
+): Contributor[] => {
+  return newContributors.reduce((obj, c) => {
+    // We can assume values are unique because of the filter later in this function
+    if (obj.some((contributor) => contributor.value === c)) {
+      return obj;
+    }
+
+    if (isValidGithubHandle(c)) {
+      obj.push({ type: 'githubHandles', value: c });
+    } else if (isAddress(c)) {
+      obj.push({ type: 'ethAddresses', value: c });
+    } else if (c.length > 4 && c.endsWith('.eth')) {
+      obj.push({ type: 'ensNames', value: c });
+    } else if (isValidEmailAddress(c)) {
+      obj.push({ type: 'emails', value: c });
+    }
+
+    return obj;
+  }, oldContributors ?? []);
+};
+
+export const SelectContributors = ({ contributors, errors, setContributors }: Props) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [contributorsTA, setContributorsTA] = useState('');
 
-  const flattenedContributors: Contributor[] = Object.entries(contributors)
-    .map(([key, value]) => value.map((v) => ({ type: key as ConnectionType, value: v })))
-    .flat();
-  const filteredContributors = flattenedContributors.filter((contributor) =>
+  const filteredContributors = contributors.filter((contributor) =>
     searchValue ? contributor.value.toLowerCase().includes(searchValue.toLowerCase()) : true,
   );
 
@@ -96,8 +94,7 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
           <Button
             disabled={contributorsTA.length === 0}
             onClick={() => {
-              setFieldValue(
-                'contributors',
+              setContributors(
                 formatContributors(
                   contributorsTA
                     .split(',')
@@ -106,15 +103,6 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
                   contributors,
                 ),
               );
-              // setFieldValue('contributors', [
-              //   ...new Set([
-              //     ...contributors,
-              //     ...contributorsTA
-              //       .split(',')
-              //       .map((element) => element.trim())
-              //       .filter((element) => element.length),
-              //   ]),
-              // ]);
               setContributorsTA('');
             }}
           >
@@ -128,13 +116,11 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
               Papa.parse(files[0], {
                 complete: (results) => {
                   const data = results.data[0] as string[];
-                  setFieldValue(
-                    'contributors',
+                  setContributors(
                     formatContributors(
                       data.map((element) => element.trim()).filter((element) => element.length),
                       contributors,
                     ),
-                    // [...new Set([...contributors, ...data])]
                   );
                 },
               });
@@ -170,7 +156,7 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
             border: `${rem(1)} solid ${BackgroundPanel2}`,
           }}
         >
-          <Text mb="xs">{`${flattenedContributors.length} Selected`}</Text>
+          <Text mb="xs">{`${contributors.length} Selected`}</Text>
           <ScrollArea
             pl={rem(16)}
             sx={{
@@ -183,8 +169,8 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
             <List listStyleType="none" pb={rem(10)}>
               {filteredContributors.map(({ type, value }: Contributor) => {
                 return (
-                  <List.Item key={value + 'list-item'}>
-                    <Group key={value} mt="xs" position="apart">
+                  <List.Item key={value + '-' + type}>
+                    <Group mt="xs" position="apart">
                       <Stack spacing={0}>
                         <Text>{value}</Text>
                         <Text size="xs" color="grey">
@@ -200,18 +186,7 @@ export const SelectContributors = ({ contributors, errors, setFieldValue }: Prop
                       </Stack>
                       <ActionIcon
                         onClick={() => {
-                          const newContributors = flattenedContributors
-                            .filter((c) => c.value !== value)
-                            .reduce(
-                              (group: GitPOAPRequestCreateValues['contributors'], contributor) => {
-                                const { type, value }: Contributor = contributor;
-                                group[type] = group[type] || [];
-                                group[type]?.push(value);
-                                return group;
-                              },
-                              {},
-                            );
-                          setFieldValue('contributors', newContributors);
+                          setContributors(contributors.filter((c) => c.value !== value));
                         }}
                       >
                         {<VscTrash />}
