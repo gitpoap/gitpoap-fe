@@ -2,7 +2,7 @@ import { Center, Container, Group, Stack, Input as InputUI, Box } from '@mantine
 import { Dropzone } from '@mantine/dropzone';
 import Image from 'next/image';
 import { rem } from 'polished';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
@@ -21,13 +21,13 @@ import {
 import { useCreationForm } from './useCreationForm';
 import { Contributor, SelectContributors } from './SelectContributors';
 import { BackgroundPanel, BackgroundPanel2, BackgroundPanel3 } from '../../colors';
-import { useTokens } from '../../hooks/useTokens';
 import { useApi } from '../../hooks/useApi';
 import {
   ACCEPTED_IMAGE_TYPES,
   GitPOAPRequestCreateValues,
   MAX_FILE_SIZE,
 } from '../../lib/api/gitpoapRequest';
+import { GitPoapRequestQuery, useGitPoapRequestQuery } from '../../graphql/generated-gql';
 
 const StyledDropzone = styled(Dropzone)`
   ${HexagonStyles}
@@ -66,44 +66,50 @@ export enum ButtonStatus {
 }
 
 type Props = {
-  gitPOAPId?: string;
+  gitPOAPId?: number;
 };
+
+type AdminApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
 
 export const CreationForm = ({ gitPOAPId }: Props) => {
   const api = useApi();
-  const { tokens } = useTokens();
   const { errors, values, getInputProps, setFieldError, setFieldValue, setValues, validate } =
     useCreationForm();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [contributors, setContributors] = useState<Contributor[]>([]);
+  const [adminApprovalStatus, setAdminApprovalStatus] =
+    useState<AdminApprovalStatus | 'UNSUBMITTED'>('UNSUBMITTED');
 
   const imageUrl = values.image ? URL.createObjectURL(values.image) : null;
 
-  // const loadInitialValues = async () => {
-  //   try {
-  //     const response = await fetch(`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/gitpoaps`, {
-  //       method: 'GET',
-  //       headers: {
-  //         Accept: 'application/json',
-  //         Authorization: `Bearer ${tokens?.accessToken}`,
-  //       },
-  //       body: JSON.stringify(values),
-  //     });
-  //     const data = await response.json();
-  //     if (response.status >= 400) {
-  //       throw new Error(JSON.stringify(data));
-  //     }
-  //     setValues(data);
-  //   } catch (error) {
-  //     console.warn(error);
-  //   }
-  // };
+  const [result, executeGitPoapRequestQuery] = useGitPoapRequestQuery({
+    variables: {
+      // @ts-ignore
+      gitPOAPRequestId: gitPOAPId,
+    },
+    pause: true,
+  });
 
-  // useEffect(() => {
-  //   if (gitPOAPId) {
-  //     loadInitialValues();
-  //   }
-  // }, [gitPOAPId]);
+  useEffect(() => {
+    if (gitPOAPId) {
+      executeGitPoapRequestQuery();
+    }
+  }, [gitPOAPId]);
+
+  useEffect(() => {
+    if (result.data?.gitPOAPRequest) {
+      const formattedResult = {
+        ...result.data.gitPOAPRequest,
+        image: result.data.gitPOAPRequest.imageKey,
+        projectId: result.data.gitPOAPRequest.project?.repos[0].id,
+        organizationId: result.data.gitPOAPRequest.project?.repos[0]?.organization?.id,
+      };
+      setValues(formattedResult);
+      if (formattedResult.adminApprovalStatus) {
+        setAdminApprovalStatus(formattedResult.adminApprovalStatus);
+      }
+    }
+  });
 
   const submitCreateCustomGitPOAP = useCallback(
     async (formValues: GitPOAPRequestCreateValues) => {
@@ -148,7 +154,16 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
         <Text color="grey" mb="md">
           {'< BACK TO TYPE SELECTION'}
         </Text>
-        <Header>{'Edit GitPOAP'}</Header>
+        <Header>
+          {
+            {
+              UNSUBMITTED: 'Create GitPOAP',
+              APPROVED: 'Add Contributors',
+              PENDING: 'Edit GitPOAP',
+              REJECTED: 'Edit GitPOAP',
+            }[adminApprovalStatus]
+          }
+        </Header>
       </Box>
       <Stack align="center" spacing={64}>
         <Container>
