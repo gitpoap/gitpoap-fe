@@ -236,7 +236,14 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
             ) : null
           }
         >
-          {'Create & Submit For Review'}
+          {
+            {
+              UNSUBMITTED: 'Create & Submit For Review',
+              APPROVED: 'Save & Submit Contributors',
+              PENDING: 'Save & Submit Changes',
+              REJECTED: 'Save & Submit For Rereview',
+            }[adminApprovalStatus]
+          }
         </Button>
       </Stack>
       <HexagonPath />
