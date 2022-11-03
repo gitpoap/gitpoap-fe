@@ -37,7 +37,7 @@ export const MessageBanner = ({
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
   return (
     <Group position="center" my={rem(20)}>
-      <Link href={href}>
+      <Link href={href} target="_blank">
         <MessageBannerContent
           icon={leftIcon}
           title={
