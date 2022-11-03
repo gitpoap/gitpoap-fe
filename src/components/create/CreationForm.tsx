@@ -1,4 +1,4 @@
-import { Center, Container, Group, Stack, Input as InputUI } from '@mantine/core';
+import { Center, Container, Group, Stack, Input as InputUI, Box } from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
 import Image from 'next/image';
 import { rem } from 'polished';
@@ -10,9 +10,11 @@ import styled from 'styled-components';
 import {
   Button,
   DateInput,
+  Header,
   HexagonPath,
   HexagonStyles,
   Input,
+  Text,
   TextArea,
   TextInputLabelStyles,
 } from '../shared/elements';
@@ -142,6 +144,12 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
 
   return (
     <Container mt={24} mb={72} p={0} style={{ zIndex: 1 }}>
+      <Box style={{ position: 'absolute', left: rem(64) }}>
+        <Text color="grey" mb="md">
+          {'< BACK TO TYPE SELECTION'}
+        </Text>
+        <Header>{'Edit GitPOAP'}</Header>
+      </Box>
       <Stack align="center" spacing={64}>
         <Container>
           <Center mt={44}>
@@ -187,7 +195,7 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
             {...getInputProps('description')}
           />
           <Label>{'Accomplishment Period'}</Label>
-          <Group>
+          <Group grow>
             <DateInput placeholder="Start Date" {...getInputProps('startDate')} />
             <DateInput placeholder="End Date" {...getInputProps('endDate')} />
           </Group>
