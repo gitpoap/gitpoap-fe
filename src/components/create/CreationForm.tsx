@@ -2,7 +2,7 @@ import { Center, Container, Group, Stack, Input as InputUI, Box } from '@mantine
 import { Dropzone } from '@mantine/dropzone';
 import Image from 'next/image';
 import { rem } from 'polished';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
