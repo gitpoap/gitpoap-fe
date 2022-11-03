@@ -44,6 +44,11 @@ const StyledCheckbox = styled(CheckboxUI)<CheckboxProps & { disabled?: boolean }
     }
   }
 
+  .mantine-Checkbox-labelWrapper {
+    display: flex;
+    align-items: center;
+  }
+
   .mantine-Checkbox-label {
     ${TextInputLabelStyles}
     ${(props) => !props.disabled && `cursor: pointer`};
