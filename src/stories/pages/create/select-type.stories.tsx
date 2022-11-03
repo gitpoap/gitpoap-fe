@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import SelectType from '../../pages/create/select-type';
-import { Layout } from '../../components/Layout';
+import SelectType from '../../../pages/create/select-type';
+import { Layout } from '../../../components/Layout';
 
 export default {
   title: 'Create/select-type',
