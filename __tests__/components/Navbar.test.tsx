@@ -20,13 +20,10 @@ const mockRouter: NextRouter = {
   route: '/',
   asPath: '/',
   query: {},
-  /* @ts-ignore */
   push: () => {},
-  /* @ts-ignore */
   replace: () => {},
   reload: () => {},
   back: () => {},
-  /* @ts-ignore */
   prefetch: () => {},
   beforePopState: () => {},
   events: {
@@ -36,7 +33,7 @@ const mockRouter: NextRouter = {
   },
   isFallback: false,
   isLocaleDomain: false,
-};
+} as any;
 
 describe('Navbar', () => {
   it('renders a Navbar', () => {

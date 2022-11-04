@@ -27,7 +27,7 @@ const renderSEO = () => {
 
 describe('SEO', () => {
   it('should render with title, description, image and url', () => {
-    const { container, baseElement } = renderSEO();
+    const { baseElement } = renderSEO();
     const seo = baseElement.parentElement?.firstChild as HTMLHeadElement;
     expect(seo).toMatchSnapshot();
 
