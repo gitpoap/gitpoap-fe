@@ -6,7 +6,7 @@ import { BackgroundPanel2, BackgroundPanel } from '../../../colors';
 export const BaseSkeleton = (props: React.ComponentProps<typeof Skeleton>) => {
   return (
     <Skeleton
-      sx={(_) => ({
+      sx={() => ({
         '&::after': {
           backgroundColor: BackgroundPanel,
         },

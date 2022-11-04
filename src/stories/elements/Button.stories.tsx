@@ -41,7 +41,7 @@ const BUTTON_VARIANTS: ButtonVariant[] = [
   'default',
   'subtle',
 ];
-const SizesTemplate: ComponentStory<typeof Button> = (args) => {
+const SizesTemplate: ComponentStory<typeof Button> = () => {
   return (
     <SimpleGrid cols={BUTTON_VARIANTS.length}>
       {BUTTON_VARIANTS.map((variant: ButtonVariant, i: number) => (

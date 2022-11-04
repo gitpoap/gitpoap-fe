@@ -77,6 +77,5 @@ const StyledInput = styled(NumberInputUI)<{ disabled?: boolean }>`
 `;
 
 export function NumberInput(props: Props) {
-  const { inputRef, ...selectedProps } = props;
-  return <StyledInput {...selectedProps} ref={props.inputRef} spellCheck={false} />;
+  return <StyledInput {...props} ref={props.inputRef} spellCheck={false} />;
 }

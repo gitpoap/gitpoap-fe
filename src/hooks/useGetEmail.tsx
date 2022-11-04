@@ -22,7 +22,7 @@ export const useGetEmail = () => {
 
   useEffect(() => {
     if (user) {
-      fetchEmailAddress();
+      void fetchEmailAddress();
     } else {
       setEmailAddress(null);
     }

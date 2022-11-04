@@ -76,7 +76,7 @@ export class GitPOAPRequestAPI extends API {
       JSON.stringify(formData),
     );
 
-    if (!res || !res.ok) {
+    if (!res?.ok) {
       Notifications.error(`Error - Request Failed for ${values.name}`);
 
       return null;
@@ -90,7 +90,7 @@ export class GitPOAPRequestAPI extends API {
   async approve(id: number) {
     const res = await makeAPIRequestWithAuth(`/gitpoaps/custom/approve/${id}`, 'PUT', this.token);
 
-    if (!res || !res.ok) {
+    if (!res?.ok) {
       Notifications.error(`Error - Request failed for Request ID: ${id}`);
 
       return null;
@@ -103,7 +103,7 @@ export class GitPOAPRequestAPI extends API {
   async reject(id: number) {
     const res = await makeAPIRequestWithAuth(`/gitpoaps/custom/reject/${id}`, 'PUT', this.token);
 
-    if (!res || !res.ok) {
+    if (!res?.ok) {
       Notifications.error(`Error - Request failed for Request ID: ${id}`);
 
       return null;

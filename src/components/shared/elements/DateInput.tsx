@@ -77,6 +77,5 @@ const StyledDateInput = styled(DateInputUI)<{ disabled?: boolean }>`
 `;
 
 export function DateInput(props: Props) {
-  const { inputRef, ...restProps } = props;
-  return <StyledDateInput {...restProps} ref={props.inputRef} spellCheck={false} />;
+  return <StyledDateInput {...props} ref={props.inputRef} spellCheck={false} />;
 }

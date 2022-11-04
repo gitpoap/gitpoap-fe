@@ -29,7 +29,7 @@ export const VerifyEmail = ({ token }: Props) => {
   useEffect(() => {
     if (token) {
       setStatus('LOADING');
-      verifyToken();
+      void verifyToken();
     }
   }, [token, verifyToken]);
 

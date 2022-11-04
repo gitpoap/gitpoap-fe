@@ -19,13 +19,6 @@ import badge5 from '../assets/gitPOAPs/badge5.png';
 import badge6 from '../assets/gitPOAPs/badge6.png';
 import badge7 from '../assets/gitPOAPs/badge7.png';
 
-/* Profile Pictures */
-import profile1 from '../assets/profile1.png';
-import profile2 from '../assets/profile2.png';
-import profile3 from '../assets/profile3.png';
-import profile4 from '../assets/profile4.png';
-import profile5 from '../assets/profile5.png';
-
 /* POAPs */
 import poap1 from '../assets/poaps/poap1.png';
 import poap2 from '../assets/poaps/poap2.png';
