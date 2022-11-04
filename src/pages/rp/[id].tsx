@@ -77,8 +77,8 @@ export const getStaticProps = async (
     false,
   );
   const repoId = parseInt(context.params?.id as string);
-  const results = await client!
-    .query<RepoSeoByIdQuery>(RepoSeoByIdDocument, {
+  const results = await client
+    ?.query<RepoSeoByIdQuery>(RepoSeoByIdDocument, {
       repoId,
     })
     .toPromise();
@@ -87,7 +87,7 @@ export const getStaticProps = async (
     props: {
       urqlState: ssrCache.extractData(),
       /* coalesce to null if no data is returned -> nextJS doesn't like 'undefined' */
-      data: results.data ?? null,
+      data: results?.data ?? null,
     },
   };
 };
@@ -105,13 +105,14 @@ export const getStaticPaths = async () => {
     false,
   );
 
-  const results = await client!
-    .query<ReposGetStaticPathsQuery>(ReposGetStaticPathsDocument, {})
+  const results = await client
+    ?.query<ReposGetStaticPathsQuery>(ReposGetStaticPathsDocument, {})
     .toPromise();
 
-  const paths = results.data?.repos.map((repo) => ({
-    params: { id: repo.id.toString() },
-  }));
+  const paths =
+    results?.data?.repos.map((repo) => ({
+      params: { id: repo.id.toString() },
+    })) ?? [];
 
   return {
     paths,
@@ -120,7 +121,7 @@ export const getStaticPaths = async () => {
 };
 
 export default withUrqlClient(
-  (_) => ({
+  () => ({
     url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
   }),
   { ssr: false }, // Important so we don't wrap our component in getInitialProps

@@ -59,8 +59,8 @@ export const getStaticProps = async (
     false,
   );
   const orgName = context.params?.orgName as string;
-  const results = await client!
-    .query<OrganizationSeoByNameQuery>(OrganizationSeoByNameDocument, {
+  const results = await client
+    ?.query<OrganizationSeoByNameQuery>(OrganizationSeoByNameDocument, {
       orgName,
     })
     .toPromise();
@@ -69,7 +69,7 @@ export const getStaticProps = async (
     props: {
       urqlState: ssrCache.extractData(),
       /* coalesce to null if no data is returned -> nextJS doesn't like 'undefined' */
-      data: results.data ?? null,
+      data: results?.data ?? null,
     },
   };
 };
@@ -87,13 +87,14 @@ export const getStaticPaths = async () => {
     false,
   );
 
-  const results = await client!
-    .query<OrgsGetStaticPathsQuery>(OrgsGetStaticPathsDocument, {})
+  const results = await client
+    ?.query<OrgsGetStaticPathsQuery>(OrgsGetStaticPathsDocument, {})
     .toPromise();
 
-  const paths = results.data?.organizations.map((org) => ({
-    params: { orgName: org.name },
-  }));
+  const paths =
+    results?.data?.organizations.map((org) => ({
+      params: { orgName: org.name },
+    })) ?? [];
 
   return {
     paths,
@@ -102,7 +103,7 @@ export const getStaticPaths = async () => {
 };
 
 export default withUrqlClient(
-  (_) => ({
+  () => ({
     url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
   }),
   { ssr: false }, // Important so we don't wrap our component in getInitialProps

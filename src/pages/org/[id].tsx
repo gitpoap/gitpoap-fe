@@ -75,8 +75,8 @@ export const getStaticProps = async (
     false,
   );
   const orgId = parseInt(context.params?.id as string);
-  const results = await client!
-    .query<OrganizationSeoByIdQuery>(OrganizationSeoByIdDocument, {
+  const results = await client
+    ?.query<OrganizationSeoByIdQuery>(OrganizationSeoByIdDocument, {
       orgId,
     })
     .toPromise();
@@ -84,7 +84,7 @@ export const getStaticProps = async (
   return {
     props: {
       urqlState: ssrCache.extractData(),
-      data: results.data ?? null,
+      data: results?.data ?? null,
     },
   };
 };
@@ -102,13 +102,14 @@ export const getStaticPaths = async () => {
     false,
   );
 
-  const results = await client!
-    .query<OrgsGetStaticPathsQuery>(OrgsGetStaticPathsDocument, {})
+  const results = await client
+    ?.query<OrgsGetStaticPathsQuery>(OrgsGetStaticPathsDocument, {})
     .toPromise();
 
-  const paths = results.data?.organizations.map((org) => ({
-    params: { id: org.id.toString() },
-  }));
+  const paths =
+    results?.data?.organizations.map((org) => ({
+      params: { id: org.id.toString() },
+    })) ?? [];
 
   return {
     paths,
@@ -117,7 +118,7 @@ export const getStaticPaths = async () => {
 };
 
 export default withUrqlClient(
-  (_) => ({
+  () => ({
     url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
   }),
   { ssr: false }, // Important so we don't wrap our component in getInitialProps
