@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Stack, Radio, Text, TextProps, Button, Group } from '@mantine/core';
 import { rem } from 'polished';

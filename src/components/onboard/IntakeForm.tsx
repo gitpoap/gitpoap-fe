@@ -89,14 +89,20 @@ export const IntakeForm = ({ githubHandle }: Props) => {
         setRepos(data);
       } catch (err: unknown) {
         setError(err);
+        setLoading(false);
         console.error(err);
       }
-      setLoading(false);
     };
     if (!repos) {
-      fetchData();
+      void fetchData();
     }
   }, [tokens?.accessToken, repos]);
+
+  useEffect(() => {
+    if (loading && repos && repos?.length > 0) {
+      setLoading(false);
+    }
+  }, [repos, loading]);
 
   const { errors, values, getInputProps, reset, setFieldError, setFieldValue, validate } =
     useMantineForm(stage, githubHandle);
@@ -161,7 +167,7 @@ export const IntakeForm = ({ githubHandle }: Props) => {
   }
 
   // The user doesn't have any repos
-  if (!repos || repos.length === 0) {
+  if (!repos || (repos.length === 0 && !loading)) {
     return (
       <Container mt={32} size={500}>
         <Stack>

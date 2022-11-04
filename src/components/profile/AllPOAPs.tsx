@@ -105,24 +105,23 @@ export const AllPOAPs = ({ address }: Props) => {
             <Text style={{ marginTop: rem(20) }}>{'Go out and get some POAPs!'}</Text>
           </EmptyState>
         )}
-        {poaps &&
-          poaps.map((poap) => {
-            return (
-              <Grid.Col key={poap.tokenId} xs={6} sm={4} md={3} lg={3} xl={2}>
-                <Group position="center">
-                  <POAPBadge
-                    name={poap.event.name}
-                    imgSrc={poap.event.image_url}
-                    poapTokenId={poap.tokenId}
-                    href={`https://poap.gallery/event/${poap.event.id}`}
-                    isFeatured={!!featuredPOAPTokenIDs[poap.tokenId]}
-                    isFeaturedLoading={!!loadingIds[poap.tokenId]}
-                    showHeart={showHearts}
-                  />
-                </Group>
-              </Grid.Col>
-            );
-          })}
+        {poaps?.map((poap) => {
+          return (
+            <Grid.Col key={poap.tokenId} xs={6} sm={4} md={3} lg={3} xl={2}>
+              <Group position="center">
+                <POAPBadge
+                  name={poap.event.name}
+                  imgSrc={poap.event.image_url}
+                  poapTokenId={poap.tokenId}
+                  href={`https://poap.gallery/event/${poap.event.id}`}
+                  isFeatured={!!featuredPOAPTokenIDs[poap.tokenId]}
+                  isFeaturedLoading={!!loadingIds[poap.tokenId]}
+                  showHeart={showHearts}
+                />
+              </Group>
+            </Grid.Col>
+          );
+        })}
       </Grid>
     </ItemList>
   );

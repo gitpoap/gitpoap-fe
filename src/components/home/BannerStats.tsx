@@ -95,13 +95,11 @@ export const BannerStats = () => {
     <StatsStyled>
       {stats.map((stat, i) => {
         const value = stat.value ? Number(stat.value).toLocaleString() : null;
-        const rate = stat.rate ? `${stat.rate >= 0 && '+'}${stat.rate} / past month` : null;
         return (
           <InfoHexMetricStyled
             value={value}
             key={stat.unit + '-' + i}
             unit={stat.unit}
-            rate={rate}
             icon={ICONS[stat.icon]}
             href={stat.href}
           />

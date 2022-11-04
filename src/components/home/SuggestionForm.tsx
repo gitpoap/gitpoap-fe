@@ -221,7 +221,7 @@ export const SuggestionForm = () => {
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.preventDefault();
               if (isFormValid) {
-                submitForm();
+                void submitForm();
               }
             }}
             disabled={!(isFormValid || isFormEmpty)}

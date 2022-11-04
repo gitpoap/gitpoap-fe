@@ -36,18 +36,16 @@ export const TrendingRepos = () => {
   return (
     <Container>
       <Header>{'Trending repos'}</Header>
-
       <List>
-        {trendingRepos &&
-          trendingRepos.map((repo, index) => (
-            <TrendingRepoItem
-              key={repo.id}
-              repoId={repo.id}
-              index={index + 1}
-              claimedCount={repo.mintedGitPOAPCount}
-              numDays={NUM_DAYS}
-            />
-          ))}
+        {trendingRepos?.map((repo, index) => (
+          <TrendingRepoItem
+            key={repo.id}
+            repoId={repo.id}
+            index={index + 1}
+            claimedCount={repo.mintedGitPOAPCount}
+            numDays={NUM_DAYS}
+          />
+        ))}
       </List>
     </Container>
   );

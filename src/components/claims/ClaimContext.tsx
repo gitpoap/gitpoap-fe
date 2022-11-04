@@ -45,7 +45,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
 
   /* Initially fetch the user claims */
   useEffect(() => {
-    if (user && user?.githubId && !userClaims && !result.fetching) {
+    if (user?.githubId && !userClaims && !result.fetching) {
       refetchUserClaims();
     }
   }, [user, refetchUserClaims, userClaims, result]);

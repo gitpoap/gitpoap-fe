@@ -27,7 +27,7 @@ import {
   GitPOAPRequestCreateValues,
   MAX_FILE_SIZE,
 } from '../../lib/api/gitpoapRequest';
-import { GitPoapRequestQuery, useGitPoapRequestQuery } from '../../graphql/generated-gql';
+import { useGitPoapRequestQuery } from '../../graphql/generated-gql';
 
 const StyledDropzone = styled(Dropzone)`
   ${HexagonStyles}
@@ -84,8 +84,7 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
 
   const [result, executeGitPoapRequestQuery] = useGitPoapRequestQuery({
     variables: {
-      // @ts-ignore
-      gitPOAPRequestId: gitPOAPId,
+      gitPOAPRequestId: gitPOAPId ?? 0,
     },
     pause: true,
   });

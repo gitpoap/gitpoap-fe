@@ -53,8 +53,8 @@ export const useGithubAuth = () => {
       const newUrl = url.split('?code=');
       const codeWithNoHash = newUrl[1].split('#')[0];
       isGitHubAuthLoading.current = true;
-      push(newUrl[0]);
-      authenticate(codeWithNoHash);
+      void push(newUrl[0]);
+      void authenticate(codeWithNoHash);
     }
   }, [authenticate, asPath, push, tokens]);
 
