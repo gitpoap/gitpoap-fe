@@ -1,12 +1,47 @@
 {
-  "plugins": ["@typescript-eslint"],
-  "extends": ["next/core-web-vitals", "plugin:jest-dom/recommended", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "jest"],
+  "extends": [
+    "plugin:prettier/recommended",
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jest-dom/recommended",
+    "plugin:jest/recommended",
+    "prettier"
+  ],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"], // Your TypeScript files extension
+
+      "parserOptions": {
+        "project": ["./tsconfig.json"] // Specify it only for TypeScript files
+      }
+    }
+  ],
   "ignorePatterns": ["**/generated-gql.tsx", "/node_modules/"],
   "rules": {
+    "prettier/prettier": 1,
     "react/display-name": "off",
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "prefer-const": "warn",
     "spaced-comment": ["error", "always", { "markers": ["/"] }],
-    "@typescript-eslint/no-explicit-any": "error"
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/prefer-optional-chain": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "varsIgnorePattern": "_", "argsIgnorePattern": "ref" }
+    ],
+    "@typescript-eslint/interface-name-prefix": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/no-floating-promises": [1, { "ignoreVoid": true }],
+    "@typescript-eslint/no-empty-function": 0,
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
+    "jest/no-mocks-import": 0,
+    "jest/expect-expect": ["error", { "assertFunctionNames": ["expect*"] }]
   }
 }
