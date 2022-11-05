@@ -1,17 +1,35 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Stack, Group, Divider as DividerUI, Popover, Modal, TextProps } from '@mantine/core';
+import {
+  Stack,
+  Group,
+  Divider as DividerUI,
+  Popover,
+  Modal,
+  TextProps,
+  Box,
+  Badge,
+} from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Text, Button } from '../../components/shared/elements';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Header } from '../shared/elements/Header';
 import { Link } from '../shared/compounds/Link';
 import { ButtonStatus } from './SubmitButtonRow';
-import { BackgroundPanel2, TextLight, TextGray } from '../../colors';
+import { BackgroundPanel2, ExtraRedDark, PrimaryBlue, TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { useApi } from '../../hooks/useApi';
-import { GitPoapRequestsQuery } from '../../graphql/generated-gql';
+import { AdminApprovalStatus, GitPoapRequestsQuery } from '../../graphql/generated-gql';
+import { getS3URL } from '../../helpers';
+import { DateTime } from 'luxon';
+import { BsPeopleFill } from 'react-icons/bs';
+import { FaCheckCircle } from 'react-icons/fa';
+import { MdError } from 'react-icons/md';
+
+type Props = {
+  gitPOAPRequest: GitPOAPRequestType;
+};
 
 type ContributorsType = {
   githubHandles?: string[];
@@ -26,18 +44,12 @@ export interface GitPOAPRequestType extends GitPOAPRequestRawType {
   contributors: ContributorsType;
 }
 
-type Props = {
-  gitPOAPRequest: GitPOAPRequestType;
-};
-
 const Value = styled(Text)<TextProps>`
-  font-family: VT323;
-  line-height: ${rem(24)};
+  max-width: ${rem(500)};
 `;
 
 const Label = styled(Text)<TextProps>`
   color: ${TextGray};
-  line-height: ${rem(15)};
 `;
 
 const Divider = styled(DividerUI)`
@@ -49,16 +61,35 @@ const Divider = styled(DividerUI)`
   }
 `;
 
-const ButtonContainer = styled(Stack)`
-  @media (max-width: ${rem(BREAKPOINTS.md)}) {
-    flex-direction: revert;
-    justify-content: space-around;
-    width: 100%;
-  }
-`;
+const RequestAttribute = ({ label, value }: { label: string; value: string | number }) => {
+  return (
+    <Group spacing="xs" align="flex-start">
+      <Label weight="bold">{label}</Label>
+      <Value>{value}</Value>
+    </Group>
+  );
+};
 
-const generateS3ImageUrl = (imageKey: string): string => {
-  return `https://s3.us-east-2.amazonaws.com/${imageKey}`;
+const ButtonIcon = ({ status }: { status: ButtonStatus }) => {
+  return status === ButtonStatus.SUCCESS ? (
+    <FaCheckCircle size={18} />
+  ) : status === ButtonStatus.ERROR ? (
+    <MdError size={18} />
+  ) : null;
+};
+
+const RequestStatusBadge = ({ status }: { status: AdminApprovalStatus }) => {
+  return (
+    <Badge
+      size="sm"
+      variant="filled"
+      style={{
+        backgroundColor: status === AdminApprovalStatus.Rejected ? ExtraRedDark : PrimaryBlue,
+      }}
+    >
+      {status}
+    </Badge>
+  );
 };
 
 export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
@@ -75,6 +106,18 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const project = gitPOAPRequest.project?.repos[0];
   const organization = gitPOAPRequest.project?.repos[0]?.organization;
 
+  const contributors = gitPOAPRequest.contributors;
+  const githubHandles = contributors.githubHandles;
+  const ethAddresses = contributors.ethAddresses;
+  const ensNames = contributors.ensNames;
+  const emails = contributors.emails;
+
+  const areButtonsDisabled =
+    approveStatus === ButtonStatus.LOADING ||
+    rejectStatus === ButtonStatus.LOADING ||
+    approveStatus === ButtonStatus.SUCCESS ||
+    rejectStatus === ButtonStatus.SUCCESS;
+
   const submitApproveGitPOAPRequest = useCallback(async () => {
     setApproveStatus(ButtonStatus.LOADING);
 
@@ -86,7 +129,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
     }
 
     setApproveStatus(ButtonStatus.SUCCESS);
-  }, [gitPOAPRequest.id]);
+  }, [gitPOAPRequest.id, api.gitPOAPRequest]);
 
   const submitRejectGitPOAPRequest = useCallback(async () => {
     setRejectStatus(ButtonStatus.LOADING);
@@ -99,169 +142,160 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
     }
 
     setRejectStatus(ButtonStatus.SUCCESS);
-  }, [gitPOAPRequest.id]);
+  }, [gitPOAPRequest.id, api.gitPOAPRequest]);
 
   return (
     <>
-      <Group align="center" position="center" spacing="md">
-        <Popover
-          opened={isImagePopoverOpen}
-          onClose={closeImagePopover}
-          position="left"
-          withArrow
-          trapFocus={false}
-          closeOnEscape={false}
-          transition="pop-top-left"
-          styles={{
-            dropdown: {
-              backgroundColor: BackgroundPanel2,
-              borderColor: BackgroundPanel2,
-            },
-          }}
-          radius="lg"
-        >
-          <Popover.Target>
-            <div onMouseEnter={openImagePopover} onMouseLeave={closeImagePopover}>
-              {matchesBreakpointSmall ? (
+      <Stack>
+        <Group mb={rem(10)} position="left">
+          <Text size={12}>{`Request ID: ${gitPOAPRequest.id}`}</Text>
+          <RequestStatusBadge status={gitPOAPRequest.adminApprovalStatus} />
+        </Group>
+        <Group align="center" position="left" spacing="md" mb={rem(20)}>
+          <Popover
+            opened={isImagePopoverOpen}
+            onClose={closeImagePopover}
+            position="left"
+            withArrow
+            trapFocus={false}
+            closeOnEscape={false}
+            transition="pop-top-left"
+            styles={{
+              dropdown: {
+                backgroundColor: BackgroundPanel2,
+                borderColor: BackgroundPanel2,
+              },
+            }}
+            radius="lg"
+          >
+            <Popover.Target>
+              <Box onMouseEnter={openImagePopover} onMouseLeave={closeImagePopover}>
+                {matchesBreakpointSmall ? (
+                  <GitPOAPBadge
+                    imgUrl={getS3URL('gitpoap-request-images-test', gitPOAPRequest.imageKey)}
+                    altText="preview"
+                    size={'md'}
+                  />
+                ) : (
+                  <GitPOAPBadge
+                    imgUrl={getS3URL('gitpoap-request-images-test', gitPOAPRequest.imageKey)}
+                    altText="preview"
+                    size={'sm'}
+                  />
+                )}
+              </Box>
+            </Popover.Target>
+            <Popover.Dropdown>
+              <Group>
                 <GitPOAPBadge
-                  imgUrl={generateS3ImageUrl(gitPOAPRequest.imageKey)}
+                  imgUrl={getS3URL('gitpoap-request-images-test', gitPOAPRequest.imageKey)}
                   altText="preview"
-                  size={'md'}
+                  size={'lg'}
                 />
-              ) : (
-                <GitPOAPBadge
-                  imgUrl={generateS3ImageUrl(gitPOAPRequest.imageKey)}
-                  altText="preview"
-                  size={'sm'}
-                />
+              </Group>
+            </Popover.Dropdown>
+          </Popover>
+          <Group align="start" spacing="sm">
+            <Stack spacing="xs">
+              <RequestAttribute label="Name:" value={gitPOAPRequest.name} />
+              <RequestAttribute label="Description:" value={gitPOAPRequest.description} />
+              <RequestAttribute label="Email:" value={gitPOAPRequest.email} />
+              {project && (
+                <Group spacing="sm">
+                  <Label>{'Project:'}</Label>
+                  <Link href={`/rp/${project.id}`}>
+                    <Value variant="link" underline={false}>
+                      {project.name}
+                    </Value>
+                  </Link>
+                </Group>
               )}
-            </div>
-          </Popover.Target>
-          <Popover.Dropdown>
-            <Group>
-              <GitPOAPBadge
-                imgUrl={generateS3ImageUrl(gitPOAPRequest.imageKey)}
-                altText="preview"
-                size={'lg'}
+              {organization && (
+                <Group spacing="sm">
+                  <Label>{'Organization:'}</Label>
+                  <Link href={`/org/${organization.id}`}>
+                    <Value variant="link" underline={false}>
+                      {organization.name}
+                    </Value>
+                  </Link>
+                </Group>
+              )}
+            </Stack>
+            <Stack spacing="xs">
+              <RequestAttribute
+                label="Start Date:"
+                value={DateTime.fromISO(gitPOAPRequest.startDate).toFormat('yyyy-MM-dd')}
               />
-            </Group>
-          </Popover.Dropdown>
-        </Popover>
-        <Group align="start" spacing="sm">
-          <Stack>
-            <Group spacing="sm">
-              <Label size={12}>{'Name:'}</Label>
-              <Value size={20} color={TextLight} weight="normal">
-                {gitPOAPRequest.name}
-              </Value>
-            </Group>
-            <Group spacing="sm">
-              <Label size={12}>{'Description:'}</Label>
-              <Value size={20} color={TextLight} weight="normal">
-                {gitPOAPRequest.description}
-              </Value>
-            </Group>
-            <Group spacing="sm">
-              <Label size={12}>{'Email:'}</Label>
-              <Value size={20} color={TextLight} weight="normal">
-                {gitPOAPRequest.email}
-              </Value>
-            </Group>
-            {project && (
+              <RequestAttribute
+                label="End Date:"
+                value={DateTime.fromISO(gitPOAPRequest.endDate).toFormat('yyyy-MM-dd')}
+              />
+              <RequestAttribute
+                label="Expiry Date:"
+                value={DateTime.fromISO(gitPOAPRequest.expiryDate).toFormat('yyyy-MM-dd')}
+              />
+              <RequestAttribute label="Request Codes:" value={gitPOAPRequest.numRequestedCodes} />
+
               <Group spacing="sm">
-                <Label size={12}>{'Project:'}</Label>
-                <Link href={`/rp/${project.id}`}>
-                  <Value variant="link" size={20} underline={false}>
-                    {project.name}
-                  </Value>
-                </Link>
-              </Group>
-            )}
-            {organization && (
-              <Group spacing="sm">
-                <Label size={12}>{'Organization:'}</Label>
-                <Link href={`/org/${organization.id}`}>
-                  <Value variant="link" size={20} underline={false}>
-                    {organization.name}
-                  </Value>
-                </Link>
-              </Group>
-            )}
-          </Stack>
-          <Stack>
-            <Group spacing="sm">
-              <Label size={12}>{'StartedAt:'}</Label>
-              <Value size={20} color={TextLight} weight="normal">
-                {gitPOAPRequest.startDate}
-              </Value>
-            </Group>
-            <Group spacing="sm">
-              <Label size={12}>{'EndAt:'}</Label>
-              <Value size={20} color={TextLight} weight="normal">
-                {gitPOAPRequest.endDate}
-              </Value>
-            </Group>
-            <Group spacing="sm">
-              <Label size={12}>{'ExpiryAt:'}</Label>
-              <Value size={20} color={TextLight} weight="normal">
-                {gitPOAPRequest.expiryDate}
-              </Value>
-            </Group>
-            <Group spacing="sm">
-              <Label size={12}>{'RequestCodes:'}</Label>
-              <Value size={20} color={TextLight} weight="normal">
-                {gitPOAPRequest.numRequestedCodes}
-              </Value>
-            </Group>
-            <Group spacing="sm">
-              <Value variant="link" onClick={openContributorModal} size={20} underline={false}>
-                {'Show Contributors'}
-              </Value>
-              <Modal
-                centered
-                opened={isContributorModalOpen}
-                onClose={closeContributorModal}
-                title={<Header size={30}>{'Contributors'}</Header>}
-              >
-                {gitPOAPRequest.contributors.githubHandles &&
-                  gitPOAPRequest.contributors.githubHandles.map((githubHandle) => (
+                <Button onClick={openContributorModal} leftIcon={<BsPeopleFill />}>
+                  {'Contributors'}
+                </Button>
+                <Modal
+                  centered
+                  opened={isContributorModalOpen}
+                  onClose={closeContributorModal}
+                  title={<Header style={{ fontSize: rem(30) }}>{'Contributors'}</Header>}
+                >
+                  <Text weight="bold">{'GitHub Handles:'}</Text>
+                  {githubHandles?.map((githubHandle) => (
                     <Text key={githubHandle}>{githubHandle}</Text>
                   ))}
-                {gitPOAPRequest.contributors.ethAddresses &&
-                  gitPOAPRequest.contributors.ethAddresses.map((ethAddress) => (
+
+                  <Text weight="bold" mt={rem(16)}>
+                    {'ETH Addresses:'}
+                  </Text>
+                  {ethAddresses?.map((ethAddress) => (
                     <Text key={ethAddress}>{ethAddress}</Text>
                   ))}
-                {gitPOAPRequest.contributors.ensNames &&
-                  gitPOAPRequest.contributors.ensNames.map((ensName) => (
+
+                  <Text weight="bold" mt={rem(16)}>
+                    {'ENS Names:'}
+                  </Text>
+                  {ensNames?.map((ensName) => (
                     <Text key={ensName}>{ensName}</Text>
                   ))}
-                {gitPOAPRequest.contributors.emails &&
-                  gitPOAPRequest.contributors.emails.map((email) => <p key={email}>{email}</p>)}
-              </Modal>
-            </Group>
-          </Stack>
+
+                  <Text weight="bold" mt={rem(16)}>
+                    {'Emails:'}
+                  </Text>
+                  {emails?.map((email) => (
+                    <Text key={email}>{email}</Text>
+                  ))}
+                </Modal>
+              </Group>
+            </Stack>
+          </Group>
         </Group>
-        <ButtonContainer align="center" spacing="md">
+        <Group align="center" spacing="md" mb={rem(20)}>
           <Button
             onClick={submitApproveGitPOAPRequest}
             loading={approveStatus === ButtonStatus.LOADING}
-            disabled={
-              approveStatus === ButtonStatus.LOADING || rejectStatus === ButtonStatus.LOADING
-            }
+            disabled={areButtonsDisabled}
+            leftIcon={<ButtonIcon status={approveStatus} />}
           >
             {'Approve'}
           </Button>
           <Button
+            variant="outline"
             onClick={submitRejectGitPOAPRequest}
             loading={rejectStatus === ButtonStatus.LOADING}
-            disabled={
-              approveStatus === ButtonStatus.LOADING || rejectStatus === ButtonStatus.LOADING
-            }
+            disabled={areButtonsDisabled}
+            leftIcon={<ButtonIcon status={rejectStatus} />}
           >
             {'Reject'}
           </Button>
-        </ButtonContainer>
-      </Group>
+        </Group>
+      </Stack>
       <Divider />
     </>
   );

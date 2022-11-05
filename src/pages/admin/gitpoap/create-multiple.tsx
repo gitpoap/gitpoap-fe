@@ -10,7 +10,7 @@ const CreateMultipleForm: Page = () => {
   const isAdmin = useIsAdmin();
 
   return (
-    <Grid justify="center" style={{ marginTop: rem(20) }}>
+    <Grid justify="center" mt={rem(20)}>
       <Head>
         <title>{'Create Multiple GitPOAPs | GitPOAP'}</title>
         <meta name="description" content="GitPOAP Admin" />

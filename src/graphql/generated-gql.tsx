@@ -691,20 +691,20 @@ export type EmailWhereInput = {
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
-export type EnumAdminApprovalStatusNullableFilter = {
+export type EnumAdminApprovalStatusFilter = {
   equals?: InputMaybe<AdminApprovalStatus>;
   in?: InputMaybe<Array<AdminApprovalStatus>>;
-  not?: InputMaybe<NestedEnumAdminApprovalStatusNullableFilter>;
+  not?: InputMaybe<NestedEnumAdminApprovalStatusFilter>;
   notIn?: InputMaybe<Array<AdminApprovalStatus>>;
 };
 
-export type EnumAdminApprovalStatusNullableWithAggregatesFilter = {
-  _count?: InputMaybe<NestedIntNullableFilter>;
-  _max?: InputMaybe<NestedEnumAdminApprovalStatusNullableFilter>;
-  _min?: InputMaybe<NestedEnumAdminApprovalStatusNullableFilter>;
+export type EnumAdminApprovalStatusWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumAdminApprovalStatusFilter>;
+  _min?: InputMaybe<NestedEnumAdminApprovalStatusFilter>;
   equals?: InputMaybe<AdminApprovalStatus>;
   in?: InputMaybe<Array<AdminApprovalStatus>>;
-  not?: InputMaybe<NestedEnumAdminApprovalStatusNullableWithAggregatesFilter>;
+  not?: InputMaybe<NestedEnumAdminApprovalStatusWithAggregatesFilter>;
   notIn?: InputMaybe<Array<AdminApprovalStatus>>;
 };
 
@@ -1313,7 +1313,7 @@ export type GitPoapRequest = {
   __typename?: 'GitPOAPRequest';
   address: Address;
   addressId: Scalars['Int'];
-  adminApprovalStatus?: Maybe<AdminApprovalStatus>;
+  adminApprovalStatus: AdminApprovalStatus;
   contributors: Scalars['JSON'];
   createdAt: Scalars['DateTime'];
   description: Scalars['String'];
@@ -1433,7 +1433,7 @@ export type GitPoapRequestGroupBy = {
   _min?: Maybe<GitPoapRequestMinAggregate>;
   _sum?: Maybe<GitPoapRequestSumAggregate>;
   addressId: Scalars['Int'];
-  adminApprovalStatus?: Maybe<AdminApprovalStatus>;
+  adminApprovalStatus: AdminApprovalStatus;
   contributors: Scalars['JSON'];
   createdAt: Scalars['DateTime'];
   description: Scalars['String'];
@@ -1677,7 +1677,7 @@ export type GitPoapRequestScalarWhereWithAggregatesInput = {
   NOT?: InputMaybe<Array<GitPoapRequestScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<GitPoapRequestScalarWhereWithAggregatesInput>>;
   addressId?: InputMaybe<IntWithAggregatesFilter>;
-  adminApprovalStatus?: InputMaybe<EnumAdminApprovalStatusNullableWithAggregatesFilter>;
+  adminApprovalStatus?: InputMaybe<EnumAdminApprovalStatusWithAggregatesFilter>;
   contributors?: InputMaybe<JsonWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   description?: InputMaybe<StringWithAggregatesFilter>;
@@ -1734,7 +1734,7 @@ export type GitPoapRequestWhereInput = {
   OR?: InputMaybe<Array<GitPoapRequestWhereInput>>;
   address?: InputMaybe<AddressRelationFilter>;
   addressId?: InputMaybe<IntFilter>;
-  adminApprovalStatus?: InputMaybe<EnumAdminApprovalStatusNullableFilter>;
+  adminApprovalStatus?: InputMaybe<EnumAdminApprovalStatusFilter>;
   contributors?: InputMaybe<JsonFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   description?: InputMaybe<StringFilter>;
@@ -2849,20 +2849,20 @@ export type NestedDateTimeWithAggregatesFilter = {
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
-export type NestedEnumAdminApprovalStatusNullableFilter = {
+export type NestedEnumAdminApprovalStatusFilter = {
   equals?: InputMaybe<AdminApprovalStatus>;
   in?: InputMaybe<Array<AdminApprovalStatus>>;
-  not?: InputMaybe<NestedEnumAdminApprovalStatusNullableFilter>;
+  not?: InputMaybe<NestedEnumAdminApprovalStatusFilter>;
   notIn?: InputMaybe<Array<AdminApprovalStatus>>;
 };
 
-export type NestedEnumAdminApprovalStatusNullableWithAggregatesFilter = {
-  _count?: InputMaybe<NestedIntNullableFilter>;
-  _max?: InputMaybe<NestedEnumAdminApprovalStatusNullableFilter>;
-  _min?: InputMaybe<NestedEnumAdminApprovalStatusNullableFilter>;
+export type NestedEnumAdminApprovalStatusWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumAdminApprovalStatusFilter>;
+  _min?: InputMaybe<NestedEnumAdminApprovalStatusFilter>;
   equals?: InputMaybe<AdminApprovalStatus>;
   in?: InputMaybe<Array<AdminApprovalStatus>>;
-  not?: InputMaybe<NestedEnumAdminApprovalStatusNullableWithAggregatesFilter>;
+  not?: InputMaybe<NestedEnumAdminApprovalStatusWithAggregatesFilter>;
   notIn?: InputMaybe<Array<AdminApprovalStatus>>;
 };
 
@@ -6277,6 +6277,7 @@ export type GitPoapRequestsQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
   approvalStatus?: InputMaybe<AdminApprovalStatus>;
+  search?: InputMaybe<Scalars['Int']>;
 }>;
 
 export type GitPoapRequestsQuery = {
@@ -6293,6 +6294,7 @@ export type GitPoapRequestsQuery = {
     numRequestedCodes: number;
     email: string;
     contributors: any;
+    adminApprovalStatus: AdminApprovalStatus;
     project?: {
       __typename?: 'Project';
       repos: Array<{
@@ -6338,6 +6340,7 @@ export type UserGitPoapRequestsQuery = {
     numRequestedCodes: number;
     email: string;
     contributors: any;
+    adminApprovalStatus: AdminApprovalStatus;
     project?: {
       __typename?: 'Project';
       repos: Array<{
@@ -7674,11 +7677,16 @@ export function useTrendingReposQuery(
   });
 }
 export const GitPoapRequestsDocument = gql`
-  query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStatus) {
+  query gitPOAPRequests(
+    $take: Int
+    $skip: Int
+    $approvalStatus: AdminApprovalStatus
+    $search: Int
+  ) {
     gitPOAPRequests(
       take: $take
       skip: $skip
-      where: { adminApprovalStatus: { equals: $approvalStatus } }
+      where: { adminApprovalStatus: { equals: $approvalStatus }, id: { equals: $search } }
       orderBy: { adminApprovalStatus: desc }
     ) {
       id
@@ -7691,6 +7699,7 @@ export const GitPoapRequestsDocument = gql`
       numRequestedCodes
       email
       contributors
+      adminApprovalStatus
       project {
         repos(take: 1) {
           id
@@ -7757,6 +7766,7 @@ export const UserGitPoapRequestsDocument = gql`
       numRequestedCodes
       email
       contributors
+      adminApprovalStatus
       project {
         repos(take: 1) {
           id

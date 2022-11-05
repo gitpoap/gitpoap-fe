@@ -6,6 +6,7 @@ import {
   LeadersQuery,
   MostClaimedGitPoapsQuery,
   GitPoapEventQuery,
+  AdminApprovalStatus,
 } from '../../graphql/generated-gql';
 import { Holder } from '../../components/gitpoap/GitPOAPHolders';
 
@@ -519,3 +520,42 @@ export const gitPOAPEvent: GitPoapEventQuery = {
     },
   },
 };
+
+export const gitPOAPRequests = [
+  {
+    id: 10,
+    name: '2022 Custom GitPOAPs Release Contributor!',
+    description: "You're a contributor to the 2022 Custom GitPOAPs Release!",
+    imageKey: 'poap10.png-1666121881.581',
+    startDate: '2021-12-01',
+    endDate: '2022-01-01',
+    expiryDate: '2022-02-01',
+    numRequestedCodes: 100,
+    email: 'team@gitpoap.io',
+    adminApprovalStatus: AdminApprovalStatus.Pending,
+    contributors: {
+      githubHandles: ['peebeejay', 'burz'],
+      ethAddresses: ['0x1d82C486CC5f243F379F52B5eA7A205D091dc7C5'],
+      ensNames: ['nick.eth'],
+      emails: ['blah@gitpoap.io'],
+    },
+  },
+  {
+    id: 2,
+    name: '2022 GitPOAP Marketing Push Team Member!',
+    description: "This denotes that you're a contributor to the 2022 Marketing Push!",
+    imageKey: 'poap10.png-1666121881.581',
+    startDate: '2021-12-01',
+    endDate: '2022-01-01',
+    expiryDate: '2022-02-01',
+    numRequestedCodes: 27,
+    email: 'team@gitpoap.io',
+    adminApprovalStatus: AdminApprovalStatus.Pending,
+    contributors: {
+      githubHandles: ['peebeejay', 'burz', 'colfax23'],
+      ethAddresses: ['0x1d82C486CC5f243F379F52B5eA7A205D091dc7C5'],
+      ensNames: ['burz.eth', 'colfax.eth'],
+      emails: ['aldo@gitpoap.io', 'tyler@gitpoap.io'],
+    },
+  },
+];
