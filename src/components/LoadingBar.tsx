@@ -8,7 +8,7 @@ export const LoadingBar = () => {
       startPosition={0.3}
       stopDelayMs={200}
       height={2}
-      showOnShallow={true}
+      showOnShallow={false}
       options={{ showSpinner: false }}
     />
   );
