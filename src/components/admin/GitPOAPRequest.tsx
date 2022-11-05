@@ -45,7 +45,7 @@ export interface GitPOAPRequestType extends GitPOAPRequestRawType {
 }
 
 const Value = styled(Text)<TextProps>`
-  max-width: ${rem(600)};
+  max-width: ${rem(500)};
 `;
 
 const Label = styled(Text)<TextProps>`
