@@ -58,10 +58,10 @@ export const CheckEligibility = () => {
     if (isRouterReady && urlSearchQuery && searchValue === undefined) {
       setSearchValue(urlSearchQuery ?? '');
     } else if (debouncedSearch === '') {
-      router.replace('/eligibility', undefined, { shallow: true });
+      router.replace(router.pathname, undefined, { shallow: true });
     } else if (debouncedSearch && debouncedSearch.length > 0) {
       router.replace(
-        `/eligibility?search=${encodeURIComponent(debouncedSearch ?? '')}`,
+        `${router.pathname}?search=${encodeURIComponent(debouncedSearch ?? '')}`,
         undefined,
         {
           shallow: true,
@@ -90,7 +90,7 @@ export const CheckEligibility = () => {
       <Input
         mb={rem(40)}
         px={rem(15)}
-        style={{ marginBottom: rem(40), width: rem(500) }}
+        style={{ width: rem(500) }}
         placeholder={'VBUTERIN...'}
         value={searchValue ?? ''}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
