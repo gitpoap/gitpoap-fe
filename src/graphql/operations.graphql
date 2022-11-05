@@ -795,7 +795,7 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStat
     numRequestedCodes
     email
     contributors
-
+    adminApprovalStatus
     project {
       repos(take: 1) {
         id
