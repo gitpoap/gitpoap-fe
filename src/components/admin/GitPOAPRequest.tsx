@@ -23,6 +23,7 @@ import { useApi } from '../../hooks/useApi';
 import { GitPoapRequestsQuery } from '../../graphql/generated-gql';
 import { getS3URL } from '../../helpers';
 import { DateTime } from 'luxon';
+import { BsPeopleFill } from 'react-icons/bs';
 
 type Props = {
   gitPOAPRequest: GitPOAPRequestType;
@@ -60,8 +61,8 @@ const Divider = styled(DividerUI)`
 
 const RequestAttribute = ({ label, value }: { label: string; value: string | number }) => {
   return (
-    <Group spacing="sm" align="flex-start">
-      <Label>{label}</Label>
+    <Group spacing="xs" align="flex-start">
+      <Label weight="bold">{label}</Label>
       <Value>{value}</Value>
     </Group>
   );
@@ -167,7 +168,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
             </Popover.Dropdown>
           </Popover>
           <Group align="start" spacing="sm">
-            <Stack>
+            <Stack spacing="xs">
               <RequestAttribute label="Name:" value={gitPOAPRequest.name} />
               <RequestAttribute label="Description:" value={gitPOAPRequest.description} />
               <RequestAttribute label="Email:" value={gitPOAPRequest.email} />
@@ -192,7 +193,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
                 </Group>
               )}
             </Stack>
-            <Stack>
+            <Stack spacing="xs">
               <RequestAttribute
                 label="Start Date:"
                 value={DateTime.fromISO(gitPOAPRequest.startDate).toFormat('yyyy-MM-dd')}
@@ -208,26 +209,39 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
               <RequestAttribute label="Request Codes:" value={gitPOAPRequest.numRequestedCodes} />
 
               <Group spacing="sm">
-                <Value variant="link" onClick={openContributorModal} underline={false}>
-                  {'Show Contributors'}
-                </Value>
+                <Button onClick={openContributorModal} leftIcon={<BsPeopleFill />}>
+                  {'Contributors'}
+                </Button>
                 <Modal
                   centered
                   opened={isContributorModalOpen}
                   onClose={closeContributorModal}
-                  title={<Header size={30}>{'Contributors'}</Header>}
+                  title={<Header style={{ fontSize: rem(30) }}>{'Contributors'}</Header>}
                 >
+                  <Text weight="bold">{'GitHub Handles:'}</Text>
                   {githubHandles?.map((githubHandle) => (
                     <Text key={githubHandle}>{githubHandle}</Text>
                   ))}
+
+                  <Text weight="bold" mt={rem(16)}>
+                    {'ETH Addresses:'}
+                  </Text>
                   {ethAddresses?.map((ethAddress) => (
                     <Text key={ethAddress}>{ethAddress}</Text>
                   ))}
+
+                  <Text weight="bold" mt={rem(16)}>
+                    {'ENS Names:'}
+                  </Text>
                   {ensNames?.map((ensName) => (
                     <Text key={ensName}>{ensName}</Text>
                   ))}
+
+                  <Text weight="bold" mt={rem(16)}>
+                    {'Emails:'}
+                  </Text>
                   {emails?.map((email) => (
-                    <p key={email}>{email}</p>
+                    <Text key={email}>{email}</Text>
                   ))}
                 </Modal>
               </Group>
