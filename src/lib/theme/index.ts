@@ -7,6 +7,7 @@ import { datePickerTheme } from './datePickerThemes';
 import { textTheme } from './textThemes';
 import { tooltipThemes } from './tooltipThemes';
 import { paginationThemes } from './paginationThemes';
+import { badgeThemes } from './badgeThemes';
 
 export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
@@ -18,6 +19,7 @@ export const theme: MantineProviderProps['theme'] = {
     Text: textTheme,
     Tooltip: tooltipThemes,
     Pagination: paginationThemes,
+    Badge: badgeThemes,
     Modal: {
       defaultProps: {
         overlayColor: Black,
