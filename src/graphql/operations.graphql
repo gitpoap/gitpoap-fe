@@ -778,11 +778,12 @@ query trendingRepos($count: Float!, $numDays: Float!) {
   }
 }
 
-query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStatus) {
+query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStatus, $search: Int) {
   gitPOAPRequests(
     take: $take
     skip: $skip
-    where: { adminApprovalStatus: { equals: $approvalStatus } }
+    # where clause that adds a search filter if its present, but omits it if it is undefined
+    where: { adminApprovalStatus: { equals: $approvalStatus }, id: { equals: $search } }
     orderBy: { adminApprovalStatus: desc }
   ) {
     id

@@ -6277,6 +6277,7 @@ export type GitPoapRequestsQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
   approvalStatus?: InputMaybe<AdminApprovalStatus>;
+  search?: InputMaybe<Scalars['Int']>;
 }>;
 
 export type GitPoapRequestsQuery = {
@@ -7675,11 +7676,16 @@ export function useTrendingReposQuery(
   });
 }
 export const GitPoapRequestsDocument = gql`
-  query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStatus) {
+  query gitPOAPRequests(
+    $take: Int
+    $skip: Int
+    $approvalStatus: AdminApprovalStatus
+    $search: Int
+  ) {
     gitPOAPRequests(
       take: $take
       skip: $skip
-      where: { adminApprovalStatus: { equals: $approvalStatus } }
+      where: { adminApprovalStatus: { equals: $approvalStatus }, id: { equals: $search } }
       orderBy: { adminApprovalStatus: desc }
     ) {
       id
