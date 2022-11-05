@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { rem } from 'polished';
 import { Group, Loader, Stack, Text, Pagination } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { useDebouncedValue, useMediaQuery } from '@mantine/hooks';
 import {
   useGitPoapRequestsQuery,
   useTotalGitPoapRequestsCountQuery,
@@ -13,7 +13,8 @@ import { Header } from '../../components/shared/elements/Header';
 import { TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { SelectOption } from '../shared/compounds/ItemList';
-import { Divider } from '../shared/elements';
+import { Divider, Input } from '../shared/elements';
+import { useRouter } from 'next/router';
 
 type QueryVars = {
   page: number;
@@ -29,12 +30,18 @@ const selectOptions: SelectOption<SortOptions>[] = [
 ];
 
 export const GitPOAPRequestList = () => {
+  const router = useRouter();
+  const isRouterReady = router.isReady;
+  const urlSearchQuery = router.query.search as string | undefined;
+  const [searchValue, setSearchValue] = useState<string | undefined>(undefined);
+  const [debouncedSearch] = useDebouncedValue(searchValue, 200);
+
   const [variables, setVariables] = useState<QueryVars>({
     page: 1,
-    perPage: 10,
+    perPage: 20,
   });
   const [filter, setFilter] = useState<SortOptions>('Pending');
-  const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
+  const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.lg)})`, false);
 
   const [totalCountResult] = useTotalGitPoapRequestsCountQuery({
     variables: {
@@ -46,6 +53,7 @@ export const GitPOAPRequestList = () => {
       take: variables.perPage,
       skip: (variables.page - 1) * variables.perPage,
       approvalStatus: AdminApprovalStatus[filter],
+      search: debouncedSearch ? parseInt(debouncedSearch, 10) : undefined,
     },
   });
 
@@ -64,6 +72,22 @@ export const GitPOAPRequestList = () => {
     }
   };
 
+  useEffect(() => {
+    if (isRouterReady && urlSearchQuery && searchValue === undefined) {
+      setSearchValue(urlSearchQuery ?? '');
+    } else if (debouncedSearch === '') {
+      router.replace(router.pathname, undefined, { shallow: true });
+    } else if (debouncedSearch && debouncedSearch.length > 0) {
+      router.replace(
+        `${router.pathname}?search=${encodeURIComponent(debouncedSearch ?? '')}`,
+        undefined,
+        {
+          shallow: true,
+        },
+      );
+    }
+  }, [isRouterReady, urlSearchQuery, searchValue, debouncedSearch]);
+
   const totalCount = totalCountResult.data?.aggregateGitPOAPRequest._count?.id ?? 0;
   const totalPage = totalCount / variables.perPage + 1;
   const gitPOAPRequests = result.data?.gitPOAPRequests;
@@ -73,8 +97,16 @@ export const GitPOAPRequestList = () => {
       <Stack align="center" justify="flex-start" spacing="sm" style={{ width: '100%' }}>
         <Group position="apart" align="center" grow style={{ width: '100%' }}>
           <Header style={{ alignSelf: 'start' }}>{'GitPOAP Requests'}</Header>
-
           <Group position="right" spacing="lg">
+            <Input
+              placeholder={'Request ID'}
+              value={searchValue ?? ''}
+              onChange={(e) => {
+                if ((e.target.value && /^\d+$/.test(e.target.value)) || e.target.value === '') {
+                  setSearchValue(e.target.value);
+                }
+              }}
+            />
             {!matchesBreakpointSmall && (
               <Text color={TextGray} transform="uppercase">
                 {'Filter By: '}
