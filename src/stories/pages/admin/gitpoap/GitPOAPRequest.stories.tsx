@@ -1,6 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { GitPOAPRequest } from '../../../../components/admin/GitPOAPRequest';
+import { AdminApprovalStatus } from '../../../../graphql/generated-gql';
 
 export default {
   title: 'Admin/GitPOAPRequest',
@@ -23,6 +24,7 @@ Default.args = {
     expiryDate: '2022-02-01',
     numRequestedCodes: 100,
     email: 'team@gitpoap.io',
+    adminApprovalStatus: AdminApprovalStatus.Pending,
     contributors: {
       githubHandles: ['peebeejay', 'burz'],
       ethAddresses: ['0x1d82C486CC5f243F379F52B5eA7A205D091dc7C5'],

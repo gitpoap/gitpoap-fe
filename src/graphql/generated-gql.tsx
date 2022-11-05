@@ -6340,6 +6340,7 @@ export type UserGitPoapRequestsQuery = {
     numRequestedCodes: number;
     email: string;
     contributors: any;
+    adminApprovalStatus: AdminApprovalStatus;
     project?: {
       __typename?: 'Project';
       repos: Array<{
@@ -7765,6 +7766,7 @@ export const UserGitPoapRequestsDocument = gql`
       numRequestedCodes
       email
       contributors
+      adminApprovalStatus
       project {
         repos(take: 1) {
           id

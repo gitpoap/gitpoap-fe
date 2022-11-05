@@ -844,7 +844,7 @@ query userGitPOAPRequests(
     numRequestedCodes
     email
     contributors
-
+    adminApprovalStatus
     project {
       repos(take: 1) {
         id
