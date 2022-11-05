@@ -60,3 +60,7 @@ export const fetchWithToken = async (url: string, token: string | null) => {
 
   return await response.json();
 };
+
+export function getS3URL(bucket: string, key: string): string {
+  return `https://${bucket}.s3.us-east-2.amazonaws.com/${key}`;
+}
