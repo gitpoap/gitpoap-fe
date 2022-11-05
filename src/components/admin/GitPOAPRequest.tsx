@@ -24,6 +24,8 @@ import { GitPoapRequestsQuery } from '../../graphql/generated-gql';
 import { getS3URL } from '../../helpers';
 import { DateTime } from 'luxon';
 import { BsPeopleFill } from 'react-icons/bs';
+import { FaCheckCircle } from 'react-icons/fa';
+import { MdError } from 'react-icons/md';
 
 type Props = {
   gitPOAPRequest: GitPOAPRequestType;
@@ -68,6 +70,14 @@ const RequestAttribute = ({ label, value }: { label: string; value: string | num
   );
 };
 
+const ButtonIcon = ({ status }: { status: ButtonStatus }) => {
+  return status === ButtonStatus.SUCCESS ? (
+    <FaCheckCircle size={18} />
+  ) : status === ButtonStatus.ERROR ? (
+    <MdError size={18} />
+  ) : null;
+};
+
 export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const api = useApi();
 
@@ -87,6 +97,12 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const ethAddresses = contributors.ethAddresses;
   const ensNames = contributors.ensNames;
   const emails = contributors.emails;
+
+  const areButtonsDisabled =
+    approveStatus === ButtonStatus.LOADING ||
+    rejectStatus === ButtonStatus.LOADING ||
+    approveStatus === ButtonStatus.SUCCESS ||
+    rejectStatus === ButtonStatus.SUCCESS;
 
   const submitApproveGitPOAPRequest = useCallback(async () => {
     setApproveStatus(ButtonStatus.LOADING);
@@ -252,9 +268,8 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
           <Button
             onClick={submitApproveGitPOAPRequest}
             loading={approveStatus === ButtonStatus.LOADING}
-            disabled={
-              approveStatus === ButtonStatus.LOADING || rejectStatus === ButtonStatus.LOADING
-            }
+            disabled={areButtonsDisabled}
+            leftIcon={<ButtonIcon status={approveStatus} />}
           >
             {'Approve'}
           </Button>
@@ -262,9 +277,8 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
             variant="outline"
             onClick={submitRejectGitPOAPRequest}
             loading={rejectStatus === ButtonStatus.LOADING}
-            disabled={
-              approveStatus === ButtonStatus.LOADING || rejectStatus === ButtonStatus.LOADING
-            }
+            disabled={areButtonsDisabled}
+            leftIcon={<ButtonIcon status={rejectStatus} />}
           >
             {'Reject'}
           </Button>
