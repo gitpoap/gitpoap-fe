@@ -21,11 +21,10 @@ type QueryVars = {
   perPage: number;
 };
 
-type SortOptions = 'Pending' | 'Approved' | 'Rejected';
+type SortOptions = 'Pending' | 'Rejected';
 
 const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'Pending', label: 'PENDING' },
-  { value: 'Approved', label: 'APPROVED' },
   { value: 'Rejected', label: 'REJECTED' },
 ];
 
@@ -48,13 +47,15 @@ export const GitPOAPRequestList = () => {
       approvalStatus: AdminApprovalStatus[filter],
     },
   });
-  const [result] = useGitPoapRequestsQuery({
+  const [result, refetch] = useGitPoapRequestsQuery({
     variables: {
       take: variables.perPage,
       skip: (variables.page - 1) * variables.perPage,
       approvalStatus: AdminApprovalStatus[filter],
       search: debouncedSearch ? parseInt(debouncedSearch, 10) : undefined,
     },
+    pause: false,
+    requestPolicy: 'network-only',
   });
 
   const handlePageChange = useCallback(
@@ -71,6 +72,12 @@ export const GitPOAPRequestList = () => {
       setFilter(filterValue as SortOptions);
     }
   };
+
+  useEffect(() => {
+    if (isRouterReady && filter) {
+      refetch();
+    }
+  }, [filter, refetch, isRouterReady]);
 
   useEffect(() => {
     if (isRouterReady && urlSearchQuery && searchValue === undefined) {
@@ -122,7 +129,9 @@ export const GitPOAPRequestList = () => {
           </Group>
         )}
         {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
-          <Text>{'No GitPOAP Requests Found'}</Text>
+          <Text mt={rem(20)} size={18}>
+            {'No GitPOAP Requests Found'}
+          </Text>
         )}
         <Stack style={{ width: '100%' }}>
           {!result.fetching &&
