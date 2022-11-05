@@ -19,6 +19,12 @@ const moduleExports = {
     styledComponents: true,
   },
   images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.s3.us-east-2.amazonaws.com',
+      },
+    ],
     domains: [
       'assets.poap.xyz',
       'poap.xyz',
@@ -27,10 +33,10 @@ const moduleExports = {
       'githubusercontent.com',
       'avatars.githubusercontent.com',
       'lh3.googleusercontent.com',
-      's3.us-east-2.amazonaws.com',
-      'ens-avatar-cache-prod.s3.us-east-2.amazonaws.com',
-      'ens-avatar-cache-test.s3.us-east-2.amazonaws.com',
     ],
+  },
+  sentry: {
+    hideSourceMaps: true,
   },
   async redirects() {
     return [
