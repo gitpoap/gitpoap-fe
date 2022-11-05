@@ -17,10 +17,10 @@ import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
 import { Header } from '../shared/elements/Header';
 import { Link } from '../shared/compounds/Link';
 import { ButtonStatus } from './SubmitButtonRow';
-import { BackgroundPanel2, PrimaryBlue, TextGray } from '../../colors';
+import { BackgroundPanel2, ExtraRedDark, PrimaryBlue, TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { useApi } from '../../hooks/useApi';
-import { GitPoapRequestsQuery } from '../../graphql/generated-gql';
+import { AdminApprovalStatus, GitPoapRequestsQuery } from '../../graphql/generated-gql';
 import { getS3URL } from '../../helpers';
 import { DateTime } from 'luxon';
 import { BsPeopleFill } from 'react-icons/bs';
@@ -76,6 +76,20 @@ const ButtonIcon = ({ status }: { status: ButtonStatus }) => {
   ) : status === ButtonStatus.ERROR ? (
     <MdError size={18} />
   ) : null;
+};
+
+const RequestStatusBadge = ({ status }: { status: AdminApprovalStatus }) => {
+  return (
+    <Badge
+      size="sm"
+      variant="filled"
+      style={{
+        backgroundColor: status === AdminApprovalStatus.Rejected ? ExtraRedDark : PrimaryBlue,
+      }}
+    >
+      {status}
+    </Badge>
+  );
 };
 
 export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
@@ -135,9 +149,7 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
       <Stack>
         <Group mb={rem(10)} position="left">
           <Text size={12}>{`Request ID: ${gitPOAPRequest.id}`}</Text>
-          <Badge size="sm" variant="filled" style={{ backgroundColor: PrimaryBlue }}>
-            {gitPOAPRequest.adminApprovalStatus}
-          </Badge>
+          <RequestStatusBadge status={gitPOAPRequest.adminApprovalStatus} />
         </Group>
         <Group align="center" position="left" spacing="md" mb={rem(20)}>
           <Popover
