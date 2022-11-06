@@ -7,7 +7,7 @@ import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { GitPOAPRequestList } from '../../../components/admin/GitPOAPRequestList';
 import { useIsAdmin } from '../../../hooks/useIsAdmin';
 
-const GitPOAPRequestsDashboard: NextPage = () => {
+const AdminGitPOAPRequests: NextPage = () => {
   const isAdmin = useIsAdmin();
 
   return (
@@ -25,4 +25,4 @@ const GitPOAPRequestsDashboard: NextPage = () => {
   );
 };
 
-export default GitPOAPRequestsDashboard;
+export default AdminGitPOAPRequests;
