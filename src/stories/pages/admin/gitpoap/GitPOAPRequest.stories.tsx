@@ -1,15 +1,15 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { GitPOAPRequest } from '../../../../components/admin/GitPOAPRequest';
+import { AdminGitPOAPRequest } from '../../../../components/admin/requests/AdminGitPOAPRequest';
 import { gitPOAPRequests } from '../../../data';
 
 export default {
   title: 'Admin/GitPOAPRequest',
-  component: GitPOAPRequest,
-} as ComponentMeta<typeof GitPOAPRequest>;
+  component: AdminGitPOAPRequest,
+} as ComponentMeta<typeof AdminGitPOAPRequest>;
 
-const Template: ComponentStory<typeof GitPOAPRequest> = (args) => {
-  return <GitPOAPRequest {...args} />;
+const Template: ComponentStory<typeof AdminGitPOAPRequest> = (args) => {
+  return <AdminGitPOAPRequest {...args} />;
 };
 
 export const Default = Template.bind({});

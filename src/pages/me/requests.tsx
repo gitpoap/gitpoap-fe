@@ -1,7 +1,7 @@
 import { Center, Grid, Loader, Stack } from '@mantine/core';
 import { Page } from '../_app';
 import { SEO } from '../../components/shared/compounds/SEO';
-import { UserGitPOAPRequestList } from '../../components/settings/UserGitPOAPRequestList';
+import { UserGitPOAPRequestList } from '../../components/request/UserGitPOAPRequestList';
 import { useWeb3Context } from '../../components/wallet/Web3Context';
 import { Button, Header } from '../../components/shared/elements';
 import { ProfileProvider } from '../../components/profile/ProfileContext';

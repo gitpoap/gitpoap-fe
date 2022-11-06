@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Stack, Group, Divider as DividerUI } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { Text } from '../shared/elements';
-import { StatusButton } from '../shared/compounds/StatusButton';
-import { ButtonStatus } from './SubmitButtonRow';
-import { BackgroundPanel2 } from '../../colors';
-import { useApi } from '../../hooks/useApi';
-import { RequestStatusBadge } from '../request/RequestItem/RequestStatusBadge';
-import { GitPOAPBadgePopover } from '../request/RequestItem/GitPOAPBadgePopover';
-import { GitPOAPRequestType, RequestData } from '../request/RequestItem/RequestData';
+import { Text } from '../../shared/elements';
+import { StatusButton } from '../../shared/compounds/StatusButton';
+import { ButtonStatus } from '../SubmitButtonRow';
+import { BackgroundPanel2 } from '../../../colors';
+import { useApi } from '../../../hooks/useApi';
+import { RequestStatusBadge } from '../../request/RequestItem/RequestStatusBadge';
+import { GitPOAPBadgePopover } from '../../request/RequestItem/GitPOAPBadgePopover';
+import { GitPOAPRequestType, RequestData } from '../../request/RequestItem/RequestData';
 
 type Props = {
   gitPOAPRequest: GitPOAPRequestType;

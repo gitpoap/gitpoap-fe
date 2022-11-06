@@ -5,9 +5,9 @@ import { Stack, Group, Divider as DividerUI } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Text, Button } from '../shared/elements';
 import { BackgroundPanel2 } from '../../colors';
-import { GitPOAPBadgePopover } from '../request/RequestItem/GitPOAPBadgePopover';
-import { RequestStatusBadge } from '../request/RequestItem/RequestStatusBadge';
-import { GitPOAPRequestType, RequestData } from '../request/RequestItem/RequestData';
+import { GitPOAPBadgePopover } from './RequestItem/GitPOAPBadgePopover';
+import { RequestStatusBadge } from './RequestItem/RequestStatusBadge';
+import { GitPOAPRequestType, RequestData } from './RequestItem/RequestData';
 import { Link } from '../shared/compounds/Link';
 
 type Props = {

@@ -4,7 +4,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Grid } from '@mantine/core';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
-import { GitPOAPRequestList } from '../../../components/admin/GitPOAPRequestList';
+import { GitPOAPRequestList } from '../../../components/admin/requests/AdminGitPOAPRequestList';
 import { useIsAdmin } from '../../../hooks/useIsAdmin';
 
 const AdminGitPOAPRequests: NextPage = () => {

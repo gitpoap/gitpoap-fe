@@ -6,16 +6,16 @@ import {
   useGitPoapRequestsQuery,
   useTotalGitPoapRequestsCountQuery,
   AdminApprovalStatus,
-} from '../../graphql/generated-gql';
-import { AdminGitPOAPRequest } from './GitPOAPRequest';
-import { Select } from '../shared/elements/Select';
-import { Header } from '../shared/elements/Header';
-import { TextGray } from '../../colors';
-import { BREAKPOINTS } from '../../constants';
-import { SelectOption } from '../shared/compounds/ItemList';
-import { Divider, Input } from '../shared/elements';
+} from '../../../graphql/generated-gql';
+import { AdminGitPOAPRequest } from './AdminGitPOAPRequest';
+import { Select } from '../../shared/elements/Select';
+import { Header } from '../../shared/elements/Header';
+import { TextGray } from '../../../colors';
+import { BREAKPOINTS } from '../../../constants';
+import { SelectOption } from '../../shared/compounds/ItemList';
+import { Divider, Input } from '../../shared/elements';
 import { useRouter } from 'next/router';
-import { useUrlState } from '../../hooks/useUrlState';
+import { useUrlState } from '../../../hooks/useUrlState';
 
 type QueryVars = {
   page: number;
