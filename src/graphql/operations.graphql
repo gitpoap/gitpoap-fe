@@ -789,7 +789,7 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStat
     id
     name
     description
-    imageKey
+    imageUrl
     startDate
     endDate
     expiryDate
@@ -837,7 +837,7 @@ query userGitPOAPRequests(
     id
     name
     description
-    imageKey
+    imageUrl
     startDate
     endDate
     expiryDate

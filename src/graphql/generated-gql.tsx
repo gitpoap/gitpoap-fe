@@ -1324,7 +1324,7 @@ export type GitPoapRequest = {
   eventUrl: Scalars['String'];
   expiryDate: Scalars['DateTime'];
   id: Scalars['Int'];
-  imageKey: Scalars['String'];
+  imageUrl: Scalars['String'];
   isEnabled: Scalars['Boolean'];
   isPRBased: Scalars['Boolean'];
   level: Scalars['Int'];
@@ -1381,7 +1381,7 @@ export type GitPoapRequestCountAggregate = {
   eventUrl: Scalars['Int'];
   expiryDate: Scalars['Int'];
   id: Scalars['Int'];
-  imageKey: Scalars['Int'];
+  imageUrl: Scalars['Int'];
   isEnabled: Scalars['Int'];
   isPRBased: Scalars['Int'];
   level: Scalars['Int'];
@@ -1409,7 +1409,7 @@ export type GitPoapRequestCountOrderByAggregateInput = {
   eventUrl?: InputMaybe<SortOrder>;
   expiryDate?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  imageKey?: InputMaybe<SortOrder>;
+  imageUrl?: InputMaybe<SortOrder>;
   isEnabled?: InputMaybe<SortOrder>;
   isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
@@ -1443,7 +1443,7 @@ export type GitPoapRequestGroupBy = {
   eventUrl: Scalars['String'];
   expiryDate: Scalars['DateTime'];
   id: Scalars['Int'];
-  imageKey: Scalars['String'];
+  imageUrl: Scalars['String'];
   isEnabled: Scalars['Boolean'];
   isPRBased: Scalars['Boolean'];
   level: Scalars['Int'];
@@ -1477,7 +1477,7 @@ export type GitPoapRequestMaxAggregate = {
   eventUrl?: Maybe<Scalars['String']>;
   expiryDate?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
-  imageKey?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
   isEnabled?: Maybe<Scalars['Boolean']>;
   isPRBased?: Maybe<Scalars['Boolean']>;
   level?: Maybe<Scalars['Int']>;
@@ -1504,7 +1504,7 @@ export type GitPoapRequestMaxOrderByAggregateInput = {
   eventUrl?: InputMaybe<SortOrder>;
   expiryDate?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  imageKey?: InputMaybe<SortOrder>;
+  imageUrl?: InputMaybe<SortOrder>;
   isEnabled?: InputMaybe<SortOrder>;
   isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
@@ -1532,7 +1532,7 @@ export type GitPoapRequestMinAggregate = {
   eventUrl?: Maybe<Scalars['String']>;
   expiryDate?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
-  imageKey?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
   isEnabled?: Maybe<Scalars['Boolean']>;
   isPRBased?: Maybe<Scalars['Boolean']>;
   level?: Maybe<Scalars['Int']>;
@@ -1559,7 +1559,7 @@ export type GitPoapRequestMinOrderByAggregateInput = {
   eventUrl?: InputMaybe<SortOrder>;
   expiryDate?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  imageKey?: InputMaybe<SortOrder>;
+  imageUrl?: InputMaybe<SortOrder>;
   isEnabled?: InputMaybe<SortOrder>;
   isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
@@ -1596,7 +1596,7 @@ export type GitPoapRequestOrderByWithAggregationInput = {
   eventUrl?: InputMaybe<SortOrder>;
   expiryDate?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  imageKey?: InputMaybe<SortOrder>;
+  imageUrl?: InputMaybe<SortOrder>;
   isEnabled?: InputMaybe<SortOrder>;
   isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
@@ -1626,7 +1626,7 @@ export type GitPoapRequestOrderByWithRelationInput = {
   eventUrl?: InputMaybe<SortOrder>;
   expiryDate?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  imageKey?: InputMaybe<SortOrder>;
+  imageUrl?: InputMaybe<SortOrder>;
   isEnabled?: InputMaybe<SortOrder>;
   isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
@@ -1656,7 +1656,7 @@ export enum GitPoapRequestScalarFieldEnum {
   EventUrl = 'eventUrl',
   ExpiryDate = 'expiryDate',
   Id = 'id',
-  ImageKey = 'imageKey',
+  ImageUrl = 'imageUrl',
   IsEnabled = 'isEnabled',
   IsPrBased = 'isPRBased',
   Level = 'level',
@@ -1687,7 +1687,7 @@ export type GitPoapRequestScalarWhereWithAggregatesInput = {
   eventUrl?: InputMaybe<StringWithAggregatesFilter>;
   expiryDate?: InputMaybe<DateTimeWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
-  imageKey?: InputMaybe<StringWithAggregatesFilter>;
+  imageUrl?: InputMaybe<StringWithAggregatesFilter>;
   isEnabled?: InputMaybe<BoolWithAggregatesFilter>;
   isPRBased?: InputMaybe<BoolWithAggregatesFilter>;
   level?: InputMaybe<IntWithAggregatesFilter>;
@@ -1745,7 +1745,7 @@ export type GitPoapRequestWhereInput = {
   eventUrl?: InputMaybe<StringFilter>;
   expiryDate?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<IntFilter>;
-  imageKey?: InputMaybe<StringFilter>;
+  imageUrl?: InputMaybe<StringFilter>;
   isEnabled?: InputMaybe<BoolFilter>;
   isPRBased?: InputMaybe<BoolFilter>;
   level?: InputMaybe<IntFilter>;
@@ -6287,7 +6287,7 @@ export type GitPoapRequestsQuery = {
     id: number;
     name: string;
     description: string;
-    imageKey: string;
+    imageUrl: string;
     startDate: any;
     endDate: any;
     expiryDate: any;
@@ -6333,7 +6333,7 @@ export type UserGitPoapRequestsQuery = {
     id: number;
     name: string;
     description: string;
-    imageKey: string;
+    imageUrl: string;
     startDate: any;
     endDate: any;
     expiryDate: any;
@@ -7692,7 +7692,7 @@ export const GitPoapRequestsDocument = gql`
       id
       name
       description
-      imageKey
+      imageUrl
       startDate
       endDate
       expiryDate
@@ -7759,7 +7759,7 @@ export const UserGitPoapRequestsDocument = gql`
       id
       name
       description
-      imageKey
+      imageUrl
       startDate
       endDate
       expiryDate

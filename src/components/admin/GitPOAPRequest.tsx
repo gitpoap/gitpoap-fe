@@ -21,7 +21,6 @@ import { BackgroundPanel2, ExtraRedDark, PrimaryBlue, TextGray } from '../../col
 import { BREAKPOINTS } from '../../constants';
 import { useApi } from '../../hooks/useApi';
 import { AdminApprovalStatus, GitPoapRequestsQuery } from '../../graphql/generated-gql';
-import { getS3URL } from '../../helpers';
 import { DateTime } from 'luxon';
 import { BsPeopleFill } from 'react-icons/bs';
 import { FaCheckCircle } from 'react-icons/fa';
@@ -171,27 +170,15 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
             <Popover.Target>
               <Box onMouseEnter={openImagePopover} onMouseLeave={closeImagePopover}>
                 {matchesBreakpointSmall ? (
-                  <GitPOAPBadge
-                    imgUrl={getS3URL('gitpoap-request-images-test', gitPOAPRequest.imageKey)}
-                    altText="preview"
-                    size={'md'}
-                  />
+                  <GitPOAPBadge imgUrl={gitPOAPRequest.imageUrl} altText="preview" size="md" />
                 ) : (
-                  <GitPOAPBadge
-                    imgUrl={getS3URL('gitpoap-request-images-test', gitPOAPRequest.imageKey)}
-                    altText="preview"
-                    size={'sm'}
-                  />
+                  <GitPOAPBadge imgUrl={gitPOAPRequest.imageUrl} altText="preview" size="sm" />
                 )}
               </Box>
             </Popover.Target>
             <Popover.Dropdown>
               <Group>
-                <GitPOAPBadge
-                  imgUrl={getS3URL('gitpoap-request-images-test', gitPOAPRequest.imageKey)}
-                  altText="preview"
-                  size={'lg'}
-                />
+                <GitPOAPBadge imgUrl={gitPOAPRequest.imageUrl} altText="preview" size="lg" />
               </Group>
             </Popover.Dropdown>
           </Popover>

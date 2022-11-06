@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Stack, Group, Divider as DividerUI, Popover, Modal, TextProps } from '@mantine/core';
+import { Stack, Group, Divider as DividerUI, Popover, Modal, TextProps, Box } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Text, Button } from '../../components/shared/elements';
 import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
@@ -9,7 +9,6 @@ import { Header } from '../shared/elements/Header';
 import { Link } from '../shared/compounds/Link';
 import { BackgroundPanel2, TextLight, TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
-import { useApi } from '../../hooks/useApi';
 import { GitPoapRequestsQuery } from '../../graphql/generated-gql';
 
 type ContributorsType = {
@@ -56,13 +55,7 @@ const ButtonContainer = styled(Stack)`
   }
 `;
 
-const generateS3ImageUrl = (imageKey: string): string => {
-  return `https://s3.us-east-2.amazonaws.com/${imageKey}`;
-};
-
 export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
-  const api = useApi();
-
   const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
     useDisclosure(false);
   const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
@@ -92,29 +85,17 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
           radius="lg"
         >
           <Popover.Target>
-            <div onMouseEnter={openImagePopover} onMouseLeave={closeImagePopover}>
+            <Box onMouseEnter={openImagePopover} onMouseLeave={closeImagePopover}>
               {matchesBreakpointSmall ? (
-                <GitPOAPBadge
-                  imgUrl={generateS3ImageUrl(gitPOAPRequest.imageKey)}
-                  altText="preview"
-                  size={'md'}
-                />
+                <GitPOAPBadge imgUrl={gitPOAPRequest.imageUrl} altText="preview" size="md" />
               ) : (
-                <GitPOAPBadge
-                  imgUrl={generateS3ImageUrl(gitPOAPRequest.imageKey)}
-                  altText="preview"
-                  size={'sm'}
-                />
+                <GitPOAPBadge imgUrl={gitPOAPRequest.imageUrl} altText="preview" size="sm" />
               )}
-            </div>
+            </Box>
           </Popover.Target>
           <Popover.Dropdown>
             <Group>
-              <GitPOAPBadge
-                imgUrl={generateS3ImageUrl(gitPOAPRequest.imageKey)}
-                altText="preview"
-                size={'lg'}
-              />
+              <GitPOAPBadge imgUrl={gitPOAPRequest.imageUrl} altText="preview" size="lg" />
             </Group>
           </Popover.Dropdown>
         </Popover>
