@@ -1,20 +1,21 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { rem } from 'polished';
-import { Group, Loader, Stack, Text, Pagination } from '@mantine/core';
-import { useDebouncedValue, useMediaQuery } from '@mantine/hooks';
+import { Group, Stack, Text, Pagination } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import {
   useGitPoapRequestsQuery,
   useTotalGitPoapRequestsCountQuery,
   AdminApprovalStatus,
-} from '../../graphql/generated-gql';
-import { GitPOAPRequest } from './GitPOAPRequest';
-import { Select } from '../../components/shared/elements/Select';
-import { Header } from '../../components/shared/elements/Header';
-import { TextGray } from '../../colors';
-import { BREAKPOINTS } from '../../constants';
-import { SelectOption } from '../shared/compounds/ItemList';
-import { Divider, Input } from '../shared/elements';
+} from '../../../graphql/generated-gql';
+import { AdminGitPOAPRequest } from './AdminGitPOAPRequest';
+import { Select } from '../../shared/elements/Select';
+import { Header } from '../../shared/elements/Header';
+import { TextGray } from '../../../colors';
+import { BREAKPOINTS } from '../../../constants';
+import { SelectOption } from '../../shared/compounds/ItemList';
+import { Divider, Input } from '../../shared/elements';
 import { useRouter } from 'next/router';
+import { useUrlState } from '../../../hooks/useUrlState';
 
 type QueryVars = {
   page: number;
@@ -31,10 +32,7 @@ const selectOptions: SelectOption<SortOptions>[] = [
 export const GitPOAPRequestList = () => {
   const router = useRouter();
   const isRouterReady = router.isReady;
-  const urlSearchQuery = router.query.search as string | undefined;
-  const [searchValue, setSearchValue] = useState<string | undefined>(undefined);
-  const [debouncedSearch] = useDebouncedValue(searchValue, 200);
-
+  const { value, setValue, debouncedValue } = useUrlState('search');
   const [variables, setVariables] = useState<QueryVars>({
     page: 1,
     perPage: 20,
@@ -52,7 +50,7 @@ export const GitPOAPRequestList = () => {
       take: variables.perPage,
       skip: (variables.page - 1) * variables.perPage,
       approvalStatus: AdminApprovalStatus[filter],
-      search: debouncedSearch ? parseInt(debouncedSearch, 10) : undefined,
+      search: debouncedValue ? parseInt(debouncedValue, 10) : undefined,
     },
     pause: false,
     requestPolicy: 'network-only',
@@ -79,22 +77,6 @@ export const GitPOAPRequestList = () => {
     }
   }, [filter, refetch, isRouterReady]);
 
-  useEffect(() => {
-    if (isRouterReady && urlSearchQuery && searchValue === undefined) {
-      setSearchValue(urlSearchQuery ?? '');
-    } else if (debouncedSearch === '') {
-      router.replace(router.pathname, undefined, { shallow: true });
-    } else if (debouncedSearch && debouncedSearch.length > 0) {
-      router.replace(
-        `${router.pathname}?search=${encodeURIComponent(debouncedSearch ?? '')}`,
-        undefined,
-        {
-          shallow: true,
-        },
-      );
-    }
-  }, [isRouterReady, urlSearchQuery, searchValue, debouncedSearch]);
-
   const totalCount = totalCountResult.data?.aggregateGitPOAPRequest._count?.id ?? 0;
   const totalPage = totalCount / variables.perPage + 1;
   const gitPOAPRequests = result.data?.gitPOAPRequests;
@@ -107,10 +89,10 @@ export const GitPOAPRequestList = () => {
           <Group position="right" spacing="lg">
             <Input
               placeholder={'Request ID'}
-              value={searchValue ?? ''}
+              value={value}
               onChange={(e) => {
                 if ((e.target.value && /^\d+$/.test(e.target.value)) || e.target.value === '') {
-                  setSearchValue(e.target.value);
+                  setValue(e.target.value);
                 }
               }}
             />
@@ -123,11 +105,6 @@ export const GitPOAPRequestList = () => {
           </Group>
         </Group>
         <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
-        {result.fetching && (
-          <Group position="center" align="center" grow>
-            <Loader size="xl" variant="dots" />
-          </Group>
-        )}
         {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
           <Text mt={rem(20)} size={18}>
             {'No GitPOAP Requests Found'}
@@ -138,7 +115,7 @@ export const GitPOAPRequestList = () => {
             gitPOAPRequests &&
             gitPOAPRequests.length > 0 &&
             gitPOAPRequests.map((gitPOAPRequest) => (
-              <GitPOAPRequest key={gitPOAPRequest.id} gitPOAPRequest={gitPOAPRequest} />
+              <AdminGitPOAPRequest key={gitPOAPRequest.id} gitPOAPRequest={gitPOAPRequest} />
             ))}
         </Stack>
         {totalCount > variables.perPage && (

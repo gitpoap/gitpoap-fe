@@ -45,7 +45,7 @@ export const GitPOAPs = ({ address }: Props) => {
   const [gitPOAPItems, setGitPOAPItems] = useState<GitPOAPItems>([]);
   const [total, setTotal] = useState<number>();
   const [searchValue, setSearchValue] = useState('');
-  const perPage = 12;
+  const perPage = 18;
   const isCurrentUser = user?.address === address;
 
   const [result] = useGitPoapsQuery({
@@ -85,7 +85,7 @@ export const GitPOAPs = ({ address }: Props) => {
 
   return (
     <ItemList
-      mb={rem(50)}
+      mb={rem(30)}
       title={`GitPOAPs: ${total ?? ''}`}
       selectOptions={selectOptions}
       selectValue={sort}
@@ -109,7 +109,7 @@ export const GitPOAPs = ({ address }: Props) => {
         setSearchValue(e.target.value)
       }
     >
-      <Grid align="start" mb={rem(40)} gutter={50}>
+      <Grid align="start" mb={rem(30)} gutter={50}>
         {result.fetching && !result.operation && (
           <>
             {[...Array(5)].map((_, i) => {

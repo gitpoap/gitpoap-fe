@@ -789,7 +789,7 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStat
     id
     name
     description
-    imageKey
+    imageUrl
     startDate
     endDate
     expiryDate
@@ -824,6 +824,7 @@ query userGitPOAPRequests(
   $skip: Int
   $approvalStatus: AdminApprovalStatus
   $address: String
+  $search: Int
 ) {
   gitPOAPRequests(
     take: $take
@@ -831,13 +832,14 @@ query userGitPOAPRequests(
     where: {
       adminApprovalStatus: { equals: $approvalStatus }
       address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
+      id: { equals: $search }
     }
     orderBy: { adminApprovalStatus: desc }
   ) {
     id
     name
     description
-    imageKey
+    imageUrl
     startDate
     endDate
     expiryDate

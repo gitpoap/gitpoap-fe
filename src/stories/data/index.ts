@@ -526,7 +526,8 @@ export const gitPOAPRequests = [
     id: 10,
     name: '2022 Custom GitPOAPs Release Contributor!',
     description: "You're a contributor to the 2022 Custom GitPOAPs Release!",
-    imageKey: 'poap10.png-1666121881.581',
+    imageUrl:
+      'https://gitpoap-request-images-test.s3.us-east-2.amazonaws.com/gitpoap-test-2.png-1666121850.987',
     startDate: '2021-12-01',
     endDate: '2022-01-01',
     expiryDate: '2022-02-01',
@@ -544,7 +545,8 @@ export const gitPOAPRequests = [
     id: 2,
     name: '2022 GitPOAP Marketing Push Team Member!',
     description: "This denotes that you're a contributor to the 2022 Marketing Push!",
-    imageKey: 'poap10.png-1666121881.581',
+    imageUrl:
+      'https://gitpoap-request-images-test.s3.us-east-2.amazonaws.com/gitpoap-test-1.png-1666121850.987',
     startDate: '2021-12-01',
     endDate: '2022-01-01',
     expiryDate: '2022-02-01',

@@ -30,6 +30,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
   const isAdmin = useIsAdmin();
+  const hasGitPOAPRequests = false;
 
   return (
     <Group position="center" align="center">
@@ -61,6 +62,11 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               <Menu.Item component={NextLink} href={`/p/${ensName ?? address}`}>
                 {'Profile'}
               </Menu.Item>
+              {hasGitPOAPRequests && (
+                <Menu.Item component={NextLink} href={'/me/requests'}>
+                  {'Requests'}
+                </Menu.Item>
+              )}
               <Menu.Item component={NextLink} href="/settings">
                 {'Settings'}
               </Menu.Item>

@@ -61,7 +61,7 @@ export class GitPOAPRequestAPI extends API {
       return null;
     }
 
-    Notifications.success(`Success - GitPOAPRequest Created - ${values.name}`);
+    Notifications.success(`Success - Created GitPOAP Request - ${values.name}`);
 
     return true;
   }
@@ -70,11 +70,11 @@ export class GitPOAPRequestAPI extends API {
     const res = await makeAPIRequestWithAuth(`/gitpoaps/custom/approve/${id}`, 'PUT', this.token);
 
     if (!res || !res.ok) {
-      Notifications.error(`Error - Request failed for GitPOAP Request - ID: ${id}`);
+      Notifications.error(`Error - Request failed for Request ID: ${id}`);
 
       return null;
     }
-    Notifications.success(`Success - GitPOAPRequest Approved - ID: ${id}`);
+    Notifications.success(`Success - Approved Request ID: ${id}`);
 
     return true;
   }
@@ -83,11 +83,11 @@ export class GitPOAPRequestAPI extends API {
     const res = await makeAPIRequestWithAuth(`/gitpoaps/custom/reject/${id}`, 'PUT', this.token);
 
     if (!res || !res.ok) {
-      Notifications.error(`Error - Request failed for GitPOAP Request - ID: ${id}`);
+      Notifications.error(`Error - Request failed for Request ID: ${id}`);
 
       return null;
     }
-    Notifications.success(`Success - GitPOAP request rejected - ID: ${id}`);
+    Notifications.success(`Success - Rejected Request ID: ${id}`);
 
     return true;
   }
