@@ -12,10 +12,9 @@ import {
   Badge,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { Text, Button } from '../../components/shared/elements';
-import { GitPOAPBadge } from '../shared/elements/GitPOAPBadge';
-import { Header } from '../shared/elements/Header';
+import { Text, Button, Header, GitPOAPBadge } from '../../components/shared/elements';
 import { Link } from '../shared/compounds/Link';
+import { StatusButton } from '../shared/compounds/StatusButton';
 import { ButtonStatus } from './SubmitButtonRow';
 import { BackgroundPanel2, ExtraRedDark, PrimaryBlue, TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
@@ -23,8 +22,6 @@ import { useApi } from '../../hooks/useApi';
 import { AdminApprovalStatus, GitPoapRequestsQuery } from '../../graphql/generated-gql';
 import { DateTime } from 'luxon';
 import { BsPeopleFill } from 'react-icons/bs';
-import { FaCheckCircle } from 'react-icons/fa';
-import { MdError } from 'react-icons/md';
 
 type Props = {
   gitPOAPRequest: GitPOAPRequestType;
@@ -67,14 +64,6 @@ const RequestAttribute = ({ label, value }: { label: string; value: string | num
       <Value>{value}</Value>
     </Group>
   );
-};
-
-const ButtonIcon = ({ status }: { status: ButtonStatus }) => {
-  return status === ButtonStatus.SUCCESS ? (
-    <FaCheckCircle size={18} />
-  ) : status === ButtonStatus.ERROR ? (
-    <MdError size={18} />
-  ) : null;
 };
 
 const RequestStatusBadge = ({ status }: { status: AdminApprovalStatus }) => {
@@ -264,23 +253,21 @@ export const GitPOAPRequest = ({ gitPOAPRequest }: Props) => {
           </Group>
         </Group>
         <Group align="center" spacing="md" mb={rem(20)}>
-          <Button
+          <StatusButton
+            status={approveStatus}
             onClick={submitApproveGitPOAPRequest}
-            loading={approveStatus === ButtonStatus.LOADING}
-            disabled={areButtonsDisabled}
-            leftIcon={<ButtonIcon status={approveStatus} />}
+            isDisabled={areButtonsDisabled}
           >
             {'Approve'}
-          </Button>
-          <Button
-            variant="outline"
+          </StatusButton>
+          <StatusButton
+            status={rejectStatus}
             onClick={submitRejectGitPOAPRequest}
-            loading={rejectStatus === ButtonStatus.LOADING}
-            disabled={areButtonsDisabled}
-            leftIcon={<ButtonIcon status={rejectStatus} />}
+            isDisabled={areButtonsDisabled}
+            variant="outline"
           >
             {'Reject'}
-          </Button>
+          </StatusButton>
         </Group>
       </Stack>
       <Divider />
