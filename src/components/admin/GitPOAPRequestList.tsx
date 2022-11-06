@@ -7,9 +7,9 @@ import {
   useTotalGitPoapRequestsCountQuery,
   AdminApprovalStatus,
 } from '../../graphql/generated-gql';
-import { GitPOAPRequest } from './GitPOAPRequest';
-import { Select } from '../../components/shared/elements/Select';
-import { Header } from '../../components/shared/elements/Header';
+import { AdminGitPOAPRequest } from './GitPOAPRequest';
+import { Select } from '../shared/elements/Select';
+import { Header } from '../shared/elements/Header';
 import { TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { SelectOption } from '../shared/compounds/ItemList';
@@ -33,7 +33,6 @@ export const GitPOAPRequestList = () => {
   const router = useRouter();
   const isRouterReady = router.isReady;
   const { value, setValue, debouncedValue } = useUrlState('search');
-
   const [variables, setVariables] = useState<QueryVars>({
     page: 1,
     perPage: 20,
@@ -116,7 +115,7 @@ export const GitPOAPRequestList = () => {
             gitPOAPRequests &&
             gitPOAPRequests.length > 0 &&
             gitPOAPRequests.map((gitPOAPRequest) => (
-              <GitPOAPRequest key={gitPOAPRequest.id} gitPOAPRequest={gitPOAPRequest} />
+              <AdminGitPOAPRequest key={gitPOAPRequest.id} gitPOAPRequest={gitPOAPRequest} />
             ))}
         </Stack>
         {totalCount > variables.perPage && (
