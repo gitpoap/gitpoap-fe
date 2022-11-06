@@ -6324,6 +6324,7 @@ export type UserGitPoapRequestsQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Int']>;
   approvalStatus?: InputMaybe<AdminApprovalStatus>;
   address?: InputMaybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['Int']>;
 }>;
 
 export type UserGitPoapRequestsQuery = {
@@ -7746,6 +7747,7 @@ export const UserGitPoapRequestsDocument = gql`
     $skip: Int
     $approvalStatus: AdminApprovalStatus
     $address: String
+    $search: Int
   ) {
     gitPOAPRequests(
       take: $take
@@ -7753,6 +7755,7 @@ export const UserGitPoapRequestsDocument = gql`
       where: {
         adminApprovalStatus: { equals: $approvalStatus }
         address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
+        id: { equals: $search }
       }
       orderBy: { adminApprovalStatus: desc }
     ) {
