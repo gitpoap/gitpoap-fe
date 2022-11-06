@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Box, BoxProps, Stack } from '@mantine/core';
 import { Button, Header, Input, Loader, Text } from '../shared/elements';
-import { useDebouncedValue } from '@mantine/hooks';
 import { EligibleClaimsQuery, useEligibleClaimsQuery } from '../../graphql/generated-gql';
 import { FaEthereum, FaSearch } from 'react-icons/fa';
 import { ClaimItem } from './ClaimItem';
 import { useRouter } from 'next/router';
 import { useWeb3Context } from '../wallet/Web3Context';
+import { useUrlState } from '../../hooks/useUrlState';
 
 export const ClaimListContainer = styled(Box)<BoxProps>`
   display: grid;
@@ -35,12 +35,9 @@ type QueryVars = {
 
 export const CheckEligibility = () => {
   const router = useRouter();
-  const isRouterReady = router.isReady;
   const urlSearchQuery = router.query.search as string | undefined;
   const { connectionStatus, connect } = useWeb3Context();
-
-  const [searchValue, setSearchValue] = useState<string | undefined>(undefined);
-  const [debouncedSearch] = useDebouncedValue(searchValue, 200);
+  const { value, setValue, debouncedValue } = useUrlState('search');
   const [variables] = useState<QueryVars>({
     page: 1,
     perPage: 36,
@@ -53,22 +50,6 @@ export const CheckEligibility = () => {
     },
   });
   const allClaims = result.data?.claims;
-
-  useEffect(() => {
-    if (isRouterReady && urlSearchQuery && searchValue === undefined) {
-      setSearchValue(urlSearchQuery ?? '');
-    } else if (debouncedSearch === '') {
-      router.replace(router.pathname, undefined, { shallow: true });
-    } else if (debouncedSearch && debouncedSearch.length > 0) {
-      router.replace(
-        `${router.pathname}?search=${encodeURIComponent(debouncedSearch ?? '')}`,
-        undefined,
-        {
-          shallow: true,
-        },
-      );
-    }
-  }, [isRouterReady, urlSearchQuery, searchValue, debouncedSearch]);
 
   if (result.error) {
     return null;
@@ -92,15 +73,15 @@ export const CheckEligibility = () => {
         px={rem(15)}
         style={{ width: rem(500) }}
         placeholder={'VBUTERIN...'}
-        value={searchValue ?? ''}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
-        icon={result.fetching && !!debouncedSearch ? <Loader size={18} /> : <FaSearch />}
+        value={value}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
+        icon={result.fetching && !!debouncedValue ? <Loader size={18} /> : <FaSearch />}
       />
       {allClaims &&
       allClaims.length === 0 &&
       !result.fetching &&
-      debouncedSearch &&
-      debouncedSearch.length > 0 ? (
+      debouncedValue &&
+      debouncedValue.length > 0 ? (
         <Text style={{ marginBottom: rem(40), fontSize: rem(18) }}>
           {'No unminted GitPOAPs found'}
         </Text>
@@ -108,7 +89,7 @@ export const CheckEligibility = () => {
         <ClaimListContainer mt={rem(50)} mb={rem(55)}>
           <>
             {allClaims &&
-              debouncedSearch &&
+              debouncedValue &&
               result.operation?.variables.query &&
               result.operation?.variables.query.length > 0 &&
               allClaims.map((claim, i) => {
