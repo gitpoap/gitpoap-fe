@@ -9,7 +9,6 @@ import { GitPOAP, People, Star } from '../../shared/elements/icons';
 import { textEllipses } from '../styles';
 import { ExtraHover, ExtraPressed } from '../../../colors';
 import { Body, BodyAsAnchor, InfoHexBase } from '../../shared/elements/InfoHexBase';
-import { BREAKPOINTS } from '../../../constants';
 
 const Icons = styled.div`
   display: flex;
@@ -33,10 +32,6 @@ const TitleStyled = styled(TitleNoHover)`
   color: ${TextAccent};
   width: 100%;
   ${textEllipses(170)};
-`;
-
-const BadgeStyled = styled(Badge)`
-  margin-top: ${rem(7)};
 `;
 
 const Content = styled.div`
@@ -118,7 +113,7 @@ export const RepoHexSmall = ({
           )}
           {stars && <IconCount count={stars} icon={<Star width="13" height="11" />} />}
         </Icons>
-        <BadgeStyled>{orgName}</BadgeStyled>
+        <Badge mt={rem(7)}>{orgName}</Badge>
       </Content>
     </InfoHexBaseStyled>
   );
