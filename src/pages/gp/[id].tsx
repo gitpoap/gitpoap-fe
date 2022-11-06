@@ -126,9 +126,6 @@ export const getStaticProps = async (
   };
 };
 
-/* Statically generate all GitPOAP pages at build time - collect all sets of unique paths
- * paths: { params: { id: string } }[]
- */
 export const getStaticPaths = async () => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
@@ -139,10 +136,11 @@ export const getStaticPaths = async () => {
     false,
   );
 
-  const results = await client!.query<AllGitPoapIdsQuery>(AllGitPoapIdsDocument, {}).toPromise();
-  const paths = results.data?.gitPOAPS.map((gitpoap) => ({
-    params: { id: gitpoap.id.toString() },
-  }));
+  const results = await client?.query<AllGitPoapIdsQuery>(AllGitPoapIdsDocument, {}).toPromise();
+  const paths =
+    results?.data?.gitPOAPS.map((gitpoap) => ({
+      params: { id: gitpoap.id.toString() },
+    })) ?? [];
 
   return {
     paths,
