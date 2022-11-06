@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { rem } from 'polished';
-import { Group, Loader, Stack, Text, Pagination } from '@mantine/core';
+import { Group, Stack, Text, Pagination } from '@mantine/core';
 import { useDebouncedValue, useMediaQuery } from '@mantine/hooks';
 import {
   useGitPoapRequestsQuery,
@@ -123,11 +123,6 @@ export const GitPOAPRequestList = () => {
           </Group>
         </Group>
         <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
-        {result.fetching && (
-          <Group position="center" align="center" grow>
-            <Loader size="xl" variant="dots" />
-          </Group>
-        )}
         {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
           <Text mt={rem(20)} size={18}>
             {'No GitPOAP Requests Found'}
