@@ -192,7 +192,7 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
                 {imageUrl ? (
                   <Image alt={values.name} src={imageUrl} layout="fill" />
                 ) : (
-                  <>{'Artwork Upload'}</>
+                  <>{'Upload Art'}</>
                 )}
               </StyledDropzone>
             </DropzoneBorder>

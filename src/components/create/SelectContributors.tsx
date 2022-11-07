@@ -24,7 +24,7 @@ import { Button, Input, Text, TextArea } from '../shared/elements';
 import Papa from 'papaparse';
 import { CreationFormReturnTypes } from './useCreationForm';
 import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
-import { isValidEmailAddress, isValidGithubHandle } from '../../helpers';
+import { isValidEmailAddress, isValidGithubHandle, truncateAddress } from '../../helpers';
 import { isAddress } from 'ethers/lib/utils';
 import { VscTrash } from 'react-icons/vsc';
 
@@ -172,7 +172,9 @@ export const SelectContributors = ({ contributors, errors, setContributors }: Pr
                   <List.Item key={value + '-' + type}>
                     <Group mt="xs" position="apart">
                       <Stack spacing={0}>
-                        <Text>{value}</Text>
+                        <Text>
+                          {type === 'ethAddresses' ? truncateAddress(value, 4, 4) : value}
+                        </Text>
                         <Text size="xs" color="grey">
                           {
                             {
