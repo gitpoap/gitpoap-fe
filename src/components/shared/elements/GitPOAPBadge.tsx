@@ -55,7 +55,7 @@ const dimensionsLevels: Dimensions = {
   lg: { width: 350, borderSize: 8 },
 };
 
-const HexagonStyles = css`
+export const HexagonStyles = css`
   transition: 150ms background-color ease-in-out, 150ms opacity ease-in-out;
   clip-path: url('#hexagonPath');
 

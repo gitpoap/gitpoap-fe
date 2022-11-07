@@ -1,26 +1,48 @@
 import { DateTime } from 'luxon';
+import { z } from 'zod';
 import { Notifications } from '../../notifications';
 import { API, Tokens, makeAPIRequestWithAuth } from './utils';
 
-type GitPOAPRequestCreateValues = {
-  projectId?: number;
-  organizationId?: number;
-  name: string;
-  contributors: string;
-  description: string;
-  startDate: Date;
-  endDate: Date;
-  expiryDate: Date;
-  year: number;
-  eventUrl: string;
-  email: string;
-  numRequestedCodes: number;
-  ongoing: boolean;
-  city?: string;
-  country?: string;
-  isEnabled: boolean;
-  image: File;
-};
+export const MAX_FILE_SIZE = 5000000;
+export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+
+const ImageFileSchema = z
+  .any()
+  .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+  .refine(
+    (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+    'File type must be one of image/jpeg, image/jpg, image/png, image/webp',
+  );
+
+export const GitPOAPRequestContributorsSchema = z
+  .object({
+    githubHandles: z.array(z.string()).optional(),
+    ethAddresses: z.array(z.string()).optional(),
+    ensNames: z.array(z.string()).optional(),
+    emails: z.array(z.string().email()).optional(),
+  })
+  .strict();
+
+export const GitPOAPRequestCreateSchema = z.object({
+  projectId: z.number().optional(),
+  organizationId: z.number().optional(),
+  name: z.string().min(1),
+  contributors: GitPOAPRequestContributorsSchema,
+  description: z.string().min(1),
+  startDate: z.date(),
+  endDate: z.date(),
+  expiryDate: z.date(),
+  eventUrl: z.string().url().min(1),
+  email: z.string().email({ message: 'Invalid email' }),
+  numRequestedCodes: z.number(),
+  ongoing: z.boolean(),
+  city: z.string().optional(),
+  country: z.string().optional(),
+  isEnabled: z.boolean(),
+  image: ImageFileSchema,
+});
+
+export type GitPOAPRequestCreateValues = z.infer<typeof GitPOAPRequestCreateSchema>;
 
 export class GitPOAPRequestAPI extends API {
   constructor(tokens: Tokens | null) {
@@ -33,12 +55,11 @@ export class GitPOAPRequestAPI extends API {
     values.projectId && formData.append('projectId', values.projectId.toString());
     values.organizationId && formData.append('organizationId', values.organizationId.toString());
     formData.append('name', values.name);
-    formData.append('contributors', values.contributors);
+    formData.append('contributors', values.contributors.toString());
     formData.append('description', values.description);
     formData.append('startDate', DateTime.fromJSDate(values.startDate).toFormat('yyyy-MM-dd'));
     formData.append('endDate', DateTime.fromJSDate(values.endDate).toFormat('yyyy-MM-dd'));
     formData.append('expiryDate', DateTime.fromJSDate(values.expiryDate).toFormat('yyyy-MM-dd'));
-    formData.append('year', values.year.toString());
     formData.append('eventUrl', values.eventUrl);
     formData.append('email', values.email);
     formData.append('numRequestedCodes', values.numRequestedCodes.toString());

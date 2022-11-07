@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { rgba, rem } from 'polished';
+import { rem } from 'polished';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { withUrqlClient, initUrqlClient, SSRData } from 'next-urql';
@@ -8,7 +8,6 @@ import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { Grid } from '@mantine/core';
 
 import { Page } from '../_app';
-import { MidnightBlue } from '../../colors';
 import { BackgroundHexes } from '../../components/gitpoap/BackgroundHexes';
 import { GitPOAPHolders } from '../../components/gitpoap/GitPOAPHolders';
 import { Header as PageHeader } from '../../components/gitpoap/Header';
@@ -21,26 +20,6 @@ import {
 } from '../../graphql/generated-gql';
 import { SEO } from '../../components/shared/compounds/SEO';
 import { ONE_WEEK_IN_S } from '../../constants';
-
-const Background = styled(BackgroundHexes)`
-  position: fixed;
-  top: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  z-index: 0;
-  width: ${rem(1840)};
-
-  mask-image: linear-gradient(
-    to bottom,
-    ${rgba(MidnightBlue, 0)} 0%,
-    ${rgba(MidnightBlue, 1)} 20%,
-    ${rgba(MidnightBlue, 1)} 80%,
-    ${rgba(MidnightBlue, 0)} 100%
-  );
-`;
 
 const Error = styled(Header)`
   position: fixed;
@@ -79,7 +58,7 @@ const GitPOAP: Page<PageProps> = (props) => {
         url={`https://gitpoap.io/gp/${id}`}
       />
       <Grid justify="center" style={{ zIndex: 1 }}>
-        <Background />
+        <BackgroundHexes />
         <Grid.Col style={{ zIndex: 1 }}>
           <PageHeader gitPOAPId={gitPOAPId} />
         </Grid.Col>

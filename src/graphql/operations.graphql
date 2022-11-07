@@ -778,6 +778,37 @@ query trendingRepos($count: Float!, $numDays: Float!) {
   }
 }
 
+query gitPOAPRequest($gitPOAPRequestId: Int!) {
+  gitPOAPRequest(where: { id: $gitPOAPRequestId }) {
+    id
+    name
+    contributors
+    description
+    startDate
+    endDate
+    expiryDate
+    eventUrl
+    email
+    numRequestedCodes
+    ongoing
+    isEnabled
+    imageUrl
+    adminApprovalStatus
+
+    project {
+      repos(take: 1) {
+        id
+        name
+
+        organization {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
 query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStatus, $search: Int) {
   gitPOAPRequests(
     take: $take

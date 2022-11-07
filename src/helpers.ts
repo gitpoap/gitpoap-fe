@@ -47,6 +47,9 @@ export const isValidGithubHandle = (handle: string): boolean =>
 export const isValidTwitterHandle = (handle: string): boolean =>
   /^[a-zA-Z0-9_]{4,15}$/.test(handle);
 
+export const isValidEmailAddress = (email: string): boolean =>
+  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+
 export const fetchWithToken = async (url: string, token: string | null) => {
   const response = await fetch(url, {
     headers: {

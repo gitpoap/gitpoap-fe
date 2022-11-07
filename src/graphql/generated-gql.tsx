@@ -6273,6 +6273,40 @@ export type TrendingReposQuery = {
   }> | null;
 };
 
+export type GitPoapRequestQueryVariables = Exact<{
+  gitPOAPRequestId: Scalars['Int'];
+}>;
+
+export type GitPoapRequestQuery = {
+  __typename?: 'Query';
+  gitPOAPRequest?: {
+    __typename?: 'GitPOAPRequest';
+    id: number;
+    name: string;
+    contributors: any;
+    description: string;
+    startDate: any;
+    endDate: any;
+    expiryDate: any;
+    eventUrl: string;
+    email: string;
+    numRequestedCodes: number;
+    ongoing: boolean;
+    isEnabled: boolean;
+    imageUrl: string;
+    adminApprovalStatus: AdminApprovalStatus;
+    project?: {
+      __typename?: 'Project';
+      repos: Array<{
+        __typename?: 'Repo';
+        id: number;
+        name: string;
+        organization: { __typename?: 'Organization'; id: number; name: string };
+      }>;
+    } | null;
+  } | null;
+};
+
 export type GitPoapRequestsQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
@@ -7674,6 +7708,45 @@ export function useTrendingReposQuery(
 ) {
   return Urql.useQuery<TrendingReposQuery, TrendingReposQueryVariables>({
     query: TrendingReposDocument,
+    ...options,
+  });
+}
+export const GitPoapRequestDocument = gql`
+  query gitPOAPRequest($gitPOAPRequestId: Int!) {
+    gitPOAPRequest(where: { id: $gitPOAPRequestId }) {
+      id
+      name
+      contributors
+      description
+      startDate
+      endDate
+      expiryDate
+      eventUrl
+      email
+      numRequestedCodes
+      ongoing
+      isEnabled
+      imageUrl
+      adminApprovalStatus
+      project {
+        repos(take: 1) {
+          id
+          name
+          organization {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+export function useGitPoapRequestQuery(
+  options: Omit<Urql.UseQueryArgs<GitPoapRequestQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<GitPoapRequestQuery, GitPoapRequestQueryVariables>({
+    query: GitPoapRequestDocument,
     ...options,
   });
 }
