@@ -12,6 +12,7 @@ import { useApi } from '../../hooks/useApi';
 import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
 import { GitPoapRequestQuery } from '../../graphql/generated-gql';
 import { HexagonDropzone } from './HexagonDropzone';
+import { useRouter } from 'next/router';
 
 const Label = styled(InputUI.Label)`
   ${TextInputLabelStyles};
@@ -48,6 +49,7 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
   const api = useApi();
   const { errors, values, getInputProps, setFieldError, setFieldValue, setValues, validate } =
     useCreationForm();
+  const router = useRouter();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [contributors, setContributors] = useState<Contributor[]>([]);
   const [adminApprovalStatus, setAdminApprovalStatus] =
@@ -98,6 +100,7 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
       }
 
       setButtonStatus(ButtonStatus.SUCCESS);
+      router.push('/me/requests');
     },
     [api.gitPOAPRequest],
   );
