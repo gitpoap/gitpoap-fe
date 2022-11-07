@@ -7,6 +7,12 @@ import { useMediaQuery } from '@mantine/hooks';
 import { BackgroundPanel2, TextGray, TextLight } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 
+const MessageBannerContainer = styled(Group)`\
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+`;
+
 const MessageBannerContent = styled(Alert)`
   background-color: ${BackgroundPanel2};
   cursor: pointer;
@@ -36,7 +42,7 @@ export const MessageBanner = ({
 }: MessageBannerProps) => {
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
   return (
-    <Group position="center" my={rem(20)}>
+    <MessageBannerContainer position="center" my={rem(20)}>
       <Link href={href} target="_blank" rel="noreferrer">
         <MessageBannerContent
           icon={leftIcon}
@@ -53,6 +59,6 @@ export const MessageBanner = ({
           </Group>
         </MessageBannerContent>
       </Link>
-    </Group>
+    </MessageBannerContainer>
   );
 };
