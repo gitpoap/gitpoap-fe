@@ -25,7 +25,6 @@ export const Metrics: ComponentStory<typeof InfoHexMetric> = (args) => {
       {...args}
       value={Number('17545').toLocaleString()}
       unit={'contributors'}
-      rate={'+345 / past week '}
       icon={<People style={{ height: rem(70), width: rem(70) }} />}
     />
   );

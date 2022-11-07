@@ -6,7 +6,7 @@ import { InfoHexBase } from '../shared/elements/InfoHexBase';
 import { BREAKPOINTS } from '../../constants';
 import { TextSkeleton } from '../shared/elements';
 import { textEllipses } from '../shared/styles';
-import { Text, Stack } from '@mantine/core';
+import { Stack } from '@mantine/core';
 
 const Content = styled(Stack)`
   height: ${rem(190)};
@@ -59,35 +59,21 @@ const Unit = styled.div`
   }
 `;
 
-const Rate = styled(Text)`
-  font-size: ${rem(12)};
-  line-height: ${rem(16)};
-  text-align: center;
-  letter-spacing: ${rem(-0.1)};
-`;
-
-const RateSkeleton = styled(TextSkeleton)`
-  height: ${rem(20)};
-  text-align: center;
-`;
-
 type Props = {
   value: string | null;
-  rate: string | null;
   unit: string;
   icon: React.ReactNode;
   className?: string;
   href?: string;
 };
 
-export const InfoHexMetric = ({ className, rate, value, unit, icon, href }: Props) => {
+export const InfoHexMetric = ({ className, value, unit, icon, href }: Props) => {
   return (
     <InfoHexBase className={className} href={href} hoverEffects={!!href}>
       <Content align="center" justify="center" spacing={0}>
         <Icon>{icon}</Icon>
         {value ? <Value>{value}</Value> : <ValueSkeleton width={rem(100)} />}
         <Unit>{unit}</Unit>
-        {/* {rate ? <Rate>{rate}</Rate> : <RateSkeleton width={rem(50)} />} */}
       </Content>
     </InfoHexBase>
   );

@@ -90,8 +90,8 @@ export const getStaticProps = async (
     false,
   );
   const id = parseInt(context.params?.id as string);
-  const results = await client!
-    .query<GitPoapEventQuery>(GitPoapEventDocument, {
+  const results = await client
+    ?.query<GitPoapEventQuery>(GitPoapEventDocument, {
       id,
     })
     .toPromise();
@@ -99,7 +99,7 @@ export const getStaticProps = async (
   return {
     props: {
       urqlState: ssrCache.extractData(),
-      gitpoap: results.data ?? null,
+      gitpoap: results?.data ?? null,
     },
     revalidate: ONE_WEEK_IN_S,
   };
@@ -128,7 +128,7 @@ export const getStaticPaths = async () => {
 };
 
 export default withUrqlClient(
-  (_) => ({
+  () => ({
     url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
   }),
   { ssr: false, staleWhileRevalidate: true },

@@ -78,7 +78,7 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
   });
 
   const checkIfUserOwnsProfile = useCallback(
-    async (profileAddress: string) => {
+    (profileAddress: string) => {
       if (profileAddress.toLocaleLowerCase() === walletAddress?.toLocaleLowerCase()) {
         setShowHearts(true);
       } else {

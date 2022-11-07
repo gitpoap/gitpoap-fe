@@ -207,8 +207,7 @@ export const GitPOAPList = () => {
                     />
                   );
                 })
-              : gitPOAPListItems &&
-                gitPOAPListItems.map((gitPOAP, i) => {
+              : gitPOAPListItems?.map((gitPOAP, i) => {
                   return (
                     <GitPOAP
                       key={i}

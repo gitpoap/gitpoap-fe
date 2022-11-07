@@ -7,8 +7,8 @@ import {
 } from '../../../../src/components/profile/FeaturedPOAPsContext';
 import { Web3ContextProvider } from '../../../../src/components/wallet/Web3Context';
 
-const addFeaturedPOAP = (poapTokenId: string) => {};
-const removeFeaturedPOAP = (poapTokenId: string) => {};
+const addFeaturedPOAP = () => {};
+const removeFeaturedPOAP = () => {};
 const renderFeatureHeart = ({
   showHearts,
   loadingIds,

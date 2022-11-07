@@ -79,7 +79,7 @@ const GalleryTemplate: ComponentStory<typeof GitPOAPBadge> = (args) => {
 export const Gallery = GalleryTemplate.bind({});
 Gallery.args = { size: 'md' };
 
-const GallerySizesTemplate: ComponentStory<typeof GitPOAPBadge> = (args) => {
+const GallerySizesTemplate: ComponentStory<typeof GitPOAPBadge> = () => {
   return (
     <Stack>
       {levels.map((level, i: number) => (
@@ -102,7 +102,7 @@ const GallerySizesTemplate: ComponentStory<typeof GitPOAPBadge> = (args) => {
 export const GallerySizes = GallerySizesTemplate.bind({});
 GallerySizes.args = {};
 
-const GalleryLevelsTemplate: ComponentStory<typeof GitPOAPBadge> = (args) => {
+const GalleryLevelsTemplate: ComponentStory<typeof GitPOAPBadge> = () => {
   return (
     <Group>
       {levels.map((level, i: number) => (

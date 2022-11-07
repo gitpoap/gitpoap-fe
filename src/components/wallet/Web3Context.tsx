@@ -110,7 +110,7 @@ export const Web3ContextProvider = (props: Props) => {
   /* This hook can only be used once here ~ it contains token refresh logic */
   useRefreshTokens();
 
-  const disconnectWallet = useCallback(async () => {
+  const disconnectWallet = useCallback(() => {
     web3Modal.clearCachedProvider();
 
     setConnectionStatus('disconnected');
@@ -166,11 +166,11 @@ export const Web3ContextProvider = (props: Props) => {
         }
       });
 
-      provider.on('chainChanged', async (chainId: number) => {
+      provider.on('chainChanged', async () => {
         await initializeProvider(provider as unknown as ExternalProvider);
       });
 
-      provider.on('disconnect', async (error: { code: number; message: string }) => {
+      provider.on('disconnect', async () => {
         await disconnectWallet();
       });
     },
@@ -187,7 +187,7 @@ export const Web3ContextProvider = (props: Props) => {
       await addListeners(provider);
       if (!hasConnectedBefore) {
         setHasConnectedBefore(true);
-        router.push('/settings#integrations');
+        void router.push('/settings#integrations');
       }
       return web3Provider;
     } catch (err) {

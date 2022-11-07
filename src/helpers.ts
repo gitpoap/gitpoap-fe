@@ -5,11 +5,7 @@ export function shortenAddress(address: string, chars = 4): string {
   return `${address.substring(0, chars + 2)}...${address.substring(42 - chars)}`;
 }
 
-export const truncateAddress = (
-  address: string,
-  startChars: number = 14,
-  endChars: number = 4,
-): string => {
+export const truncateAddress = (address: string, startChars = 14, endChars = 4): string => {
   if (address === '') {
     return '';
   }

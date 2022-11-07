@@ -153,10 +153,7 @@ export const RepoList = () => {
             ? searchResult.data.repos.map((repo, i) => {
                 return <RepoHex key={'repo-' + i} repo={repo} />;
               })
-            : repoListItems &&
-              repoListItems.map((repo, i) => {
-                return <RepoHex key={'repo-' + i} repo={repo} />;
-              })}
+            : repoListItems?.map((repo, i) => <RepoHex key={'repo-' + i} repo={repo} />)}
         </RepoListContainer>
       </StyledItemList>
     </Wrapper>

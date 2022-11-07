@@ -11,7 +11,7 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof AllContributorsModal>;
 
-const Template: ComponentStory<typeof AllContributorsModal> = (args) => {
+const Template: ComponentStory<typeof AllContributorsModal> = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>

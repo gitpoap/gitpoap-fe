@@ -248,25 +248,31 @@ export const SearchBox = ({ className }: Props) => {
         if (cursor < profilesCount) {
           /* profile is selected */
           inputRef.current?.blur();
-          router.push(profileResults[cursor].href);
+          void router.push(profileResults[cursor].href);
         } else if (cursor < repoStartIndex) {
           /* gitPOAP is selected */
           inputRef.current?.blur();
           const gitPOAPIndex = cursor - profilesCount;
-          const gitPOAP = gitPOAPs && gitPOAPs[gitPOAPIndex];
-          router.push(`/gp/${gitPOAP?.id}`);
+          if (gitPOAPs) {
+            const gitPOAP = gitPOAPs[gitPOAPIndex];
+            void router.push(`/gp/${gitPOAP.id}`);
+          }
         } else if (cursor < orgStartIndex) {
           /* repo is selected */
           inputRef.current?.blur();
           const repoIndex = cursor - repoStartIndex;
-          const repo = repos && repos[repoIndex];
-          router.push(`/gh/${repo?.organization.name}/${repo?.name}`);
+          if (repos) {
+            const repo = repos[repoIndex];
+            void router.push(`/gh/${repo.organization.name}/${repo.name}`);
+          }
         } else {
           /* org is selected */
           inputRef.current?.blur();
           const orgIndex = cursor - orgStartIndex;
-          const org = orgs && orgs[orgIndex];
-          router.push(`/gh/${org?.name}`);
+          if (orgs) {
+            const org = orgs[orgIndex];
+            void router.push(`/gh/${org.name}`);
+          }
         }
       }
     },
@@ -303,7 +309,7 @@ export const SearchBox = ({ className }: Props) => {
             if (!query || cursor > -1) return;
             setIsSearchActive(false);
             inputRef.current?.blur();
-            router.push(`/s/${query}`);
+            void router.push(`/s/${query}`);
           },
         ],
       ])}

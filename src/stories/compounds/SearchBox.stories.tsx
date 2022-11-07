@@ -7,7 +7,7 @@ export default {
   component: SearchBox,
 } as ComponentMeta<typeof SearchBox>;
 
-const Template: ComponentStory<typeof SearchBox> = (args) => {
+const Template: ComponentStory<typeof SearchBox> = () => {
   return <SearchBox />;
 };
 

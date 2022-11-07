@@ -6,7 +6,7 @@ export class Notifications {
     showNotification({
       title,
       message,
-      styles: (_) => ({
+      styles: () => ({
         root: {
           backgroundColor: BackgroundPanel2,
           borderColor: BackgroundPanel2,
@@ -27,7 +27,7 @@ export class Notifications {
     showNotification({
       title,
       message,
-      styles: (_) => ({
+      styles: () => ({
         root: {
           backgroundColor: BackgroundPanel2,
           borderColor: BackgroundPanel2,

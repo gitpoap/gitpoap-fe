@@ -50,7 +50,7 @@ export const useGeneratedProfileResult = (
       }
     };
 
-    prepareGeneratedResult();
+    void prepareGeneratedResult();
   }, [searchQuery]);
 
   return [profileResults, setProfileResults];

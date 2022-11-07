@@ -2,11 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { ExtraHover, ExtraPressed, Slate1, TextGray } from '../../colors';
-import { Body, BodyAsAnchor, Hex, InfoHexBase } from '../shared/elements/InfoHexBase';
-import { GitPOAP, Minted, People, Star } from '../shared/elements/icons';
+import { Body, BodyAsAnchor, InfoHexBase } from '../shared/elements/InfoHexBase';
 import { TitleNoHover } from '../shared/elements/Title';
 import { Repo } from './RepoList';
-import { TextSkeleton, Text } from '../shared/elements';
+import { TextSkeleton } from '../shared/elements';
 import { textEllipses } from '../shared/styles';
 
 const Content = styled.div`
@@ -102,14 +101,9 @@ type Props = {
   starredCount?: number;
 };
 
-export const RepoHex = ({ repo, starredCount }: Props) => {
+export const RepoHex = ({ repo }: Props) => {
   // @TODO: Add back claimCount, uniqueContributorCount once backend changes are in
-  const {
-    id,
-    name,
-    project: { gitPOAPs },
-    organization,
-  } = repo;
+  const { name, organization } = repo;
 
   return (
     <InfoHexBaseStyled href={`/gh/${repo.organization.name}/${repo.name}`} hoverEffects>

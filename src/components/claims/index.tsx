@@ -16,7 +16,6 @@ import {
 import { Button } from '../shared/elements/Button';
 import { TwitterShareButton } from '../shared/elements/TwitterShareButton';
 import { ClaimBlock } from '../shared/compounds/ClaimBlock';
-import { useFeatures } from '../FeaturesContext';
 import { useWeb3Context } from '../wallet/Web3Context';
 import { BREAKPOINTS } from '../../constants';
 import { OpenClaimsQuery } from '../../graphql/generated-gql';

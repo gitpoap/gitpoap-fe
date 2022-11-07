@@ -140,44 +140,43 @@ export const GitPOAPs = ({ address }: Props) => {
           ))}
 
         {/* Fully Claimed GitPOAPs rendered next */}
-        {gitPOAPItems &&
-          gitPOAPItems
-            .filter((gitPOAPItem) => {
-              if (searchValue) {
-                return (
-                  gitPOAPItem.event.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-                  gitPOAPItem.claim.pullRequestEarned?.repo.name
-                    .toLowerCase()
-                    .includes(searchValue.toLowerCase())
-                );
-              }
-
-              return true;
-            })
-            .map((gitPOAPItem) => {
+        {gitPOAPItems
+          ?.filter((gitPOAPItem) => {
+            if (searchValue) {
               return (
-                <Grid.Col
-                  key={gitPOAPItem.claim.poapTokenId ?? `${gitPOAPItem.claim.gitPOAP.id}-minting`}
-                  xs={6}
-                  sm={4}
-                  md={3}
-                  lg={3}
-                  xl={2}
-                >
-                  <Group position="center">
-                    <GitPOAPBadge
-                      gitPOAPId={gitPOAPItem.claim.gitPOAP.id}
-                      repoName={gitPOAPItem.claim.pullRequestEarned?.repo.name}
-                      orgName={gitPOAPItem.claim.pullRequestEarned?.repo.organization.name}
-                      name={gitPOAPItem.event.name}
-                      imgSrc={gitPOAPItem.event.image_url}
-                      poapTokenId={gitPOAPItem.claim.poapTokenId}
-                      level={determineLevel(gitPOAPItem.contributionCount)}
-                    />
-                  </Group>
-                </Grid.Col>
+                gitPOAPItem.event.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                gitPOAPItem.claim.pullRequestEarned?.repo.name
+                  .toLowerCase()
+                  .includes(searchValue.toLowerCase())
               );
-            })}
+            }
+
+            return true;
+          })
+          .map((gitPOAPItem) => {
+            return (
+              <Grid.Col
+                key={gitPOAPItem.claim.poapTokenId ?? `${gitPOAPItem.claim.gitPOAP.id}-minting`}
+                xs={6}
+                sm={4}
+                md={3}
+                lg={3}
+                xl={2}
+              >
+                <Group position="center">
+                  <GitPOAPBadge
+                    gitPOAPId={gitPOAPItem.claim.gitPOAP.id}
+                    repoName={gitPOAPItem.claim.pullRequestEarned?.repo.name}
+                    orgName={gitPOAPItem.claim.pullRequestEarned?.repo.organization.name}
+                    name={gitPOAPItem.event.name}
+                    imgSrc={gitPOAPItem.event.image_url}
+                    poapTokenId={gitPOAPItem.claim.poapTokenId}
+                    level={determineLevel(gitPOAPItem.contributionCount)}
+                  />
+                </Group>
+              </Grid.Col>
+            );
+          })}
       </Grid>
     </ItemList>
   );

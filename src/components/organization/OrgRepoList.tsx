@@ -108,12 +108,13 @@ export const OrgRepoList = ({ orgId }: Props) => {
             ))}
           </>
         )}
-        {repoItems &&
-          repoItems
-            .filter((repo) =>
-              searchValue ? repo.name.toLowerCase().includes(searchValue.toLowerCase()) : true,
-            )
-            .map((repo, i) => <OrgRepoHex key={'org-repo-' + i} repo={repo} />)}
+        {repoItems
+          ?.filter((repo) =>
+            searchValue ? repo.name.toLowerCase().includes(searchValue.toLowerCase()) : true,
+          )
+          .map((repo, i) => (
+            <OrgRepoHex key={'org-repo-' + i} repo={repo} />
+          ))}
       </RepoList>
     </ItemList>
   );

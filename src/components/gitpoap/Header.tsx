@@ -197,7 +197,7 @@ export const Header = ({ gitPOAPId }: Props) => {
               <By>{`by `}</By>
             </ReposContentLeft>
             <ReposContentRight>
-              {repos.slice(0, repos.length > 5 ? 4 : 5).map((repo, i) => (
+              {repos.slice(0, repos.length > 5 ? 4 : 5).map((repo) => (
                 <RepoName key={`repo-${repo.id}`}>
                   <OrgLink
                     href={`/gh/${repo.organization.name}`}

@@ -169,7 +169,7 @@ export const TrendingRepoItem = ({ repoId, index, claimedCount, numDays }: Props
   const starCount = result?.data?.repoStarCount;
 
   const handleClick = useCallback(() => {
-    router.push(`/gh/${orgName}/${repoName}`);
+    void router.push(`/gh/${orgName}/${repoName}`);
   }, [router, orgName, repoName]);
 
   return (
@@ -197,16 +197,15 @@ export const TrendingRepoItem = ({ repoId, index, claimedCount, numDays }: Props
             </Icons>
             <BadgeStyled>{repo?.organization?.name}</BadgeStyled>
             <GitPoapContainer position="center">
-              {gitPoaps &&
-                gitPoaps.map((gitPoap) => (
-                  <GitPOAPBadge
-                    key={gitPoap.id}
-                    size="xxxs"
-                    imgUrl={gitPoap?.imageUrl}
-                    altText={gitPoap?.name.replace('GitPOAP: ', '') ?? ''}
-                    disableHoverEffects
-                  />
-                ))}
+              {gitPoaps?.map((gitPoap) => (
+                <GitPOAPBadge
+                  key={gitPoap.id}
+                  size="xxxs"
+                  imgUrl={gitPoap?.imageUrl}
+                  altText={gitPoap?.name.replace('GitPOAP: ', '') ?? ''}
+                  disableHoverEffects
+                />
+              ))}
             </GitPoapContainer>
           </Content>
         )}

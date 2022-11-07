@@ -14,7 +14,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Template: ComponentStory<typeof FeedbackButton> = (args) => {
+const Template: ComponentStory<typeof FeedbackButton> = () => {
   return (
     <Container>
       <FeedbackButton href="https://google.com" />

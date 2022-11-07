@@ -6,7 +6,7 @@ import { TextGray, BackgroundPanel2, TextDarkGray, TextLight, ExtraHover } from 
 import { CaretDown } from './icons/CaretDown';
 import { CaretUp } from './icons/CaretUp';
 
-interface Props extends React.ComponentProps<typeof SelectUI> {}
+type Props = React.ComponentProps<typeof SelectUI>;
 
 const SelectUIStyled = styled(SelectUI)<{ disabled?: boolean }>`
   display: inline-flex;

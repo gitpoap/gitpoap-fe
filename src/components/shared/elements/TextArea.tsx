@@ -65,6 +65,5 @@ const StyledInputBase = styled(Textarea)<{ disabled?: boolean }>`
 `;
 
 export function TextArea(props: Props) {
-  const { textareaRef, ...selectedProps } = props;
-  return <StyledInputBase {...selectedProps} ref={props.textareaRef} spellCheck={false} />;
+  return <StyledInputBase {...props} ref={props.textareaRef} spellCheck={false} />;
 }

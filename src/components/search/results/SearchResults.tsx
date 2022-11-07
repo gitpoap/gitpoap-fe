@@ -96,10 +96,9 @@ export const SearchResults = ({ searchQuery }: Props) => {
               }
             >
               <OrgListContainer>
-                {profileResults &&
-                  profileResults.map((profile, i) => {
-                    return <ProfileResultItem key={profile.id} addressOrEns={profile.address} />;
-                  })}
+                {profileResults?.map((profile) => {
+                  return <ProfileResultItem key={profile.id} addressOrEns={profile.address} />;
+                })}
               </OrgListContainer>
             </SearchResultList>
           </SortSection>
@@ -125,17 +124,16 @@ export const SearchResults = ({ searchQuery }: Props) => {
                       ))}
                     </>
                   )}
-                {gitPOAPS &&
-                  gitPOAPS.map((gitPOAP, i) => (
-                    <GitPOAP
-                      key={gitPOAP.id + '-' + i}
-                      gitPOAPId={gitPOAP.id}
-                      imgSrc={gitPOAP.imageUrl}
-                      name={gitPOAP.name}
-                      repoName={gitPOAP.project?.repos[0].name}
-                      orgName={gitPOAP.project?.repos[0].organization.name}
-                    />
-                  ))}
+                {gitPOAPS?.map((gitPOAP, i) => (
+                  <GitPOAP
+                    key={gitPOAP.id + '-' + i}
+                    gitPOAPId={gitPOAP.id}
+                    imgSrc={gitPOAP.imageUrl}
+                    name={gitPOAP.name}
+                    repoName={gitPOAP.project?.repos[0].name}
+                    orgName={gitPOAP.project?.repos[0].organization.name}
+                  />
+                ))}
               </GitPoapList>
             </SearchResultList>
           </SortSection>
@@ -153,10 +151,9 @@ export const SearchResults = ({ searchQuery }: Props) => {
                     ))}
                   </>
                 )}
-                {repos &&
-                  repos.map((repo, i) => {
-                    return <RepoHex key={'repo-' + i} repo={repo} />;
-                  })}
+                {repos?.map((repo, i) => {
+                  return <RepoHex key={'repo-' + i} repo={repo} />;
+                })}
               </OrgListContainer>
             </SearchResultList>
           </SortSection>
@@ -176,10 +173,9 @@ export const SearchResults = ({ searchQuery }: Props) => {
                     ))}
                   </>
                 )}
-                {orgs &&
-                  orgs.map((org, i) => {
-                    return <OrganizationHex key={'org-' + i} org={org} />;
-                  })}
+                {orgs?.map((org, i) => {
+                  return <OrganizationHex key={'org-' + i} org={org} />;
+                })}
               </OrgListContainer>
             </SearchResultList>
           </SortSection>

@@ -132,16 +132,14 @@ export const GitPOAP = ({
           size={size}
           imgUrl={imgSrc}
           altText={name ?? ''}
-          onClick={() => onClick && onClick()}
+          onClick={onClick}
           level={level}
         />
         {poapTokenId && <Heart poapTokenId={poapTokenId} />}
       </BadgeWrapper>
       <Info>
         <Link href={`/gp/${gitPOAPId}`} passHref>
-          <TitleStyled onClick={() => onClick && onClick()}>
-            {name && name.replace('GitPOAP: ', '')}
-          </TitleStyled>
+          <TitleStyled onClick={onClick}>{name?.replace('GitPOAP: ', '')}</TitleStyled>
         </Link>
         {orgName && repoName ? (
           <Link href={`/gh/${orgName}/${repoName}`} passHref>
