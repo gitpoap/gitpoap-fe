@@ -1,15 +1,14 @@
-import { Center, Grid, Loader, Stack } from '@mantine/core';
+import { Grid } from '@mantine/core';
 import { Page } from '../_app';
 import { SEO } from '../../components/shared/compounds/SEO';
 import { UserGitPOAPRequestList } from '../../components/request/UserGitPOAPRequestList';
 import { useWeb3Context } from '../../components/wallet/Web3Context';
-import { Button, Header } from '../../components/shared/elements';
 import { ProfileProvider } from '../../components/profile/ProfileContext';
-import { FaEthereum } from 'react-icons/fa';
 import { rem } from 'polished';
+import { Login } from '../../components/Login';
 
 const UserGitPOAPRequests: Page = () => {
-  const { address, connect, connectionStatus } = useWeb3Context();
+  const { address, connectionStatus } = useWeb3Context();
 
   return (
     <>
@@ -26,17 +25,7 @@ const UserGitPOAPRequests: Page = () => {
               <UserGitPOAPRequestList />
             </ProfileProvider>
           ) : (
-            <Center style={{ width: '100%', height: 600 }}>
-              {connectionStatus === 'disconnected' && (
-                <Stack spacing={32}>
-                  <Header>{'Sign In to Continue'}</Header>
-                  <Button leftIcon={<FaEthereum size={16} />} onClick={() => connect()}>
-                    {'Connect Wallet'}
-                  </Button>
-                </Stack>
-              )}
-              {connectionStatus === 'connecting-wallet' && <Loader />}
-            </Center>
+            <Login />
           )}
         </Grid.Col>
       </Grid>

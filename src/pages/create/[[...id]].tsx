@@ -5,10 +5,14 @@ import { useRouter } from 'next/router';
 import { CreationForm } from '../../components/create/CreationForm';
 import { EditContainer } from '../../components/create/EditContainer';
 import { BackgroundHexes } from '../../components/gitpoap/BackgroundHexes';
+import { Login } from '../../components/Login';
+import { useWeb3Context } from '../../components/wallet/Web3Context';
 import Custom404 from '../404';
 
 const Create: NextPage = () => {
   const router = useRouter();
+  const { address } = useWeb3Context();
+
   const { id } = router.query;
   let gitPOAPId;
 
@@ -27,8 +31,14 @@ const Create: NextPage = () => {
         <meta name="Create a GitPOAP" content="Create a GiPOAP" />
       </Head>
       <Grid justify="center" style={{ zIndex: 1 }}>
-        <BackgroundHexes />
-        {gitPOAPId ? <EditContainer gitPOAPId={gitPOAPId} /> : <CreationForm />}
+        {address ? (
+          <>
+            <BackgroundHexes />
+            {gitPOAPId ? <EditContainer gitPOAPId={gitPOAPId} /> : <CreationForm />}
+          </>
+        ) : (
+          <Login />
+        )}
       </Grid>
     </>
   );
