@@ -34,7 +34,11 @@ const Create: NextPage = () => {
         {address ? (
           <>
             <BackgroundHexes />
-            {gitPOAPId ? <EditContainer gitPOAPId={gitPOAPId} /> : <CreationForm />}
+            {gitPOAPId ? (
+              <EditContainer address={address} gitPOAPId={gitPOAPId} />
+            ) : (
+              <CreationForm />
+            )}
           </>
         ) : (
           <Login />

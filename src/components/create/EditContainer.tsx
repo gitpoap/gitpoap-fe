@@ -2,10 +2,11 @@ import { useGitPoapRequestQuery } from '../../graphql/generated-gql';
 import { CreationForm } from './CreationForm';
 
 type Props = {
+  address: string;
   gitPOAPId: number;
 };
 
-export const EditContainer = ({ gitPOAPId }: Props) => {
+export const EditContainer = ({ address, gitPOAPId }: Props) => {
   const [result] = useGitPoapRequestQuery({
     variables: {
       gitPOAPRequestId: gitPOAPId,
@@ -16,9 +17,15 @@ export const EditContainer = ({ gitPOAPId }: Props) => {
     return <div>Loading...</div>;
   }
 
-  if (result.error) {
+  const gitPOAPRequest = result.data?.gitPOAPRequest;
+
+  if (result.error || !gitPOAPRequest) {
     return <div>Error</div>;
   }
 
-  return <CreationForm gitPOAPRequest={result.data?.gitPOAPRequest} />;
+  if (gitPOAPRequest.address.ethAddress !== address) {
+    return <div>Unauthorized</div>;
+  }
+
+  return <CreationForm gitPOAPRequest={gitPOAPRequest} />;
 };

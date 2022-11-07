@@ -794,6 +794,9 @@ query gitPOAPRequest($gitPOAPRequestId: Int!) {
     isEnabled
     imageUrl
     adminApprovalStatus
+    address {
+      ethAddress
+    }
 
     project {
       repos(take: 1) {
