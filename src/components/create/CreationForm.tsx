@@ -1,61 +1,20 @@
-import { Center, Container, Group, Stack, Input as InputUI, Box } from '@mantine/core';
-import { Dropzone } from '@mantine/dropzone';
-import Image from 'next/image';
+import { Container, Group, Stack, Input as InputUI, Box, Text, Button } from '@mantine/core';
 import { rem } from 'polished';
 import { useCallback, useEffect, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
 
-import {
-  Button,
-  DateInput,
-  Header,
-  HexagonPath,
-  HexagonStyles,
-  Input,
-  Text,
-  TextArea,
-  TextInputLabelStyles,
-} from '../shared/elements';
+import { DateInput, Header, Input, TextArea, TextInputLabelStyles } from '../shared/elements';
 import { useCreationForm } from './useCreationForm';
 import { Contributor, SelectContributors } from './SelectContributors';
-import { BackgroundPanel, BackgroundPanel2, BackgroundPanel3 } from '../../colors';
 import { useApi } from '../../hooks/useApi';
-import {
-  ACCEPTED_IMAGE_TYPES,
-  GitPOAPRequestCreateValues,
-  MAX_FILE_SIZE,
-} from '../../lib/api/gitpoapRequest';
-import { useGitPoapRequestQuery } from '../../graphql/generated-gql';
-
-const StyledDropzone = styled(Dropzone)`
-  ${HexagonStyles}
-
-  top: 4px;
-  left: 4px;
-
-  height: ${rem(372)};
-  width: ${rem(372)};
-
-  background: ${BackgroundPanel};
-  &:hover {
-    background: ${BackgroundPanel2};
-  }
-`;
-
-const DropzoneBorder = styled.div`
-  ${HexagonStyles}
-
-  background-image: repeating-conic-gradient(${BackgroundPanel} 0 3deg, ${BackgroundPanel3} 3deg 6deg);
-
-  height: ${rem(380)};
-  width: ${rem(380)};
-`;
+import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
+import { GitPoapRequestQuery } from '../../graphql/generated-gql';
+import { HexagonDropzone } from './HexagonDropzone';
 
 const Label = styled(InputUI.Label)`
   ${TextInputLabelStyles};
-  margin-bottom: ${rem(11)};
 `;
 
 export enum ButtonStatus {
@@ -65,50 +24,51 @@ export enum ButtonStatus {
   ERROR,
 }
 
-type Props = {
-  gitPOAPId?: number;
+const HeaderText = {
+  UNSUBMITTED: 'Create GitPOAP',
+  APPROVED: 'Add Contributors',
+  PENDING: 'Edit GitPOAP',
+  REJECTED: 'Edit GitPOAP',
+};
+
+const SubmitButtonText = {
+  UNSUBMITTED: 'Create & Submit For Review',
+  APPROVED: 'Save & Submit Contributors',
+  PENDING: 'Save & Submit Changes',
+  REJECTED: 'Save & Submit For Rereview',
 };
 
 type AdminApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
 
-export const CreationForm = ({ gitPOAPId }: Props) => {
+type Props = {
+  gitPOAPRequest?: GitPoapRequestQuery['gitPOAPRequest'];
+};
+
+export const CreationForm = ({ gitPOAPRequest }: Props) => {
   const api = useApi();
   const { errors, values, getInputProps, setFieldError, setFieldValue, setValues, validate } =
     useCreationForm();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [contributors, setContributors] = useState<Contributor[]>([]);
   const [adminApprovalStatus, setAdminApprovalStatus] =
-    useState<AdminApprovalStatus | 'UNSUBMITTED'>('UNSUBMITTED');
+    useState<AdminApprovalStatus>('UNSUBMITTED');
 
   const imageUrl = values.image ? URL.createObjectURL(values.image) : null;
 
-  const [result, executeGitPoapRequestQuery] = useGitPoapRequestQuery({
-    variables: {
-      gitPOAPRequestId: gitPOAPId ?? 0,
-    },
-    pause: true,
-  });
-
   useEffect(() => {
-    if (gitPOAPId) {
-      executeGitPoapRequestQuery();
-    }
-  }, [gitPOAPId]);
-
-  useEffect(() => {
-    if (result.data?.gitPOAPRequest) {
+    if (gitPOAPRequest) {
       const formattedResult = {
-        ...result.data.gitPOAPRequest,
-        image: result.data.gitPOAPRequest.imageUrl,
-        projectId: result.data.gitPOAPRequest.project?.repos[0].id,
-        organizationId: result.data.gitPOAPRequest.project?.repos[0]?.organization?.id,
+        ...gitPOAPRequest,
+        image: gitPOAPRequest.imageUrl,
+        projectId: gitPOAPRequest.project?.repos[0].id,
+        organizationId: gitPOAPRequest.project?.repos[0]?.organization?.id,
       };
       setValues(formattedResult);
       if (formattedResult.adminApprovalStatus) {
         setAdminApprovalStatus(formattedResult.adminApprovalStatus);
       }
     }
-  });
+  }, [gitPOAPRequest]);
 
   const submitCreateCustomGitPOAP = useCallback(
     async (formValues: GitPOAPRequestCreateValues) => {
@@ -125,12 +85,7 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
         }, {}),
       );
 
-      if (validate().hasErrors) {
-        setButtonStatus(ButtonStatus.ERROR);
-        return;
-      }
-
-      if (formValues['image'] === null) {
+      if (validate().hasErrors || formValues['image'] === null) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
       }
@@ -153,49 +108,15 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
         <Text color="grey" mb="md">
           {'< BACK TO TYPE SELECTION'}
         </Text>
-        <Header>
-          {
-            {
-              UNSUBMITTED: 'Create GitPOAP',
-              APPROVED: 'Add Contributors',
-              PENDING: 'Edit GitPOAP',
-              REJECTED: 'Edit GitPOAP',
-            }[adminApprovalStatus]
-          }
-        </Header>
+        <Header>{HeaderText[adminApprovalStatus]}</Header>
       </Box>
       <Stack align="center" spacing={64}>
         <Container>
-          <Center mt={44}>
-            <DropzoneBorder>
-              <StyledDropzone
-                accept={ACCEPTED_IMAGE_TYPES}
-                maxSize={MAX_FILE_SIZE}
-                onDrop={(files) => setFieldValue(`image`, files[0])}
-                onReject={(fileRejects) => {
-                  const { code, message } = fileRejects[0].errors[0];
-                  setFieldError(
-                    'image',
-                    code === 'file-too-large' ? 'Max file size is 5MB.' : message,
-                  );
-                }}
-                styles={() => ({
-                  inner: {
-                    alignItems: 'center',
-                    display: 'flex',
-                    height: '100%',
-                    justifyContent: 'center',
-                  },
-                })}
-              >
-                {imageUrl ? (
-                  <Image alt={values.name} src={imageUrl} layout="fill" />
-                ) : (
-                  <>{'Upload Art'}</>
-                )}
-              </StyledDropzone>
-            </DropzoneBorder>
-          </Center>
+          <HexagonDropzone
+            imageUrl={imageUrl}
+            setFieldError={setFieldError}
+            setFieldValue={setFieldValue}
+          />
           <Input
             style={{ width: '100%' }}
             label="GitPOAP Name"
@@ -208,7 +129,7 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
             placeholder="For all our valuable contributors in 2022"
             {...getInputProps('description')}
           />
-          <Label>{'Accomplishment Period'}</Label>
+          <Label mb={rem(11)}>{'Accomplishment Period'}</Label>
           <Group grow>
             <DateInput placeholder="Start Date" {...getInputProps('startDate')} />
             <DateInput placeholder="End Date" {...getInputProps('endDate')} />
@@ -235,17 +156,9 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
             ) : null
           }
         >
-          {
-            {
-              UNSUBMITTED: 'Create & Submit For Review',
-              APPROVED: 'Save & Submit Contributors',
-              PENDING: 'Save & Submit Changes',
-              REJECTED: 'Save & Submit For Rereview',
-            }[adminApprovalStatus]
-          }
+          {SubmitButtonText[adminApprovalStatus]}
         </Button>
       </Stack>
-      <HexagonPath />
     </Container>
   );
 };

@@ -3,6 +3,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { CreationForm } from '../../components/create/CreationForm';
+import { EditContainer } from '../../components/create/EditContainer';
 import { BackgroundHexes } from '../../components/gitpoap/BackgroundHexes';
 import Custom404 from '../404';
 
@@ -23,14 +24,11 @@ const Create: NextPage = () => {
     <>
       <Head>
         <title>{'Create | GitPOAP'}</title>
-        <meta
-          name="Create a custom GitPOAP - a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs."
-          content="Create Custom GiPOAPs"
-        />
+        <meta name="Create a GitPOAP" content="Create a GiPOAP" />
       </Head>
       <Grid justify="center" style={{ zIndex: 1 }}>
         <BackgroundHexes />
-        <CreationForm gitPOAPId={gitPOAPId} />
+        {gitPOAPId ? <EditContainer gitPOAPId={gitPOAPId} /> : <CreationForm />}
       </Grid>
     </>
   );

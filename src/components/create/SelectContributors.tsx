@@ -9,6 +9,7 @@ import {
   Stack,
 } from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
+import { validate } from 'email-validator';
 import { rem } from 'polished';
 import { useState } from 'react';
 import { MdOutlineFileUpload } from 'react-icons/md';
@@ -23,7 +24,7 @@ import { Button, Input, Text, TextArea } from '../shared/elements';
 import Papa from 'papaparse';
 import { CreationFormReturnTypes } from './useCreationForm';
 import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
-import { isValidEmailAddress, isValidGithubHandle, truncateAddress } from '../../helpers';
+import { isValidGithubHandle, truncateAddress } from '../../helpers';
 import { isAddress } from 'ethers/lib/utils';
 import { VscTrash } from 'react-icons/vsc';
 
@@ -39,90 +40,89 @@ type Props = {
   errors: CreationFormReturnTypes['errors'];
 };
 
-const formatContributors = (
-  newContributors: string[],
-  oldContributors: Contributor[],
-): Contributor[] => {
-  return newContributors.reduce((obj, c) => {
-    // We can assume values are unique because of the filter later in this function
-    if (obj.some((contributor) => contributor.value === c)) {
-      return obj;
-    }
-
-    if (isValidGithubHandle(c)) {
-      obj.push({ type: 'githubHandles', value: c });
-    } else if (isAddress(c)) {
-      obj.push({ type: 'ethAddresses', value: c });
-    } else if (c.length > 4 && c.endsWith('.eth')) {
-      obj.push({ type: 'ensNames', value: c });
-    } else if (isValidEmailAddress(c)) {
-      obj.push({ type: 'emails', value: c });
-    }
-
-    return obj;
-  }, oldContributors ?? []);
-};
-
 export const SelectContributors = ({ contributors, errors, setContributors }: Props) => {
   const [searchValue, setSearchValue] = useState<string>('');
-  const [contributorsTA, setContributorsTA] = useState('');
+  const [contributorsText, setContributorsText] = useState('');
 
   const filteredContributors = contributors.filter((contributor) =>
     searchValue ? contributor.value.toLowerCase().includes(searchValue.toLowerCase()) : true,
   );
+
+  const addContributors = (newContributors: string[]) => {
+    setContributors(
+      newContributors
+        .map((contributor) => contributor.trim())
+        .filter((contributor) => contributor.length)
+        .reduce((newList, value) => {
+          // This prevents duplicates
+          if (newList.some((contributor) => contributor.value === value)) {
+            return newList;
+          }
+
+          if (isValidGithubHandle(value)) {
+            newList.push({ type: 'githubHandles', value });
+          } else if (isAddress(value)) {
+            newList.push({ type: 'ethAddresses', value });
+          } else if (value.length > 4 && value.endsWith('.eth')) {
+            newList.push({ type: 'ensNames', value });
+          } else if (validate(value)) {
+            newList.push({ type: 'emails', value });
+          }
+
+          return newList;
+        }, contributors ?? []),
+    );
+  };
+
+  const handleSubmitTextArea = () => {
+    Papa.parse(contributorsText, {
+      complete: (results) => {
+        addContributors(results.data[0] as string[]);
+        setContributorsText('');
+      },
+    });
+  };
+
+  const handleSubmitDropzone = (files: File[]) => {
+    Papa.parse(files[0], {
+      complete: (results) => {
+        addContributors(results.data[0] as string[]);
+      },
+    });
+  };
 
   return (
     <Grid sx={{ backgroundColor: BackgroundPanel, borderRadius: 12 }}>
       <Grid.Col p={16} span={6}>
         <Stack>
           <TextArea
-            label="Enter GitHub Handles, E-Mails, Eth or ENS Addresses (Separated by Commas)"
+            label="Enter GitHub handles, emails, ETH addresses, or ENS names separated by commas"
             placeholder="colfax23, mail@gmail.com, dude.eth, 0x1234567890b"
-            value={contributorsTA}
+            value={contributorsText}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-              setContributorsTA(e.target.value);
+              setContributorsText(e.target.value);
             }}
-            id="contributorsInput"
+            onKeyDown={(e) => {
+              if (e.key == 'Enter' && e.shiftKey == false) {
+                e.preventDefault();
+                handleSubmitTextArea();
+              }
+            }}
+            id="contributorsText"
             styles={{
               input: {
                 border: `${rem(1)} solid ${DarkGray} !important`,
               },
             }}
           />
-          <Button
-            disabled={contributorsTA.length === 0}
-            onClick={() => {
-              setContributors(
-                formatContributors(
-                  contributorsTA
-                    .split(',')
-                    .map((element) => element.trim())
-                    .filter((element) => element.length),
-                  contributors,
-                ),
-              );
-              setContributorsTA('');
-            }}
-          >
+          <Button disabled={contributorsText.length === 0} onClick={handleSubmitTextArea}>
             {'Add'}
           </Button>
           <Divider />
           <Text>{'Upload CSV'}</Text>
           <Dropzone
             accept={['text/csv']}
-            onDrop={(files) => {
-              Papa.parse(files[0], {
-                complete: (results) => {
-                  const data = results.data[0] as string[];
-                  setContributors(
-                    formatContributors(
-                      data.map((element) => element.trim()).filter((element) => element.length),
-                      contributors,
-                    ),
-                  );
-                },
-              });
-            }}
+            onDrop={handleSubmitDropzone}
             styles={() => ({
               root: {
                 backgroundColor: BackgroundPanel,
