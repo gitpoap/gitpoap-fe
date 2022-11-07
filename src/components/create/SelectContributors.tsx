@@ -12,7 +12,6 @@ import { Dropzone } from '@mantine/dropzone';
 import { rem } from 'polished';
 import { useState } from 'react';
 import { MdOutlineFileUpload } from 'react-icons/md';
-import styled from 'styled-components';
 import {
   BackgroundPanel,
   BackgroundPanel2,
@@ -27,12 +26,6 @@ import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
 import { isValidEmailAddress, isValidGithubHandle, truncateAddress } from '../../helpers';
 import { isAddress } from 'ethers/lib/utils';
 import { VscTrash } from 'react-icons/vsc';
-
-const StyledTextArea = styled(TextArea)`
-  .mantine-Textarea-input {
-    border: ${rem(1)} solid ${DarkGray} !important;
-  }
-`;
 
 type ConnectionType = keyof GitPOAPRequestCreateValues['contributors'];
 export type Contributor = {
@@ -82,7 +75,7 @@ export const SelectContributors = ({ contributors, errors, setContributors }: Pr
     <Grid sx={{ backgroundColor: BackgroundPanel, borderRadius: 12 }}>
       <Grid.Col p={16} span={6}>
         <Stack>
-          <StyledTextArea
+          <TextArea
             label="Enter GitHub Handles, E-Mails, Eth or ENS Addresses (Separated by Commas)"
             placeholder="colfax23, mail@gmail.com, dude.eth, 0x1234567890b"
             value={contributorsTA}
@@ -90,6 +83,11 @@ export const SelectContributors = ({ contributors, errors, setContributors }: Pr
               setContributorsTA(e.target.value);
             }}
             id="contributorsInput"
+            styles={{
+              input: {
+                border: `${rem(1)} solid ${DarkGray} !important`,
+              },
+            }}
           />
           <Button
             disabled={contributorsTA.length === 0}
