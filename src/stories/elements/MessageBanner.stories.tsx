@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { FaEdge, FaArrowRight } from 'react-icons/fa';
-import { MessageBanner } from '../../components/shared/elements/MessageBanner';
+import { MessageBanner } from '../../components/home/MessageBanner';
 
 export default {
   title: 'Elements/MessageBanner',

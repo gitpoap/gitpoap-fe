@@ -1,7 +1,7 @@
 import React from 'react';
-import { MessageBanner } from '../shared/elements/MessageBanner';
+import { MessageBanner } from './MessageBanner';
 
-export const HomeBanner = () => {
+export const GitPOAPBotBanner = () => {
   return (
     <MessageBanner
       title="GitPOAP Bot for GitHub"

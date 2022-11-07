@@ -4,8 +4,8 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 import { Group, Text, TextProps, Alert } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { BackgroundPanel2, TextGray, TextLight } from '../../../colors';
-import { BREAKPOINTS } from '../../../constants';
+import { BackgroundPanel2, TextGray, TextLight } from '../../colors';
+import { BREAKPOINTS } from '../../constants';
 
 const MessageBannerContent = styled(Alert)`
   background-color: ${BackgroundPanel2};
@@ -37,7 +37,7 @@ export const MessageBanner = ({
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
   return (
     <Group position="center" my={rem(20)}>
-      <a href={href} target="_blank" rel="noreferrer">
+      <Link href={href} target="_blank" rel="noreferrer">
         <MessageBannerContent
           icon={leftIcon}
           title={
@@ -52,7 +52,7 @@ export const MessageBanner = ({
             {!matchesBreakpointSmall && rightIcon ? rightIcon : ''}
           </Group>
         </MessageBannerContent>
-      </a>
+      </Link>
     </Group>
   );
 };

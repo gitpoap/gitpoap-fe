@@ -14,7 +14,7 @@ import { FurtherInfoHow } from '../components/home/FurtherInfoHow';
 import { Banner } from '../components/home/Banner';
 import { LatestMint } from '../components/home/LatestMints';
 import { TrendingRepos } from '../components/home/TrendingRepos';
-import { HomeBanner } from '../components/home/HomeBanner';
+import { GitPOAPBotBanner } from '../components/home/HomeBanners';
 
 const Background = styled(BackgroundHexes)`
   display: flex;
@@ -45,7 +45,7 @@ const Home: Page = () => {
         url={'https://gitpoap.io/'}
       />
 
-      <HomeBanner />
+      <GitPOAPBotBanner />
 
       <Grid justify="center" style={{ zIndex: 0, position: 'relative' }}>
         <Background />
