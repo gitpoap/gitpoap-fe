@@ -4,15 +4,12 @@ import { Notifications } from '../../notifications';
 import { API, Tokens, makeAPIRequestWithAuth } from './utils';
 
 export const MAX_FILE_SIZE = 5000000;
-export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+export const ACCEPTED_IMAGE_TYPES = ['image/png'];
 
 const ImageFileSchema = z
   .any()
   .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
-  .refine(
-    (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-    'File type must be one of image/jpeg, image/jpg, image/png, image/webp',
-  );
+  .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type), 'File type must be image/png');
 
 export const GitPOAPRequestContributorsSchema = z
   .object({

@@ -1,4 +1,4 @@
-import { Container, Group, Stack, Input as InputUI, Box, Text, Button } from '@mantine/core';
+import { Container, Group, Stack, Input as InputUI, Box, Text, Button, List } from '@mantine/core';
 import { rem } from 'polished';
 import { useCallback, useEffect, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
@@ -104,7 +104,10 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
 
   return (
     <Container mt={24} mb={72} p={0} style={{ zIndex: 1 }}>
-      <Group position="apart" style={{ left: '5%', position: 'absolute', width: '90%' }}>
+      <Group
+        position="apart"
+        style={{ left: '5%', position: 'absolute', width: '90%', zIndex: 99 }}
+      >
         <Box>
           <Text color="grey" component="a" href="/create/select-type" mb="md">
             {'< BACK TO TYPE SELECTION'}
@@ -120,6 +123,31 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
             setFieldError={setFieldError}
             setFieldValue={setFieldValue}
           />
+          <Box sx={{ maxWidth: '100vw', width: rem(400) }}>
+            <Text>{'Image Requirements:'}</Text>
+            <List>
+              <List.Item>
+                <Group spacing={6}>
+                  <Text>{'Mandatory: PNG format,'}</Text>
+                  <Text
+                    component="a"
+                    href="https://www.canva.com/design/DAFQoFm0dhQ/H17FASlR17kwLk6m303hBw/view?utm_content=DAFQoFm0dhQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"
+                    variant="link"
+                  >
+                    {'GitPOAP Template'}
+                  </Text>
+                </Group>
+              </List.Item>
+              <List.Item>
+                <Text>{'Recommended: measures 500x500px, size less than 200KB (Max. 4MB)'}</Text>
+              </List.Item>
+              <List.Item>
+                <Text component="a" href="" variant="link">
+                  {'Design Guide'}
+                </Text>
+              </List.Item>
+            </List>
+          </Box>
           <Input
             style={{ width: '100%' }}
             label="GitPOAP Name"
