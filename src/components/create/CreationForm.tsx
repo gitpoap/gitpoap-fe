@@ -104,14 +104,17 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
 
   return (
     <Container mt={24} mb={72} p={0} style={{ zIndex: 1 }}>
-      <Box style={{ position: 'absolute', left: rem(64) }}>
-        <Text color="grey" mb="md">
-          {'< BACK TO TYPE SELECTION'}
-        </Text>
-        <Header>{HeaderText[adminApprovalStatus]}</Header>
-      </Box>
+      <Group position="apart" style={{ left: '5%', position: 'absolute', width: '90%' }}>
+        <Box>
+          <Text color="grey" component="a" href="/create/select-type" mb="md">
+            {'< BACK TO TYPE SELECTION'}
+          </Text>
+          <Header>{HeaderText[adminApprovalStatus]}</Header>
+        </Box>
+        <Header>{adminApprovalStatus}</Header>
+      </Group>
       <Stack align="center" spacing={64}>
-        <Container>
+        <Stack spacing={32}>
           <HexagonDropzone
             imageUrl={imageUrl}
             setFieldError={setFieldError}
@@ -129,12 +132,14 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
             placeholder="For all our valuable contributors in 2022"
             {...getInputProps('description')}
           />
-          <Label mb={rem(11)}>{'Accomplishment Period'}</Label>
-          <Group grow>
-            <DateInput placeholder="Start Date" {...getInputProps('startDate')} />
-            <DateInput placeholder="End Date" {...getInputProps('endDate')} />
-          </Group>
-        </Container>
+          <Box>
+            <Label mb={rem(11)}>{'Accomplishment Period'}</Label>
+            <Group grow>
+              <DateInput placeholder="Start Date" {...getInputProps('startDate')} />
+              <DateInput placeholder="End Date" {...getInputProps('endDate')} />
+            </Group>
+          </Box>
+        </Stack>
         <SelectContributors
           contributors={contributors}
           errors={errors}

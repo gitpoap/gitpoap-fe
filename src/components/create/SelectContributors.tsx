@@ -1,10 +1,10 @@
 import {
   ActionIcon,
+  Badge,
   Container,
   Divider,
   Grid,
   Group,
-  List,
   ScrollArea,
   Stack,
 } from '@mantine/core';
@@ -32,6 +32,13 @@ type ConnectionType = keyof GitPOAPRequestCreateValues['contributors'];
 export type Contributor = {
   type: ConnectionType;
   value: string;
+};
+
+const BadgeText = {
+  githubHandles: 'github',
+  ethAddresses: 'eth',
+  ensNames: 'ens',
+  emails: 'e-mail',
 };
 
 type Props = {
@@ -164,38 +171,29 @@ export const SelectContributors = ({ contributors, errors, setContributors }: Pr
               borderBottom: `${rem(1)} solid ${BackgroundPanel3}`,
             }}
           >
-            <List listStyleType="none" pb={rem(10)}>
+            <Stack pb={rem(10)}>
               {filteredContributors.map(({ type, value }: Contributor) => {
                 return (
-                  <List.Item key={value + '-' + type}>
-                    <Group mt="xs" position="apart">
-                      <Stack spacing={0}>
-                        <Text>
-                          {type === 'ethAddresses' ? truncateAddress(value, 4, 4) : value}
-                        </Text>
-                        <Text size="xs" color="grey">
-                          {
-                            {
-                              githubHandles: 'github',
-                              ethAddresses: 'eth',
-                              ensNames: 'ens',
-                              emails: 'e-mail',
-                            }[type]
-                          }
-                        </Text>
-                      </Stack>
-                      <ActionIcon
-                        onClick={() => {
-                          setContributors(contributors.filter((c) => c.value !== value));
-                        }}
-                      >
-                        {<VscTrash />}
-                      </ActionIcon>
+                  <Group key={value + '-' + type} mt="xs" position="apart">
+                    <Group position="left">
+                      <Text>{type === 'ethAddresses' ? truncateAddress(value, 4, 4) : value}</Text>
+
+                      <Badge size="sm" variant="filled" style={{ letterSpacing: rem(1) }}>
+                        {BadgeText[type]}
+                      </Badge>
                     </Group>
-                  </List.Item>
+                    <ActionIcon
+                      onClick={() => {
+                        setContributors(contributors.filter((c) => c.value !== value));
+                      }}
+                      sx={{ '&:hover': { background: 'none', color: ExtraRed } }}
+                    >
+                      <VscTrash />
+                    </ActionIcon>
+                  </Group>
                 );
               })}
-            </List>
+            </Stack>
           </ScrollArea>
           <Input
             placeholder={'QUICK SEARCH...'}
@@ -204,6 +202,11 @@ export const SelectContributors = ({ contributors, errors, setContributors }: Pr
               setSearchValue(e.target.value);
             }}
             sx={{ width: '100%' }}
+            styles={{
+              input: {
+                border: `${rem(1)} solid ${DarkGray} !important`,
+              },
+            }}
             mt={20}
           />
         </Container>
