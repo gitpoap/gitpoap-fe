@@ -100,7 +100,7 @@ export const CreationForm = ({ gitPOAPId }: Props) => {
     if (result.data?.gitPOAPRequest) {
       const formattedResult = {
         ...result.data.gitPOAPRequest,
-        image: result.data.gitPOAPRequest.imageKey,
+        image: result.data.gitPOAPRequest.imageUrl,
         projectId: result.data.gitPOAPRequest.project?.repos[0].id,
         organizationId: result.data.gitPOAPRequest.project?.repos[0]?.organization?.id,
       };
