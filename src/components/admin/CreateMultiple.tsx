@@ -5,7 +5,6 @@ import { Group, Stack } from '@mantine/core';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, Header } from '../shared/elements';
 import { Divider } from '../shared/elements';
-
 import { CreateRow } from './CreateRow';
 
 type Row = { id: string };
@@ -32,11 +31,9 @@ export const CreateMultiple = () => {
           </Button>
         </Group>
         <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
-        {rows.map((row, index) => {
-          return (
-            <CreateRow key={row.id} rowNumber={index + 1} onDelete={deleteRow} rowId={row.id} />
-          );
-        })}
+        {rows.map((row, index) => (
+          <CreateRow key={row.id} rowNumber={index + 1} onDelete={deleteRow} rowId={row.id} />
+        ))}
       </Stack>
       <Button
         leftIcon={<HiPlus size={18} />}

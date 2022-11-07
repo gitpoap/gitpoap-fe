@@ -1,4 +1,4 @@
-import { Box, Menu } from '@mantine/core';
+import { Box, Group, Menu } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
@@ -8,13 +8,13 @@ import { useWeb3Context } from './Web3Context';
 import { Button } from '../shared/elements/Button';
 import { useUser } from '../../hooks/useUser';
 import { useIsAdmin } from '../../hooks/useIsAdmin';
+import { shortenAddress } from '../../helpers';
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  color: white;
+const MenuHeader = styled(Menu.Label)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 `;
 
 const POPOVER_HOVER_TIME = 400;
@@ -30,14 +30,16 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
   const isAdmin = useIsAdmin();
+  const hasGitPOAPRequests = false;
 
   return (
-    <Content>
+    <Group position="center" align="center">
       {connectionStatus === 'connected-to-wallet' && address ? (
         !isMobile ? (
           <Menu
             closeDelay={POPOVER_HOVER_TIME}
             closeOnClickOutside
+            closeOnEscape
             openDelay={POPOVER_HOVER_TIME}
             position="bottom-end"
             radius="md"
@@ -55,9 +57,16 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               </Box>
             </Menu.Target>
             <Menu.Dropdown>
+              <MenuHeader>{ensName ?? shortenAddress(address)}</MenuHeader>
+              <Menu.Divider />
               <Menu.Item component={NextLink} href={`/p/${ensName ?? address}`}>
                 {'Profile'}
               </Menu.Item>
+              {hasGitPOAPRequests && (
+                <Menu.Item component={NextLink} href={'/me/requests'}>
+                  {'Requests'}
+                </Menu.Item>
+              )}
               <Menu.Item component={NextLink} href="/settings">
                 {'Settings'}
               </Menu.Item>
@@ -86,6 +95,6 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
           {!hideText ? 'Sign In' : <FaEthereum size={16} />}
         </Button>
       )}
-    </Content>
+    </Group>
   );
 };

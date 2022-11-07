@@ -136,16 +136,25 @@ exports[`Admin Page renders the Admin List 1`] = `
           href="/admin/codes"
         >
           <div
-            class="emotion-6 sc-313abcb3-0 sc-e5f22f22-0 hOflFZ ebzISv emotion-7"
+            class="emotion-6 sc-313abcb3-0 sc-f954988e-0 hOflFZ eUPbqh emotion-7"
           >
             Add Codes
+          </div>
+        </a>
+        <a
+          href="/admin/gitpoap/requests"
+        >
+          <div
+            class="emotion-6 sc-313abcb3-0 sc-f954988e-0 hOflFZ eUPbqh emotion-7"
+          >
+            GitPOAP Requests
           </div>
         </a>
         <a
           href="/admin/gitpoap/create-multiple"
         >
           <div
-            class="emotion-6 sc-313abcb3-0 sc-e5f22f22-0 hOflFZ ebzISv emotion-7"
+            class="emotion-6 sc-313abcb3-0 sc-f954988e-0 hOflFZ eUPbqh emotion-7"
           >
             Create GitPOAPs
           </div>
@@ -154,7 +163,7 @@ exports[`Admin Page renders the Admin List 1`] = `
           href="/admin/gitpoap/create-multiple-event"
         >
           <div
-            class="emotion-6 sc-313abcb3-0 sc-e5f22f22-0 hOflFZ ebzISv emotion-7"
+            class="emotion-6 sc-313abcb3-0 sc-f954988e-0 hOflFZ eUPbqh emotion-7"
           >
             Create GitPOAPs for Events
           </div>
@@ -163,7 +172,7 @@ exports[`Admin Page renders the Admin List 1`] = `
           href="/admin/gitpoap/claims"
         >
           <div
-            class="emotion-6 sc-313abcb3-0 sc-e5f22f22-0 hOflFZ ebzISv emotion-7"
+            class="emotion-6 sc-313abcb3-0 sc-f954988e-0 hOflFZ eUPbqh emotion-7"
           >
             Claims Dashboard
           </div>
@@ -172,7 +181,7 @@ exports[`Admin Page renders the Admin List 1`] = `
           href="/admin/repos"
         >
           <div
-            class="emotion-6 sc-313abcb3-0 sc-e5f22f22-0 hOflFZ ebzISv emotion-7"
+            class="emotion-6 sc-313abcb3-0 sc-f954988e-0 hOflFZ eUPbqh emotion-7"
           >
             Repos Dashboard
           </div>
@@ -181,7 +190,7 @@ exports[`Admin Page renders the Admin List 1`] = `
           href="/admin/vitals"
         >
           <div
-            class="emotion-6 sc-313abcb3-0 sc-e5f22f22-0 hOflFZ ebzISv emotion-7"
+            class="emotion-6 sc-313abcb3-0 sc-f954988e-0 hOflFZ eUPbqh emotion-7"
           >
             Vitals Dashboard
           </div>

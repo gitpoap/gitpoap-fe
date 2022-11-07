@@ -1,8 +1,9 @@
+import { Box, BoxProps } from '@mantine/core';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { BackgroundPanel3, TextLight } from '../../../colors';
 
-export const Badge = styled.div`
+export const Badge = styled(Box)<BoxProps>`
   display: inline-flex;
   flex-direction: row;
   justify-content: center;

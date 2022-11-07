@@ -1,4 +1,4 @@
-import { Badge, BadgeProps, Container, Group, List, ScrollArea } from '@mantine/core';
+import { Badge, Container, Group, List, ScrollArea } from '@mantine/core';
 import { rem } from 'polished';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -33,10 +33,6 @@ const formatRepoForDB = (repo: Repo) => ({
   githubRepoId: repo.githubRepoId,
   permissions: repo.permissions,
 });
-
-const BadgeStyled = styled(Badge)<BadgeProps & React.ComponentPropsWithoutRef<'div'>>`
-  font-family: PT Mono;
-`;
 
 export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props) => {
   const user = useUser();
@@ -111,22 +107,22 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
                           <Group position="left">
                             {formattedName}
                             {isContributor && (
-                              <BadgeStyled
+                              <Badge
                                 size="sm"
                                 variant="filled"
                                 style={{ backgroundColor: ExtraRedDark, letterSpacing: rem(1) }}
                               >
                                 {'Contributor'}
-                              </BadgeStyled>
+                              </Badge>
                             )}
                             {hasMaintainerPermissions && (
-                              <BadgeStyled
+                              <Badge
                                 size="sm"
                                 variant="filled"
                                 style={{ backgroundColor: PrimaryBlue, letterSpacing: rem(1) }}
                               >
                                 {repo.owner.name === user?.githubHandle ? 'Owner' : 'Maintainer'}
-                              </BadgeStyled>
+                              </Badge>
                             )}
                           </Group>
                         </Text>

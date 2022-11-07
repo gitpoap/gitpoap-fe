@@ -150,10 +150,6 @@ exports[`RepoHexSmall should render with a link 1`] = `
   max-width: 10.625rem;
 }
 
-.c6 {
-  margin-top: 0.4375rem;
-}
-
 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -193,6 +189,10 @@ exports[`RepoHexSmall should render with a link 1`] = `
   outline: none;
 }
 
+.emotion-2 {
+  margin-top: 0.4375rem;
+}
+
 <a
   class="c0"
   href="/gh/testOrg/testRepoHexSmall"
@@ -209,7 +209,7 @@ exports[`RepoHexSmall should render with a link 1`] = `
       class="c4"
     />
     <div
-      class="c5 c6"
+      class="c5 emotion-2"
     >
       testOrg
     </div>
@@ -394,10 +394,6 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   max-width: 10.625rem;
 }
 
-.c8 {
-  margin-top: 0.4375rem;
-}
-
 .c2 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -501,6 +497,10 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   outline: none;
 }
 
+.emotion-6 {
+  margin-top: 0.4375rem;
+}
+
 <div
   class="c0 "
 >
@@ -545,7 +545,7 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
         </div>
       </div>
       <div
-        class="c7 c8"
+        class="c7 emotion-6"
       >
         testOrg
       </div>
@@ -731,10 +731,6 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   max-width: 10.625rem;
 }
 
-.c8 {
-  margin-top: 0.4375rem;
-}
-
 .c2 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -838,6 +834,10 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   outline: none;
 }
 
+.emotion-6 {
+  margin-top: 0.4375rem;
+}
+
 <div
   class="c0 "
 >
@@ -882,7 +882,7 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
         </div>
       </div>
       <div
-        class="c7 c8"
+        class="c7 emotion-6"
       >
         testOrg
       </div>
@@ -1053,10 +1053,6 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
   max-width: 10.625rem;
 }
 
-.c7 {
-  margin-top: 0.4375rem;
-}
-
 .c2 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1096,6 +1092,10 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
   outline: none;
 }
 
+.emotion-2 {
+  margin-top: 0.4375rem;
+}
+
 <div
   class="c0 "
 >
@@ -1115,7 +1115,7 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
         class="c5"
       />
       <div
-        class="c6 c7"
+        class="c6 emotion-2"
       >
         testOrg
       </div>
@@ -1301,10 +1301,6 @@ exports[`RepoHexSmall should render with stars 1`] = `
   max-width: 10.625rem;
 }
 
-.c8 {
-  margin-top: 0.4375rem;
-}
-
 .c2 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1408,6 +1404,10 @@ exports[`RepoHexSmall should render with stars 1`] = `
   outline: none;
 }
 
+.emotion-6 {
+  margin-top: 0.4375rem;
+}
+
 <div
   class="c0 "
 >
@@ -1452,7 +1452,7 @@ exports[`RepoHexSmall should render with stars 1`] = `
         </div>
       </div>
       <div
-        class="c7 c8"
+        class="c7 emotion-6"
       >
         testOrg
       </div>

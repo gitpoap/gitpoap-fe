@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Navbar renders a Navbar 1`] = `
-.c12 {
+.c11 {
   display: inline-block;
 }
 
-.c12 .mantine-TextInput-label {
+.c11 .mantine-TextInput-label {
   font-family: 'PT Mono',monospace;
   color: #E2E2EE;
   font-weight: 700;
@@ -19,7 +19,7 @@ exports[`Navbar renders a Navbar 1`] = `
   margin-bottom: 0.6875rem;
 }
 
-.c12 .mantine-TextInput-input {
+.c11 .mantine-TextInput-input {
   border-radius: 0.375rem;
   font-family: 'PT Mono',monospace;
   font-weight: 400;
@@ -35,36 +35,36 @@ exports[`Navbar renders a Navbar 1`] = `
   border: 0.0625rem solid transparent;
 }
 
-.c12 .mantine-TextInput-input:hover:not(:disabled):not(:focus) {
+.c11 .mantine-TextInput-input:hover:not(:disabled):not(:focus) {
   background-color: #292B3D;
 }
 
-.c12 .mantine-TextInput-input:focus {
+.c11 .mantine-TextInput-input:focus {
   background-color: #1E1F2E;
   border: 0.0625rem solid #393A51 !important;
 }
 
-.c12 .mantine-TextInput-input::-webkit-input-placeholder {
+.c11 .mantine-TextInput-input::-webkit-input-placeholder {
   color: #393A51;
 }
 
-.c12 .mantine-TextInput-input::-moz-placeholder {
+.c11 .mantine-TextInput-input::-moz-placeholder {
   color: #393A51;
 }
 
-.c12 .mantine-TextInput-input:-ms-input-placeholder {
+.c11 .mantine-TextInput-input:-ms-input-placeholder {
   color: #393A51;
 }
 
-.c12 .mantine-TextInput-input::placeholder {
+.c11 .mantine-TextInput-input::placeholder {
   color: #393A51;
 }
 
-.c12 .mantine-TextInput-input.mantine-TextInput-invalid {
+.c11 .mantine-TextInput-input.mantine-TextInput-invalid {
   color: #F77070;
 }
 
-.c12 .mantine-TextInput-error {
+.c11 .mantine-TextInput-error {
   font-family: 'PT Mono',monospace;
   font-size: 0.625rem;
   -webkit-letter-spacing: 1.2px;
@@ -126,25 +126,6 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #393A51;
 }
 
-.c7 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: white;
-}
-
 .c5 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -164,7 +145,7 @@ exports[`Navbar renders a Navbar 1`] = `
   color: white;
 }
 
-.c11 {
+.c10 {
   margin-right: 1.5625rem;
   width: 18.75rem;
   position: relative;
@@ -173,32 +154,32 @@ exports[`Navbar renders a Navbar 1`] = `
   transition: width 200ms ease-in-out;
 }
 
-.c13 {
+.c12 {
   width: inherit;
   min-width: inherit;
 }
 
-.c13 .mantine-TextInput-input::-webkit-input-placeholder {
+.c12 .mantine-TextInput-input::-webkit-input-placeholder {
   color: #838495;
   text-transform: uppercase;
 }
 
-.c13 .mantine-TextInput-input::-moz-placeholder {
+.c12 .mantine-TextInput-input::-moz-placeholder {
   color: #838495;
   text-transform: uppercase;
 }
 
-.c13 .mantine-TextInput-input:-ms-input-placeholder {
+.c12 .mantine-TextInput-input:-ms-input-placeholder {
   color: #838495;
   text-transform: uppercase;
 }
 
-.c13 .mantine-TextInput-input::placeholder {
+.c12 .mantine-TextInput-input::placeholder {
   color: #838495;
   text-transform: uppercase;
 }
 
-.c14 {
+.c13 {
   width: 1.5625rem;
   text-align: center;
   font-size: 0.625rem;
@@ -254,27 +235,27 @@ exports[`Navbar renders a Navbar 1`] = `
   margin-right: 0.75rem;
 }
 
+.c7 {
+  display: none;
+}
+
 .c8 {
   display: none;
 }
 
 .c9 {
-  display: none;
-}
-
-.c10 {
   width: 100vw;
   padding: 0 3vw 1rem;
   border-bottom: 0.0625rem solid #404040;
   text-align: center;
 }
 
-.c10 > * {
+.c9 > * {
   padding-bottom: 1.125rem;
   margin: 0;
 }
 
-.c10 > *:not(:last-child) {
+.c9 > *:not(:last-child) {
   border-bottom: 0.0625rem solid #404040;
 }
 
@@ -285,13 +266,13 @@ exports[`Navbar renders a Navbar 1`] = `
 }
 
 @media (max-width:75rem) {
-  .c11 {
+  .c10 {
     width: 15rem;
   }
 }
 
 @media (max-width:56.25rem) {
-  .c11 {
+  .c10 {
     width: 100%;
   }
 }
@@ -319,13 +300,13 @@ exports[`Navbar renders a Navbar 1`] = `
 }
 
 @media (max-width:37.5rem) {
-  .c8 {
+  .c7 {
     display: block;
   }
 }
 
 @media (max-width:37.5rem) {
-  .c9 {
+  .c8 {
     display: block;
   }
 }
@@ -607,7 +588,39 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #838495;
 }
 
-.emotion-20 {
+.emotion-12 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.emotion-12>* {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-22 {
   -webkit-tap-highlight-color: transparent;
   font-family: PT Mono,monospace;
   cursor: pointer;
@@ -631,16 +644,16 @@ exports[`Navbar renders a Navbar 1`] = `
   cursor: pointer;
 }
 
-.emotion-20:focus {
+.emotion-22:focus {
   outline-offset: 2px;
   outline: 2px solid #1c7ed6;
 }
 
-.emotion-20:focus:not(:focus-visible) {
+.emotion-22:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-21 {
+.emotion-23 {
   position: relative;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -649,9 +662,9 @@ exports[`Navbar renders a Navbar 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-21,
-.emotion-21::before,
-.emotion-21::after {
+.emotion-23,
+.emotion-23::before,
+.emotion-23::after {
   display: block;
   width: 24px;
   height: 2px;
@@ -661,40 +674,40 @@ exports[`Navbar renders a Navbar 1`] = `
   transition-duration: 300ms;
 }
 
-.emotion-21::before,
-.emotion-21::after {
+.emotion-23::before,
+.emotion-23::after {
   position: absolute;
   content: "";
   left: 0;
 }
 
-.emotion-21::before {
+.emotion-23::before {
   top: -8px;
 }
 
-.emotion-21::after {
+.emotion-23::after {
   top: 8px;
 }
 
-.emotion-21[data-opened] {
+.emotion-23[data-opened] {
   background-color: transparent;
 }
 
-.emotion-21[data-opened]::before {
+.emotion-23[data-opened]::before {
   -webkit-transform: translateY(8px) rotate(45deg);
   -moz-transform: translateY(8px) rotate(45deg);
   -ms-transform: translateY(8px) rotate(45deg);
   transform: translateY(8px) rotate(45deg);
 }
 
-.emotion-21[data-opened]::after {
+.emotion-23[data-opened]::after {
   -webkit-transform: translateY(-8px) rotate(-45deg);
   -moz-transform: translateY(-8px) rotate(-45deg);
   -ms-transform: translateY(-8px) rotate(-45deg);
   transform: translateY(-8px) rotate(-45deg);
 }
 
-.emotion-25 {
+.emotion-27 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -713,16 +726,16 @@ exports[`Navbar renders a Navbar 1`] = `
   gap: 20px;
 }
 
-.emotion-28 {
+.emotion-30 {
   font-family: PT Mono,monospace;
   line-height: 1.55;
 }
 
-.emotion-31 {
+.emotion-33 {
   position: relative;
 }
 
-.emotion-32 {
+.emotion-34 {
   pointer-events: none;
   position: absolute;
   z-index: 1;
@@ -745,7 +758,7 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #909296;
 }
 
-.emotion-39 {
+.emotion-41 {
   font-family: PT Mono,monospace;
   height: 36px;
   -webkit-tap-highlight-color: transparent;
@@ -772,30 +785,30 @@ exports[`Navbar renders a Navbar 1`] = `
   padding-left: 36px;
 }
 
-.emotion-39:disabled {
+.emotion-41:disabled {
   background-color: #25262b;
   color: #909296;
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.emotion-39:disabled::-webkit-input-placeholder {
+.emotion-41:disabled::-webkit-input-placeholder {
   color: #909296;
 }
 
-.emotion-39:disabled::-moz-placeholder {
+.emotion-41:disabled::-moz-placeholder {
   color: #909296;
 }
 
-.emotion-39:disabled:-ms-input-placeholder {
+.emotion-41:disabled:-ms-input-placeholder {
   color: #909296;
 }
 
-.emotion-39:disabled::placeholder {
+.emotion-41:disabled::placeholder {
   color: #909296;
 }
 
-.emotion-39::-webkit-input-placeholder {
+.emotion-41::-webkit-input-placeholder {
   opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -804,7 +817,7 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #5c5f66;
 }
 
-.emotion-39::-moz-placeholder {
+.emotion-41::-moz-placeholder {
   opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -813,7 +826,7 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #5c5f66;
 }
 
-.emotion-39:-ms-input-placeholder {
+.emotion-41:-ms-input-placeholder {
   opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -822,7 +835,7 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #5c5f66;
 }
 
-.emotion-39::placeholder {
+.emotion-41::placeholder {
   opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -831,29 +844,29 @@ exports[`Navbar renders a Navbar 1`] = `
   color: #5c5f66;
 }
 
-.emotion-39::-webkit-inner-spin-button,
-.emotion-39::-webkit-outer-spin-button,
-.emotion-39::-webkit-search-decoration,
-.emotion-39::-webkit-search-cancel-button,
-.emotion-39::-webkit-search-results-button,
-.emotion-39::-webkit-search-results-decoration {
+.emotion-41::-webkit-inner-spin-button,
+.emotion-41::-webkit-outer-spin-button,
+.emotion-41::-webkit-search-decoration,
+.emotion-41::-webkit-search-cancel-button,
+.emotion-41::-webkit-search-results-button,
+.emotion-41::-webkit-search-results-decoration {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
 }
 
-.emotion-39[type=number] {
+.emotion-41[type=number] {
   -moz-appearance: textfield;
 }
 
-.emotion-39:focus,
-.emotion-39:focus-within {
+.emotion-41:focus,
+.emotion-41:focus-within {
   outline: none;
   border-color: #1971c2;
 }
 
-.emotion-40 {
+.emotion-42 {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -873,7 +886,7 @@ exports[`Navbar renders a Navbar 1`] = `
   width: 36px;
 }
 
-.emotion-44 {
+.emotion-46 {
   font-family: PT Mono,monospace;
   -webkit-tap-highlight-color: transparent;
   color: inherit;
@@ -889,16 +902,16 @@ exports[`Navbar renders a Navbar 1`] = `
   transition: 150ms color ease;
 }
 
-.emotion-44:focus {
+.emotion-46:focus {
   outline-offset: 2px;
   outline: 2px solid #1c7ed6;
 }
 
-.emotion-44:focus:not(:focus-visible) {
+.emotion-46:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-47 {
+.emotion-49 {
   -webkit-tap-highlight-color: transparent;
   font-family: PT Mono,monospace;
   cursor: pointer;
@@ -942,45 +955,45 @@ exports[`Navbar renders a Navbar 1`] = `
   background-color: #307AE8;
 }
 
-.emotion-47:focus {
+.emotion-49:focus {
   outline-offset: 2px;
   outline: 2px solid #1c7ed6;
 }
 
-.emotion-47:focus:not(:focus-visible) {
+.emotion-49:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-47:focus {
+.emotion-49:focus {
   outline-offset: 2px;
   outline: 2px solid #1c7ed6;
 }
 
-.emotion-47:focus:not(:focus-visible) {
+.emotion-49:focus:not(:focus-visible) {
   outline: none;
 }
 
 @media (hover: hover) {
-  .emotion-47:hover {
+  .emotion-49:hover {
     background-color: #1864ab;
   }
 }
 
 @media (hover: none) {
-  .emotion-47:active {
+  .emotion-49:active {
     background-color: #1864ab;
   }
 }
 
-.emotion-47:active {
+.emotion-49:active {
   -webkit-transform: translateY(1px);
   -moz-transform: translateY(1px);
   -ms-transform: translateY(1px);
   transform: translateY(1px);
 }
 
-.emotion-47:disabled,
-.emotion-47[data-disabled] {
+.emotion-49:disabled,
+.emotion-49[data-disabled] {
   border-color: transparent;
   background-color: #373A40;
   color: #25262b;
@@ -989,19 +1002,19 @@ exports[`Navbar renders a Navbar 1`] = `
   pointer-events: none;
 }
 
-.emotion-47:disabled:active,
-.emotion-47[data-disabled]:active {
+.emotion-49:disabled:active,
+.emotion-49[data-disabled]:active {
   -webkit-transform: none;
   -moz-transform: none;
   -ms-transform: none;
   transform: none;
 }
 
-.emotion-47[data-loading] {
+.emotion-49[data-loading] {
   pointer-events: none;
 }
 
-.emotion-47[data-loading]::before {
+.emotion-49[data-loading]::before {
   content: "";
   position: absolute;
   top: -1px;
@@ -1013,35 +1026,35 @@ exports[`Navbar renders a Navbar 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-47:disabled {
+.emotion-49:disabled {
   background-color: #393A51;
 }
 
-.emotion-47:disabled .emotion-10 {
+.emotion-49:disabled .emotion-10 {
   color: #838495;
 }
 
-.emotion-47:active:not(:disabled) {
+.emotion-49:active:not(:disabled) {
   background-color: #1761CF;
 }
 
-.emotion-47:hover:not(:disabled) {
+.emotion-49:hover:not(:disabled) {
   background-color: #5596F6;
 }
 
-.emotion-47[data-loading] {
+.emotion-49[data-loading] {
   background-color: #393A51;
 }
 
-.emotion-47[data-loading] .emotion-10 {
+.emotion-49[data-loading] .emotion-10 {
   color: #838495;
 }
 
-.emotion-47[data-loading]::before {
+.emotion-49[data-loading]::before {
   content: none;
 }
 
-.emotion-52 {
+.emotion-54 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1140,7 +1153,7 @@ exports[`Navbar renders a Navbar 1`] = `
         </button>
       </div>
       <div
-        class="c7"
+        class="emotion-0 emotion-12"
       >
         <button
           class="emotion-4 emotion-5 emotion-6"
@@ -1173,37 +1186,37 @@ exports[`Navbar renders a Navbar 1`] = `
       </div>
     </div>
     <button
-      class="emotion-4 emotion-19 c8 emotion-20"
+      class="emotion-4 emotion-21 c7 emotion-22"
       title="Open navigation"
       type="button"
     >
       <div
-        class="emotion-21 emotion-22"
+        class="emotion-23 emotion-24"
       />
     </button>
   </div>
   <div
     aria-hidden="true"
-    class="c9 emotion-23"
+    class="c8 emotion-25"
     style="box-sizing: border-box; display: none; height: 0px; overflow: hidden;"
   >
     <div
       style="opacity: 0; transition: opacity 200ms ease;"
     >
       <div
-        class="emotion-24 c10 emotion-25"
+        class="emotion-26 c9 emotion-27"
       >
         <div
-          class="c11"
+          class="c10"
         >
           <div
-            class="emotion-26 emotion-27 c12 c13 emotion-28"
+            class="emotion-28 emotion-29 c11 c12 emotion-30"
           >
             <div
-              class="emotion-29 emotion-30 emotion-31"
+              class="emotion-31 emotion-32 emotion-33"
             >
               <div
-                class="emotion-32 emotion-33 emotion-34"
+                class="emotion-34 emotion-35 emotion-36"
               >
                 <svg
                   fill="currentColor"
@@ -1221,7 +1234,7 @@ exports[`Navbar renders a Navbar 1`] = `
               </div>
               <input
                 aria-invalid="false"
-                class="emotion-35 emotion-36 emotion-37 emotion-38 emotion-39"
+                class="emotion-37 emotion-38 emotion-39 emotion-40 emotion-41"
                 id="mantine-r0"
                 placeholder="POAP.ETH OR 0xf6B6..."
                 spellcheck="false"
@@ -1229,10 +1242,10 @@ exports[`Navbar renders a Navbar 1`] = `
                 value=""
               />
               <div
-                class="emotion-40 emotion-41 emotion-42"
+                class="emotion-42 emotion-43 emotion-44"
               >
                 <div
-                  class="emotion-43 c14 emotion-44"
+                  class="emotion-45 c13 emotion-46"
                 >
                   /
                 </div>
@@ -1276,7 +1289,7 @@ exports[`Navbar renders a Navbar 1`] = `
           class="c5 c6"
         >
           <button
-            class="emotion-4 emotion-5 emotion-47"
+            class="emotion-4 emotion-5 emotion-49"
             data-button="true"
             type="button"
           >
@@ -1284,7 +1297,7 @@ exports[`Navbar renders a Navbar 1`] = `
               class="emotion-7 emotion-8"
             >
               <span
-                class="emotion-50 emotion-51 emotion-52"
+                class="emotion-52 emotion-53 emotion-54"
               >
                 <svg
                   fill="currentColor"
@@ -1311,10 +1324,10 @@ exports[`Navbar renders a Navbar 1`] = `
           </button>
         </div>
         <div
-          class="c7"
+          class="emotion-0 emotion-12"
         >
           <button
-            class="emotion-4 emotion-5 emotion-47"
+            class="emotion-4 emotion-5 emotion-49"
             data-button="true"
             type="button"
           >
@@ -1322,7 +1335,7 @@ exports[`Navbar renders a Navbar 1`] = `
               class="emotion-7 emotion-8"
             >
               <span
-                class="emotion-50 emotion-51 emotion-52"
+                class="emotion-52 emotion-53 emotion-54"
               >
                 <svg
                   fill="currentColor"

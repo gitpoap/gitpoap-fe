@@ -8,6 +8,7 @@ import {
   mostClaimed,
   gitPOAPHolders,
   gitPOAPEvent,
+  gitPOAPRequests,
 } from './index';
 
 export const GetAllStatsHandler = graphql.query('GetAllStats', (req, res, ctx) => {
@@ -79,3 +80,11 @@ export const GitPOAPEventHandler = graphql.query<GitPoapEventQuery>(
     return res(ctx.data(gitPOAPEvent));
   },
 );
+
+export const GitPOAPRequestsHandler = graphql.query('gitPOAPRequests', (req, res, ctx) => {
+  return res(
+    ctx.data({
+      gitPOAPRequests,
+    }),
+  );
+});

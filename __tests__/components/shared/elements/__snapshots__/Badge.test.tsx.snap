@@ -34,6 +34,6 @@ exports[`Badge renders an Badge 1`] = `
 }
 
 <div
-  class="c0"
+  class="c0 emotion-0"
 />
 `;
