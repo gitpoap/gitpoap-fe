@@ -7,7 +7,7 @@ import { HexagonPath, HexagonStyles } from '../shared/elements';
 import { CreationFormReturnTypes } from './useCreationForm';
 import { BackgroundPanel, BackgroundPanel2, BackgroundPanel3 } from '../../colors';
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '../../lib/api/gitpoapRequest';
-import { Center } from '@mantine/core';
+import { Button, Center, Stack } from '@mantine/core';
 
 const StyledDropzone = styled(Dropzone)`
   ${HexagonStyles}
@@ -57,10 +57,43 @@ export const HexagonDropzone = ({ imageUrl, setFieldError, setFieldValue }: Prop
               display: 'flex',
               height: '100%',
               justifyContent: 'center',
+              pointerEvents: imageUrl ? 'auto' : 'none',
+            },
+            root: {
+              button: {
+                display: 'none',
+              },
+              '&:hover': {
+                img: {
+                  filter: 'brightness(75%)',
+                },
+                button: {
+                  display: 'block',
+                },
+              },
             },
           })}
         >
-          {imageUrl ? <Image src={imageUrl} layout="fill" /> : <>{'Upload Art'}</>}
+          {imageUrl ? (
+            <>
+              <Image src={imageUrl} layout="fill" style={{ pointerEvents: 'none' }} />
+              <Stack>
+                <Button variant="filled">{'Replace'}</Button>
+                <Button
+                  variant="filled"
+                  onClick={(e: React.MouseEvent) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setFieldValue('image', null);
+                  }}
+                >
+                  {'Remove'}
+                </Button>
+              </Stack>
+            </>
+          ) : (
+            <>{'Upload Art'}</>
+          )}
         </StyledDropzone>
       </DropzoneBorder>
       <HexagonPath />
