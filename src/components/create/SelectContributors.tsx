@@ -99,8 +99,8 @@ export const SelectContributors = ({ contributors, errors, setContributors }: Pr
   };
 
   return (
-    <Grid sx={{ backgroundColor: BackgroundPanel, borderRadius: 12 }}>
-      <Grid.Col p={16} span={6}>
+    <Grid my={32} sx={{ backgroundColor: BackgroundPanel, borderRadius: 12 }}>
+      <Grid.Col p={16} sm={6} span={12}>
         <Stack>
           <TextArea
             label="Enter GitHub handles, emails, ETH addresses, or ENS names separated by commas"
@@ -154,7 +154,12 @@ export const SelectContributors = ({ contributors, errors, setContributors }: Pr
           </Dropzone>
         </Stack>
       </Grid.Col>
-      <Grid.Col p={16} span={6} sx={{ backgroundColor: BackgroundPanel2, borderRadius: 12 }}>
+      <Grid.Col
+        p={16}
+        sm={6}
+        span={12}
+        sx={{ backgroundColor: BackgroundPanel2, borderRadius: 12 }}
+      >
         <Container
           p="0"
           sx={{

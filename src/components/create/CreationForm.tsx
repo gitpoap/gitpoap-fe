@@ -1,4 +1,14 @@
-import { Container, Group, Stack, Input as InputUI, Box, Text, Button, List } from '@mantine/core';
+import {
+  Container,
+  Group,
+  Stack,
+  Input as InputUI,
+  Box,
+  Text,
+  Button,
+  List,
+  Grid,
+} from '@mantine/core';
 import { rem } from 'polished';
 import { useCallback, useEffect, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
@@ -106,7 +116,7 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
   );
 
   return (
-    <Container mt={24} mb={72} p={0} style={{ zIndex: 1 }}>
+    <Container mt={24} mb={72} p={0} style={{ width: '90%', zIndex: 1 }}>
       <Group
         position="apart"
         style={{ left: '5%', position: 'absolute', width: '90%', zIndex: 99 }}
@@ -119,14 +129,14 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
         </Box>
         <Header>{adminApprovalStatus}</Header>
       </Group>
-      <Stack align="center" spacing={64}>
-        <Stack spacing={32}>
-          <HexagonDropzone
-            imageUrl={imageUrl}
-            setFieldError={setFieldError}
-            setFieldValue={setFieldValue}
-          />
-          <Box sx={{ maxWidth: '100vw', width: rem(400) }}>
+      <Stack align="center" spacing={32}>
+        <HexagonDropzone
+          imageUrl={imageUrl}
+          setFieldError={setFieldError}
+          setFieldValue={setFieldValue}
+        />
+        <Stack spacing={32} sx={{ maxWidth: '100%' }}>
+          <Box sx={{ maxWidth: '100%', width: rem(400) }}>
             <Text>{'Image Requirements:'}</Text>
             <List>
               <List.Item>
@@ -165,10 +175,22 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
           />
           <Box>
             <Label mb={rem(11)}>{'Accomplishment Period'}</Label>
-            <Group grow>
-              <DateInput placeholder="Start Date" {...getInputProps('startDate')} />
-              <DateInput placeholder="End Date" {...getInputProps('endDate')} />
-            </Group>
+            <Grid>
+              <Grid.Col xs={6} span={12}>
+                <DateInput
+                  placeholder="Start Date"
+                  sx={{ width: '100%' }}
+                  {...getInputProps('startDate')}
+                />
+              </Grid.Col>
+              <Grid.Col xs={6} span={12}>
+                <DateInput
+                  placeholder="End Date"
+                  sx={{ width: '100%' }}
+                  {...getInputProps('endDate')}
+                />
+              </Grid.Col>
+            </Grid>
           </Box>
         </Stack>
         <SelectContributors
