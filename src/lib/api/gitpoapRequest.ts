@@ -4,12 +4,15 @@ import { Notifications } from '../../notifications';
 import { API, Tokens, makeAPIRequestWithAuth } from './utils';
 
 export const MAX_FILE_SIZE = 5000000;
-export const ACCEPTED_IMAGE_TYPES = ['image/png'];
+export const ACCEPTED_IMAGE_TYPES = ['image/png', 'image/gif'];
 
 const ImageFileSchema = z
   .any()
   .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
-  .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type), 'File type must be image/png');
+  .refine(
+    (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+    'File type must be image/png or image/gif',
+  );
 
 export const GitPOAPRequestContributorsSchema = z
   .object({
@@ -19,6 +22,8 @@ export const GitPOAPRequestContributorsSchema = z
     emails: z.array(z.string().email()).optional(),
   })
   .strict();
+
+export type GitPOAPRequestContributorsValues = z.infer<typeof GitPOAPRequestContributorsSchema>;
 
 export const GitPOAPRequestCreateSchema = z.object({
   projectId: z.number().optional(),
@@ -40,6 +45,24 @@ export const GitPOAPRequestCreateSchema = z.object({
 });
 
 export type GitPOAPRequestCreateValues = z.infer<typeof GitPOAPRequestCreateSchema>;
+
+export const GitPOAPRequestEditSchema = z
+  .object({
+    name: z.string().min(1),
+    description: z.string().min(1),
+    startDate: z.date(),
+    endDate: z.date(),
+    expiryDate: z.date(),
+    eventUrl: z.string().min(1),
+    numRequestedCodes: z.number(),
+    city: z.nullable(z.string()),
+    country: z.nullable(z.string()),
+    contributors: GitPOAPRequestContributorsSchema,
+  })
+  .strict()
+  .partial();
+
+export type GitPOAPRequestEditValues = z.infer<typeof GitPOAPRequestEditSchema>;
 
 export class GitPOAPRequestAPI extends API {
   constructor(tokens: Tokens | null) {
@@ -75,6 +98,66 @@ export class GitPOAPRequestAPI extends API {
     }
 
     Notifications.success(`Success - Created GitPOAP Request - ${values.name}`);
+
+    return true;
+  }
+
+  async patch(gitPOAPRequestId: number, values: GitPOAPRequestEditValues) {
+    const formData = new FormData();
+
+    values.name && formData.append('name', values.name);
+    values.description && formData.append('description', values.description);
+    values.startDate &&
+      formData.append('startDate', DateTime.fromJSDate(values.startDate).toFormat('yyyy-MM-dd'));
+    values.endDate &&
+      formData.append('endDate', DateTime.fromJSDate(values.endDate).toFormat('yyyy-MM-dd'));
+    values.expiryDate &&
+      formData.append('expiryDate', DateTime.fromJSDate(values.expiryDate).toFormat('yyyy-MM-dd'));
+    values.eventUrl && formData.append('eventUrl', values.eventUrl);
+    values.numRequestedCodes &&
+      formData.append('numRequestedCodes', values.numRequestedCodes.toString());
+    values.city && formData.append('city', values.city.toString());
+    values.country && formData.append('country', values.country.toString());
+
+    const res = await makeAPIRequestWithAuth(
+      `/gitpoaps/custom/${gitPOAPRequestId}`,
+      'POST',
+      this.token,
+      formData,
+      {},
+    );
+
+    if (!res?.ok) {
+      Notifications.error(`Error - Request Failed for ${values.name}`);
+
+      return null;
+    }
+
+    Notifications.success(`Success - Created GitPOAP Request - ${values.name}`);
+
+    return true;
+  }
+
+  async createClaims(gitPOAPRequestId: number, contributors: GitPOAPRequestContributorsValues) {
+    const formData = new FormData();
+
+    formData.append('contributors', JSON.stringify(contributors));
+
+    const res = await makeAPIRequestWithAuth(
+      `/gitpoaps/custom/${gitPOAPRequestId}/claims`,
+      'POST',
+      this.token,
+      formData,
+      {},
+    );
+
+    if (!res?.ok) {
+      Notifications.error(`Error - Request Failed for ${gitPOAPRequestId}`);
+
+      return null;
+    }
+
+    Notifications.success(`Success - Created GitPOAP Request - ${gitPOAPRequestId}`);
 
     return true;
   }

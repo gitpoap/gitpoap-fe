@@ -1,5 +1,6 @@
 import { useGitPoapRequestQuery } from '../../graphql/generated-gql';
-import { CreationForm } from './CreationForm';
+import { GitPOAPRequestEditValues } from '../../lib/api/gitpoapRequest';
+import { EditForm } from './EditForm';
 
 type Props = {
   address: string;
@@ -27,5 +28,23 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
     return <div>Unauthorized</div>;
   }
 
-  return <CreationForm gitPOAPRequest={gitPOAPRequest} />;
+  const initialValues: GitPOAPRequestEditValues = {
+    name: gitPOAPRequest.name,
+    description: gitPOAPRequest.description,
+    startDate: new Date(gitPOAPRequest.startDate),
+    endDate: new Date(gitPOAPRequest.endDate),
+    expiryDate: new Date(gitPOAPRequest.expiryDate),
+    eventUrl: gitPOAPRequest.eventUrl,
+    numRequestedCodes: gitPOAPRequest.numRequestedCodes,
+    contributors: gitPOAPRequest.contributors,
+  };
+
+  return (
+    <EditForm
+      adminApprovalStatus={gitPOAPRequest.adminApprovalStatus}
+      initialValues={initialValues}
+      gitPOAPRequestId={gitPOAPId}
+      imageUrl={gitPOAPRequest.imageUrl}
+    />
+  );
 };

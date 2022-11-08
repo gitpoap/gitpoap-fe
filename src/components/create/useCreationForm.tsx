@@ -26,10 +26,10 @@ const defaultInitialValues: GitPOAPRequestCreateValues = {
   image: null,
 };
 
-export const useCreationForm = (initialValues?: GitPOAPRequestCreateValues) =>
+export const useCreationForm = () =>
   useForm<GitPOAPRequestCreateValues>({
     validate: zodResolver(GitPOAPRequestCreateSchema),
-    initialValues: initialValues ?? defaultInitialValues,
+    initialValues: defaultInitialValues,
   });
 
 export type CreationFormReturnTypes = ReturnType<typeof useCreationForm>;
