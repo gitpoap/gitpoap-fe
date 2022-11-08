@@ -6329,8 +6329,8 @@ export type GitPoapRequestQuery = {
     isEnabled: boolean;
     imageUrl: string;
     adminApprovalStatus: AdminApprovalStatus;
-    address: { __typename?: 'Address'; ethAddress: string };
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
+    address: { __typename?: 'Address'; ethAddress: string };
     project?: {
       __typename?: 'Project';
       repos: Array<{
