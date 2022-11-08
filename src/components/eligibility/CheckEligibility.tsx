@@ -60,7 +60,9 @@ export const CheckEligibility = () => {
       <Stack align="center">
         <Header>{'Check Eligibility'}</Header>
         <Text align="center" size="md">
-          {"Search for your GitHub handle & check if you're eligible for any GitPOAPs"}
+          {
+            "Search for your GitHub, email, ETH address, or ENS name to check if you're eligible for any GitPOAPs"
+          }
         </Text>
         {connectionStatus === 'disconnected' && (
           <Button leftIcon={<FaEthereum size={16} />} onClick={() => connect()}>
