@@ -19,7 +19,7 @@ const defaultInitialValues: GitPOAPRequestCreateValues = {
   endDate: DEFAULT_END_DATE,
   expiryDate: DEFAULT_EXPIRY_DATE,
   eventUrl: 'https://gitpoap.io',
-  email: 'issuer@gitpoap.io',
+  creatorEmail: '',
   numRequestedCodes: 20,
   ongoing: true,
   isEnabled: true,

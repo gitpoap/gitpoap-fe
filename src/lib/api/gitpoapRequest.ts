@@ -30,7 +30,7 @@ export const GitPOAPRequestCreateSchema = z.object({
   endDate: z.date(),
   expiryDate: z.date(),
   eventUrl: z.string().url().min(1),
-  email: z.string().email({ message: 'Invalid email' }),
+  creatorEmail: z.string().email({ message: 'Invalid email' }),
   numRequestedCodes: z.number(),
   ongoing: z.boolean(),
   city: z.string().optional(),
@@ -52,13 +52,13 @@ export class GitPOAPRequestAPI extends API {
     values.projectId && formData.append('projectId', values.projectId.toString());
     values.organizationId && formData.append('organizationId', values.organizationId.toString());
     formData.append('name', values.name);
-    formData.append('contributors', values.contributors.toString());
+    formData.append('contributors', JSON.stringify(values.contributors));
     formData.append('description', values.description);
     formData.append('startDate', DateTime.fromJSDate(values.startDate).toFormat('yyyy-MM-dd'));
     formData.append('endDate', DateTime.fromJSDate(values.endDate).toFormat('yyyy-MM-dd'));
     formData.append('expiryDate', DateTime.fromJSDate(values.expiryDate).toFormat('yyyy-MM-dd'));
     formData.append('eventUrl', values.eventUrl);
-    formData.append('email', values.email);
+    formData.append('creatorEmail', values.creatorEmail);
     formData.append('numRequestedCodes', values.numRequestedCodes.toString());
     formData.append('ongoing', values.ongoing.toString());
     values.city && formData.append('city', values.city.toString());
@@ -66,12 +66,7 @@ export class GitPOAPRequestAPI extends API {
     formData.append('isEnabled', values.isEnabled.toString());
     formData.append('image', values.image ?? '');
 
-    const res = await makeAPIRequestWithAuth(
-      '/gitpoaps/custom',
-      'POST',
-      this.token,
-      JSON.stringify(formData),
-    );
+    const res = await makeAPIRequestWithAuth('/gitpoaps/custom', 'POST', this.token, formData, {});
 
     if (!res?.ok) {
       Notifications.error(`Error - Request Failed for ${values.name}`);

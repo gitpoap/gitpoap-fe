@@ -70,15 +70,15 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
 
   useEffect(() => {
     if (gitPOAPRequest) {
-      const formattedResult = {
+      const formattedResult: GitPOAPRequestCreateValues = {
         ...gitPOAPRequest,
         image: gitPOAPRequest.imageUrl,
         projectId: gitPOAPRequest.project?.repos[0].id,
         organizationId: gitPOAPRequest.project?.repos[0]?.organization?.id,
       };
       setValues(formattedResult);
-      if (formattedResult.adminApprovalStatus) {
-        setAdminApprovalStatus(formattedResult.adminApprovalStatus);
+      if (gitPOAPRequest.adminApprovalStatus) {
+        setAdminApprovalStatus(gitPOAPRequest.adminApprovalStatus);
       }
     }
   }, [gitPOAPRequest]);
@@ -111,7 +111,7 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
       }
 
       setButtonStatus(ButtonStatus.SUCCESS);
-      router.push('/me/requests');
+      await router.push('/me/requests');
     },
     [api.gitPOAPRequest],
   );
@@ -191,6 +191,12 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
               </Grid.Col>
             </Grid>
           </Box>
+          <Input
+            style={{ width: '100%' }}
+            label="Email"
+            placeholder="Email"
+            {...getInputProps('creatorEmail')}
+          />
         </Stack>
         <SelectContributors
           contributors={contributors}

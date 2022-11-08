@@ -8,7 +8,7 @@ export const Login = () => {
 
   return (
     <Center style={{ width: '100%', height: 600 }}>
-      {connectionStatus === 'disconnected' && (
+      {(connectionStatus === 'disconnected' || connectionStatus === 'uninitialized') && (
         <Stack spacing={32}>
           <Header>{'Sign In to Continue'}</Header>
           <Button leftIcon={<FaEthereum size={16} />} onClick={() => connect()}>
@@ -16,7 +16,9 @@ export const Login = () => {
           </Button>
         </Stack>
       )}
-      {connectionStatus === 'connecting-wallet' && <Loader />}
+      {(connectionStatus === 'connecting-wallet' || connectionStatus === 'disconnecting') && (
+        <Loader />
+      )}
     </Center>
   );
 };
