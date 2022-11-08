@@ -93,18 +93,6 @@ export const EditForm = ({
     async (formValues: GitPOAPRequestEditValues) => {
       setButtonStatus(ButtonStatus.LOADING);
 
-      // Reformat Contributor[] to GitPOAPRequestCreateValues['contributors']
-      const formattedContributors = contributors.reduce(
-        (group: GitPOAPRequestContributorsValues, contributor) => {
-          const { type, value }: Contributor = contributor;
-          group[type] = group[type] || [];
-          group[type]?.push(value);
-          return group;
-        },
-        {},
-      );
-      await setFieldValue('contributors', formattedContributors);
-
       if (validate().hasErrors) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
@@ -220,12 +208,18 @@ export const EditForm = ({
           setContributors={setContributors}
         />
         <Button
-          onClick={() => {
-            if (!validate().hasErrors) {
-              submitEditCustomGitPOAP(values);
-            } else {
-              console.warn(errors);
-            }
+          onClick={async () => {
+            const formattedContributors = contributors.reduce(
+              (group: GitPOAPRequestEditValues['contributors'], contributor) => {
+                const { type, value }: Contributor = contributor;
+                group[type] = group[type] || [];
+                group[type]?.push(value);
+                return group;
+              },
+              {},
+            );
+            await setFieldValue('contributors', formattedContributors);
+            await submitEditCustomGitPOAP(values);
           }}
           loading={buttonStatus === ButtonStatus.LOADING}
           disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}
