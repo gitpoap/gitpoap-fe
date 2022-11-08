@@ -46,7 +46,7 @@ export const ClaimItem = ({ claim }: ClaimItemProps) => {
     : '';
 
   return (
-    <Container position="center" align="start" noWrap p={rem(10)}>
+    <Container position="left" align="start" noWrap p={rem(10)}>
       <Stack align="start">
         <GitPOAP gitPOAPId={claim.gitPOAP.id} imgSrc={claim.gitPOAP.imageUrl} size="sm" />
       </Stack>
