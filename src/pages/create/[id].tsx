@@ -2,25 +2,26 @@ import { Grid } from '@mantine/core';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { CreationForm } from '../../components/create/CreationForm';
 import { EditContainer } from '../../components/create/EditContainer';
 import { BackgroundHexes } from '../../components/gitpoap/BackgroundHexes';
 import { Login } from '../../components/Login';
-import { useWeb3Context } from '../../components/wallet/Web3Context';
+import { useUser } from '../../hooks/useUser';
 import Custom404 from '../404';
 
 const Create: NextPage = () => {
   const router = useRouter();
-  const { address } = useWeb3Context();
+  const user = useUser();
+  const address = user?.address;
 
   const { id } = router.query;
-  let gitPOAPId;
 
-  if (id) {
-    gitPOAPId = parseInt(Array.isArray(id) ? id[0] : id);
+  if (typeof id !== 'string') {
+    return <></>;
   }
 
-  if (gitPOAPId && isNaN(gitPOAPId)) {
+  const gitPOAPId = parseInt(id);
+
+  if (isNaN(gitPOAPId)) {
     return <Custom404 />;
   }
 
@@ -34,11 +35,7 @@ const Create: NextPage = () => {
         {address ? (
           <>
             <BackgroundHexes />
-            {gitPOAPId ? (
-              <EditContainer address={address} gitPOAPId={gitPOAPId} />
-            ) : (
-              <CreationForm />
-            )}
+            <EditContainer address={address} gitPOAPId={gitPOAPId} />
           </>
         ) : (
           <Login />

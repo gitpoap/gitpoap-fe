@@ -3,16 +3,17 @@ import { Container } from '@mantine/core';
 import { Page } from '../_app';
 import { SEO } from '../../components/shared/compounds/SEO';
 import { SettingsPage } from '../../components/settings/SettingsPage';
-import { useWeb3Context } from '../../components/wallet/Web3Context';
 import { ProfileProvider } from '../../components/profile/ProfileContext';
 import { Login } from '../../components/Login';
+import { useUser } from '../../hooks/useUser';
 
 const Wrapper = styled(Container)`
   width: 100vw;
 `;
 
 const Settings: Page = () => {
-  const { address, connectionStatus } = useWeb3Context();
+  const user = useUser();
+  const address = user?.address;
 
   return (
     <Wrapper size={600} my={48}>
@@ -22,7 +23,7 @@ const Settings: Page = () => {
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/settings`}
       />
-      {address && connectionStatus === 'connected-to-wallet' ? (
+      {address ? (
         <ProfileProvider addressOrEns={address}>
           <SettingsPage />
         </ProfileProvider>

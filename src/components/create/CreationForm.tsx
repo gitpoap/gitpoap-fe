@@ -23,6 +23,7 @@ import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
 import { GitPoapRequestQuery } from '../../graphql/generated-gql';
 import { HexagonDropzone } from './HexagonDropzone';
 import { useRouter } from 'next/router';
+import { Link } from '../shared/compounds/Link';
 
 const Label = styled(InputUI.Label)`
   ${TextInputLabelStyles};
@@ -122,9 +123,11 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
         style={{ left: '5%', position: 'absolute', width: '90%', zIndex: 99 }}
       >
         <Box>
-          <Text color="grey" component="a" href="/create/select-type" mb="md">
-            {'< BACK TO TYPE SELECTION'}
-          </Text>
+          <Link href="/create/select-type">
+            <Text color="grey" mb="md">
+              {'< BACK TO TYPE SELECTION'}
+            </Text>
+          </Link>
           <Header>{HeaderText[adminApprovalStatus]}</Header>
         </Box>
         <Header>{adminApprovalStatus}</Header>
@@ -142,22 +145,18 @@ export const CreationForm = ({ gitPOAPRequest }: Props) => {
               <List.Item>
                 <Group spacing={6}>
                   <Text>{'Mandatory: PNG format,'}</Text>
-                  <Text
-                    component="a"
-                    href="https://www.canva.com/design/DAFQoFm0dhQ/H17FASlR17kwLk6m303hBw/view?utm_content=DAFQoFm0dhQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"
-                    variant="link"
-                  >
-                    {'GitPOAP Template'}
-                  </Text>
+                  <Link href="https://www.canva.com/design/DAFQoFm0dhQ/H17FASlR17kwLk6m303hBw/view?utm_content=DAFQoFm0dhQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview">
+                    <Text>{'GitPOAP Template'}</Text>
+                  </Link>
                 </Group>
               </List.Item>
               <List.Item>
                 <Text>{'Recommended: measures 500x500px, size less than 200KB (Max. 4MB)'}</Text>
               </List.Item>
               <List.Item>
-                <Text component="a" href="" variant="link">
-                  {'Design Guide'}
-                </Text>
+                <Link href="docs.gitpoap.io">
+                  <Text>{'Design Guide'}</Text>
+                </Link>
               </List.Item>
             </List>
           </Box>
