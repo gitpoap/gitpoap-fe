@@ -120,48 +120,6 @@ export class GitPOAPRequestAPI extends API {
     return true;
   }
 
-  async createClaims(gitPOAPRequestId: number, contributors: GitPOAPRequestContributorsValues) {
-    const res = await makeAPIRequestWithAuth(
-      `/gitpoaps/custom/${gitPOAPRequestId}/claims`,
-      'PUT',
-      this.token,
-      JSON.stringify({ contributors }),
-    );
-
-    if (!res?.ok) {
-      Notifications.error(`Error - Request Failed for ${gitPOAPRequestId}`);
-
-      return null;
-    }
-
-    Notifications.success(`Success - Created GitPOAP Request - ${gitPOAPRequestId}`);
-
-    return true;
-  }
-
-  async deleteClaim(
-    claimType: 'githubHandle' | 'email' | 'ethAddress' | 'ensName',
-    claimData: string,
-    gitPOAPRequestId: number,
-  ) {
-    const res = await makeAPIRequestWithAuth(
-      `/gitpoaps/custom/${gitPOAPRequestId}/claim`,
-      'DELETE',
-      this.token,
-      JSON.stringify({ claimType, claimData }),
-    );
-
-    if (!res?.ok) {
-      Notifications.error(`Error - Request Failed for ${gitPOAPRequestId}`);
-
-      return null;
-    }
-
-    Notifications.success(`Success - Created GitPOAP Request - ${gitPOAPRequestId}`);
-
-    return true;
-  }
-
   async approve(id: number) {
     const res = await makeAPIRequestWithAuth(`/gitpoaps/custom/approve/${id}`, 'PUT', this.token);
 
