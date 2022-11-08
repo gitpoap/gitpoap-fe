@@ -5,7 +5,7 @@ import { ClaimItem, Claim } from '../../../src/components/eligibility/ClaimItem'
 const CLAIM: Claim = {
   id: 1,
   issuedAddress: null,
-  user: {
+  githubUser: {
     githubHandle: 'peebeejay',
   },
   gitPOAP: {

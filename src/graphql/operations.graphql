@@ -284,7 +284,7 @@ query featuredPoaps($address: String!) {
 query adminClaims($count: Int!) {
   claims(take: $count, orderBy: { mintedAt: desc }, where: { status: { equals: CLAIMED } }) {
     id
-    user {
+    githubUser {
       id
       githubHandle
     }
@@ -324,7 +324,7 @@ query eligibleClaims($query: String!, $skip: Int, $take: Int) {
       mintedAddressId: { equals: null }
       gitPOAP: { is: { isEnabled: { equals: true } } }
       OR: [
-        { user: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
+        { githubUser: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
         { email: { is: { emailAddress: { contains: $query, mode: insensitive } } } }
         { issuedAddress: { is: { ethAddress: { contains: $query, mode: insensitive } } } }
         { issuedAddress: { is: { ensName: { contains: $query, mode: insensitive } } } }
@@ -336,8 +336,11 @@ query eligibleClaims($query: String!, $skip: Int, $take: Int) {
       ethAddress
       ensName
     }
-    user {
+    githubUser {
       githubHandle
+    }
+    email {
+      emailAddress
     }
     gitPOAP {
       id
@@ -582,7 +585,7 @@ query claimsCount {
 }
 
 query totalUsers {
-  aggregateUser(where: { githubHandle: { not: { equals: "" } } }) {
+  aggregateGithubUser(where: { githubHandle: { not: { equals: "" } } }) {
     _count {
       githubHandle
     }
@@ -614,7 +617,7 @@ query totalProfilesHidden {
 }
 
 query totalDistinctUsersWithClaims {
-  claims(distinct: userId, where: { status: { equals: CLAIMED } }) {
+  claims(distinct: githubUserId, where: { status: { equals: CLAIMED } }) {
     id
   }
 }

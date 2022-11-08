@@ -158,7 +158,7 @@ export const VitalsDashboard = () => {
   const totalClaims = totalClaimsResult.data?.aggregateClaim._count?.id;
   const mintedClaims = mintedClaimsResult.data?.aggregateClaim._count?.id;
   const unverifiedClaims = unverifiedClaimsResult.data?.aggregateClaim._count?.id;
-  const totalUsers = totalUsersResult.data?.aggregateUser._count?.githubHandle;
+  const totalUsers = totalUsersResult.data?.aggregateGithubUser._count?.githubHandle;
   const totalUsersWithClaims = totalUsersWithClaimsResult.data?.claims.length;
   const totalClaimsWithPREarned =
     totalClaimsWithPullRequestEarnedResult.data?.aggregateClaim._count?.id;
