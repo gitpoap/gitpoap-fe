@@ -16,14 +16,14 @@ import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
 
 import { DateInput, Header, Input, TextArea, TextInputLabelStyles } from '../shared/elements';
-import { useCreationForm } from './useCreationForm';
 import { Contributor, SelectContributors } from './SelectContributors';
 import { useApi } from '../../hooks/useApi';
-import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
+import { GitPOAPRequestEditValues } from '../../lib/api/gitpoapRequest';
 import { HexagonDropzone } from './HexagonDropzone';
 import { useRouter } from 'next/router';
 import { Link } from '../shared/compounds/Link';
 import { ExtraRed } from '../../colors';
+import { useEditForm } from './useEditForm';
 
 const Label = styled(InputUI.Label)`
   ${TextInputLabelStyles};
@@ -52,40 +52,61 @@ const SubmitButtonText = {
 
 type AdminApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
 
-export const CreationForm = () => {
+type Props = {
+  adminApprovalStatus: AdminApprovalStatus;
+  initialValues: GitPOAPRequestEditValues;
+  gitPOAPRequestId: number;
+  imageUrl: string;
+};
+
+export const EditForm = ({
+  adminApprovalStatus,
+  initialValues,
+  gitPOAPRequestId,
+  imageUrl,
+}: Props) => {
   const api = useApi();
   const { errors, values, getInputProps, setFieldError, setFieldValue, validate } =
-    useCreationForm();
+    useEditForm(initialValues);
   const router = useRouter();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [contributors, setContributors] = useState<Contributor[]>([]);
-  const approvalStatus: AdminApprovalStatus = 'UNSUBMITTED';
 
-  const imageUrl = values.image ? URL.createObjectURL(values.image) : null;
-
-  const submitCreateCustomGitPOAP = useCallback(
-    async (formValues: GitPOAPRequestCreateValues) => {
+  const submitEditCustomGitPOAP = useCallback(
+    async (formValues: GitPOAPRequestEditValues) => {
       setButtonStatus(ButtonStatus.LOADING);
 
       // Reformat Contributor[] to GitPOAPRequestCreateValues['contributors']
       await setFieldValue(
         'contributors',
-        contributors.reduce((group: GitPOAPRequestCreateValues['contributors'], contributor) => {
-          const { type, value }: Contributor = contributor;
-          group[type] = group[type] || [];
-          group[type]?.push(value);
-          return group;
-        }, {}),
+        contributors.reduce(
+          (group: Exclude<GitPOAPRequestEditValues['contributors'], undefined>, contributor) => {
+            const { type, value }: Contributor = contributor;
+            group[type] = group[type] || [];
+            group[type]?.push(value);
+            return group;
+          },
+          {},
+        ),
       );
 
-      if (validate().hasErrors || formValues['image'] === null) {
+      if (validate().hasErrors) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
       }
 
-      const data = await api.gitPOAPRequest.create(formValues);
+      const { contributors: contributorsList, ...editFormValues } = formValues;
 
-      if (data === null) {
+      const data = await api.gitPOAPRequest.patch(gitPOAPRequestId, editFormValues);
+
+      // We need to check for changes only, and remove based on that
+      const hasAdditionalContributors =
+        contributorsList && Object.values(contributorsList).some((x) => x.length);
+      const contributorsData = hasAdditionalContributors
+        ? await api.gitPOAPRequest.createClaims(gitPOAPRequestId, contributorsList)
+        : null;
+
+      if (data === null || (hasAdditionalContributors && contributorsData === null)) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
       }
@@ -108,13 +129,13 @@ export const CreationForm = () => {
               {'< BACK TO TYPE SELECTION'}
             </Text>
           </Link>
-          <Header>{HeaderText[approvalStatus]}</Header>
+          <Header>{HeaderText[adminApprovalStatus]}</Header>
         </Box>
-        <Header>{approvalStatus}</Header>
+        <Header>{adminApprovalStatus}</Header>
       </Group>
       <Stack align="center" spacing={32}>
         <HexagonDropzone
-          disabled={false}
+          disabled={true}
           imageUrl={imageUrl}
           setError={setFieldError}
           setValue={setFieldValue}
@@ -183,7 +204,7 @@ export const CreationForm = () => {
             style={{ width: '100%' }}
             label="Email"
             placeholder="Email"
-            disabled={false}
+            disabled={true}
             {...getInputProps('creatorEmail')}
           />
         </Stack>
@@ -195,7 +216,9 @@ export const CreationForm = () => {
         <Button
           onClick={() => {
             if (!validate().hasErrors) {
-              submitCreateCustomGitPOAP(values);
+              submitEditCustomGitPOAP(values);
+            } else {
+              console.warn(errors);
             }
           }}
           loading={buttonStatus === ButtonStatus.LOADING}
@@ -208,7 +231,7 @@ export const CreationForm = () => {
             ) : null
           }
         >
-          {SubmitButtonText[approvalStatus]}
+          {SubmitButtonText[adminApprovalStatus]}
         </Button>
       </Stack>
     </Container>

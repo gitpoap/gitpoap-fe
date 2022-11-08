@@ -4,14 +4,14 @@ import { Notifications } from '../../notifications';
 import { API, Tokens, makeAPIRequestWithAuth } from './utils';
 
 export const MAX_FILE_SIZE = 5000000;
-export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+export const ACCEPTED_IMAGE_TYPES = ['image/png', 'image/gif'];
 
 const ImageFileSchema = z
   .any()
   .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
   .refine(
     (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-    'File type must be one of image/jpeg, image/jpg, image/png, image/webp',
+    'File type must be image/png or image/gif',
   );
 
 export const GitPOAPRequestContributorsSchema = z
@@ -23,6 +23,8 @@ export const GitPOAPRequestContributorsSchema = z
   })
   .strict();
 
+export type GitPOAPRequestContributorsValues = z.infer<typeof GitPOAPRequestContributorsSchema>;
+
 export const GitPOAPRequestCreateSchema = z.object({
   projectId: z.number().optional(),
   organizationId: z.number().optional(),
@@ -33,7 +35,7 @@ export const GitPOAPRequestCreateSchema = z.object({
   endDate: z.date(),
   expiryDate: z.date(),
   eventUrl: z.string().url().min(1),
-  email: z.string().email({ message: 'Invalid email' }),
+  creatorEmail: z.string().email({ message: 'Invalid email' }),
   numRequestedCodes: z.number(),
   ongoing: z.boolean(),
   city: z.string().optional(),
@@ -43,6 +45,24 @@ export const GitPOAPRequestCreateSchema = z.object({
 });
 
 export type GitPOAPRequestCreateValues = z.infer<typeof GitPOAPRequestCreateSchema>;
+
+export const GitPOAPRequestEditSchema = z
+  .object({
+    name: z.string().min(1),
+    description: z.string().min(1),
+    startDate: z.date(),
+    endDate: z.date(),
+    expiryDate: z.date(),
+    eventUrl: z.string().min(1),
+    numRequestedCodes: z.number(),
+    city: z.nullable(z.string()),
+    country: z.nullable(z.string()),
+    contributors: GitPOAPRequestContributorsSchema,
+  })
+  .strict()
+  .partial();
+
+export type GitPOAPRequestEditValues = z.infer<typeof GitPOAPRequestEditSchema>;
 
 export class GitPOAPRequestAPI extends API {
   constructor(tokens: Tokens | null) {
@@ -55,13 +75,13 @@ export class GitPOAPRequestAPI extends API {
     values.projectId && formData.append('projectId', values.projectId.toString());
     values.organizationId && formData.append('organizationId', values.organizationId.toString());
     formData.append('name', values.name);
-    formData.append('contributors', values.contributors.toString());
+    formData.append('contributors', JSON.stringify(values.contributors));
     formData.append('description', values.description);
     formData.append('startDate', DateTime.fromJSDate(values.startDate).toFormat('yyyy-MM-dd'));
     formData.append('endDate', DateTime.fromJSDate(values.endDate).toFormat('yyyy-MM-dd'));
     formData.append('expiryDate', DateTime.fromJSDate(values.expiryDate).toFormat('yyyy-MM-dd'));
     formData.append('eventUrl', values.eventUrl);
-    formData.append('email', values.email);
+    formData.append('creatorEmail', values.creatorEmail);
     formData.append('numRequestedCodes', values.numRequestedCodes.toString());
     formData.append('ongoing', values.ongoing.toString());
     values.city && formData.append('city', values.city.toString());
@@ -69,12 +89,7 @@ export class GitPOAPRequestAPI extends API {
     formData.append('isEnabled', values.isEnabled.toString());
     formData.append('image', values.image ?? '');
 
-    const res = await makeAPIRequestWithAuth(
-      '/gitpoaps/custom',
-      'POST',
-      this.token,
-      JSON.stringify(formData),
-    );
+    const res = await makeAPIRequestWithAuth('/gitpoaps/custom', 'POST', this.token, formData, {});
 
     if (!res?.ok) {
       Notifications.error(`Error - Request Failed for ${values.name}`);
@@ -83,6 +98,46 @@ export class GitPOAPRequestAPI extends API {
     }
 
     Notifications.success(`Success - Created GitPOAP Request - ${values.name}`);
+
+    return true;
+  }
+
+  async patch(gitPOAPRequestId: number, data: GitPOAPRequestEditValues) {
+    const res = await makeAPIRequestWithAuth(
+      `/gitpoaps/custom/${gitPOAPRequestId}`,
+      'PATCH',
+      this.token,
+      JSON.stringify({
+        data,
+      }),
+    );
+
+    if (!res?.ok) {
+      Notifications.error(`Error - Request Failed for ${data.name}`);
+
+      return null;
+    }
+
+    Notifications.success(`Success - Created GitPOAP Request - ${data.name}`);
+
+    return true;
+  }
+
+  async createClaims(gitPOAPRequestId: number, contributors: GitPOAPRequestContributorsValues) {
+    const res = await makeAPIRequestWithAuth(
+      `/gitpoaps/custom/${gitPOAPRequestId}/claims`,
+      'PUT',
+      this.token,
+      JSON.stringify({ contributors }),
+    );
+
+    if (!res?.ok) {
+      Notifications.error(`Error - Request Failed for ${gitPOAPRequestId}`);
+
+      return null;
+    }
+
+    Notifications.success(`Success - Created GitPOAP Request - ${gitPOAPRequestId}`);
 
     return true;
   }

@@ -19,17 +19,17 @@ const defaultInitialValues: GitPOAPRequestCreateValues = {
   endDate: DEFAULT_END_DATE,
   expiryDate: DEFAULT_EXPIRY_DATE,
   eventUrl: 'https://gitpoap.io',
-  email: 'issuer@gitpoap.io',
+  creatorEmail: '',
   numRequestedCodes: 20,
   ongoing: true,
   isEnabled: true,
   image: null,
 };
 
-export const useCreationForm = (initialValues?: GitPOAPRequestCreateValues) =>
+export const useCreationForm = () =>
   useForm<GitPOAPRequestCreateValues>({
     validate: zodResolver(GitPOAPRequestCreateSchema),
-    initialValues: initialValues ?? defaultInitialValues,
+    initialValues: defaultInitialValues,
   });
 
 export type CreationFormReturnTypes = ReturnType<typeof useCreationForm>;

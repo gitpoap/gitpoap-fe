@@ -6328,6 +6328,7 @@ export type GitPoapRequestQuery = {
     isEnabled: boolean;
     imageUrl: string;
     adminApprovalStatus: AdminApprovalStatus;
+    address: { __typename?: 'Address'; ethAddress: string };
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
     project?: {
       __typename?: 'Project';
@@ -7764,6 +7765,9 @@ export const GitPoapRequestDocument = gql`
       isEnabled
       imageUrl
       adminApprovalStatus
+      address {
+        ethAddress
+      }
       project {
         repos(take: 1) {
           id
