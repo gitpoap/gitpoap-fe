@@ -98,11 +98,15 @@ export const EditForm = ({
       const { contributors: contributorsList, ...editFormValues } = formValues;
 
       const data = await api.gitPOAPRequest.patch(gitPOAPRequestId, editFormValues);
-      const contributorsData = contributorsList
-        ? await api.gitPOAPRequest.createClaims(gitPOAPRequestId, contributorsList)
-        : {};
 
-      if (data === null || (contributorsList && contributorsData === null)) {
+      // We need to check for changes only, and remove based on that
+      const hasAdditionalContributors =
+        contributorsList && Object.values(contributorsList).some((x) => x.length);
+      const contributorsData = hasAdditionalContributors
+        ? await api.gitPOAPRequest.createClaims(gitPOAPRequestId, contributorsList)
+        : null;
+
+      if (data === null || (hasAdditionalContributors && contributorsData === null)) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
       }
@@ -213,8 +217,9 @@ export const EditForm = ({
           onClick={() => {
             if (!validate().hasErrors) {
               submitEditCustomGitPOAP(values);
+            } else {
+              console.warn(errors);
             }
-            console.log(errors);
           }}
           loading={buttonStatus === ButtonStatus.LOADING}
           disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}

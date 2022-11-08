@@ -102,53 +102,33 @@ export class GitPOAPRequestAPI extends API {
     return true;
   }
 
-  async patch(gitPOAPRequestId: number, values: GitPOAPRequestEditValues) {
-    const formData = new FormData();
-
-    values.name && formData.append('name', values.name);
-    values.description && formData.append('description', values.description);
-    values.startDate &&
-      formData.append('startDate', DateTime.fromJSDate(values.startDate).toFormat('yyyy-MM-dd'));
-    values.endDate &&
-      formData.append('endDate', DateTime.fromJSDate(values.endDate).toFormat('yyyy-MM-dd'));
-    values.expiryDate &&
-      formData.append('expiryDate', DateTime.fromJSDate(values.expiryDate).toFormat('yyyy-MM-dd'));
-    values.eventUrl && formData.append('eventUrl', values.eventUrl);
-    values.numRequestedCodes &&
-      formData.append('numRequestedCodes', values.numRequestedCodes.toString());
-    values.city && formData.append('city', values.city.toString());
-    values.country && formData.append('country', values.country.toString());
-
+  async patch(gitPOAPRequestId: number, data: GitPOAPRequestEditValues) {
     const res = await makeAPIRequestWithAuth(
       `/gitpoaps/custom/${gitPOAPRequestId}`,
-      'POST',
+      'PATCH',
       this.token,
-      formData,
-      {},
+      JSON.stringify({
+        data,
+      }),
     );
 
     if (!res?.ok) {
-      Notifications.error(`Error - Request Failed for ${values.name}`);
+      Notifications.error(`Error - Request Failed for ${data.name}`);
 
       return null;
     }
 
-    Notifications.success(`Success - Created GitPOAP Request - ${values.name}`);
+    Notifications.success(`Success - Created GitPOAP Request - ${data.name}`);
 
     return true;
   }
 
   async createClaims(gitPOAPRequestId: number, contributors: GitPOAPRequestContributorsValues) {
-    const formData = new FormData();
-
-    formData.append('contributors', JSON.stringify(contributors));
-
     const res = await makeAPIRequestWithAuth(
       `/gitpoaps/custom/${gitPOAPRequestId}/claims`,
-      'POST',
+      'PUT',
       this.token,
-      formData,
-      {},
+      JSON.stringify({ contributors }),
     );
 
     if (!res?.ok) {
