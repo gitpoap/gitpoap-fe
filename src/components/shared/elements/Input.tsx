@@ -77,5 +77,6 @@ const StyledInput = styled(TextInput)<{ disabled?: boolean }>`
 `;
 
 export const Input = (props: Props) => {
-  return <StyledInput {...props} ref={props.inputRef} spellCheck={false} />;
+  const { inputRef, ...restProps } = props;
+  return <StyledInput {...restProps} ref={inputRef} spellCheck={false} />;
 };
