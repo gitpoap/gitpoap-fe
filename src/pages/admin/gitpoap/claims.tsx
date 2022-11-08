@@ -53,8 +53,8 @@ const ClaimsDashboard: NextPage = () => {
     return {
       'Claim ID': { value: claim.id },
       'Github User': {
-        value: truncateString(claim.user?.githubHandle ?? '', 12),
-        href: `https://github.com/${claim.user?.githubHandle}`,
+        value: truncateString(claim.githubUser?.githubHandle ?? '', 12),
+        href: `https://github.com/${claim.githubUser?.githubHandle}`,
       },
       'PR #': {
         value: ghPullNumber ? `#${ghPullNumber}` : '',
@@ -62,7 +62,7 @@ const ClaimsDashboard: NextPage = () => {
           ? `https://github.com/${org?.name}/${repo?.name}/pull/${claim.pullRequestEarned?.githubPullNumber}`
           : '',
       },
-      'User ID': { value: claim.user?.id },
+      'User ID': { value: claim.githubUser?.id },
       Org: {
         value: truncateString(org?.name ?? '', 12),
         href: `https://gitpoap.io/org/${org?.id}`,
