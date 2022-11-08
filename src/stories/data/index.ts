@@ -525,7 +525,9 @@ export const gitPOAPRequests = [
     endDate: '2022-01-01',
     expiryDate: '2022-02-01',
     numRequestedCodes: 100,
-    creatorEmail: 'team@gitpoap.io',
+    creatorEmail: {
+      emailAddress: 'team@gitpoap.io',
+    },
     adminApprovalStatus: AdminApprovalStatus.Pending,
     contributors: {
       githubHandles: ['peebeejay', 'burz'],
@@ -544,7 +546,9 @@ export const gitPOAPRequests = [
     endDate: '2022-01-01',
     expiryDate: '2022-02-01',
     numRequestedCodes: 27,
-    creatorEmail: 'team@gitpoap.io',
+    creatorEmail: {
+      emailAddress: 'team@gitpoap.io',
+    },
     adminApprovalStatus: AdminApprovalStatus.Pending,
     contributors: {
       githubHandles: ['peebeejay', 'burz', 'colfax23'],

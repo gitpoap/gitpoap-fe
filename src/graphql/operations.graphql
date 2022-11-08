@@ -788,7 +788,9 @@ query gitPOAPRequest($gitPOAPRequestId: Int!) {
     endDate
     expiryDate
     eventUrl
-    creatorEmail
+    creatorEmail {
+      emailAddress
+    }
     numRequestedCodes
     ongoing
     isEnabled
@@ -825,7 +827,9 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStat
     endDate
     expiryDate
     numRequestedCodes
-    creatorEmail
+    creatorEmail {
+      emailAddress
+    }
     contributors
     adminApprovalStatus
     project {
@@ -875,7 +879,9 @@ query userGitPOAPRequests(
     endDate
     expiryDate
     numRequestedCodes
-    creatorEmail
+    creatorEmail {
+      emailAddress
+    }
     contributors
     adminApprovalStatus
     project {

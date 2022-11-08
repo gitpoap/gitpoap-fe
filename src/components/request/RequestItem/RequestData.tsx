@@ -31,7 +31,7 @@ export const RequestData = ({
       <Stack spacing="xs">
         <RequestAttribute label="Name:" value={gitPOAPRequest.name} />
         <RequestAttribute label="Description:" value={gitPOAPRequest.description} />
-        <RequestAttribute label="Email:" value={gitPOAPRequest.creatorEmail} />
+        <RequestAttribute label="Email:" value={gitPOAPRequest.creatorEmail.emailAddress} />
         {project && (
           <RequestAttributeLink label="Project:" value={project.name} href={`/rp/${project.id}`} />
         )}
