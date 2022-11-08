@@ -1,19 +1,23 @@
 import React from 'react';
-import Link from 'next/link';
 import { rem } from 'polished';
 import styled from 'styled-components';
-import { Group, Text, TextProps, Alert } from '@mantine/core';
+import { Group, Text, TextProps, Notification } from '@mantine/core';
 import { useMediaQuery, useDisclosure } from '@mantine/hooks';
 import { BackgroundPanel2, BackgroundPanel3, TextGray, TextLight } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 
-const MessageBannerContainer = styled(Group)`\
+const MessageBannerContainer = styled(Group)`
   position: absolute;
   width: 100%;
   z-index: 1;
+
+  @media (max-width: ${BREAKPOINTS.lg}px) {
+    position: relative;
+  }
 `;
 
-const MessageBannerContent = styled(Alert)`
+const MessageBannerContent = styled(Notification)`
+  max-width: 90%;
   background-color: ${BackgroundPanel2};
   cursor: pointer;
 
@@ -66,17 +70,16 @@ export const MessageBanner = ({
         radius="md"
         py={rem(16)}
         px={rem(20)}
-        withCloseButton
         onClose={() => close()}
       >
-        <Link href={href} target="_blank" rel="noreferrer">
-          <Group align="center" spacing="sm">
+        <a href={href} target="_blank" rel="noreferrer">
+          <Group align="center" spacing="sm" noWrap>
             <Message size={14}>{message}</Message>
             <RightIconContainer align="center">
               {!matchesBreakpointSmall && rightIcon ? rightIcon : ''}
             </RightIconContainer>
           </Group>
-        </Link>
+        </a>
       </MessageBannerContent>
     </MessageBannerContainer>
   );
