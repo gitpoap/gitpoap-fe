@@ -93,7 +93,7 @@ export const CreationForm = () => {
       setButtonStatus(ButtonStatus.SUCCESS);
       await router.push('/me/requests');
     },
-    [api.gitPOAPRequest], // eslint-disable-line no-use-before-define
+    [api.gitPOAPRequest],
   );
 
   return (

@@ -46,21 +46,18 @@ export const GitPOAPRequestCreateSchema = z.object({
 
 export type GitPOAPRequestCreateValues = z.infer<typeof GitPOAPRequestCreateSchema>;
 
-export const GitPOAPRequestEditSchema = z
-  .object({
-    name: z.string().min(1),
-    description: z.string().min(1),
-    startDate: z.date(),
-    endDate: z.date(),
-    expiryDate: z.date(),
-    eventUrl: z.string().min(1),
-    numRequestedCodes: z.number(),
-    city: z.nullable(z.string()),
-    country: z.nullable(z.string()),
-    contributors: GitPOAPRequestContributorsSchema,
-  })
-  .strict()
-  .partial();
+export const GitPOAPRequestEditSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().min(1),
+  startDate: z.date(),
+  endDate: z.date(),
+  expiryDate: z.date(),
+  eventUrl: z.string().min(1),
+  numRequestedCodes: z.number(),
+  city: z.string().optional(),
+  country: z.string().optional(),
+  contributors: GitPOAPRequestContributorsSchema,
+});
 
 export type GitPOAPRequestEditValues = z.infer<typeof GitPOAPRequestEditSchema>;
 
@@ -129,6 +126,29 @@ export class GitPOAPRequestAPI extends API {
       'PUT',
       this.token,
       JSON.stringify({ contributors }),
+    );
+
+    if (!res?.ok) {
+      Notifications.error(`Error - Request Failed for ${gitPOAPRequestId}`);
+
+      return null;
+    }
+
+    Notifications.success(`Success - Created GitPOAP Request - ${gitPOAPRequestId}`);
+
+    return true;
+  }
+
+  async deleteClaim(
+    claimType: 'githubHandle' | 'email' | 'ethAddress' | 'ensName',
+    claimData: string,
+    gitPOAPRequestId: number,
+  ) {
+    const res = await makeAPIRequestWithAuth(
+      `/gitpoaps/custom/${gitPOAPRequestId}/claim`,
+      'DELETE',
+      this.token,
+      JSON.stringify({ claimType, claimData }),
     );
 
     if (!res?.ok) {
