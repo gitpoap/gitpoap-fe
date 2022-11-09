@@ -35,14 +35,17 @@ export const AddContributorModal = ({ gitPOAPId, isOpen, onClose }: Props) => {
       {},
     );
 
-    const data = await api.gitpoap.createClaims({ gitPOAPId, contributors: formattedContributors });
+    const data = await api.gitpoap.addContributors({
+      gitPOAPId,
+      contributors: formattedContributors,
+    });
 
     if (data === null) {
       setButtonStatus(ButtonStatus.ERROR);
       return;
     }
 
-    setButtonStatus(ButtonStatus.SUCCESS);
+    setButtonStatus(ButtonStatus.INITIAL);
     setContributors([]);
     onClose();
   };

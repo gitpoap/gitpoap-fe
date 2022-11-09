@@ -74,7 +74,7 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
         <Stack style={{ width: '100%' }}>
           {gitPOAP && (
             <>
-              <Table horizontalSpacing="md" verticalSpacing="xs" fontSize="lg">
+              <Table horizontalSpacing="md" verticalSpacing="xs" fontSize="md">
                 <thead>
                   <tr>
                     {HEADERS.map((header, i) => (
@@ -119,7 +119,10 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
         <AddContributorModal
           gitPOAPId={gitPOAPId}
           isOpen={isAddContributorsModalOpen}
-          onClose={() => setIsAddContributorsModalOpen(false)}
+          onClose={() => {
+            setTimeout(() => refetch(), 500);
+            setIsAddContributorsModalOpen(false);
+          }}
         />
       </Stack>
     </Group>

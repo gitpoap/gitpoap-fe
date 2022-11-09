@@ -65,23 +65,21 @@ export class GitPOAPAPI extends API {
     return true;
   }
 
-  async addContributor() {}
-
   async removeContributor(claimId: number) {
     const res = await makeAPIRequestWithAuth(`/claims/${claimId}}`, 'DELETE', this.token);
 
     if (!res) {
-      Notifications.error(`Failed to delete claim`);
+      Notifications.error('Failed to remove contributor');
 
       return null;
     }
 
-    Notifications.success(`Claim deleted`);
+    Notifications.success('Contributor removed');
 
     return true;
   }
 
-  async createClaims(values: GitPOAPCreateClaimsValues) {
+  async addContributors(values: GitPOAPCreateClaimsValues) {
     const { gitPOAPId, contributors } = values;
 
     const res = await makeAPIRequestWithAuth(
@@ -92,12 +90,12 @@ export class GitPOAPAPI extends API {
     );
 
     if (!res) {
-      Notifications.error(`Error - Request Failed for ${gitPOAPId}`);
+      Notifications.error('Failed to add contributors');
 
       return null;
     }
 
-    Notifications.success(`Success - GitPOAP Created - ${gitPOAPId}`, 'Thanks! 🤓');
+    Notifications.success('Contributors added');
 
     return true;
   }

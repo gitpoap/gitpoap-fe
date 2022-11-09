@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Box, Group, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, Box, Group, Text, TextProps, Tooltip } from '@mantine/core';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
@@ -46,6 +46,8 @@ const TableRow = styled.tr`
     background-color: ${BackgroundPanel2};
   }
 `;
+
+const TableDataText = styled(Text)<TextProps>``;
 
 const IssuedTo = ({ claim }: { claim: Props['claim'] }) => {
   if (claim.issuedAddress?.ensName) {
@@ -127,7 +129,7 @@ export const ClaimRow = ({ claim, index, gitPOAPType, refetch }: Props) => {
   return (
     <TableRow>
       <td>
-        <Text size={14}>{index + 1}</Text>
+        <Text>{index + 1}</Text>
       </td>
       <td>
         <Link href={`/p/${ensName ?? ethAddress}`} passHref>
@@ -139,7 +141,7 @@ export const ClaimRow = ({ claim, index, gitPOAPType, refetch }: Props) => {
         </Link>
       </td>
       <td>
-        <Text sx={{ minWidth: rem(140) }}>
+        <TableDataText>
           <Badge
             size="lg"
             variant="filled"
@@ -149,29 +151,29 @@ export const ClaimRow = ({ claim, index, gitPOAPType, refetch }: Props) => {
           >
             {status}
           </Badge>
-        </Text>
+        </TableDataText>
       </td>
       <td>
         <Link href={`/p/${ensName ?? ethAddress}`} passHref>
-          <Text variant="link" sx={{ minWidth: rem(140) }}>
+          <TableDataText variant="link">
             {mintedAddress?.ensName ?? truncateAddress(mintedAddress?.ethAddress ?? '', 6, 4)}
-          </Text>
+          </TableDataText>
         </Link>
       </td>
       <td>
-        <Text sx={{ minWidth: rem(140) }}>
+        <TableDataText>
           <IssuedTo claim={claim} />
-        </Text>
+        </TableDataText>
       </td>
       <td>
-        <Text sx={{ minWidth: rem(140) }}>
+        <TableDataText>
           {claim.mintedAt ? DateTime.fromISO(claim.mintedAt).toFormat('dd LLL yy HH:mm') : '-'}
-        </Text>
+        </TableDataText>
       </td>
       <td>
-        <Text sx={{ minWidth: rem(140) }}>
+        <TableDataText>
           {DateTime.fromISO(claim.createdAt).toFormat('dd LLL yy HH:mm')}
-        </Text>
+        </TableDataText>
       </td>
       <td>
         <Group>
