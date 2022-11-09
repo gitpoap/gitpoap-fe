@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { rem } from 'polished';
-import { ManageGitPOAP } from '../../../components/gitpoap/manage/ManageGitPOAPForm';
+import { ManageGitPOAP } from '../../../components/gitpoap/manage/ManageGitPOAP';
 import { Login } from '../../../components/Login';
 import { useUser } from '../../../hooks/useUser';
 import Custom404 from '../../404';
