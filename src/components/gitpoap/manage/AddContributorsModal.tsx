@@ -55,7 +55,6 @@ export const AddContributorModal = ({ gitPOAPId, isOpen, onClose }: Props) => {
       size="lg"
       title={<Header style={{ fontSize: rem(30) }}>{'Add Contributors'}</Header>}
     >
-      {contributors.length}
       <Stack spacing={32}>
         <SelectContributors contributors={contributors} setContributors={setContributors} />
         <StatusButton
