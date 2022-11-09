@@ -1,4 +1,4 @@
-import { Modal } from '@mantine/core';
+import { Modal, Stack } from '@mantine/core';
 import { rem } from 'polished';
 import { useState } from 'react';
 import { useApi } from '../../../hooks/useApi';
@@ -52,20 +52,24 @@ export const AddContributorModal = ({ gitPOAPId, isOpen, onClose }: Props) => {
       centered
       opened={isOpen}
       onClose={onClose}
+      size="lg"
       title={<Header style={{ fontSize: rem(30) }}>{'Add Contributors'}</Header>}
     >
-      <SelectContributors contributors={contributors} setContributors={setContributors} />
-      <StatusButton
-        isDisabled={
-          !contributors.length ||
-          buttonStatus === ButtonStatus.SUCCESS ||
-          buttonStatus === ButtonStatus.LOADING
-        }
-        status={buttonStatus}
-        onClick={handleSubmit}
-      >
-        {'Add Contributors'}
-      </StatusButton>
+      {contributors.length}
+      <Stack spacing={32}>
+        <SelectContributors contributors={contributors} setContributors={setContributors} />
+        <StatusButton
+          isDisabled={
+            !filteredContributors.length ||
+            buttonStatus === ButtonStatus.SUCCESS ||
+            buttonStatus === ButtonStatus.LOADING
+          }
+          status={buttonStatus}
+          onClick={handleSubmit}
+        >
+          {'Add Contributors'}
+        </StatusButton>
+      </Stack>
     </Modal>
   );
 };

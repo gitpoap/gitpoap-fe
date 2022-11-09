@@ -97,7 +97,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
   };
 
   return (
-    <Grid my={32} sx={{ backgroundColor: BackgroundPanel, borderRadius: 12 }}>
+    <Grid sx={{ backgroundColor: BackgroundPanel, borderRadius: 12 }}>
       <Grid.Col p={16} sm={6} span={12}>
         <Stack>
           <TextArea
