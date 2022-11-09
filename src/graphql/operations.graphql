@@ -916,3 +916,46 @@ query totalUserGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus, $addre
     }
   }
 }
+
+query gitPOAPWithClaims($id: Int, $take: Int, $skip: Int) {
+  gitPOAP(where: { id: $id }) {
+    id
+    name
+    description
+    imageUrl
+    _count {
+      claims
+    }
+    claims(take: $take, skip: $skip, orderBy: { createdAt: desc }) {
+      id
+      status
+      mintedAt
+      createdAt
+      mintedAddress {
+        ensName
+        ethAddress
+        ensAvatarImageUrl
+      }
+      githubUser {
+        githubHandle
+      }
+      email {
+        emailAddress
+      }
+      issuedAddress {
+        ethAddress
+        ensName
+        ensAvatarImageUrl
+      }
+    }
+    project {
+      id
+      repos {
+        name
+        organization {
+          name
+        }
+      }
+    }
+  }
+}
