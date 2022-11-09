@@ -67,18 +67,7 @@ export const CreationForm = () => {
     async (formValues: GitPOAPRequestCreateValues) => {
       setButtonStatus(ButtonStatus.LOADING);
 
-      // Reformat Contributor[] to GitPOAPRequestCreateValues['contributors']
-      await setFieldValue(
-        'contributors',
-        contributors.reduce((group: GitPOAPRequestCreateValues['contributors'], contributor) => {
-          const { type, value }: Contributor = contributor;
-          group[type] = group[type] || [];
-          group[type]?.push(value);
-          return group;
-        }, {}),
-      );
-
-      if (validate().hasErrors || formValues['image'] === null) {
+      if (validate().hasErrors) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
       }
@@ -93,7 +82,7 @@ export const CreationForm = () => {
       setButtonStatus(ButtonStatus.SUCCESS);
       await router.push('/me/requests');
     },
-    [api.gitPOAPRequest], // eslint-disable-line no-use-before-define
+    [api.gitPOAPRequest],
   );
 
   return (
@@ -193,10 +182,18 @@ export const CreationForm = () => {
           setContributors={setContributors}
         />
         <Button
-          onClick={() => {
-            if (!validate().hasErrors) {
-              submitCreateCustomGitPOAP(values);
-            }
+          onClick={async () => {
+            const formattedContributors = contributors.reduce(
+              (group: GitPOAPRequestCreateValues['contributors'], contributor) => {
+                const { type, value }: Contributor = contributor;
+                group[type] = group[type] || [];
+                group[type]?.push(value);
+                return group;
+              },
+              {},
+            );
+            await setFieldValue('contributors', formattedContributors);
+            await submitCreateCustomGitPOAP(values);
           }}
           loading={buttonStatus === ButtonStatus.LOADING}
           disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}

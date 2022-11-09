@@ -18,7 +18,10 @@ import styled from 'styled-components';
 import { DateInput, Header, Input, TextArea, TextInputLabelStyles } from '../shared/elements';
 import { Contributor, SelectContributors } from './SelectContributors';
 import { useApi } from '../../hooks/useApi';
-import { GitPOAPRequestEditValues } from '../../lib/api/gitpoapRequest';
+import {
+  GitPOAPRequestContributorsValues,
+  GitPOAPRequestEditValues,
+} from '../../lib/api/gitpoapRequest';
 import { HexagonDropzone } from './HexagonDropzone';
 import { useRouter } from 'next/router';
 import { Link } from '../shared/compounds/Link';
@@ -59,6 +62,18 @@ type Props = {
   imageUrl: string;
 };
 
+const convertContributorObjectToList = (
+  contributors: GitPOAPRequestContributorsValues,
+): Contributor[] => {
+  return Object.entries(contributors)
+    .map(([key, value]) => {
+      return value.map((c): Contributor => {
+        return { type: key as Contributor['type'], value: c };
+      });
+    })
+    .flat();
+};
+
 export const EditForm = ({
   adminApprovalStatus,
   initialValues,
@@ -70,43 +85,22 @@ export const EditForm = ({
     useEditForm(initialValues);
   const router = useRouter();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
-  const [contributors, setContributors] = useState<Contributor[]>([]);
+  const [contributors, setContributors] = useState<Contributor[]>(() =>
+    convertContributorObjectToList(initialValues.contributors),
+  );
 
   const submitEditCustomGitPOAP = useCallback(
     async (formValues: GitPOAPRequestEditValues) => {
       setButtonStatus(ButtonStatus.LOADING);
-
-      // Reformat Contributor[] to GitPOAPRequestCreateValues['contributors']
-      await setFieldValue(
-        'contributors',
-        contributors.reduce(
-          (group: Exclude<GitPOAPRequestEditValues['contributors'], undefined>, contributor) => {
-            const { type, value }: Contributor = contributor;
-            group[type] = group[type] || [];
-            group[type]?.push(value);
-            return group;
-          },
-          {},
-        ),
-      );
 
       if (validate().hasErrors) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
       }
 
-      const { contributors: contributorsList, ...editFormValues } = formValues;
+      const data = await api.gitPOAPRequest.patch(gitPOAPRequestId, formValues);
 
-      const data = await api.gitPOAPRequest.patch(gitPOAPRequestId, editFormValues);
-
-      // We need to check for changes only, and remove based on that
-      const hasAdditionalContributors =
-        contributorsList && Object.values(contributorsList).some((x) => x.length);
-      const contributorsData = hasAdditionalContributors
-        ? await api.gitPOAPRequest.createClaims(gitPOAPRequestId, contributorsList)
-        : null;
-
-      if (data === null || (hasAdditionalContributors && contributorsData === null)) {
+      if (data === null) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
       }
@@ -114,7 +108,7 @@ export const EditForm = ({
       setButtonStatus(ButtonStatus.SUCCESS);
       await router.push('/me/requests');
     },
-    [api.gitPOAPRequest], // eslint-disable-line no-use-before-define
+    [api.gitPOAPRequest],
   );
 
   return (
@@ -214,12 +208,18 @@ export const EditForm = ({
           setContributors={setContributors}
         />
         <Button
-          onClick={() => {
-            if (!validate().hasErrors) {
-              submitEditCustomGitPOAP(values);
-            } else {
-              console.warn(errors);
-            }
+          onClick={async () => {
+            const formattedContributors = contributors.reduce(
+              (group: GitPOAPRequestEditValues['contributors'], contributor) => {
+                const { type, value }: Contributor = contributor;
+                group[type] = group[type] || [];
+                group[type]?.push(value);
+                return group;
+              },
+              {},
+            );
+            await setFieldValue('contributors', formattedContributors);
+            await submitEditCustomGitPOAP(values);
           }}
           loading={buttonStatus === ButtonStatus.LOADING}
           disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}
