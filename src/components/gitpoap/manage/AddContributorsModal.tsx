@@ -59,7 +59,7 @@ export const AddContributorModal = ({ gitPOAPId, isOpen, onClose }: Props) => {
         <SelectContributors contributors={contributors} setContributors={setContributors} />
         <StatusButton
           isDisabled={
-            !filteredContributors.length ||
+            !contributors.length ||
             buttonStatus === ButtonStatus.SUCCESS ||
             buttonStatus === ButtonStatus.LOADING
           }
