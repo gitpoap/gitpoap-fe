@@ -89,7 +89,6 @@ export class GitPOAPAPI extends API {
       'PUT',
       this.token,
       JSON.stringify({ contributors }),
-      {},
     );
 
     if (!res) {
