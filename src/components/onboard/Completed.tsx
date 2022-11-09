@@ -32,11 +32,11 @@ type Props = {
   resetForm: () => void;
 };
 
-export const Completed = ({ queueNumber, resetForm }: Props) => (
+export const Completed = ({ resetForm }: Props) => (
   <Container mt="sm">
     <Stack spacing="xl">
       <Header>Thank you!</Header>
-      <Text>{`You're #${queueNumber} in the queue.`}</Text>
+      <Text>{`We will get back to you ASAP ⚡️`}</Text>
       <Text>
         {`If you'd like to get in touch sooner, shoot an email over to `}
         <StyledLink href="mailto:team@gitpoap.io">team@gitpoap.io</StyledLink>

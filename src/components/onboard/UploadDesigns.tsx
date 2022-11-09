@@ -71,7 +71,11 @@ export const UploadDesigns = ({
 }: Props) => (
   <Stack spacing="xl">
     <RadioGroup orientation="vertical" required {...getInputProps('shouldGitPOAPDesign')}>
-      <Radio value="true" label={<Text>{'Have us design your GitPOAPs'}</Text>} />
+      <Radio
+        value="true"
+        label={<Text>{'Have us design your GitPOAPs'}</Text>}
+        sx={{ label: { display: 'flex', alignItems: 'center' } }}
+      />
       <Radio
         value="false"
         label={
@@ -87,6 +91,7 @@ export const UploadDesigns = ({
             {')'}
           </Text>
         }
+        sx={{ label: { display: 'flex', alignItems: 'center' } }}
       />
     </RadioGroup>
 
