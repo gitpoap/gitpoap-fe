@@ -8,6 +8,7 @@ import { TextLight } from '../../../colors';
 import { FaPlus } from 'react-icons/fa';
 import { Link } from '../../shared/compounds/Link';
 import { useCallback, useState } from 'react';
+import { AddContributorModal } from './AddContributorsModal';
 
 const Table = styled(TableUI)`
   thead th {
@@ -23,6 +24,7 @@ const HEADERS = ['', '', 'Status', 'Holder', , 'Issued to', 'Minted At', 'Create
 
 export const EditGitPOAPForm = ({ gitPOAPId }: Props) => {
   const perPage = 20;
+  const [isAddContributorsModalOpen, setIsAddContributorsModalOpen] = useState(false);
   const [variables, setVariables] = useState<{ page: number }>({
     page: 1,
   });
@@ -59,12 +61,7 @@ export const EditGitPOAPForm = ({ gitPOAPId }: Props) => {
         <Group position="apart" align="center" grow style={{ width: '100%' }}>
           <Header style={{ alignSelf: 'start' }}>{'Edit GitPOAP'}</Header>
           <Group position="right">
-            <Button
-              leftIcon={<FaPlus />}
-              onClick={() => {
-                console.warn('open add contributor modal');
-              }}
-            >
+            <Button leftIcon={<FaPlus />} onClick={() => setIsAddContributorsModalOpen(true)}>
               {'Add Contributors'}
             </Button>
           </Group>
@@ -96,6 +93,10 @@ export const EditGitPOAPForm = ({ gitPOAPId }: Props) => {
             />
           </Group>
         )}
+        <AddContributorModal
+          isOpen={isAddContributorsModalOpen}
+          onClose={() => setIsAddContributorsModalOpen(false)}
+        />
       </Stack>
     </Group>
   );
