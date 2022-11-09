@@ -2,7 +2,7 @@ import { Button, ButtonProps } from '@mantine/core';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdError } from 'react-icons/md';
 
-enum ButtonStatus {
+export enum ButtonStatus {
   INITIAL,
   LOADING,
   SUCCESS,

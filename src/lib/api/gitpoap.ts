@@ -19,6 +19,16 @@ type GitPOAPCreateValues = {
   image: File;
 };
 
+export type GitPOAPCreateClaimsValues = {
+  gitPOAPId: number;
+  contributors: {
+    githubHandles?: string[];
+    ensNames?: string[];
+    emails?: string[];
+    ethAddresses?: string[];
+  };
+};
+
 export class GitPOAPAPI extends API {
   constructor(tokens: Tokens | null) {
     super(tokens?.accessToken);
@@ -67,6 +77,28 @@ export class GitPOAPAPI extends API {
     }
 
     Notifications.success(`Claim deleted`);
+
+    return true;
+  }
+
+  async createClaims(values: GitPOAPCreateClaimsValues) {
+    const { gitPOAPId, contributors } = values;
+
+    const res = await makeAPIRequestWithAuth(
+      `/gitpoaps/${gitPOAPId}/claims`,
+      'PUT',
+      this.token,
+      JSON.stringify({ contributors }),
+      {},
+    );
+
+    if (!res) {
+      Notifications.error(`Error - Request Failed for ${gitPOAPId}`);
+
+      return null;
+    }
+
+    Notifications.success(`Success - GitPOAP Created - ${gitPOAPId}`, 'Thanks! 🤓');
 
     return true;
   }
