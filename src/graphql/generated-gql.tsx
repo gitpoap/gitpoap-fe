@@ -6451,6 +6451,7 @@ export type GitPoapWithClaimsQuery = {
     name: string;
     description: string;
     imageUrl: string;
+    type: GitPoapType;
     _count?: { __typename?: 'GitPOAPCount'; claims: number } | null;
     claims: Array<{
       __typename?: 'Claim';
@@ -7991,6 +7992,7 @@ export const GitPoapWithClaimsDocument = gql`
       name
       description
       imageUrl
+      type
       _count {
         claims
       }

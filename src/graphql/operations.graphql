@@ -923,6 +923,7 @@ query gitPOAPWithClaims($id: Int, $take: Int, $skip: Int) {
     name
     description
     imageUrl
+    type
     _count {
       claims
     }

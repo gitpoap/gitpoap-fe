@@ -9,6 +9,7 @@ import { FaPlus } from 'react-icons/fa';
 import { Link } from '../../shared/compounds/Link';
 import { useCallback, useState } from 'react';
 import { AddContributorModal } from './AddContributorsModal';
+import { AddZone } from './AddZone';
 
 const Table = styled(TableUI)`
   thead th {
@@ -22,21 +23,24 @@ type Props = {
 
 const HEADERS = ['', '', 'Status', 'Holder', , 'Issued to', 'Minted At', 'Created At', ''];
 
-export const EditGitPOAPForm = ({ gitPOAPId }: Props) => {
+export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
   const perPage = 20;
   const [isAddContributorsModalOpen, setIsAddContributorsModalOpen] = useState(false);
   const [variables, setVariables] = useState<{ page: number }>({
     page: 1,
   });
-  const [results] = useGitPoapWithClaimsQuery({
+  const [results, refetch] = useGitPoapWithClaimsQuery({
     variables: {
       id: gitPOAPId,
       take: perPage,
       skip: (variables.page - 1) * perPage,
     },
+    requestPolicy: 'network-only',
   });
 
   const totalClaims = results.data?.gitPOAP?._count?.claims ?? 0;
+  const claims = results.data?.gitPOAP?.claims;
+  const gitPOAP = results.data?.gitPOAP;
   const totalPage = totalClaims / perPage;
 
   const handlePageChange = useCallback(
@@ -68,22 +72,41 @@ export const EditGitPOAPForm = ({ gitPOAPId }: Props) => {
         </Group>
         <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
         <Stack style={{ width: '100%' }}>
-          <Table horizontalSpacing="md" verticalSpacing="xs" fontSize="lg">
-            <thead>
-              <tr>
-                {HEADERS.map((header) => (
-                  <th key={header}>{header}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {results.data?.gitPOAP?.claims.map((claim, i) => {
-                return <ClaimRow key={claim.id} claim={claim} index={i} />;
-              })}
-            </tbody>
-          </Table>
+          {gitPOAP && (
+            <>
+              <Table horizontalSpacing="md" verticalSpacing="xs" fontSize="lg">
+                <thead>
+                  <tr>
+                    {HEADERS.map((header) => (
+                      <th key={header}>{header}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {gitPOAP &&
+                    claims?.map((claim, i) => {
+                      return (
+                        <ClaimRow
+                          key={claim.id}
+                          claim={claim}
+                          index={i}
+                          gitPOAPType={gitPOAP?.type}
+                          refetch={refetch}
+                        />
+                      );
+                    })}
+                </tbody>
+              </Table>
+              <AddZone onClick={() => setIsAddContributorsModalOpen(true)} />
+            </>
+          )}
+          {!gitPOAP && !results.fetching && results.operation && (
+            <Group position="center">
+              <Text size="lg">{'No GitPOAP found'}</Text>
+            </Group>
+          )}
         </Stack>
-        {totalClaims && totalClaims > perPage && (
+        {gitPOAP && results && totalClaims && totalClaims > perPage && (
           <Group my={rem(20)} position="center">
             <Pagination
               page={variables.page}
