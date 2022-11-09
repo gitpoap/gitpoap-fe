@@ -205,6 +205,10 @@ query recentRepos($count: Float!) {
 query gitPoapEvent($id: Float!) {
   gitPOAPEvent(id: $id) {
     gitPOAP {
+      id
+      creatorAddress {
+        ethAddress
+      }
       project {
         repos {
           id

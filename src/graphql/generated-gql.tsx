@@ -5632,6 +5632,8 @@ export type GitPoapEventQuery = {
     __typename?: 'FullGitPOAPEventData';
     gitPOAP: {
       __typename?: 'GitPOAP';
+      id: number;
+      creatorAddress?: { __typename?: 'Address'; ethAddress: string } | null;
       project?: {
         __typename?: 'Project';
         repos: Array<{
@@ -6804,6 +6806,10 @@ export const GitPoapEventDocument = gql`
   query gitPoapEvent($id: Float!) {
     gitPOAPEvent(id: $id) {
       gitPOAP {
+        id
+        creatorAddress {
+          ethAddress
+        }
         project {
           repos {
             id
