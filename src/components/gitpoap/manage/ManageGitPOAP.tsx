@@ -119,8 +119,8 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
         <AddContributorModal
           gitPOAPId={gitPOAPId}
           isOpen={isAddContributorsModalOpen}
+          refetch={refetch}
           onClose={() => {
-            setTimeout(() => refetch(), 500);
             setIsAddContributorsModalOpen(false);
           }}
         />

@@ -11,9 +11,10 @@ type Props = {
   gitPOAPId: number;
   isOpen: boolean;
   onClose: () => void;
+  refetch: () => void;
 };
 
-export const AddContributorModal = ({ gitPOAPId, isOpen, onClose }: Props) => {
+export const AddContributorModal = ({ gitPOAPId, isOpen, onClose, refetch }: Props) => {
   const api = useApi();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [contributors, setContributors] = useState<Contributor[]>([]);
@@ -46,6 +47,7 @@ export const AddContributorModal = ({ gitPOAPId, isOpen, onClose }: Props) => {
     }
 
     setButtonStatus(ButtonStatus.INITIAL);
+    setTimeout(() => refetch(), 500);
     setContributors([]);
     onClose();
   };
