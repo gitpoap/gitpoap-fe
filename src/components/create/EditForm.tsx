@@ -57,6 +57,7 @@ type AdminApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
 
 type Props = {
   adminApprovalStatus: AdminApprovalStatus;
+  creatorEmail: string;
   initialValues: GitPOAPRequestEditValues;
   gitPOAPRequestId: number;
   imageUrl: string;
@@ -76,6 +77,7 @@ const convertContributorObjectToList = (
 
 export const EditForm = ({
   adminApprovalStatus,
+  creatorEmail,
   initialValues,
   gitPOAPRequestId,
   imageUrl,
@@ -98,7 +100,20 @@ export const EditForm = ({
         return;
       }
 
-      const data = await api.gitPOAPRequest.patch(gitPOAPRequestId, formValues);
+      const formattedContributors = contributors.reduce(
+        (group: GitPOAPRequestEditValues['contributors'], contributor) => {
+          const { type, value }: Contributor = contributor;
+          group[type] = group[type] || [];
+          group[type]?.push(value);
+          return group;
+        },
+        {},
+      );
+
+      const data = await api.gitPOAPRequest.patch(gitPOAPRequestId, {
+        ...formValues,
+        contributors: formattedContributors,
+      });
 
       if (data === null) {
         setButtonStatus(ButtonStatus.ERROR);
@@ -198,29 +213,13 @@ export const EditForm = ({
             style={{ width: '100%' }}
             label="Email"
             placeholder="Email"
+            value={creatorEmail}
             disabled={true}
-            {...getInputProps('creatorEmail')}
           />
         </Stack>
-        <SelectContributors
-          contributors={contributors}
-          errors={errors}
-          setContributors={setContributors}
-        />
+        <SelectContributors contributors={contributors} setContributors={setContributors} />
         <Button
-          onClick={async () => {
-            const formattedContributors = contributors.reduce(
-              (group: GitPOAPRequestEditValues['contributors'], contributor) => {
-                const { type, value }: Contributor = contributor;
-                group[type] = group[type] || [];
-                group[type]?.push(value);
-                return group;
-              },
-              {},
-            );
-            await setFieldValue('contributors', formattedContributors);
-            await submitEditCustomGitPOAP(values);
-          }}
+          onClick={async () => await submitEditCustomGitPOAP(values)}
           loading={buttonStatus === ButtonStatus.LOADING}
           disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}
           leftIcon={

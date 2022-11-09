@@ -22,7 +22,6 @@ import {
 } from '../../colors';
 import { Button, Input, Text, TextArea } from '../shared/elements';
 import Papa from 'papaparse';
-import { CreationFormReturnTypes } from './useCreationForm';
 import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
 import { isValidGithubHandle, truncateAddress } from '../../helpers';
 import { isAddress } from 'ethers/lib/utils';
@@ -44,10 +43,9 @@ const BadgeText = {
 type Props = {
   contributors: Contributor[];
   setContributors: (contributors: Contributor[]) => void;
-  errors: CreationFormReturnTypes['errors'];
 };
 
-export const SelectContributors = ({ contributors, errors, setContributors }: Props) => {
+export const SelectContributors = ({ contributors, setContributors }: Props) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [contributorsText, setContributorsText] = useState('');
 
@@ -215,12 +213,6 @@ export const SelectContributors = ({ contributors, errors, setContributors }: Pr
             mt={20}
           />
         </Container>
-
-        {errors.repos && (
-          <Text sx={{ color: ExtraRed }} size="xl" mt="xl" inline>
-            {errors.repos}
-          </Text>
-        )}
       </Grid.Col>
     </Grid>
   );
