@@ -77,8 +77,8 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
               <Table horizontalSpacing="md" verticalSpacing="xs" fontSize="lg">
                 <thead>
                   <tr>
-                    {HEADERS.map((header) => (
-                      <th key={header}>{header}</th>
+                    {HEADERS.map((header, i) => (
+                      <th key={`header-${i}`}>{header}</th>
                     ))}
                   </tr>
                 </thead>
