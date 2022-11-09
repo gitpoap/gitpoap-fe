@@ -50,7 +50,23 @@ export class GitPOAPAPI extends API {
       return null;
     }
 
-    Notifications.success(`Success - GitPOAP Created - ${values.name}`, 'Thanks! 🤓');
+    Notifications.success(`Success - GitPOAP Created - ${values.name}`);
+
+    return true;
+  }
+
+  async addContributor() {}
+
+  async removeContributor(claimId: number) {
+    const res = await makeAPIRequestWithAuth(`/claims/${claimId}}`, 'DELETE', this.token);
+
+    if (!res) {
+      Notifications.error(`Failed to delete claim`);
+
+      return null;
+    }
+
+    Notifications.success(`Claim deleted`);
 
     return true;
   }
