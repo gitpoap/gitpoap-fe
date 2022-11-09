@@ -8,6 +8,7 @@ import { textTheme } from './textThemes';
 import { tooltipThemes } from './tooltipThemes';
 import { paginationThemes } from './paginationThemes';
 import { badgeThemes } from './badgeThemes';
+import { actionIconThemes } from './actionIconThemes';
 
 export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
@@ -20,6 +21,7 @@ export const theme: MantineProviderProps['theme'] = {
     Tooltip: tooltipThemes,
     Pagination: paginationThemes,
     Badge: badgeThemes,
+    ActionIcon: actionIconThemes,
     Modal: {
       defaultProps: {
         overlayColor: Black,
