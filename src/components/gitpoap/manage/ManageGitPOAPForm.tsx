@@ -117,6 +117,7 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
           </Group>
         )}
         <AddContributorModal
+          gitPOAPId={gitPOAPId}
           isOpen={isAddContributorsModalOpen}
           onClose={() => setIsAddContributorsModalOpen(false)}
         />
