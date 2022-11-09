@@ -7994,7 +7994,7 @@ export const GitPoapWithClaimsDocument = gql`
       _count {
         claims
       }
-      claims(take: $take, skip: $skip, orderBy: { createdAt: desc }) {
+      claims(take: $take, skip: $skip, orderBy: { createdAt: asc }) {
         id
         status
         mintedAt

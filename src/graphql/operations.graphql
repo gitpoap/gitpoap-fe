@@ -926,7 +926,7 @@ query gitPOAPWithClaims($id: Int, $take: Int, $skip: Int) {
     _count {
       claims
     }
-    claims(take: $take, skip: $skip, orderBy: { createdAt: desc }) {
+    claims(take: $take, skip: $skip, orderBy: { createdAt: asc }) {
       id
       status
       mintedAt
