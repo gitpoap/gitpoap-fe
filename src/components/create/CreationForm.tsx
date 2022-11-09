@@ -95,7 +95,7 @@ export const CreationForm = () => {
       setButtonStatus(ButtonStatus.SUCCESS);
       await router.push('/me/requests');
     },
-    [api.gitPOAPRequest],
+    [api.gitPOAPRequest, contributors, validate, router],
   );
 
   return (
@@ -189,7 +189,9 @@ export const CreationForm = () => {
             {...getInputProps('creatorEmail')}
           />
         </Stack>
-        <SelectContributors contributors={contributors} setContributors={setContributors} />
+        <Box my={32}>
+          <SelectContributors contributors={contributors} setContributors={setContributors} />
+        </Box>
         <Button
           onClick={async () => await submitCreateCustomGitPOAP(values)}
           loading={buttonStatus === ButtonStatus.LOADING}

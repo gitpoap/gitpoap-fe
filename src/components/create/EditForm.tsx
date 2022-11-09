@@ -50,7 +50,7 @@ const SubmitButtonText = {
   UNSUBMITTED: 'Create & Submit For Review',
   APPROVED: 'Save & Submit Contributors',
   PENDING: 'Save & Submit Changes',
-  REJECTED: 'Save & Submit For Rereview',
+  REJECTED: 'Save & Submit For Re-review',
 };
 
 type AdminApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
@@ -123,7 +123,7 @@ export const EditForm = ({
       setButtonStatus(ButtonStatus.SUCCESS);
       await router.push('/me/requests');
     },
-    [api.gitPOAPRequest],
+    [api.gitPOAPRequest, contributors, validate, router, gitPOAPRequestId],
   );
 
   return (
@@ -217,7 +217,9 @@ export const EditForm = ({
             disabled={true}
           />
         </Stack>
-        <SelectContributors contributors={contributors} setContributors={setContributors} />
+        <Box my={32}>
+          <SelectContributors contributors={contributors} setContributors={setContributors} />
+        </Box>
         <Button
           onClick={async () => await submitEditCustomGitPOAP(values)}
           loading={buttonStatus === ButtonStatus.LOADING}

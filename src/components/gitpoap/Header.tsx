@@ -1,4 +1,4 @@
-import { Modal, Table } from '@mantine/core';
+import { Group, Modal, Stack, Table } from '@mantine/core';
 import { useDisclosure, useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import React, { useEffect } from 'react';
@@ -17,16 +17,13 @@ import { useFeatures } from '../../components/FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
 import { useUser } from '../../hooks/useUser';
+import { useRouter } from 'next/router';
 
 type Props = {
   gitPOAPId: number;
 };
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+export const Wrapper = styled(Stack)`
   text-align: center;
   margin: auto;
   width: ${rem(480)};
@@ -158,6 +155,7 @@ export const Header = ({ gitPOAPId }: Props) => {
   const user = useUser();
   const hasGithubConnection = user?.capabilities.hasGithub ?? false;
   const [opened, { close, open }] = useDisclosure(false);
+  const router = useRouter();
 
   const [result] = useGitPoapEventQuery({
     variables: {
@@ -166,6 +164,7 @@ export const Header = ({ gitPOAPId }: Props) => {
   });
   const event = result?.data?.gitPOAPEvent?.event;
   const repos = result?.data?.gitPOAPEvent?.gitPOAP.project?.repos;
+  const gitPOAP = result?.data?.gitPOAPEvent?.gitPOAP;
   const { setIsOpen } = useClaimContext();
   const features = useFeatures();
   const [isCheckButtonClicked, setIsCheckButtonClicked] = useLocalStorage<boolean>({
@@ -181,7 +180,7 @@ export const Header = ({ gitPOAPId }: Props) => {
   }, [hasGithubConnection, isCheckButtonClicked]);
 
   return (
-    <Wrapper>
+    <Wrapper justify="center" align="center" spacing={0}>
       <Badge
         altText={event?.name.replace('GitPOAP: ', '') ?? ''}
         size="lg"
@@ -258,19 +257,27 @@ export const Header = ({ gitPOAPId }: Props) => {
           </Modal>
         </>
       )}
-      <CheckEligibilityButton
-        onClick={() => {
-          if (!hasGithubConnection) {
-            setIsCheckButtonClicked(true);
-            github.authorize();
-          } else {
-            setIsOpen(true);
-          }
-        }}
-        leftIcon={<GithubIcon size={20} />}
-      >
-        {"Check If I'm Eligible"}
-      </CheckEligibilityButton>
+      {user?.permissions.isAdmin && user?.address === gitPOAP?.creatorAddress?.ethAddress ? (
+        <Group position="right">
+          <Button variant="outline" onClick={() => router.push(`/gp/${gitPOAP?.id}/manage`)}>
+            {'MANAGE GITPOAP'}
+          </Button>
+        </Group>
+      ) : (
+        <CheckEligibilityButton
+          onClick={() => {
+            if (!hasGithubConnection) {
+              setIsCheckButtonClicked(true);
+              github.authorize();
+            } else {
+              setIsOpen(true);
+            }
+          }}
+          leftIcon={<GithubIcon size={20} />}
+        >
+          {"Check If I'm Eligible"}
+        </CheckEligibilityButton>
+      )}
     </Wrapper>
   );
 };

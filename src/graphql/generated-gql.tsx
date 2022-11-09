@@ -5632,6 +5632,8 @@ export type GitPoapEventQuery = {
     __typename?: 'FullGitPOAPEventData';
     gitPOAP: {
       __typename?: 'GitPOAP';
+      id: number;
+      creatorAddress?: { __typename?: 'Address'; ethAddress: string } | null;
       project?: {
         __typename?: 'Project';
         repos: Array<{
@@ -6437,6 +6439,55 @@ export type TotalUserGitPoapRequestsCountQuery = {
   };
 };
 
+export type GitPoapWithClaimsQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+}>;
+
+export type GitPoapWithClaimsQuery = {
+  __typename?: 'Query';
+  gitPOAP?: {
+    __typename?: 'GitPOAP';
+    id: number;
+    name: string;
+    description: string;
+    imageUrl: string;
+    type: GitPoapType;
+    _count?: { __typename?: 'GitPOAPCount'; claims: number } | null;
+    claims: Array<{
+      __typename?: 'Claim';
+      id: number;
+      status: ClaimStatus;
+      mintedAt?: any | null;
+      createdAt: any;
+      mintedAddress?: {
+        __typename?: 'Address';
+        ensName?: string | null;
+        ethAddress: string;
+        ensAvatarImageUrl?: string | null;
+      } | null;
+      githubUser?: { __typename?: 'GithubUser'; githubHandle: string } | null;
+      email?: { __typename?: 'Email'; emailAddress: string } | null;
+      issuedAddress?: {
+        __typename?: 'Address';
+        ethAddress: string;
+        ensName?: string | null;
+        ensAvatarImageUrl?: string | null;
+      } | null;
+    }>;
+    project?: {
+      __typename?: 'Project';
+      id: number;
+      repos: Array<{
+        __typename?: 'Repo';
+        name: string;
+        organization: { __typename?: 'Organization'; name: string };
+      }>;
+    } | null;
+  } | null;
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -6755,6 +6806,10 @@ export const GitPoapEventDocument = gql`
   query gitPoapEvent($id: Float!) {
     gitPOAPEvent(id: $id) {
       gitPOAP {
+        id
+        creatorAddress {
+          ethAddress
+        }
         project {
           repos {
             id
@@ -7935,4 +7990,58 @@ export function useTotalUserGitPoapRequestsCountQuery(
     TotalUserGitPoapRequestsCountQuery,
     TotalUserGitPoapRequestsCountQueryVariables
   >({ query: TotalUserGitPoapRequestsCountDocument, ...options });
+}
+export const GitPoapWithClaimsDocument = gql`
+  query gitPOAPWithClaims($id: Int, $take: Int, $skip: Int) {
+    gitPOAP(where: { id: $id }) {
+      id
+      name
+      description
+      imageUrl
+      type
+      _count {
+        claims
+      }
+      claims(take: $take, skip: $skip, orderBy: { createdAt: asc }) {
+        id
+        status
+        mintedAt
+        createdAt
+        mintedAddress {
+          ensName
+          ethAddress
+          ensAvatarImageUrl
+        }
+        githubUser {
+          githubHandle
+        }
+        email {
+          emailAddress
+        }
+        issuedAddress {
+          ethAddress
+          ensName
+          ensAvatarImageUrl
+        }
+      }
+      project {
+        id
+        repos {
+          name
+          organization {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+export function useGitPoapWithClaimsQuery(
+  options?: Omit<Urql.UseQueryArgs<GitPoapWithClaimsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<GitPoapWithClaimsQuery, GitPoapWithClaimsQueryVariables>({
+    query: GitPoapWithClaimsDocument,
+    ...options,
+  });
 }

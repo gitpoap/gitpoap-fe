@@ -54,29 +54,28 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
   );
 
   const addContributors = (newContributors: string[]) => {
-    setContributors(
-      newContributors
-        .map((contributor) => contributor.trim())
-        .filter((contributor) => contributor.length)
-        .reduce((newList, value) => {
-          // This prevents duplicates
-          if (newList.some((contributor) => contributor.value === value)) {
-            return newList;
-          }
-
-          if (isValidGithubHandle(value)) {
-            newList.push({ type: 'githubHandles', value });
-          } else if (isAddress(value)) {
-            newList.push({ type: 'ethAddresses', value });
-          } else if (value.length > 4 && value.endsWith('.eth')) {
-            newList.push({ type: 'ensNames', value });
-          } else if (validate(value)) {
-            newList.push({ type: 'emails', value });
-          }
-
+    const contributorsToSet = newContributors
+      .map((contributor) => contributor.trim())
+      .filter((contributor) => contributor.length)
+      .reduce((newList, value) => {
+        // This prevents duplicates
+        if (newList.some((contributor) => contributor.value === value)) {
           return newList;
-        }, contributors ?? []),
-    );
+        }
+
+        if (isValidGithubHandle(value)) {
+          newList.push({ type: 'githubHandles', value });
+        } else if (isAddress(value)) {
+          newList.push({ type: 'ethAddresses', value });
+        } else if (value.length > 4 && value.endsWith('.eth')) {
+          newList.push({ type: 'ensNames', value });
+        } else if (validate(value)) {
+          newList.push({ type: 'emails', value });
+        }
+
+        return newList;
+      }, contributors ?? []);
+    setContributors([...contributorsToSet]);
   };
 
   const handleSubmitTextArea = () => {
@@ -97,7 +96,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
   };
 
   return (
-    <Grid my={32} sx={{ backgroundColor: BackgroundPanel, borderRadius: 12 }}>
+    <Grid sx={{ backgroundColor: BackgroundPanel, borderRadius: 12 }}>
       <Grid.Col p={16} sm={6} span={12}>
         <Stack>
           <TextArea

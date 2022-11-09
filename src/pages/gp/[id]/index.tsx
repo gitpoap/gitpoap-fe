@@ -7,19 +7,19 @@ import { withUrqlClient, initUrqlClient, SSRData } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { Grid } from '@mantine/core';
 
-import { Page } from '../_app';
-import { BackgroundHexes } from '../../components/gitpoap/BackgroundHexes';
-import { GitPOAPHolders } from '../../components/gitpoap/GitPOAPHolders';
-import { Header as PageHeader } from '../../components/gitpoap/Header';
-import { Header } from '../../components/shared/elements/Header';
+import { Page } from '../../_app';
+import { BackgroundHexes } from '../../../components/gitpoap/BackgroundHexes';
+import { GitPOAPHolders } from '../../../components/gitpoap/GitPOAPHolders';
+import { Header as PageHeader } from '../../../components/gitpoap/Header';
+import { Header } from '../../../components/shared/elements/Header';
 import {
   AllGitPoapIdsDocument,
   AllGitPoapIdsQuery,
   GitPoapEventDocument,
   GitPoapEventQuery,
-} from '../../graphql/generated-gql';
-import { SEO } from '../../components/shared/compounds/SEO';
-import { ONE_WEEK_IN_S } from '../../constants';
+} from '../../../graphql/generated-gql';
+import { SEO } from '../../../components/shared/compounds/SEO';
+import { ONE_WEEK_IN_S } from '../../../constants';
 
 const Error = styled(Header)`
   position: fixed;

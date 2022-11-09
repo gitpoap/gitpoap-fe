@@ -205,6 +205,10 @@ query recentRepos($count: Float!) {
 query gitPoapEvent($id: Float!) {
   gitPOAPEvent(id: $id) {
     gitPOAP {
+      id
+      creatorAddress {
+        ethAddress
+      }
       project {
         repos {
           id
@@ -913,6 +917,50 @@ query totalUserGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus, $addre
   ) {
     _count {
       id
+    }
+  }
+}
+
+query gitPOAPWithClaims($id: Int, $take: Int, $skip: Int) {
+  gitPOAP(where: { id: $id }) {
+    id
+    name
+    description
+    imageUrl
+    type
+    _count {
+      claims
+    }
+    claims(take: $take, skip: $skip, orderBy: { createdAt: asc }) {
+      id
+      status
+      mintedAt
+      createdAt
+      mintedAddress {
+        ensName
+        ethAddress
+        ensAvatarImageUrl
+      }
+      githubUser {
+        githubHandle
+      }
+      email {
+        emailAddress
+      }
+      issuedAddress {
+        ethAddress
+        ensName
+        ensAvatarImageUrl
+      }
+    }
+    project {
+      id
+      repos {
+        name
+        organization {
+          name
+        }
+      }
     }
   }
 }

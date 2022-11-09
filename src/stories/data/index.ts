@@ -487,6 +487,7 @@ export const gitPOAPHolders: Holder[] = [
 export const gitPOAPEvent: GitPoapEventQuery = {
   gitPOAPEvent: {
     gitPOAP: {
+      id: 1,
       project: {
         repos: [
           {

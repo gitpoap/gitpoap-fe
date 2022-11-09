@@ -20,6 +20,7 @@ Default.args = { gitPOAPId: 5 };
 const GitPoapEventQueryResponse: GitPoapEventQuery = {
   gitPOAPEvent: {
     gitPOAP: {
+      id: 1,
       project: {
         repos: [...Array(100)].map((d, i) => ({
           id: i,
