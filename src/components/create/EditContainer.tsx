@@ -42,6 +42,7 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
   return (
     <EditForm
       adminApprovalStatus={gitPOAPRequest.adminApprovalStatus}
+      creatorEmail={gitPOAPRequest.creatorEmail.emailAddress}
       initialValues={initialValues}
       gitPOAPRequestId={gitPOAPId}
       imageUrl={gitPOAPRequest.imageUrl}

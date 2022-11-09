@@ -72,7 +72,20 @@ export const CreationForm = () => {
         return;
       }
 
-      const data = await api.gitPOAPRequest.create(formValues);
+      const formattedContributors = contributors.reduce(
+        (group: GitPOAPRequestCreateValues['contributors'], contributor) => {
+          const { type, value }: Contributor = contributor;
+          group[type] = group[type] || [];
+          group[type]?.push(value);
+          return group;
+        },
+        {},
+      );
+
+      const data = await api.gitPOAPRequest.create({
+        ...formValues,
+        contributors: formattedContributors,
+      });
 
       if (data === null) {
         setButtonStatus(ButtonStatus.ERROR);
@@ -182,19 +195,7 @@ export const CreationForm = () => {
           setContributors={setContributors}
         />
         <Button
-          onClick={async () => {
-            const formattedContributors = contributors.reduce(
-              (group: GitPOAPRequestCreateValues['contributors'], contributor) => {
-                const { type, value }: Contributor = contributor;
-                group[type] = group[type] || [];
-                group[type]?.push(value);
-                return group;
-              },
-              {},
-            );
-            await setFieldValue('contributors', formattedContributors);
-            await submitCreateCustomGitPOAP(values);
-          }}
+          onClick={async () => await submitCreateCustomGitPOAP(values)}
           loading={buttonStatus === ButtonStatus.LOADING}
           disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}
           leftIcon={
