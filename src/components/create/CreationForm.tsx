@@ -95,7 +95,7 @@ export const CreationForm = () => {
       setButtonStatus(ButtonStatus.SUCCESS);
       await router.push('/me/requests');
     },
-    [api.gitPOAPRequest],
+    [api.gitPOAPRequest, contributors, validate, router],
   );
 
   return (
