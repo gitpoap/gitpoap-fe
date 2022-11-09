@@ -3,13 +3,39 @@ import React from 'react';
 import styled from 'styled-components';
 import { RepoHeaderHexagon } from './RepoHeaderHexagon';
 import { Header as HeaderText, Text, TitleStyles } from '../shared/elements';
-import { TextAccent, TextGray } from '../../colors';
+import { ExtraHover, TextAccent, TextGray } from '../../colors';
 import { Link, IconLink } from '../shared/compounds/Link';
-import { Wrapper } from '../gitpoap/Header';
 import { People, GitPOAP, Star, Globe, Twitter } from '../shared/elements/icons';
 import { RepoDataQuery, useRepoStarCountQuery } from '../../graphql/generated-gql';
 import { FaGithub as GitHub } from 'react-icons/fa';
 import { textEllipses } from '../shared/styles';
+import { BREAKPOINTS } from '../../constants';
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  width: ${rem(480)};
+  max-width: 90%;
+
+  a {
+    text-decoration: none;
+    &:hover {
+      color: ${ExtraHover};
+      cursor: pointer;
+    }
+  }
+
+  @media (max-width: ${BREAKPOINTS.md}px) {
+    margin-bottom: ${rem(24)};
+  }
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    margin-bottom: ${rem(48)};
+  }
+`;
 
 const OrgName = styled(Text)`
   margin-top: ${rem(30)};

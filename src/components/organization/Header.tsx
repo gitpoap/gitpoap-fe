@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { LinkStyles } from '../../components/shared/elements/NavLink';
 import { OrganizationDataQuery } from '../../graphql/generated-gql';
-import { Wrapper } from '../gitpoap/Header';
 import { Header as HeaderText } from '../shared/elements/Header';
 import { GitHub, GitPOAP, Globe, Minted, People, Project, Twitter } from '../shared/elements/icons';
 import { Text } from '../shared/elements/Text';
@@ -15,6 +14,34 @@ import {
   SubHeaderItemCount,
   SubHeaderItemLabel,
 } from '../repo/Header';
+import { ExtraHover } from '../../colors';
+import { BREAKPOINTS } from '../../constants';
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  width: ${rem(480)};
+  max-width: 90%;
+
+  a {
+    text-decoration: none;
+    &:hover {
+      color: ${ExtraHover};
+      cursor: pointer;
+    }
+  }
+
+  @media (max-width: ${BREAKPOINTS.md}px) {
+    margin-bottom: ${rem(24)};
+  }
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    margin-bottom: ${rem(48)};
+  }
+`;
 
 const HeaderWrapper = styled(Wrapper)`
   height: ${rem(600)};
