@@ -35,7 +35,11 @@ const ManageGitPOAPPage: NextPage = () => {
       </Head>
       <Grid justify="center" mt={rem(20)} mb={rem(20)} style={{ zIndex: 1, flex: 1 }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {address ? <ManageGitPOAP gitPOAPId={gitPOAPId} /> : <Login />}
+          {address && user.permissions.isAdmin ? (
+            <ManageGitPOAP gitPOAPId={gitPOAPId} />
+          ) : (
+            <Login />
+          )}
         </Grid.Col>
       </Grid>
     </>
