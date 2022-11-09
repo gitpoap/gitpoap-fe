@@ -189,11 +189,7 @@ export const CreationForm = () => {
             {...getInputProps('creatorEmail')}
           />
         </Stack>
-        <SelectContributors
-          contributors={contributors}
-          errors={errors}
-          setContributors={setContributors}
-        />
+        <SelectContributors contributors={contributors} setContributors={setContributors} />
         <Button
           onClick={async () => await submitCreateCustomGitPOAP(values)}
           loading={buttonStatus === ButtonStatus.LOADING}

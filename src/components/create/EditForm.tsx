@@ -217,11 +217,7 @@ export const EditForm = ({
             disabled={true}
           />
         </Stack>
-        <SelectContributors
-          contributors={contributors}
-          errors={errors}
-          setContributors={setContributors}
-        />
+        <SelectContributors contributors={contributors} setContributors={setContributors} />
         <Button
           onClick={async () => await submitEditCustomGitPOAP(values)}
           loading={buttonStatus === ButtonStatus.LOADING}
