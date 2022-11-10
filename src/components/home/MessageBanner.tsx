@@ -1,9 +1,9 @@
 import React from 'react';
+import Link from 'next/link';
 import { rem } from 'polished';
 import styled from 'styled-components';
-import { Group, Text, TextProps, Notification } from '@mantine/core';
-import { useMediaQuery, useDisclosure } from '@mantine/hooks';
-import { BackgroundPanel2, BackgroundPanel3, TextGray, TextLight } from '../../colors';
+import { Group, Text, Notification } from '@mantine/core';
+import { BackgroundPanel2, BackgroundPanel3, TextLight, TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 
 const MessageBannerContainer = styled(Group)`
@@ -11,7 +11,7 @@ const MessageBannerContainer = styled(Group)`
   width: 100%;
   z-index: 1;
 
-  @media (max-width: ${BREAKPOINTS.lg}px) {
+  @media (max-width: ${BREAKPOINTS.md}px) {
     position: relative;
   }
 `;
@@ -20,20 +20,11 @@ const MessageBannerContent = styled(Notification)`
   max-width: 90%;
   background-color: ${BackgroundPanel2};
   cursor: pointer;
+  transition: background-color 200ms ease;
 
   &:hover {
     background-color: ${BackgroundPanel3};
   }
-`;
-
-const Title = styled(Text)<TextProps>`
-  color: ${TextLight};
-`;
-const Message = styled(Text)<TextProps>`
-  color: ${TextGray};
-`;
-const RightIconContainer = styled(Group)`
-  color: ${TextGray};
 `;
 
 type MessageBannerProps = {
@@ -41,46 +32,42 @@ type MessageBannerProps = {
   message: string;
   href: string;
   leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
 };
 
-export const MessageBanner = ({
-  title,
-  message,
-  leftIcon,
-  rightIcon,
-  href,
-}: MessageBannerProps) => {
-  const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
-  const [isOpen, { open, close }] = useDisclosure(true);
-
-  if (!isOpen) {
-    return null;
-  }
-
+export const MessageBanner = ({ title, message, leftIcon, href }: MessageBannerProps) => {
   return (
     <MessageBannerContainer position="center" my={rem(20)}>
-      <MessageBannerContent
-        icon={leftIcon}
-        title={
-          <Title size={16} weight="bold">
-            {title}
-          </Title>
-        }
-        radius="md"
-        py={rem(16)}
-        px={rem(20)}
-        onClose={() => close()}
-      >
-        <a href={href} target="_blank" rel="noreferrer">
+      <Link href={href} target="_blank" rel="noreferrer">
+        <MessageBannerContent
+          icon={leftIcon}
+          title={
+            <Text
+              size={16}
+              sx={{
+                color: TextLight,
+              }}
+              weight="bold"
+            >
+              {title}
+            </Text>
+          }
+          radius="md"
+          py={rem(16)}
+          px={rem(20)}
+          disallowClose
+        >
           <Group align="center" spacing="sm" noWrap>
-            <Message size={14}>{message}</Message>
-            <RightIconContainer align="center">
-              {!matchesBreakpointSmall && rightIcon ? rightIcon : ''}
-            </RightIconContainer>
+            <Text
+              size={14}
+              sx={{
+                color: TextGray,
+              }}
+            >
+              {message}
+            </Text>
           </Group>
-        </a>
-      </MessageBannerContent>
+        </MessageBannerContent>
+      </Link>
     </MessageBannerContainer>
   );
 };
