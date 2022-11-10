@@ -10,7 +10,7 @@ import {
   Grid,
 } from '@mantine/core';
 import { rem } from 'polished';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
@@ -60,14 +60,17 @@ export const CreationForm = () => {
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [contributors, setContributors] = useState<Contributor[]>([]);
   const approvalStatus: AdminApprovalStatus = 'UNSUBMITTED';
-
   const imageUrl = values.image ? URL.createObjectURL(values.image) : null;
 
   const submitCreateCustomGitPOAP = useCallback(
     async (formValues: GitPOAPRequestCreateValues) => {
       setButtonStatus(ButtonStatus.LOADING);
 
-      if (validate().hasErrors) {
+      const invalidContributors = contributors.filter(
+        (contributor) => contributor.type === 'invalid',
+      );
+
+      if (validate().hasErrors || invalidContributors.length) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
       }
@@ -75,8 +78,10 @@ export const CreationForm = () => {
       const formattedContributors = contributors.reduce(
         (group: GitPOAPRequestCreateValues['contributors'], contributor) => {
           const { type, value }: Contributor = contributor;
-          group[type] = group[type] || [];
-          group[type]?.push(value);
+          if (type !== 'invalid') {
+            group[type] = group[type] || [];
+            group[type]?.push(value);
+          }
           return group;
         },
         {},
@@ -97,12 +102,6 @@ export const CreationForm = () => {
     },
     [api.gitPOAPRequest, contributors, validate, router],
   );
-
-  useEffect(() => {
-    if (values.startDate > values.endDate) {
-      setFieldValue('endDate', values.startDate);
-    }
-  }, [values.startDate]);
 
   return (
     <Container mt={24} mb={72} p={0} style={{ width: '90%', zIndex: 1 }}>
@@ -170,6 +169,7 @@ export const CreationForm = () => {
             <Grid>
               <Grid.Col xs={6} span={12}>
                 <DateInput
+                  maxDate={values.endDate}
                   placeholder="Start Date"
                   weekendDays={[]}
                   sx={{ width: '100%' }}

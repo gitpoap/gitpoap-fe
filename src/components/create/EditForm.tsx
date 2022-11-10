@@ -95,7 +95,11 @@ export const EditForm = ({
     async (formValues: GitPOAPRequestEditValues) => {
       setButtonStatus(ButtonStatus.LOADING);
 
-      if (validate().hasErrors) {
+      const invalidContributors = contributors.filter(
+        (contributor) => contributor.type === 'invalid',
+      );
+
+      if (validate().hasErrors || invalidContributors.length) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
       }
@@ -103,8 +107,10 @@ export const EditForm = ({
       const formattedContributors = contributors.reduce(
         (group: GitPOAPRequestEditValues['contributors'], contributor) => {
           const { type, value }: Contributor = contributor;
-          group[type] = group[type] || [];
-          group[type]?.push(value);
+          if (type !== 'invalid') {
+            group[type] = group[type] || [];
+            group[type]?.push(value);
+          }
           return group;
         },
         {},
@@ -192,6 +198,7 @@ export const EditForm = ({
             <Grid>
               <Grid.Col xs={6} span={12}>
                 <DateInput
+                  maxDate={values.endDate}
                   placeholder="Start Date"
                   weekendDays={[]}
                   sx={{ width: '100%' }}

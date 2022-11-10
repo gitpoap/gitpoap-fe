@@ -3,6 +3,7 @@ import {
   Badge,
   Container,
   Divider,
+  Input as InputUI,
   Grid,
   Group,
   ScrollArea,
@@ -24,11 +25,12 @@ import {
 import { Button, Input, Text, TextArea } from '../shared/elements';
 import Papa from 'papaparse';
 import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
-import { isValidGithubHandle, truncateAddress } from '../../helpers';
+import { isValidGithubHandleWithout0x, truncateAddress } from '../../helpers';
 import { isAddress } from 'ethers/lib/utils';
 import { VscTrash } from 'react-icons/vsc';
 
-type ConnectionType = keyof GitPOAPRequestCreateValues['contributors'];
+// There may be a better way to do this, but this will work for now
+type ConnectionType = keyof GitPOAPRequestCreateValues['contributors'] | 'invalid';
 export type Contributor = {
   type: ConnectionType;
   value: string;
@@ -39,6 +41,7 @@ const BadgeText = {
   ethAddresses: 'eth',
   ensNames: 'ens',
   emails: 'e-mail',
+  invalid: 'invalid',
 };
 
 type Props = {
@@ -53,6 +56,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
   const filteredContributors = contributors.filter((contributor) =>
     searchValue ? contributor.value.toLowerCase().includes(searchValue.toLowerCase()) : true,
   );
+  const invalidContributors = contributors.filter((contributor) => contributor.type === 'invalid');
 
   const addContributors = (newContributors: string[]) => {
     const contributorsToSet = newContributors
@@ -64,7 +68,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
           return newList;
         }
 
-        if (isValidGithubHandle(value)) {
+        if (isValidGithubHandleWithout0x(value)) {
           newList.push({ type: 'githubHandles', value });
         } else if (isAddress(value)) {
           newList.push({ type: 'ethAddresses', value });
@@ -72,6 +76,8 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
           newList.push({ type: 'ensNames', value });
         } else if (validate(value)) {
           newList.push({ type: 'emails', value });
+        } else {
+          newList.push({ type: 'invalid', value });
         }
 
         return newList;
@@ -177,7 +183,12 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
             border: `${rem(1)} solid ${BackgroundPanel2}`,
           }}
         >
-          <Text mb="xs">{`${contributors.length} Selected`}</Text>
+          <Group position="apart">
+            <Text mb="xs">{`${contributors.length} Selected`}</Text>
+            {invalidContributors.length && (
+              <Text color="red" mb="xs">{`${invalidContributors.length} Invalid`}</Text>
+            )}
+          </Group>
           <ScrollArea
             pl={rem(16)}
             sx={{
@@ -194,7 +205,12 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
                     <Group position="left">
                       <Text>{type === 'ethAddresses' ? truncateAddress(value, 4, 4) : value}</Text>
 
-                      <Badge size="sm" variant="filled" style={{ letterSpacing: rem(1) }}>
+                      <Badge
+                        color={type === 'invalid' ? 'red' : undefined}
+                        size="sm"
+                        variant="filled"
+                        style={{ letterSpacing: rem(1) }}
+                      >
                         {BadgeText[type]}
                       </Badge>
                     </Group>
@@ -225,6 +241,13 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
             }}
             mt={20}
           />
+          <>
+            {invalidContributors.length ? (
+              <InputUI.Error mt="lg">Remove invalid contributors</InputUI.Error>
+            ) : (
+              <></>
+            )}
+          </>
         </Container>
       </Grid.Col>
     </Grid>

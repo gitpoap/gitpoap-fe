@@ -26,11 +26,22 @@ export const AddContributorModal = ({ gitPOAPId, isOpen, onClose, refetch }: Pro
       return;
     }
 
+    const invalidContributors = contributors.filter(
+      (contributor) => contributor.type === 'invalid',
+    );
+
+    if (invalidContributors.length) {
+      setButtonStatus(ButtonStatus.ERROR);
+      return;
+    }
+
     const formattedContributors = contributors.reduce(
       (group: GitPOAPCreateClaimsValues['contributors'], contributor) => {
         const { type, value }: Contributor = contributor;
-        group[type] = group[type] || [];
-        group[type]?.push(value);
+        if (type !== 'invalid') {
+          group[type] = group[type] || [];
+          group[type]?.push(value);
+        }
         return group;
       },
       {},
