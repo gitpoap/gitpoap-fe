@@ -925,7 +925,13 @@ query totalUserGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus, $addre
   }
 }
 
-query gitPOAPWithClaims($id: Int, $take: Int, $skip: Int) {
+query gitPOAPWithClaims(
+  $id: Int
+  $take: Int
+  $skip: Int
+  $orderBy: [ClaimOrderByWithRelationInput!]
+  $search: String
+) {
   gitPOAP(where: { id: $id }) {
     id
     name
@@ -935,7 +941,21 @@ query gitPOAPWithClaims($id: Int, $take: Int, $skip: Int) {
     _count {
       claims
     }
-    claims(take: $take, skip: $skip, orderBy: { createdAt: asc }) {
+    claims(
+      take: $take
+      skip: $skip
+      orderBy: $orderBy
+      where: {
+        OR: [
+          { mintedAddress: { is: { ethAddress: { contains: $search, mode: insensitive } } } }
+          { mintedAddress: { is: { ensName: { contains: $search, mode: insensitive } } } }
+          { issuedAddress: { is: { ensName: { contains: $search, mode: insensitive } } } }
+          { issuedAddress: { is: { ensName: { contains: $search, mode: insensitive } } } }
+          { email: { is: { emailAddress: { contains: $search, mode: insensitive } } } }
+          { githubUser: { is: { githubHandle: { contains: $search, mode: insensitive } } } }
+        ]
+      }
+    ) {
       id
       status
       mintedAt

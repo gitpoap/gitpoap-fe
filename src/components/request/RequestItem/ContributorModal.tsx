@@ -1,6 +1,8 @@
 import { Badge, Group, Modal, Stack } from '@mantine/core';
 import { rem } from 'polished';
 import { useMemo } from 'react';
+import { convertContributorObjectToList } from '../../create/EditForm';
+import { Contributor } from '../../create/SelectContributors';
 import { Text, Header } from '../../shared/elements';
 
 export type ContributorsType = {
@@ -24,23 +26,10 @@ const contributorTypeCopy = {
 };
 
 export const ContributorModal = ({ isOpen, onClose, contributors }: Props) => {
-  const generateContributorsList = useMemo(() => {
-    const contributorsList = [];
-
-    const contributorTypes = Object.keys(contributors) as (keyof ContributorsType)[];
-
-    for (const contributorType of contributorTypes) {
-      const contributorTypeList = contributors[contributorType];
-
-      if (contributorTypeList) {
-        for (const contributor of contributorTypeList) {
-          contributorsList.push({ contributorType, name: contributor });
-        }
-      }
-    }
-
-    return contributorsList;
-  }, [contributors]);
+  const generateContributorsList: Contributor[] = useMemo(
+    () => convertContributorObjectToList(contributors),
+    [contributors],
+  );
 
   return (
     <Modal
@@ -52,10 +41,8 @@ export const ContributorModal = ({ isOpen, onClose, contributors }: Props) => {
       <Stack>
         {generateContributorsList.map((contributor, index) => (
           <Group key={`${index}-contributor-list`}>
-            <Text>{`${contributor.name}`}</Text>
-            <Badge sx={{ color: 'white' }}>
-              {contributorTypeCopy[contributor.contributorType]}
-            </Badge>
+            <Text>{`${contributor.value}`}</Text>
+            <Badge>{contributorTypeCopy[contributor.type]}</Badge>
           </Group>
         ))}
       </Stack>

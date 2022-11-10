@@ -6444,6 +6444,8 @@ export type GitPoapWithClaimsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<ClaimOrderByWithRelationInput> | ClaimOrderByWithRelationInput>;
+  search?: InputMaybe<Scalars['String']>;
 }>;
 
 export type GitPoapWithClaimsQuery = {
@@ -7997,7 +7999,13 @@ export function useTotalUserGitPoapRequestsCountQuery(
   >({ query: TotalUserGitPoapRequestsCountDocument, ...options });
 }
 export const GitPoapWithClaimsDocument = gql`
-  query gitPOAPWithClaims($id: Int, $take: Int, $skip: Int) {
+  query gitPOAPWithClaims(
+    $id: Int
+    $take: Int
+    $skip: Int
+    $orderBy: [ClaimOrderByWithRelationInput!]
+    $search: String
+  ) {
     gitPOAP(where: { id: $id }) {
       id
       name
@@ -8007,7 +8015,21 @@ export const GitPoapWithClaimsDocument = gql`
       _count {
         claims
       }
-      claims(take: $take, skip: $skip, orderBy: { createdAt: asc }) {
+      claims(
+        take: $take
+        skip: $skip
+        orderBy: $orderBy
+        where: {
+          OR: [
+            { mintedAddress: { is: { ethAddress: { contains: $search, mode: insensitive } } } }
+            { mintedAddress: { is: { ensName: { contains: $search, mode: insensitive } } } }
+            { issuedAddress: { is: { ensName: { contains: $search, mode: insensitive } } } }
+            { issuedAddress: { is: { ensName: { contains: $search, mode: insensitive } } } }
+            { email: { is: { emailAddress: { contains: $search, mode: insensitive } } } }
+            { githubUser: { is: { githubHandle: { contains: $search, mode: insensitive } } } }
+          ]
+        }
+      ) {
         id
         status
         mintedAt
