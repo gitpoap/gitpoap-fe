@@ -60,7 +60,7 @@ type Props = {
   creatorEmail: string;
   initialValues: GitPOAPRequestEditValues;
   gitPOAPRequestId: number;
-  imageUrl: string;
+  savedImageUrl: string;
 };
 
 export const convertContributorObjectToList = (
@@ -80,16 +80,26 @@ export const EditForm = ({
   creatorEmail,
   initialValues,
   gitPOAPRequestId,
-  imageUrl,
+  savedImageUrl,
 }: Props) => {
   const api = useApi();
-  const { errors, values, getInputProps, setFieldError, setFieldValue, validate } =
+  const { errors, values, isDirty, getInputProps, setFieldError, setFieldValue, validate } =
     useEditForm(initialValues);
   const router = useRouter();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [contributors, setContributors] = useState<Contributor[]>(() =>
     convertContributorObjectToList(initialValues.contributors),
   );
+
+  /**
+   * If the image field hasn't been changed (made dirty), then we know to use the save image url
+   * If the image HAS been changed, we can later verify if the field if empty on submit
+   */
+  const imageUrl = isDirty('image')
+    ? values.image
+      ? URL.createObjectURL(values.image)
+      : null
+    : savedImageUrl;
 
   const submitEditCustomGitPOAP = useCallback(
     async (formValues: GitPOAPRequestEditValues) => {
@@ -99,7 +109,7 @@ export const EditForm = ({
         (contributor) => contributor.type === 'invalid',
       );
 
-      if (validate().hasErrors || invalidContributors.length) {
+      if (validate().hasErrors || invalidContributors.length || !imageUrl) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
       }
@@ -142,12 +152,7 @@ export const EditForm = ({
         <Header>{adminApprovalStatus}</Header>
       </Group>
       <Stack align="center" spacing={32}>
-        <HexagonDropzone
-          disabled={true}
-          imageUrl={imageUrl}
-          setError={setFieldError}
-          setValue={setFieldValue}
-        />
+        <HexagonDropzone imageUrl={imageUrl} setError={setFieldError} setValue={setFieldValue} />
         {Object.keys(errors).find((error) => /^image/.test(error)) && (
           <Text style={{ color: ExtraRed }} inline>
             {Object.keys(errors)

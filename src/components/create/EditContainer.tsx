@@ -42,7 +42,7 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
       creatorEmail={gitPOAPRequest.creatorEmail.emailAddress}
       initialValues={initialValues}
       gitPOAPRequestId={gitPOAPId}
-      imageUrl={gitPOAPRequest.imageUrl}
+      savedImageUrl={gitPOAPRequest.imageUrl}
     />
   );
 };

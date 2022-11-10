@@ -113,12 +113,7 @@ export const CreationForm = () => {
         <Header>{approvalStatus}</Header>
       </Group>
       <Stack align="center" spacing={32}>
-        <HexagonDropzone
-          disabled={false}
-          imageUrl={imageUrl}
-          setError={setFieldError}
-          setValue={setFieldValue}
-        />
+        <HexagonDropzone imageUrl={imageUrl} setError={setFieldError} setValue={setFieldValue} />
         {Object.keys(errors).find((error) => /^image/.test(error)) && (
           <Text style={{ color: ExtraRed }} inline>
             {Object.keys(errors)

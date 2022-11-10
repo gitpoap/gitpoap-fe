@@ -59,6 +59,7 @@ export const GitPOAPRequestEditSchema = z.object({
     invalid_type_error: 'End date is required',
   }),
   contributors: GitPOAPRequestContributorsSchema,
+  image: ImageFileSchema.optional(),
 });
 
 export type GitPOAPRequestEditValues = z.infer<typeof GitPOAPRequestEditSchema>;

@@ -34,19 +34,17 @@ const DropzoneBorder = styled.div`
 `;
 
 type Props = {
-  disabled: boolean;
   imageUrl: string | null;
   setError: (path: string, error: React.ReactNode) => void;
   setValue: (path: string, file: FileWithPath | null) => void;
 };
 
-export const HexagonDropzone = ({ disabled, imageUrl, setError, setValue }: Props) => {
+export const HexagonDropzone = ({ imageUrl, setError, setValue }: Props) => {
   return (
     <Center mt={44}>
       <DropzoneBorder>
         <StyledDropzone
           accept={ACCEPTED_IMAGE_TYPES}
-          disabled={disabled}
           maxSize={MAX_FILE_SIZE}
           onDrop={(files) => setValue(`image`, files[0])}
           onReject={(fileRejects) => {
@@ -65,7 +63,7 @@ export const HexagonDropzone = ({ disabled, imageUrl, setError, setValue }: Prop
               button: {
                 display: 'none',
               },
-              '&:hover': !disabled && {
+              '&:hover': {
                 img: {
                   filter: 'brightness(75%)',
                 },
