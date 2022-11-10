@@ -11,13 +11,11 @@ const DEFAULT_END_DATE = DateTime.local().toJSDate();
 
 const defaultInitialValues: GitPOAPRequestCreateValues = {
   name: '',
-  contributors: {},
   description: '',
   startDate: DEFAULT_START_DATE,
   endDate: DEFAULT_END_DATE,
   creatorEmail: '',
-  ongoing: true,
-  isEnabled: true,
+  contributors: {},
   image: null,
 };
 
