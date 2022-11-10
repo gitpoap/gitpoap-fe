@@ -3,16 +3,18 @@ import {
   Badge,
   Container,
   Divider,
+  Input as InputUI,
   Grid,
   Group,
   ScrollArea,
   Stack,
+  Tooltip,
 } from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
 import { validate } from 'email-validator';
 import { rem } from 'polished';
 import { useState } from 'react';
-import { MdOutlineFileUpload } from 'react-icons/md';
+import { MdHelpOutline, MdOutlineFileUpload } from 'react-icons/md';
 import {
   BackgroundPanel,
   BackgroundPanel2,
@@ -23,11 +25,12 @@ import {
 import { Button, Input, Text, TextArea } from '../shared/elements';
 import Papa from 'papaparse';
 import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
-import { isValidGithubHandle, truncateAddress } from '../../helpers';
+import { isValidGithubHandleWithout0x, truncateAddress } from '../../helpers';
 import { isAddress } from 'ethers/lib/utils';
 import { VscTrash } from 'react-icons/vsc';
 
-type ConnectionType = keyof GitPOAPRequestCreateValues['contributors'];
+// There may be a better way to do this, but this will work for now
+type ConnectionType = keyof GitPOAPRequestCreateValues['contributors'] | 'invalid';
 export type Contributor = {
   type: ConnectionType;
   value: string;
@@ -38,6 +41,7 @@ const BadgeText = {
   ethAddresses: 'eth',
   ensNames: 'ens',
   emails: 'e-mail',
+  invalid: 'invalid',
 };
 
 type Props = {
@@ -52,6 +56,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
   const filteredContributors = contributors.filter((contributor) =>
     searchValue ? contributor.value.toLowerCase().includes(searchValue.toLowerCase()) : true,
   );
+  const invalidContributors = contributors.filter((contributor) => contributor.type === 'invalid');
 
   const addContributors = (newContributors: string[]) => {
     const contributorsToSet = newContributors
@@ -63,7 +68,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
           return newList;
         }
 
-        if (isValidGithubHandle(value)) {
+        if (isValidGithubHandleWithout0x(value)) {
           newList.push({ type: 'githubHandles', value });
         } else if (isAddress(value)) {
           newList.push({ type: 'ethAddresses', value });
@@ -71,6 +76,8 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
           newList.push({ type: 'ensNames', value });
         } else if (validate(value)) {
           newList.push({ type: 'emails', value });
+        } else {
+          newList.push({ type: 'invalid', value });
         }
 
         return newList;
@@ -90,7 +97,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
   const handleSubmitDropzone = (files: File[]) => {
     Papa.parse(files[0], {
       complete: (results) => {
-        addContributors(results.data[0] as string[]);
+        addContributors(results.data.flat() as string[]);
       },
     });
   };
@@ -122,8 +129,21 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
           <Button disabled={contributorsText.length === 0} onClick={handleSubmitTextArea}>
             {'Add'}
           </Button>
-          <Divider />
-          <Text>{'Upload CSV'}</Text>
+          <Divider label={<Text>OR</Text>} labelPosition="center" />
+          <Group>
+            <Tooltip
+              label={
+                'A single column of identifiers (GitHub handles, emails, ETH addresses, or ENS names) without a header'
+              }
+              position="right"
+              withArrow
+            >
+              <Text>
+                {'Upload CSV '}
+                <MdHelpOutline />
+              </Text>
+            </Tooltip>
+          </Group>
           <Dropzone
             accept={['text/csv']}
             onDrop={handleSubmitDropzone}
@@ -163,24 +183,34 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
             border: `${rem(1)} solid ${BackgroundPanel2}`,
           }}
         >
-          <Text mb="xs">{`${contributors.length} Selected`}</Text>
+          <Group position="apart">
+            <Text mb="xs">{`${contributors.length} Selected`}</Text>
+            {invalidContributors.length && (
+              <Text color="red" mb="xs">{`${invalidContributors.length} Invalid`}</Text>
+            )}
+          </Group>
           <ScrollArea
             pl={rem(16)}
             sx={{
-              height: rem(320),
+              height: rem(335),
               maxHeight: '80vh',
               borderTop: `${rem(1)} solid ${BackgroundPanel3}`,
               borderBottom: `${rem(1)} solid ${BackgroundPanel3}`,
             }}
           >
-            <Stack pb={rem(10)}>
+            <Stack py="xs">
               {filteredContributors.map(({ type, value }: Contributor) => {
                 return (
-                  <Group key={value + '-' + type} mt="xs" position="apart">
+                  <Group key={value + '-' + type} position="apart">
                     <Group position="left">
                       <Text>{type === 'ethAddresses' ? truncateAddress(value, 4, 4) : value}</Text>
 
-                      <Badge size="sm" variant="filled" style={{ letterSpacing: rem(1) }}>
+                      <Badge
+                        color={type === 'invalid' ? 'red' : undefined}
+                        size="sm"
+                        variant="filled"
+                        style={{ letterSpacing: rem(1) }}
+                      >
                         {BadgeText[type]}
                       </Badge>
                     </Group>
@@ -198,7 +228,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
             </Stack>
           </ScrollArea>
           <Input
-            placeholder={'QUICK SEARCH...'}
+            placeholder={'Search Entries'}
             value={searchValue}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setSearchValue(e.target.value);
@@ -211,6 +241,13 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
             }}
             mt={20}
           />
+          <>
+            {invalidContributors.length ? (
+              <InputUI.Error mt="lg">Remove invalid contributors</InputUI.Error>
+            ) : (
+              <></>
+            )}
+          </>
         </Container>
       </Grid.Col>
     </Grid>

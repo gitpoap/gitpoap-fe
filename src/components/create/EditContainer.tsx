@@ -35,7 +35,6 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
     endDate: new Date(gitPOAPRequest.endDate),
     expiryDate: new Date(gitPOAPRequest.expiryDate),
     eventUrl: gitPOAPRequest.eventUrl,
-    numRequestedCodes: gitPOAPRequest.numRequestedCodes,
     contributors: gitPOAPRequest.contributors,
   };
 

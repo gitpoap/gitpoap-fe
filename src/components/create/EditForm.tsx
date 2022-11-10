@@ -95,7 +95,11 @@ export const EditForm = ({
     async (formValues: GitPOAPRequestEditValues) => {
       setButtonStatus(ButtonStatus.LOADING);
 
-      if (validate().hasErrors) {
+      const invalidContributors = contributors.filter(
+        (contributor) => contributor.type === 'invalid',
+      );
+
+      if (validate().hasErrors || invalidContributors.length) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
       }
@@ -103,8 +107,10 @@ export const EditForm = ({
       const formattedContributors = contributors.reduce(
         (group: GitPOAPRequestEditValues['contributors'], contributor) => {
           const { type, value }: Contributor = contributor;
-          group[type] = group[type] || [];
-          group[type]?.push(value);
+          if (type !== 'invalid') {
+            group[type] = group[type] || [];
+            group[type]?.push(value);
+          }
           return group;
         },
         {},
@@ -132,14 +138,7 @@ export const EditForm = ({
         position="apart"
         style={{ left: '5%', position: 'absolute', width: '90%', zIndex: 99 }}
       >
-        <Box>
-          <Link href="/create/select-type">
-            <Text color="grey" mb="md">
-              {'< BACK TO TYPE SELECTION'}
-            </Text>
-          </Link>
-          <Header>{HeaderText[adminApprovalStatus]}</Header>
-        </Box>
+        <Header>{HeaderText[adminApprovalStatus]}</Header>
         <Header>{adminApprovalStatus}</Header>
       </Group>
       <Stack align="center" spacing={32}>
@@ -172,37 +171,45 @@ export const EditForm = ({
                 <Text>{'Recommended: measures 500x500px, size less than 200KB (Max. 4MB)'}</Text>
               </List.Item>
               <List.Item>
-                <Link href="docs.gitpoap.io">
+                <Link href="https://gitpoap.notion.site/GitPOAP-Design-Guide-Requirements-9a843acfe1c7490bbfcdab2d1a47e8af">
                   <Text>{'Design Guide'}</Text>
                 </Link>
               </List.Item>
             </List>
           </Box>
           <Input
+            required
             style={{ width: '100%' }}
             label="GitPOAP Name"
             placeholder="Contributor 2022"
             {...getInputProps('name')}
           />
           <TextArea
+            required
             style={{ width: '100%' }}
             label="Description"
             placeholder="For all our valuable contributors in 2022"
             {...getInputProps('description')}
           />
           <Box>
-            <Label mb={rem(11)}>{'Accomplishment Period'}</Label>
+            <Label mb={rem(11)} required>
+              {'Accomplishment Period'}
+            </Label>
             <Grid>
               <Grid.Col xs={6} span={12}>
                 <DateInput
+                  maxDate={values.endDate}
                   placeholder="Start Date"
+                  weekendDays={[]}
                   sx={{ width: '100%' }}
                   {...getInputProps('startDate')}
                 />
               </Grid.Col>
               <Grid.Col xs={6} span={12}>
                 <DateInput
+                  minDate={values.startDate}
                   placeholder="End Date"
+                  weekendDays={[]}
                   sx={{ width: '100%' }}
                   {...getInputProps('endDate')}
                 />
@@ -210,6 +217,7 @@ export const EditForm = ({
             </Grid>
           </Box>
           <Input
+            required
             style={{ width: '100%' }}
             label="Email"
             placeholder="Email"

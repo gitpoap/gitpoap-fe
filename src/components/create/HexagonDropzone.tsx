@@ -1,12 +1,13 @@
 import { Dropzone, FileWithPath } from '@mantine/dropzone';
 import Image from 'next/image';
 import { rem } from 'polished';
+import { ImFilePicture } from 'react-icons/im';
 import styled from 'styled-components';
 
 import { HexagonPath, HexagonStyles } from '../shared/elements';
 import { BackgroundPanel, BackgroundPanel2, BackgroundPanel3 } from '../../colors';
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '../../lib/api/gitpoapRequest';
-import { Button, Center, Stack } from '@mantine/core';
+import { Button, Center, Group, Stack, Text } from '@mantine/core';
 
 const StyledDropzone = styled(Dropzone)`
   ${HexagonStyles}
@@ -98,7 +99,10 @@ export const HexagonDropzone = ({ disabled, imageUrl, setError, setValue }: Prop
               </Stack>
             </>
           ) : (
-            <>{'Upload Art'}</>
+            <Group align="center">
+              <Text size="md">{'Upload Art'}</Text>
+              <ImFilePicture />
+            </Group>
           )}
         </StyledDropzone>
       </DropzoneBorder>

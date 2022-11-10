@@ -28,11 +28,17 @@ export type GitPOAPRequestContributorsValues = z.infer<typeof GitPOAPRequestCont
 export const GitPOAPRequestCreateSchema = z.object({
   projectId: z.number().optional(),
   organizationId: z.number().optional(),
-  name: z.string().min(1),
+  name: z.string().min(1, { message: 'Name is required' }),
   contributors: GitPOAPRequestContributorsSchema,
-  description: z.string().min(1),
-  startDate: z.date(),
-  endDate: z.date(),
+  description: z.string().min(1, { message: 'Description is required' }),
+  startDate: z.date({
+    required_error: 'Start date is required',
+    invalid_type_error: 'Start date is required',
+  }),
+  endDate: z.date({
+    required_error: 'End date is required',
+    invalid_type_error: 'End date is required',
+  }),
   expiryDate: z.date(),
   eventUrl: z.string().url().min(1),
   creatorEmail: z.string().email({ message: 'Invalid email' }),
@@ -47,13 +53,18 @@ export const GitPOAPRequestCreateSchema = z.object({
 export type GitPOAPRequestCreateValues = z.infer<typeof GitPOAPRequestCreateSchema>;
 
 export const GitPOAPRequestEditSchema = z.object({
-  name: z.string().min(1),
-  description: z.string().min(1),
-  startDate: z.date(),
-  endDate: z.date(),
+  name: z.string().min(1, { message: 'Name is required' }),
+  description: z.string().min(1, { message: 'Description is required' }),
+  startDate: z.date({
+    required_error: 'Start date is required',
+    invalid_type_error: 'Start date is required',
+  }),
+  endDate: z.date({
+    required_error: 'End date is required',
+    invalid_type_error: 'End date is required',
+  }),
   expiryDate: z.date(),
   eventUrl: z.string().min(1),
-  numRequestedCodes: z.number(),
   city: z.string().optional(),
   country: z.string().optional(),
   contributors: GitPOAPRequestContributorsSchema,
