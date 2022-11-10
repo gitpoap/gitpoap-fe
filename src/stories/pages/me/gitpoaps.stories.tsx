@@ -1,17 +1,17 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import GitPOAPRequests from '../../../pages/me/requests';
+import UserGitPOAPs from '../../../pages/me/gitpoaps';
 import { Layout } from '../../../components/Layout';
 
 export default {
-  title: 'Pages/Me/Requests',
-  component: GitPOAPRequests,
-} as ComponentMeta<typeof GitPOAPRequests>;
+  title: 'Pages/Me/GitPOAPs',
+  component: UserGitPOAPs,
+} as ComponentMeta<typeof UserGitPOAPs>;
 
-const Template: ComponentStory<typeof GitPOAPRequests> = () => {
+const Template: ComponentStory<typeof UserGitPOAPs> = () => {
   return (
     <Layout>
-      <GitPOAPRequests />
+      <UserGitPOAPs />
     </Layout>
   );
 };

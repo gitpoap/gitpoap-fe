@@ -1,5 +1,6 @@
-import { Modal } from '@mantine/core';
+import { Badge, Group, Modal, Stack } from '@mantine/core';
 import { rem } from 'polished';
+import { useMemo } from 'react';
 import { Text, Header } from '../../shared/elements';
 
 export type ContributorsType = {
@@ -15,11 +16,31 @@ type Props = {
   contributors: ContributorsType;
 };
 
+const contributorTypeCopy = {
+  githubHandles: 'GitHub',
+  ethAddresses: 'ETH',
+  ensNames: 'ENS',
+  emails: 'Email',
+};
+
 export const ContributorModal = ({ isOpen, onClose, contributors }: Props) => {
-  const githubHandles = contributors.githubHandles;
-  const ethAddresses = contributors.ethAddresses;
-  const ensNames = contributors.ensNames;
-  const emails = contributors.emails;
+  const generateContributorsList = useMemo(() => {
+    const contributorsList = [];
+
+    const contributorTypes = Object.keys(contributors) as (keyof ContributorsType)[];
+
+    for (const contributorType of contributorTypes) {
+      const contributorTypeList = contributors[contributorType];
+
+      if (contributorTypeList) {
+        for (const contributor of contributorTypeList) {
+          contributorsList.push({ contributorType, name: contributor });
+        }
+      }
+    }
+
+    return contributorsList;
+  }, [contributors]);
 
   return (
     <Modal
@@ -28,31 +49,16 @@ export const ContributorModal = ({ isOpen, onClose, contributors }: Props) => {
       onClose={onClose}
       title={<Header style={{ fontSize: rem(30) }}>{'Contributors'}</Header>}
     >
-      <Text weight="bold">{'GitHub Handles:'}</Text>
-      {githubHandles?.map((githubHandle) => (
-        <Text key={githubHandle}>{githubHandle}</Text>
-      ))}
-
-      <Text weight="bold" mt={rem(16)}>
-        {'ETH Addresses:'}
-      </Text>
-      {ethAddresses?.map((ethAddress) => (
-        <Text key={ethAddress}>{ethAddress}</Text>
-      ))}
-
-      <Text weight="bold" mt={rem(16)}>
-        {'ENS Names:'}
-      </Text>
-      {ensNames?.map((ensName) => (
-        <Text key={ensName}>{ensName}</Text>
-      ))}
-
-      <Text weight="bold" mt={rem(16)}>
-        {'Emails:'}
-      </Text>
-      {emails?.map((email) => (
-        <Text key={email}>{email}</Text>
-      ))}
+      <Stack>
+        {generateContributorsList.map((contributor, index) => (
+          <Group key={`${index}-contributor-list`}>
+            <Text>{`${contributor.name}`}</Text>
+            <Badge sx={{ color: 'white' }}>
+              {contributorTypeCopy[contributor.contributorType]}
+            </Badge>
+          </Group>
+        ))}
+      </Stack>
     </Modal>
   );
 };

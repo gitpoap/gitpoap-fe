@@ -7,54 +7,56 @@ import {
   useTotalUserGitPoapRequestsCountQuery,
   AdminApprovalStatus,
 } from '../../graphql/generated-gql';
-import { useProfileContext } from '../profile/ProfileContext';
-import { UserGitPOAPRequest } from './UserGitPOAPRequest';
-import { Select } from '../shared/elements/Select';
-import { Header } from '../shared/elements/Header';
+import { UserGitPOAPRequest } from './UserRequestItem/UserGitPOAPRequest';
+import { Select, Header, Divider, Input } from '../shared/elements';
 import { TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { SelectOption } from '../shared/compounds/ItemList';
-import { Divider, Input } from '../shared/elements';
 import { useUrlState } from '../../hooks/useUrlState';
 import { useRouter } from 'next/router';
+import { useUser } from '../../hooks/useUser';
+import { AddZone } from '../gitpoap/manage/AddZone';
 
 type QueryVars = {
   page: number;
   perPage: number;
 };
 
-type SortOptions = 'Pending' | 'Rejected';
+type SortOptions = 'Pending' | 'Rejected' | 'Approved' | 'All';
 
 const selectOptions: SelectOption<SortOptions>[] = [
+  { value: 'All', label: 'ALL' },
+  { value: 'Approved', label: 'APPROVED' },
   { value: 'Pending', label: 'PENDING' },
   { value: 'Rejected', label: 'REJECTED' },
 ];
 
 export const UserGitPOAPRequestList = () => {
+  const user = useUser();
+  const address = user?.address;
   const router = useRouter();
   const isRouterReady = router.isReady;
   const { value, setValue, debouncedValue } = useUrlState('search');
-  const { profileData } = useProfileContext();
   const [variables, setVariables] = useState<QueryVars>({
     page: 1,
     perPage: 20,
   });
-  const [filter, setFilter] = useState<SortOptions>('Pending');
+  const [filter, setFilter] = useState<SortOptions>('All');
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
 
   const [totalCountResult] = useTotalUserGitPoapRequestsCountQuery({
     variables: {
-      approvalStatus: AdminApprovalStatus[filter],
-      address: profileData?.address ?? '',
+      approvalStatus: filter === 'All' ? undefined : AdminApprovalStatus[filter],
+      address: address ?? '',
     },
   });
   const [result, refetch] = useUserGitPoapRequestsQuery({
     variables: {
       take: variables.perPage,
       skip: (variables.page - 1) * variables.perPage,
-      approvalStatus: AdminApprovalStatus[filter],
-      address: profileData?.address ?? '',
-      search: debouncedValue ? parseInt(debouncedValue, 10) : undefined,
+      approvalStatus: filter === 'All' ? undefined : AdminApprovalStatus[filter],
+      address: address ?? '',
+      search: debouncedValue ?? '',
     },
     pause: false,
     requestPolicy: 'network-only',
@@ -79,26 +81,22 @@ export const UserGitPOAPRequestList = () => {
     if (isRouterReady && filter) {
       refetch();
     }
-  }, [filter, refetch, isRouterReady]);
+  }, [filter, refetch, isRouterReady, address]);
 
   const totalCount = totalCountResult.data?.aggregateGitPOAPRequest._count?.id ?? 0;
-  const totalPage = totalCount / variables.perPage + 1;
+  const totalPages = Math.floor(totalCount / variables.perPage + 1);
   const gitPOAPRequests = result.data?.gitPOAPRequests;
 
   return (
     <Group position="center" py={0} px={rem(20)}>
       <Stack align="center" justify="flex-start" spacing="sm" style={{ width: '100%' }}>
         <Group position="apart" align="center" grow style={{ width: '100%' }}>
-          <Header style={{ alignSelf: 'start' }}>{'GitPOAP Requests'}</Header>
+          <Header style={{ alignSelf: 'start' }}>{'My GitPOAPs'}</Header>
           <Group position="right" spacing="lg">
             <Input
-              placeholder={'Request ID'}
+              placeholder={'Search for request'}
               value={value}
-              onChange={(e) => {
-                if ((e.target.value && /^\d+$/.test(e.target.value)) || e.target.value === '') {
-                  setValue(e.target.value);
-                }
-              }}
+              onChange={(e) => setValue(e.target.value)}
             />
             {!matchesBreakpointSmall && (
               <Text color={TextGray} transform="uppercase">
@@ -110,23 +108,23 @@ export const UserGitPOAPRequestList = () => {
         </Group>
         <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
         {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
-          <Text mt={rem(20)} size={18}>
-            {'No GitPOAP Requests Found'}
+          <Text my={rem(20)} size={18}>
+            {'No GitPOAPs Found'}
           </Text>
         )}
         <Stack style={{ width: '100%' }}>
-          {!result.fetching &&
-            gitPOAPRequests &&
+          {gitPOAPRequests &&
             gitPOAPRequests.length > 0 &&
             gitPOAPRequests.map((gitPOAPRequest) => (
               <UserGitPOAPRequest key={gitPOAPRequest.id} gitPOAPRequest={gitPOAPRequest} />
             ))}
+          <AddZone onClick={() => router.push('/create')} text="+ CREATE GITPOAP" />
         </Stack>
         {totalCount > variables.perPage && (
           <Pagination
             page={variables.page}
             onChange={handlePageChange}
-            total={totalPage}
+            total={totalPages}
             mt={rem(20)}
           />
         )}

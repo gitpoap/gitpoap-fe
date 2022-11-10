@@ -6396,7 +6396,7 @@ export type UserGitPoapRequestsQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Int']>;
   approvalStatus?: InputMaybe<AdminApprovalStatus>;
   address?: InputMaybe<Scalars['String']>;
-  search?: InputMaybe<Scalars['Int']>;
+  search?: InputMaybe<Scalars['String']>;
 }>;
 
 export type UserGitPoapRequestsQuery = {
@@ -6411,6 +6411,7 @@ export type UserGitPoapRequestsQuery = {
     endDate: any;
     expiryDate: any;
     numRequestedCodes: number;
+    createdAt: any;
     contributors: any;
     adminApprovalStatus: AdminApprovalStatus;
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
@@ -7921,7 +7922,7 @@ export const UserGitPoapRequestsDocument = gql`
     $skip: Int
     $approvalStatus: AdminApprovalStatus
     $address: String
-    $search: Int
+    $search: String
   ) {
     gitPOAPRequests(
       take: $take
@@ -7929,9 +7930,12 @@ export const UserGitPoapRequestsDocument = gql`
       where: {
         adminApprovalStatus: { equals: $approvalStatus }
         address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
-        id: { equals: $search }
+        OR: [
+          { name: { contains: $search, mode: insensitive } }
+          { description: { contains: $search, mode: insensitive } }
+        ]
       }
-      orderBy: { adminApprovalStatus: desc }
+      orderBy: { createdAt: desc }
     ) {
       id
       name
@@ -7941,6 +7945,7 @@ export const UserGitPoapRequestsDocument = gql`
       endDate
       expiryDate
       numRequestedCodes
+      createdAt
       creatorEmail {
         emailAddress
       }

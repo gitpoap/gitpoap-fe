@@ -18,13 +18,14 @@ const Zone = styled(Group)`
 
 type Props = {
   onClick: () => void;
+  text: string;
 };
 
-export const AddZone = ({ onClick }: Props) => {
+export const AddZone = ({ onClick, text }: Props) => {
   return (
-    <Zone position="center" p={rem(16)} my={rem(20)} mx={rem(40)} onClick={onClick}>
+    <Zone position="center" p={rem(12)} my={rem(10)} mx={rem(10)} onClick={onClick}>
       <Text weight="bold" size={14} sx={{ letterSpacing: rem(2) }}>
-        {'+ ADD CONTRIBUTORS'}
+        {text}
       </Text>
     </Zone>
   );

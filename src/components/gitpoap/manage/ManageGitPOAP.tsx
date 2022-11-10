@@ -41,7 +41,7 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
   const totalClaims = results.data?.gitPOAP?._count?.claims ?? 0;
   const claims = results.data?.gitPOAP?.claims;
   const gitPOAP = results.data?.gitPOAP;
-  const totalPage = totalClaims / perPage;
+  const totalPages = Math.floor(totalClaims / perPage);
 
   const handlePageChange = useCallback(
     (page: number) =>
@@ -89,7 +89,7 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
                         <ClaimRow
                           key={claim.id}
                           claim={claim}
-                          index={i}
+                          index={perPage * (variables.page - 1) + i}
                           gitPOAPType={gitPOAP?.type}
                           refetch={refetch}
                         />
@@ -97,7 +97,10 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
                     })}
                 </tbody>
               </Table>
-              <AddZone onClick={() => setIsAddContributorsModalOpen(true)} />
+              <AddZone
+                onClick={() => setIsAddContributorsModalOpen(true)}
+                text={'+ ADD CONTRIBUTORS'}
+              />
             </>
           )}
           {!gitPOAP && !results.fetching && results.operation && (
@@ -111,7 +114,7 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
             <Pagination
               page={variables.page}
               onChange={handlePageChange}
-              total={totalPage}
+              total={totalPages}
               mt={rem(20)}
             />
           </Group>

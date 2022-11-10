@@ -93,7 +93,7 @@ export const CreationForm = () => {
       }
 
       setButtonStatus(ButtonStatus.SUCCESS);
-      await router.push('/me/requests');
+      await router.push('/me/gitpoaps');
     },
     [api.gitPOAPRequest, contributors, validate, router],
   );
