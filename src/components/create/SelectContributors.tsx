@@ -206,7 +206,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
             </Stack>
           </ScrollArea>
           <Input
-            placeholder={'QUICK SEARCH...'}
+            placeholder={'Search Entries'}
             value={searchValue}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setSearchValue(e.target.value);
