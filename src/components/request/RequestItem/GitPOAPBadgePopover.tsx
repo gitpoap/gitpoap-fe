@@ -35,9 +35,9 @@ export const GitPOAPBadgePopover = ({ isOpen, onClose, onOpen, imageUrl }: Props
       <Popover.Target>
         <Box onMouseEnter={onOpen} onMouseLeave={onClose}>
           {matchesBreakpointSmall ? (
-            <GitPOAPBadge imgUrl={imageUrl} altText="preview" size="md" />
-          ) : (
             <GitPOAPBadge imgUrl={imageUrl} altText="preview" size="sm" />
+          ) : (
+            <GitPOAPBadge imgUrl={imageUrl} altText="preview" size="xs" />
           )}
         </Box>
       </Popover.Target>

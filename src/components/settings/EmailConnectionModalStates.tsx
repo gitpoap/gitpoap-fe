@@ -99,7 +99,7 @@ export const EmailConnectionModalSubmitted = ({ values }: SubmittedProps) => {
       <TextUI size="lg" weight="bold">
         {values.email}
       </TextUI>
-      <TextUI align="center">{`Please check your inbox and click the link to confirm your request.`}</TextUI>
+      <TextUI align="center">{`Check your inbox and click the link to confirm your request.`}</TextUI>
 
       <TextUI mt={32}>{`This link expires in 24 hours`}</TextUI>
     </Stack>

@@ -78,7 +78,7 @@ export const GitPOAPRequestList = () => {
   }, [filter, refetch, isRouterReady]);
 
   const totalCount = totalCountResult.data?.aggregateGitPOAPRequest._count?.id ?? 0;
-  const totalPage = totalCount / variables.perPage + 1;
+  const totalPages = Math.floor(totalCount / variables.perPage + 1);
   const gitPOAPRequests = result.data?.gitPOAPRequests;
 
   return (
@@ -122,7 +122,7 @@ export const GitPOAPRequestList = () => {
           <Pagination
             page={variables.page}
             onChange={handlePageChange}
-            total={totalPage}
+            total={totalPages}
             mt={rem(20)}
           />
         )}

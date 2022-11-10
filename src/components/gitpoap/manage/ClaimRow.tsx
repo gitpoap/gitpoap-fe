@@ -109,7 +109,7 @@ export const ClaimRow = ({ claim, index, gitPOAPType, refetch }: Props) => {
   const ensName = mintedAddress?.ensName;
   const ethAddress = mintedAddress?.ethAddress;
   const avatarImageUrl = mintedAddress?.ensAvatarImageUrl;
-  const isDeleteDisabled = status === ClaimStatus.Claimed || gitPOAPType !== GitPoapType.Custom;
+  const isDeleteDisabled = status === ClaimStatus.Claimed;
   const hasAttributesEnabled = false;
 
   const handleDeleteClaim = async (claimId: number) => {

@@ -17,10 +17,6 @@ const Content = styled.div`
   color: white;
 `;
 
-const ConnectedButton = styled(Button)<{ hideText?: boolean }>`
-  min-width: ${(props) => (props.hideText ? 0 : rem(125))};
-`;
-
 const GitPOAPIcon = styled(GitPOAP)`
   path {
     fill: white;
@@ -84,14 +80,14 @@ export const GitHub = ({ className, hideText }: Props) => {
   /* Connected to GitHub, but NO open claims */
   return (
     <Content className={className}>
-      <ConnectedButton
+      <Button
         onClick={() => setIsOpen(true)}
         variant="outline"
         leftIcon={!hideText && <GoMarkGithub size={16} />}
-        hideText={hideText}
+        sx={{ minWidth: hideText ? 0 : rem(125) }}
       >
         {hideText ? <GoMarkGithub size={16} /> : 'NONE TO MINT'}
-      </ConnectedButton>
+      </Button>
     </Content>
   );
 };

@@ -869,7 +869,7 @@ query userGitPOAPRequests(
   $skip: Int
   $approvalStatus: AdminApprovalStatus
   $address: String
-  $search: Int
+  $search: String
 ) {
   gitPOAPRequests(
     take: $take
@@ -877,9 +877,12 @@ query userGitPOAPRequests(
     where: {
       adminApprovalStatus: { equals: $approvalStatus }
       address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
-      id: { equals: $search }
+      OR: [
+        { name: { contains: $search, mode: insensitive } }
+        { description: { contains: $search, mode: insensitive } }
+      ]
     }
-    orderBy: { adminApprovalStatus: desc }
+    orderBy: { createdAt: desc }
   ) {
     id
     name
@@ -889,6 +892,7 @@ query userGitPOAPRequests(
     endDate
     expiryDate
     numRequestedCodes
+    createdAt
     creatorEmail {
       emailAddress
     }
