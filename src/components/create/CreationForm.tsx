@@ -142,7 +142,7 @@ export const CreationForm = () => {
                 <Text>{'Recommended: measures 500x500px, size less than 200KB (Max. 4MB)'}</Text>
               </List.Item>
               <List.Item>
-                <Link href="docs.gitpoap.io">
+                <Link href="https://gitpoap.notion.site/GitPOAP-Design-Guide-Requirements-9a843acfe1c7490bbfcdab2d1a47e8af">
                   <Text>{'Design Guide'}</Text>
                 </Link>
               </List.Item>
