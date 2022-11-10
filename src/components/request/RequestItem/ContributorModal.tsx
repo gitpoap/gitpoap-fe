@@ -42,7 +42,7 @@ export const ContributorModal = ({ isOpen, onClose, contributors }: Props) => {
         {generateContributorsList.map((contributor, index) => (
           <Group key={`${index}-contributor-list`}>
             <Text>{`${contributor.value}`}</Text>
-            <Badge sx={{ color: 'white' }}>{contributorTypeCopy[contributor.type]}</Badge>
+            <Badge>{contributorTypeCopy[contributor.type]}</Badge>
           </Group>
         ))}
       </Stack>

@@ -140,7 +140,7 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
   const gitPOAP = results.data?.gitPOAP;
   const totalPages =
     searchValue.length > 0 && claims
-      ? Math.floor(claims?.length / perPage)
+      ? Math.floor(claims.length / perPage)
       : Math.floor(totalClaims / perPage);
 
   const handlePageChange = useCallback(
@@ -240,7 +240,7 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
           )}
           {(!gitPOAP || gitPOAP.claims.length === 0) && !results.fetching && results.operation && (
             <Group position="center" my={rem(20)}>
-              <Text size="lg">{'No Contributors found'}</Text>
+              <Text size="lg">{'No Contributors Found'}</Text>
             </Group>
           )}
           <Box>
