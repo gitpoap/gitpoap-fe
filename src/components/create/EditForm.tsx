@@ -132,14 +132,7 @@ export const EditForm = ({
         position="apart"
         style={{ left: '5%', position: 'absolute', width: '90%', zIndex: 99 }}
       >
-        <Box>
-          <Link href="/create/select-type">
-            <Text color="grey" mb="md">
-              {'< BACK TO TYPE SELECTION'}
-            </Text>
-          </Link>
-          <Header>{HeaderText[adminApprovalStatus]}</Header>
-        </Box>
+        <Header>{HeaderText[adminApprovalStatus]}</Header>
         <Header>{adminApprovalStatus}</Header>
       </Group>
       <Stack align="center" spacing={32}>

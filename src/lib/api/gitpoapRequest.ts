@@ -53,7 +53,6 @@ export const GitPOAPRequestEditSchema = z.object({
   endDate: z.date(),
   expiryDate: z.date(),
   eventUrl: z.string().min(1),
-  numRequestedCodes: z.number(),
   city: z.string().optional(),
   country: z.string().optional(),
   contributors: GitPOAPRequestContributorsSchema,

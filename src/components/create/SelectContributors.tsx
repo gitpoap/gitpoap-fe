@@ -181,7 +181,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
           <ScrollArea
             pl={rem(16)}
             sx={{
-              height: rem(320),
+              height: rem(335),
               maxHeight: '80vh',
               borderTop: `${rem(1)} solid ${BackgroundPanel3}`,
               borderBottom: `${rem(1)} solid ${BackgroundPanel3}`,

@@ -110,14 +110,7 @@ export const CreationForm = () => {
         position="apart"
         style={{ left: '5%', position: 'absolute', width: '90%', zIndex: 99 }}
       >
-        <Box>
-          <Link href="/create/select-type">
-            <Text color="grey" mb="md">
-              {'< BACK TO TYPE SELECTION'}
-            </Text>
-          </Link>
-          <Header>{HeaderText[approvalStatus]}</Header>
-        </Box>
+        <Header>{HeaderText[approvalStatus]}</Header>
         <Header>{approvalStatus}</Header>
       </Group>
       <Stack align="center" spacing={32}>
