@@ -20,14 +20,21 @@ export const useUrlState = (key: string) => {
     if (isReady && urlValue && value === undefined) {
       setValue(urlValue ?? '');
     } else if (debouncedValue === '') {
-      router.replace(router.pathname, undefined, { shallow: true });
+      const { [key]: _, ...restQuery } = router.query;
+      void router.replace({ pathname: router.pathname, query: { ...restQuery } }, undefined, {
+        shallow: true,
+      });
     } else if (debouncedValue && debouncedValue.length > 0) {
-      router.replace(
-        `${router.pathname}?${key}=${encodeURIComponent(debouncedValue ?? '')}`,
-        undefined,
+      void router.replace(
         {
-          shallow: true,
+          pathname: router.pathname,
+          query: {
+            ...router.query,
+            [key]: debouncedValue,
+          },
         },
+        undefined,
+        { shallow: true },
       );
     }
   }, [isReady, urlValue, value, debouncedValue, key]);

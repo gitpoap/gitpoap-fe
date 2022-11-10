@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { rem } from 'polished';
-import { Group, Stack, Text, Pagination } from '@mantine/core';
+import { Group, Stack, Text, Pagination, Box } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import {
   useUserGitPoapRequestsQuery,
@@ -118,7 +118,9 @@ export const UserGitPOAPRequestList = () => {
             gitPOAPRequests.map((gitPOAPRequest) => (
               <UserGitPOAPRequest key={gitPOAPRequest.id} gitPOAPRequest={gitPOAPRequest} />
             ))}
-          <AddZone onClick={() => router.push('/create')} text="+ CREATE GITPOAP" />
+          <Box my={rem(10)}>
+            <AddZone onClick={() => router.push('/create')} text="+ CREATE GITPOAP" />
+          </Box>
         </Stack>
         {totalCount > variables.perPage && (
           <Pagination

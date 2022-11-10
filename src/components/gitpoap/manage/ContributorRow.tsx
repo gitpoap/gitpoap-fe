@@ -2,7 +2,7 @@ import { ActionIcon, Badge, Box, Group, Text, TextProps, Tooltip } from '@mantin
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
-import { ClaimStatus, GitPoapType, GitPoapWithClaimsQuery } from '../../../graphql/generated-gql';
+import { ClaimStatus, GitPoapWithClaimsQuery } from '../../../graphql/generated-gql';
 import { truncateAddress } from '../../../helpers';
 import { Avatar } from '../../shared/elements';
 import { DateTime } from 'luxon';
@@ -26,19 +26,18 @@ enum ButtonStatus {
 
 type Props = {
   claim: Exclude<GitPoapWithClaimsQuery['gitPOAP'], undefined | null>['claims'][number];
-  gitPOAPType: GitPoapType;
   index: number;
   refetch: () => void;
 };
 
 const AvatarStyled = styled(Avatar)`
-  height: ${rem(40)};
-  width: ${rem(40)};
+  height: ${rem(30)};
+  width: ${rem(30)};
 `;
 
 const JazzIcon = styled(JazzIconReact)`
-  height: ${rem(40)};
-  width: ${rem(40)};
+  height: ${rem(30)};
+  width: ${rem(30)};
 `;
 
 const TableRow = styled.tr`
@@ -52,7 +51,7 @@ const TableDataText = styled(Text)<TextProps>``;
 const IssuedTo = ({ claim }: { claim: Props['claim'] }) => {
   if (claim.issuedAddress?.ensName) {
     return (
-      <Group spacing={0}>
+      <Group spacing={0} grow={false} noWrap={true}>
         <Link href={`/p/${claim.issuedAddress.ensName}`}>
           <Text variant="link">{claim.issuedAddress.ensName}</Text>
         </Link>
@@ -63,7 +62,7 @@ const IssuedTo = ({ claim }: { claim: Props['claim'] }) => {
     );
   } else if (claim.issuedAddress?.ethAddress) {
     return (
-      <Group spacing={0}>
+      <Group spacing={0} grow={false} noWrap={true}>
         <Link href={`/p/${claim.issuedAddress.ethAddress}`}>
           <Text variant="link">{truncateAddress(claim.issuedAddress.ethAddress, 6, 4)}</Text>
         </Link>
@@ -74,7 +73,7 @@ const IssuedTo = ({ claim }: { claim: Props['claim'] }) => {
     );
   } else if (claim.githubUser?.githubHandle) {
     return (
-      <Group spacing={0}>
+      <Group spacing={0} grow={false} noWrap={true}>
         <Link href={`https://github.com/${claim.githubUser.githubHandle}`}>
           <Text variant="link">{claim.githubUser.githubHandle}</Text>
         </Link>
@@ -84,7 +83,7 @@ const IssuedTo = ({ claim }: { claim: Props['claim'] }) => {
       </Group>
     );
   } else if (claim.email?.emailAddress) {
-    <Group spacing={0}>
+    <Group spacing={0} grow={false} noWrap={true}>
       {claim.email.emailAddress}
       <Badge color="blue" variant="outline" size="sm" ml="xs">
         {'EMAIL'}
@@ -93,7 +92,7 @@ const IssuedTo = ({ claim }: { claim: Props['claim'] }) => {
   }
 
   return (
-    <Group>
+    <Group grow={false} noWrap={true}>
       <Badge color="blue" variant="outline" size="sm" ml="xs">
         {'UNKNOWN'}
       </Badge>
@@ -101,7 +100,7 @@ const IssuedTo = ({ claim }: { claim: Props['claim'] }) => {
   );
 };
 
-export const ClaimRow = ({ claim, index, gitPOAPType, refetch }: Props) => {
+export const ContributorRow = ({ claim, index, refetch }: Props) => {
   const api = useApi();
   const { status, mintedAddress } = claim;
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
@@ -120,11 +119,7 @@ export const ClaimRow = ({ claim, index, gitPOAPType, refetch }: Props) => {
   };
 
   const tooltipText =
-    status === ClaimStatus.Claimed
-      ? "You can't remove if already minted"
-      : gitPOAPType !== GitPoapType.Custom
-      ? "You can't remove a contributor from an Annual GitPOAP"
-      : 'Remove contributor';
+    status === ClaimStatus.Claimed ? "You can't remove if already minted" : 'Remove contributor';
 
   return (
     <TableRow>
@@ -132,13 +127,31 @@ export const ClaimRow = ({ claim, index, gitPOAPType, refetch }: Props) => {
         <Text>{index + 1}</Text>
       </td>
       <td>
-        <Link href={`/p/${ensName ?? ethAddress}`} passHref>
-          {avatarImageUrl ? (
-            <AvatarStyled src={avatarImageUrl} />
+        <Group sx={{ width: rem(180) }}>
+          <IssuedTo claim={claim} />
+        </Group>
+      </td>
+      <td>
+        <Box sx={{ width: rem(160) }}>
+          {mintedAddress ? (
+            <Group noWrap={true}>
+              <Link href={`/p/${ensName ?? ethAddress}`} passHref>
+                {avatarImageUrl ? (
+                  <AvatarStyled src={avatarImageUrl} />
+                ) : ensName || ethAddress ? (
+                  <JazzIcon address={ethAddress ?? '0x'} />
+                ) : null}
+              </Link>
+              <Link href={`/p/${ensName ?? ethAddress}`} passHref>
+                <TableDataText variant="link">
+                  {mintedAddress?.ensName ?? truncateAddress(mintedAddress?.ethAddress ?? '', 6, 4)}
+                </TableDataText>
+              </Link>
+            </Group>
           ) : (
-            <JazzIcon address={ethAddress ?? '0x'} />
+            <Text>-</Text>
           )}
-        </Link>
+        </Box>
       </td>
       <td>
         <TableDataText>
@@ -147,6 +160,7 @@ export const ClaimRow = ({ claim, index, gitPOAPType, refetch }: Props) => {
             variant="filled"
             style={{
               backgroundColor: status === ClaimStatus.Unclaimed ? ExtraRedDark : PrimaryBlue,
+              minWidth: rem(120),
             }}
           >
             {status}
@@ -154,26 +168,44 @@ export const ClaimRow = ({ claim, index, gitPOAPType, refetch }: Props) => {
         </TableDataText>
       </td>
       <td>
-        <Link href={`/p/${ensName ?? ethAddress}`} passHref>
-          <TableDataText variant="link">
-            {mintedAddress?.ensName ?? truncateAddress(mintedAddress?.ethAddress ?? '', 6, 4)}
-          </TableDataText>
-        </Link>
+        <Box sx={{ width: rem(160) }}>
+          <Tooltip
+            label={
+              claim.mintedAt ? DateTime.fromISO(claim.mintedAt).toFormat('dd LLL yyyy HH:mm') : '-'
+            }
+            multiline
+            withArrow
+            transition="fade"
+            position="top-start"
+            sx={{ textAlign: 'center' }}
+            disabled={claim.mintedAt ? false : true}
+          >
+            <TableDataText sx={{ cursor: 'default', whiteSpace: 'nowrap' }}>
+              {claim.mintedAt ? DateTime.fromISO(claim.mintedAt).toRelative() : '-'}
+            </TableDataText>
+          </Tooltip>
+        </Box>
       </td>
       <td>
-        <TableDataText>
-          <IssuedTo claim={claim} />
-        </TableDataText>
-      </td>
-      <td>
-        <TableDataText>
-          {claim.mintedAt ? DateTime.fromISO(claim.mintedAt).toFormat('dd LLL yy HH:mm') : '-'}
-        </TableDataText>
-      </td>
-      <td>
-        <TableDataText>
-          {DateTime.fromISO(claim.createdAt).toFormat('dd LLL yy HH:mm')}
-        </TableDataText>
+        <Box>
+          <Tooltip
+            label={
+              claim.createdAt
+                ? DateTime.fromISO(claim.createdAt).toFormat('dd LLL yyyy HH:mm')
+                : '-'
+            }
+            multiline
+            withArrow
+            transition="fade"
+            position="top-start"
+            sx={{ textAlign: 'center' }}
+            disabled={claim.createdAt ? false : true}
+          >
+            <TableDataText sx={{ cursor: 'default', whiteSpace: 'nowrap' }}>
+              {DateTime.fromISO(claim.createdAt).toRelative() ?? '-'}
+            </TableDataText>
+          </Tooltip>
+        </Box>
       </td>
       <td>
         <Group>

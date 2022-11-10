@@ -63,7 +63,7 @@ type Props = {
   imageUrl: string;
 };
 
-const convertContributorObjectToList = (
+export const convertContributorObjectToList = (
   contributors: GitPOAPRequestContributorsValues,
 ): Contributor[] => {
   return Object.entries(contributors)
