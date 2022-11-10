@@ -26,10 +26,7 @@ export const GitPOAPRequestContributorsSchema = z
 export type GitPOAPRequestContributorsValues = z.infer<typeof GitPOAPRequestContributorsSchema>;
 
 export const GitPOAPRequestCreateSchema = z.object({
-  projectId: z.number().optional(),
-  organizationId: z.number().optional(),
   name: z.string().min(1, { message: 'Name is required' }),
-  contributors: GitPOAPRequestContributorsSchema,
   description: z.string().min(1, { message: 'Description is required' }),
   startDate: z.date({
     required_error: 'Start date is required',
@@ -40,8 +37,7 @@ export const GitPOAPRequestCreateSchema = z.object({
     invalid_type_error: 'End date is required',
   }),
   creatorEmail: z.string().email({ message: 'Invalid email' }),
-  ongoing: z.boolean(),
-  isEnabled: z.boolean(),
+  contributors: GitPOAPRequestContributorsSchema,
   image: ImageFileSchema,
 });
 
@@ -72,16 +68,12 @@ export class GitPOAPRequestAPI extends API {
   async create(values: GitPOAPRequestCreateValues) {
     const formData = new FormData();
 
-    values.projectId && formData.append('projectId', values.projectId.toString());
-    values.organizationId && formData.append('organizationId', values.organizationId.toString());
     formData.append('name', values.name);
-    formData.append('contributors', JSON.stringify(values.contributors));
     formData.append('description', values.description);
     formData.append('startDate', DateTime.fromJSDate(values.startDate).toFormat('yyyy-MM-dd'));
     formData.append('endDate', DateTime.fromJSDate(values.endDate).toFormat('yyyy-MM-dd'));
     formData.append('creatorEmail', values.creatorEmail);
-    formData.append('ongoing', values.ongoing.toString());
-    formData.append('isEnabled', values.isEnabled.toString());
+    formData.append('contributors', JSON.stringify(values.contributors));
     formData.append('image', values.image ?? '');
 
     const res = await makeAPIRequestWithAuth('/gitpoaps/custom', 'POST', this.token, formData, {});
@@ -97,23 +89,31 @@ export class GitPOAPRequestAPI extends API {
     return true;
   }
 
-  async patch(gitPOAPRequestId: number, data: GitPOAPRequestEditValues) {
+  async patch(gitPOAPRequestId: number, values: GitPOAPRequestEditValues) {
+    const formData = new FormData();
+
+    formData.append('name', values.name);
+    formData.append('description', values.description);
+    formData.append('startDate', DateTime.fromJSDate(values.startDate).toFormat('yyyy-MM-dd'));
+    formData.append('endDate', DateTime.fromJSDate(values.endDate).toFormat('yyyy-MM-dd'));
+    formData.append('contributors', JSON.stringify(values.contributors));
+    formData.append('image', values.image ?? '');
+
     const res = await makeAPIRequestWithAuth(
       `/gitpoaps/custom/${gitPOAPRequestId}`,
       'PATCH',
       this.token,
-      JSON.stringify({
-        data,
-      }),
+      formData,
+      {},
     );
 
     if (!res?.ok) {
-      Notifications.error(`Error - Request Failed for ${data.name}`);
+      Notifications.error(`Error - Request Failed for ${values.name}`);
 
       return null;
     }
 
-    Notifications.success(`Success - Created GitPOAP Request - ${data.name}`);
+    Notifications.success(`Success - Created GitPOAP Request - ${values.name}`);
 
     return true;
   }
