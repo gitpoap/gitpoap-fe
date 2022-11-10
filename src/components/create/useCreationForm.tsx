@@ -1,7 +1,6 @@
 import { useForm, zodResolver } from '@mantine/form';
 import { DateTime } from 'luxon';
 
-import { THIS_YEAR } from '../../constants';
 import {
   GitPOAPRequestCreateSchema,
   GitPOAPRequestCreateValues,
@@ -9,7 +8,6 @@ import {
 
 const DEFAULT_START_DATE = DateTime.local().toJSDate();
 const DEFAULT_END_DATE = DateTime.local().toJSDate();
-const DEFAULT_EXPIRY_DATE = DateTime.local(THIS_YEAR + 1, 4, 1).toJSDate();
 
 const defaultInitialValues: GitPOAPRequestCreateValues = {
   name: '',
@@ -17,10 +15,7 @@ const defaultInitialValues: GitPOAPRequestCreateValues = {
   description: '',
   startDate: DEFAULT_START_DATE,
   endDate: DEFAULT_END_DATE,
-  expiryDate: DEFAULT_EXPIRY_DATE,
-  eventUrl: 'https://gitpoap.io',
   creatorEmail: '',
-  numRequestedCodes: 20,
   ongoing: true,
   isEnabled: true,
   image: null,

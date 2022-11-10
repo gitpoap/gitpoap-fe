@@ -39,13 +39,8 @@ export const GitPOAPRequestCreateSchema = z.object({
     required_error: 'End date is required',
     invalid_type_error: 'End date is required',
   }),
-  expiryDate: z.date(),
-  eventUrl: z.string().url().min(1),
   creatorEmail: z.string().email({ message: 'Invalid email' }),
-  numRequestedCodes: z.number(),
   ongoing: z.boolean(),
-  city: z.string().optional(),
-  country: z.string().optional(),
   isEnabled: z.boolean(),
   image: ImageFileSchema,
 });
@@ -63,8 +58,6 @@ export const GitPOAPRequestEditSchema = z.object({
     required_error: 'End date is required',
     invalid_type_error: 'End date is required',
   }),
-  city: z.string().optional(),
-  country: z.string().optional(),
   contributors: GitPOAPRequestContributorsSchema,
 });
 
@@ -85,13 +78,8 @@ export class GitPOAPRequestAPI extends API {
     formData.append('description', values.description);
     formData.append('startDate', DateTime.fromJSDate(values.startDate).toFormat('yyyy-MM-dd'));
     formData.append('endDate', DateTime.fromJSDate(values.endDate).toFormat('yyyy-MM-dd'));
-    formData.append('expiryDate', DateTime.fromJSDate(values.expiryDate).toFormat('yyyy-MM-dd'));
-    formData.append('eventUrl', values.eventUrl);
     formData.append('creatorEmail', values.creatorEmail);
-    formData.append('numRequestedCodes', values.numRequestedCodes.toString());
     formData.append('ongoing', values.ongoing.toString());
-    values.city && formData.append('city', values.city.toString());
-    values.country && formData.append('country', values.country.toString());
     formData.append('isEnabled', values.isEnabled.toString());
     formData.append('image', values.image ?? '');
 
