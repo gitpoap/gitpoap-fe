@@ -125,7 +125,13 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
           </Button>
           <Divider label={<Text>OR</Text>} labelPosition="center" />
           <Group>
-            <Tooltip label={'Without a header'} position="right" withArrow>
+            <Tooltip
+              label={
+                'A single column of identifiers (GitHub handles, emails, ETH addresses, or ENS names) without a header'
+              }
+              position="right"
+              withArrow
+            >
               <Text>
                 {'Upload CSV '}
                 <MdHelpOutline />
