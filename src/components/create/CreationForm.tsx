@@ -10,7 +10,7 @@ import {
   Grid,
 } from '@mantine/core';
 import { rem } from 'polished';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
@@ -102,6 +102,12 @@ export const CreationForm = () => {
     },
     [api.gitPOAPRequest, contributors, validate, router],
   );
+
+  useEffect(() => {
+    if (values.startDate > values.endDate) {
+      setFieldValue('endDate', values.startDate);
+    }
+  }, [values.startDate]);
 
   return (
     <Container mt={24} mb={72} p={0} style={{ width: '90%', zIndex: 1 }}>
