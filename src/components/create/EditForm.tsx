@@ -179,19 +179,23 @@ export const EditForm = ({
             </List>
           </Box>
           <Input
+            required
             style={{ width: '100%' }}
             label="GitPOAP Name"
             placeholder="Contributor 2022"
             {...getInputProps('name')}
           />
           <TextArea
+            required
             style={{ width: '100%' }}
             label="Description"
             placeholder="For all our valuable contributors in 2022"
             {...getInputProps('description')}
           />
           <Box>
-            <Label mb={rem(11)}>{'Accomplishment Period'}</Label>
+            <Label mb={rem(11)} required>
+              {'Accomplishment Period'}
+            </Label>
             <Grid>
               <Grid.Col xs={6} span={12}>
                 <DateInput
@@ -210,6 +214,7 @@ export const EditForm = ({
             </Grid>
           </Box>
           <Input
+            required
             style={{ width: '100%' }}
             label="Email"
             placeholder="Email"
