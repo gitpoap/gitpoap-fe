@@ -7,12 +7,13 @@ import {
   Group,
   ScrollArea,
   Stack,
+  Tooltip,
 } from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
 import { validate } from 'email-validator';
 import { rem } from 'polished';
 import { useState } from 'react';
-import { MdOutlineFileUpload } from 'react-icons/md';
+import { MdHelpOutline, MdOutlineFileUpload } from 'react-icons/md';
 import {
   BackgroundPanel,
   BackgroundPanel2,
@@ -90,7 +91,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
   const handleSubmitDropzone = (files: File[]) => {
     Papa.parse(files[0], {
       complete: (results) => {
-        addContributors(results.data[0] as string[]);
+        addContributors(results.data.flat() as string[]);
       },
     });
   };
@@ -123,7 +124,14 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
             {'Add'}
           </Button>
           <Divider label={<Text>OR</Text>} labelPosition="center" />
-          <Text>{'Upload CSV'}</Text>
+          <Group>
+            <Tooltip label={'Without a header'} position="right" withArrow>
+              <Text>
+                {'Upload CSV '}
+                <MdHelpOutline />
+              </Text>
+            </Tooltip>
+          </Group>
           <Dropzone
             accept={['text/csv']}
             onDrop={handleSubmitDropzone}
