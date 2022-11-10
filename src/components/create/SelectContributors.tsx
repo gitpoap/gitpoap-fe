@@ -181,10 +181,10 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
               borderBottom: `${rem(1)} solid ${BackgroundPanel3}`,
             }}
           >
-            <Stack pb={rem(10)}>
+            <Stack py="xs">
               {filteredContributors.map(({ type, value }: Contributor) => {
                 return (
-                  <Group key={value + '-' + type} mt="xs" position="apart">
+                  <Group key={value + '-' + type} position="apart">
                     <Group position="left">
                       <Text>{type === 'ethAddresses' ? truncateAddress(value, 4, 4) : value}</Text>
 
