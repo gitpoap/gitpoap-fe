@@ -200,13 +200,16 @@ export const EditForm = ({
               <Grid.Col xs={6} span={12}>
                 <DateInput
                   placeholder="Start Date"
+                  weekendDays={[]}
                   sx={{ width: '100%' }}
                   {...getInputProps('startDate')}
                 />
               </Grid.Col>
               <Grid.Col xs={6} span={12}>
                 <DateInput
+                  minDate={values.startDate}
                   placeholder="End Date"
+                  weekendDays={[]}
                   sx={{ width: '100%' }}
                   {...getInputProps('endDate')}
                 />

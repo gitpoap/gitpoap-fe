@@ -122,7 +122,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
           <Button disabled={contributorsText.length === 0} onClick={handleSubmitTextArea}>
             {'Add'}
           </Button>
-          <Divider />
+          <Divider label={<Text>OR</Text>} labelPosition="center" />
           <Text>{'Upload CSV'}</Text>
           <Dropzone
             accept={['text/csv']}

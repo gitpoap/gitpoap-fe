@@ -10,7 +10,7 @@ import {
   Grid,
 } from '@mantine/core';
 import { rem } from 'polished';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
@@ -98,6 +98,12 @@ export const CreationForm = () => {
     [api.gitPOAPRequest, contributors, validate, router],
   );
 
+  useEffect(() => {
+    if (values.startDate > values.endDate) {
+      setFieldValue('endDate', values.startDate);
+    }
+  }, [values.startDate]);
+
   return (
     <Container mt={24} mb={72} p={0} style={{ width: '90%', zIndex: 1 }}>
       <Group
@@ -172,13 +178,16 @@ export const CreationForm = () => {
               <Grid.Col xs={6} span={12}>
                 <DateInput
                   placeholder="Start Date"
+                  weekendDays={[]}
                   sx={{ width: '100%' }}
                   {...getInputProps('startDate')}
                 />
               </Grid.Col>
               <Grid.Col xs={6} span={12}>
                 <DateInput
+                  minDate={values.startDate}
                   placeholder="End Date"
+                  weekendDays={[]}
                   sx={{ width: '100%' }}
                   {...getInputProps('endDate')}
                 />
