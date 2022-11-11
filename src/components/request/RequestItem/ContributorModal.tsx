@@ -23,6 +23,7 @@ const contributorTypeCopy = {
   ethAddresses: 'ETH',
   ensNames: 'ENS',
   emails: 'Email',
+  invalid: 'Invalid',
 };
 
 export const ContributorModal = ({ isOpen, onClose, contributors }: Props) => {
