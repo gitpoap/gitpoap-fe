@@ -129,6 +129,7 @@ export const EditForm = ({
       const data = await api.gitPOAPRequest.patch(gitPOAPRequestId, {
         ...formValues,
         contributors: formattedContributors,
+        image: isDirty('image') ? formValues.image : undefined,
       });
 
       if (data === null) {
