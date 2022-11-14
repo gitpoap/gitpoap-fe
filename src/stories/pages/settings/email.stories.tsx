@@ -13,11 +13,11 @@ export default {
   component: EmailConnection,
 } as ComponentMeta<typeof EmailConnection>;
 
-const Template: ComponentStory<typeof EmailConnection> = (args) => (
+const Template: ComponentStory<typeof EmailConnection> = () => (
   <Layout>
     <ProfileProvider addressOrEns="0x12345">
       <Container my={48} size={600} style={{ width: '100%' }}>
-        <EmailConnection {...args} />
+        <EmailConnection />
       </Container>
     </ProfileProvider>
   </Layout>

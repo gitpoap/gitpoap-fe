@@ -14,12 +14,12 @@ export class EmailAPI extends API {
     super(tokens?.accessToken);
   }
 
-  async addEmail(email: string) {
+  async post(emailAddress: string) {
     const res = await makeAPIRequestWithAuth(
       '/email',
       'POST',
       this.token,
-      JSON.stringify({ emailAddress: email }),
+      JSON.stringify({ emailAddress }),
     );
 
     if (!res) {
@@ -29,7 +29,17 @@ export class EmailAPI extends API {
     return true;
   }
 
-  async getEmail() {
+  async delete() {
+    const res = await makeAPIRequestWithAuth('/email', 'DELETE', this.token);
+
+    if (!res) {
+      return null;
+    }
+
+    return true;
+  }
+
+  async get() {
     const res = await makeAPIRequestWithAuth('/email', 'GET', this.token);
 
     if (!res) {
@@ -41,11 +51,7 @@ export class EmailAPI extends API {
   }
 
   async verify(token: string) {
-    const res = await makeAPIRequest(
-      '/email/verify',
-      'POST',
-      JSON.stringify({ activeToken: token }),
-    );
+    const res = await makeAPIRequest(`/email/verify/${token}`, 'POST');
 
     if (!res) {
       return null;

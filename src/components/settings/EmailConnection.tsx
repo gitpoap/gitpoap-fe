@@ -14,11 +14,7 @@ import { useEmailConnectionForm } from './useEmailConnectionForm';
 
 export type EmailConnectionStatus = 'CONNECT' | 'SUBMITTED' | 'PENDING' | 'DISCONNECT';
 
-type Props = {
-  address: string;
-};
-
-export const EmailConnection = ({ address }: Props) => {
+export const EmailConnection = () => {
   const [status, setStatus] = useState<EmailConnectionStatus>('CONNECT');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const userEmail = useGetEmail();
@@ -37,6 +33,42 @@ export const EmailConnection = ({ address }: Props) => {
 
   const { values, getInputProps, validate } = useEmailConnectionForm();
 
+  const ConnectionStatus = {
+    CONNECT: <></>,
+    SUBMITTED: <Text size="xs">{`Pending verification for ${values.email}`}</Text>,
+    PENDING: <Text size="xs">{`Pending verification for ${userEmail?.emailAddress}`}</Text>,
+    DISCONNECT: <Text size="xs">{`You're connected as ${userEmail?.emailAddress}`}</Text>,
+  };
+
+  const ModalTitle = {
+    CONNECT: 'Connect your email?',
+    SUBMITTED: '',
+    PENDING: 'Cancel this request?',
+    DISCONNECT: 'Disconnect your email?',
+  };
+
+  const ModalContent = {
+    CONNECT: (
+      <EmailConnectionModalConnect
+        closeModal={() => setIsModalOpen(false)}
+        getInputProps={getInputProps}
+        setStatus={setStatus}
+        validate={validate}
+        values={values}
+      />
+    ),
+    SUBMITTED: <EmailConnectionModalSubmitted values={values} />,
+    PENDING: (
+      <EmailConnectionModalPending closeModal={() => setIsModalOpen(false)} setStatus={setStatus} />
+    ),
+    DISCONNECT: (
+      <EmailConnectionModalDisconnect
+        closeModal={() => setIsModalOpen(false)}
+        setStatus={setStatus}
+      />
+    ),
+  };
+
   return (
     <Group position="apart" my={4}>
       <Stack spacing={0}>
@@ -44,14 +76,7 @@ export const EmailConnection = ({ address }: Props) => {
           <HiOutlineMail size={32} />
           <Title order={5}>Email</Title>
         </Group>
-        {
-          {
-            CONNECT: <></>,
-            SUBMITTED: <Text size="xs">{`Pending verification for ${values.email}`}</Text>,
-            PENDING: <Text size="xs">{`Pending verification for ${userEmail?.emailAddress}`}</Text>,
-            DISCONNECT: <Text size="xs">{`You're connected as ${userEmail?.emailAddress}`}</Text>,
-          }[status]
-        }
+        {ConnectionStatus[status]}
       </Stack>
       <Button
         variant={status === 'CONNECT' ? 'filled' : 'outline'}
@@ -64,46 +89,9 @@ export const EmailConnection = ({ address }: Props) => {
         opened={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         padding={32}
-        title={
-          {
-            CONNECT: 'Connect your email?',
-            SUBMITTED: '',
-            PENDING: 'Cancel this request?',
-            DISCONNECT: 'Disconnect your email?',
-          }[status]
-        }
+        title={ModalTitle[status]}
       >
-        {
-          {
-            CONNECT: (
-              <EmailConnectionModalConnect
-                closeModal={() => setIsModalOpen(false)}
-                getInputProps={getInputProps}
-                setStatus={setStatus}
-                validate={validate}
-                address={address}
-                values={values}
-              />
-            ),
-            SUBMITTED: <EmailConnectionModalSubmitted values={values} />,
-            PENDING: (
-              <EmailConnectionModalPending
-                closeModal={() => setIsModalOpen(false)}
-                setStatus={setStatus}
-                address={address}
-                userEmail={userEmail}
-              />
-            ),
-            DISCONNECT: (
-              <EmailConnectionModalDisconnect
-                closeModal={() => setIsModalOpen(false)}
-                setStatus={setStatus}
-                address={address}
-                userEmail={userEmail}
-              />
-            ),
-          }[status]
-        }
+        {ModalContent[status]}
       </Modal>
     </Group>
   );

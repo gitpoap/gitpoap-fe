@@ -5,16 +5,14 @@ import { HiOutlineMailOpen } from 'react-icons/hi';
 import { EmailConnectionStatus } from './EmailConnection';
 import { EmailConnectionFormReturnTypes } from './useEmailConnectionForm';
 import { Button, Input, Text } from '../shared/elements';
-import { GITPOAP_API_URL } from '../../constants';
 import { Notifications } from '../../notifications';
-import { EmailReturnType } from '../../lib/api/email';
+import { useApi } from '../../hooks/useApi';
 
 type ConnectProps = {
   closeModal: () => void;
   getInputProps: EmailConnectionFormReturnTypes['getInputProps'];
   setStatus: (status: EmailConnectionStatus) => void;
   validate: EmailConnectionFormReturnTypes['validate'];
-  address: string;
   values: EmailConnectionFormReturnTypes['values'];
 };
 
@@ -23,48 +21,40 @@ export const EmailConnectionModalConnect = ({
   getInputProps,
   setStatus,
   validate,
-  address,
   values,
-}: ConnectProps) => (
-  <Stack align="stretch" spacing={16}>
-    <Text>{`Enter a valid email address.`}</Text>
-    <Input placeholder="Email" required {...getInputProps('email')} />
-    <Group grow mt={16}>
-      <Button color="red" onClick={closeModal} variant="outline">
-        {'Cancel'}
-      </Button>
-      <Button
-        onClick={async () => {
-          if (!validate().hasErrors) {
-            try {
-              const res = await fetch(`${GITPOAP_API_URL}/email`, {
-                method: 'POST',
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  emailAddress: values.email,
-                  address,
-                }),
-              });
+}: ConnectProps) => {
+  const api = useApi();
+  return (
+    <Stack align="stretch" spacing={16}>
+      <Text>{`Enter a valid email address.`}</Text>
+      <Input placeholder="Email" required {...getInputProps('email')} />
+      <Group grow mt={16}>
+        <Button color="red" onClick={closeModal} variant="outline">
+          {'Cancel'}
+        </Button>
+        <Button
+          onClick={async () => {
+            if (!validate().hasErrors) {
+              try {
+                const data = await api.email.post(values.email);
 
-              if (!res || !res.ok) {
-                throw new Error();
-              } else {
-                setStatus('SUBMITTED');
+                if (data === null) {
+                  throw new Error();
+                } else {
+                  setStatus('SUBMITTED');
+                }
+              } catch (err) {
+                Notifications.error('Oops, something went wrong!');
               }
-            } catch (err) {
-              Notifications.error('Oops, something went wrong!');
             }
-          }
-        }}
-      >
-        {'Submit'}
-      </Button>
-    </Group>
-  </Stack>
-);
+          }}
+        >
+          {'Submit'}
+        </Button>
+      </Group>
+    </Stack>
+  );
+};
 
 type SubmittedProps = {
   values: EmailConnectionFormReturnTypes['values'];
@@ -87,100 +77,72 @@ export const EmailConnectionModalSubmitted = ({ values }: SubmittedProps) => (
 type PendingProps = {
   closeModal: () => void;
   setStatus: (status: EmailConnectionStatus) => void;
-  address: string;
-  userEmail: EmailReturnType;
 };
 
-export const EmailConnectionModalPending = ({
-  closeModal,
-  setStatus,
-  address,
-  userEmail,
-}: PendingProps) => (
-  <Stack align="stretch" spacing={16}>
-    <Text>
-      {`Your email is currently waiting to be validated, check your inbox for the verification link.`}
-    </Text>
-    <Text>{`Would you like to cancel this request?`}</Text>
-    <Group grow mt={16}>
-      <Button
-        color="red"
-        onClick={async () => {
-          try {
-            const res = await fetch(`${GITPOAP_API_URL}/email`, {
-              method: 'DELETE',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                id: userEmail?.id,
-                address,
-              }),
-            });
+export const EmailConnectionModalPending = ({ closeModal, setStatus }: PendingProps) => {
+  const api = useApi();
+  return (
+    <Stack align="stretch" spacing={16}>
+      <Text>
+        {`Your email is currently waiting to be validated, check your inbox for the verification link.`}
+      </Text>
+      <Text>{`Would you like to cancel this request?`}</Text>
+      <Group grow mt={16}>
+        <Button
+          color="red"
+          onClick={async () => {
+            try {
+              const data = await api.email.delete();
 
-            if (!res || !res.ok) {
-              throw new Error();
-            } else {
-              closeModal();
-              setStatus('CONNECT');
+              if (data === null) {
+                throw new Error();
+              } else {
+                closeModal();
+                setStatus('CONNECT');
+              }
+            } catch (err) {
+              Notifications.error('Oops, something went wrong!');
             }
-          } catch (err) {
-            Notifications.error('Oops, something went wrong!');
-          }
-        }}
-      >
-        {'Cancel Request'}
-      </Button>
-    </Group>
-  </Stack>
-);
+          }}
+        >
+          {'Cancel Request'}
+        </Button>
+      </Group>
+    </Stack>
+  );
+};
 
 type DisconnectProps = {
   closeModal: () => void;
   setStatus: (status: EmailConnectionStatus) => void;
-  address: string;
-  userEmail: EmailReturnType;
 };
 
-export const EmailConnectionModalDisconnect = ({
-  closeModal,
-  setStatus,
-  address,
-  userEmail,
-}: DisconnectProps) => (
-  <Stack align="stretch" spacing={16}>
-    <Text>{`Are you sure you want to disconnect your email? This action is irreversible.`}</Text>
-    <Group grow mt={16}>
-      <Button
-        color="red"
-        onClick={async () => {
-          try {
-            const res = await fetch(`${GITPOAP_API_URL}/email`, {
-              method: 'DELETE',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                id: userEmail?.id,
-                address,
-              }),
-            });
+export const EmailConnectionModalDisconnect = ({ closeModal, setStatus }: DisconnectProps) => {
+  const api = useApi();
+  return (
+    <Stack align="stretch" spacing={16}>
+      <Text>{`Are you sure you want to disconnect your email? This action is irreversible.`}</Text>
+      <Group grow mt={16}>
+        <Button
+          color="red"
+          onClick={async () => {
+            try {
+              const data = await api.email.delete();
 
-            if (!res || !res.ok) {
-              throw new Error();
-            } else {
-              closeModal();
-              setStatus('CONNECT');
+              if (data === null) {
+                throw new Error();
+              } else {
+                closeModal();
+                setStatus('CONNECT');
+              }
+            } catch (err) {
+              Notifications.error('Oops, something went wrong!');
             }
-          } catch (err) {
-            Notifications.error('Oops, something went wrong!');
-          }
-        }}
-      >
-        {'Disconnect'}
-      </Button>
-    </Group>
-  </Stack>
-);
+          }}
+        >
+          {'Disconnect'}
+        </Button>
+      </Group>
+    </Stack>
+  );
+};
