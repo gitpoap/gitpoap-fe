@@ -14,6 +14,21 @@ export class EmailAPI extends API {
     super(tokens?.accessToken);
   }
 
+  async addEmail(email: string) {
+    const res = await makeAPIRequestWithAuth(
+      '/email',
+      'POST',
+      this.token,
+      JSON.stringify({ emailAddress: email }),
+    );
+
+    if (!res) {
+      return null;
+    }
+
+    return true;
+  }
+
   async getEmail() {
     const res = await makeAPIRequestWithAuth('/email', 'GET', this.token);
 
