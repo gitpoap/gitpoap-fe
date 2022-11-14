@@ -6343,6 +6343,7 @@ export type GitPoapWithClaimsQuery = {
     imageUrl: string;
     type: GitPoapType;
     _count?: { __typename?: 'GitPOAPCount'; claims: number } | null;
+    creatorAddress?: { __typename?: 'Address'; ethAddress: string } | null;
     claims: Array<{
       __typename?: 'Claim';
       id: number;
@@ -7893,6 +7894,9 @@ export const GitPoapWithClaimsDocument = gql`
       type
       _count {
         claims
+      }
+      creatorAddress {
+        ethAddress
       }
       claims(
         take: $take

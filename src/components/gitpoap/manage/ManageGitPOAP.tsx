@@ -29,6 +29,7 @@ import { AddZone } from './AddZone';
 import { Link } from '../../shared/compounds/Link';
 import { HiSelector } from 'react-icons/hi';
 import { useDebouncedValue } from '@mantine/hooks';
+import { useUser } from '../../../hooks/useUser';
 
 type Props = {
   gitPOAPId: number;
@@ -115,6 +116,7 @@ const TableHeaderItem = ({
 };
 
 export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
+  const user = useUser();
   const [searchValue, setSearchValue] = useState<string>('');
   const [debouncedValue] = useDebouncedValue(searchValue, 200);
   const [sortBy, setSortBy] = useState<SortOptions>('mintedAt');
@@ -157,6 +159,23 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
     setIsReversed(newIsReversed);
     setSortBy(field);
   };
+
+  if (gitPOAP?.creatorAddress?.ethAddress !== user?.address) {
+    return (
+      <Center py={0} px={rem(20)} sx={{ width: '100%', height: 600 }}>
+        <Stack align="center" justify="center" spacing="xs" style={{ width: '100%' }}>
+          <Center>
+            <Stack align="center">
+              <Header pb={rem(16)}>{'You do not have permission to manage this GitPOAP'}</Header>
+              <Link href={`/gp/${gitPOAPId}`}>
+                <Button>{'Go Back'}</Button>
+              </Link>
+            </Stack>
+          </Center>
+        </Stack>
+      </Center>
+    );
+  }
 
   return (
     <Group position="center" py={0} px={rem(20)}>

@@ -935,6 +935,9 @@ query gitPOAPWithClaims(
     _count {
       claims
     }
+    creatorAddress {
+      ethAddress
+    }
     claims(
       take: $take
       skip: $skip
