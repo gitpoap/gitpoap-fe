@@ -7,7 +7,6 @@ import { GitPOAP } from '../shared/compounds/GitPOAP';
 import { POAPList } from '../shared/compounds/POAPList';
 import { Button } from '../shared/elements/Button';
 import { FaArrowRight } from 'react-icons/fa';
-import { useFeatures } from '../FeaturesContext';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { BREAKPOINTS } from '../../constants';
 import { useMostClaimedGitPoapsQuery } from '../../graphql/generated-gql';
@@ -29,7 +28,6 @@ const Poaps = styled(POAPList)`
 `;
 
 export const MostClaimed = () => {
-  const { hasGitPOAPsPage } = useFeatures();
   const matchesBreakpointSm = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.sm)})`, false);
   const [result] = useMostClaimedGitPoapsQuery({
     variables: {
@@ -63,11 +61,9 @@ export const MostClaimed = () => {
           );
         })}
       </Poaps>
-      {hasGitPOAPsPage && (
-        <Button variant="outline" rightIcon={<FaArrowRight />}>
-          {'ALL GitPOAPS'}
-        </Button>
-      )}
+      <Button variant="outline" rightIcon={<FaArrowRight />}>
+        {'ALL GitPOAPS'}
+      </Button>
     </Container>
   );
 };

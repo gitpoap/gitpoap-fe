@@ -1,6 +1,5 @@
 import { Stack, Group, Text as TextUI } from '@mantine/core';
 import React from 'react';
-import { FaAt } from 'react-icons/fa';
 import { HiOutlineMailOpen } from 'react-icons/hi';
 
 import { EmailConnectionStatus } from './EmailConnection';
@@ -28,10 +27,11 @@ export const EmailConnectionModalConnect = ({
 }: ConnectProps) => {
   const { web3Provider } = useWeb3Context();
   const signer = web3Provider?.getSigner();
+
   return (
     <Stack align="stretch" spacing={16}>
       <Text>{`Enter a valid email address.`}</Text>
-      <Input icon={<FaAt />} placeholder="Email" required {...getInputProps('email')} />
+      <Input placeholder="Email" required {...getInputProps('email')} />
       <Group grow mt={16}>
         <Button color="red" onClick={closeModal} variant="outline">
           {'Cancel'}

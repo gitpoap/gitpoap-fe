@@ -5,7 +5,6 @@ import React, { useEffect } from 'react';
 import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
-
 import { useClaimContext } from '../claims/ClaimContext';
 import { Index } from '../home/LeaderBoardItem';
 import { IconLink } from '../shared/compounds/Link';
@@ -13,7 +12,6 @@ import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleLink } from '../
 import { textEllipses } from '../shared/styles';
 import { TextGray, ExtraHover, PrimaryBlue } from '../../colors';
 import { useOAuthContext } from '../oauth/OAuthContext';
-import { useFeatures } from '../../components/FeaturesContext';
 import { BREAKPOINTS } from '../../constants';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
 import { useUser } from '../../hooks/useUser';
@@ -166,7 +164,6 @@ export const Header = ({ gitPOAPId }: Props) => {
   const repos = result?.data?.gitPOAPEvent?.gitPOAP.project?.repos;
   const gitPOAP = result?.data?.gitPOAPEvent?.gitPOAP;
   const { setIsOpen } = useClaimContext();
-  const features = useFeatures();
   const [isCheckButtonClicked, setIsCheckButtonClicked] = useLocalStorage<boolean>({
     key: 'isCheckEligibilityButtonClicked',
     defaultValue: false,
@@ -215,7 +212,7 @@ export const Header = ({ gitPOAPId }: Props) => {
           </Repos>
 
           <Links>
-            {features.hasOrganizations && repos[0].organization.twitterHandle && (
+            {repos[0].organization.twitterHandle && (
               <StyledLink
                 href={`https://twitter.com/${repos[0].organization.twitterHandle}`}
                 target="_blank"
@@ -224,7 +221,7 @@ export const Header = ({ gitPOAPId }: Props) => {
                 <TwitterIcon size={24} />
               </StyledLink>
             )}
-            {features.hasOrganizations && repos[0].organization.url && (
+            {repos[0].organization.url && (
               <StyledLink
                 href={repos[0].organization.url}
                 target="_blank"
@@ -257,7 +254,7 @@ export const Header = ({ gitPOAPId }: Props) => {
           </Modal>
         </>
       )}
-      {user?.permissions.isAdmin && user?.address === gitPOAP?.creatorAddress?.ethAddress ? (
+      {user?.address && user.address === gitPOAP?.creatorAddress?.ethAddress ? (
         <Group position="right">
           <Button variant="outline" onClick={() => router.push(`/gp/${gitPOAP?.id}/manage`)}>
             {'MANAGE GITPOAP'}
