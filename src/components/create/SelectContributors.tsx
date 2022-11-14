@@ -203,7 +203,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
                 return (
                   <Group key={value + '-' + type} position="apart">
                     <Group position="left">
-                      <Text>{type === 'ethAddresses' ? truncateAddress(value, 4, 4) : value}</Text>
+                      <Text>{type === 'ethAddresses' ? truncateAddress(value, 6, 4) : value}</Text>
 
                       <Badge
                         color={type === 'invalid' ? 'red' : undefined}
