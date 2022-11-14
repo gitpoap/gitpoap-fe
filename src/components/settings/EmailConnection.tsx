@@ -14,7 +14,11 @@ import { useEmailConnectionForm } from './useEmailConnectionForm';
 
 export type EmailConnectionStatus = 'CONNECT' | 'SUBMITTED' | 'PENDING' | 'DISCONNECT';
 
-export const EmailConnection = () => {
+type Props = {
+  address: string;
+};
+
+export const EmailConnection = ({ address }: Props) => {
   const [status, setStatus] = useState<EmailConnectionStatus>('CONNECT');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const userEmail = useGetEmail();
@@ -77,6 +81,7 @@ export const EmailConnection = () => {
                 getInputProps={getInputProps}
                 setStatus={setStatus}
                 validate={validate}
+                address={address}
                 values={values}
               />
             ),
@@ -85,6 +90,7 @@ export const EmailConnection = () => {
               <EmailConnectionModalPending
                 closeModal={() => setIsModalOpen(false)}
                 setStatus={setStatus}
+                address={address}
                 userEmail={userEmail}
               />
             ),
@@ -92,6 +98,7 @@ export const EmailConnection = () => {
               <EmailConnectionModalDisconnect
                 closeModal={() => setIsModalOpen(false)}
                 setStatus={setStatus}
+                address={address}
                 userEmail={userEmail}
               />
             ),
