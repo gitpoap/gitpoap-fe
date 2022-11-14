@@ -21,12 +21,12 @@ export const useGetEmail = () => {
   }, [api.email]);
 
   useEffect(() => {
-    if (user) {
+    if (user?.address) {
       void fetchEmailAddress();
     } else {
       setEmailAddress(null);
     }
-  }, [user, fetchEmailAddress]);
+  }, [user?.address]);
 
   return emailAddress;
 };

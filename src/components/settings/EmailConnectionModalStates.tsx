@@ -36,7 +36,7 @@ export const EmailConnectionModalConnect = ({
           onClick={async () => {
             if (!validate().hasErrors) {
               try {
-                const data = await api.email.post(values.email);
+                const data = await api.email.add(values.email);
 
                 if (data === null) {
                   throw new Error();
