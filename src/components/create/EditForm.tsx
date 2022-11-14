@@ -8,6 +8,7 @@ import {
   Button,
   List,
   Grid,
+  Divider,
 } from '@mantine/core';
 import { rem } from 'polished';
 import { useCallback, useState } from 'react';
@@ -85,10 +86,8 @@ export const EditForm = ({
 }: Props) => {
   const api = useApi();
   const [hasRemovedSavedImage, setHasRemovedSavedImage] = useState(false);
-  const { errors, values, getInputProps, setFieldError, setFieldValue, validate } = useEditForm(
-    initialValues,
-    hasRemovedSavedImage,
-  );
+  const { errors, values, isDirty, getInputProps, setFieldError, setFieldValue, validate } =
+    useEditForm(initialValues, hasRemovedSavedImage);
   const router = useRouter();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [contributors, setContributors] = useState<Contributor[]>(() =>
@@ -242,12 +241,22 @@ export const EditForm = ({
           />
         </Stack>
         <Box my={32}>
+          <Divider
+            mb={32}
+            labelPosition="center"
+            label={<Header>{'Recipients'}</Header>}
+            variant="dashed"
+          />
           <SelectContributors contributors={contributors} setContributors={setContributors} />
         </Box>
         <Button
           onClick={async () => await submitEditCustomGitPOAP(values)}
           loading={buttonStatus === ButtonStatus.LOADING}
-          disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}
+          disabled={
+            isDirty() === false ||
+            buttonStatus === ButtonStatus.SUCCESS ||
+            buttonStatus === ButtonStatus.LOADING
+          }
           leftIcon={
             buttonStatus === ButtonStatus.SUCCESS ? (
               <FaCheckCircle size={18} />

@@ -91,6 +91,7 @@ export const CreationForm = () => {
       const data = await api.gitPOAPRequest.create({
         ...formValues,
         contributors: formattedContributors,
+        endDate: formValues.endDate as Date,
       });
 
       if (data === null) {

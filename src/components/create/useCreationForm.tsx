@@ -6,14 +6,11 @@ import {
   GitPOAPRequestCreateValues,
 } from '../../lib/api/gitpoapRequest';
 
-const DEFAULT_START_DATE = DateTime.local().toJSDate();
-const DEFAULT_END_DATE = DateTime.local().toJSDate();
-
 const defaultInitialValues: GitPOAPRequestCreateValues = {
   name: '',
   description: '',
-  startDate: DEFAULT_START_DATE,
-  endDate: DEFAULT_END_DATE,
+  startDate: DateTime.local().toJSDate(),
+  endDate: null,
   creatorEmail: '',
   contributors: {},
   image: null,

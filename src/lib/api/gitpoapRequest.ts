@@ -41,7 +41,15 @@ export const GitPOAPRequestCreateSchema = z.object({
   image: ImageFileSchema,
 });
 
-export type GitPOAPRequestCreateValues = z.infer<typeof GitPOAPRequestCreateSchema>;
+export type GitPOAPRequestCreateValues = {
+  name: string;
+  description: string;
+  startDate: Date;
+  endDate: Date | null;
+  creatorEmail: string;
+  contributors: GitPOAPRequestContributorsValues;
+  image: File | null;
+};
 
 export const GitPOAPRequestEditSchema = (hasRemovedSavedImage: boolean) =>
   z.object({
@@ -73,7 +81,7 @@ export class GitPOAPRequestAPI extends API {
     super(tokens?.accessToken);
   }
 
-  async create(values: GitPOAPRequestCreateValues) {
+  async create(values: z.infer<typeof GitPOAPRequestCreateSchema>) {
     const formData = new FormData();
 
     formData.append('name', values.name);
