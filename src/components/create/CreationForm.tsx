@@ -8,6 +8,7 @@ import {
   Button,
   List,
   Grid,
+  Divider,
 } from '@mantine/core';
 import { rem } from 'polished';
 import { useCallback, useState } from 'react';
@@ -201,6 +202,12 @@ export const CreationForm = () => {
           />
         </Stack>
         <Box my={32}>
+          <Divider
+            mb={32}
+            labelPosition="center"
+            label={<Header>{'Recipients'}</Header>}
+            variant="dashed"
+          />
           <SelectContributors contributors={contributors} setContributors={setContributors} />
         </Box>
         <Button
