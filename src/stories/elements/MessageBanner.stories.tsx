@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { FaEdge, FaArrowRight } from 'react-icons/fa';
-import { MessageBanner } from '../../components/shared/elements/MessageBanner';
+import { FaEdge } from 'react-icons/fa';
+import { MessageBanner } from '../../components/home/MessageBanner';
 
 export default {
   title: 'Elements/MessageBanner',
@@ -19,5 +19,4 @@ Default.args = {
     'If you are going to Devcon, register at swag.gitpoap.io to get your personalized GitPOAP swag!',
   href: '/',
   leftIcon: <FaEdge />,
-  rightIcon: <FaArrowRight />,
 };
