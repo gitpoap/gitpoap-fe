@@ -7,7 +7,6 @@ import { WalletStatus } from './WalletStatus';
 import { useWeb3Context } from './Web3Context';
 import { Button } from '../shared/elements/Button';
 import { useUser } from '../../hooks/useUser';
-import { useIsAdmin } from '../../hooks/useIsAdmin';
 import { shortenAddress } from '../../helpers';
 
 const MenuHeader = styled(Menu.Label)`
@@ -29,8 +28,6 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   const user = useUser();
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
-  const isAdmin = useIsAdmin();
-  const hasGitPOAPRequests = false;
 
   return (
     <Group position="center" align="center">
@@ -62,19 +59,16 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               <Menu.Item component={NextLink} href={`/p/${ensName ?? address}`}>
                 {'Profile'}
               </Menu.Item>
-              {hasGitPOAPRequests ||
-                (isAdmin && (
-                  <Menu.Item component={NextLink} href={'/me/gitpoaps'}>
-                    {'My GitPOAPs'}
-                  </Menu.Item>
-                ))}
+              <Menu.Item component={NextLink} href={'/me/gitpoaps'}>
+                {'My GitPOAPs'}
+              </Menu.Item>
               <Menu.Item component={NextLink} href="/settings">
                 {'Settings'}
               </Menu.Item>
               <Menu.Item component="a" href="https://docs.gitpoap.io" target="_blank">
                 {'Help'}
               </Menu.Item>
-              {isAdmin && (
+              {user?.permissions.isAdmin && (
                 <Menu.Item component={NextLink} href="/admin">
                   {'Admin'}
                 </Menu.Item>

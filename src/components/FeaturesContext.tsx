@@ -1,24 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type FeaturesState = {
-  /* Whether user should see a page showing all gitpoaps */
-  hasGitPOAPsPage: boolean;
-  hasCheckIfImEligible: boolean;
-  hasOrganizations: boolean;
-  hasEmailVerification: boolean;
-  hasCheckEligibility: boolean;
-  hasTrendingReposPage: boolean;
-};
+type FeaturesState = Record<string, boolean>;
 
-export const getInitialState = (): FeaturesState => ({
-  hasGitPOAPsPage: false,
-  hasCheckIfImEligible: false,
-  hasOrganizations: false,
-  hasEmailVerification: false,
-  hasCheckEligibility: true,
-  hasTrendingReposPage: false,
-});
+export const getInitialState = (): FeaturesState => ({});
 
 const FeaturesContext = createContext<FeaturesState>({} as FeaturesState);
 
