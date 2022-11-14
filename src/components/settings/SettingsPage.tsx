@@ -18,7 +18,6 @@ import {
   TextArea as TextAreaUI,
 } from '../shared/elements';
 import { isValidTwitterHandle, isValidURL } from '../../helpers';
-import { useFeatures } from '../FeaturesContext';
 import { Link } from '../shared/compounds/Link';
 
 const Input = styled(InputUI)`
@@ -37,7 +36,6 @@ export const SettingsPage = () => {
   const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
   const { github } = useOAuthContext();
   const user = useUser();
-  const { hasEmailVerification } = useFeatures();
   const router = useRouter();
 
   const [personSiteUrlValue, setPersonalSiteUrlValue] = useState<string | undefined | null>(
@@ -112,7 +110,7 @@ export const SettingsPage = () => {
       </Group>
 
       {/* Wait until we're ready to release */}
-      {hasEmailVerification && <EmailConnection />}
+      {user.permissions.isAdmin && <EmailConnection />}
 
       <Divider my={32} />
 
