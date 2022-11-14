@@ -8,6 +8,7 @@ import {
   Button,
   List,
   Grid,
+  Divider,
 } from '@mantine/core';
 import { rem } from 'polished';
 import { useCallback, useState } from 'react';
@@ -24,6 +25,7 @@ import { HexagonDropzone } from './HexagonDropzone';
 import { useRouter } from 'next/router';
 import { Link } from '../shared/compounds/Link';
 import { ExtraRed } from '../../colors';
+import { FileWithPath } from '@mantine/dropzone';
 
 const Label = styled(InputUI.Label)`
   ${TextInputLabelStyles};
@@ -90,6 +92,7 @@ export const CreationForm = () => {
       const data = await api.gitPOAPRequest.create({
         ...formValues,
         contributors: formattedContributors,
+        endDate: formValues.endDate as Date,
       });
 
       if (data === null) {
@@ -114,10 +117,12 @@ export const CreationForm = () => {
       </Group>
       <Stack align="center" spacing={32}>
         <HexagonDropzone
-          disabled={false}
           imageUrl={imageUrl}
           setError={setFieldError}
-          setValue={setFieldValue}
+          addImage={(image: FileWithPath) => setFieldValue('image', image)}
+          removeImage={() => {
+            setFieldValue('image', null);
+          }}
         />
         {Object.keys(errors).find((error) => /^image/.test(error)) && (
           <Text style={{ color: ExtraRed }} inline>
@@ -197,6 +202,12 @@ export const CreationForm = () => {
           />
         </Stack>
         <Box my={32}>
+          <Divider
+            mb={32}
+            labelPosition="center"
+            label={<Header>{'Recipients'}</Header>}
+            variant="dashed"
+          />
           <SelectContributors contributors={contributors} setContributors={setContributors} />
         </Box>
         <Button

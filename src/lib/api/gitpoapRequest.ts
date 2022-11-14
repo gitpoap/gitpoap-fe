@@ -26,10 +26,7 @@ export const GitPOAPRequestContributorsSchema = z
 export type GitPOAPRequestContributorsValues = z.infer<typeof GitPOAPRequestContributorsSchema>;
 
 export const GitPOAPRequestCreateSchema = z.object({
-  projectId: z.number().optional(),
-  organizationId: z.number().optional(),
   name: z.string().min(1, { message: 'Name is required' }),
-  contributors: GitPOAPRequestContributorsSchema,
   description: z.string().min(1, { message: 'Description is required' }),
   startDate: z.date({
     required_error: 'Start date is required',
@@ -39,60 +36,60 @@ export const GitPOAPRequestCreateSchema = z.object({
     required_error: 'End date is required',
     invalid_type_error: 'End date is required',
   }),
-  expiryDate: z.date(),
-  eventUrl: z.string().url().min(1),
   creatorEmail: z.string().email({ message: 'Invalid email' }),
-  numRequestedCodes: z.number(),
-  ongoing: z.boolean(),
-  city: z.string().optional(),
-  country: z.string().optional(),
-  isEnabled: z.boolean(),
+  contributors: GitPOAPRequestContributorsSchema,
   image: ImageFileSchema,
 });
 
-export type GitPOAPRequestCreateValues = z.infer<typeof GitPOAPRequestCreateSchema>;
+export type GitPOAPRequestCreateValues = {
+  name: string;
+  description: string;
+  startDate: Date;
+  endDate: Date | null;
+  creatorEmail: string;
+  contributors: GitPOAPRequestContributorsValues;
+  image: File | null;
+};
 
-export const GitPOAPRequestEditSchema = z.object({
-  name: z.string().min(1, { message: 'Name is required' }),
-  description: z.string().min(1, { message: 'Description is required' }),
-  startDate: z.date({
-    required_error: 'Start date is required',
-    invalid_type_error: 'Start date is required',
-  }),
-  endDate: z.date({
-    required_error: 'End date is required',
-    invalid_type_error: 'End date is required',
-  }),
-  city: z.string().optional(),
-  country: z.string().optional(),
-  contributors: GitPOAPRequestContributorsSchema,
-});
+export const GitPOAPRequestEditSchema = (hasRemovedSavedImage: boolean) =>
+  z.object({
+    name: z.string().min(1, { message: 'Name is required' }),
+    description: z.string().min(1, { message: 'Description is required' }),
+    startDate: z.date({
+      required_error: 'Start date is required',
+      invalid_type_error: 'Start date is required',
+    }),
+    endDate: z.date({
+      required_error: 'End date is required',
+      invalid_type_error: 'End date is required',
+    }),
+    contributors: GitPOAPRequestContributorsSchema,
+    image: hasRemovedSavedImage ? ImageFileSchema : z.null(),
+  });
 
-export type GitPOAPRequestEditValues = z.infer<typeof GitPOAPRequestEditSchema>;
+export type GitPOAPRequestEditValues = {
+  name: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  contributors: GitPOAPRequestContributorsValues;
+  image: File | null;
+};
 
 export class GitPOAPRequestAPI extends API {
   constructor(tokens: Tokens | null) {
     super(tokens?.accessToken);
   }
 
-  async create(values: GitPOAPRequestCreateValues) {
+  async create(values: z.infer<typeof GitPOAPRequestCreateSchema>) {
     const formData = new FormData();
 
-    values.projectId && formData.append('projectId', values.projectId.toString());
-    values.organizationId && formData.append('organizationId', values.organizationId.toString());
     formData.append('name', values.name);
-    formData.append('contributors', JSON.stringify(values.contributors));
     formData.append('description', values.description);
     formData.append('startDate', DateTime.fromJSDate(values.startDate).toFormat('yyyy-MM-dd'));
     formData.append('endDate', DateTime.fromJSDate(values.endDate).toFormat('yyyy-MM-dd'));
-    formData.append('expiryDate', DateTime.fromJSDate(values.expiryDate).toFormat('yyyy-MM-dd'));
-    formData.append('eventUrl', values.eventUrl);
     formData.append('creatorEmail', values.creatorEmail);
-    formData.append('numRequestedCodes', values.numRequestedCodes.toString());
-    formData.append('ongoing', values.ongoing.toString());
-    values.city && formData.append('city', values.city.toString());
-    values.country && formData.append('country', values.country.toString());
-    formData.append('isEnabled', values.isEnabled.toString());
+    formData.append('contributors', JSON.stringify(values.contributors));
     formData.append('image', values.image ?? '');
 
     const res = await makeAPIRequestWithAuth('/gitpoaps/custom', 'POST', this.token, formData, {});
@@ -108,23 +105,31 @@ export class GitPOAPRequestAPI extends API {
     return true;
   }
 
-  async patch(gitPOAPRequestId: number, data: GitPOAPRequestEditValues) {
+  async patch(gitPOAPRequestId: number, values: GitPOAPRequestEditValues) {
+    const formData = new FormData();
+
+    formData.append('name', values.name);
+    formData.append('description', values.description);
+    formData.append('startDate', DateTime.fromJSDate(values.startDate).toFormat('yyyy-MM-dd'));
+    formData.append('endDate', DateTime.fromJSDate(values.endDate).toFormat('yyyy-MM-dd'));
+    formData.append('contributors', JSON.stringify(values.contributors));
+    values.image && formData.append('image', values.image);
+
     const res = await makeAPIRequestWithAuth(
       `/gitpoaps/custom/${gitPOAPRequestId}`,
       'PATCH',
       this.token,
-      JSON.stringify({
-        data,
-      }),
+      formData,
+      {},
     );
 
     if (!res?.ok) {
-      Notifications.error(`Error - Request Failed for ${data.name}`);
+      Notifications.error(`Error - Request Failed for ${values.name}`);
 
       return null;
     }
 
-    Notifications.success(`Success - Created GitPOAP Request - ${data.name}`);
+    Notifications.success(`Success - Created GitPOAP Request - ${values.name}`);
 
     return true;
   }

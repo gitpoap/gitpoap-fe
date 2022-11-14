@@ -8,9 +8,10 @@ import {
   Group,
   ScrollArea,
   Stack,
-  Tooltip,
+  Popover,
 } from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
+import { useDisclosure } from '@mantine/hooks';
 import { validate } from 'email-validator';
 import { rem } from 'polished';
 import { useState } from 'react';
@@ -50,6 +51,7 @@ type Props = {
 };
 
 export const SelectContributors = ({ contributors, setContributors }: Props) => {
+  const [opened, { close, open }] = useDisclosure(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const [contributorsText, setContributorsText] = useState('');
 
@@ -131,18 +133,21 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
           </Button>
           <Divider label={<Text>OR</Text>} labelPosition="center" />
           <Group>
-            <Tooltip
-              label={
-                'A single column of identifiers (GitHub handles, emails, ETH addresses, or ENS names) without a header'
-              }
-              position="right"
-              withArrow
-            >
-              <Text>
-                {'Upload CSV '}
-                <MdHelpOutline />
-              </Text>
-            </Tooltip>
+            <Popover width={300} position="right" withArrow opened={opened}>
+              <Popover.Target>
+                <Text>
+                  {'Upload CSV '}
+                  <MdHelpOutline onMouseEnter={open} onMouseLeave={close} />
+                </Text>
+              </Popover.Target>
+              <Popover.Dropdown sx={{ pointerEvents: 'none' }}>
+                <Text>
+                  {
+                    'A single column of identifiers (GitHub handles, emails, ETH addresses, or ENS names) without a header'
+                  }
+                </Text>
+              </Popover.Dropdown>
+            </Popover>
           </Group>
           <Dropzone
             accept={['text/csv']}
@@ -203,7 +208,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
                 return (
                   <Group key={value + '-' + type} position="apart">
                     <Group position="left">
-                      <Text>{type === 'ethAddresses' ? truncateAddress(value, 4, 4) : value}</Text>
+                      <Text>{type === 'ethAddresses' ? truncateAddress(value, 6, 4) : value}</Text>
 
                       <Badge
                         color={type === 'invalid' ? 'red' : undefined}

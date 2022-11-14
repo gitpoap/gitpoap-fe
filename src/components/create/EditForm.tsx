@@ -8,6 +8,7 @@ import {
   Button,
   List,
   Grid,
+  Divider,
 } from '@mantine/core';
 import { rem } from 'polished';
 import { useCallback, useState } from 'react';
@@ -27,6 +28,7 @@ import { useRouter } from 'next/router';
 import { Link } from '../shared/compounds/Link';
 import { ExtraRed } from '../../colors';
 import { useEditForm } from './useEditForm';
+import { FileWithPath } from '@mantine/dropzone';
 
 const Label = styled(InputUI.Label)`
   ${TextInputLabelStyles};
@@ -60,7 +62,7 @@ type Props = {
   creatorEmail: string;
   initialValues: GitPOAPRequestEditValues;
   gitPOAPRequestId: number;
-  imageUrl: string;
+  savedImageUrl: string;
 };
 
 export const convertContributorObjectToList = (
@@ -80,16 +82,23 @@ export const EditForm = ({
   creatorEmail,
   initialValues,
   gitPOAPRequestId,
-  imageUrl,
+  savedImageUrl,
 }: Props) => {
   const api = useApi();
-  const { errors, values, getInputProps, setFieldError, setFieldValue, validate } =
-    useEditForm(initialValues);
+  const [hasRemovedSavedImage, setHasRemovedSavedImage] = useState(false);
+  const { errors, values, isDirty, getInputProps, setFieldError, setFieldValue, validate } =
+    useEditForm(initialValues, hasRemovedSavedImage);
   const router = useRouter();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [contributors, setContributors] = useState<Contributor[]>(() =>
     convertContributorObjectToList(initialValues.contributors),
   );
+
+  const imageUrl = hasRemovedSavedImage
+    ? values.image
+      ? URL.createObjectURL(values.image)
+      : null
+    : savedImageUrl;
 
   const submitEditCustomGitPOAP = useCallback(
     async (formValues: GitPOAPRequestEditValues) => {
@@ -143,10 +152,16 @@ export const EditForm = ({
       </Group>
       <Stack align="center" spacing={32}>
         <HexagonDropzone
-          disabled={true}
           imageUrl={imageUrl}
           setError={setFieldError}
-          setValue={setFieldValue}
+          addImage={(image: FileWithPath) => setFieldValue('image', image)}
+          removeImage={() => {
+            if (hasRemovedSavedImage) {
+              setFieldValue('image', null);
+            } else {
+              setHasRemovedSavedImage(true);
+            }
+          }}
         />
         {Object.keys(errors).find((error) => /^image/.test(error)) && (
           <Text style={{ color: ExtraRed }} inline>
@@ -226,12 +241,22 @@ export const EditForm = ({
           />
         </Stack>
         <Box my={32}>
+          <Divider
+            mb={32}
+            labelPosition="center"
+            label={<Header>{'Recipients'}</Header>}
+            variant="dashed"
+          />
           <SelectContributors contributors={contributors} setContributors={setContributors} />
         </Box>
         <Button
           onClick={async () => await submitEditCustomGitPOAP(values)}
           loading={buttonStatus === ButtonStatus.LOADING}
-          disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}
+          disabled={
+            isDirty() === false ||
+            buttonStatus === ButtonStatus.SUCCESS ||
+            buttonStatus === ButtonStatus.LOADING
+          }
           leftIcon={
             buttonStatus === ButtonStatus.SUCCESS ? (
               <FaCheckCircle size={18} />

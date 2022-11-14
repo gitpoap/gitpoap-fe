@@ -33,15 +33,25 @@ const Divider = styled(DividerUI)`
 `;
 
 export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
+  const {
+    adminApprovalStatus,
+    contributors,
+    createdAt,
+    description,
+    endDate,
+    id,
+    imageUrl,
+    name,
+    startDate,
+  } = gitPOAPRequest;
+
   const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
     useDisclosure(false);
   const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
     useDisclosure(false);
 
-  const formattedStart = DateTime.fromISO(gitPOAPRequest.startDate).toLocaleString(
-    DateTime.DATE_MED,
-  );
-  const formattedEnd = DateTime.fromISO(gitPOAPRequest.endDate).toLocaleString(DateTime.DATE_MED);
+  const formattedStart = DateTime.fromISO(startDate).toLocaleString(DateTime.DATE_MED);
+  const formattedEnd = DateTime.fromISO(endDate).toLocaleString(DateTime.DATE_MED);
 
   return (
     <>
@@ -52,24 +62,27 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
               isOpen={isImagePopoverOpen}
               onClose={closeImagePopover}
               onOpen={openImagePopover}
-              imageUrl={gitPOAPRequest.imageUrl}
+              imageUrl={imageUrl}
             />
             <Group position="center">
-              <UserRequestStatusBadge status={gitPOAPRequest.adminApprovalStatus} />
+              <UserRequestStatusBadge status={adminApprovalStatus} />
             </Group>
           </Stack>
 
           <Stack justify="space-between">
             <Text size={22} weight="bold">
-              {gitPOAPRequest.name}
+              {name}
             </Text>
-            <Text>{gitPOAPRequest.description}</Text>
+            <Text>{description}</Text>
             <Text>{`Achievement Dates: ${formattedStart} to ${formattedEnd}`}</Text>
-            <Text>{`Created on ${DateTime.fromISO(gitPOAPRequest.createdAt).toFormat(
+            <Text>{`Created on ${DateTime.fromISO(createdAt).toFormat(
               'd LLL yyyy hh:mm a',
             )}`}</Text>
             <Group align="center" spacing="md">
-              <Link href={`/create/${gitPOAPRequest.id}`} passHref>
+              <Link
+                href={adminApprovalStatus === 'APPROVED' ? `gp/${id}/manage` : `/create/${id}`}
+                passHref
+              >
                 <Button leftIcon={<FaEdit />}>{'Edit'}</Button>
               </Link>
               <Button onClick={openContributorModal} leftIcon={<BsPeopleFill />}>
@@ -81,7 +94,7 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
         <ContributorModal
           isOpen={isContributorModalOpen}
           onClose={closeContributorModal}
-          contributors={gitPOAPRequest.contributors}
+          contributors={contributors}
         />
       </Stack>
       <Divider />

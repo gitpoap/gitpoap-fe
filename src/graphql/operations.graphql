@@ -787,7 +787,6 @@ query trendingRepos($count: Float!, $numDays: Float!) {
 
 query gitPOAPRequest($gitPOAPRequestId: Int!) {
   gitPOAPRequest(where: { id: $gitPOAPRequestId }) {
-    id
     name
     contributors
     description
@@ -796,23 +795,10 @@ query gitPOAPRequest($gitPOAPRequestId: Int!) {
     creatorEmail {
       emailAddress
     }
-    numRequestedCodes
     imageUrl
     adminApprovalStatus
     address {
       ethAddress
-    }
-
-    project {
-      repos(take: 1) {
-        id
-        name
-
-        organization {
-          id
-          name
-        }
-      }
     }
   }
 }
