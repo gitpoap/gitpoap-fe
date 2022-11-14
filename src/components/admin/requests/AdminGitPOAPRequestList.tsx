@@ -22,11 +22,12 @@ type QueryVars = {
   perPage: number;
 };
 
-type SortOptions = 'Pending' | 'Rejected';
+type SortOptions = 'Pending' | 'Rejected' | 'Approved';
 
 const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'Pending', label: 'PENDING' },
   { value: 'Rejected', label: 'REJECTED' },
+  { value: 'Approved', label: 'APPROVED' },
 ];
 
 export const GitPOAPRequestList = () => {

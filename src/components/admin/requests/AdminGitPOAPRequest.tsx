@@ -85,21 +85,26 @@ export const AdminGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
           />
         </Group>
         <Group align="center" spacing="md" mb={rem(20)}>
-          <StatusButton
-            status={approveStatus}
-            onClick={submitApproveGitPOAPRequest}
-            isDisabled={areButtonsDisabled}
-          >
-            {'Approve'}
-          </StatusButton>
-          <StatusButton
-            status={rejectStatus}
-            onClick={submitRejectGitPOAPRequest}
-            isDisabled={areButtonsDisabled}
-            variant="outline"
-          >
-            {'Reject'}
-          </StatusButton>
+          {['PENDING', 'REJECTED'].includes(gitPOAPRequest.adminApprovalStatus) && (
+            <StatusButton
+              status={approveStatus}
+              onClick={submitApproveGitPOAPRequest}
+              isDisabled={areButtonsDisabled}
+            >
+              {'Approve'}
+            </StatusButton>
+          )}
+
+          {gitPOAPRequest.adminApprovalStatus === 'PENDING' && (
+            <StatusButton
+              status={rejectStatus}
+              onClick={submitRejectGitPOAPRequest}
+              isDisabled={areButtonsDisabled}
+              variant="outline"
+            >
+              {'Reject'}
+            </StatusButton>
+          )}
         </Group>
       </Stack>
       <Divider />

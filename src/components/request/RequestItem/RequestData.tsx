@@ -27,7 +27,7 @@ export const RequestData = ({
   const organization = gitPOAPRequest.project?.repos[0]?.organization;
 
   return (
-    <Group align="start" spacing="sm">
+    <Group position="left" align="start" spacing="sm">
       <Stack spacing="xs">
         <RequestAttribute label="Name:" value={gitPOAPRequest.name} />
         <RequestAttribute label="Description:" value={gitPOAPRequest.description} />
