@@ -17,8 +17,8 @@ export const GitPOAPBotBanner = () => {
 export const CreateGitPOAPsBanner = () => {
   return (
     <MessageBanner
-      title="Create your own GitPOAPs"
-      message="Celebrate & incentivize any collaborative effort. Awardable to emails, GitHub users, ETH addresses, & ENS Names."
+      title="Create your own GitPOAPs 🥳"
+      message="Celebrate & incentivize any collaborative effort! Awardable to emails, GitHub users, ETH addresses, & ENS Names."
       href="/create"
       leftIcon={<MdDashboardCustomize size={20} />}
     />

@@ -16,14 +16,14 @@ import { useFeatures } from '../FeaturesContext';
 
 const StyledStack = styled(Stack)`
   margin-bottom: ${rem(48)};
-  margin-top: ${rem(144)};
+  margin-top: ${rem(54)};
 
   @media (max-width: ${rem(BREAKPOINTS.xl)}) {
-    margin-top: ${rem(112)};
+    margin-top: ${rem(22)};
   }
 
   @media (max-width: ${rem(BREAKPOINTS.lg)}) {
-    margin-top: ${rem(98)};
+    margin-top: ${rem(10)};
   }
 `;
 

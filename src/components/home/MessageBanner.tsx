@@ -1,23 +1,11 @@
 import React from 'react';
-import Link from 'next/link';
+import { Link } from '../shared/compounds/Link';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { Group, Text, Notification } from '@mantine/core';
-import { BackgroundPanel2, BackgroundPanel3, TextLight, TextGray } from '../../colors';
-import { BREAKPOINTS } from '../../constants';
-
-const MessageBannerContainer = styled(Group)`
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    position: relative;
-  }
-`;
+import { BackgroundPanel2, BackgroundPanel3, TextGray } from '../../colors';
 
 const MessageBannerContent = styled(Notification)`
-  max-width: 90%;
   background-color: ${BackgroundPanel2};
   cursor: pointer;
   transition: background-color 200ms ease;
@@ -36,18 +24,12 @@ type MessageBannerProps = {
 
 export const MessageBanner = ({ title, message, leftIcon, href }: MessageBannerProps) => {
   return (
-    <MessageBannerContainer position="center" my={rem(20)}>
+    <Group position="center" my={rem(20)}>
       <Link href={href} target="_blank" rel="noreferrer">
         <MessageBannerContent
           icon={leftIcon}
           title={
-            <Text
-              size={16}
-              sx={{
-                color: TextLight,
-              }}
-              weight="bold"
-            >
+            <Text size={16} weight="bold">
               {title}
             </Text>
           }
@@ -57,17 +39,10 @@ export const MessageBanner = ({ title, message, leftIcon, href }: MessageBannerP
           disallowClose
         >
           <Group align="center" spacing="sm" noWrap>
-            <Text
-              size={14}
-              sx={{
-                color: TextGray,
-              }}
-            >
-              {message}
-            </Text>
+            <Text sx={{ color: TextGray }}>{message}</Text>
           </Group>
         </MessageBannerContent>
       </Link>
-    </MessageBannerContainer>
+    </Group>
   );
 };
