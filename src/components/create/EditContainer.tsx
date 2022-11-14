@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useGitPoapRequestQuery } from '../../graphql/generated-gql';
 import { GitPOAPRequestEditValues } from '../../lib/api/gitpoapRequest';
 import { EditForm } from './EditForm';
@@ -13,6 +14,7 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
       gitPOAPRequestId: gitPOAPId,
     },
   });
+  const router = useRouter();
 
   if (result.fetching) {
     return <div>Loading...</div>;
@@ -26,6 +28,11 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
 
   if (gitPOAPRequest.address.ethAddress !== address) {
     return <div>Unauthorized</div>;
+  }
+
+  if (gitPOAPRequest.adminApprovalStatus === 'APPROVED') {
+    void router.push(`/gp/${gitPOAPId}/manage`);
+    return;
   }
 
   const initialValues: GitPOAPRequestEditValues = {
