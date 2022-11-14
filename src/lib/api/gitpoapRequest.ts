@@ -63,8 +63,6 @@ export const GitPOAPRequestEditSchema = z.object({
     required_error: 'End date is required',
     invalid_type_error: 'End date is required',
   }),
-  expiryDate: z.date(),
-  eventUrl: z.string().min(1),
   city: z.string().optional(),
   country: z.string().optional(),
   contributors: GitPOAPRequestContributorsSchema,

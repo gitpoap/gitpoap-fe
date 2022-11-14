@@ -52,10 +52,6 @@ export const RequestData = ({
           label="End Date:"
           value={DateTime.fromISO(gitPOAPRequest.endDate).toFormat('yyyy-MM-dd')}
         />
-        <RequestAttribute
-          label="Expiry Date:"
-          value={DateTime.fromISO(gitPOAPRequest.expiryDate).toFormat('yyyy-MM-dd')}
-        />
         <RequestAttribute label="Request Codes:" value={gitPOAPRequest.numRequestedCodes} />
 
         <Group spacing="sm">
