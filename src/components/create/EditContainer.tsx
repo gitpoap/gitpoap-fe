@@ -49,7 +49,8 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
         <Stack align="center" justify="center">
           <Header align="center">GitPOAP Request has been approved!</Header>
           <Text>
-            You can edit your contributors <Link href={`/gp/${gitPOAPId}/manage`}>here</Link>
+            {'You can edit your contributors '}
+            <Link href={`/gp/${gitPOAPRequest.gitPOAPId}/manage`}>{'here'}</Link>
           </Text>
         </Stack>
       </Center>
