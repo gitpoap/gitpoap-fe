@@ -24,6 +24,7 @@ import { HexagonDropzone } from './HexagonDropzone';
 import { useRouter } from 'next/router';
 import { Link } from '../shared/compounds/Link';
 import { ExtraRed } from '../../colors';
+import { FileWithPath } from '@mantine/dropzone';
 
 const Label = styled(InputUI.Label)`
   ${TextInputLabelStyles};
@@ -113,7 +114,14 @@ export const CreationForm = () => {
         <Header>{approvalStatus}</Header>
       </Group>
       <Stack align="center" spacing={32}>
-        <HexagonDropzone imageUrl={imageUrl} setError={setFieldError} setValue={setFieldValue} />
+        <HexagonDropzone
+          imageUrl={imageUrl}
+          setError={setFieldError}
+          addImage={(image: FileWithPath) => setFieldValue('image', image)}
+          removeImage={() => {
+            setFieldValue('image', null);
+          }}
+        />
         {Object.keys(errors).find((error) => /^image/.test(error)) && (
           <Text style={{ color: ExtraRed }} inline>
             {Object.keys(errors)

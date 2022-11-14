@@ -27,6 +27,7 @@ import { useRouter } from 'next/router';
 import { Link } from '../shared/compounds/Link';
 import { ExtraRed } from '../../colors';
 import { useEditForm } from './useEditForm';
+import { FileWithPath } from '@mantine/dropzone';
 
 const Label = styled(InputUI.Label)`
   ${TextInputLabelStyles};
@@ -83,19 +84,18 @@ export const EditForm = ({
   savedImageUrl,
 }: Props) => {
   const api = useApi();
-  const { errors, values, isDirty, getInputProps, setFieldError, setFieldValue, validate } =
-    useEditForm(initialValues);
+  const [hasRemovedSavedImage, setHasRemovedSavedImage] = useState(false);
+  const { errors, values, getInputProps, setFieldError, setFieldValue, validate } = useEditForm(
+    initialValues,
+    hasRemovedSavedImage,
+  );
   const router = useRouter();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const [contributors, setContributors] = useState<Contributor[]>(() =>
     convertContributorObjectToList(initialValues.contributors),
   );
 
-  /**
-   * If the image field hasn't been changed (made dirty), then we know to use the save image url
-   * If the image HAS been changed, we can later verify if the field if empty on submit
-   */
-  const imageUrl = isDirty('image')
+  const imageUrl = hasRemovedSavedImage
     ? values.image
       ? URL.createObjectURL(values.image)
       : null
@@ -109,7 +109,7 @@ export const EditForm = ({
         (contributor) => contributor.type === 'invalid',
       );
 
-      if (validate().hasErrors || invalidContributors.length || !imageUrl) {
+      if (validate().hasErrors || invalidContributors.length) {
         setButtonStatus(ButtonStatus.ERROR);
         return;
       }
@@ -129,7 +129,6 @@ export const EditForm = ({
       const data = await api.gitPOAPRequest.patch(gitPOAPRequestId, {
         ...formValues,
         contributors: formattedContributors,
-        image: isDirty('image') ? formValues.image : undefined,
       });
 
       if (data === null) {
@@ -153,7 +152,18 @@ export const EditForm = ({
         <Header>{adminApprovalStatus}</Header>
       </Group>
       <Stack align="center" spacing={32}>
-        <HexagonDropzone imageUrl={imageUrl} setError={setFieldError} setValue={setFieldValue} />
+        <HexagonDropzone
+          imageUrl={imageUrl}
+          setError={setFieldError}
+          addImage={(image: FileWithPath) => setFieldValue('image', image)}
+          removeImage={() => {
+            if (hasRemovedSavedImage) {
+              setFieldValue('image', null);
+            } else {
+              setHasRemovedSavedImage(true);
+            }
+          }}
+        />
         {Object.keys(errors).find((error) => /^image/.test(error)) && (
           <Text style={{ color: ExtraRed }} inline>
             {Object.keys(errors)

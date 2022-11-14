@@ -6217,6 +6217,7 @@ export type GitPoapRequestQuery = {
     imageUrl: string;
     adminApprovalStatus: AdminApprovalStatus;
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
+    address: { __typename?: 'Address'; ethAddress: string };
   } | null;
 };
 
@@ -7695,6 +7696,9 @@ export const GitPoapRequestDocument = gql`
       }
       imageUrl
       adminApprovalStatus
+      address {
+        ethAddress
+      }
     }
   }
 `;

@@ -36,17 +36,18 @@ const DropzoneBorder = styled.div`
 type Props = {
   imageUrl: string | null;
   setError: (path: string, error: React.ReactNode) => void;
-  setValue: (path: string, file: FileWithPath | null) => void;
+  addImage: (image: FileWithPath) => void;
+  removeImage: () => void;
 };
 
-export const HexagonDropzone = ({ imageUrl, setError, setValue }: Props) => {
+export const HexagonDropzone = ({ imageUrl, setError, addImage, removeImage }: Props) => {
   return (
     <Center mt={44}>
       <DropzoneBorder>
         <StyledDropzone
           accept={ACCEPTED_IMAGE_TYPES}
           maxSize={MAX_FILE_SIZE}
-          onDrop={(files) => setValue(`image`, files[0])}
+          onDrop={(files) => addImage(files[0])}
           onReject={(fileRejects) => {
             const { code, message } = fileRejects[0].errors[0];
             setError('image', code === 'file-too-large' ? 'Max file size is 5MB.' : message);
@@ -89,7 +90,7 @@ export const HexagonDropzone = ({ imageUrl, setError, setValue }: Props) => {
                   onClick={(e: React.MouseEvent) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    setValue('image', null);
+                    removeImage();
                   }}
                 >
                   {'Remove'}

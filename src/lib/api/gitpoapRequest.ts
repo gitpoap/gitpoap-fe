@@ -43,22 +43,30 @@ export const GitPOAPRequestCreateSchema = z.object({
 
 export type GitPOAPRequestCreateValues = z.infer<typeof GitPOAPRequestCreateSchema>;
 
-export const GitPOAPRequestEditSchema = z.object({
-  name: z.string().min(1, { message: 'Name is required' }),
-  description: z.string().min(1, { message: 'Description is required' }),
-  startDate: z.date({
-    required_error: 'Start date is required',
-    invalid_type_error: 'Start date is required',
-  }),
-  endDate: z.date({
-    required_error: 'End date is required',
-    invalid_type_error: 'End date is required',
-  }),
-  contributors: GitPOAPRequestContributorsSchema,
-  image: ImageFileSchema.optional(),
-});
+export const GitPOAPRequestEditSchema = (hasRemovedSavedImage: boolean) =>
+  z.object({
+    name: z.string().min(1, { message: 'Name is required' }),
+    description: z.string().min(1, { message: 'Description is required' }),
+    startDate: z.date({
+      required_error: 'Start date is required',
+      invalid_type_error: 'Start date is required',
+    }),
+    endDate: z.date({
+      required_error: 'End date is required',
+      invalid_type_error: 'End date is required',
+    }),
+    contributors: GitPOAPRequestContributorsSchema,
+    image: hasRemovedSavedImage ? ImageFileSchema : z.null(),
+  });
 
-export type GitPOAPRequestEditValues = z.infer<typeof GitPOAPRequestEditSchema>;
+export type GitPOAPRequestEditValues = {
+  name: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  contributors: GitPOAPRequestContributorsValues;
+  image: File | null;
+};
 
 export class GitPOAPRequestAPI extends API {
   constructor(tokens: Tokens | null) {
@@ -97,7 +105,7 @@ export class GitPOAPRequestAPI extends API {
     formData.append('startDate', DateTime.fromJSDate(values.startDate).toFormat('yyyy-MM-dd'));
     formData.append('endDate', DateTime.fromJSDate(values.endDate).toFormat('yyyy-MM-dd'));
     formData.append('contributors', JSON.stringify(values.contributors));
-    formData.append('image', values.image ?? '');
+    values.image && formData.append('image', values.image);
 
     const res = await makeAPIRequestWithAuth(
       `/gitpoaps/custom/${gitPOAPRequestId}`,

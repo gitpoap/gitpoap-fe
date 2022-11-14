@@ -34,6 +34,7 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
     startDate: new Date(gitPOAPRequest.startDate),
     endDate: new Date(gitPOAPRequest.endDate),
     contributors: gitPOAPRequest.contributors,
+    image: null,
   };
 
   return (
