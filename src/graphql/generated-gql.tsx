@@ -1343,7 +1343,7 @@ export type GitPoapRelationFilter = {
 
 export type GitPoapRequest = {
   __typename?: 'GitPOAPRequest';
-  _count?: Maybe<GitPoapRequestCount>;
+  GitPOAP?: Maybe<GitPoap>;
   address: Address;
   addressId: Scalars['Int'];
   adminApprovalStatus: AdminApprovalStatus;
@@ -1353,7 +1353,7 @@ export type GitPoapRequest = {
   creatorEmailId: Scalars['Int'];
   description: Scalars['String'];
   endDate: Scalars['DateTime'];
-  gitPOAP: Array<GitPoap>;
+  gitPOAPId?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   imageUrl: Scalars['String'];
   name: Scalars['String'];
@@ -1366,19 +1366,11 @@ export type GitPoapRequest = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type GitPoapRequestGitPoapArgs = {
-  cursor?: InputMaybe<GitPoapWhereUniqueInput>;
-  distinct?: InputMaybe<Array<GitPoapScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<GitPoapOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<GitPoapWhereInput>;
-};
-
 export type GitPoapRequestAvgAggregate = {
   __typename?: 'GitPOAPRequestAvgAggregate';
   addressId?: Maybe<Scalars['Float']>;
   creatorEmailId?: Maybe<Scalars['Float']>;
+  gitPOAPId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   numRequestedCodes?: Maybe<Scalars['Float']>;
   organizationId?: Maybe<Scalars['Float']>;
@@ -1388,15 +1380,11 @@ export type GitPoapRequestAvgAggregate = {
 export type GitPoapRequestAvgOrderByAggregateInput = {
   addressId?: InputMaybe<SortOrder>;
   creatorEmailId?: InputMaybe<SortOrder>;
+  gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   numRequestedCodes?: InputMaybe<SortOrder>;
   organizationId?: InputMaybe<SortOrder>;
   projectId?: InputMaybe<SortOrder>;
-};
-
-export type GitPoapRequestCount = {
-  __typename?: 'GitPOAPRequestCount';
-  gitPOAP: Scalars['Int'];
 };
 
 export type GitPoapRequestCountAggregate = {
@@ -1409,6 +1397,7 @@ export type GitPoapRequestCountAggregate = {
   creatorEmailId: Scalars['Int'];
   description: Scalars['Int'];
   endDate: Scalars['Int'];
+  gitPOAPId: Scalars['Int'];
   id: Scalars['Int'];
   imageUrl: Scalars['Int'];
   name: Scalars['Int'];
@@ -1427,6 +1416,7 @@ export type GitPoapRequestCountOrderByAggregateInput = {
   creatorEmailId?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
   endDate?: InputMaybe<SortOrder>;
+  gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -1451,6 +1441,7 @@ export type GitPoapRequestGroupBy = {
   creatorEmailId: Scalars['Int'];
   description: Scalars['String'];
   endDate: Scalars['DateTime'];
+  gitPOAPId?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   imageUrl: Scalars['String'];
   name: Scalars['String'];
@@ -1475,6 +1466,7 @@ export type GitPoapRequestMaxAggregate = {
   creatorEmailId?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['DateTime']>;
+  gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   imageUrl?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -1492,6 +1484,7 @@ export type GitPoapRequestMaxOrderByAggregateInput = {
   creatorEmailId?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
   endDate?: InputMaybe<SortOrder>;
+  gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -1510,6 +1503,7 @@ export type GitPoapRequestMinAggregate = {
   creatorEmailId?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['DateTime']>;
+  gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   imageUrl?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -1527,6 +1521,7 @@ export type GitPoapRequestMinOrderByAggregateInput = {
   creatorEmailId?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
   endDate?: InputMaybe<SortOrder>;
+  gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -1554,6 +1549,7 @@ export type GitPoapRequestOrderByWithAggregationInput = {
   creatorEmailId?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
   endDate?: InputMaybe<SortOrder>;
+  gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -1565,6 +1561,7 @@ export type GitPoapRequestOrderByWithAggregationInput = {
 };
 
 export type GitPoapRequestOrderByWithRelationInput = {
+  GitPOAP?: InputMaybe<GitPoapOrderByWithRelationInput>;
   address?: InputMaybe<AddressOrderByWithRelationInput>;
   addressId?: InputMaybe<SortOrder>;
   adminApprovalStatus?: InputMaybe<SortOrder>;
@@ -1574,7 +1571,7 @@ export type GitPoapRequestOrderByWithRelationInput = {
   creatorEmailId?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
   endDate?: InputMaybe<SortOrder>;
-  gitPOAP?: InputMaybe<GitPoapOrderByRelationAggregateInput>;
+  gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -1600,6 +1597,7 @@ export enum GitPoapRequestScalarFieldEnum {
   CreatorEmailId = 'creatorEmailId',
   Description = 'description',
   EndDate = 'endDate',
+  GitPoapId = 'gitPOAPId',
   Id = 'id',
   ImageUrl = 'imageUrl',
   Name = 'name',
@@ -1621,6 +1619,7 @@ export type GitPoapRequestScalarWhereWithAggregatesInput = {
   creatorEmailId?: InputMaybe<IntWithAggregatesFilter>;
   description?: InputMaybe<StringWithAggregatesFilter>;
   endDate?: InputMaybe<DateTimeWithAggregatesFilter>;
+  gitPOAPId?: InputMaybe<IntNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   imageUrl?: InputMaybe<StringWithAggregatesFilter>;
   name?: InputMaybe<StringWithAggregatesFilter>;
@@ -1635,6 +1634,7 @@ export type GitPoapRequestSumAggregate = {
   __typename?: 'GitPOAPRequestSumAggregate';
   addressId?: Maybe<Scalars['Int']>;
   creatorEmailId?: Maybe<Scalars['Int']>;
+  gitPOAPId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   numRequestedCodes?: Maybe<Scalars['Int']>;
   organizationId?: Maybe<Scalars['Int']>;
@@ -1644,6 +1644,7 @@ export type GitPoapRequestSumAggregate = {
 export type GitPoapRequestSumOrderByAggregateInput = {
   addressId?: InputMaybe<SortOrder>;
   creatorEmailId?: InputMaybe<SortOrder>;
+  gitPOAPId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   numRequestedCodes?: InputMaybe<SortOrder>;
   organizationId?: InputMaybe<SortOrder>;
@@ -1652,6 +1653,7 @@ export type GitPoapRequestSumOrderByAggregateInput = {
 
 export type GitPoapRequestWhereInput = {
   AND?: InputMaybe<Array<GitPoapRequestWhereInput>>;
+  GitPOAP?: InputMaybe<GitPoapRelationFilter>;
   NOT?: InputMaybe<Array<GitPoapRequestWhereInput>>;
   OR?: InputMaybe<Array<GitPoapRequestWhereInput>>;
   address?: InputMaybe<AddressRelationFilter>;
@@ -1663,7 +1665,7 @@ export type GitPoapRequestWhereInput = {
   creatorEmailId?: InputMaybe<IntFilter>;
   description?: InputMaybe<StringFilter>;
   endDate?: InputMaybe<DateTimeFilter>;
-  gitPOAP?: InputMaybe<GitPoapListRelationFilter>;
+  gitPOAPId?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<IntFilter>;
   imageUrl?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
@@ -1677,6 +1679,7 @@ export type GitPoapRequestWhereInput = {
 };
 
 export type GitPoapRequestWhereUniqueInput = {
+  gitPOAPId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
 };
 
@@ -1809,6 +1812,7 @@ export type GitPoapWhereInput = {
 };
 
 export type GitPoapWhereUniqueInput = {
+  gitPOAPRequestId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   poapEventId?: InputMaybe<Scalars['Int']>;
 };
