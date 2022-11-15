@@ -20,6 +20,13 @@ export const theme: MantineProviderProps['theme'] = {
     Tooltip: tooltipThemes,
     Pagination: paginationThemes,
     Badge: badgeThemes,
+    InputWrapper: {
+      styles: {
+        error: {
+          fontSize: `${rem(12)} !important`,
+        },
+      },
+    },
     Modal: {
       defaultProps: {
         overlayColor: Black,
