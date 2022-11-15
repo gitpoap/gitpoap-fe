@@ -24,7 +24,7 @@ type Props = {
 export const AddZone = ({ onClick, text }: Props) => {
   return (
     <Zone position="center" p={rem(12)} mx={rem(10)} onClick={onClick}>
-      <Text weight="bold" size={14} sx={{ letterSpacing: rem(2) }}>
+      <Text size={14} sx={{ letterSpacing: rem(2) }}>
         {text}
       </Text>
     </Zone>
