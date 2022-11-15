@@ -178,7 +178,7 @@ export const EditForm = ({
                 <Group spacing={6}>
                   <Text>{'Mandatory: PNG or GIF format,'}</Text>
                   <Link href="https://www.canva.com/design/DAFQoFm0dhQ/H17FASlR17kwLk6m303hBw/view?utm_content=DAFQoFm0dhQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview">
-                    <Text>{'GitPOAP Template'}</Text>
+                    <Text variant="link">{'GitPOAP Template'}</Text>
                   </Link>
                 </Group>
               </List.Item>
@@ -187,7 +187,7 @@ export const EditForm = ({
               </List.Item>
               <List.Item>
                 <Link href="https://gitpoap.notion.site/GitPOAP-Design-Guide-Requirements-9a843acfe1c7490bbfcdab2d1a47e8af">
-                  <Text>{'Design Guide'}</Text>
+                  <Text variant="link">{'Design Guide'}</Text>
                 </Link>
               </List.Item>
             </List>
