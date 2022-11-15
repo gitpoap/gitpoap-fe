@@ -4,6 +4,8 @@ import { rem } from 'polished';
 import { BackgroundPanel2, BackgroundPanel, TextGray } from '../../colors';
 import { Link } from '../shared/compounds/Link';
 import { FaGithub, FaMedal } from 'react-icons/fa';
+import { BsArrowRightCircle } from 'react-icons/bs';
+import { RiShareBoxFill } from 'react-icons/ri';
 
 type SelectOptionsProps = {
   name: string;
@@ -18,7 +20,8 @@ const SelectOptionBox = ({ name, href, subtext, icon, learnMoreHref }: SelectOpt
     <Stack spacing={0}>
       <Link href={href}>
         <Stack
-          p={rem(32)}
+          px={rem(32)}
+          pt={rem(32)}
           sx={{
             backgroundColor: BackgroundPanel,
             cursor: 'pointer',
@@ -44,6 +47,9 @@ const SelectOptionBox = ({ name, href, subtext, icon, learnMoreHref }: SelectOpt
             </Text>
             {subtext}
           </Group>
+          <Group align="center" position="right" sx={{ alignSelf: 'flex-end' }}>
+            <BsArrowRightCircle size={rem(28)} style={{ fill: TextGray }} />
+          </Group>
         </Stack>
       </Link>
       {learnMoreHref && (
@@ -68,8 +74,11 @@ const SelectOptionBox = ({ name, href, subtext, icon, learnMoreHref }: SelectOpt
               },
             }}
           >
-            <Text size={16} variant="link">
-              {'LEARN MORE'}
+            <Text size={16} variant="link" weight="bold">
+              <Group spacing="xs">
+                {'LEARN MORE'}
+                <RiShareBoxFill />
+              </Group>
             </Text>
           </Group>
         </Link>
@@ -83,7 +92,7 @@ export const SelectGitPOAPType = () => {
     <Stack sx={{ height: '100%' }} align="center" my={rem(80)}>
       <Group>
         <Stack>
-          <Group position="center" align="flex-start">
+          <Group position="center" align="flex-start" spacing="xl">
             <SelectOptionBox
               name="CUSTOM"
               subtext={
@@ -108,6 +117,7 @@ export const SelectGitPOAPType = () => {
               }
               href={'/onboard'}
               icon={<FaGithub size={26} style={{ fill: 'white' }} />}
+              learnMoreHref={'https://docs.gitpoap.io/#how-does-it-work'}
             />
           </Group>
         </Stack>
