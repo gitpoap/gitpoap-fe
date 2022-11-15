@@ -4756,7 +4756,7 @@ export type QueryTrendingReposArgs = {
 };
 
 export type QueryUserClaimsArgs = {
-  githubId: Scalars['Float'];
+  address: Scalars['String'];
 };
 
 export type QueryUserPoaPsArgs = {
@@ -5477,7 +5477,7 @@ export type RepoGitPoapsQuery = {
 };
 
 export type OpenClaimsQueryVariables = Exact<{
-  githubId: Scalars['Float'];
+  address: Scalars['String'];
 }>;
 
 export type OpenClaimsQuery = {
@@ -6631,8 +6631,8 @@ export function useRepoGitPoapsQuery(
   });
 }
 export const OpenClaimsDocument = gql`
-  query openClaims($githubId: Float!) {
-    userClaims(githubId: $githubId) {
+  query openClaims($address: String!) {
+    userClaims(address: $address) {
       claim {
         id
         pullRequestEarned {

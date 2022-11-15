@@ -35,7 +35,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
   const [loadingClaimIds, setLoadingClaimIds] = useState<number[]>([]);
   const [result, refetchUserClaims] = useOpenClaimsQuery({
     variables: {
-      githubId: user?.githubId ?? -1,
+      address: user?.address ?? '',
     },
     pause: true,
     requestPolicy: 'network-only',
@@ -45,7 +45,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
 
   /* Initially fetch the user claims */
   useEffect(() => {
-    if (user?.githubId && !userClaims && !result.fetching) {
+    if (user?.address && !userClaims && !result.fetching) {
       refetchUserClaims();
     }
   }, [user, refetchUserClaims, userClaims, result]);

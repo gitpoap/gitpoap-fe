@@ -166,8 +166,8 @@ query repoGitPoaps($repoId: Float!, $sort: String, $page: Float, $perPage: Float
   }
 }
 
-query openClaims($githubId: Float!) {
-  userClaims(githubId: $githubId) {
+query openClaims($address: String!) {
+  userClaims(address: $address) {
     claim {
       id
       pullRequestEarned {
