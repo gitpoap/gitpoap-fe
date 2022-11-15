@@ -7,12 +7,10 @@ import { FaArrowRight } from 'react-icons/fa';
 import { TextGray, TextLight } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { useClaimContext } from '../claims/ClaimContext';
-import { useOAuthContext } from '../oauth/OAuthContext';
 import { Link } from '../shared/compounds/Link';
 import { TitleLink } from '../shared/elements';
 import { useLocalStorage } from '@mantine/hooks';
 import { useUser } from '../../hooks/useUser';
-import { useFeatures } from '../FeaturesContext';
 
 const StyledStack = styled(Stack)`
   margin-bottom: ${rem(48)};
@@ -83,11 +81,9 @@ const CTAButtons = styled(Group)`
 `;
 
 export const Banner = () => {
-  const { github } = useOAuthContext();
   const user = useUser();
   const hasGithub = user?.capabilities.hasGithub ?? false;
   const { setIsOpen } = useClaimContext();
-  const { hasCheckEligibility } = useFeatures();
   const router = useRouter();
   const [isStartMintingButtonClicked, setIsStartMintingButtonClicked] = useLocalStorage<boolean>({
     key: 'isStartMintingButtonClicked',
@@ -117,18 +113,7 @@ export const Banner = () => {
           </StartIssuingButton>
         </Link>
         <StartMintingButton
-          onClick={
-            hasCheckEligibility
-              ? () => router.push('/eligibility')
-              : () => {
-                  if (!hasGithub) {
-                    setIsStartMintingButtonClicked(true);
-                    github.authorize();
-                  } else {
-                    setIsOpen(true);
-                  }
-                }
-          }
+          onClick={() => router.push('/eligibility')}
           radius="md"
           size="md"
           rightIcon={<FaArrowRight />}

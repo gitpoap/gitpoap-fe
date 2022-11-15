@@ -5,7 +5,6 @@ import { rem } from 'polished';
 import { GoMarkGithub } from 'react-icons/go';
 import { Button, ClaimCircle } from '../shared/elements';
 import { useRouter } from 'next/router';
-import { useFeatures } from '../FeaturesContext';
 import { useUser } from '../../hooks/useUser';
 import { GitPOAP } from '../shared/elements/icons';
 
@@ -31,13 +30,12 @@ type Props = {
 export const GitHub = ({ className, hideText }: Props) => {
   const { claimedIds, userClaims, setIsOpen } = useClaimContext();
   const user = useUser();
-  const { hasCheckEligibility } = useFeatures();
   const userClaimCount = userClaims?.length;
   const router = useRouter();
 
   /* User has no connected GitHub account */
   if (!user?.capabilities.hasGithub) {
-    return user === null && hasCheckEligibility ? (
+    return user === null ? (
       <Content className={className}>
         <Button onClick={() => router.push('/eligibility')} leftIcon={!hideText && <GitPOAPIcon />}>
           {hideText ? <GitPOAPIcon /> : 'Check Eligibility'}

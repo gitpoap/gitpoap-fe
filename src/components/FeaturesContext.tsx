@@ -1,9 +1,12 @@
 import { useRouter } from 'next/router';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type FeaturesState = Record<string, boolean>;
+type Features = 'placeholder';
+type FeaturesState = Record<Features, boolean>;
 
-export const getInitialState = (): FeaturesState => ({});
+export const getInitialState = (): FeaturesState => ({
+  placeholder: true,
+});
 
 const FeaturesContext = createContext<FeaturesState>({} as FeaturesState);
 
