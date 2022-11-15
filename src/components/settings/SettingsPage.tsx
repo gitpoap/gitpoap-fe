@@ -19,6 +19,7 @@ import {
 } from '../shared/elements';
 import { isValidTwitterHandle, isValidURL } from '../../helpers';
 import { Link } from '../shared/compounds/Link';
+import { Login } from '../Login';
 
 const Input = styled(InputUI)`
   flex: 1;
@@ -77,7 +78,7 @@ export const SettingsPage = () => {
   }, [profileData, personSiteUrlValue, bioValue, twitterHandleValue, isVisibleOnLeaderboardValue]);
 
   if (!user) {
-    return <></>;
+    return <Login />;
   }
 
   return (

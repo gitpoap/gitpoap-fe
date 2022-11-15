@@ -1,5 +1,5 @@
 import { Stack, Title, Container } from '@mantine/core';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from '../shared/compounds/Link';
 import { Text, Loader } from '../shared/elements';
 import { Notifications } from '../../notifications';
@@ -14,7 +14,7 @@ export const VerifyEmail = ({ token }: Props) => {
   const [status, setStatus] = useState<Status>('LOADING');
   const api = useApi();
 
-  const verifyToken = useCallback(async () => {
+  const verifyToken = async () => {
     const data = await api.email.verify(token);
 
     if (!data) {
@@ -24,14 +24,14 @@ export const VerifyEmail = ({ token }: Props) => {
     }
 
     setStatus(data.msg ?? 'INVALID');
-  }, [token, api.email]);
+  };
 
   useEffect(() => {
     if (token) {
       setStatus('LOADING');
       void verifyToken();
     }
-  }, [token, verifyToken]);
+  }, [token]);
 
   return (
     <Container my={64} size={600}>
@@ -51,9 +51,7 @@ export const VerifyEmail = ({ token }: Props) => {
                 <Text>The verification link provided is invalid.</Text>
                 <Text>
                   {'You can generate a new one in your '}
-                  <Link href="/settings">
-                    <Text>settings</Text>
-                  </Link>
+                  <Link href="/settings">{'settings'}</Link>
                   {'.'}
                 </Text>
               </>
@@ -64,9 +62,7 @@ export const VerifyEmail = ({ token }: Props) => {
                 <Text>The verification link provided is expired.</Text>
                 <Text>
                   {'You can generate a new one in your '}
-                  <Link href="/settings">
-                    <Text>settings</Text>
-                  </Link>
+                  <Link href="/settings">{'settings'}</Link>
                   {'.'}
                 </Text>
               </>
@@ -77,9 +73,7 @@ export const VerifyEmail = ({ token }: Props) => {
                 <Text>The verification link provided has already been used.</Text>
                 <Text>
                   {'You can generate a new one in your '}
-                  <Link href="/settings">
-                    <Text>settings</Text>
-                  </Link>
+                  <Link href="/settings">{'settings'}</Link>
                   {'.'}
                 </Text>
               </>

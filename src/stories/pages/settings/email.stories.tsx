@@ -31,7 +31,7 @@ const DefaultQueryResponse: EmailReturnType = {
 };
 
 export const Connected = Template.bind({});
-Connected.args = { ethAddress: 'connected' };
+Connected.args = { address: '0x12345' };
 Connected.parameters = {
   msw: {
     handlers: [
@@ -47,7 +47,7 @@ Connected.parameters = {
 };
 
 export const Disconnected = Template.bind({});
-Disconnected.args = { ethAddress: 'disconnected' };
+Disconnected.args = { address: '0x12345' };
 Disconnected.parameters = {
   msw: {
     handlers: [
@@ -63,7 +63,7 @@ Disconnected.parameters = {
 };
 
 export const Pending = Template.bind({});
-Pending.args = { ethAddress: 'pending' };
+Pending.args = { address: '0x12345' };
 Pending.parameters = {
   msw: {
     handlers: [
@@ -79,7 +79,7 @@ Pending.parameters = {
 };
 
 export const Expired = Template.bind({});
-Expired.args = { ethAddress: 'expired' };
+Expired.args = { address: '0x12345' };
 Expired.parameters = {
   msw: {
     handlers: [

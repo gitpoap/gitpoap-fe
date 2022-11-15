@@ -800,6 +800,7 @@ query gitPOAPRequest($gitPOAPRequestId: Int!) {
     address {
       ethAddress
     }
+    gitPOAPId
   }
 }
 

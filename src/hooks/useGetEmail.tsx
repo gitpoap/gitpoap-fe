@@ -10,7 +10,7 @@ export const useGetEmail = () => {
   const user = useUser();
 
   const fetchEmailAddress = useCallback(async () => {
-    const data = await api.email.getEmail();
+    const data = await api.email.get();
 
     if (!data) {
       Notifications.error('Error - Request to fetch email failed');
@@ -21,12 +21,12 @@ export const useGetEmail = () => {
   }, [api.email]);
 
   useEffect(() => {
-    if (user) {
+    if (user?.address) {
       void fetchEmailAddress();
     } else {
       setEmailAddress(null);
     }
-  }, [user, fetchEmailAddress]);
+  }, [user?.address]);
 
   return emailAddress;
 };

@@ -5,14 +5,13 @@ import { HiOutlineMailOpen } from 'react-icons/hi';
 import { EmailConnectionStatus } from './EmailConnection';
 import { EmailConnectionFormReturnTypes } from './useEmailConnectionForm';
 import { Button, Input, Text } from '../shared/elements';
-import { useWeb3Context } from '../wallet/Web3Context';
-import { GITPOAP_API_URL } from '../../constants';
 import { Notifications } from '../../notifications';
-import { EmailReturnType } from '../../lib/api/email';
+import { useApi } from '../../hooks/useApi';
 
 type ConnectProps = {
   closeModal: () => void;
   getInputProps: EmailConnectionFormReturnTypes['getInputProps'];
+  setErrors: EmailConnectionFormReturnTypes['setErrors'];
   setStatus: (status: EmailConnectionStatus) => void;
   validate: EmailConnectionFormReturnTypes['validate'];
   values: EmailConnectionFormReturnTypes['values'];
@@ -21,13 +20,12 @@ type ConnectProps = {
 export const EmailConnectionModalConnect = ({
   closeModal,
   getInputProps,
+  setErrors,
   setStatus,
   validate,
   values,
 }: ConnectProps) => {
-  const { web3Provider } = useWeb3Context();
-  const signer = web3Provider?.getSigner();
-
+  const api = useApi();
   return (
     <Stack align="stretch" spacing={16}>
       <Text>{`Enter a valid email address.`}</Text>
@@ -39,39 +37,17 @@ export const EmailConnectionModalConnect = ({
         <Button
           onClick={async () => {
             if (!validate().hasErrors) {
-              const address = await signer?.getAddress();
-              const timestamp = Date.now();
-
               try {
-                const signature = await signer?.signMessage(
-                  JSON.stringify({
-                    site: 'gitpoap.io',
-                    method: 'POST /email',
-                    createdAt: timestamp,
-                    emailAddress: values.email,
-                  }),
-                );
+                const data = await api.email.add(values.email);
 
-                const res = await fetch(`${GITPOAP_API_URL}/email`, {
-                  method: 'POST',
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    emailAddress: values.email,
-                    address,
-                    signature: {
-                      data: signature,
-                      createdAt: timestamp,
-                    },
-                  }),
-                });
-
-                if (!res || !res.ok) {
+                if (data === null) {
                   throw new Error();
-                } else {
+                } else if (data.msg === 'SUBMITTED') {
                   setStatus('SUBMITTED');
+                } else if (data.msg === 'TAKEN') {
+                  setErrors({ email: 'Email is already taken' });
+                } else {
+                  throw new Error();
                 }
               } catch (err) {
                 Notifications.error('Oops, something went wrong!');
@@ -90,31 +66,27 @@ type SubmittedProps = {
   values: EmailConnectionFormReturnTypes['values'];
 };
 
-export const EmailConnectionModalSubmitted = ({ values }: SubmittedProps) => {
-  return (
-    <Stack align="center" spacing={8}>
-      <HiOutlineMailOpen size={64} />
-      <TextUI my={16} size={24} weight="bold">{`Verify your email`}</TextUI>
-      <TextUI>{`We've sent a verification link to`}</TextUI>
-      <TextUI size="lg" weight="bold">
-        {values.email}
-      </TextUI>
-      <TextUI align="center">{`Check your inbox and click the link to confirm your request.`}</TextUI>
+export const EmailConnectionModalSubmitted = ({ values }: SubmittedProps) => (
+  <Stack align="center" spacing={8}>
+    <HiOutlineMailOpen size={64} />
+    <TextUI my={16} size={24} weight="bold">{`Verify your email`}</TextUI>
+    <TextUI>{`We've sent a verification link to`}</TextUI>
+    <TextUI size="lg" weight="bold">
+      {values.email}
+    </TextUI>
+    <TextUI align="center">{`Check your inbox and click the link to confirm your request.`}</TextUI>
 
-      <TextUI mt={32}>{`This link expires in 24 hours`}</TextUI>
-    </Stack>
-  );
-};
+    <TextUI mt={32}>{`This link expires in 24 hours`}</TextUI>
+  </Stack>
+);
 
 type PendingProps = {
   closeModal: () => void;
   setStatus: (status: EmailConnectionStatus) => void;
-  userEmail: EmailReturnType;
 };
 
-export const EmailConnectionModalPending = ({ closeModal, setStatus, userEmail }: PendingProps) => {
-  const { web3Provider } = useWeb3Context();
-  const signer = web3Provider?.getSigner();
+export const EmailConnectionModalPending = ({ closeModal, setStatus }: PendingProps) => {
+  const api = useApi();
   return (
     <Stack align="stretch" spacing={16}>
       <Text>
@@ -125,36 +97,10 @@ export const EmailConnectionModalPending = ({ closeModal, setStatus, userEmail }
         <Button
           color="red"
           onClick={async () => {
-            const address = await signer?.getAddress();
-            const timestamp = Date.now();
-
             try {
-              const signature = await signer?.signMessage(
-                JSON.stringify({
-                  site: 'gitpoap.io',
-                  method: 'DELETE /email',
-                  createdAt: timestamp,
-                  id: userEmail?.id,
-                }),
-              );
+              const data = await api.email.delete();
 
-              const res = await fetch(`${GITPOAP_API_URL}/email`, {
-                method: 'DELETE',
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  id: userEmail?.id,
-                  address,
-                  signature: {
-                    data: signature,
-                    createdAt: timestamp,
-                  },
-                }),
-              });
-
-              if (!res || !res.ok) {
+              if (data === null) {
                 throw new Error();
               } else {
                 closeModal();
@@ -175,16 +121,10 @@ export const EmailConnectionModalPending = ({ closeModal, setStatus, userEmail }
 type DisconnectProps = {
   closeModal: () => void;
   setStatus: (status: EmailConnectionStatus) => void;
-  userEmail: EmailReturnType;
 };
 
-export const EmailConnectionModalDisconnect = ({
-  closeModal,
-  setStatus,
-  userEmail,
-}: DisconnectProps) => {
-  const { web3Provider } = useWeb3Context();
-  const signer = web3Provider?.getSigner();
+export const EmailConnectionModalDisconnect = ({ closeModal, setStatus }: DisconnectProps) => {
+  const api = useApi();
   return (
     <Stack align="stretch" spacing={16}>
       <Text>{`Are you sure you want to disconnect your email? This action is irreversible.`}</Text>
@@ -192,36 +132,10 @@ export const EmailConnectionModalDisconnect = ({
         <Button
           color="red"
           onClick={async () => {
-            const address = await signer?.getAddress();
-            const timestamp = Date.now();
-
             try {
-              const signature = await signer?.signMessage(
-                JSON.stringify({
-                  site: 'gitpoap.io',
-                  method: 'DELETE /email',
-                  createdAt: timestamp,
-                  id: userEmail?.id,
-                }),
-              );
+              const data = await api.email.delete();
 
-              const res = await fetch(`${GITPOAP_API_URL}/email`, {
-                method: 'DELETE',
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  id: userEmail?.id,
-                  address,
-                  signature: {
-                    data: signature,
-                    createdAt: timestamp,
-                  },
-                }),
-              });
-
-              if (!res || !res.ok) {
+              if (data === null) {
                 throw new Error();
               } else {
                 closeModal();

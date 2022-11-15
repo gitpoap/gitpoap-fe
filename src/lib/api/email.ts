@@ -1,4 +1,4 @@
-import { API, Tokens, makeAPIRequestWithAuth, makeAPIRequest } from './utils';
+import { API, Tokens, makeAPIRequestWithAuth } from './utils';
 
 export type EmailReturnType = {
   id: number;
@@ -14,13 +14,24 @@ export class EmailAPI extends API {
     super(tokens?.accessToken);
   }
 
-  async addEmail(email: string) {
+  async add(emailAddress: string) {
     const res = await makeAPIRequestWithAuth(
       '/email',
       'POST',
       this.token,
-      JSON.stringify({ emailAddress: email }),
+      JSON.stringify({ emailAddress }),
     );
+
+    if (!res) {
+      return null;
+    }
+
+    const data = (await res.json()) as { msg: string };
+    return data;
+  }
+
+  async delete() {
+    const res = await makeAPIRequestWithAuth('/email', 'DELETE', this.token);
 
     if (!res) {
       return null;
@@ -29,7 +40,7 @@ export class EmailAPI extends API {
     return true;
   }
 
-  async getEmail() {
+  async get() {
     const res = await makeAPIRequestWithAuth('/email', 'GET', this.token);
 
     if (!res) {
@@ -41,11 +52,7 @@ export class EmailAPI extends API {
   }
 
   async verify(token: string) {
-    const res = await makeAPIRequest(
-      '/email/verify',
-      'POST',
-      JSON.stringify({ activeToken: token }),
-    );
+    const res = await makeAPIRequestWithAuth(`/email/verify/${token}`, 'POST', this.token);
 
     if (!res) {
       return null;
