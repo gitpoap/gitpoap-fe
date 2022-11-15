@@ -154,7 +154,12 @@ export const EditForm = ({
         <HexagonDropzone
           imageUrl={imageUrl}
           setError={setFieldError}
-          addImage={(image: FileWithPath) => setFieldValue('image', image)}
+          addImage={(image: FileWithPath) => {
+            if (!hasRemovedSavedImage) {
+              setHasRemovedSavedImage(true);
+            }
+            setFieldValue('image', image);
+          }}
           removeImage={() => {
             if (hasRemovedSavedImage) {
               setFieldValue('image', null);
