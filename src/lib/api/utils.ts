@@ -77,6 +77,56 @@ export const makeAPIRequestWithAuth = async (
   return response;
 };
 
+/**
+ * This function makes a generic API request to the GitPOAP API &
+ * includes the full response object.
+ */
+export const makeAPIRequestWithResponse = async (
+  endpoint: string,
+  method: string,
+  body?: BodyInit,
+  headers: HeadersInit = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+) => {
+  const response = await fetch(`${GITPOAP_API_URL}${endpoint}`, {
+    method,
+    headers,
+    body,
+  });
+
+  return response;
+};
+
+/**
+ * This function makes a generic API request to the GitPOAP API &
+ * includes the full response object while also adding an Authorization
+ * header with the user's accessToken.
+ */
+export const makeAPIRequestWithResponseWithAuth = async (
+  endpoint: string,
+  method: string,
+  token: string | null,
+  body?: BodyInit,
+  headers: HeadersInit = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+) => {
+  if (!token) {
+    console.warn('No token provided');
+    return null;
+  }
+
+  const response = await makeAPIRequestWithResponse(endpoint, method, body, {
+    ...headers,
+    Authorization: `Bearer ${token}`,
+  });
+
+  return response;
+};
+
 type SignatureData = {
   message: string;
   createdAt: number;

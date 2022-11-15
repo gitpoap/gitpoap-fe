@@ -1,4 +1,4 @@
-import { API, Tokens, makeAPIRequestWithAuth } from './utils';
+import { API, Tokens, makeAPIRequestWithAuth, makeAPIRequestWithResponseWithAuth } from './utils';
 
 export type EmailReturnType = {
   id: number;
@@ -15,7 +15,7 @@ export class EmailAPI extends API {
   }
 
   async add(emailAddress: string) {
-    const res = await makeAPIRequestWithAuth(
+    const res = await makeAPIRequestWithResponseWithAuth(
       '/email',
       'POST',
       this.token,
@@ -52,7 +52,11 @@ export class EmailAPI extends API {
   }
 
   async verify(token: string) {
-    const res = await makeAPIRequestWithAuth(`/email/verify/${token}`, 'POST', this.token);
+    const res = await makeAPIRequestWithResponseWithAuth(
+      `/email/verify/${token}`,
+      'POST',
+      this.token,
+    );
 
     if (!res) {
       return null;
