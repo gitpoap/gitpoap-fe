@@ -75,9 +75,11 @@ export const EmailConnection = () => {
       <Stack spacing={0}>
         <Group>
           <HiOutlineMail size={32} />
-          <Title order={5}>Email</Title>
+          <Stack spacing={0}>
+            <Title order={5}>Email</Title>
+            {ConnectionStatus[status]}
+          </Stack>
         </Group>
-        {ConnectionStatus[status]}
       </Stack>
       <Button
         variant={status === 'CONNECT' ? 'filled' : 'outline'}
