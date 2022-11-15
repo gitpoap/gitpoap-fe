@@ -1,4 +1,5 @@
 import { Button, Group, Stack, Title, Text } from '@mantine/core';
+import { rem } from 'polished';
 import { GoMarkGithub } from 'react-icons/go';
 import { User } from '../../hooks/useUser';
 import { useOAuthContext } from '../oauth/OAuthContext';
@@ -7,6 +8,7 @@ import { Link } from '../shared/compounds/Link';
 type Props = {
   user: User;
 };
+
 export const GithubConnection = ({ user }: Props) => {
   const { github } = useOAuthContext();
 
@@ -29,6 +31,7 @@ export const GithubConnection = ({ user }: Props) => {
       <Button
         variant={user.capabilities.hasGithub ? 'outline' : 'filled'}
         onClick={user.capabilities.hasGithub ? github.disconnect : github.authorize}
+        sx={{ width: rem(145) }}
       >
         {user.capabilities.hasGithub ? 'DISCONNECT' : 'CONNECT'}
       </Button>

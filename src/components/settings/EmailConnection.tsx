@@ -1,4 +1,5 @@
 import { Stack, Group, Title, Modal } from '@mantine/core';
+import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { HiOutlineMail } from 'react-icons/hi';
 
@@ -84,6 +85,7 @@ export const EmailConnection = () => {
       <Button
         variant={status === 'CONNECT' ? 'filled' : 'outline'}
         onClick={() => setIsModalOpen(true)}
+        sx={{ width: rem(145) }}
       >
         {status}
       </Button>

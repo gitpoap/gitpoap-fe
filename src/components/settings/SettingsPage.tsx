@@ -18,6 +18,7 @@ import {
 import { isValidTwitterHandle, isValidURL } from '../../helpers';
 import { Login } from '../Login';
 import { GithubConnection } from './GithubConnection';
+import { AddressConnection } from './AddressConnection';
 
 const Input = styled(InputUI)`
   flex: 1;
@@ -84,6 +85,7 @@ export const SettingsPage = () => {
       <Text>{'Manage your profile data and account connections.'}</Text>
 
       <Divider mb={32} />
+      <AddressConnection user={user} />
       <GithubConnection user={user} />
       <EmailConnection />
 

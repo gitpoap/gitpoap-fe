@@ -51,8 +51,10 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
     useDisclosure(false);
 
-  const formattedStart = DateTime.fromISO(startDate).toLocaleString(DateTime.DATE_MED);
-  const formattedEnd = DateTime.fromISO(endDate).toLocaleString(DateTime.DATE_MED);
+  const formattedStart = DateTime.fromISO(startDate, { zone: 'utc' }).toLocaleString(
+    DateTime.DATE_MED,
+  );
+  const formattedEnd = DateTime.fromISO(endDate, { zone: 'utc' }).toLocaleString(DateTime.DATE_MED);
   const isPendingPOAPApproval = adminApprovalStatus === 'APPROVED' && !GitPOAP?.id;
 
   return (
@@ -76,10 +78,8 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
               {name}
             </Text>
             <Text>{description}</Text>
-            <Text>{`Achievement Dates: ${formattedStart} to ${formattedEnd}`}</Text>
-            <Text>{`Created on ${DateTime.fromISO(createdAt).toFormat(
-              'd LLL yyyy hh:mm a',
-            )}`}</Text>
+            <Text>{`From ${formattedStart} to ${formattedEnd}`}</Text>
+            <Text>{`Created ${DateTime.fromISO(createdAt).toRelative()}`}</Text>
             <Group align="center" spacing="md">
               {!isPendingPOAPApproval && (
                 <Link

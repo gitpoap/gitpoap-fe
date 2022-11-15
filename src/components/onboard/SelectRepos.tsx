@@ -2,10 +2,9 @@ import { Badge, Container, Group, List, ScrollArea } from '@mantine/core';
 import { rem } from 'polished';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { BackgroundPanel2, ExtraRed, ExtraRedDark, PrimaryBlue, TextGray } from '../../colors';
+import { BackgroundPanel2, ExtraRed, ExtraRedDark, PrimaryBlue } from '../../colors';
 import { useUser } from '../../hooks/useUser';
 import { Checkbox, Input, Text } from '../shared/elements';
-import { StyledLink } from './IntakeForm';
 import { FormReturnTypes, Repo } from './types';
 
 const StyledContainer = styled(Container)`
@@ -150,18 +149,6 @@ export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props)
           {errors.repos}
         </Text>
       )}
-
-      <Text mt="md" style={{ color: TextGray, textAlign: 'center' }}>
-        {`If you'd like to suggest a repo you don't see, submit it `}
-        <StyledLink href="/#suggest">{'here'}</StyledLink>
-        {`! Please take a look at our eligibility `}
-        <StyledLink
-          href="https://gitpoap.notion.site/Applying-to-issue-GitPOAPs-508a125062d54029b19611f7991144b4"
-          target="_blank"
-        >
-          {'guidelines.'}
-        </StyledLink>
-      </Text>
     </>
   );
 };
