@@ -31,7 +31,7 @@ export const EmailConnection = () => {
     }
   }, [userEmail]);
 
-  const { values, getInputProps, validate } = useEmailConnectionForm();
+  const { values, getInputProps, setErrors, validate } = useEmailConnectionForm();
 
   const ConnectionStatus = {
     CONNECT: <></>,
@@ -52,6 +52,7 @@ export const EmailConnection = () => {
       <EmailConnectionModalConnect
         closeModal={() => setIsModalOpen(false)}
         getInputProps={getInputProps}
+        setErrors={setErrors}
         setStatus={setStatus}
         validate={validate}
         values={values}

@@ -11,6 +11,7 @@ import { useApi } from '../../hooks/useApi';
 type ConnectProps = {
   closeModal: () => void;
   getInputProps: EmailConnectionFormReturnTypes['getInputProps'];
+  setErrors: EmailConnectionFormReturnTypes['setErrors'];
   setStatus: (status: EmailConnectionStatus) => void;
   validate: EmailConnectionFormReturnTypes['validate'];
   values: EmailConnectionFormReturnTypes['values'];
@@ -19,6 +20,7 @@ type ConnectProps = {
 export const EmailConnectionModalConnect = ({
   closeModal,
   getInputProps,
+  setErrors,
   setStatus,
   validate,
   values,
@@ -40,8 +42,12 @@ export const EmailConnectionModalConnect = ({
 
                 if (data === null) {
                   throw new Error();
-                } else {
+                } else if (data.msg === 'SUBMITTED') {
                   setStatus('SUBMITTED');
+                } else if (data.msg === 'TAKEN') {
+                  setErrors({ email: 'Email is already taken' });
+                } else {
+                  throw new Error();
                 }
               } catch (err) {
                 Notifications.error('Oops, something went wrong!');

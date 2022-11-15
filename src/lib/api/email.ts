@@ -26,7 +26,8 @@ export class EmailAPI extends API {
       return null;
     }
 
-    return true;
+    const data = (await res.json()) as { msg: string };
+    return data;
   }
 
   async delete() {
