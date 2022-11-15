@@ -71,6 +71,12 @@ const moduleExports = {
         permanent: false,
         basePath: false,
       },
+      {
+        source: '/custom-gitpoaps',
+        destination: 'https://medium.com/gitpoap/introducing-custom-gitpoaps-64bbe4204511',
+        permanent: false,
+        basePath: false,
+      },
     ];
   },
   webpack: (config, options) => {
