@@ -46,11 +46,11 @@ export const RequestData = ({
       <Stack spacing="xs">
         <RequestAttribute
           label="Start Date:"
-          value={DateTime.fromISO(gitPOAPRequest.startDate).toFormat('yyyy-MM-dd')}
+          value={DateTime.fromISO(gitPOAPRequest.startDate, { zone: 'utc' }).toFormat('yyyy-MM-dd')}
         />
         <RequestAttribute
           label="End Date:"
-          value={DateTime.fromISO(gitPOAPRequest.endDate).toFormat('yyyy-MM-dd')}
+          value={DateTime.fromISO(gitPOAPRequest.endDate, { zone: 'utc' }).toFormat('yyyy-MM-dd')}
         />
         <RequestAttribute label="Request Codes:" value={gitPOAPRequest.numRequestedCodes} />
 
