@@ -50,7 +50,7 @@ describe('ConnectionButton Button', () => {
     );
     const button = container.firstChild;
 
-    expect(button).toHaveTextContent('Connect GitHub');
+    expect(button).toHaveTextContent('Check Eligibility');
 
     expect(button).toBeInTheDocument();
     expect(button).toMatchSnapshot();
