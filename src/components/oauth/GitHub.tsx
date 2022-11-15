@@ -7,6 +7,7 @@ import { Button, ClaimCircle } from '../shared/elements';
 import { useRouter } from 'next/router';
 import { useUser } from '../../hooks/useUser';
 import { GitPOAP } from '../shared/elements/icons';
+import { useGetEmail } from '../../hooks/useGetEmail';
 
 const Content = styled.div`
   display: flex;
@@ -32,27 +33,19 @@ export const GitHub = ({ className, hideText }: Props) => {
   const user = useUser();
   const userClaimCount = userClaims?.length;
   const router = useRouter();
+  const email = useGetEmail();
 
-  /* User has no connected GitHub account */
-  if (!user?.capabilities.hasGithub) {
-    return user === null ? (
+  if (user === null) {
+    return (
       <Content className={className}>
         <Button onClick={() => router.push('/eligibility')} leftIcon={!hideText && <GitPOAPIcon />}>
           {hideText ? <GitPOAPIcon /> : 'Check Eligibility'}
         </Button>
       </Content>
-    ) : (
-      <Content className={className}>
-        <Button
-          onClick={() => router.push(`/settings#integrations`)}
-          leftIcon={!hideText && <GoMarkGithub size={16} />}
-        >
-          {hideText ? <GoMarkGithub size={16} /> : 'Connect GitHub'}
-        </Button>
-      </Content>
     );
   }
 
+  /* If user has any claims at all, then render the following regardless of connections */
   if (userClaimCount && userClaimCount > 0 && userClaimCount - claimedIds.length > 0) {
     /* Connected to GitHub, but HAS open claims */
     const netClaims = userClaimCount - claimedIds.length;
@@ -75,7 +68,21 @@ export const GitHub = ({ className, hideText }: Props) => {
     );
   }
 
-  /* Connected to GitHub, but NO open claims */
+  /* User has no connected accounts */
+  if (!user?.capabilities.hasGithub && !email) {
+    return (
+      <Content className={className}>
+        <Button
+          onClick={() => router.push(`/settings#integrations`)}
+          leftIcon={!hideText && <GoMarkGithub size={16} />}
+        >
+          {hideText ? <GoMarkGithub size={16} /> : 'Connect Accounts'}
+        </Button>
+      </Content>
+    );
+  }
+
+  /* Has at least ONE connection, but NO open claims */
   return (
     <Content className={className}>
       <Button

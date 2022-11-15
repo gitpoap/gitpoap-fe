@@ -200,9 +200,22 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
                   href={`/gp/${gitPOAP.id}`}
                 />
               )}
-              <Header style={{ alignSelf: 'start', whiteSpace: 'nowrap' }}>
-                {'Manage GitPOAP'}
-              </Header>
+              <Stack spacing={0}>
+                <Header style={{ alignSelf: 'start', whiteSpace: 'nowrap' }}>
+                  {'Manage GitPOAP'}
+                </Header>
+                <Text
+                  sx={{
+                    color: TextGray,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: rem(350),
+                  }}
+                >
+                  {gitPOAP?.name}
+                </Text>
+              </Stack>
             </Group>
             <MediaQuery smallerThan="md" styles={{ display: 'none' }}>
               <Group position="right">

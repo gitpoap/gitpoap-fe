@@ -34,7 +34,7 @@ export const EmailConnection = () => {
   const { values, getInputProps, setErrors, validate } = useEmailConnectionForm();
 
   const ConnectionStatus = {
-    CONNECT: <></>,
+    CONNECT: <Text size="xs">{`Emails will not be made public`}</Text>,
     SUBMITTED: <Text size="xs">{`Pending verification for ${values.email}`}</Text>,
     PENDING: <Text size="xs">{`Pending verification for ${userEmail?.emailAddress}`}</Text>,
     DISCONNECT: <Text size="xs">{`You're connected as ${userEmail?.emailAddress}`}</Text>,
