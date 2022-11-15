@@ -23,7 +23,6 @@ import { Link } from '../shared/compounds/Link';
 
 type Props = {
   isConnected: boolean;
-  hasGithub: boolean;
   isOpen: boolean;
   claims: Exclude<OpenClaimsQuery['userClaims'], null | undefined>;
   claimedIds: number[];
@@ -98,15 +97,9 @@ const ClaimTextLink = styled(Link)`
   }
 `;
 
-const getClaimText = (
-  isConnected: boolean,
-  numClaims: number,
-  numClaimed: number,
-  hasGithub: boolean,
-): string => {
+const getClaimText = (isConnected: boolean, numClaims: number, numClaimed: number): string => {
   const netClaims = numClaims - numClaimed;
-  if (!hasGithub) return 'Connect your GitHub to mint!';
-  if (!isConnected && netClaims > 0) return 'Connect your wallet to mint!';
+  if (!isConnected && netClaims > 0) return 'Connect your wallet & add connections to mint!';
 
   if (netClaims < 1) {
     return 'You have no new GitPOAPs to mint.';
@@ -119,7 +112,6 @@ const getClaimText = (
 
 export const ClaimModal = ({
   isConnected,
-  hasGithub,
   isOpen,
   claims,
   claimedIds,
@@ -138,7 +130,7 @@ export const ClaimModal = ({
   const { connect, address, ensName } = useWeb3Context();
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = !!loadingClaimIds && loadingClaimIds.length === claims.length;
-  const claimText = getClaimText(isConnected, claims.length, claimedIds.length, hasGithub);
+  const claimText = getClaimText(isConnected, claims.length, claimedIds.length);
   const allClaimIds = claims.map((userClaim) => userClaim.claim.id);
 
   return (

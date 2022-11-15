@@ -120,7 +120,6 @@ export const ClaimContextProvider = ({ children }: Props) => {
       <ClaimModal
         claims={userClaims ?? []}
         isConnected={connectionStatus === 'connected-to-wallet'}
-        hasGithub={user?.capabilities.hasGithub ?? false}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onClickClaim={claimGitPOAPs}
