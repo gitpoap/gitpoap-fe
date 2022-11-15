@@ -141,6 +141,7 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
   const claims = results.data?.gitPOAP?.claims;
   const gitPOAP = results.data?.gitPOAP;
   const creatorAddress = gitPOAP?.creatorAddress?.ethAddress;
+  const isCreator = !!creatorAddress && !!user && creatorAddress === user.address;
   const totalPages =
     searchValue.length > 0 && claims
       ? Math.floor(claims.length / perPage)
@@ -161,7 +162,7 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
     setSortBy(field);
   };
 
-  if (creatorAddress && creatorAddress !== user?.address) {
+  if (!isCreator) {
     return (
       <Center py={0} px={rem(20)} sx={{ width: '100%', height: 600 }}>
         <Stack align="center" justify="center" spacing="xs" style={{ width: '100%' }}>
