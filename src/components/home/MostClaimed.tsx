@@ -10,6 +10,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { BREAKPOINTS } from '../../constants';
 import { useMostClaimedGitPoapsQuery } from '../../graphql/generated-gql';
+import { Link } from '../shared/compounds/Link';
 
 const Container = styled.div`
   padding: ${rem(10)};
@@ -61,9 +62,11 @@ export const MostClaimed = () => {
           );
         })}
       </Poaps>
-      <Button variant="outline" rightIcon={<FaArrowRight />}>
-        {'ALL GitPOAPS'}
-      </Button>
+      <Link href={'/gitpoaps'}>
+        <Button variant="outline" rightIcon={<FaArrowRight />}>
+          {'ALL GITPOAPS'}
+        </Button>
+      </Link>
     </Container>
   );
 };

@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { useClaimContext } from '../claims/ClaimContext';
 import { rem } from 'polished';
-import { GoMarkGithub } from 'react-icons/go';
 import { Button, ClaimCircle } from '../shared/elements';
 import { useRouter } from 'next/router';
 import { useUser } from '../../hooks/useUser';
@@ -28,7 +27,7 @@ type Props = {
   hideText?: boolean;
 };
 
-export const GitHub = ({ className, hideText }: Props) => {
+export const ConnectionButton = ({ className, hideText }: Props) => {
   const { claimedIds, userClaims, setIsOpen } = useClaimContext();
   const user = useUser();
   const userClaimCount = userClaims?.length;
@@ -53,7 +52,7 @@ export const GitHub = ({ className, hideText }: Props) => {
       <Content className={className}>
         <Button
           onClick={() => setIsOpen(true)}
-          leftIcon={!hideText && <GoMarkGithub size={16} />}
+          leftIcon={!hideText && <GitPOAPIcon />}
           rightIcon={
             !hideText && <ClaimCircle key={`claim-circle-${netClaims}`} value={netClaims} />
           }
@@ -74,9 +73,9 @@ export const GitHub = ({ className, hideText }: Props) => {
       <Content className={className}>
         <Button
           onClick={() => router.push(`/settings#integrations`)}
-          leftIcon={!hideText && <GoMarkGithub size={16} />}
+          leftIcon={!hideText && <GitPOAPIcon />}
         >
-          {hideText ? <GoMarkGithub size={16} /> : 'Connect Accounts'}
+          {hideText ? <GitPOAPIcon /> : 'Connect Accounts'}
         </Button>
       </Content>
     );
@@ -88,10 +87,10 @@ export const GitHub = ({ className, hideText }: Props) => {
       <Button
         onClick={() => setIsOpen(true)}
         variant="outline"
-        leftIcon={!hideText && <GoMarkGithub size={16} />}
+        leftIcon={!hideText && <GitPOAPIcon />}
         sx={{ minWidth: hideText ? 0 : rem(125) }}
       >
-        {hideText ? <GoMarkGithub size={16} /> : 'NONE TO MINT'}
+        {hideText ? <GitPOAPIcon /> : 'NONE TO MINT'}
       </Button>
     </Content>
   );

@@ -2,20 +2,20 @@ import { Group, Modal, Stack, Table } from '@mantine/core';
 import { useDisclosure, useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import React, { useEffect } from 'react';
-import { FaGithub as GithubIcon, FaTwitter as TwitterIcon } from 'react-icons/fa';
+import { FaTwitter as TwitterIcon } from 'react-icons/fa';
 import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
 import { useClaimContext } from '../claims/ClaimContext';
 import { Index } from '../home/LeaderBoardItem';
-import { IconLink } from '../shared/compounds/Link';
+import { IconLink, Link } from '../shared/compounds/Link';
 import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleLink } from '../shared/elements';
 import { textEllipses } from '../shared/styles';
 import { TextGray, ExtraHover, PrimaryBlue } from '../../colors';
-import { useOAuthContext } from '../oauth/OAuthContext';
 import { BREAKPOINTS } from '../../constants';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
 import { useUser } from '../../hooks/useUser';
 import { useRouter } from 'next/router';
+import { GitPOAP } from '../shared/elements/icons';
 
 type Props = {
   gitPOAPId: number;
@@ -148,8 +148,13 @@ const StyledTable = styled(Table)`
   }
 `;
 
+const GitPOAPIcon = styled(GitPOAP)`
+  path {
+    fill: white;
+  }
+`;
+
 export const Header = ({ gitPOAPId }: Props) => {
-  const { github } = useOAuthContext();
   const user = useUser();
   const hasGithubConnection = user?.capabilities.hasGithub ?? false;
   const [opened, { close, open }] = useDisclosure(false);
@@ -261,19 +266,11 @@ export const Header = ({ gitPOAPId }: Props) => {
           </Button>
         </Group>
       ) : (
-        <CheckEligibilityButton
-          onClick={() => {
-            if (!hasGithubConnection) {
-              setIsCheckButtonClicked(true);
-              github.authorize();
-            } else {
-              setIsOpen(true);
-            }
-          }}
-          leftIcon={<GithubIcon size={20} />}
-        >
-          {"Check If I'm Eligible"}
-        </CheckEligibilityButton>
+        <Link href="/eligibility">
+          <CheckEligibilityButton leftIcon={<GitPOAPIcon />}>
+            {'Check Eligibility'}
+          </CheckEligibilityButton>
+        </Link>
       )}
     </Wrapper>
   );

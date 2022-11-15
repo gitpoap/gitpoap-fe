@@ -1,11 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Navbar renders a Navbar 1`] = `
-.c11 {
+.c7 {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: 200ms fill ease,200ms stroke ease,200ms color ease;
+  transition: 200ms fill ease,200ms stroke ease,200ms color ease;
+  height: 1.125rem;
+  width: 1.125rem;
+  color: #838495;
+}
+
+.c7 path {
+  -webkit-transition: 200ms fill ease;
+  transition: 200ms fill ease;
+}
+
+.c13 {
   display: inline-block;
 }
 
-.c11 .mantine-TextInput-label {
+.c13 .mantine-TextInput-label {
   font-family: 'PT Mono',monospace;
   color: #E2E2EE;
   font-weight: 700;
@@ -19,7 +34,7 @@ exports[`Navbar renders a Navbar 1`] = `
   margin-bottom: 0.6875rem;
 }
 
-.c11 .mantine-TextInput-input {
+.c13 .mantine-TextInput-input {
   border-radius: 0.375rem;
   font-family: 'PT Mono',monospace;
   font-weight: 400;
@@ -35,36 +50,36 @@ exports[`Navbar renders a Navbar 1`] = `
   border: 0.0625rem solid transparent;
 }
 
-.c11 .mantine-TextInput-input:hover:not(:disabled):not(:focus) {
+.c13 .mantine-TextInput-input:hover:not(:disabled):not(:focus) {
   background-color: #292B3D;
 }
 
-.c11 .mantine-TextInput-input:focus {
+.c13 .mantine-TextInput-input:focus {
   background-color: #1E1F2E;
   border: 0.0625rem solid #393A51 !important;
 }
 
-.c11 .mantine-TextInput-input::-webkit-input-placeholder {
+.c13 .mantine-TextInput-input::-webkit-input-placeholder {
   color: #393A51;
 }
 
-.c11 .mantine-TextInput-input::-moz-placeholder {
+.c13 .mantine-TextInput-input::-moz-placeholder {
   color: #393A51;
 }
 
-.c11 .mantine-TextInput-input:-ms-input-placeholder {
+.c13 .mantine-TextInput-input:-ms-input-placeholder {
   color: #393A51;
 }
 
-.c11 .mantine-TextInput-input::placeholder {
+.c13 .mantine-TextInput-input::placeholder {
   color: #393A51;
 }
 
-.c11 .mantine-TextInput-input.mantine-TextInput-invalid {
+.c13 .mantine-TextInput-input.mantine-TextInput-invalid {
   color: #F77070;
 }
 
-.c11 .mantine-TextInput-error {
+.c13 .mantine-TextInput-error {
   font-family: 'PT Mono',monospace;
   font-size: 0.625rem;
   -webkit-letter-spacing: 1.2px;
@@ -145,7 +160,11 @@ exports[`Navbar renders a Navbar 1`] = `
   color: white;
 }
 
-.c10 {
+.c8 path {
+  fill: white;
+}
+
+.c12 {
   margin-right: 1.5625rem;
   width: 18.75rem;
   position: relative;
@@ -154,32 +173,32 @@ exports[`Navbar renders a Navbar 1`] = `
   transition: width 200ms ease-in-out;
 }
 
-.c12 {
+.c14 {
   width: inherit;
   min-width: inherit;
 }
 
-.c12 .mantine-TextInput-input::-webkit-input-placeholder {
+.c14 .mantine-TextInput-input::-webkit-input-placeholder {
   color: #838495;
   text-transform: uppercase;
 }
 
-.c12 .mantine-TextInput-input::-moz-placeholder {
+.c14 .mantine-TextInput-input::-moz-placeholder {
   color: #838495;
   text-transform: uppercase;
 }
 
-.c12 .mantine-TextInput-input:-ms-input-placeholder {
+.c14 .mantine-TextInput-input:-ms-input-placeholder {
   color: #838495;
   text-transform: uppercase;
 }
 
-.c12 .mantine-TextInput-input::placeholder {
+.c14 .mantine-TextInput-input::placeholder {
   color: #838495;
   text-transform: uppercase;
 }
 
-.c13 {
+.c15 {
   width: 1.5625rem;
   text-align: center;
   font-size: 0.625rem;
@@ -235,27 +254,27 @@ exports[`Navbar renders a Navbar 1`] = `
   margin-right: 0.75rem;
 }
 
-.c7 {
-  display: none;
-}
-
-.c8 {
-  display: none;
-}
-
 .c9 {
+  display: none;
+}
+
+.c10 {
+  display: none;
+}
+
+.c11 {
   width: 100vw;
   padding: 0 3vw 1rem;
   border-bottom: 0.0625rem solid #404040;
   text-align: center;
 }
 
-.c9 > * {
+.c11 > * {
   padding-bottom: 1.125rem;
   margin: 0;
 }
 
-.c9 > *:not(:last-child) {
+.c11 > *:not(:last-child) {
   border-bottom: 0.0625rem solid #404040;
 }
 
@@ -266,13 +285,13 @@ exports[`Navbar renders a Navbar 1`] = `
 }
 
 @media (max-width:75rem) {
-  .c10 {
+  .c12 {
     width: 15rem;
   }
 }
 
 @media (max-width:56.25rem) {
-  .c10 {
+  .c12 {
     width: 100%;
   }
 }
@@ -300,13 +319,13 @@ exports[`Navbar renders a Navbar 1`] = `
 }
 
 @media (max-width:37.5rem) {
-  .c7 {
+  .c9 {
     display: block;
   }
 }
 
 @media (max-width:37.5rem) {
-  .c8 {
+  .c10 {
     display: block;
   }
 }
@@ -1135,16 +1154,17 @@ exports[`Navbar renders a Navbar 1`] = `
               style="text-transform: uppercase;"
             >
               <svg
-                fill="currentColor"
-                height="16"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 16 16"
-                width="16"
+                class="c7 c8"
+                fill="none"
+                height="17"
+                viewBox="0 0 15 17"
+                width="15"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+                  clip-rule="evenodd"
+                  d="M12.383 11.144l1.691 3.092c.176.291 0 .496-.408.496l-1.488.058c-.32 0-.73.292-.846.554l-.788 1.46a.314.314 0 01-.583 0s-1.05-1.926-1.692-3.18c.166-.048.293-.115.397-.17l.07-.035 3.646-2.275zM.539 14.236l1.692-3.092 3.617 2.275c.054.022.104.047.156.074.089.046.182.094.31.13a173.077 173.077 0 01-1.691 3.18.315.315 0 01-.584 0l-.787-1.459c-.117-.291-.525-.554-.847-.554l-1.487-.058c-.438 0-.496-.234-.38-.496zM13.345 8.43c0 .817-.496 1.663-1.225 2.072l-3.588 1.984a2.81 2.81 0 01-1.226.292c-.408 0-.846-.059-1.225-.292l-3.588-2.013c-.73-.408-1.225-1.254-1.225-2.071V4.376c0-.817.496-1.663 1.225-2.071L6.081.29C6.43.116 6.869 0 7.306 0c.409 0 .788.058 1.226.291l3.588 2.013c.787.41 1.225 1.196 1.225 2.071V8.43zm-6.943 2.393c.291.175.583.204.904.204.32 0 .641-.059.904-.204l2.597-1.459c.554-.32.904-.904.904-1.517V4.93c0-.671-.321-1.225-.904-1.517L8.21 1.954c-.32-.175-.583-.204-.904-.204-.321 0-.642.088-.904.204L3.805 3.413c-.554.32-.904.904-.904 1.517v2.917c0 .613.379 1.226.904 1.517l2.597 1.459zm-.513-5.694a.365.365 0 00-.626-.249L4.214 5.96a.365.365 0 00-.003.504l1.05 1.109a.365.365 0 00.528-.502l-.808-.854.805-.829a.365.365 0 00.103-.259zm3.052-.331a.364.364 0 00-.118.594l.825.825-.828.85a.365.365 0 10.522.51l1.079-1.109a.365.365 0 00-.003-.512l-1.08-1.08a.364.364 0 00-.397-.078zm-.77.047a.365.365 0 00-.12-.078h.001a.364.364 0 00-.475.201l-.933 2.305a.364.364 0 10.676.274l.933-2.305a.365.365 0 00-.082-.397z"
+                  fill="#838495"
                   fill-rule="evenodd"
                 />
               </svg>
@@ -1186,7 +1206,7 @@ exports[`Navbar renders a Navbar 1`] = `
       </div>
     </div>
     <button
-      class="emotion-4 emotion-21 c7 emotion-22"
+      class="emotion-4 emotion-21 c9 emotion-22"
       title="Open navigation"
       type="button"
     >
@@ -1197,20 +1217,20 @@ exports[`Navbar renders a Navbar 1`] = `
   </div>
   <div
     aria-hidden="true"
-    class="c8 emotion-25"
+    class="c10 emotion-25"
     style="box-sizing: border-box; display: none; height: 0px; overflow: hidden;"
   >
     <div
       style="opacity: 0; transition: opacity 200ms ease;"
     >
       <div
-        class="emotion-26 c9 emotion-27"
+        class="emotion-26 c11 emotion-27"
       >
         <div
-          class="c10"
+          class="c12"
         >
           <div
-            class="emotion-28 emotion-29 c11 c12 emotion-30"
+            class="emotion-28 emotion-29 c13 c14 emotion-30"
           >
             <div
               class="emotion-31 emotion-32 emotion-33"
@@ -1245,7 +1265,7 @@ exports[`Navbar renders a Navbar 1`] = `
                 class="emotion-42 emotion-43 emotion-44"
               >
                 <div
-                  class="emotion-45 c13 emotion-46"
+                  class="emotion-45 c15 emotion-46"
                 >
                   /
                 </div>
@@ -1300,16 +1320,17 @@ exports[`Navbar renders a Navbar 1`] = `
                 class="emotion-52 emotion-53 emotion-54"
               >
                 <svg
-                  fill="currentColor"
-                  height="16"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 16 16"
-                  width="16"
+                  class="c7 c8"
+                  fill="none"
+                  height="17"
+                  viewBox="0 0 15 17"
+                  width="15"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+                    clip-rule="evenodd"
+                    d="M12.383 11.144l1.691 3.092c.176.291 0 .496-.408.496l-1.488.058c-.32 0-.73.292-.846.554l-.788 1.46a.314.314 0 01-.583 0s-1.05-1.926-1.692-3.18c.166-.048.293-.115.397-.17l.07-.035 3.646-2.275zM.539 14.236l1.692-3.092 3.617 2.275c.054.022.104.047.156.074.089.046.182.094.31.13a173.077 173.077 0 01-1.691 3.18.315.315 0 01-.584 0l-.787-1.459c-.117-.291-.525-.554-.847-.554l-1.487-.058c-.438 0-.496-.234-.38-.496zM13.345 8.43c0 .817-.496 1.663-1.225 2.072l-3.588 1.984a2.81 2.81 0 01-1.226.292c-.408 0-.846-.059-1.225-.292l-3.588-2.013c-.73-.408-1.225-1.254-1.225-2.071V4.376c0-.817.496-1.663 1.225-2.071L6.081.29C6.43.116 6.869 0 7.306 0c.409 0 .788.058 1.226.291l3.588 2.013c.787.41 1.225 1.196 1.225 2.071V8.43zm-6.943 2.393c.291.175.583.204.904.204.32 0 .641-.059.904-.204l2.597-1.459c.554-.32.904-.904.904-1.517V4.93c0-.671-.321-1.225-.904-1.517L8.21 1.954c-.32-.175-.583-.204-.904-.204-.321 0-.642.088-.904.204L3.805 3.413c-.554.32-.904.904-.904 1.517v2.917c0 .613.379 1.226.904 1.517l2.597 1.459zm-.513-5.694a.365.365 0 00-.626-.249L4.214 5.96a.365.365 0 00-.003.504l1.05 1.109a.365.365 0 00.528-.502l-.808-.854.805-.829a.365.365 0 00.103-.259zm3.052-.331a.364.364 0 00-.118.594l.825.825-.828.85a.365.365 0 10.522.51l1.079-1.109a.365.365 0 00-.003-.512l-1.08-1.08a.364.364 0 00-.397-.078zm-.77.047a.365.365 0 00-.12-.078h.001a.364.364 0 00-.475.201l-.933 2.305a.364.364 0 10.676.274l.933-2.305a.365.365 0 00-.082-.397z"
+                    fill="#838495"
                     fill-rule="evenodd"
                   />
                 </svg>
@@ -1318,7 +1339,7 @@ exports[`Navbar renders a Navbar 1`] = `
                 class="emotion-9 emotion-10"
                 style="text-transform: uppercase;"
               >
-                Connect GitHub
+                Check Eligibility
               </span>
             </div>
           </button>

@@ -4,13 +4,12 @@ import { rem } from 'polished';
 import { Grid } from '@mantine/core';
 import { Body, BodyAsAnchor, Button, Header, InfoHexBase, Text } from '../shared/elements';
 import { FaArrowRight } from 'react-icons/fa';
-import { GoMarkGithub } from 'react-icons/go';
 import { BREAKPOINTS } from '../../constants';
 import { useClaimContext } from '../claims/ClaimContext';
 import { ExtraHover, ExtraPressed } from '../../colors';
-import { useOAuthContext } from '../oauth/OAuthContext';
 import { useLocalStorage } from '@mantine/hooks';
 import { useUser } from '../../hooks/useUser';
+import { GitPOAP } from '../shared/elements/icons';
 
 const InfoHexHeader = styled(Header)`
   margin-bottom: ${rem(20)};
@@ -94,9 +93,14 @@ const Container = styled(Grid.Col)`
   align-items: center;
 `;
 
+const GitPOAPIcon = styled(GitPOAP)`
+  path {
+    fill: white;
+  }
+`;
+
 export const FurtherInfoFor = () => {
   const { setIsOpen } = useClaimContext();
-  const { github } = useOAuthContext();
   const user = useUser();
   const hasGithub = user?.capabilities.hasGithub ?? false;
   const [isFurtherInfoClaimButtonClicked, setIsFurtherInfoClaimButtonClicked] =
@@ -115,23 +119,13 @@ export const FurtherInfoFor = () => {
   return (
     <>
       <Container xs={10} sm={10} md={5} lg={5} xl={5}>
-        <InfoHex
-          onClick={() => {
-            if (!hasGithub) {
-              setIsFurtherInfoClaimButtonClicked(true);
-              github.authorize();
-            } else {
-              setIsOpen(true);
-            }
-          }}
-          hoverEffects
-        >
+        <InfoHex href="/eligibility" hoverEffects>
           <Content>
             <InfoHexHeader>{'For Contributors'}</InfoHexHeader>
             <InfoHexText>
               {`Create a public, immutable, & unbiased record of your contributions to the open source community & show it off via your profile.`}
             </InfoHexText>
-            <ButtonStyled style={{ marginTop: rem(40) }} leftIcon={<GoMarkGithub size={16} />}>
+            <ButtonStyled style={{ marginTop: rem(40) }} leftIcon={<GitPOAPIcon />}>
               {'Check Eligibility'}
             </ButtonStyled>
           </Content>

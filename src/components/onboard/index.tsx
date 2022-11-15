@@ -70,7 +70,7 @@ export const OnboardingPage = () => {
               onClick={() => {
                 if (!user) {
                   /* User's ETH wallet isn't connected */
-                  connect();
+                  void connect();
                 } else if (!user?.capabilities.hasGithub) {
                   /* User doesn't have a connected Github */
                   setIsOnboardingConnectButtonActive(true);

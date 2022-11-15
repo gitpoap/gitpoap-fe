@@ -5,7 +5,7 @@ import { NextRouter } from 'next/router';
 import { Provider as URQLProvider } from 'urql';
 import { Web3ContextProvider } from '../../../src/components/wallet/Web3Context';
 import { OAuthProvider } from '../../../src/components/oauth/OAuthContext';
-import { GitHub } from '../../../src/components/oauth/GitHub';
+import { ConnectionButton } from '../../../src/components/oauth/ConnectionButton';
 
 const mockClient = {
   executeQuery: jest.fn(() => {}),
@@ -35,14 +35,14 @@ const mockRouter: NextRouter = {
   isLocaleDomain: false,
 } as any;
 
-describe('Github Button', () => {
+describe('ConnectionButton Button', () => {
   it('renders a Button', () => {
     const { container } = render(
       <RouterContext.Provider value={mockRouter}>
         <Web3ContextProvider>
           <OAuthProvider>
             <URQLProvider value={mockClient}>
-              <GitHub />
+              <ConnectionButton />
             </URQLProvider>
           </OAuthProvider>
         </Web3ContextProvider>
@@ -50,7 +50,7 @@ describe('Github Button', () => {
     );
     const button = container.firstChild;
 
-    expect(button).toHaveTextContent('Connect GitHub');
+    expect(button).toHaveTextContent('Check Eligibility');
 
     expect(button).toBeInTheDocument();
     expect(button).toMatchSnapshot();
@@ -62,7 +62,7 @@ describe('Github Button', () => {
         <Web3ContextProvider>
           <OAuthProvider>
             <URQLProvider value={mockClient}>
-              <GitHub hideText />
+              <ConnectionButton hideText />
             </URQLProvider>
           </OAuthProvider>
         </Web3ContextProvider>

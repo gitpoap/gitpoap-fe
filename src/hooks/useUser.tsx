@@ -2,7 +2,7 @@ import { useWeb3Context } from '../components/wallet/Web3Context';
 import { useIsAdmin } from './useIsAdmin';
 import { useTokens } from './useTokens';
 
-type User = {
+export type User = {
   addressId: number;
   address: string;
   githubId: number | null;

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Stack, Divider, Group, Title, Box } from '@mantine/core';
+import { Stack, Divider, Group, Box } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import styled from 'styled-components';
-import { useOAuthContext } from '../oauth/OAuthContext';
 import { FaCheckCircle } from 'react-icons/fa';
-import { GoMarkGithub } from 'react-icons/go';
 import { useUser } from '../../hooks/useUser';
 import { EmailConnection } from './EmailConnection';
 import { useProfileContext } from '../profile/ProfileContext';
@@ -18,8 +16,8 @@ import {
   TextArea as TextAreaUI,
 } from '../shared/elements';
 import { isValidTwitterHandle, isValidURL } from '../../helpers';
-import { Link } from '../shared/compounds/Link';
 import { Login } from '../Login';
+import { GithubConnection } from './GithubConnection';
 
 const Input = styled(InputUI)`
   flex: 1;
@@ -35,7 +33,6 @@ export const SettingsText = styled(Text)`
 
 export const SettingsPage = () => {
   const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
-  const { github } = useOAuthContext();
   const user = useUser();
   const router = useRouter();
 
@@ -85,31 +82,9 @@ export const SettingsPage = () => {
     <Stack spacing={16} mb={32}>
       <Header style={{ textAlign: 'left' }}>{'User Settings'}</Header>
       <Text>{'Manage your profile data and account connections.'}</Text>
+
       <Divider mb={32} />
-
-      <Group position="apart" my={4}>
-        <Group>
-          <GoMarkGithub size={32} />
-          <Stack spacing={0}>
-            <Title order={5}>GitHub</Title>
-            {user.githubHandle && (
-              <Text size="xs">
-                {`You're connected as `}
-                <Link href={`https://github.com/${user.githubHandle}`} passHref>
-                  <b>{`@${user.githubHandle}`}</b>
-                </Link>
-              </Text>
-            )}
-          </Stack>
-        </Group>
-        <Button
-          variant={user.capabilities.hasGithub ? 'outline' : 'filled'}
-          onClick={user.capabilities.hasGithub ? github.disconnect : github.authorize}
-        >
-          {user.capabilities.hasGithub ? 'DISCONNECT' : 'CONNECT'}
-        </Button>
-      </Group>
-
+      <GithubConnection user={user} />
       <EmailConnection />
 
       <Divider my={32} />
