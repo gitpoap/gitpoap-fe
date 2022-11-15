@@ -9,7 +9,7 @@ import { DividerGray1, TextLight, MidnightBlue } from '../colors';
 import { BREAKPOINTS, TYPEFORM_LINKS } from '../constants';
 import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
 import { Wallet } from './wallet/Wallet';
-import { GitHub } from './oauth/GitHub';
+import { ConnectionButton } from './oauth/ConnectionButton';
 import { SearchBox } from './search/box/SearchBox';
 import { useWeb3Context } from './wallet/Web3Context';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
@@ -50,7 +50,7 @@ const ContentRight = styled.div`
   }
 `;
 
-const ClaimButton = styled(GitHub)`
+const ClaimButton = styled(ConnectionButton)`
   margin-right: ${rem(12)};
 `;
 
