@@ -110,8 +110,7 @@ export const SettingsPage = () => {
         </Button>
       </Group>
 
-      {/* Wait until we're ready to release */}
-      {user.permissions.isAdmin && <EmailConnection />}
+      <EmailConnection />
 
       <Divider my={32} />
 
