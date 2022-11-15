@@ -138,7 +138,11 @@ export const CreationForm = () => {
               <List.Item>
                 <Group spacing={6}>
                   <Text>{'Mandatory: PNG or GIF format,'}</Text>
-                  <Link href="https://www.canva.com/design/DAFQoFm0dhQ/H17FASlR17kwLk6m303hBw/view?utm_content=DAFQoFm0dhQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview">
+                  <Link
+                    href="https://www.canva.com/design/DAFQoFm0dhQ/H17FASlR17kwLk6m303hBw/view?utm_content=DAFQoFm0dhQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Text variant="link">{'GitPOAP Template'}</Text>
                   </Link>
                 </Group>
@@ -147,7 +151,11 @@ export const CreationForm = () => {
                 <Text>{'Recommended: measures 500x500px, size less than 200KB (Max. 4MB)'}</Text>
               </List.Item>
               <List.Item>
-                <Link href="https://gitpoap.notion.site/GitPOAP-Design-Guide-Requirements-9a843acfe1c7490bbfcdab2d1a47e8af">
+                <Link
+                  href="https://gitpoap.notion.site/GitPOAP-Design-Guide-Requirements-9a843acfe1c7490bbfcdab2d1a47e8af"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Text variant="link">{'Design Guide'}</Text>
                 </Link>
               </List.Item>
