@@ -32,7 +32,7 @@ export const ConnectionButton = ({ className, hideText }: Props) => {
   const user = useUser();
   const userClaimCount = userClaims?.length;
   const router = useRouter();
-  const email = useGetEmail();
+  const email = useGetEmail({ showNotification: false });
 
   if (user === null) {
     return (

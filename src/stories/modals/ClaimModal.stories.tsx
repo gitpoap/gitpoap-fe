@@ -154,4 +154,4 @@ ClaimsNotConnected.args = { claims: claims.slice(0, 2), isConnected: false };
 
 /* -- GitHub Connection  -- */
 export const NoClaimsGithubNotConnected = Template.bind({});
-NoClaimsGithubNotConnected.args = { claims: [], hasGithub: false };
+NoClaimsGithubNotConnected.args = { claims: [] };
