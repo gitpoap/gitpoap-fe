@@ -43,6 +43,7 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
     imageUrl,
     name,
     startDate,
+    GitPOAP,
   } = gitPOAPRequest;
 
   const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
@@ -52,6 +53,7 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
 
   const formattedStart = DateTime.fromISO(startDate).toLocaleString(DateTime.DATE_MED);
   const formattedEnd = DateTime.fromISO(endDate).toLocaleString(DateTime.DATE_MED);
+  const isPendingPOAPApproval = adminApprovalStatus === 'APPROVED' && !GitPOAP?.id;
 
   return (
     <>
@@ -79,12 +81,19 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
               'd LLL yyyy hh:mm a',
             )}`}</Text>
             <Group align="center" spacing="md">
-              <Link
-                href={adminApprovalStatus === 'APPROVED' ? `gp/${id}/manage` : `/create/${id}`}
-                passHref
-              >
-                <Button leftIcon={<FaEdit />}>{'Edit'}</Button>
-              </Link>
+              {!isPendingPOAPApproval && (
+                <Link
+                  href={
+                    adminApprovalStatus === 'APPROVED'
+                      ? `/gp/${GitPOAP?.id}/manage`
+                      : `/create/${id}`
+                  }
+                  passHref
+                >
+                  <Button leftIcon={<FaEdit />}>{'Edit'}</Button>
+                </Link>
+              )}
+              {adminApprovalStatus === 'APPROVED' && !GitPOAP?.id}
               <Button onClick={openContributorModal} leftIcon={<BsPeopleFill />}>
                 {'Contributors'}
               </Button>

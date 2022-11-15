@@ -6293,6 +6293,7 @@ export type UserGitPoapRequestsQuery = {
     contributors: any;
     adminApprovalStatus: AdminApprovalStatus;
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
+    GitPOAP?: { __typename?: 'GitPOAP'; id: number } | null;
     project?: {
       __typename?: 'Project';
       repos: Array<{
@@ -7811,6 +7812,9 @@ export const UserGitPoapRequestsDocument = gql`
       createdAt
       creatorEmail {
         emailAddress
+      }
+      GitPOAP {
+        id
       }
       contributors
       adminApprovalStatus

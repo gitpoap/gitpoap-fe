@@ -83,12 +83,14 @@ const IssuedTo = ({ claim }: { claim: Props['claim'] }) => {
       </Group>
     );
   } else if (claim.email?.emailAddress) {
-    <Group spacing={0} grow={false} noWrap={true}>
-      {claim.email.emailAddress}
-      <Badge color="blue" variant="outline" size="sm" ml="xs">
-        {'EMAIL'}
-      </Badge>
-    </Group>;
+    return (
+      <Group spacing={0} grow={false} noWrap={true}>
+        {claim.email.emailAddress}
+        <Badge color="blue" variant="outline" size="sm" ml="xs">
+          {'EMAIL'}
+        </Badge>
+      </Group>
+    );
   }
 
   return (

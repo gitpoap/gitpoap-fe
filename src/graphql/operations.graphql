@@ -876,6 +876,9 @@ query userGitPOAPRequests(
     creatorEmail {
       emailAddress
     }
+    GitPOAP {
+      id
+    }
     contributors
     adminApprovalStatus
     project {
