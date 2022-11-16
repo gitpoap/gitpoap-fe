@@ -186,7 +186,7 @@ exports[`CollapsibleAddress renders an CollapsibleAddress - collapsed 1`] = `
 <div
   class="emotion-0 c0 c1 c2 emotion-1"
 >
-  0x000000000000...0000
+  0x000000000000…0000
   <div
     class="emotion-2"
   >
