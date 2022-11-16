@@ -4,18 +4,11 @@ import { rem } from 'polished';
 import { EligibleClaimsQuery } from '../../graphql/generated-gql';
 import { Group, Stack, Text } from '@mantine/core';
 import { GitPOAP } from '../shared/compounds/GitPOAP';
-import { Header } from '../shared/elements';
 import { truncateString } from '../../helpers';
 import { Link } from '../shared/compounds/Link';
 
 const Container = styled(Group)`
   max-width: 100%;
-`;
-
-const Title = styled(Header)`
-  text-align: left;
-  font-size: ${rem(24)};
-  line-height: ${rem(28)};
 `;
 
 export type Claim = Exclude<EligibleClaimsQuery['claims'], undefined | null>[number];
@@ -51,7 +44,9 @@ export const ClaimItem = ({ claim }: ClaimItemProps) => {
         <GitPOAP gitPOAPId={claim.gitPOAP.id} imgSrc={claim.gitPOAP.imageUrl} size="sm" />
       </Stack>
       <Stack align="flex-start" justify="flex-start" spacing={10}>
-        <Title>{claim.gitPOAP.name.replace('GitPOAP: ', '')}</Title>
+        <Text align="left" size={24} sx={{ lineHeight: rem(28), fontFamily: 'VT323' }}>
+          {claim.gitPOAP.name.replace('GitPOAP: ', '')}
+        </Text>
 
         <Text align="left">{claim.gitPOAP.description}</Text>
         <Stack spacing={0}>
@@ -60,10 +55,10 @@ export const ClaimItem = ({ claim }: ClaimItemProps) => {
             <Text>{truncateString(issuedTo, 24)}</Text>
           </Group>
           {hasRepo && (
-            <Group spacing="xs">
+            <Group spacing="xs" noWrap>
               <Text weight={600}>{'For: '}</Text>
               <Link href={`/gh/${fullRepoName}`}>
-                <Text weight="bold" variant="link">{`${fullRepoName}`}</Text>
+                <Text weight="bold" variant="link">{`${truncateString(fullRepoName, 32)}`}</Text>
               </Link>
             </Group>
           )}
