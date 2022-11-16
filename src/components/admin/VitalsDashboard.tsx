@@ -20,7 +20,7 @@ import {
 } from '../../graphql/generated-gql';
 import useSWR from 'swr';
 import { Header, LinkHoverStyles } from '../shared/elements';
-import { Box, Group, Stack, Text, GroupProps } from '@mantine/core';
+import { Box, Group, Stack, Text, GroupProps, Tooltip } from '@mantine/core';
 import { Link } from '../shared/compounds/Link';
 import { TextLight } from '../../colors';
 import { useTokens } from '../../hooks/useTokens';
@@ -36,12 +36,11 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-type ItemProps = GroupProps &
-  React.ComponentPropsWithoutRef<'div'> & {
-    name: string;
-    value?: string | number;
-    href?: string;
-  };
+type ItemProps = GroupProps & {
+  name: string;
+  value?: string | number;
+  href?: string;
+};
 
 const fetchWithToken = async (url: string, token: string | null) => {
   const response = await fetch(url, {
@@ -62,6 +61,24 @@ const DashboardItem = ({ name, value, href, ...restProps }: ItemProps) => {
       ) : (
         <Text size={16} color={TextLight}>{`${name}: `}</Text>
       )}
+      <Text size={16} color={TextLight}>
+        {value}
+      </Text>
+    </Group>
+  );
+};
+
+type DashboardItemWithTriggerProps = GroupProps & {
+  name: string;
+  value: string | number;
+};
+
+const DashboardItemWithTrigger = ({ name, value, ...restProps }: DashboardItemWithTriggerProps) => {
+  return (
+    <Group mb={rem(8)} position="apart" {...restProps}>
+      <Tooltip label="Click to run the 'Check for Codes' job" withArrow>
+        <Text size={16} variant="link">{`${name}: `}</Text>
+      </Tooltip>
       <Text size={16} color={TextLight}>
         {value}
       </Text>
@@ -237,16 +254,17 @@ export const VitalsDashboard = () => {
             name={'Total users with mints'}
             value={`${totalUsersWithClaims} (${getPercent(totalUsersWithClaims, totalUsers)})`}
           />
-          <DashboardItem name={'Total users'} value={totalUsers} />
+          <DashboardItem name={'Total users'} value={totalUsers} mb={rem(20)} />
 
           {/* Last Run Vitals */}
           <DashboardItem
             name={'Ongoing Issuance Last Run'}
             value={getFormattedDate(ongoingIssuanceResult?.lastRun)}
           />
-          <DashboardItem
+          <DashboardItemWithTrigger
             name={'Check for Codes Last Run'}
             value={getFormattedDate(checkForCodesResult?.lastRun)}
+            onClick={async () => await api.triggers.checkForCodes()}
             mb={rem(20)}
           />
 
@@ -256,9 +274,6 @@ export const VitalsDashboard = () => {
             value={botInstallResults?.totalInstalls}
             mb={rem(20)}
           />
-          <Text size={16} variant="link" onClick={async () => await api.triggers.checkForCodes()}>
-            {'[Click to Run Code Check]'}
-          </Text>
         </Dashboard>
       </Stack>
     </Group>
