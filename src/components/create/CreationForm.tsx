@@ -11,16 +11,21 @@ import {
   Divider,
 } from '@mantine/core';
 import { rem } from 'polished';
-import { useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
 
 import { DateInput, Header, Input, TextArea, TextInputLabelStyles } from '../shared/elements';
 import { useCreationForm } from './useCreationForm';
-import { Contributor, SelectContributors } from './SelectContributors';
+import { SelectContributors } from './SelectContributors';
 import { useApi } from '../../hooks/useApi';
-import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
+import {
+  ContributorsObjectValues,
+  CreateFormValues,
+  ValidatedCreateValues,
+  ValidatedContributor,
+} from '../../lib/api/gitpoapRequest';
 import { HexagonDropzone } from './HexagonDropzone';
 import { useRouter } from 'next/router';
 import { Link } from '../shared/compounds/Link';
@@ -56,55 +61,60 @@ type AdminApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
 
 export const CreationForm = () => {
   const api = useApi();
-  const { errors, values, getInputProps, setFieldError, setFieldValue, validate } =
-    useCreationForm();
+  const {
+    errors,
+    values,
+    getInputProps,
+    insertListItem,
+    isDirty,
+    removeListItem,
+    setFieldError,
+    setFieldValue,
+    setDirty,
+    validate,
+  } = useCreationForm();
   const router = useRouter();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
-  const [contributors, setContributors] = useState<Contributor[]>([]);
   const approvalStatus: AdminApprovalStatus = 'UNSUBMITTED';
   const imageUrl = values.image ? URL.createObjectURL(values.image) : null;
 
-  const submitCreateCustomGitPOAP = useCallback(
-    async (formValues: GitPOAPRequestCreateValues) => {
-      setButtonStatus(ButtonStatus.LOADING);
+  useEffect(() => {
+    setDirty({ contributors: values.contributors.length > 0 });
+  }, [values.contributors]);
 
-      const invalidContributors = contributors.filter(
-        (contributor) => contributor.type === 'invalid',
-      );
+  const submitCreateCustomGitPOAP = async (formValues: CreateFormValues) => {
+    setButtonStatus(ButtonStatus.LOADING);
 
-      if (validate().hasErrors || invalidContributors.length) {
-        setButtonStatus(ButtonStatus.ERROR);
-        return;
-      }
+    if (validate().hasErrors) {
+      setButtonStatus(ButtonStatus.ERROR);
+      return;
+    }
 
-      const formattedContributors = contributors.reduce(
-        (group: GitPOAPRequestCreateValues['contributors'], contributor) => {
-          const { type, value }: Contributor = contributor;
-          if (type !== 'invalid') {
-            group[type] = group[type] || [];
-            group[type]?.push(value);
-          }
-          return group;
-        },
-        {},
-      );
+    const validatedFormValues = formValues as ValidatedCreateValues;
 
-      const data = await api.gitPOAPRequest.create({
-        ...formValues,
-        contributors: formattedContributors,
-        endDate: formValues.endDate as Date,
-      });
+    const formattedContributors = validatedFormValues.contributors.reduce(
+      (group: ContributorsObjectValues, contributor) => {
+        const { type, value }: ValidatedContributor = contributor;
+        group[type] = group[type] || [];
+        group[type]?.push(value);
+        return group;
+      },
+      {},
+    );
 
-      if (data === null) {
-        setButtonStatus(ButtonStatus.ERROR);
-        return;
-      }
+    const data = await api.gitPOAPRequest.create({
+      ...validatedFormValues,
+      contributors: formattedContributors,
+    });
 
-      setButtonStatus(ButtonStatus.SUCCESS);
-      await router.push('/me/gitpoaps');
-    },
-    [api.gitPOAPRequest, contributors, validate, router],
-  );
+    if (data === null) {
+      setButtonStatus(ButtonStatus.ERROR);
+      return;
+    }
+
+    setButtonStatus(ButtonStatus.SUCCESS);
+    await router.push('/me/gitpoaps');
+  };
 
   return (
     <Container mt={24} mb={72} p={0} style={{ width: '90%', zIndex: 1 }}>
@@ -208,12 +218,20 @@ export const CreationForm = () => {
             label={<Header>{'Recipients'}</Header>}
             variant="dashed"
           />
-          <SelectContributors contributors={contributors} setContributors={setContributors} />
+          <SelectContributors
+            contributors={values.contributors}
+            insertContributor={(item) => insertListItem('contributors', item)}
+            removeContributor={(index) => removeListItem('contributors', index)}
+          />
         </Box>
         <Button
           onClick={async () => await submitCreateCustomGitPOAP(values)}
           loading={buttonStatus === ButtonStatus.LOADING}
-          disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}
+          disabled={
+            !isDirty() ||
+            buttonStatus === ButtonStatus.SUCCESS ||
+            buttonStatus === ButtonStatus.LOADING
+          }
           leftIcon={
             buttonStatus === ButtonStatus.SUCCESS ? (
               <FaCheckCircle size={18} />

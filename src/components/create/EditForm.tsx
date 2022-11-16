@@ -11,24 +11,28 @@ import {
   Divider,
 } from '@mantine/core';
 import { rem } from 'polished';
-import { useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
 
 import { DateInput, Header, Input, TextArea, TextInputLabelStyles } from '../shared/elements';
-import { Contributor, SelectContributors } from './SelectContributors';
+import { SelectContributors } from './SelectContributors';
 import { useApi } from '../../hooks/useApi';
-import {
-  GitPOAPRequestContributorsValues,
-  GitPOAPRequestEditValues,
-} from '../../lib/api/gitpoapRequest';
 import { HexagonDropzone } from './HexagonDropzone';
 import { useRouter } from 'next/router';
 import { Link } from '../shared/compounds/Link';
 import { ExtraRed } from '../../colors';
 import { useEditForm } from './useEditForm';
 import { FileWithPath } from '@mantine/dropzone';
+import {
+  ContributorsObjectValues,
+  EditFormInitialValues,
+  EditFormValues,
+  UnvalidatedContributor,
+  ValidatedContributor,
+  ValidatedEditValues,
+} from '../../lib/api/gitpoapRequest';
 
 const Label = styled(InputUI.Label)`
   ${TextInputLabelStyles};
@@ -60,18 +64,18 @@ type AdminApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
 type Props = {
   adminApprovalStatus: AdminApprovalStatus;
   creatorEmail: string;
-  initialValues: GitPOAPRequestEditValues;
+  initialValues: EditFormInitialValues;
   gitPOAPRequestId: number;
   savedImageUrl: string;
 };
 
 export const convertContributorObjectToList = (
-  contributors: GitPOAPRequestContributorsValues,
-): Contributor[] => {
+  contributors: ContributorsObjectValues,
+): UnvalidatedContributor[] => {
   return Object.entries(contributors)
     .map(([key, value]) => {
-      return value.map((c): Contributor => {
-        return { type: key as Contributor['type'], value: c };
+      return value.map((c): UnvalidatedContributor => {
+        return { type: key as UnvalidatedContributor['type'], value: c };
       });
     })
     .flat();
@@ -86,15 +90,23 @@ export const EditForm = ({
 }: Props) => {
   const api = useApi();
   const [hasRemovedSavedImage, setHasRemovedSavedImage] = useState(false);
-  const { errors, values, getInputProps, setFieldError, setFieldValue, validate } = useEditForm(
-    initialValues,
+  const {
+    errors,
+    values,
+    getInputProps,
+    insertListItem,
+    isDirty,
+    removeListItem,
+    setDirty,
+    setFieldError,
+    setFieldValue,
+    validate,
+  } = useEditForm(
+    { ...initialValues, contributors: convertContributorObjectToList(initialValues.contributors) },
     hasRemovedSavedImage,
   );
   const router = useRouter();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
-  const [contributors, setContributors] = useState<Contributor[]>(() =>
-    convertContributorObjectToList(initialValues.contributors),
-  );
 
   const imageUrl = hasRemovedSavedImage
     ? values.image
@@ -102,46 +114,43 @@ export const EditForm = ({
       : null
     : savedImageUrl;
 
-  const submitEditCustomGitPOAP = useCallback(
-    async (formValues: GitPOAPRequestEditValues) => {
-      setButtonStatus(ButtonStatus.LOADING);
+  useEffect(() => {
+    setDirty({ contributors: true });
+  }, [values.contributors]);
 
-      const invalidContributors = contributors.filter(
-        (contributor) => contributor.type === 'invalid',
-      );
+  const submitEditCustomGitPOAP = async (formValues: EditFormValues) => {
+    setButtonStatus(ButtonStatus.LOADING);
 
-      if (validate().hasErrors || invalidContributors.length) {
-        setButtonStatus(ButtonStatus.ERROR);
-        return;
-      }
+    if (validate().hasErrors) {
+      setButtonStatus(ButtonStatus.ERROR);
+      return;
+    }
 
-      const formattedContributors = contributors.reduce(
-        (group: GitPOAPRequestEditValues['contributors'], contributor) => {
-          const { type, value }: Contributor = contributor;
-          if (type !== 'invalid') {
-            group[type] = group[type] || [];
-            group[type]?.push(value);
-          }
-          return group;
-        },
-        {},
-      );
+    const validatedFormValues = formValues as ValidatedEditValues;
 
-      const data = await api.gitPOAPRequest.patch(gitPOAPRequestId, {
-        ...formValues,
-        contributors: formattedContributors,
-      });
+    const formattedContributors = validatedFormValues.contributors.reduce(
+      (group: ContributorsObjectValues, contributor) => {
+        const { type, value }: ValidatedContributor = contributor;
+        group[type] = group[type] || [];
+        group[type]?.push(value);
+        return group;
+      },
+      {},
+    );
 
-      if (data === null) {
-        setButtonStatus(ButtonStatus.ERROR);
-        return;
-      }
+    const data = await api.gitPOAPRequest.patch(gitPOAPRequestId, {
+      ...formValues,
+      contributors: formattedContributors,
+    });
 
-      setButtonStatus(ButtonStatus.SUCCESS);
-      await router.push('/me/gitpoaps');
-    },
-    [api.gitPOAPRequest, contributors, validate, router, gitPOAPRequestId],
-  );
+    if (data === null) {
+      setButtonStatus(ButtonStatus.ERROR);
+      return;
+    }
+
+    setButtonStatus(ButtonStatus.SUCCESS);
+    await router.push('/me/gitpoaps');
+  };
 
   return (
     <Container mt={24} mb={72} p={0} style={{ width: '90%', zIndex: 1 }}>
@@ -262,12 +271,20 @@ export const EditForm = ({
             label={<Header>{'Recipients'}</Header>}
             variant="dashed"
           />
-          <SelectContributors contributors={contributors} setContributors={setContributors} />
+          <SelectContributors
+            contributors={values.contributors}
+            insertContributor={(item) => insertListItem('contributors', item)}
+            removeContributor={(index) => removeListItem('contributors', index)}
+          />
         </Box>
         <Button
           onClick={async () => await submitEditCustomGitPOAP(values)}
           loading={buttonStatus === ButtonStatus.LOADING}
-          disabled={buttonStatus === ButtonStatus.SUCCESS || buttonStatus === ButtonStatus.LOADING}
+          disabled={
+            !isDirty() ||
+            buttonStatus === ButtonStatus.SUCCESS ||
+            buttonStatus === ButtonStatus.LOADING
+          }
           leftIcon={
             buttonStatus === ButtonStatus.SUCCESS ? (
               <FaCheckCircle size={18} />
