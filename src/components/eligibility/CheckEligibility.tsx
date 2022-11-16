@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Box, BoxProps, Stack } from '@mantine/core';
-import { Button, Header, Input, Loader, Text } from '../shared/elements';
+import { Header, Input, Loader, Text } from '../shared/elements';
 import { EligibleClaimsQuery, useEligibleClaimsQuery } from '../../graphql/generated-gql';
-import { FaEthereum, FaSearch } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 import { ClaimItem } from './ClaimItem';
 import { useRouter } from 'next/router';
-import { useWeb3Context } from '../wallet/Web3Context';
 import { useUrlState } from '../../hooks/useUrlState';
 
 export const ClaimListContainer = styled(Box)<BoxProps>`
@@ -36,7 +35,6 @@ type QueryVars = {
 export const CheckEligibility = () => {
   const router = useRouter();
   const urlSearchQuery = router.query.search as string | undefined;
-  const { connectionStatus, connect } = useWeb3Context();
   const { value, setValue, debouncedValue } = useUrlState('search');
   const [variables] = useState<QueryVars>({
     page: 1,
@@ -64,11 +62,6 @@ export const CheckEligibility = () => {
             "Search for your GitHub, Email, ETH address, or ENS name to check if you're eligible for any GitPOAPs"
           }
         </Text>
-        {connectionStatus === 'disconnected' && (
-          <Button leftIcon={<FaEthereum size={16} />} onClick={() => connect()}>
-            {'Sign In'}
-          </Button>
-        )}
       </Stack>
       <Input
         mb={rem(40)}
