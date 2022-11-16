@@ -909,6 +909,42 @@ query totalUserGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus, $addre
   }
 }
 
+query allProfilesWithAnyData {
+  profiles(
+    where: {
+      OR: [
+        { bio: { not: { equals: null } } }
+        { personalSiteUrl: { not: { equals: null } } }
+        { address: { is: { ensAvatarImageUrl: { not: { equals: null } } } } }
+      ]
+    }
+  ) {
+    address {
+      ethAddress
+    }
+  }
+}
+
+query profileDataForSSR($addressOrEns: String!) {
+  profiles(
+    where: {
+      OR: [
+        { address: { is: { ethAddress: { equals: $addressOrEns } } } }
+        { address: { is: { ensName: { equals: $addressOrEns } } } }
+      ]
+    }
+  ) {
+    id
+    bio
+    personalSiteUrl
+    address {
+      ethAddress
+      ensName
+      ensAvatarImageUrl
+    }
+  }
+}
+
 query gitPOAPWithClaims(
   $id: Int
   $take: Int

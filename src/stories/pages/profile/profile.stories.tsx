@@ -1,4 +1,4 @@
-import Profile from '../../../pages/p/[id]';
+import Profile from '../../../pages/p/[addressOrEns]';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Layout } from '../../../components/Layout';
 
@@ -10,7 +10,7 @@ export default {
 const Template: ComponentStory<typeof Profile> = () => {
   return (
     <Layout>
-      <Profile addressOrEns="peebeejay.eth" />
+      <Profile pageProps={{}} />
     </Layout>
   );
 };

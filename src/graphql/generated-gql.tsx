@@ -6320,6 +6320,36 @@ export type TotalUserGitPoapRequestsCountQuery = {
   };
 };
 
+export type AllProfilesWithAnyDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type AllProfilesWithAnyDataQuery = {
+  __typename?: 'Query';
+  profiles: Array<{
+    __typename?: 'Profile';
+    address: { __typename?: 'Address'; ethAddress: string };
+  }>;
+};
+
+export type ProfileDataForSsrQueryVariables = Exact<{
+  addressOrEns: Scalars['String'];
+}>;
+
+export type ProfileDataForSsrQuery = {
+  __typename?: 'Query';
+  profiles: Array<{
+    __typename?: 'Profile';
+    id: number;
+    bio?: string | null;
+    personalSiteUrl?: string | null;
+    address: {
+      __typename?: 'Address';
+      ethAddress: string;
+      ensName?: string | null;
+      ensAvatarImageUrl?: string | null;
+    };
+  }>;
+};
+
 export type GitPoapWithClaimsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
@@ -7864,6 +7894,62 @@ export function useTotalUserGitPoapRequestsCountQuery(
     TotalUserGitPoapRequestsCountQuery,
     TotalUserGitPoapRequestsCountQueryVariables
   >({ query: TotalUserGitPoapRequestsCountDocument, ...options });
+}
+export const AllProfilesWithAnyDataDocument = gql`
+  query allProfilesWithAnyData {
+    profiles(
+      where: {
+        OR: [
+          { bio: { not: { equals: null } } }
+          { personalSiteUrl: { not: { equals: null } } }
+          { address: { is: { ensAvatarImageUrl: { not: { equals: null } } } } }
+        ]
+      }
+    ) {
+      address {
+        ethAddress
+      }
+    }
+  }
+`;
+
+export function useAllProfilesWithAnyDataQuery(
+  options?: Omit<Urql.UseQueryArgs<AllProfilesWithAnyDataQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AllProfilesWithAnyDataQuery, AllProfilesWithAnyDataQueryVariables>({
+    query: AllProfilesWithAnyDataDocument,
+    ...options,
+  });
+}
+export const ProfileDataForSsrDocument = gql`
+  query profileDataForSSR($addressOrEns: String!) {
+    profiles(
+      where: {
+        OR: [
+          { address: { is: { ethAddress: { equals: $addressOrEns } } } }
+          { address: { is: { ensName: { equals: $addressOrEns } } } }
+        ]
+      }
+    ) {
+      id
+      bio
+      personalSiteUrl
+      address {
+        ethAddress
+        ensName
+        ensAvatarImageUrl
+      }
+    }
+  }
+`;
+
+export function useProfileDataForSsrQuery(
+  options: Omit<Urql.UseQueryArgs<ProfileDataForSsrQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<ProfileDataForSsrQuery, ProfileDataForSsrQueryVariables>({
+    query: ProfileDataForSsrDocument,
+    ...options,
+  });
 }
 export const GitPoapWithClaimsDocument = gql`
   query gitPOAPWithClaims(
