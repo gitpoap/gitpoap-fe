@@ -26,7 +26,7 @@ import {
 import { Button, Input, Text, TextArea } from '../shared/elements';
 import Papa from 'papaparse';
 import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
-import { isValidGithubHandleWithout0x, truncateAddress } from '../../helpers';
+import { isValidGithubHandleWithout0x, shortenAddress } from '../../helpers';
 import { isAddress } from 'ethers/lib/utils';
 import { VscTrash } from 'react-icons/vsc';
 
@@ -208,7 +208,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
                 return (
                   <Group key={value + '-' + type} position="apart">
                     <Group position="left">
-                      <Text>{type === 'ethAddresses' ? truncateAddress(value, 6, 4) : value}</Text>
+                      <Text>{type === 'ethAddresses' ? shortenAddress(value, 4) : value}</Text>
 
                       <Badge
                         color={type === 'invalid' ? 'red' : undefined}

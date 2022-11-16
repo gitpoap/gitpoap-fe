@@ -3,7 +3,7 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { ClaimStatus, GitPoapWithClaimsQuery } from '../../../graphql/generated-gql';
-import { truncateAddress } from '../../../helpers';
+import { shortenAddress } from '../../../helpers';
 import { Avatar } from '../../shared/elements';
 import { DateTime } from 'luxon';
 import {
@@ -64,7 +64,7 @@ const IssuedTo = ({ claim }: { claim: Props['claim'] }) => {
     return (
       <Group spacing={0} grow={false} noWrap={true}>
         <Link href={`/p/${claim.issuedAddress.ethAddress}`}>
-          <Text variant="link">{truncateAddress(claim.issuedAddress.ethAddress, 6, 4)}</Text>
+          <Text variant="link">{shortenAddress(claim.issuedAddress.ethAddress, 4)}</Text>
         </Link>
         <Badge color="blue" variant="outline" size="sm" ml="xs">
           {'ETH'}
@@ -146,7 +146,7 @@ export const ContributorRow = ({ claim, index, refetch }: Props) => {
               </Link>
               <Link href={`/p/${ensName ?? ethAddress}`} passHref>
                 <TableDataText variant="link">
-                  {mintedAddress?.ensName ?? truncateAddress(mintedAddress?.ethAddress ?? '', 6, 4)}
+                  {mintedAddress?.ensName ?? shortenAddress(mintedAddress?.ethAddress ?? '', 4)}
                 </TableDataText>
               </Link>
             </Group>

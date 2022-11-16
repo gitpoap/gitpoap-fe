@@ -1,7 +1,7 @@
 import { Badge, Group, Modal, Stack } from '@mantine/core';
 import { rem } from 'polished';
 import { useMemo } from 'react';
-import { truncateAddress } from '../../../helpers';
+import { shortenAddress } from '../../../helpers';
 import { convertContributorObjectToList } from '../../create/EditForm';
 import { Contributor } from '../../create/SelectContributors';
 import { Text, Header } from '../../shared/elements';
@@ -45,7 +45,7 @@ export const ContributorModal = ({ isOpen, onClose, contributors }: Props) => {
           const { type, value } = contributor;
           return (
             <Group key={`${index}-contributor-list`}>
-              <Text>{`${type === 'ethAddresses' ? truncateAddress(value, 6, 4) : value}`}</Text>
+              <Text>{`${type === 'ethAddresses' ? shortenAddress(value, 4) : value}`}</Text>
               <Badge>{contributorTypeCopy[type]}</Badge>
             </Group>
           );
