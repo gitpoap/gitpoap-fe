@@ -63,22 +63,52 @@ export const EmailConnectionModalConnect = ({
 };
 
 type SubmittedProps = {
+  closeModal: () => void;
+  setStatus: (status: EmailConnectionStatus) => void;
   values: EmailConnectionFormReturnTypes['values'];
 };
 
-export const EmailConnectionModalSubmitted = ({ values }: SubmittedProps) => (
-  <Stack align="center" spacing={8}>
-    <HiOutlineMailOpen size={64} />
-    <TextUI my={16} size={24} weight="bold">{`Verify your email`}</TextUI>
-    <TextUI>{`We've sent a verification link to`}</TextUI>
-    <TextUI size="lg" weight="bold">
-      {values.email}
-    </TextUI>
-    <TextUI align="center">{`Check your inbox and click the link to confirm your request.`}</TextUI>
+export const EmailConnectionModalSubmitted = ({
+  closeModal,
+  setStatus,
+  values,
+}: SubmittedProps) => {
+  const api = useApi();
+  return (
+    <Stack align="center" spacing={8} mt={-32}>
+      <HiOutlineMailOpen size={64} />
+      <TextUI my={16} size={24} weight="bold">{`Verify your email`}</TextUI>
+      <TextUI>{`We've sent a verification link to`}</TextUI>
+      <TextUI size="lg" weight="bold">
+        {values.email}
+      </TextUI>
+      <TextUI align="center">{`Check your inbox and click the link to confirm your request.`}</TextUI>
 
-    <TextUI mt={32}>{`This link expires in 24 hours`}</TextUI>
-  </Stack>
-);
+      <TextUI mt={32}>{`This link expires in 24 hours`}</TextUI>
+
+      <Button
+        color="red"
+        mt={16}
+        onClick={async () => {
+          try {
+            const data = await api.email.delete();
+
+            if (data === null) {
+              throw new Error();
+            } else {
+              closeModal();
+              setStatus('CONNECT');
+            }
+          } catch (err) {
+            Notifications.error('Oops, something went wrong!');
+          }
+        }}
+      >
+        {'Cancel Request'}
+      </Button>
+    </Stack>
+  );
+};
 
 type PendingProps = {
   closeModal: () => void;

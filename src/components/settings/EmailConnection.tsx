@@ -59,7 +59,13 @@ export const EmailConnection = () => {
         values={values}
       />
     ),
-    SUBMITTED: <EmailConnectionModalSubmitted values={values} />,
+    SUBMITTED: (
+      <EmailConnectionModalSubmitted
+        closeModal={() => setIsModalOpen(false)}
+        setStatus={setStatus}
+        values={values}
+      />
+    ),
     PENDING: (
       <EmailConnectionModalPending closeModal={() => setIsModalOpen(false)} setStatus={setStatus} />
     ),
