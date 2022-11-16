@@ -2,21 +2,14 @@ import { Badge, Group, Modal, Stack } from '@mantine/core';
 import { rem } from 'polished';
 import { useMemo } from 'react';
 import { shortenAddress } from '../../../helpers';
+import { ContributorsObjectValues, UnvalidatedContributor } from '../../../lib/api/gitpoapRequest';
 import { convertContributorObjectToList } from '../../create/EditForm';
-import { Contributor } from '../../create/SelectContributors';
 import { Text, Header } from '../../shared/elements';
-
-export type ContributorsType = {
-  githubHandles?: string[];
-  ethAddresses?: string[];
-  ensNames?: string[];
-  emails?: string[];
-};
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  contributors: ContributorsType;
+  contributors: ContributorsObjectValues;
 };
 
 const contributorTypeCopy = {
@@ -28,7 +21,7 @@ const contributorTypeCopy = {
 };
 
 export const ContributorModal = ({ isOpen, onClose, contributors }: Props) => {
-  const generateContributorsList: Contributor[] = useMemo(
+  const generateContributorsList: UnvalidatedContributor[] = useMemo(
     () => convertContributorObjectToList(contributors),
     [contributors],
   );
