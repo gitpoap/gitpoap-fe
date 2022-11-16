@@ -20,22 +20,11 @@ import {
 } from '../../graphql/generated-gql';
 import useSWR from 'swr';
 import { Header, LinkHoverStyles } from '../shared/elements';
-import { Box, Group, BoxProps, Stack } from '@mantine/core';
+import { Box, Group, Stack, Text, GroupProps, Tooltip } from '@mantine/core';
 import { Link } from '../shared/compounds/Link';
 import { TextLight } from '../../colors';
 import { useTokens } from '../../hooks/useTokens';
-
-const ItemContainer = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: ${rem(4)};
-  color: ${TextLight};
-`;
-
-const ItemName = styled.div``;
-
-const ItemValue = styled.div``;
+import { useApi } from '../../hooks/useApi';
 
 const Dashboard = styled.div`
   width: ${rem(500)};
@@ -47,17 +36,11 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-const HeaderContainer = styled.div`
-  margin-bottom: ${rem(20)};
-  margin-top: ${rem(20)};
-`;
-
-type ItemProps = BoxProps &
-  React.ComponentPropsWithoutRef<'div'> & {
-    name: string;
-    value?: string | number;
-    href?: string;
-  };
+type ItemProps = GroupProps & {
+  name: string;
+  value?: string | number;
+  href?: string;
+};
 
 const fetchWithToken = async (url: string, token: string | null) => {
   const response = await fetch(url, {
@@ -70,16 +53,36 @@ const fetchWithToken = async (url: string, token: string | null) => {
 
 const DashboardItem = ({ name, value, href, ...restProps }: ItemProps) => {
   return (
-    <ItemContainer {...restProps}>
+    <Group mb={rem(8)} position="apart" {...restProps}>
       {href ? (
         <StyledLink href={href} passHref>
-          <ItemName>{`${name}: `}</ItemName>
+          <Text size={16} color={TextLight}>{`${name}: `}</Text>
         </StyledLink>
       ) : (
-        <ItemName>{`${name}: `}</ItemName>
+        <Text size={16} color={TextLight}>{`${name}: `}</Text>
       )}
-      <ItemValue>{value}</ItemValue>
-    </ItemContainer>
+      <Text size={16} color={TextLight}>
+        {value}
+      </Text>
+    </Group>
+  );
+};
+
+type DashboardItemWithTriggerProps = GroupProps & {
+  name: string;
+  value: string | number;
+};
+
+const DashboardItemWithTrigger = ({ name, value, ...restProps }: DashboardItemWithTriggerProps) => {
+  return (
+    <Group mb={rem(8)} position="apart" {...restProps}>
+      <Tooltip label="Click to run the 'Check for Codes' job" withArrow>
+        <Text size={16} variant="link">{`${name}: `}</Text>
+      </Tooltip>
+      <Text size={16} color={TextLight}>
+        {value}
+      </Text>
+    </Group>
   );
 };
 
@@ -96,6 +99,7 @@ const getFormattedDate = (date?: string) =>
 
 export const VitalsDashboard = () => {
   const { tokens } = useTokens();
+  const api = useApi();
   const todayMinus7Days = DateTime.local().minus({ days: 7 }).toFormat('yyyy-MM-dd');
   const todayMinus30Days = DateTime.local().minus({ days: 30 }).toFormat('yyyy-MM-dd');
   const todayMinus90Days = DateTime.local().minus({ days: 90 }).toFormat('yyyy-MM-dd');
@@ -167,9 +171,9 @@ export const VitalsDashboard = () => {
     <Group position="center">
       <Stack>
         <Dashboard>
-          <HeaderContainer>
+          <Box my={rem(20)}>
             <Header>{'Vitals Dashboard'}</Header>
-          </HeaderContainer>
+          </Box>
 
           {/* Mints Section */}
           <DashboardItem
@@ -191,7 +195,7 @@ export const VitalsDashboard = () => {
             name={'Mints (last 90 days)'}
             value={threeMonthClaimsResult.data?.claims.length}
             href={'/admin/gitpoap/claims'}
-            style={{ marginBottom: rem(15) }}
+            mb={rem(20)}
           />
 
           {/* Entities Added Section */}
@@ -210,7 +214,7 @@ export const VitalsDashboard = () => {
           <DashboardItem
             name={'Profiles Added (last 7 days)'}
             value={profilesResult.data?.profiles.length}
-            style={{ marginBottom: rem(15) }}
+            mb={rem(20)}
           />
 
           {/* Claims Stats Section */}
@@ -226,15 +230,11 @@ export const VitalsDashboard = () => {
             name={'Total unverified claims'}
             value={`${unverifiedClaims} (${getPercent(unverifiedClaims, totalClaims)})`}
           />
-          <DashboardItem
-            name={'Total claims'}
-            value={totalClaims}
-            style={{ marginBottom: rem(15) }}
-          />
+          <DashboardItem name={'Total claims'} value={totalClaims} mb={rem(25)} />
           <DashboardItem
             name={'Claims With PR Earned (%)'}
             value={getPercent(totalClaimsWithPREarned, totalClaims)}
-            style={{ marginBottom: rem(15) }}
+            mb={rem(20)}
           />
 
           {/* Profiles Section */}
@@ -246,7 +246,7 @@ export const VitalsDashboard = () => {
           <DashboardItem
             name={'Total hidden profiles'}
             value={`${totalProfilesHidden} (${getPercent(totalProfilesHidden, totalProfiles)})`}
-            style={{ marginBottom: rem(15) }}
+            mb={rem(20)}
           />
 
           {/* Users Section */}
@@ -254,24 +254,25 @@ export const VitalsDashboard = () => {
             name={'Total users with mints'}
             value={`${totalUsersWithClaims} (${getPercent(totalUsersWithClaims, totalUsers)})`}
           />
-          <DashboardItem name={'Total users'} value={totalUsers} />
+          <DashboardItem name={'Total users'} value={totalUsers} mb={rem(20)} />
 
           {/* Last Run Vitals */}
           <DashboardItem
             name={'Ongoing Issuance Last Run'}
             value={getFormattedDate(ongoingIssuanceResult?.lastRun)}
           />
-          <DashboardItem
+          <DashboardItemWithTrigger
             name={'Check for Codes Last Run'}
             value={getFormattedDate(checkForCodesResult?.lastRun)}
-            style={{ marginBottom: rem(15) }}
+            onClick={async () => await api.triggers.checkForCodes()}
+            mb={rem(20)}
           />
 
           {/* Bot Vitals  */}
           <DashboardItem
             name={'GitPOAP Bot Installs'}
             value={botInstallResults?.totalInstalls}
-            style={{ marginBottom: rem(15) }}
+            mb={rem(20)}
           />
         </Dashboard>
       </Stack>
