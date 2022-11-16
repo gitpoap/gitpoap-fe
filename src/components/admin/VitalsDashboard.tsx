@@ -24,6 +24,7 @@ import { Box, Group, BoxProps, Stack } from '@mantine/core';
 import { Link } from '../shared/compounds/Link';
 import { TextLight } from '../../colors';
 import { useTokens } from '../../hooks/useTokens';
+import { useApi } from '../../hooks/useApi';
 
 const ItemContainer = styled(Box)`
   display: flex;
@@ -96,6 +97,7 @@ const getFormattedDate = (date?: string) =>
 
 export const VitalsDashboard = () => {
   const { tokens } = useTokens();
+  const api = useApi();
   const todayMinus7Days = DateTime.local().minus({ days: 7 }).toFormat('yyyy-MM-dd');
   const todayMinus30Days = DateTime.local().minus({ days: 30 }).toFormat('yyyy-MM-dd');
   const todayMinus90Days = DateTime.local().minus({ days: 90 }).toFormat('yyyy-MM-dd');
@@ -275,6 +277,8 @@ export const VitalsDashboard = () => {
           />
         </Dashboard>
       </Stack>
+      <br />
+      <a onClick={async () => await api.triggers.checkForCodes()}>[Click to Run Code Check Now]</a>
     </Group>
   );
 };
