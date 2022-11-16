@@ -17,7 +17,7 @@ type Props = {
 
 export type Holder = {
   address: string;
-  githubHandle: string;
+  githubHandle?: string | null;
   gitPOAPCount: number;
   profileId: number;
   bio?: string | null;

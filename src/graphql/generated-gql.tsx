@@ -2841,7 +2841,7 @@ export type Holder = {
   ensAvatarImageUrl?: Maybe<Scalars['String']>;
   ensName?: Maybe<Scalars['String']>;
   gitPOAPCount: Scalars['Float'];
-  githubHandle: Scalars['String'];
+  githubHandle?: Maybe<Scalars['String']>;
   personalSiteUrl?: Maybe<Scalars['String']>;
   profileId: Scalars['Float'];
   profileImageUrl?: Maybe<Scalars['String']>;
@@ -5335,7 +5335,7 @@ export type GitPoapHoldersQuery = {
     holders: Array<{
       __typename?: 'Holder';
       address: string;
-      githubHandle: string;
+      githubHandle?: string | null;
       gitPOAPCount: number;
       profileId: number;
       bio?: string | null;
