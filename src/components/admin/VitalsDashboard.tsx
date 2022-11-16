@@ -20,23 +20,11 @@ import {
 } from '../../graphql/generated-gql';
 import useSWR from 'swr';
 import { Header, LinkHoverStyles } from '../shared/elements';
-import { Box, Group, BoxProps, Stack } from '@mantine/core';
+import { Box, Group, Stack, Text, GroupProps } from '@mantine/core';
 import { Link } from '../shared/compounds/Link';
 import { TextLight } from '../../colors';
 import { useTokens } from '../../hooks/useTokens';
 import { useApi } from '../../hooks/useApi';
-
-const ItemContainer = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: ${rem(4)};
-  color: ${TextLight};
-`;
-
-const ItemName = styled.div``;
-
-const ItemValue = styled.div``;
 
 const Dashboard = styled.div`
   width: ${rem(500)};
@@ -48,12 +36,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-const HeaderContainer = styled.div`
-  margin-bottom: ${rem(20)};
-  margin-top: ${rem(20)};
-`;
-
-type ItemProps = BoxProps &
+type ItemProps = GroupProps &
   React.ComponentPropsWithoutRef<'div'> & {
     name: string;
     value?: string | number;
@@ -71,16 +54,18 @@ const fetchWithToken = async (url: string, token: string | null) => {
 
 const DashboardItem = ({ name, value, href, ...restProps }: ItemProps) => {
   return (
-    <ItemContainer {...restProps}>
+    <Group mb={rem(8)} position="apart" {...restProps}>
       {href ? (
         <StyledLink href={href} passHref>
-          <ItemName>{`${name}: `}</ItemName>
+          <Text size={16} color={TextLight}>{`${name}: `}</Text>
         </StyledLink>
       ) : (
-        <ItemName>{`${name}: `}</ItemName>
+        <Text size={16} color={TextLight}>{`${name}: `}</Text>
       )}
-      <ItemValue>{value}</ItemValue>
-    </ItemContainer>
+      <Text size={16} color={TextLight}>
+        {value}
+      </Text>
+    </Group>
   );
 };
 
@@ -169,9 +154,9 @@ export const VitalsDashboard = () => {
     <Group position="center">
       <Stack>
         <Dashboard>
-          <HeaderContainer>
+          <Box my={rem(20)}>
             <Header>{'Vitals Dashboard'}</Header>
-          </HeaderContainer>
+          </Box>
 
           {/* Mints Section */}
           <DashboardItem
@@ -193,7 +178,7 @@ export const VitalsDashboard = () => {
             name={'Mints (last 90 days)'}
             value={threeMonthClaimsResult.data?.claims.length}
             href={'/admin/gitpoap/claims'}
-            style={{ marginBottom: rem(15) }}
+            mb={rem(20)}
           />
 
           {/* Entities Added Section */}
@@ -212,7 +197,7 @@ export const VitalsDashboard = () => {
           <DashboardItem
             name={'Profiles Added (last 7 days)'}
             value={profilesResult.data?.profiles.length}
-            style={{ marginBottom: rem(15) }}
+            mb={rem(20)}
           />
 
           {/* Claims Stats Section */}
@@ -228,15 +213,11 @@ export const VitalsDashboard = () => {
             name={'Total unverified claims'}
             value={`${unverifiedClaims} (${getPercent(unverifiedClaims, totalClaims)})`}
           />
-          <DashboardItem
-            name={'Total claims'}
-            value={totalClaims}
-            style={{ marginBottom: rem(15) }}
-          />
+          <DashboardItem name={'Total claims'} value={totalClaims} mb={rem(25)} />
           <DashboardItem
             name={'Claims With PR Earned (%)'}
             value={getPercent(totalClaimsWithPREarned, totalClaims)}
-            style={{ marginBottom: rem(15) }}
+            mb={rem(20)}
           />
 
           {/* Profiles Section */}
@@ -248,7 +229,7 @@ export const VitalsDashboard = () => {
           <DashboardItem
             name={'Total hidden profiles'}
             value={`${totalProfilesHidden} (${getPercent(totalProfilesHidden, totalProfiles)})`}
-            style={{ marginBottom: rem(15) }}
+            mb={rem(20)}
           />
 
           {/* Users Section */}
@@ -266,19 +247,20 @@ export const VitalsDashboard = () => {
           <DashboardItem
             name={'Check for Codes Last Run'}
             value={getFormattedDate(checkForCodesResult?.lastRun)}
-            style={{ marginBottom: rem(15) }}
+            mb={rem(20)}
           />
 
           {/* Bot Vitals  */}
           <DashboardItem
             name={'GitPOAP Bot Installs'}
             value={botInstallResults?.totalInstalls}
-            style={{ marginBottom: rem(15) }}
+            mb={rem(20)}
           />
+          <Text size={16} variant="link" onClick={async () => await api.triggers.checkForCodes()}>
+            {'[Click to Run Code Check]'}
+          </Text>
         </Dashboard>
       </Stack>
-      <br />
-      <a onClick={async () => await api.triggers.checkForCodes()}>[Click to Run Code Check Now]</a>
     </Group>
   );
 };

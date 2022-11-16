@@ -1,3 +1,4 @@
+import { Notifications } from '../../notifications';
 import { API, Tokens, makeAPIRequestWithAuth } from './utils';
 
 export class TriggersAPI extends API {
@@ -6,12 +7,13 @@ export class TriggersAPI extends API {
   }
 
   async checkForCodes() {
-    const res = await makeAPIRequestWithAuth('/triggers/check-for-codes', 'GET', this.token);
-
+    const res = await makeAPIRequestWithAuth('/triggers/check-for-codes', 'POST', this.token);
     if (!res) {
+      Notifications.error(`Checked for codes failed`);
       return null;
     }
 
+    Notifications.success(`Checked for codes successfully`);
     return true;
   }
 }
