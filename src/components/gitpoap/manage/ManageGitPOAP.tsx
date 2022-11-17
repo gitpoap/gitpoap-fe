@@ -121,7 +121,7 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
   const [debouncedValue] = useDebouncedValue(searchValue, 200);
   const [sortBy, setSortBy] = useState<SortOptions>('mintedAt');
   const [isReversed, setIsReversed] = useState(true);
-  const perPage = 20;
+  const perPage = 50;
   const [isAddContributorsModalOpen, setIsAddContributorsModalOpen] = useState(false);
   const [variables, setVariables] = useState<{ page: number }>({
     page: 1,
@@ -142,10 +142,17 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
   const gitPOAP = results.data?.gitPOAP;
   const creatorAddress = gitPOAP?.creatorAddress?.ethAddress;
   const isCreator = !!creatorAddress && !!user && creatorAddress === user.address;
-  const totalPages =
-    searchValue.length > 0 && claims
-      ? Math.floor(claims.length / perPage)
-      : Math.floor(totalClaims / perPage);
+
+  const getTotalPages = () => {
+    if (totalClaims < perPage) {
+      return 1;
+    } else if (searchValue.length > 0 && claims) {
+      return Math.ceil(claims.length / perPage);
+    } else {
+      return Math.ceil(totalClaims / perPage);
+    }
+  };
+  const totalPages = getTotalPages();
 
   const handlePageChange = useCallback(
     (page: number) =>
