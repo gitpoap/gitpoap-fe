@@ -21,9 +21,9 @@ import { useCreationForm } from './useCreationForm';
 import { SelectContributors } from './SelectContributors';
 import { useApi } from '../../hooks/useApi';
 import {
-  ContributorsObjectValues,
+  ContributorsObject,
   CreateFormValues,
-  ValidatedCreateValues,
+  ValidatedCreateFormValues,
   ValidatedContributor,
 } from '../../lib/api/gitpoapRequest';
 import { HexagonDropzone } from './HexagonDropzone';
@@ -90,10 +90,10 @@ export const CreationForm = () => {
       return;
     }
 
-    const validatedFormValues = formValues as ValidatedCreateValues;
+    const validatedFormValues = formValues as ValidatedCreateFormValues;
 
     const formattedContributors = validatedFormValues.contributors.reduce(
-      (group: ContributorsObjectValues, contributor) => {
+      (group: ContributorsObject, contributor) => {
         const { type, value }: ValidatedContributor = contributor;
         group[type] = group[type] || [];
         group[type]?.push(value);

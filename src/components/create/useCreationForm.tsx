@@ -1,7 +1,7 @@
 import { useForm, zodResolver } from '@mantine/form';
 import { DateTime } from 'luxon';
 
-import { CreateFormValues, CreateValidationSchema } from '../../lib/api/gitpoapRequest';
+import { CreateFormValues, CreateFormValidationSchema } from '../../lib/api/gitpoapRequest';
 
 const defaultInitialValues: CreateFormValues = {
   name: '',
@@ -15,7 +15,7 @@ const defaultInitialValues: CreateFormValues = {
 
 export const useCreationForm = () =>
   useForm<CreateFormValues>({
-    validate: zodResolver(CreateValidationSchema),
+    validate: zodResolver(CreateFormValidationSchema),
     initialValues: defaultInitialValues,
   });
 

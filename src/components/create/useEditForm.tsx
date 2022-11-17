@@ -1,5 +1,5 @@
 import { useForm, zodResolver } from '@mantine/form';
-import { EditFormValues, EditValidationSchema } from '../../lib/api/gitpoapRequest';
+import { EditFormValues, EditFormValidationSchema } from '../../lib/api/gitpoapRequest';
 
 function addTimezoneOffset(date: Date) {
   const timezoneOffset = date.getTimezoneOffset() * 60000;
@@ -8,7 +8,7 @@ function addTimezoneOffset(date: Date) {
 
 export const useEditForm = (initialValues: EditFormValues, hasRemovedSavedImage: boolean) =>
   useForm<EditFormValues>({
-    validate: zodResolver(EditValidationSchema(hasRemovedSavedImage)),
+    validate: zodResolver(EditFormValidationSchema(hasRemovedSavedImage)),
     // Setting image to {} instead of null allows us to detect if it's been cleared
     initialValues: {
       ...initialValues,

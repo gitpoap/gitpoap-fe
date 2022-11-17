@@ -25,9 +25,9 @@ export const ContributorsObjectSchema = z
     emails: z.array(z.string().email()).optional(),
   })
   .strict();
-export type ContributorsObjectValues = z.infer<typeof ContributorsObjectSchema>;
+export type ContributorsObject = z.infer<typeof ContributorsObjectSchema>;
 
-type ContributorTypeValues = 'githubHandles' | 'ethAddresses' | 'ensNames' | 'emails' | 'invalid';
+type ContributorType = 'githubHandles' | 'ethAddresses' | 'ensNames' | 'emails' | 'invalid';
 
 export const ValidatedContributorSchema = z.union([
   z.object({
@@ -64,9 +64,9 @@ export const ValidatedContributorSchema = z.union([
   }),
 ]);
 export type ValidatedContributor = z.infer<typeof ValidatedContributorSchema>;
-export type UnvalidatedContributor = { type: ContributorTypeValues; value: string };
+export type UnvalidatedContributor = { type: ContributorType; value: string };
 
-export const CreateValidationSchema = z.object({
+export const CreateFormValidationSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
   startDate: z.date({
@@ -81,12 +81,12 @@ export const CreateValidationSchema = z.object({
   contributors: z.array(ValidatedContributorSchema),
   image: ImageFileSchema,
 });
-export type ValidatedCreateValues = z.infer<typeof CreateValidationSchema>;
+export type ValidatedCreateFormValues = z.infer<typeof CreateFormValidationSchema>;
 
-const CreateSubmissionSchema = CreateValidationSchema.merge(
+const CreateSubmissionSchema = CreateFormValidationSchema.merge(
   z.object({ contributors: ContributorsObjectSchema }),
 );
-type SubmittedCreateValues = z.infer<typeof CreateSubmissionSchema>;
+type SubmittedCreateFormValues = z.infer<typeof CreateSubmissionSchema>;
 
 export type CreateFormValues = {
   name: string;
@@ -98,7 +98,7 @@ export type CreateFormValues = {
   image: File | null;
 };
 
-export const EditValidationSchema = (hasRemovedSavedImage: boolean) =>
+export const EditFormValidationSchema = (hasRemovedSavedImage: boolean) =>
   z.object({
     name: z.string().min(1, { message: 'Name is required' }),
     description: z.string().min(1, { message: 'Description is required' }),
@@ -113,7 +113,7 @@ export const EditValidationSchema = (hasRemovedSavedImage: boolean) =>
     contributors: z.array(ValidatedContributorSchema),
     image: hasRemovedSavedImage ? ImageFileSchema : z.null(),
   });
-export type ValidatedEditValues = {
+export type ValidatedEditFormValues = {
   name: string;
   description: string;
   startDate: Date;
@@ -122,7 +122,7 @@ export type ValidatedEditValues = {
   image: File | null;
 };
 
-const EditSubmissionSchema = z.object({
+const EditFormSubmissionSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
   startDate: z.date({
@@ -136,14 +136,14 @@ const EditSubmissionSchema = z.object({
   contributors: ContributorsObjectSchema,
   image: ImageFileSchema.nullable(),
 });
-export type SubmittedEditValues = z.infer<typeof EditSubmissionSchema>;
+export type SubmittedEditFormValues = z.infer<typeof EditFormSubmissionSchema>;
 
 export type EditFormInitialValues = {
   name: string;
   description: string;
   startDate: Date;
   endDate: Date;
-  contributors: ContributorsObjectValues;
+  contributors: ContributorsObject;
   image: File | null;
 };
 
@@ -161,7 +161,7 @@ export class GitPOAPRequestAPI extends API {
     super(tokens?.accessToken);
   }
 
-  async create(values: SubmittedCreateValues) {
+  async create(values: SubmittedCreateFormValues) {
     const formData = new FormData();
 
     formData.append('name', values.name);
@@ -185,7 +185,7 @@ export class GitPOAPRequestAPI extends API {
     return true;
   }
 
-  async patch(gitPOAPRequestId: number, values: SubmittedEditValues) {
+  async patch(gitPOAPRequestId: number, values: SubmittedEditFormValues) {
     const formData = new FormData();
 
     formData.append('name', values.name);
