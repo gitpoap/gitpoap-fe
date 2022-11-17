@@ -3,12 +3,12 @@ import { z } from 'zod';
 import { Notifications } from '../../notifications';
 import { API, Tokens, makeAPIRequestWithAuth } from './utils';
 
-export const MAX_FILE_SIZE = 5000000;
+export const MAX_FILE_SIZE = 4000000;
 export const ACCEPTED_IMAGE_TYPES = ['image/png', 'image/gif'];
 
 const ImageFileSchema = z
   .any()
-  .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+  .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 4MB.`)
   .refine(
     (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
     'File type must be image/png or image/gif',
