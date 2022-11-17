@@ -1,8 +1,7 @@
 import { Box, Group, Popover } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
 import { rem } from 'polished';
+import styled from 'styled-components';
 import { BackgroundPanel2 } from '../../../colors';
-import { BREAKPOINTS } from '../../../constants';
 import { GitPOAPBadge } from '../../shared/elements';
 
 type Props = {
@@ -10,11 +9,23 @@ type Props = {
   onClose: () => void;
   onOpen: () => void;
   imageUrl: string;
+  showWithoutTemplate?: boolean;
 };
 
-export const GitPOAPBadgePopover = ({ isOpen, onClose, onOpen, imageUrl }: Props) => {
-  const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.sm)})`, false);
+const POAP = styled.img`
+  border-radius: 50%;
+  background: ${BackgroundPanel2};
+  width: ${rem(375)};
+  height: ${rem(375)};
+`;
 
+export const GitPOAPBadgePopover = ({
+  isOpen,
+  onClose,
+  onOpen,
+  imageUrl,
+  showWithoutTemplate,
+}: Props) => {
   return (
     <Popover
       opened={isOpen}
@@ -34,16 +45,13 @@ export const GitPOAPBadgePopover = ({ isOpen, onClose, onOpen, imageUrl }: Props
     >
       <Popover.Target>
         <Box onMouseEnter={onOpen} onMouseLeave={onClose}>
-          {matchesBreakpointSmall ? (
-            <GitPOAPBadge imgUrl={imageUrl} altText="preview" size="sm" />
-          ) : (
-            <GitPOAPBadge imgUrl={imageUrl} altText="preview" size="xs" />
-          )}
+          <GitPOAPBadge imgUrl={imageUrl} altText="preview" size="sm" />
         </Box>
       </Popover.Target>
       <Popover.Dropdown>
-        <Group>
+        <Group align="center" position="left">
           <GitPOAPBadge imgUrl={imageUrl} altText="preview" size="lg" />
+          {showWithoutTemplate && <POAP src={imageUrl} />}
         </Group>
       </Popover.Dropdown>
     </Popover>

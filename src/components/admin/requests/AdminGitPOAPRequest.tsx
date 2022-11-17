@@ -76,6 +76,7 @@ export const AdminGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
             onClose={closeImagePopover}
             onOpen={openImagePopover}
             imageUrl={gitPOAPRequest.imageUrl}
+            showWithoutTemplate
           />
           <RequestData
             gitPOAPRequest={gitPOAPRequest}
