@@ -115,12 +115,6 @@ exports[`ClaimItem should render correctly 1`] = `
   cursor: not-allowed;
 }
 
-.c15 {
-  font-family: VT323;
-  font-size: 3rem;
-  line-height: 3rem;
-}
-
 .c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -191,18 +185,6 @@ exports[`ClaimItem should render correctly 1`] = `
 
 .c0 {
   max-width: 100%;
-}
-
-.c16 {
-  text-align: left;
-  font-size: 1.5rem;
-  line-height: 1.75rem;
-}
-
-@media (max-width:56.25rem) {
-  .c15 {
-    font-size: 2.5rem;
-  }
 }
 
 .emotion-1 {
@@ -293,6 +275,28 @@ exports[`ClaimItem should render correctly 1`] = `
   -webkit-justify-content: flex-start;
   justify-content: flex-start;
   gap: 10px;
+}
+
+.emotion-9 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: 24px;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-align: left;
+  line-height: 1.75rem;
+  font-family: VT323;
+}
+
+.emotion-9:focus {
+  outline-offset: 2px;
+  outline: 2px solid #339af0;
+}
+
+.emotion-9:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .emotion-11 {
@@ -399,10 +403,10 @@ exports[`ClaimItem should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  -webkit-box-flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+  -webkit-box-flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   -webkit-justify-content: flex-start;
@@ -530,7 +534,7 @@ exports[`ClaimItem should render correctly 1`] = `
       class="emotion-2 emotion-7"
     >
       <div
-        class="emotion-4 c15 c16 emotion-5"
+        class="emotion-4 emotion-9"
       >
         Test Name of the GitPOAP
       </div>
