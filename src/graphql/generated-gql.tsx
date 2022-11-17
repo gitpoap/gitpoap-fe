@@ -6851,12 +6851,16 @@ export const EligibleClaimsDocument = gql`
       skip: $skip
       where: {
         mintedAddressId: { equals: null }
-        gitPOAP: { is: { isEnabled: { equals: true } } }
+        gitPOAP: {
+          is: { isEnabled: { equals: true }, NOT: { poapApprovalStatus: { equals: UNAPPROVED } } }
+        }
         OR: [
           { githubUser: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
           { email: { is: { emailAddress: { contains: $query, mode: insensitive } } } }
           { issuedAddress: { is: { ethAddress: { contains: $query, mode: insensitive } } } }
           { issuedAddress: { is: { ensName: { contains: $query, mode: insensitive } } } }
+          { gitPOAP: { is: { name: { contains: $query, mode: insensitive } } } }
+          { gitPOAP: { is: { description: { contains: $query, mode: insensitive } } } }
         ]
       }
     ) {

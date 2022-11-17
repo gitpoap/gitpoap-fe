@@ -231,7 +231,7 @@ export const EditForm = ({
                   maxDate={values.endDate}
                   placeholder="Start Date"
                   weekendDays={[]}
-                  sx={{ width: '100%' }}
+                  sx={{ width: '100%', minWidth: rem(220) }}
                   {...getInputProps('startDate')}
                 />
               </Grid.Col>
@@ -240,7 +240,7 @@ export const EditForm = ({
                   minDate={values.startDate}
                   placeholder="End Date"
                   weekendDays={[]}
-                  sx={{ width: '100%' }}
+                  sx={{ width: '100%', minWidth: rem(220) }}
                   {...getInputProps('endDate')}
                 />
               </Grid.Col>

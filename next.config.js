@@ -77,6 +77,20 @@ const moduleExports = {
         permanent: false,
         basePath: false,
       },
+      {
+        source: '/links/design-guide',
+        destination:
+          'https://gitpoap.notion.site/GitPOAP-Design-Guide-Requirements-9a843acfe1c7490bbfcdab2d1a47e8af',
+        permanent: false,
+        basePath: false,
+      },
+      {
+        source: '/links/canva-template',
+        destination:
+          'https://www.canva.com/design/DAFQoFm0dhQ/H17FASlR17kwLk6m303hBw/view?utm_content=DAFQoFm0dhQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview',
+        permanent: false,
+        basePath: false,
+      },
     ];
   },
   webpack: (config, options) => {
