@@ -3,14 +3,13 @@ import { rem } from 'polished';
 import { FaDiscord } from 'react-icons/fa';
 import { User } from '../../hooks/useUser';
 import { useOAuthContext } from '../oauth/OAuthContext';
-import { Link } from '../shared/compounds/Link';
 
 type Props = {
   user: User;
 };
 
 export const DiscordConnection = ({ user }: Props) => {
-  const { github } = useOAuthContext();
+  const { discord } = useOAuthContext();
 
   return (
     <Group position="apart" my={4}>
@@ -18,22 +17,20 @@ export const DiscordConnection = ({ user }: Props) => {
         <FaDiscord size={32} />
         <Stack spacing={0}>
           <Title order={5}>{'Discord'}</Title>
-          {user.githubHandle && (
+          {user.discordHandle && (
             <Text size="xs">
               {`You're connected as `}
-              <Link href={`https://github.com/${user.githubHandle}`} passHref>
-                <b>{`@${user.githubHandle}`}</b>
-              </Link>
+              <b>{`@${user.discordHandle}`}</b>
             </Text>
           )}
         </Stack>
       </Group>
       <Button
-        variant={user.capabilities.hasGithub ? 'outline' : 'filled'}
-        onClick={user.capabilities.hasGithub ? github.disconnect : github.authorize}
+        variant={user.capabilities.hasDiscord ? 'outline' : 'filled'}
+        onClick={user.capabilities.hasDiscord ? discord.disconnect : discord.authorize}
         sx={{ width: rem(145) }}
       >
-        {user.capabilities.hasGithub ? 'DISCONNECT' : 'CONNECT'}
+        {user.capabilities.hasDiscord ? 'DISCONNECT' : 'CONNECT'}
       </Button>
     </Group>
   );

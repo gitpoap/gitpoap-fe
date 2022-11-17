@@ -7,11 +7,14 @@ export type User = {
   address: string;
   githubId: number | null;
   githubHandle: string | null;
+  discordId: number | null;
+  discordHandle: string | null;
   ensName: string | null;
   ensAvatarImageUrl: string | null;
   capabilities: {
     hasGithub: boolean;
     hasEmail: boolean;
+    hasDiscord: boolean;
   };
   permissions: {
     isAdmin: boolean;
@@ -32,6 +35,8 @@ export const useUser = (): User | null => {
     user = {
       githubId: payload.githubId,
       githubHandle: payload.githubHandle,
+      discordId: payload.discordId,
+      discordHandle: payload.discordHandle,
       addressId: payload.addressId,
       address: payload.address,
       ensName: payload.ensName,
@@ -39,6 +44,7 @@ export const useUser = (): User | null => {
       capabilities: {
         hasGithub: !!payload?.githubId,
         hasEmail: !!payload?.emailId,
+        hasDiscord: !!payload?.discordId,
       },
       permissions: {
         isAdmin,

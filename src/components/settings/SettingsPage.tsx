@@ -18,6 +18,7 @@ import {
 import { isValidTwitterHandle, isValidURL } from '../../helpers';
 import { Login } from '../Login';
 import { GithubConnection } from './GithubConnection';
+import { DiscordConnection } from './DiscordConnection';
 import { AddressConnection } from './AddressConnection';
 
 const Input = styled(InputUI)`
@@ -87,6 +88,7 @@ export const SettingsPage = () => {
       <Divider mb={32} />
       <AddressConnection user={user} />
       <GithubConnection user={user} />
+      <DiscordConnection user={user} />
       <EmailConnection />
 
       <Divider my={32} />

@@ -17,6 +17,8 @@ export type AccessTokenPayload = {
   githubId: number | null;
   githubHandle: string | null;
   emailId: number | null;
+  discordId: number | null;
+  discordHandle: string | null;
   exp: number;
   iat: number;
 };
