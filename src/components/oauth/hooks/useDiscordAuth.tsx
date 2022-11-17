@@ -13,7 +13,10 @@ export const useDiscordAuth = () => {
   const { asPath, push } = useRouter();
   const redirectUri = typeof window !== 'undefined' ? window.location.href : '';
   const scopes = ['identify'].join('%20');
-  const discordAuthURL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=code&scope=${scopes}`;
+  const discordAuthURL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(
+    redirectUri,
+  )}&response_type=code&scope=${scopes}`;
+
   const disconnect = useCallback(async () => {
     const tokens = await api.auth.discordDisconnect();
 
