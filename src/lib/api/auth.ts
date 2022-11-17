@@ -85,4 +85,29 @@ export class AuthAPI extends API {
     const tokens: Tokens = await res.json();
     return tokens;
   }
+
+  async discordAuth(code: string) {
+    const res = await makeAPIRequestWithAuth(
+      '/oauth/discord',
+      'POST',
+      this.token,
+      JSON.stringify({ code }),
+    );
+    if (!res) {
+      return null;
+    }
+
+    const tokens: Tokens = await res.json();
+    return tokens;
+  }
+
+  async discordDisconnect() {
+    const res = await makeAPIRequestWithAuth('/oauth/discord', 'DELETE', this.token);
+    if (!res) {
+      return null;
+    }
+
+    const tokens: Tokens = await res.json();
+    return tokens;
+  }
 }
