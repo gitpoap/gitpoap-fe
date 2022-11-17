@@ -220,7 +220,7 @@ export const CreationForm = () => {
           />
           <SelectContributors
             contributors={values.contributors}
-            insertContributor={(item) => insertListItem('contributors', item)}
+            addContributor={(item) => insertListItem('contributors', item)}
             removeContributor={(index) => removeListItem('contributors', index)}
           />
         </Box>
