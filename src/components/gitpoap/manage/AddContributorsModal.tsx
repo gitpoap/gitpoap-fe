@@ -87,7 +87,7 @@ export const AddContributorModal = ({ gitPOAPId, isOpen, onClose, refetch }: Pro
       <Stack spacing={32}>
         <SelectContributors
           contributors={values.contributors}
-          insertContributor={(item) => insertListItem('contributors', item)}
+          addContributor={(item) => insertListItem('contributors', item)}
           removeContributor={(index) => removeListItem('contributors', index)}
         />
         <StatusButton

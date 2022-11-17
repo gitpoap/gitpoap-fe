@@ -40,15 +40,11 @@ const BadgeText = {
 
 type Props = {
   contributors: UnvalidatedContributor[];
-  insertContributor: (item: UnvalidatedContributor) => void;
+  addContributor: (item: UnvalidatedContributor) => void;
   removeContributor: (index: number) => void;
 };
 
-export const SelectContributors = ({
-  contributors,
-  insertContributor,
-  removeContributor,
-}: Props) => {
+export const SelectContributors = ({ contributors, addContributor, removeContributor }: Props) => {
   const [opened, { close, open }] = useDisclosure(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const [contributorsText, setContributorsText] = useState('');
@@ -68,15 +64,15 @@ export const SelectContributors = ({
       }
 
       if (isValidGithubHandleWithout0x(value)) {
-        insertContributor({ type: 'githubHandles', value });
+        addContributor({ type: 'githubHandles', value });
       } else if (isAddress(value)) {
-        insertContributor({ type: 'ethAddresses', value });
+        addContributor({ type: 'ethAddresses', value });
       } else if (value.length > 4 && value.endsWith('.eth')) {
-        insertContributor({ type: 'ensNames', value });
+        addContributor({ type: 'ensNames', value });
       } else if (validate(value)) {
-        insertContributor({ type: 'emails', value });
+        addContributor({ type: 'emails', value });
       } else {
-        insertContributor({ type: 'invalid', value });
+        addContributor({ type: 'invalid', value });
       }
     });
   };
