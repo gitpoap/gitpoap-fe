@@ -77,13 +77,13 @@ const Profile: Page<PageProps> = (props) => {
                 <Grid.Col xs={11} md={10} mt={rem(60)}>
                   <FeaturedPOAPs />
                 </Grid.Col>
-                {identifier && (
+                {address && (
                   <>
                     <Grid.Col xs={11} md={10}>
-                      <GitPOAPs address={identifier ?? null} />
+                      <GitPOAPs address={address} />
                     </Grid.Col>
                     <Grid.Col xs={11} md={10} mb={rem(50)}>
-                      <AllPOAPs address={identifier ?? null} />
+                      <AllPOAPs address={address} />
                     </Grid.Col>
                   </>
                 )}
