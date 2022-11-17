@@ -7,16 +7,17 @@ import { BackgroundPanel2 } from '../../../colors';
 import { GitPOAPBadgePopover } from '../RequestItem/GitPOAPBadgePopover';
 import { UserRequestStatusBadge } from './UserRequestStatusBadge';
 import { Link } from '../../shared/compounds/Link';
-import { ContributorModal, ContributorsType } from '../RequestItem/ContributorModal';
+import { ContributorModal } from '../RequestItem/ContributorModal';
 import { BsPeopleFill } from 'react-icons/bs';
 import { FaEdit } from 'react-icons/fa';
 import { DateTime } from 'luxon';
 import { UserGitPoapRequestsQuery } from '../../../graphql/generated-gql';
+import { ContributorsObject } from '../../../lib/api/gitpoapRequest';
 
 type GitPOAPRequestRawType = UserGitPoapRequestsQuery['gitPOAPRequests'][number];
 
 export interface GitPOAPRequestType extends GitPOAPRequestRawType {
-  contributors: ContributorsType;
+  contributors: ContributorsObject;
 }
 
 type Props = {

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { useApi } from '../../../hooks/useApi';
 import {
-  ContributorsObjectValues,
+  ContributorsObject,
   UnvalidatedContributor,
   ValidatedContributor,
   ValidatedContributorSchema,
@@ -51,7 +51,7 @@ export const AddContributorModal = ({ gitPOAPId, isOpen, onClose, refetch }: Pro
     const validatedFormValues = values as ValidatedAddContributorsFormValues;
 
     const formattedContributors = validatedFormValues.contributors.reduce(
-      (group: ContributorsObjectValues, contributor) => {
+      (group: ContributorsObject, contributor) => {
         const { type, value }: ValidatedContributor = contributor;
         group[type] = group[type] || [];
         group[type]?.push(value);

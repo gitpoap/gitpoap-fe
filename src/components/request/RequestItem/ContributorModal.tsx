@@ -2,14 +2,14 @@ import { Badge, Group, Modal, Stack } from '@mantine/core';
 import { rem } from 'polished';
 import { useMemo } from 'react';
 import { shortenAddress } from '../../../helpers';
-import { ContributorsObjectValues, UnvalidatedContributor } from '../../../lib/api/gitpoapRequest';
+import { ContributorsObject, UnvalidatedContributor } from '../../../lib/api/gitpoapRequest';
 import { convertContributorObjectToList } from '../../create/EditForm';
 import { Text, Header } from '../../shared/elements';
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  contributors: ContributorsObjectValues;
+  contributors: ContributorsObject;
 };
 
 const contributorTypeCopy = {

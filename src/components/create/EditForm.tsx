@@ -26,12 +26,12 @@ import { ExtraRed } from '../../colors';
 import { useEditForm } from './useEditForm';
 import { FileWithPath } from '@mantine/dropzone';
 import {
-  ContributorsObjectValues,
+  ContributorsObject,
   EditFormInitialValues,
   EditFormValues,
   UnvalidatedContributor,
   ValidatedContributor,
-  ValidatedEditValues,
+  ValidatedEditFormValues,
 } from '../../lib/api/gitpoapRequest';
 
 const Label = styled(InputUI.Label)`
@@ -70,7 +70,7 @@ type Props = {
 };
 
 export const convertContributorObjectToList = (
-  contributors: ContributorsObjectValues,
+  contributors: ContributorsObject,
 ): UnvalidatedContributor[] => {
   return Object.entries(contributors)
     .map(([key, value]) => {
@@ -126,10 +126,10 @@ export const EditForm = ({
       return;
     }
 
-    const validatedFormValues = formValues as ValidatedEditValues;
+    const validatedFormValues = formValues as ValidatedEditFormValues;
 
     const formattedContributors = validatedFormValues.contributors.reduce(
-      (group: ContributorsObjectValues, contributor) => {
+      (group: ContributorsObject, contributor) => {
         const { type, value }: ValidatedContributor = contributor;
         group[type] = group[type] || [];
         group[type]?.push(value);
