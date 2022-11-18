@@ -241,18 +241,24 @@ export const VitalsDashboard = () => {
           <DashboardItem name={'Total GitPOAPs'} value={totalGitPOAPs} />
           <DashboardItem
             name={'Total ANNUAL GitPOAPs'}
-            value={`${totalAnnualGitPOAPs} (${getPercent(totalAnnualGitPOAPs, totalGitPOAPs)})`}
+            value={`${totalAnnualGitPOAPs ?? ''} (${getPercent(
+              totalAnnualGitPOAPs,
+              totalGitPOAPs,
+            )})`}
           />
           <DashboardItem
             name={'Total CUSTOM GitPOAPs'}
-            value={`${totalCustomGitPOAPs} (${getPercent(totalCustomGitPOAPs, totalGitPOAPs)})`}
+            value={`${totalCustomGitPOAPs ?? ''} (${getPercent(
+              totalCustomGitPOAPs,
+              totalGitPOAPs,
+            )})`}
             mb={rem(20)}
           />
 
           {/* Claims Stats Section */}
           <DashboardItem
             name={'Total minted claims'}
-            value={`${mintedClaims} (${getPercent(mintedClaims, totalClaims)})`}
+            value={`${mintedClaims ?? ''} (${getPercent(mintedClaims, totalClaims)})`}
           />
           <DashboardItem
             name={'Total unminted claims'}
@@ -260,23 +266,26 @@ export const VitalsDashboard = () => {
           />
           <DashboardItem
             name={'Total unverified claims'}
-            value={`${unverifiedClaims} (${getPercent(unverifiedClaims, totalClaims)})`}
+            value={`${unverifiedClaims ?? ''} (${getPercent(unverifiedClaims, totalClaims)})`}
           />
           <DashboardItem name={'Total claims'} value={totalClaims} mb={rem(20)} />
           <DashboardItem
             name={'Claims based on github'}
-            value={`${totalClaimsWithGithubHandle} (${getPercent(
+            value={`${totalClaimsWithGithubHandle ?? ''} (${getPercent(
               totalClaimsWithGithubHandle,
               totalClaims,
             )})`}
           />
           <DashboardItem
             name={'Claims based on emails'}
-            value={`${totalClaimsWithEmail} (${getPercent(totalClaimsWithEmail, totalClaims)})`}
+            value={`${totalClaimsWithEmail ?? ''} (${getPercent(
+              totalClaimsWithEmail,
+              totalClaims,
+            )})`}
           />
           <DashboardItem
             name={'Claims based on addresses'}
-            value={`${totalClaimsWithIssuedAddress} (${getPercent(
+            value={`${totalClaimsWithIssuedAddress ?? ''} (${getPercent(
               totalClaimsWithIssuedAddress,
               totalClaims,
             )})`}
@@ -285,7 +294,7 @@ export const VitalsDashboard = () => {
 
           <DashboardItem
             name={'Claims With PR Earned'}
-            value={`${totalClaimsWithPREarned} (${getPercent(
+            value={`${totalClaimsWithPREarned ?? ''} (${getPercent(
               totalClaimsWithPREarned,
               totalClaims,
             )})`}
@@ -296,18 +305,27 @@ export const VitalsDashboard = () => {
           <DashboardItem name={'Total profiles'} value={totalProfiles} />
           <DashboardItem
             name={'Total profiles with GitHub Handle'}
-            value={`${totalProfilesGitHub} (${getPercent(totalProfilesGitHub, totalProfiles)})`}
+            value={`${totalProfilesGitHub ?? ''} (${getPercent(
+              totalProfilesGitHub,
+              totalProfiles,
+            )})`}
           />
           <DashboardItem
             name={'Total hidden profiles'}
-            value={`${totalProfilesHidden} (${getPercent(totalProfilesHidden, totalProfiles)})`}
+            value={`${totalProfilesHidden ?? ''} (${getPercent(
+              totalProfilesHidden,
+              totalProfiles,
+            )})`}
             mb={rem(20)}
           />
 
           {/* Users Section */}
           <DashboardItem
             name={'Total users with mints'}
-            value={`${totalUsersWithClaims} (${getPercent(totalUsersWithClaims, totalUsers)})`}
+            value={`${totalUsersWithClaims ?? ''} (${getPercent(
+              totalUsersWithClaims,
+              totalUsers,
+            )})`}
           />
           <DashboardItem name={'Total users'} value={totalUsers} mb={rem(20)} />
 
