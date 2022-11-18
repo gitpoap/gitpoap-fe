@@ -241,11 +241,11 @@ export const VitalsDashboard = () => {
           <DashboardItem name={'Total GitPOAPs'} value={totalGitPOAPs} />
           <DashboardItem
             name={'Total ANNUAL GitPOAPs'}
-            value={`${totalAnnualGitPOAPs} (${getPercent(totalAnnualGitPOAPs)})`}
+            value={`${totalAnnualGitPOAPs} (${getPercent(totalAnnualGitPOAPs, totalGitPOAPs)})`}
           />
           <DashboardItem
             name={'Total CUSTOM GitPOAPs'}
-            value={`${totalCustomGitPOAPs} (${getPercent(totalCustomGitPOAPs)})`}
+            value={`${totalCustomGitPOAPs} (${getPercent(totalCustomGitPOAPs, totalGitPOAPs)})`}
             mb={rem(20)}
           />
 
@@ -262,9 +262,9 @@ export const VitalsDashboard = () => {
             name={'Total unverified claims'}
             value={`${unverifiedClaims} (${getPercent(unverifiedClaims, totalClaims)})`}
           />
-          <DashboardItem name={'Total claims'} value={totalClaims} />
+          <DashboardItem name={'Total claims'} value={totalClaims} mb={rem(20)} />
           <DashboardItem
-            name={'Claims based on GitHub handles'}
+            name={'Claims based on github'}
             value={`${totalClaimsWithGithubHandle} (${getPercent(
               totalClaimsWithGithubHandle,
               totalClaims,
