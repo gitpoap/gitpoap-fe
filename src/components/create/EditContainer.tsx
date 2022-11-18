@@ -2,6 +2,7 @@ import { Center, Loader, Stack, Text } from '@mantine/core';
 import { useGitPoapRequestQuery } from '../../graphql/generated-gql';
 import { Link } from '../shared/compounds/Link';
 import { Header } from '../shared/elements';
+import { convertContributorsObjectToList } from './convertContributorsObjectToList';
 import { EditForm } from './EditForm';
 
 type Props = {
@@ -65,7 +66,7 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
         description: gitPOAPRequest.description,
         startDate: new Date(gitPOAPRequest.startDate),
         endDate: new Date(gitPOAPRequest.endDate),
-        contributors: gitPOAPRequest.contributors,
+        contributors: convertContributorsObjectToList(gitPOAPRequest.contributors),
         image: null,
       }}
       gitPOAPRequestId={gitPOAPId}

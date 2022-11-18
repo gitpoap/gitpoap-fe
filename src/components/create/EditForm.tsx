@@ -10,7 +10,7 @@ import {
   Divider,
 } from '@mantine/core';
 import { rem } from 'polished';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import { DateInput, Header, Input, TextArea, TextInputLabelStyles } from '../shared/elements';
@@ -24,9 +24,7 @@ import { useEditForm } from './useEditForm';
 import { FileWithPath } from '@mantine/dropzone';
 import {
   ContributorsObject,
-  EditFormInitialValues,
   EditFormValues,
-  UnvalidatedContributor,
   ValidatedContributor,
   ValidatedEditFormValues,
 } from '../../lib/api/gitpoapRequest';
@@ -55,21 +53,9 @@ type AdminApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
 type Props = {
   adminApprovalStatus: AdminApprovalStatus;
   creatorEmail: string;
-  initialValues: EditFormInitialValues;
+  initialValues: EditFormValues;
   gitPOAPRequestId: number;
   savedImageUrl: string;
-};
-
-export const convertContributorObjectToList = (
-  contributors: ContributorsObject,
-): UnvalidatedContributor[] => {
-  return Object.entries(contributors)
-    .map(([key, value]) => {
-      return value.map((c): UnvalidatedContributor => {
-        return { type: key as UnvalidatedContributor['type'], value: c };
-      });
-    })
-    .flat();
 };
 
 export const EditForm = ({
@@ -88,14 +74,10 @@ export const EditForm = ({
     insertListItem,
     isDirty,
     removeListItem,
-    setDirty,
     setFieldError,
     setFieldValue,
     validate,
-  } = useEditForm(
-    { ...initialValues, contributors: convertContributorObjectToList(initialValues.contributors) },
-    hasRemovedSavedImage,
-  );
+  } = useEditForm(initialValues, hasRemovedSavedImage);
   const router = useRouter();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
 
@@ -104,10 +86,6 @@ export const EditForm = ({
       ? URL.createObjectURL(values.image)
       : null
     : savedImageUrl;
-
-  useEffect(() => {
-    setDirty({ contributors: true });
-  }, [values.contributors]);
 
   const submitEditCustomGitPOAP = async (formValues: EditFormValues) => {
     setButtonStatus(ButtonStatus.LOADING);
@@ -272,6 +250,7 @@ export const EditForm = ({
           onClick={async () => await submitEditCustomGitPOAP(values)}
           isDisabled={
             !isDirty() ||
+            values.contributors.length !== initialValues.contributors.length ||
             buttonStatus === ButtonStatus.SUCCESS ||
             buttonStatus === ButtonStatus.LOADING
           }

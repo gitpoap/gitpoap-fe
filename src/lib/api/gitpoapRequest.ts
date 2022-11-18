@@ -138,15 +138,6 @@ const EditFormSubmissionSchema = z.object({
 });
 export type SubmittedEditFormValues = z.infer<typeof EditFormSubmissionSchema>;
 
-export type EditFormInitialValues = {
-  name: string;
-  description: string;
-  startDate: Date;
-  endDate: Date;
-  contributors: ContributorsObject;
-  image: File | null;
-};
-
 export type EditFormValues = {
   name: string;
   description: string;
