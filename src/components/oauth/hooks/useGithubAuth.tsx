@@ -4,6 +4,7 @@ import { REACT_APP_CLIENT_ID } from '../../../constants';
 import { useApi } from '../../../hooks/useApi';
 import { useTokens } from '../../../hooks/useTokens';
 import { Notifications } from '../../../notifications';
+import { OauthType } from '../types';
 
 export const useGithubAuth = () => {
   const api = useApi();
@@ -11,7 +12,7 @@ export const useGithubAuth = () => {
   /* A react ref that tracks if GitHub auth is loading */
   const isGitHubAuthLoading = useRef(false);
   const { asPath, push } = useRouter();
-  const redirectUri = typeof window !== 'undefined' ? window.location.href : '';
+  const redirectUri = typeof window !== 'undefined' ? `${window.location.href}?type=github` : '';
   const scopes = ['read'].join('%20');
   const githubAuthURL = `https://github.com/login/oauth/authorize?scope=${scopes}&client_id=${REACT_APP_CLIENT_ID}&redirect_uri=${redirectUri}`;
 
@@ -46,15 +47,17 @@ export const useGithubAuth = () => {
   /* After requesting Github access, Github redirects back to your app with a code parameter. */
   useEffect(() => {
     const url = asPath;
-    const hasCode = url.includes('?code=');
+    const baseUrl = url.split('?')[0];
+    const urlSearchParam = url.split('?')[1];
+    const urlParams = new URLSearchParams(urlSearchParam);
+    const code = urlParams.get('code');
+    const type = urlParams.get('type');
 
     /* If Github API returns the code parameter */
-    if (hasCode && isGitHubAuthLoading.current === false && tokens) {
-      const newUrl = url.split('?code=');
-      const codeWithNoHash = newUrl[1].split('#')[0];
+    if (type === OauthType.GITHUB && code && isGitHubAuthLoading.current === false && tokens) {
       isGitHubAuthLoading.current = true;
-      void push(newUrl[0]);
-      void authenticate(codeWithNoHash);
+      void push(baseUrl);
+      void authenticate(code);
     }
   }, [authenticate, asPath, push, tokens]);
 
