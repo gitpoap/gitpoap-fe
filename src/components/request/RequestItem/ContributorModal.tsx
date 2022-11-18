@@ -3,7 +3,7 @@ import { rem } from 'polished';
 import { useMemo } from 'react';
 import { shortenAddress } from '../../../helpers';
 import { ContributorsObject, UnvalidatedContributor } from '../../../lib/api/gitpoapRequest';
-import { convertContributorObjectToList } from '../../create/EditForm';
+import { convertContributorsObjectToList } from '../../create/convertContributorsObjectToList';
 import { Text, Header } from '../../shared/elements';
 
 type Props = {
@@ -22,7 +22,7 @@ const contributorTypeCopy = {
 
 export const ContributorModal = ({ isOpen, onClose, contributors }: Props) => {
   const generateContributorsList: UnvalidatedContributor[] = useMemo(
-    () => convertContributorObjectToList(contributors),
+    () => convertContributorsObjectToList(contributors),
     [contributors],
   );
 

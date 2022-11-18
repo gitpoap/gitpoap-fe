@@ -10,7 +10,7 @@ import {
   Divider,
 } from '@mantine/core';
 import { rem } from 'polished';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import { DateInput, Header, Input, TextArea, TextInputLabelStyles } from '../shared/elements';
@@ -61,17 +61,12 @@ export const CreationForm = () => {
     removeListItem,
     setFieldError,
     setFieldValue,
-    setDirty,
     validate,
   } = useCreationForm();
   const router = useRouter();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const approvalStatus: AdminApprovalStatus = 'UNSUBMITTED';
   const imageUrl = values.image ? URL.createObjectURL(values.image) : null;
-
-  useEffect(() => {
-    setDirty({ contributors: values.contributors.length > 0 });
-  }, [values.contributors]);
 
   const submitCreateCustomGitPOAP = async (formValues: CreateFormValues) => {
     setButtonStatus(ButtonStatus.LOADING);
