@@ -5909,6 +5909,26 @@ export type TotalGitPoapCountQuery = {
   };
 };
 
+export type TotalAnnualGitPoapCountQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalAnnualGitPoapCountQuery = {
+  __typename?: 'Query';
+  aggregateGitPOAP: {
+    __typename?: 'AggregateGitPOAP';
+    _count?: { __typename?: 'GitPOAPCountAggregate'; id: number } | null;
+  };
+};
+
+export type TotalCustomGitPoapCountQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalCustomGitPoapCountQuery = {
+  __typename?: 'Query';
+  aggregateGitPOAP: {
+    __typename?: 'AggregateGitPOAP';
+    _count?: { __typename?: 'GitPOAPCountAggregate'; id: number } | null;
+  };
+};
+
 export type ClaimsSinceQueryVariables = Exact<{
   date?: InputMaybe<Scalars['DateTime']>;
 }>;
@@ -5957,6 +5977,36 @@ export type OrgsSinceQuery = {
 export type ClaimsCountQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ClaimsCountQuery = {
+  __typename?: 'Query';
+  aggregateClaim: {
+    __typename?: 'AggregateClaim';
+    _count?: { __typename?: 'ClaimCountAggregate'; id: number } | null;
+  };
+};
+
+export type ClaimsWithGithubHandleCountQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ClaimsWithGithubHandleCountQuery = {
+  __typename?: 'Query';
+  aggregateClaim: {
+    __typename?: 'AggregateClaim';
+    _count?: { __typename?: 'ClaimCountAggregate'; id: number } | null;
+  };
+};
+
+export type ClaimsWithEmailCountQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ClaimsWithEmailCountQuery = {
+  __typename?: 'Query';
+  aggregateClaim: {
+    __typename?: 'AggregateClaim';
+    _count?: { __typename?: 'ClaimCountAggregate'; id: number } | null;
+  };
+};
+
+export type ClaimsWithIssuedAddressCountQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ClaimsWithIssuedAddressCountQuery = {
   __typename?: 'Query';
   aggregateClaim: {
     __typename?: 'AggregateClaim';
@@ -7237,6 +7287,42 @@ export function useTotalGitPoapCountQuery(
     ...options,
   });
 }
+export const TotalAnnualGitPoapCountDocument = gql`
+  query totalAnnualGitPOAPCount {
+    aggregateGitPOAP(where: { type: { equals: ANNUAL } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalAnnualGitPoapCountQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalAnnualGitPoapCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalAnnualGitPoapCountQuery, TotalAnnualGitPoapCountQueryVariables>({
+    query: TotalAnnualGitPoapCountDocument,
+    ...options,
+  });
+}
+export const TotalCustomGitPoapCountDocument = gql`
+  query totalCustomGitPOAPCount {
+    aggregateGitPOAP(where: { type: { equals: CUSTOM } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalCustomGitPoapCountQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalCustomGitPoapCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalCustomGitPoapCountQuery, TotalCustomGitPoapCountQueryVariables>({
+    query: TotalCustomGitPoapCountDocument,
+    ...options,
+  });
+}
 export const ClaimsSinceDocument = gql`
   query claimsSince($date: DateTime) {
     claims(where: { status: { equals: CLAIMED }, mintedAt: { gt: $date } }) {
@@ -7334,6 +7420,59 @@ export function useClaimsCountQuery(
     query: ClaimsCountDocument,
     ...options,
   });
+}
+export const ClaimsWithGithubHandleCountDocument = gql`
+  query claimsWithGithubHandleCount {
+    aggregateClaim(where: { githubUserId: { not: { equals: null } } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useClaimsWithGithubHandleCountQuery(
+  options?: Omit<Urql.UseQueryArgs<ClaimsWithGithubHandleCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<ClaimsWithGithubHandleCountQuery, ClaimsWithGithubHandleCountQueryVariables>(
+    { query: ClaimsWithGithubHandleCountDocument, ...options },
+  );
+}
+export const ClaimsWithEmailCountDocument = gql`
+  query claimsWithEmailCount {
+    aggregateClaim(where: { emailId: { not: { equals: null } } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useClaimsWithEmailCountQuery(
+  options?: Omit<Urql.UseQueryArgs<ClaimsWithEmailCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<ClaimsWithEmailCountQuery, ClaimsWithEmailCountQueryVariables>({
+    query: ClaimsWithEmailCountDocument,
+    ...options,
+  });
+}
+export const ClaimsWithIssuedAddressCountDocument = gql`
+  query claimsWithIssuedAddressCount {
+    aggregateClaim(where: { issuedAddressId: { not: { equals: null } } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useClaimsWithIssuedAddressCountQuery(
+  options?: Omit<Urql.UseQueryArgs<ClaimsWithIssuedAddressCountQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<
+    ClaimsWithIssuedAddressCountQuery,
+    ClaimsWithIssuedAddressCountQueryVariables
+  >({ query: ClaimsWithIssuedAddressCountDocument, ...options });
 }
 export const TotalUsersDocument = gql`
   query totalUsers {

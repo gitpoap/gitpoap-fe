@@ -3,7 +3,13 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { DateTime } from 'luxon';
 import {
+  useTotalGitPoapCountQuery,
+  useTotalAnnualGitPoapCountQuery,
+  useTotalCustomGitPoapCountQuery,
   useClaimsCountQuery,
+  useClaimsWithGithubHandleCountQuery,
+  useClaimsWithEmailCountQuery,
+  useClaimsWithIssuedAddressCountQuery,
   useClaimsSinceQuery,
   useCountClaimsWithPullRequestEarnedQuery,
   useGitPoaPsSinceQuery,
@@ -130,7 +136,13 @@ export const VitalsDashboard = () => {
   const [totalProfilesResults] = useTotalProfilesQuery();
   const [totalProfilesGitHubResults] = useTotalProfilesWithGitHubHandleQuery();
   const [totalProfilesHiddenResults] = useTotalProfilesHiddenQuery();
+  const [totalGitPOAPsResult] = useTotalGitPoapCountQuery();
+  const [totalAnnualGitPOAPsResult] = useTotalAnnualGitPoapCountQuery();
+  const [totalCustomGitPOAPsResult] = useTotalCustomGitPoapCountQuery();
   const [totalClaimsResult] = useClaimsCountQuery();
+  const [totalClaimsWithGithubHandleResult] = useClaimsWithGithubHandleCountQuery();
+  const [totalClaimsWithEmailResult] = useClaimsWithEmailCountQuery();
+  const [totalClaimsWithIssuedAddressResult] = useClaimsWithIssuedAddressCountQuery();
   const [mintedClaimsResult] = useMintedClaimsCountQuery();
   const [unverifiedClaimsResult] = useUnverifiedClaimsCountQuery();
   const [totalUsersResult] = useTotalUsersQuery();
@@ -159,13 +171,21 @@ export const VitalsDashboard = () => {
   const totalProfiles = totalProfilesResults?.data?.aggregateProfile?._count?.id;
   const totalProfilesGitHub = totalProfilesGitHubResults?.data?.aggregateProfile?._count?.id;
   const totalProfilesHidden = totalProfilesHiddenResults?.data?.aggregateProfile?._count?.id;
+  const totalGitPOAPs = totalGitPOAPsResult.data?.aggregateGitPOAP._count?.id;
+  const totalAnnualGitPOAPs = totalAnnualGitPOAPsResult.data?.aggregateGitPOAP._count?.id;
+  const totalCustomGitPOAPs = totalCustomGitPOAPsResult.data?.aggregateGitPOAP._count?.id;
   const totalClaims = totalClaimsResult.data?.aggregateClaim._count?.id;
+  const totalClaimsWithGithubHandle =
+    totalClaimsWithGithubHandleResult.data?.aggregateClaim._count?.id;
+  const totalClaimsWithEmail = totalClaimsWithEmailResult.data?.aggregateClaim._count?.id;
+  const totalClaimsWithIssuedAddress =
+    totalClaimsWithIssuedAddressResult.data?.aggregateClaim._count?.id;
+  const totalClaimsWithPREarned =
+    totalClaimsWithPullRequestEarnedResult.data?.aggregateClaim._count?.id;
   const mintedClaims = mintedClaimsResult.data?.aggregateClaim._count?.id;
   const unverifiedClaims = unverifiedClaimsResult.data?.aggregateClaim._count?.id;
   const totalUsers = totalUsersResult.data?.aggregateGithubUser._count?.githubHandle;
   const totalUsersWithClaims = totalUsersWithClaimsResult.data?.claims.length;
-  const totalClaimsWithPREarned =
-    totalClaimsWithPullRequestEarnedResult.data?.aggregateClaim._count?.id;
 
   return (
     <Group position="center">
@@ -217,6 +237,18 @@ export const VitalsDashboard = () => {
             mb={rem(20)}
           />
 
+          {/* GitPOAP Types Section */}
+          <DashboardItem name={'Total GitPOAPs'} value={totalGitPOAPs} />
+          <DashboardItem
+            name={'Total ANNUAL GitPOAPs'}
+            value={`${totalAnnualGitPOAPs} (${getPercent(totalAnnualGitPOAPs, totalGitPOAPs)})`}
+          />
+          <DashboardItem
+            name={'Total CUSTOM GitPOAPs'}
+            value={`${totalCustomGitPOAPs} (${getPercent(totalCustomGitPOAPs, totalGitPOAPs)})`}
+            mb={rem(20)}
+          />
+
           {/* Claims Stats Section */}
           <DashboardItem
             name={'Total minted claims'}
@@ -230,10 +262,33 @@ export const VitalsDashboard = () => {
             name={'Total unverified claims'}
             value={`${unverifiedClaims} (${getPercent(unverifiedClaims, totalClaims)})`}
           />
-          <DashboardItem name={'Total claims'} value={totalClaims} mb={rem(25)} />
+          <DashboardItem name={'Total claims'} value={totalClaims} mb={rem(20)} />
           <DashboardItem
-            name={'Claims With PR Earned (%)'}
-            value={getPercent(totalClaimsWithPREarned, totalClaims)}
+            name={'Claims based on github'}
+            value={`${totalClaimsWithGithubHandle} (${getPercent(
+              totalClaimsWithGithubHandle,
+              totalClaims,
+            )})`}
+          />
+          <DashboardItem
+            name={'Claims based on emails'}
+            value={`${totalClaimsWithEmail} (${getPercent(totalClaimsWithEmail, totalClaims)})`}
+          />
+          <DashboardItem
+            name={'Claims based on addresses'}
+            value={`${totalClaimsWithIssuedAddress} (${getPercent(
+              totalClaimsWithIssuedAddress,
+              totalClaims,
+            )})`}
+            mb={rem(20)}
+          />
+
+          <DashboardItem
+            name={'Claims With PR Earned'}
+            value={`${totalClaimsWithPREarned} (${getPercent(
+              totalClaimsWithPREarned,
+              totalClaims,
+            )})`}
             mb={rem(20)}
           />
 

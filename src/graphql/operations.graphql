@@ -554,6 +554,22 @@ query totalGitPOAPCount {
   }
 }
 
+query totalAnnualGitPOAPCount {
+  aggregateGitPOAP(where: { type: { equals: ANNUAL } }) {
+    _count {
+      id
+    }
+  }
+}
+
+query totalCustomGitPOAPCount {
+  aggregateGitPOAP(where: { type: { equals: CUSTOM } }) {
+    _count {
+      id
+    }
+  }
+}
+
 query claimsSince($date: DateTime) {
   claims(where: { status: { equals: CLAIMED }, mintedAt: { gt: $date } }) {
     id
@@ -586,6 +602,30 @@ query orgsSince($date: DateTime) {
 
 query claimsCount {
   aggregateClaim {
+    _count {
+      id
+    }
+  }
+}
+
+query claimsWithGithubHandleCount {
+  aggregateClaim(where: { githubUserId :{ not: { equals: null } } }) {
+    _count {
+      id
+    }
+  }
+}
+
+query claimsWithEmailCount {
+  aggregateClaim(where: { emailId : { not: { equals: null } } }) {
+    _count {
+      id
+    }
+  }
+}
+
+query claimsWithIssuedAddressCount {
+  aggregateClaim(where: { issuedAddressId :{ not: { equals: null } } }) {
     _count {
       id
     }
