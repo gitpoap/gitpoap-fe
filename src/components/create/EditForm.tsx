@@ -5,15 +5,12 @@ import {
   Input as InputUI,
   Box,
   Text,
-  Button,
   List,
   Grid,
   Divider,
 } from '@mantine/core';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
-import { FaCheckCircle } from 'react-icons/fa';
-import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
 
 import { DateInput, Header, Input, TextArea, TextInputLabelStyles } from '../shared/elements';
@@ -33,17 +30,11 @@ import {
   ValidatedContributor,
   ValidatedEditFormValues,
 } from '../../lib/api/gitpoapRequest';
+import { ButtonStatus, StatusButton } from '../shared/compounds/StatusButton';
 
 const Label = styled(InputUI.Label)`
   ${TextInputLabelStyles};
 `;
-
-export enum ButtonStatus {
-  INITIAL,
-  LOADING,
-  SUCCESS,
-  ERROR,
-}
 
 const HeaderText = {
   UNSUBMITTED: 'Create GitPOAP',
@@ -277,24 +268,17 @@ export const EditForm = ({
             removeContributor={(index) => removeListItem('contributors', index)}
           />
         </Box>
-        <Button
+        <StatusButton
           onClick={async () => await submitEditCustomGitPOAP(values)}
-          loading={buttonStatus === ButtonStatus.LOADING}
-          disabled={
+          isDisabled={
             !isDirty() ||
             buttonStatus === ButtonStatus.SUCCESS ||
             buttonStatus === ButtonStatus.LOADING
           }
-          leftIcon={
-            buttonStatus === ButtonStatus.SUCCESS ? (
-              <FaCheckCircle size={18} />
-            ) : buttonStatus === ButtonStatus.ERROR ? (
-              <MdError size={18} />
-            ) : null
-          }
+          status={buttonStatus}
         >
           {SubmitButtonText[adminApprovalStatus]}
-        </Button>
+        </StatusButton>
       </Stack>
     </Container>
   );
