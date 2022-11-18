@@ -42,10 +42,10 @@ const Label = styled.span`
 
 const getTweetText = (claimedCount: number) => {
   if (claimedCount === 1) {
-    return 'I was awarded a GitPOAP for contributions to open source!';
+    return 'I was awarded a GitPOAP for my contributions!';
   }
 
-  return `I was awarded ${claimedCount} GitPOAPs for contributions to open source!`;
+  return `I was awarded ${claimedCount} GitPOAPs for my contributions !`;
 };
 
 interface Props {
@@ -70,7 +70,7 @@ export const TwitterShareButton = ({ claimedCount, address, ensName, claims }: P
   }, [address, ensName, claimedCount, firstGitPOAPUrl, profileUrl]);
 
   const queryParams = new URLSearchParams({
-    text: getTweetText(claimedCount) + `${getTweetUrl()} #poap #gitpoap`,
+    text: getTweetText(claimedCount) + `${getTweetUrl()}`,
   }).toString();
 
   return (
