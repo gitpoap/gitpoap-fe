@@ -249,8 +249,7 @@ export const EditForm = ({
         <StatusButton
           onClick={async () => await submitEditCustomGitPOAP(values)}
           isDisabled={
-            !isDirty() ||
-            values.contributors.length !== initialValues.contributors.length ||
+            (!isDirty() && values.contributors.length === initialValues.contributors.length) ||
             buttonStatus === ButtonStatus.SUCCESS ||
             buttonStatus === ButtonStatus.LOADING
           }
