@@ -123,7 +123,7 @@ export const FurtherInfoFor = () => {
           <Content>
             <InfoHexHeader>{'For Contributors'}</InfoHexHeader>
             <InfoHexText>
-              {`Create a public, immutable, & unbiased record of your contributions to the open source community & show it off via your profile.`}
+              {`Create a public, immutable, & unbiased record of your contributions & show it off via your profile.`}
             </InfoHexText>
             <ButtonStyled style={{ marginTop: rem(40) }} leftIcon={<GitPOAPIcon />}>
               {'Check Eligibility'}
