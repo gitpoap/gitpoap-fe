@@ -187,7 +187,7 @@ export const Web3ContextProvider = (props: Props) => {
       await addListeners(provider);
       if (!hasConnectedBefore) {
         setHasConnectedBefore(true);
-        void router.push('/settings#integrations');
+        void router.push('/settings');
       }
       return web3Provider;
     } catch (err) {

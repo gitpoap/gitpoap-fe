@@ -71,10 +71,7 @@ export const ConnectionButton = ({ className, hideText }: Props) => {
   if (!user?.capabilities.hasGithub && !email) {
     return (
       <Content className={className}>
-        <Button
-          onClick={() => router.push(`/settings#integrations`)}
-          leftIcon={!hideText && <GitPOAPIcon />}
-        >
+        <Button onClick={() => router.push(`/settings`)} leftIcon={!hideText && <GitPOAPIcon />}>
           {hideText ? <GitPOAPIcon /> : 'Connect Accounts'}
         </Button>
       </Content>

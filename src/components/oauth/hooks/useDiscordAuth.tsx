@@ -4,6 +4,7 @@ import { DISCORD_CLIENT_ID } from '../../../constants';
 import { useApi } from '../../../hooks/useApi';
 import { useTokens } from '../../../hooks/useTokens';
 import { Notifications } from '../../../notifications';
+import { OauthType } from '../types';
 
 export const useDiscordAuth = () => {
   const api = useApi();
@@ -11,7 +12,7 @@ export const useDiscordAuth = () => {
   /* A react ref that tracks if Discord auth is loading */
   const isDiscordAuthLoading = useRef(false);
   const { asPath, push } = useRouter();
-  const redirectUri = typeof window !== 'undefined' ? window.location.href : '';
+  const redirectUri = typeof window !== 'undefined' ? `${window.location.href}?type=discord` : '';
   const scopes = ['identify'].join('%20');
   const discordAuthURL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(
     redirectUri,
@@ -48,15 +49,17 @@ export const useDiscordAuth = () => {
   /* After requesting Discord access, Discord redirects back to your app with a code parameter. */
   useEffect(() => {
     const url = asPath;
-    const hasCode = url.includes('?code=');
+    const baseUrl = url.split('?')[0];
+    const urlSearchParam = url.split('?')[1];
+    const urlParams = new URLSearchParams(urlSearchParam);
+    const code = urlParams.get('code');
+    const type = urlParams.get('type');
 
     /* If Discord API returns the code parameter */
-    if (hasCode && isDiscordAuthLoading.current === false && tokens) {
-      const newUrl = url.split('?code=');
-      const codeWithNoHash = newUrl[1].split('#')[0];
+    if (type === OauthType.DISCORD && code && isDiscordAuthLoading.current === false && tokens) {
       isDiscordAuthLoading.current = true;
-      void push(newUrl[0]);
-      void authenticate(codeWithNoHash);
+      void push(baseUrl);
+      void authenticate(code);
     }
   }, [authenticate, asPath, push, tokens]);
 
