@@ -63,7 +63,7 @@ export class AuthAPI extends API {
 
   async githubAuth(code: string) {
     const res = await makeAPIRequestWithAuth(
-      '/github',
+      '/oauth/github',
       'POST',
       this.token,
       JSON.stringify({ code }),
@@ -77,7 +77,7 @@ export class AuthAPI extends API {
   }
 
   async githubDisconnect() {
-    const res = await makeAPIRequestWithAuth('/github', 'DELETE', this.token);
+    const res = await makeAPIRequestWithAuth('/oauth/github', 'DELETE', this.token);
     if (!res) {
       return null;
     }
