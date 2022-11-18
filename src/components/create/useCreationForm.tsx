@@ -15,8 +15,8 @@ const defaultInitialValues: CreateFormValues = {
 
 export const useCreationForm = () =>
   useForm<CreateFormValues>({
-    validate: zodResolver(CreateFormValidationSchema),
     initialValues: defaultInitialValues,
+    validate: zodResolver(CreateFormValidationSchema),
   });
 
 export type CreationFormReturnTypes = ReturnType<typeof useCreationForm>;

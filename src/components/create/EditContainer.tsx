@@ -5,6 +5,11 @@ import { Header } from '../shared/elements';
 import { convertContributorsObjectToList } from './convertContributorsObjectToList';
 import { EditForm } from './EditForm';
 
+function addTimezoneOffset(date: Date) {
+  const timezoneOffset = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() + timezoneOffset);
+}
+
 type Props = {
   address: string;
   gitPOAPId: number;
@@ -64,8 +69,8 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
       initialValues={{
         name: gitPOAPRequest.name,
         description: gitPOAPRequest.description,
-        startDate: new Date(gitPOAPRequest.startDate),
-        endDate: new Date(gitPOAPRequest.endDate),
+        startDate: addTimezoneOffset(new Date(gitPOAPRequest.startDate)),
+        endDate: addTimezoneOffset(new Date(gitPOAPRequest.endDate)),
         contributors: convertContributorsObjectToList(gitPOAPRequest.contributors),
         image: null,
       }}
