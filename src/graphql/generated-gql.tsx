@@ -2674,7 +2674,6 @@ export type GithubUserAvgOrderByAggregateInput = {
 export type GithubUserCount = {
   __typename?: 'GithubUserCount';
   addresses: Scalars['Int'];
-  authTokens: Scalars['Int'];
   claims: Scalars['Int'];
   githubIssues: Scalars['Int'];
   githubMentions: Scalars['Int'];
@@ -5663,7 +5662,6 @@ export type EligibleClaimsQuery = {
     id: number;
     issuedAddress?: { __typename?: 'Address'; ethAddress: string; ensName?: string | null } | null;
     githubUser?: { __typename?: 'GithubUser'; githubHandle: string } | null;
-    email?: { __typename?: 'Email'; emailAddress: string } | null;
     gitPOAP: {
       __typename?: 'GitPOAP';
       id: number;
@@ -6906,7 +6904,6 @@ export const EligibleClaimsDocument = gql`
         }
         OR: [
           { githubUser: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
-          { email: { is: { emailAddress: { contains: $query, mode: insensitive } } } }
           { issuedAddress: { is: { ethAddress: { contains: $query, mode: insensitive } } } }
           { issuedAddress: { is: { ensName: { contains: $query, mode: insensitive } } } }
           { gitPOAP: { is: { name: { contains: $query, mode: insensitive } } } }
@@ -6921,9 +6918,6 @@ export const EligibleClaimsDocument = gql`
       }
       githubUser {
         githubHandle
-      }
-      email {
-        emailAddress
       }
       gitPOAP {
         id

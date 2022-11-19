@@ -331,7 +331,6 @@ query eligibleClaims($query: String!, $skip: Int, $take: Int) {
       }
       OR: [
         { githubUser: { is: { githubHandle: { contains: $query, mode: insensitive } } } }
-        { email: { is: { emailAddress: { contains: $query, mode: insensitive } } } }
         { issuedAddress: { is: { ethAddress: { contains: $query, mode: insensitive } } } }
         { issuedAddress: { is: { ensName: { contains: $query, mode: insensitive } } } }
         { gitPOAP: { is: { name: { contains: $query, mode: insensitive } } } }
@@ -346,9 +345,6 @@ query eligibleClaims($query: String!, $skip: Int, $take: Int) {
     }
     githubUser {
       githubHandle
-    }
-    email {
-      emailAddress
     }
     gitPOAP {
       id
@@ -609,7 +605,7 @@ query claimsCount {
 }
 
 query claimsWithGithubHandleCount {
-  aggregateClaim(where: { githubUserId :{ not: { equals: null } } }) {
+  aggregateClaim(where: { githubUserId: { not: { equals: null } } }) {
     _count {
       id
     }
@@ -617,7 +613,7 @@ query claimsWithGithubHandleCount {
 }
 
 query claimsWithEmailCount {
-  aggregateClaim(where: { emailId : { not: { equals: null } } }) {
+  aggregateClaim(where: { emailId: { not: { equals: null } } }) {
     _count {
       id
     }
@@ -625,7 +621,7 @@ query claimsWithEmailCount {
 }
 
 query claimsWithIssuedAddressCount {
-  aggregateClaim(where: { issuedAddressId :{ not: { equals: null } } }) {
+  aggregateClaim(where: { issuedAddressId: { not: { equals: null } } }) {
     _count {
       id
     }
