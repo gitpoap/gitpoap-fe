@@ -183,6 +183,7 @@ export const VitalsDashboard = () => {
   const totalClaimsWithPREarned =
     totalClaimsWithPullRequestEarnedResult.data?.aggregateClaim._count?.id;
   const mintedClaims = mintedClaimsResult.data?.aggregateClaim._count?.id;
+  const unmintedClaims = (totalClaims ?? 0) - (mintedClaims ?? 0);
   const unverifiedClaims = unverifiedClaimsResult.data?.aggregateClaim._count?.id;
   const totalUsers = totalUsersResult.data?.aggregateGithubUser._count?.githubHandle;
   const totalUsersWithClaims = totalUsersWithClaimsResult.data?.claims.length;
@@ -262,7 +263,7 @@ export const VitalsDashboard = () => {
           />
           <DashboardItem
             name={'Total unminted claims'}
-            value={getPercent((totalClaims ?? 0) - (mintedClaims ?? 0), totalClaims)}
+            value={`${unmintedClaims} (${getPercent(unmintedClaims, totalClaims)})`}
           />
           <DashboardItem
             name={'Total unverified claims'}
