@@ -62,7 +62,7 @@ describe('TwitterShareButton', () => {
 
       expect(button).toHaveTextContent('Tweet My Mints');
       expect(button.href).toEqual(
-        'https://twitter.com/intent/tweet?text=I+was+awarded+a+GitPOAP+for+contributions+to+open+source%21%0Ahttps%3A%2F%2Fgitpoap.io%2Fgp%2F1%0A+%23poap+%23gitpoap',
+        'https://twitter.com/intent/tweet?text=I+was+awarded+a+GitPOAP+for+my+contributions%21%0Ahttps%3A%2F%2Fgitpoap.io%2Fgp%2F1%0A',
       );
       expect(button).toBeInTheDocument();
       expect(button).toMatchSnapshot();
@@ -81,7 +81,7 @@ describe('TwitterShareButton', () => {
       /* Use screen.getByRole to get the anchor tag - The component has an <a> at the top level */
       const button = screen.getByRole<HTMLAnchorElement>('link', { name: 'Tweet My Mints' });
       expect(button.href).toEqual(
-        `https://twitter.com/intent/tweet?text=I+was+awarded+2+GitPOAPs+for+contributions+to+open+source%21%0Ahttps%3A%2F%2Fgitpoap.io%2Fp%2F${ZERO_ADDRESS}%0A+%23poap+%23gitpoap`,
+        `https://twitter.com/intent/tweet?text=I+was+awarded+2+GitPOAPs+for+my+contributions+%21%0Ahttps%3A%2F%2Fgitpoap.io%2Fp%2F${ZERO_ADDRESS}%0A`,
       );
       expect(button).toHaveTextContent('Tweet My Mints');
       expect(button).toBeInTheDocument();
@@ -105,7 +105,7 @@ describe('TwitterShareButton', () => {
 
       expect(button).toHaveTextContent('Tweet My Mints');
       expect(button.href).toEqual(
-        'https://twitter.com/intent/tweet?text=I+was+awarded+a+GitPOAP+for+contributions+to+open+source%21%0Ahttps%3A%2F%2Fgitpoap.io%2Fgp%2F1%0A+%23poap+%23gitpoap',
+        'https://twitter.com/intent/tweet?text=I+was+awarded+a+GitPOAP+for+my+contributions%21%0Ahttps%3A%2F%2Fgitpoap.io%2Fgp%2F1%0A',
       );
       expect(button).toBeInTheDocument();
       expect(button).toMatchSnapshot();
@@ -117,7 +117,7 @@ describe('TwitterShareButton', () => {
       /* Use screen.getByRole to get the anchor tag - The component has an <a> at the top level */
       const button = screen.getByRole<HTMLAnchorElement>('link', { name: 'Tweet My Mints' });
       expect(button.href).toEqual(
-        'https://twitter.com/intent/tweet?text=I+was+awarded+2+GitPOAPs+for+contributions+to+open+source%21%0Ahttps%3A%2F%2Fgitpoap.io%2Fgp%2F1%0A+%23poap+%23gitpoap',
+        'https://twitter.com/intent/tweet?text=I+was+awarded+2+GitPOAPs+for+my+contributions+%21%0Ahttps%3A%2F%2Fgitpoap.io%2Fgp%2F1%0A',
       );
       expect(button).toHaveTextContent('Tweet My Mints');
       expect(button).toBeInTheDocument();
