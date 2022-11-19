@@ -21,12 +21,76 @@ export type Address = {
   __typename?: 'Address';
   _count?: Maybe<AddressCount>;
   createdAt: Scalars['DateTime'];
+  createdGitPOAPs: Array<GitPoap>;
+  email?: Maybe<Email>;
   ensAvatarImageUrl?: Maybe<Scalars['String']>;
   ensName?: Maybe<Scalars['String']>;
   ethAddress: Scalars['String'];
+  gitPOAPRequests: Array<GitPoapRequest>;
+  githubUser?: Maybe<GithubUser>;
   githubUserId?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
+  issuedClaims: Array<Claim>;
+  memberships: Array<OrganizationMembership>;
+  mintedClaims: Array<Claim>;
+  profile?: Maybe<Profile>;
   updatedAt: Scalars['DateTime'];
+};
+
+export type AddressCreatedGitPoaPsArgs = {
+  cursor?: InputMaybe<GitPoapWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GitPoapScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GitPoapOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GitPoapWhereInput>;
+};
+
+export type AddressGitPoapRequestsArgs = {
+  cursor?: InputMaybe<GitPoapRequestWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GitPoapRequestScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GitPoapRequestOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GitPoapRequestWhereInput>;
+};
+
+export type AddressIssuedClaimsArgs = {
+  cursor?: InputMaybe<ClaimWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ClaimScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ClaimOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ClaimWhereInput>;
+};
+
+export type AddressMembershipsArgs = {
+  cursor?: InputMaybe<OrganizationMembershipWhereUniqueInput>;
+  distinct?: InputMaybe<Array<OrganizationMembershipScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<OrganizationMembershipOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<OrganizationMembershipWhereInput>;
+};
+
+export type AddressMintedClaimsArgs = {
+  cursor?: InputMaybe<ClaimWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ClaimScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ClaimOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ClaimWhereInput>;
+};
+
+export type AddressAvgAggregate = {
+  __typename?: 'AddressAvgAggregate';
+  githubUserId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type AddressAvgOrderByAggregateInput = {
+  githubUserId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type AddressCount = {
@@ -39,14 +103,109 @@ export type AddressCount = {
   mintedClaims: Scalars['Int'];
 };
 
+export type AddressCountAggregate = {
+  __typename?: 'AddressCountAggregate';
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  ensAvatarImageUrl: Scalars['Int'];
+  ensName: Scalars['Int'];
+  ethAddress: Scalars['Int'];
+  githubUserId: Scalars['Int'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+};
+
+export type AddressCountOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  ensAvatarImageUrl?: InputMaybe<SortOrder>;
+  ensName?: InputMaybe<SortOrder>;
+  ethAddress?: InputMaybe<SortOrder>;
+  githubUserId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type AddressGroupBy = {
+  __typename?: 'AddressGroupBy';
+  _avg?: Maybe<AddressAvgAggregate>;
+  _count?: Maybe<AddressCountAggregate>;
+  _max?: Maybe<AddressMaxAggregate>;
+  _min?: Maybe<AddressMinAggregate>;
+  _sum?: Maybe<AddressSumAggregate>;
+  createdAt: Scalars['DateTime'];
+  ensAvatarImageUrl?: Maybe<Scalars['String']>;
+  ensName?: Maybe<Scalars['String']>;
+  ethAddress: Scalars['String'];
+  githubUserId?: Maybe<Scalars['Int']>;
+  id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type AddressListRelationFilter = {
   every?: InputMaybe<AddressWhereInput>;
   none?: InputMaybe<AddressWhereInput>;
   some?: InputMaybe<AddressWhereInput>;
 };
 
+export type AddressMaxAggregate = {
+  __typename?: 'AddressMaxAggregate';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  ensAvatarImageUrl?: Maybe<Scalars['String']>;
+  ensName?: Maybe<Scalars['String']>;
+  ethAddress?: Maybe<Scalars['String']>;
+  githubUserId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type AddressMaxOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  ensAvatarImageUrl?: InputMaybe<SortOrder>;
+  ensName?: InputMaybe<SortOrder>;
+  ethAddress?: InputMaybe<SortOrder>;
+  githubUserId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type AddressMinAggregate = {
+  __typename?: 'AddressMinAggregate';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  ensAvatarImageUrl?: Maybe<Scalars['String']>;
+  ensName?: Maybe<Scalars['String']>;
+  ethAddress?: Maybe<Scalars['String']>;
+  githubUserId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type AddressMinOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  ensAvatarImageUrl?: InputMaybe<SortOrder>;
+  ensName?: InputMaybe<SortOrder>;
+  ethAddress?: InputMaybe<SortOrder>;
+  githubUserId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
 export type AddressOrderByRelationAggregateInput = {
   _count?: InputMaybe<SortOrder>;
+};
+
+export type AddressOrderByWithAggregationInput = {
+  _avg?: InputMaybe<AddressAvgOrderByAggregateInput>;
+  _count?: InputMaybe<AddressCountOrderByAggregateInput>;
+  _max?: InputMaybe<AddressMaxOrderByAggregateInput>;
+  _min?: InputMaybe<AddressMinOrderByAggregateInput>;
+  _sum?: InputMaybe<AddressSumOrderByAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  ensAvatarImageUrl?: InputMaybe<SortOrder>;
+  ensName?: InputMaybe<SortOrder>;
+  ethAddress?: InputMaybe<SortOrder>;
+  githubUserId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
 };
 
 export type AddressOrderByWithRelationInput = {
@@ -82,6 +241,30 @@ export enum AddressScalarFieldEnum {
   UpdatedAt = 'updatedAt',
 }
 
+export type AddressScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<AddressScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<AddressScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<AddressScalarWhereWithAggregatesInput>>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  ensAvatarImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
+  ensName?: InputMaybe<StringNullableWithAggregatesFilter>;
+  ethAddress?: InputMaybe<StringWithAggregatesFilter>;
+  githubUserId?: InputMaybe<IntNullableWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+};
+
+export type AddressSumAggregate = {
+  __typename?: 'AddressSumAggregate';
+  githubUserId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+export type AddressSumOrderByAggregateInput = {
+  githubUserId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+};
+
 export type AddressWhereInput = {
   AND?: InputMaybe<Array<AddressWhereInput>>;
   NOT?: InputMaybe<Array<AddressWhereInput>>;
@@ -114,6 +297,15 @@ export enum AdminApprovalStatus {
   Rejected = 'REJECTED',
 }
 
+export type AggregateAddress = {
+  __typename?: 'AggregateAddress';
+  _avg?: Maybe<AddressAvgAggregate>;
+  _count?: Maybe<AddressCountAggregate>;
+  _max?: Maybe<AddressMaxAggregate>;
+  _min?: Maybe<AddressMinAggregate>;
+  _sum?: Maybe<AddressSumAggregate>;
+};
+
 export type AggregateClaim = {
   __typename?: 'AggregateClaim';
   _avg?: Maybe<ClaimAvgAggregate>;
@@ -121,6 +313,15 @@ export type AggregateClaim = {
   _max?: Maybe<ClaimMaxAggregate>;
   _min?: Maybe<ClaimMinAggregate>;
   _sum?: Maybe<ClaimSumAggregate>;
+};
+
+export type AggregateEmail = {
+  __typename?: 'AggregateEmail';
+  _avg?: Maybe<EmailAvgAggregate>;
+  _count?: Maybe<EmailCountAggregate>;
+  _max?: Maybe<EmailMaxAggregate>;
+  _min?: Maybe<EmailMinAggregate>;
+  _sum?: Maybe<EmailSumAggregate>;
 };
 
 export type AggregateFeaturedPoap = {
@@ -657,11 +858,54 @@ export type Email = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type EmailAvgAggregate = {
+  __typename?: 'EmailAvgAggregate';
+  addressId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
 export type EmailCount = {
   __typename?: 'EmailCount';
   claims: Scalars['Int'];
   createdGitPOAPRequests: Scalars['Int'];
   createdGitPOAPs: Scalars['Int'];
+};
+
+export type EmailCountAggregate = {
+  __typename?: 'EmailCountAggregate';
+  _all: Scalars['Int'];
+  activeToken: Scalars['Int'];
+  addressId: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  emailAddress: Scalars['Int'];
+  id: Scalars['Int'];
+  isValidated: Scalars['Int'];
+  tokenExpiresAt: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+};
+
+export type EmailMaxAggregate = {
+  __typename?: 'EmailMaxAggregate';
+  activeToken?: Maybe<Scalars['String']>;
+  addressId?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  emailAddress?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  isValidated?: Maybe<Scalars['Boolean']>;
+  tokenExpiresAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type EmailMinAggregate = {
+  __typename?: 'EmailMinAggregate';
+  activeToken?: Maybe<Scalars['String']>;
+  addressId?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  emailAddress?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  isValidated?: Maybe<Scalars['Boolean']>;
+  tokenExpiresAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type EmailOrderByWithRelationInput = {
@@ -682,6 +926,12 @@ export type EmailRelationFilter = {
   isNot?: InputMaybe<EmailWhereInput>;
 };
 
+export type EmailSumAggregate = {
+  __typename?: 'EmailSumAggregate';
+  addressId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
 export type EmailWhereInput = {
   AND?: InputMaybe<Array<EmailWhereInput>>;
   NOT?: InputMaybe<Array<EmailWhereInput>>;
@@ -696,6 +946,12 @@ export type EmailWhereInput = {
   id?: InputMaybe<IntFilter>;
   isValidated?: InputMaybe<BoolFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type EmailWhereUniqueInput = {
+  addressId?: InputMaybe<Scalars['Int']>;
+  emailAddress?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type EnumAdminApprovalStatusFilter = {
@@ -4109,7 +4365,11 @@ export type ProjectWhereUniqueInput = {
 
 export type Query = {
   __typename?: 'Query';
+  address?: Maybe<Address>;
+  addresses: Array<Address>;
+  aggregateAddress: AggregateAddress;
   aggregateClaim: AggregateClaim;
+  aggregateEmail: AggregateEmail;
   aggregateFeaturedPOAP: AggregateFeaturedPoap;
   aggregateGitPOAP: AggregateGitPoap;
   aggregateGitPOAPRequest: AggregateGitPoapRequest;
@@ -4127,6 +4387,7 @@ export type Query = {
   claims: Array<Claim>;
   featuredPOAP?: Maybe<FeaturedPoap>;
   featuredPOAPS: Array<FeaturedPoap>;
+  findFirstAddress?: Maybe<Address>;
   findFirstClaim?: Maybe<Claim>;
   findFirstFeaturedPOAP?: Maybe<FeaturedPoap>;
   findFirstGitPOAP?: Maybe<GitPoap>;
@@ -4153,6 +4414,7 @@ export type Query = {
   githubPullRequests: Array<GithubPullRequest>;
   githubUser?: Maybe<GithubUser>;
   githubUsers: Array<GithubUser>;
+  groupByAddress: Array<AddressGroupBy>;
   groupByClaim: Array<ClaimGroupBy>;
   groupByFeaturedPOAP: Array<FeaturedPoapGroupBy>;
   groupByGitPOAP: Array<GitPoapGroupBy>;
@@ -4198,12 +4460,41 @@ export type Query = {
   userPOAPs?: Maybe<UserPoaPs>;
 };
 
+export type QueryAddressArgs = {
+  where: AddressWhereUniqueInput;
+};
+
+export type QueryAddressesArgs = {
+  cursor?: InputMaybe<AddressWhereUniqueInput>;
+  distinct?: InputMaybe<Array<AddressScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<AddressOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<AddressWhereInput>;
+};
+
+export type QueryAggregateAddressArgs = {
+  cursor?: InputMaybe<AddressWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<AddressOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<AddressWhereInput>;
+};
+
 export type QueryAggregateClaimArgs = {
   cursor?: InputMaybe<ClaimWhereUniqueInput>;
   orderBy?: InputMaybe<Array<ClaimOrderByWithRelationInput>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ClaimWhereInput>;
+};
+
+export type QueryAggregateEmailArgs = {
+  cursor?: InputMaybe<EmailWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<EmailOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<EmailWhereInput>;
 };
 
 export type QueryAggregateFeaturedPoapArgs = {
@@ -4331,6 +4622,15 @@ export type QueryFeaturedPoapsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<FeaturedPoapWhereInput>;
+};
+
+export type QueryFindFirstAddressArgs = {
+  cursor?: InputMaybe<AddressWhereUniqueInput>;
+  distinct?: InputMaybe<Array<AddressScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<AddressOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<AddressWhereInput>;
 };
 
 export type QueryFindFirstClaimArgs = {
@@ -4528,6 +4828,15 @@ export type QueryGithubUsersArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GithubUserWhereInput>;
+};
+
+export type QueryGroupByAddressArgs = {
+  by: Array<AddressScalarFieldEnum>;
+  having?: InputMaybe<AddressScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<AddressOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<AddressWhereInput>;
 };
 
 export type QueryGroupByClaimArgs = {
@@ -6012,6 +6321,56 @@ export type ClaimsWithIssuedAddressCountQuery = {
   };
 };
 
+export type TotalAddressesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalAddressesQuery = {
+  __typename?: 'Query';
+  aggregateAddress: {
+    __typename?: 'AggregateAddress';
+    _count?: { __typename?: 'AddressCountAggregate'; id: number } | null;
+  };
+};
+
+export type TotalAddressesWithEnsNamesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalAddressesWithEnsNamesQuery = {
+  __typename?: 'Query';
+  aggregateAddress: {
+    __typename?: 'AggregateAddress';
+    _count?: { __typename?: 'AddressCountAggregate'; id: number } | null;
+  };
+};
+
+export type TotalAddressesWithEnsAvatarsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalAddressesWithEnsAvatarsQuery = {
+  __typename?: 'Query';
+  aggregateAddress: {
+    __typename?: 'AggregateAddress';
+    _count?: { __typename?: 'AddressCountAggregate'; id: number } | null;
+  };
+};
+
+export type TotalEmailsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalEmailsQuery = {
+  __typename?: 'Query';
+  aggregateEmail: {
+    __typename?: 'AggregateEmail';
+    _count?: { __typename?: 'EmailCountAggregate'; id: number } | null;
+  };
+};
+
+export type TotalEmailsValidatedQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalEmailsValidatedQuery = {
+  __typename?: 'Query';
+  aggregateEmail: {
+    __typename?: 'AggregateEmail';
+    _count?: { __typename?: 'EmailCountAggregate'; id: number } | null;
+  };
+};
+
 export type TotalUsersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type TotalUsersQuery = {
@@ -6052,9 +6411,23 @@ export type TotalProfilesHiddenQuery = {
   };
 };
 
+export type TotalAddressesWithClaimsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalAddressesWithClaimsQuery = {
+  __typename?: 'Query';
+  claims: Array<{ __typename?: 'Claim'; id: number }>;
+};
+
 export type TotalDistinctUsersWithClaimsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type TotalDistinctUsersWithClaimsQuery = {
+  __typename?: 'Query';
+  claims: Array<{ __typename?: 'Claim'; id: number }>;
+};
+
+export type TotalEmailsWithClaimsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TotalEmailsWithClaimsQuery = {
   __typename?: 'Query';
   claims: Array<{ __typename?: 'Claim'; id: number }>;
 };
@@ -7468,9 +7841,99 @@ export function useClaimsWithIssuedAddressCountQuery(
     ClaimsWithIssuedAddressCountQueryVariables
   >({ query: ClaimsWithIssuedAddressCountDocument, ...options });
 }
+export const TotalAddressesDocument = gql`
+  query totalAddresses {
+    aggregateAddress {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalAddressesQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalAddressesQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalAddressesQuery, TotalAddressesQueryVariables>({
+    query: TotalAddressesDocument,
+    ...options,
+  });
+}
+export const TotalAddressesWithEnsNamesDocument = gql`
+  query totalAddressesWithEnsNames {
+    aggregateAddress(where: { ensName: { not: { equals: null } } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalAddressesWithEnsNamesQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalAddressesWithEnsNamesQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalAddressesWithEnsNamesQuery, TotalAddressesWithEnsNamesQueryVariables>({
+    query: TotalAddressesWithEnsNamesDocument,
+    ...options,
+  });
+}
+export const TotalAddressesWithEnsAvatarsDocument = gql`
+  query totalAddressesWithEnsAvatars {
+    aggregateAddress(where: { ensAvatarImageUrl: { not: { equals: null } } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalAddressesWithEnsAvatarsQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalAddressesWithEnsAvatarsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<
+    TotalAddressesWithEnsAvatarsQuery,
+    TotalAddressesWithEnsAvatarsQueryVariables
+  >({ query: TotalAddressesWithEnsAvatarsDocument, ...options });
+}
+export const TotalEmailsDocument = gql`
+  query totalEmails {
+    aggregateEmail {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalEmailsQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalEmailsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalEmailsQuery, TotalEmailsQueryVariables>({
+    query: TotalEmailsDocument,
+    ...options,
+  });
+}
+export const TotalEmailsValidatedDocument = gql`
+  query totalEmailsValidated {
+    aggregateEmail(where: { isValidated: { equals: true } }) {
+      _count {
+        id
+      }
+    }
+  }
+`;
+
+export function useTotalEmailsValidatedQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalEmailsValidatedQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalEmailsValidatedQuery, TotalEmailsValidatedQueryVariables>({
+    query: TotalEmailsValidatedDocument,
+    ...options,
+  });
+}
 export const TotalUsersDocument = gql`
   query totalUsers {
-    aggregateGithubUser(where: { githubHandle: { not: { equals: "" } } }) {
+    aggregateGithubUser {
       _count {
         githubHandle
       }
@@ -7540,6 +8003,22 @@ export function useTotalProfilesHiddenQuery(
     ...options,
   });
 }
+export const TotalAddressesWithClaimsDocument = gql`
+  query totalAddressesWithClaims {
+    claims(where: { status: { equals: CLAIMED }, issuedAddressId: { not: { equals: null } } }) {
+      id
+    }
+  }
+`;
+
+export function useTotalAddressesWithClaimsQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalAddressesWithClaimsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalAddressesWithClaimsQuery, TotalAddressesWithClaimsQueryVariables>({
+    query: TotalAddressesWithClaimsDocument,
+    ...options,
+  });
+}
 export const TotalDistinctUsersWithClaimsDocument = gql`
   query totalDistinctUsersWithClaims {
     claims(distinct: githubUserId, where: { status: { equals: CLAIMED } }) {
@@ -7555,6 +8034,22 @@ export function useTotalDistinctUsersWithClaimsQuery(
     TotalDistinctUsersWithClaimsQuery,
     TotalDistinctUsersWithClaimsQueryVariables
   >({ query: TotalDistinctUsersWithClaimsDocument, ...options });
+}
+export const TotalEmailsWithClaimsDocument = gql`
+  query totalEmailsWithClaims {
+    claims(where: { status: { equals: CLAIMED }, emailId: { not: { equals: null } } }) {
+      id
+    }
+  }
+`;
+
+export function useTotalEmailsWithClaimsQuery(
+  options?: Omit<Urql.UseQueryArgs<TotalEmailsWithClaimsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TotalEmailsWithClaimsQuery, TotalEmailsWithClaimsQueryVariables>({
+    query: TotalEmailsWithClaimsDocument,
+    ...options,
+  });
 }
 export const MintedClaimsCountDocument = gql`
   query mintedClaimsCount {

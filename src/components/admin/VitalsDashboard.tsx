@@ -23,6 +23,13 @@ import {
   useTotalProfilesWithGitHubHandleQuery,
   useTotalProfilesHiddenQuery,
   useTotalUsersQuery,
+  useTotalAddressesQuery,
+  useTotalAddressesWithEnsNamesQuery,
+  useTotalAddressesWithEnsAvatarsQuery,
+  useTotalAddressesWithClaimsQuery,
+  useTotalEmailsQuery,
+  useTotalEmailsValidatedQuery,
+  useTotalEmailsWithClaimsQuery,
 } from '../../graphql/generated-gql';
 import useSWR from 'swr';
 import { Header, LinkHoverStyles } from '../shared/elements';
@@ -148,6 +155,13 @@ export const VitalsDashboard = () => {
   const [totalUsersResult] = useTotalUsersQuery();
   const [totalUsersWithClaimsResult] = useTotalDistinctUsersWithClaimsQuery();
   const [totalClaimsWithPullRequestEarnedResult] = useCountClaimsWithPullRequestEarnedQuery();
+  const [totalAddressesResult] = useTotalAddressesQuery();
+  const [totalAddressesWithEnsNamesResult] = useTotalAddressesWithEnsNamesQuery();
+  const [totalAddressesWithEnsAvatarsResult] = useTotalAddressesWithEnsAvatarsQuery();
+  const [totalAddressesWithClaimsResult] = useTotalAddressesWithClaimsQuery();
+  const [totalEmailsResult] = useTotalEmailsQuery();
+  const [totalEmailsValidatedResult] = useTotalEmailsValidatedQuery();
+  const [totalEmailsWithClaimsResult] = useTotalEmailsWithClaimsQuery();
 
   const { data: ongoingIssuanceResult } = useSWR<{ lastRun: string }>(
     [
@@ -187,6 +201,15 @@ export const VitalsDashboard = () => {
   const unverifiedClaims = unverifiedClaimsResult.data?.aggregateClaim._count?.id;
   const totalUsers = totalUsersResult.data?.aggregateGithubUser._count?.githubHandle;
   const totalUsersWithClaims = totalUsersWithClaimsResult.data?.claims.length;
+  const totalAddresses = totalAddressesResult.data?.aggregateAddress._count?.id;
+  const totalAddressesWithEnsNames =
+    totalAddressesWithEnsNamesResult.data?.aggregateAddress._count?.id;
+  const totalAddressesWithEnsAvatars =
+    totalAddressesWithEnsAvatarsResult.data?.aggregateAddress._count?.id;
+  const totalAddressesWithClaims = totalAddressesWithClaimsResult.data?.claims.length;
+  const totalEmails = totalEmailsResult.data?.aggregateEmail._count?.id;
+  const totalEmailsValidated = totalEmailsValidatedResult.data?.aggregateEmail?._count?.id;
+  const totalEmailsWithClaims = totalEmailsWithClaimsResult.data?.claims.length;
 
   return (
     <Group position="center">
@@ -320,15 +343,59 @@ export const VitalsDashboard = () => {
             mb={rem(20)}
           />
 
-          {/* Users Section */}
+          {/* Addresses Section */}
+          <DashboardItem name={'Total addresses'} value={totalAddresses} />
           <DashboardItem
-            name={'Total users with mints'}
+            name={'Total addresses with ENS names'}
+            value={`${totalAddressesWithEnsNames ?? ''} (${getPercent(
+              totalAddressesWithEnsNames,
+              totalAddresses,
+            )})`}
+          />
+          <DashboardItem
+            name={'Total addresses with ENS avatars'}
+            value={`${totalAddressesWithEnsAvatars ?? ''} (${getPercent(
+              totalAddressesWithEnsAvatars,
+              totalAddresses,
+            )})`}
+          />
+          <DashboardItem
+            name={'Total addresses with mints'}
+            value={`${totalAddressesWithClaims ?? ''} (${getPercent(
+              totalAddressesWithClaims,
+              totalAddresses,
+            )})`}
+            mb={rem(20)}
+          />
+
+          {/* GitHub Users Section */}
+          <DashboardItem name={'Total emails'} value={totalEmails} />
+          <DashboardItem
+            name={'Total emails validated'}
+            value={`${totalEmailsValidated ?? ''} (${getPercent(
+              totalEmailsValidated,
+              totalEmails,
+            )})`}
+          />
+          <DashboardItem
+            name={'Total emails with mints'}
+            value={`${totalEmailsWithClaims ?? ''} (${getPercent(
+              totalEmailsWithClaims,
+              totalEmails,
+            )})`}
+            mb={rem(20)}
+          />
+
+          {/* Emails Section */}
+          <DashboardItem name={'Total GitHub users'} value={totalUsers} />
+          <DashboardItem
+            name={'Total GitHub users with mints'}
             value={`${totalUsersWithClaims ?? ''} (${getPercent(
               totalUsersWithClaims,
               totalUsers,
             )})`}
+            mb={rem(20)}
           />
-          <DashboardItem name={'Total users'} value={totalUsers} mb={rem(20)} />
 
           {/* Last Run Vitals */}
           <DashboardItem

@@ -628,8 +628,48 @@ query claimsWithIssuedAddressCount {
   }
 }
 
+query totalAddresses {
+  aggregateAddress {
+    _count {
+      id
+    }
+  }
+}
+
+query totalAddressesWithEnsNames {
+  aggregateAddress(where: { ensName: { not: { equals: null } } }) {
+    _count {
+      id
+    }
+  }
+}
+
+query totalAddressesWithEnsAvatars {
+  aggregateAddress(where: { ensAvatarImageUrl: { not: { equals: null } } }) {
+    _count {
+      id
+    }
+  }
+}
+
+query totalEmails {
+  aggregateEmail {
+    _count {
+      id
+    }
+  }
+}
+
+query totalEmailsValidated {
+  aggregateEmail(where: { isValidated: { equals: true } }) {
+    _count {
+      id
+    }
+  }
+}
+
 query totalUsers {
-  aggregateGithubUser(where: { githubHandle: { not: { equals: "" } } }) {
+  aggregateGithubUser {
     _count {
       githubHandle
     }
@@ -660,8 +700,20 @@ query totalProfilesHidden {
   }
 }
 
+query totalAddressesWithClaims {
+  claims(where: { status: { equals: CLAIMED }, issuedAddressId: { not: { equals: null } } }) {
+    id
+  }
+}
+
 query totalDistinctUsersWithClaims {
   claims(distinct: githubUserId, where: { status: { equals: CLAIMED } }) {
+    id
+  }
+}
+
+query totalEmailsWithClaims {
+  claims(where: { status: { equals: CLAIMED }, emailId: { not: { equals: null } } }) {
     id
   }
 }
