@@ -294,7 +294,7 @@ export const VitalsDashboard = () => {
           />
           <DashboardItem name={'Total claims'} value={totalClaims} mb={rem(20)} />
           <DashboardItem
-            name={'Claims based on github'}
+            name={'Claims based on GitHub users'}
             value={`${totalClaimsWithGithubHandle ?? ''} (${getPercent(
               totalClaimsWithGithubHandle,
               totalClaims,
@@ -360,7 +360,7 @@ export const VitalsDashboard = () => {
             )})`}
           />
           <DashboardItem
-            name={'Total addresses with mints'}
+            name={'Total issued-to addresses with mints'}
             value={`${totalAddressesWithClaims ?? ''} (${getPercent(
               totalAddressesWithClaims,
               totalAddresses,
