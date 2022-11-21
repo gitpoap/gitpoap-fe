@@ -21,6 +21,15 @@ export type AccessTokenPayload = {
   iat: number;
 };
 
+export const isTokens = (tokens: unknown): tokens is Tokens => {
+  return (
+    typeof tokens === 'object' &&
+    tokens !== null &&
+    typeof (tokens as Tokens).accessToken === 'string' &&
+    typeof (tokens as Tokens).refreshToken === 'string'
+  );
+};
+
 /**
  * This hook is used to get and set tokens, but does not contain any refresh logic.
  * Refresh logic is encapsulated in the useRefreshTokens hook instead.
