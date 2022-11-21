@@ -16,16 +16,16 @@ import {
 } from '../../graphql/generated-gql';
 import { GitPOAP, GitPOAPSkeleton } from '../shared/compounds/GitPOAP';
 
-type SortOptions = 'count' | 'year';
+type SortOptions = 'count' | 'new';
 
 const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'count', label: 'Popularity' },
-  { value: 'year', label: 'Year' },
+  { value: 'new', label: 'New' },
 ];
 
 const operationMap: Record<SortOptions, GitPoapOrderByWithRelationInput> = {
   count: { claims: { _count: SortOrder.Desc } },
-  year: { year: SortOrder.Asc },
+  new: { createdAt: SortOrder.Desc },
 };
 
 const StyledHeader = styled(Header)`
