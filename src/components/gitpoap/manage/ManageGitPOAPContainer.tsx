@@ -3,7 +3,7 @@ import { rem } from 'polished';
 import { useGitPoapEventQuery } from '../../../graphql/generated-gql';
 import { useUser } from '../../../hooks/useUser';
 import { Link } from '../../shared/compounds/Link';
-import { Header } from '../../shared/elements';
+import { Header, Loader } from '../../shared/elements';
 import { ManageGitPOAP } from './ManageGitPOAP';
 
 type Props = {
@@ -21,6 +21,14 @@ export const ManageGitPOAPContainer = ({ gitPOAPId }: Props) => {
 
   const creatorAddress = results.data?.gitPOAPEvent?.gitPOAP.creatorAddress?.ethAddress;
   const isCreator = !!creatorAddress && !!user && creatorAddress === user.address;
+
+  if (results.fetching) {
+    return (
+      <Center mt={44} style={{ width: 400, height: 400 }}>
+        <Loader />
+      </Center>
+    );
+  }
 
   if (!isCreator) {
     return (
