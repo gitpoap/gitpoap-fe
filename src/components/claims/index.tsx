@@ -167,6 +167,13 @@ export const ClaimModal = ({
                       isClaimingAll={isClaimingAll}
                       isLoading={!isClaimingAll && loadingClaimIds?.includes(userClaim.claim.id)}
                       isConnected={isConnected}
+                      issuedVia={
+                        userClaim.claim.emailId
+                          ? 'email'
+                          : userClaim.claim.issuedAddressId
+                          ? 'eth'
+                          : 'github'
+                      }
                     />
                   );
                 })}

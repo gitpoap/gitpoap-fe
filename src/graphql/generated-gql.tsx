@@ -5487,6 +5487,9 @@ export type OpenClaimsQuery = {
       __typename?: 'Claim';
       id: number;
       status: ClaimStatus;
+      githubUserId?: number | null;
+      emailId?: number | null;
+      issuedAddressId?: number | null;
       pullRequestEarned?: {
         __typename?: 'GithubPullRequest';
         repo: {
@@ -6695,6 +6698,9 @@ export const OpenClaimsDocument = gql`
         gitPOAP {
           id
         }
+        githubUserId
+        emailId
+        issuedAddressId
       }
       event {
         name

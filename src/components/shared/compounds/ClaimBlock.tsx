@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { rem, tint } from 'polished';
 import { Button } from '../elements/Button';
 import { PrimaryBlue } from '../../../colors';
 import { GitPOAP } from './GitPOAP';
 import { FaCheckCircle, FaCoins, FaEthereum } from 'react-icons/fa';
 import { useReward } from 'react-rewards';
+import { Badge, Stack, Tooltip } from '@mantine/core';
 
 type Props = {
   gitPOAPId: number;
@@ -19,23 +19,8 @@ type Props = {
   isClaimed?: boolean;
   isLoading?: boolean;
   isConnected?: boolean;
+  issuedVia?: 'github' | 'email' | 'eth';
 };
-
-const Wrapper = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: ${rem(340)};
-`;
-
-const ButtonWrapper = styled.div`
-  flex: 1;
-  margin-top: ${rem(14)};
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-`;
 
 const getButtonText = (isClaimed: boolean | undefined, isConnected: boolean | undefined) => {
   if (isClaimed) {
@@ -61,6 +46,7 @@ export const ClaimBlock = ({
   isLoading,
   isClaimingAll,
   isConnected,
+  issuedVia,
 }: Props) => {
   const [isClaimedPrev, setIsClaimedPrev] = useState<boolean>(!!isClaimed);
   const rewardId = 'rewardId-' + gitPOAPId;
@@ -85,7 +71,7 @@ export const ClaimBlock = ({
   }, [isClaimed, isClaimedPrev, reward]);
 
   return (
-    <Wrapper>
+    <Stack align="center">
       <GitPOAP
         gitPOAPId={gitPOAPId}
         imgSrc={imgSrc}
@@ -94,17 +80,22 @@ export const ClaimBlock = ({
         description={description}
         onClick={onClickBadge}
       />
-      <ButtonWrapper>
-        <Button
-          id={rewardId}
-          onClick={onClickClaim}
-          loading={isLoading}
-          leftIcon={isClaimed ? <FaCheckCircle /> : !isConnected ? <FaEthereum /> : <FaCoins />}
-          disabled={isClaimed || isClaimingAll}
-        >
-          {getButtonText(isClaimed, isConnected)}
-        </Button>
-      </ButtonWrapper>
-    </Wrapper>
+      {issuedVia && (
+        <Tooltip label={`Issued via ${issuedVia}`}>
+          <Badge size="sm" variant="filled" style={{ letterSpacing: rem(1) }}>
+            {issuedVia}
+          </Badge>
+        </Tooltip>
+      )}
+      <Button
+        id={rewardId}
+        onClick={onClickClaim}
+        loading={isLoading}
+        leftIcon={isClaimed ? <FaCheckCircle /> : !isConnected ? <FaEthereum /> : <FaCoins />}
+        disabled={isClaimed || isClaimingAll}
+      >
+        {getButtonText(isClaimed, isConnected)}
+      </Button>
+    </Stack>
   );
 };

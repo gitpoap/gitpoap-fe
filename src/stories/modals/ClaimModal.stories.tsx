@@ -24,6 +24,8 @@ const claims: UserClaim[] = [
       gitPOAP: {
         id: 1,
       },
+      githubUserId: 1,
+      emailId: 2,
     },
     event: {
       name: 'Polygon Genesis Creator',
@@ -46,6 +48,7 @@ const claims: UserClaim[] = [
       gitPOAP: {
         id: 2,
       },
+      githubUserId: 2,
     },
     event: {
       name: 'AAVE Contributor 2021',
@@ -68,6 +71,7 @@ const claims: UserClaim[] = [
       gitPOAP: {
         id: 3,
       },
+      emailId: 1,
     },
     event: {
       name: 'GitPOAP: 2017 OpenZeppelin Contracts Contributor',
@@ -90,6 +94,7 @@ const claims: UserClaim[] = [
       gitPOAP: {
         id: 4,
       },
+      issuedAddressId: 3,
     },
     event: {
       name: 'Swype Protocol Purple Contributor',
