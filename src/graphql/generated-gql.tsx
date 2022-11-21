@@ -6292,6 +6292,7 @@ export type GitPoapRequestsQuery = {
     startDate: any;
     endDate: any;
     numRequestedCodes: number;
+    createdAt: any;
     contributors: any;
     adminApprovalStatus: AdminApprovalStatus;
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
@@ -7866,7 +7867,7 @@ export const GitPoapRequestsDocument = gql`
       take: $take
       skip: $skip
       where: { adminApprovalStatus: { equals: $approvalStatus }, id: { equals: $search } }
-      orderBy: { adminApprovalStatus: desc }
+      orderBy: { createdAt: desc }
     ) {
       id
       name
@@ -7878,6 +7879,7 @@ export const GitPoapRequestsDocument = gql`
       creatorEmail {
         emailAddress
       }
+      createdAt
       contributors
       adminApprovalStatus
       project {
