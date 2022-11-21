@@ -11,6 +11,7 @@ export type User = {
   ensAvatarImageUrl: string | null;
   capabilities: {
     hasGithub: boolean;
+    hasEmail: boolean;
   };
   permissions: {
     isAdmin: boolean;
@@ -37,6 +38,7 @@ export const useUser = (): User | null => {
       ensAvatarImageUrl: payload.ensAvatarImageUrl,
       capabilities: {
         hasGithub: !!payload?.githubId,
+        hasEmail: !!payload?.emailId,
       },
       permissions: {
         isAdmin,

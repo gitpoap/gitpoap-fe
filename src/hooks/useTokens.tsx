@@ -16,6 +16,7 @@ export type AccessTokenPayload = {
   ensAvatarImageUrl: string | null;
   githubId: number | null;
   githubHandle: string | null;
+  emailId: number | null;
   exp: number;
   iat: number;
 };
