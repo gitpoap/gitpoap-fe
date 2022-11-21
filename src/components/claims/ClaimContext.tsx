@@ -45,18 +45,22 @@ export const ClaimContextProvider = ({ children }: Props) => {
   const hasGithub = user?.capabilities.hasGithub;
   const hasEmail = user?.capabilities.hasEmail;
 
-  /*
-   * Initially fetch the user's claims:
+  /**
    * Trigger a new refetch when:
    * - the user connects a wallet / signs in.
    * - the user connects a github account
    * - the user connects an email address
    */
   useEffect(() => {
+    refetchUserClaims();
+  }, [hasGithub, hasEmail, refetchUserClaims]);
+
+  /* Initially fetch the user's claims */
+  useEffect(() => {
     if (user?.address && !userClaims && !result.fetching) {
       refetchUserClaims();
     }
-  }, [user, refetchUserClaims, userClaims, result, hasGithub, hasEmail]);
+  }, [user, refetchUserClaims, userClaims, result]);
 
   /*
    * useOpenClaimsQuery includes all claimed GitPOAPs from the previous month
