@@ -1,7 +1,8 @@
-import { Stack, Group, Title, Modal } from '@mantine/core';
+import { Stack, Group, Title, Modal, Tooltip } from '@mantine/core';
 import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { HiOutlineMail } from 'react-icons/hi';
+import { truncateString } from '../../helpers';
 
 import { useGetEmail } from '../../hooks/useGetEmail';
 import { Button, Text } from '../shared/elements';
@@ -36,8 +37,34 @@ export const EmailConnection = () => {
 
   const ConnectionStatus = {
     CONNECT: <Text size="xs">{`Emails will not be made public`}</Text>,
-    SUBMITTED: <Text size="xs">{`Pending verification for ${values.email}`}</Text>,
-    PENDING: <Text size="xs">{`Pending verification for ${userEmail?.emailAddress}`}</Text>,
+    SUBMITTED: (
+      <Tooltip
+        label={values.email}
+        multiline
+        transition="fade"
+        position="top"
+        sx={{ textAlign: 'center', maxWidth: rem(450) }}
+      >
+        <Text size="xs">{`Pending verification for ${truncateString(
+          values.email ?? '',
+          18,
+        )}`}</Text>
+      </Tooltip>
+    ),
+    PENDING: (
+      <Tooltip
+        label={userEmail?.emailAddress}
+        multiline
+        transition="fade"
+        position="top"
+        sx={{ textAlign: 'center', maxWidth: rem(450) }}
+      >
+        <Text size="xs">{`Pending verification for ${truncateString(
+          userEmail?.emailAddress ?? '',
+          18,
+        )}`}</Text>
+      </Tooltip>
+    ),
     DISCONNECT: <Text size="xs">{`You're connected as ${userEmail?.emailAddress}`}</Text>,
   };
 
