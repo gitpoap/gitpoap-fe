@@ -8361,7 +8361,7 @@ export const GitPoapRequestsDocument = gql`
       take: $take
       skip: $skip
       where: { adminApprovalStatus: { equals: $approvalStatus }, id: { equals: $search } }
-      orderBy: { adminApprovalStatus: desc }
+      orderBy: { createdAt: desc }
     ) {
       id
       name

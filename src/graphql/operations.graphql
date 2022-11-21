@@ -902,7 +902,7 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStat
     skip: $skip
     # where clause that adds a search filter if its present, but omits it if it is undefined
     where: { adminApprovalStatus: { equals: $approvalStatus }, id: { equals: $search } }
-    orderBy: { adminApprovalStatus: desc }
+    orderBy: { createdAt: desc }
   ) {
     id
     name
