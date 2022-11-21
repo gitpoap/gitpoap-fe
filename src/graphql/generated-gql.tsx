@@ -6292,7 +6292,6 @@ export type GitPoapRequestsQuery = {
     startDate: any;
     endDate: any;
     numRequestedCodes: number;
-    createdAt: any;
     contributors: any;
     adminApprovalStatus: AdminApprovalStatus;
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
@@ -7879,7 +7878,6 @@ export const GitPoapRequestsDocument = gql`
       creatorEmail {
         emailAddress
       }
-      createdAt
       contributors
       adminApprovalStatus
       project {
