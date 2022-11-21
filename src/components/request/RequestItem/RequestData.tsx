@@ -2,13 +2,14 @@ import { Button, Group, Stack } from '@mantine/core';
 import { DateTime } from 'luxon';
 import { BsPeopleFill } from 'react-icons/bs';
 import { GitPoapRequestsQuery } from '../../../graphql/generated-gql';
-import { ContributorModal, ContributorsType } from './ContributorModal';
+import { ContributorsObject } from '../../../lib/api/gitpoapRequest';
+import { ContributorModal } from './ContributorModal';
 import { RequestAttribute, RequestAttributeLink } from './RequestAttribute';
 
 type GitPOAPRequestRawType = GitPoapRequestsQuery['gitPOAPRequests'][number];
 
 export interface GitPOAPRequestType extends GitPOAPRequestRawType {
-  contributors: ContributorsType;
+  contributors: ContributorsObject;
 }
 
 type Props = {

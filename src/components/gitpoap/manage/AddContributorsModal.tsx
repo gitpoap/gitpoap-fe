@@ -1,9 +1,16 @@
 import { Modal, Stack } from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
 import { rem } from 'polished';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { z } from 'zod';
 import { useApi } from '../../../hooks/useApi';
-import { GitPOAPCreateClaimsValues } from '../../../lib/api/gitpoap';
-import { Contributor, SelectContributors } from '../../create/SelectContributors';
+import {
+  ContributorsObject,
+  UnvalidatedContributor,
+  ValidatedContributor,
+  ValidatedContributorSchema,
+} from '../../../lib/api/gitpoapRequest';
+import { SelectContributors } from '../../create/SelectContributors';
 import { StatusButton, ButtonStatus } from '../../shared/compounds/StatusButton';
 import { Header } from '../../shared/elements';
 
@@ -14,34 +21,40 @@ type Props = {
   refetch: () => void;
 };
 
+type AddContributorsFormValues = {
+  contributors: UnvalidatedContributor[];
+};
+
+export const AddContributorsValidationSchema = z.object({
+  contributors: z.array(ValidatedContributorSchema).min(1),
+});
+type ValidatedAddContributorsFormValues = z.infer<typeof AddContributorsValidationSchema>;
+
 export const AddContributorModal = ({ gitPOAPId, isOpen, onClose, refetch }: Props) => {
   const api = useApi();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
-  const [contributors, setContributors] = useState<Contributor[]>([]);
+  const { values, insertListItem, isDirty, removeListItem, reset, setDirty, validate } =
+    useForm<AddContributorsFormValues>({ validate: zodResolver(AddContributorsValidationSchema) });
+
+  useEffect(() => {
+    setDirty({ contributors: values.contributors.length > 0 });
+  }, [values.contributors]);
 
   const handleSubmit = async () => {
     setButtonStatus(ButtonStatus.LOADING);
 
-    if (!contributors.length) {
-      return;
-    }
-
-    const invalidContributors = contributors.filter(
-      (contributor) => contributor.type === 'invalid',
-    );
-
-    if (invalidContributors.length) {
+    if (validate().hasErrors) {
       setButtonStatus(ButtonStatus.ERROR);
       return;
     }
 
-    const formattedContributors = contributors.reduce(
-      (group: GitPOAPCreateClaimsValues['contributors'], contributor) => {
-        const { type, value }: Contributor = contributor;
-        if (type !== 'invalid') {
-          group[type] = group[type] || [];
-          group[type]?.push(value);
-        }
+    const validatedFormValues = values as ValidatedAddContributorsFormValues;
+
+    const formattedContributors = validatedFormValues.contributors.reduce(
+      (group: ContributorsObject, contributor) => {
+        const { type, value }: ValidatedContributor = contributor;
+        group[type] = group[type] || [];
+        group[type]?.push(value);
         return group;
       },
       {},
@@ -59,7 +72,7 @@ export const AddContributorModal = ({ gitPOAPId, isOpen, onClose, refetch }: Pro
 
     setButtonStatus(ButtonStatus.INITIAL);
     setTimeout(() => refetch(), 500);
-    setContributors([]);
+    reset();
     onClose();
   };
 
@@ -72,10 +85,14 @@ export const AddContributorModal = ({ gitPOAPId, isOpen, onClose, refetch }: Pro
       title={<Header style={{ fontSize: rem(30) }}>{'Add Contributors'}</Header>}
     >
       <Stack spacing={32}>
-        <SelectContributors contributors={contributors} setContributors={setContributors} />
+        <SelectContributors
+          contributors={values.contributors}
+          addContributor={(item) => insertListItem('contributors', item)}
+          removeContributor={(index) => removeListItem('contributors', index)}
+        />
         <StatusButton
           isDisabled={
-            !contributors.length ||
+            !isDirty() ||
             buttonStatus === ButtonStatus.SUCCESS ||
             buttonStatus === ButtonStatus.LOADING
           }

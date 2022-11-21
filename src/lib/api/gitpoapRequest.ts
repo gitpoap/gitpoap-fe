@@ -1,5 +1,8 @@
+import { validate } from 'email-validator';
+import { isAddress } from 'ethers/lib/utils';
 import { DateTime } from 'luxon';
 import { z } from 'zod';
+import { isValidGithubHandleWithout0x } from '../../helpers';
 import { Notifications } from '../../notifications';
 import { API, Tokens, makeAPIRequestWithAuth } from './utils';
 
@@ -14,7 +17,7 @@ const ImageFileSchema = z
     'File type must be image/png or image/gif',
   );
 
-export const GitPOAPRequestContributorsSchema = z
+export const ContributorsObjectSchema = z
   .object({
     githubHandles: z.array(z.string()).optional(),
     ethAddresses: z.array(z.string()).optional(),
@@ -22,10 +25,48 @@ export const GitPOAPRequestContributorsSchema = z
     emails: z.array(z.string().email()).optional(),
   })
   .strict();
+export type ContributorsObject = z.infer<typeof ContributorsObjectSchema>;
 
-export type GitPOAPRequestContributorsValues = z.infer<typeof GitPOAPRequestContributorsSchema>;
+type ContributorType = 'githubHandles' | 'ethAddresses' | 'ensNames' | 'emails' | 'invalid';
 
-export const GitPOAPRequestCreateSchema = z.object({
+export const ValidatedContributorSchema = z.union([
+  z.object({
+    type: z.literal('githubHandles'),
+    value: z
+      .string()
+      .trim()
+      .min(1)
+      .refine((v) => isValidGithubHandleWithout0x(v)),
+  }),
+  z.object({
+    type: z.literal('ethAddresses'),
+    value: z
+      .string()
+      .trim()
+      .min(1)
+      .refine((v) => isAddress(v)),
+  }),
+  z.object({
+    type: z.literal('ensNames'),
+    value: z
+      .string()
+      .trim()
+      .min(1)
+      .refine((v) => v.length > 4 && v.endsWith('.eth')),
+  }),
+  z.object({
+    type: z.literal('emails'),
+    value: z
+      .string()
+      .trim()
+      .min(1)
+      .refine((v) => validate(v)),
+  }),
+]);
+export type ValidatedContributor = z.infer<typeof ValidatedContributorSchema>;
+export type UnvalidatedContributor = { type: ContributorType; value: string };
+
+export const CreateFormValidationSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
   startDate: z.date({
@@ -37,21 +78,27 @@ export const GitPOAPRequestCreateSchema = z.object({
     invalid_type_error: 'End date is required',
   }),
   creatorEmail: z.string().email({ message: 'Invalid email' }),
-  contributors: GitPOAPRequestContributorsSchema,
+  contributors: z.array(ValidatedContributorSchema),
   image: ImageFileSchema,
 });
+export type ValidatedCreateFormValues = z.infer<typeof CreateFormValidationSchema>;
 
-export type GitPOAPRequestCreateValues = {
+const CreateSubmissionSchema = CreateFormValidationSchema.merge(
+  z.object({ contributors: ContributorsObjectSchema }),
+);
+type SubmittedCreateFormValues = z.infer<typeof CreateSubmissionSchema>;
+
+export type CreateFormValues = {
   name: string;
   description: string;
   startDate: Date;
   endDate: Date | null;
   creatorEmail: string;
-  contributors: GitPOAPRequestContributorsValues;
+  contributors: UnvalidatedContributor[];
   image: File | null;
 };
 
-export const GitPOAPRequestEditSchema = (hasRemovedSavedImage: boolean) =>
+export const EditFormValidationSchema = (hasRemovedSavedImage: boolean) =>
   z.object({
     name: z.string().min(1, { message: 'Name is required' }),
     description: z.string().min(1, { message: 'Description is required' }),
@@ -63,16 +110,40 @@ export const GitPOAPRequestEditSchema = (hasRemovedSavedImage: boolean) =>
       required_error: 'End date is required',
       invalid_type_error: 'End date is required',
     }),
-    contributors: GitPOAPRequestContributorsSchema,
+    contributors: z.array(ValidatedContributorSchema),
     image: hasRemovedSavedImage ? ImageFileSchema : z.null(),
   });
-
-export type GitPOAPRequestEditValues = {
+export type ValidatedEditFormValues = {
   name: string;
   description: string;
   startDate: Date;
   endDate: Date;
-  contributors: GitPOAPRequestContributorsValues;
+  contributors: ValidatedContributor[];
+  image: File | null;
+};
+
+const EditFormSubmissionSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required' }),
+  description: z.string().min(1, { message: 'Description is required' }),
+  startDate: z.date({
+    required_error: 'Start date is required',
+    invalid_type_error: 'Start date is required',
+  }),
+  endDate: z.date({
+    required_error: 'End date is required',
+    invalid_type_error: 'End date is required',
+  }),
+  contributors: ContributorsObjectSchema,
+  image: ImageFileSchema.nullable(),
+});
+export type SubmittedEditFormValues = z.infer<typeof EditFormSubmissionSchema>;
+
+export type EditFormValues = {
+  name: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  contributors: UnvalidatedContributor[];
   image: File | null;
 };
 
@@ -81,7 +152,7 @@ export class GitPOAPRequestAPI extends API {
     super(tokens?.accessToken);
   }
 
-  async create(values: z.infer<typeof GitPOAPRequestCreateSchema>) {
+  async create(values: SubmittedCreateFormValues) {
     const formData = new FormData();
 
     formData.append('name', values.name);
@@ -105,7 +176,7 @@ export class GitPOAPRequestAPI extends API {
     return true;
   }
 
-  async patch(gitPOAPRequestId: number, values: GitPOAPRequestEditValues) {
+  async patch(gitPOAPRequestId: number, values: SubmittedEditFormValues) {
     const formData = new FormData();
 
     formData.append('name', values.name);

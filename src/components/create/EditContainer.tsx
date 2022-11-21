@@ -1,9 +1,14 @@
 import { Center, Loader, Stack, Text } from '@mantine/core';
 import { useGitPoapRequestQuery } from '../../graphql/generated-gql';
-import { GitPOAPRequestEditValues } from '../../lib/api/gitpoapRequest';
 import { Link } from '../shared/compounds/Link';
 import { Header } from '../shared/elements';
+import { convertContributorsObjectToList } from './convertContributorsObjectToList';
 import { EditForm } from './EditForm';
+
+function addTimezoneOffset(date: Date) {
+  const timezoneOffset = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() + timezoneOffset);
+}
 
 type Props = {
   address: string;
@@ -57,20 +62,18 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
     );
   }
 
-  const initialValues: GitPOAPRequestEditValues = {
-    name: gitPOAPRequest.name,
-    description: gitPOAPRequest.description,
-    startDate: new Date(gitPOAPRequest.startDate),
-    endDate: new Date(gitPOAPRequest.endDate),
-    contributors: gitPOAPRequest.contributors,
-    image: null,
-  };
-
   return (
     <EditForm
       adminApprovalStatus={gitPOAPRequest.adminApprovalStatus}
       creatorEmail={gitPOAPRequest.creatorEmail.emailAddress}
-      initialValues={initialValues}
+      initialValues={{
+        name: gitPOAPRequest.name,
+        description: gitPOAPRequest.description,
+        startDate: addTimezoneOffset(new Date(gitPOAPRequest.startDate)),
+        endDate: addTimezoneOffset(new Date(gitPOAPRequest.endDate)),
+        contributors: convertContributorsObjectToList(gitPOAPRequest.contributors),
+        image: null,
+      }}
       gitPOAPRequestId={gitPOAPId}
       savedImageUrl={gitPOAPRequest.imageUrl}
     />

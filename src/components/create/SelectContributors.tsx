@@ -25,17 +25,10 @@ import {
 } from '../../colors';
 import { Button, Input, Text, TextArea } from '../shared/elements';
 import Papa from 'papaparse';
-import { GitPOAPRequestCreateValues } from '../../lib/api/gitpoapRequest';
 import { isValidGithubHandleWithout0x, shortenAddress } from '../../helpers';
 import { isAddress } from 'ethers/lib/utils';
 import { VscTrash } from 'react-icons/vsc';
-
-// There may be a better way to do this, but this will work for now
-type ConnectionType = keyof GitPOAPRequestCreateValues['contributors'] | 'invalid';
-export type Contributor = {
-  type: ConnectionType;
-  value: string;
-};
+import { UnvalidatedContributor } from '../../lib/api/gitpoapRequest';
 
 const BadgeText = {
   githubHandles: 'github',
@@ -46,45 +39,42 @@ const BadgeText = {
 };
 
 type Props = {
-  contributors: Contributor[];
-  setContributors: (contributors: Contributor[]) => void;
+  contributors: UnvalidatedContributor[];
+  addContributor: (item: UnvalidatedContributor) => void;
+  removeContributor: (index: number) => void;
 };
 
-export const SelectContributors = ({ contributors, setContributors }: Props) => {
+export const SelectContributors = ({ contributors, addContributor, removeContributor }: Props) => {
   const [opened, { close, open }] = useDisclosure(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const [contributorsText, setContributorsText] = useState('');
 
-  const filteredContributors = contributors.filter((contributor) =>
-    searchValue ? contributor.value.toLowerCase().includes(searchValue.toLowerCase()) : true,
-  );
-  const invalidContributors = contributors.filter((contributor) => contributor.type === 'invalid');
+  const invalidContributorsCount = contributors.filter(
+    (contributor) => contributor.type === 'invalid',
+  ).length;
 
   const addContributors = (newContributors: string[]) => {
-    const contributorsToSet = newContributors
-      .map((contributor) => contributor.trim())
-      .filter((contributor) => contributor.length)
-      .reduce((newList, value) => {
-        // This prevents duplicates
-        if (newList.some((contributor) => contributor.value === value)) {
-          return newList;
-        }
+    const formattedContributors = [
+      ...new Set(newContributors.map((value) => value.trim()).filter((value) => value.length)),
+    ];
 
-        if (isValidGithubHandleWithout0x(value)) {
-          newList.push({ type: 'githubHandles', value });
-        } else if (isAddress(value)) {
-          newList.push({ type: 'ethAddresses', value });
-        } else if (value.length > 4 && value.endsWith('.eth')) {
-          newList.push({ type: 'ensNames', value });
-        } else if (validate(value)) {
-          newList.push({ type: 'emails', value });
-        } else {
-          newList.push({ type: 'invalid', value });
-        }
+    formattedContributors.forEach((value) => {
+      if (contributors.some((contributor) => contributor.value === value)) {
+        return;
+      }
 
-        return newList;
-      }, contributors ?? []);
-    setContributors([...contributorsToSet]);
+      if (isValidGithubHandleWithout0x(value)) {
+        addContributor({ type: 'githubHandles', value });
+      } else if (isAddress(value)) {
+        addContributor({ type: 'ethAddresses', value });
+      } else if (value.length > 4 && value.endsWith('.eth')) {
+        addContributor({ type: 'ensNames', value });
+      } else if (validate(value)) {
+        addContributor({ type: 'emails', value });
+      } else {
+        addContributor({ type: 'invalid', value });
+      }
+    });
   };
 
   const handleSubmitTextArea = () => {
@@ -190,8 +180,8 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
         >
           <Group position="apart">
             <Text mb="xs">{`${contributors.length} Selected`}</Text>
-            {invalidContributors.length && (
-              <Text color="red" mb="xs">{`${invalidContributors.length} Invalid`}</Text>
+            {invalidContributorsCount && (
+              <Text color="red" mb="xs">{`${invalidContributorsCount} Invalid`}</Text>
             )}
           </Group>
           <ScrollArea
@@ -204,32 +194,40 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
             }}
           >
             <Stack py="xs">
-              {filteredContributors.map(({ type, value }: Contributor) => {
-                return (
-                  <Group key={value + '-' + type} position="apart">
+              {contributors
+                // include original index, necessary for removeContributor
+                .map((contributor, index) => ({ contributor, index }))
+                // filter by search
+                .filter(({ contributor }) =>
+                  searchValue
+                    ? contributor.value.toLowerCase().includes(searchValue.toLowerCase())
+                    : true,
+                )
+                .map(({ contributor, index }) => (
+                  <Group key={'contributor-' + index} position="apart">
                     <Group position="left">
-                      <Text>{type === 'ethAddresses' ? shortenAddress(value, 4) : value}</Text>
-
+                      <Text>
+                        {contributor.type === 'ethAddresses'
+                          ? shortenAddress(contributor.value, 4)
+                          : contributor.value}
+                      </Text>
                       <Badge
-                        color={type === 'invalid' ? 'red' : undefined}
+                        color={contributor.type === 'invalid' ? 'red' : undefined}
                         size="sm"
                         variant="filled"
                         style={{ letterSpacing: rem(1) }}
                       >
-                        {BadgeText[type]}
+                        {BadgeText[contributor.type]}
                       </Badge>
                     </Group>
                     <ActionIcon
-                      onClick={() => {
-                        setContributors(contributors.filter((c) => c.value !== value));
-                      }}
+                      onClick={() => removeContributor(index)}
                       sx={{ '&:hover': { background: 'none', color: ExtraRed } }}
                     >
                       <VscTrash />
                     </ActionIcon>
                   </Group>
-                );
-              })}
+                ))}
             </Stack>
           </ScrollArea>
           <Input
@@ -247,7 +245,7 @@ export const SelectContributors = ({ contributors, setContributors }: Props) => 
             mt={20}
           />
           <>
-            {invalidContributors.length ? (
+            {invalidContributorsCount ? (
               <InputUI.Error mt="lg">Remove invalid contributors</InputUI.Error>
             ) : (
               <></>

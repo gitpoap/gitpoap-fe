@@ -1,25 +1,22 @@
 import { useForm, zodResolver } from '@mantine/form';
 import { DateTime } from 'luxon';
 
-import {
-  GitPOAPRequestCreateSchema,
-  GitPOAPRequestCreateValues,
-} from '../../lib/api/gitpoapRequest';
+import { CreateFormValues, CreateFormValidationSchema } from '../../lib/api/gitpoapRequest';
 
-const defaultInitialValues: GitPOAPRequestCreateValues = {
+const defaultInitialValues: CreateFormValues = {
   name: '',
   description: '',
   startDate: DateTime.local().toJSDate(),
   endDate: null,
   creatorEmail: '',
-  contributors: {},
+  contributors: [],
   image: null,
 };
 
 export const useCreationForm = () =>
-  useForm<GitPOAPRequestCreateValues>({
-    validate: zodResolver(GitPOAPRequestCreateSchema),
+  useForm<CreateFormValues>({
     initialValues: defaultInitialValues,
+    validate: zodResolver(CreateFormValidationSchema),
   });
 
 export type CreationFormReturnTypes = ReturnType<typeof useCreationForm>;
