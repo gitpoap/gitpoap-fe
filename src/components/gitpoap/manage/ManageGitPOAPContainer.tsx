@@ -16,7 +16,7 @@ export const ManageGitPOAPContainer = ({ gitPOAPId }: Props) => {
     variables: {
       id: gitPOAPId,
     },
-    requestPolicy: 'network-only',
+    requestPolicy: 'cache-and-network',
   });
 
   const creatorAddress = results.data?.gitPOAPEvent?.gitPOAP.creatorAddress?.ethAddress;
