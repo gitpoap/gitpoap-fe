@@ -360,7 +360,7 @@ export const VitalsDashboard = () => {
             )})`}
           />
           <DashboardItem
-            name={'Total addresses with mints'}
+            name={'Total issued-to addresses with mints'}
             value={`${totalAddressesWithClaims ?? ''} (${getPercent(
               totalAddressesWithClaims,
               totalAddresses,
