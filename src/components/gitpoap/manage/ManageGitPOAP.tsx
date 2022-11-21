@@ -5,8 +5,6 @@ import {
   Button,
   Text,
   Pagination,
-  Center,
-  UnstyledButton,
   Box,
   MediaQuery,
   Loader,
@@ -22,14 +20,13 @@ import { rem } from 'polished';
 import { ContributorRow } from './ContributorRow';
 import styled from 'styled-components';
 import { TextGray, TextLight } from '../../../colors';
-import { FaChevronDown, FaChevronUp, FaPlus, FaSearch } from 'react-icons/fa';
+import { FaPlus, FaSearch } from 'react-icons/fa';
 import { useCallback, useState } from 'react';
 import { AddContributorModal } from './AddContributorsModal';
 import { AddZone } from './AddZone';
 import { Link } from '../../shared/compounds/Link';
-import { HiSelector } from 'react-icons/hi';
 import { useDebouncedValue } from '@mantine/hooks';
-import { useUser } from '../../../hooks/useUser';
+import { TableHeaderItem } from './TableHeaderItem';
 
 type Props = {
   gitPOAPId: number;
@@ -71,52 +68,7 @@ const Table = styled(TableUI)`
   }
 `;
 
-const TableHeaderStyled = styled.th``;
-
-interface TableHeaderItemProps {
-  children: React.ReactNode;
-  isSortable: boolean;
-  isReversed: boolean;
-  isSorted: boolean;
-  onSort(): void;
-}
-
-const TableHeaderItem = ({
-  children,
-  isSortable,
-  isReversed,
-  isSorted,
-  onSort,
-}: TableHeaderItemProps) => {
-  const Icon =
-    isSortable === false
-      ? null
-      : isSorted
-      ? isReversed
-        ? FaChevronUp
-        : FaChevronDown
-      : HiSelector;
-  return (
-    <TableHeaderStyled>
-      <UnstyledButton onClick={onSort}>
-        <Group position="apart" noWrap={true}>
-          <Text
-            weight={500}
-            size="sm"
-            transform="uppercase"
-            sx={{ letterSpacing: rem(1), whiteSpace: 'nowrap' }}
-          >
-            {children}
-          </Text>
-          <Center>{Icon && <Icon size={14} />}</Center>
-        </Group>
-      </UnstyledButton>
-    </TableHeaderStyled>
-  );
-};
-
 export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
-  const user = useUser();
   const [searchValue, setSearchValue] = useState<string>('');
   const [debouncedValue] = useDebouncedValue(searchValue, 200);
   const [sortBy, setSortBy] = useState<SortOptions>('mintedAt');
@@ -140,8 +92,6 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
   const totalClaims = results.data?.gitPOAP?._count?.claims ?? 0;
   const claims = results.data?.gitPOAP?.claims;
   const gitPOAP = results.data?.gitPOAP;
-  const creatorAddress = gitPOAP?.creatorAddress?.ethAddress;
-  const isCreator = !!creatorAddress && !!user && creatorAddress === user.address;
 
   const getTotalPages = () => {
     if (totalClaims < perPage) {
@@ -168,23 +118,6 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
     setIsReversed(newIsReversed);
     setSortBy(field);
   };
-
-  if (!isCreator) {
-    return (
-      <Center py={0} px={rem(20)} sx={{ width: '100%', height: 600 }}>
-        <Stack align="center" justify="center" spacing="xs" style={{ width: '100%' }}>
-          <Center>
-            <Stack align="center">
-              <Header pb={rem(16)}>{'You do not have permission to manage this GitPOAP'}</Header>
-              <Link href={`/gp/${gitPOAPId}`}>
-                <Button>{'Go Back'}</Button>
-              </Link>
-            </Stack>
-          </Center>
-        </Stack>
-      </Center>
-    );
-  }
 
   return (
     <Group position="center" py={0} px={rem(20)}>
