@@ -1,4 +1,11 @@
-import { API, Tokens, makeAPIRequestWithAuth, makeAPIRequestWithResponseWithAuth } from './utils';
+import { isTokens } from '../../hooks/useTokens';
+import {
+  API,
+  Tokens,
+  makeAPIRequestWithAuth,
+  makeAPIRequestWithResponseWithAuth,
+  makeAPIRequestWithResponse,
+} from './utils';
 
 export type EmailReturnType = {
   id: number;
@@ -8,6 +15,18 @@ export type EmailReturnType = {
 } | null;
 
 export type Status = 'VALID' | 'INVALID' | 'EXPIRED' | 'USED' | 'LOADING';
+
+type DeleteEmailResponse = { msg: string; tokens: Tokens };
+
+export const isDeleteEmailResponse = (res: unknown): res is DeleteEmailResponse => {
+  return (
+    typeof res === 'object' &&
+    res !== null &&
+    'msg' in res &&
+    'tokens' in res &&
+    isTokens((res as DeleteEmailResponse).tokens)
+  );
+};
 
 export class EmailAPI extends API {
   constructor(tokens: Tokens | null) {
@@ -30,14 +49,19 @@ export class EmailAPI extends API {
     return data;
   }
 
-  async delete() {
+  async delete(): Promise<DeleteEmailResponse | null> {
     const res = await makeAPIRequestWithAuth('/email', 'DELETE', this.token);
 
     if (!res) {
       return null;
     }
 
-    return true;
+    const data = await res.json();
+    if (!isDeleteEmailResponse(data)) {
+      return null;
+    }
+
+    return data;
   }
 
   async get() {
@@ -52,11 +76,7 @@ export class EmailAPI extends API {
   }
 
   async verify(token: string) {
-    const res = await makeAPIRequestWithResponseWithAuth(
-      `/email/verify/${token}`,
-      'POST',
-      this.token,
-    );
+    const res = await makeAPIRequestWithResponse(`/email/verify/${token}`, 'POST');
 
     if (!res) {
       return null;

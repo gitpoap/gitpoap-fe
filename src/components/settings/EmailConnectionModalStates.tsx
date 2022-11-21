@@ -7,6 +7,7 @@ import { EmailConnectionFormReturnTypes } from './useEmailConnectionForm';
 import { Button, Input, Text } from '../shared/elements';
 import { Notifications } from '../../notifications';
 import { useApi } from '../../hooks/useApi';
+import { useTokens } from '../../hooks/useTokens';
 
 type ConnectProps = {
   closeModal: () => void;
@@ -155,6 +156,7 @@ type DisconnectProps = {
 
 export const EmailConnectionModalDisconnect = ({ closeModal, setStatus }: DisconnectProps) => {
   const api = useApi();
+  const { setRefreshToken, setAccessToken } = useTokens();
   return (
     <Stack align="stretch" spacing={16}>
       <Text>{`Are you sure you want to disconnect your email? This action is irreversible.`}</Text>
@@ -168,6 +170,8 @@ export const EmailConnectionModalDisconnect = ({ closeModal, setStatus }: Discon
               if (data === null) {
                 throw new Error();
               } else {
+                setRefreshToken(data.tokens.refreshToken);
+                setAccessToken(data.tokens.accessToken);
                 closeModal();
                 setStatus('CONNECT');
               }
