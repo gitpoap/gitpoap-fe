@@ -171,7 +171,7 @@ export const ClaimModal = ({
                         userClaim.claim.emailId
                           ? 'email'
                           : userClaim.claim.issuedAddressId
-                          ? 'eth'
+                          ? 'eth address'
                           : 'github'
                       }
                     />

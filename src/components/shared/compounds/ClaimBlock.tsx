@@ -19,7 +19,7 @@ type Props = {
   isClaimed?: boolean;
   isLoading?: boolean;
   isConnected?: boolean;
-  issuedVia?: 'github' | 'email' | 'eth';
+  issuedVia?: 'github' | 'email' | 'eth address';
 };
 
 const getButtonText = (isClaimed: boolean | undefined, isConnected: boolean | undefined) => {
