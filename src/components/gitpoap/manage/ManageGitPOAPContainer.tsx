@@ -24,7 +24,7 @@ export const ManageGitPOAPContainer = ({ gitPOAPId }: Props) => {
 
   if (results.fetching) {
     return (
-      <Center mt={44} style={{ width: 400, height: 400 }}>
+      <Center mt={44} style={{ width: '100%', height: 400 }}>
         <Loader />
       </Center>
     );
