@@ -11,6 +11,7 @@ const TwitterButton = styled.a`
   width: fit-content;
   border-radius: ${rem(28)};
   padding: ${rem(1)} ${rem(12)} ${rem(1)} ${rem(12)};
+  transition: background-color 200ms ease-in-out;
 
   position: relative;
   box-sizing: border-box;
