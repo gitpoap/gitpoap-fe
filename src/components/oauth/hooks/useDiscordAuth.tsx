@@ -53,18 +53,19 @@ export const useDiscordAuth = () => {
     const urlSearchParam = url.split('?')[1];
     const urlParams = new URLSearchParams(urlSearchParam);
     const code = urlParams.get('code');
+    const codeWithNoHash = code?.split('#')[0];
     const type = urlParams.get('type');
 
     /* If Discord API returns the code parameter */
     if (
       type === OAuthConnectionType.DISCORD &&
-      code &&
+      codeWithNoHash &&
       isDiscordAuthLoading.current === false &&
       tokens
     ) {
       isDiscordAuthLoading.current = true;
       void push(baseUrl);
-      void authenticate(code);
+      void authenticate(codeWithNoHash);
     }
   }, [authenticate, asPath, push, tokens]);
 
