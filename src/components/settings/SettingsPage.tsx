@@ -7,6 +7,7 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { useUser } from '../../hooks/useUser';
 import { EmailConnection } from './EmailConnection';
 import { useProfileContext } from '../profile/ProfileContext';
+import { useFeatures } from '../FeaturesContext';
 import {
   Button,
   Input as InputUI,
@@ -37,6 +38,7 @@ export const SettingsPage = () => {
   const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
   const user = useUser();
   const router = useRouter();
+  const features = useFeatures();
 
   const [personSiteUrlValue, setPersonalSiteUrlValue] = useState<string | undefined | null>(
     profileData?.personalSiteUrl,
@@ -88,7 +90,7 @@ export const SettingsPage = () => {
       <Divider mb={32} />
       <AddressConnection user={user} />
       <GithubConnection user={user} />
-      <DiscordConnection user={user} />
+      {features.hasDiscordOAuth && <DiscordConnection user={user} />}
       <EmailConnection />
 
       <Divider my={32} />
