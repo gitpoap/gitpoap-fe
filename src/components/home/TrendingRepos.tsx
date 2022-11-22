@@ -37,11 +37,10 @@ export const TrendingRepos = () => {
     <Container>
       <Header>{'Trending repos'}</Header>
       <List>
-        {trendingRepos?.map((repo, index) => (
+        {trendingRepos?.map((repo) => (
           <TrendingRepoItem
             key={repo.id}
             repoId={repo.id}
-            index={index + 1}
             claimedCount={repo.mintedGitPOAPCount}
             numDays={NUM_DAYS}
           />

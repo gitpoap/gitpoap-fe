@@ -18,7 +18,6 @@ import { TextSkeleton } from '../shared/elements';
 
 type Props = {
   repoId: number;
-  index: number;
   claimedCount: number;
   numDays: number;
 };
@@ -128,17 +127,6 @@ const SubText = styled(Text)`
   font-size: ${rem(14)};
 `;
 
-const IndexText = styled(Text)`
-  font-family: VT323;
-  color: ${TextGray};
-  font-size: ${rem(28)};
-  margin-right: ${rem(50)};
-
-  @media (max-width: ${BREAKPOINTS.sm}px) {
-    margin-right: ${rem(10)};
-  }
-`;
-
 const GitPoapContainer = styled(Group)`
   gap: ${rem(2)};
 `;
@@ -158,7 +146,7 @@ export const TrendingRepoInfoHexLoading = () => {
   );
 };
 
-export const TrendingRepoItem = ({ repoId, index, claimedCount, numDays }: Props) => {
+export const TrendingRepoItem = ({ repoId, claimedCount, numDays }: Props) => {
   const router = useRouter();
   const [result] = useRepoDataQuery({ variables: { repoId } });
   const isLoading = result.fetching;
@@ -174,7 +162,6 @@ export const TrendingRepoItem = ({ repoId, index, claimedCount, numDays }: Props
 
   return (
     <Item position="center" spacing="xl">
-      <IndexText>{index}</IndexText>
       <InfoHexBaseStyled onClick={handleClick} hoverEffects>
         {isLoading ? (
           <TrendingRepoInfoHexLoading />
