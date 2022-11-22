@@ -1,4 +1,4 @@
-export enum OauthType {
+export enum OAuthConnectionType {
   GITHUB = 'github',
   DISCORD = 'discord',
 }

@@ -4,7 +4,7 @@ import { REACT_APP_CLIENT_ID } from '../../../constants';
 import { useApi } from '../../../hooks/useApi';
 import { useTokens } from '../../../hooks/useTokens';
 import { Notifications } from '../../../notifications';
-import { OauthType } from '../types';
+import { OAuthConnectionType } from '../types';
 
 export const useGithubAuth = () => {
   const api = useApi();
@@ -54,7 +54,12 @@ export const useGithubAuth = () => {
     const type = urlParams.get('type');
 
     /* If Github API returns the code parameter */
-    if (type === OauthType.GITHUB && code && isGitHubAuthLoading.current === false && tokens) {
+    if (
+      type === OAuthConnectionType.GITHUB &&
+      code &&
+      isGitHubAuthLoading.current === false &&
+      tokens
+    ) {
       isGitHubAuthLoading.current = true;
       void push(baseUrl);
       void authenticate(code);

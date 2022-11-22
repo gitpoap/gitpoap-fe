@@ -4,7 +4,7 @@ import { DISCORD_CLIENT_ID } from '../../../constants';
 import { useApi } from '../../../hooks/useApi';
 import { useTokens } from '../../../hooks/useTokens';
 import { Notifications } from '../../../notifications';
-import { OauthType } from '../types';
+import { OAuthConnectionType } from '../types';
 
 export const useDiscordAuth = () => {
   const api = useApi();
@@ -56,7 +56,12 @@ export const useDiscordAuth = () => {
     const type = urlParams.get('type');
 
     /* If Discord API returns the code parameter */
-    if (type === OauthType.DISCORD && code && isDiscordAuthLoading.current === false && tokens) {
+    if (
+      type === OAuthConnectionType.DISCORD &&
+      code &&
+      isDiscordAuthLoading.current === false &&
+      tokens
+    ) {
       isDiscordAuthLoading.current = true;
       void push(baseUrl);
       void authenticate(code);
