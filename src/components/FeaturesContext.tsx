@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type Features = 'placeholder';
+type Features = 'hasDiscordOAuth';
 type FeaturesState = Record<Features, boolean>;
 
 export const getInitialState = (): FeaturesState => ({
-  placeholder: true,
+  hasDiscordOAuth: false,
 });
 
 const FeaturesContext = createContext<FeaturesState>({} as FeaturesState);
