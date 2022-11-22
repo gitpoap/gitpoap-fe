@@ -51,18 +51,19 @@ export const useGithubAuth = () => {
     const urlSearchParam = url.split('?')[1];
     const urlParams = new URLSearchParams(urlSearchParam);
     const code = urlParams.get('code');
+    const codeWithNoHash = code?.split('#')[0];
     const type = urlParams.get('type');
 
     /* If Github API returns the code parameter */
     if (
       type === OAuthConnectionType.GITHUB &&
-      code &&
+      codeWithNoHash &&
       isGitHubAuthLoading.current === false &&
       tokens
     ) {
       isGitHubAuthLoading.current = true;
       void push(baseUrl);
-      void authenticate(code);
+      void authenticate(codeWithNoHash);
     }
   }, [authenticate, asPath, push, tokens]);
 
