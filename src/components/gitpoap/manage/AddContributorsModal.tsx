@@ -34,7 +34,12 @@ export const AddContributorModal = ({ gitPOAPId, isOpen, onClose, refetch }: Pro
   const api = useApi();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const { values, insertListItem, isDirty, removeListItem, reset, setDirty, validate } =
-    useForm<AddContributorsFormValues>({ validate: zodResolver(AddContributorsValidationSchema) });
+    useForm<AddContributorsFormValues>({
+      initialValues: {
+        contributors: [],
+      },
+      validate: zodResolver(AddContributorsValidationSchema),
+    });
 
   useEffect(() => {
     setDirty({ contributors: values.contributors.length > 0 });
