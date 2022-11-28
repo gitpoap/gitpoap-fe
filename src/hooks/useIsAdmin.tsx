@@ -17,17 +17,24 @@ export const useIsAdmin = (): boolean => {
     return true;
   }
 
-  /*
-   * Since admin status is determined by a GitHub ID, if it doesn't exist on the payload
-   * the user is therefore not an admin
-   */
-  if (!payload?.githubId) {
+  // check if payload is null
+  if (!payload) {
     return false;
   }
 
-  /* Check if the user's githubId or address is in the list of admins on the FE */
-  const isAdmin =
-    ADMIN_GITHUB_IDS.includes(payload.githubId) || ADMIN_ADDRESSES.includes(payload.address);
+  /* Check if the user's address is in the list of admins on the FE */
+  const isAdminAddress = ADMIN_ADDRESSES.includes(payload.address);
 
-  return isAdmin;
+  /*
+   * Since admin status is determined by a GitHub ID or address, if githubId doesn't exist on the payload
+   * if address is not admin, the user is not an admin
+   */
+  if (!payload.githubId) {
+    return isAdminAddress;
+  }
+
+  /* Check if the user's githubId is in the list of admins on the FE */
+  const isAdminGithubId = ADMIN_GITHUB_IDS.includes(payload.githubId);
+
+  return isAdminAddress || isAdminGithubId;
 };
