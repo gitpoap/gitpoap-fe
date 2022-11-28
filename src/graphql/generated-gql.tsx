@@ -457,19 +457,6 @@ export type BoolFilter = {
   not?: InputMaybe<NestedBoolFilter>;
 };
 
-export type BoolNullableFilter = {
-  equals?: InputMaybe<Scalars['Boolean']>;
-  not?: InputMaybe<NestedBoolNullableFilter>;
-};
-
-export type BoolNullableWithAggregatesFilter = {
-  _count?: InputMaybe<NestedIntNullableFilter>;
-  _max?: InputMaybe<NestedBoolNullableFilter>;
-  _min?: InputMaybe<NestedBoolNullableFilter>;
-  equals?: InputMaybe<Scalars['Boolean']>;
-  not?: InputMaybe<NestedBoolNullableWithAggregatesFilter>;
-};
-
 export type BoolWithAggregatesFilter = {
   _count?: InputMaybe<NestedIntFilter>;
   _max?: InputMaybe<NestedBoolFilter>;
@@ -3475,19 +3462,6 @@ export enum MembershipRole {
 export type NestedBoolFilter = {
   equals?: InputMaybe<Scalars['Boolean']>;
   not?: InputMaybe<NestedBoolFilter>;
-};
-
-export type NestedBoolNullableFilter = {
-  equals?: InputMaybe<Scalars['Boolean']>;
-  not?: InputMaybe<NestedBoolNullableFilter>;
-};
-
-export type NestedBoolNullableWithAggregatesFilter = {
-  _count?: InputMaybe<NestedIntNullableFilter>;
-  _max?: InputMaybe<NestedBoolNullableFilter>;
-  _min?: InputMaybe<NestedBoolNullableFilter>;
-  equals?: InputMaybe<Scalars['Boolean']>;
-  not?: InputMaybe<NestedBoolNullableWithAggregatesFilter>;
 };
 
 export type NestedBoolWithAggregatesFilter = {
