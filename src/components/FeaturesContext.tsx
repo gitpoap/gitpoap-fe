@@ -5,7 +5,7 @@ type Features = 'hasDiscordOAuth';
 type FeaturesState = Record<Features, boolean>;
 
 export const getInitialState = (): FeaturesState => ({
-  hasDiscordOAuth: false,
+  hasDiscordOAuth: true,
 });
 
 const FeaturesContext = createContext<FeaturesState>({} as FeaturesState);
