@@ -13,7 +13,7 @@ type GitPOAPCreateValues = {
   eventUrl: string;
   email: string;
   numRequestedCodes: number;
-  ongoing: boolean;
+  isOngoing: boolean;
   isEnabled: boolean;
   isPRBased: boolean;
   image: File;
@@ -37,6 +37,8 @@ export class GitPOAPAPI extends API {
   async create(values: GitPOAPCreateValues) {
     const formData = new FormData();
 
+    const isOngoing = values['isOngoing'].toString();
+
     formData.append('project', JSON.stringify(values.project));
     formData.append('name', values.name);
     formData.append('description', values['description']);
@@ -47,7 +49,8 @@ export class GitPOAPAPI extends API {
     formData.append('eventUrl', values['eventUrl']);
     formData.append('email', values['email']);
     formData.append('numRequestedCodes', values['numRequestedCodes'].toString());
-    formData.append('ongoing', values['ongoing'].toString());
+    formData.append('isOngoing', isOngoing);
+    formData.append('canRequestMoreCodes', isOngoing);
     formData.append('isEnabled', values['isEnabled'].toString());
     formData.append('isPRBased', values['isPRBased'].toString());
     formData.append('image', values['image'] ?? '');

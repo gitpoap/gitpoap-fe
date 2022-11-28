@@ -66,7 +66,7 @@ const schema = z.object({
   eventUrl: z.string().url().min(1),
   email: z.string().email({ message: 'Invalid email' }),
   numRequestedCodes: z.number(),
-  ongoing: z.boolean(),
+  isOngoing: z.boolean(),
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),
   city: z.string().optional(),
   country: z.string().optional(),
@@ -83,7 +83,7 @@ type FormValues = {
   eventUrl: string;
   email: string;
   numRequestedCodes: number;
-  ongoing: boolean;
+  isOngoing: boolean;
   image: File | null;
   city?: string;
   country?: string;
@@ -111,7 +111,7 @@ export const EventCreateRow = (props: Props) => {
         eventUrl: '',
         email: 'issuer@gitpoap.io',
         numRequestedCodes: props.codeCount,
-        ongoing: false,
+        isOngoing: false,
         image: null,
         city: props.city,
         country: props.country,
@@ -230,7 +230,7 @@ export const EventCreateRow = (props: Props) => {
         eventUrl: formValues.eventUrl,
         email: formValues.email,
         numRequestedCodes: formValues.numRequestedCodes,
-        ongoing: formValues.ongoing,
+        isOngoing: formValues.isOngoing,
         isEnabled: formValues.isEnabled,
         isPRBased: true,
         image: formValues.image,
