@@ -53,6 +53,16 @@ export const ADMIN_GITHUB_IDS = [
   19416312, // Aldo
 ];
 
+export const ADMIN_ADDRESSES = [
+  '0x56d389c4e07a48d429035532402301310b8143a0', // Colfax
+  '0xae32d159bb3abfcadfabe7abb461c2ab4805596d', // Jay
+  '0xae95f7e7fb2fcf86148ef832faed2752ae5a358a', // Anna / burz
+  '0x04c0cd38b8c203b14ef2b7b8d736d69b938aff71', // Kayleen / nixorokish
+  '0xa4c58baf393ebf3a281a4bc6152ae084e63dc28e', // Kayla
+  '0x02738d122e0970aaf8deadf0c6a217a1923e1e99', // Aldo
+  '0x61C192be9582B8C96c91Ced88045446f41aEE483', // Tyler
+];
+
 /**
  * These networks will be available for users to select. Other networks may be functional
  *(e.g. testnets, or mainnets being prepared for launch) but need to be selected directly via the wallet.

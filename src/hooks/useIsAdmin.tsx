@@ -1,4 +1,4 @@
-import { ADMIN_GITHUB_IDS } from '../constants';
+import { ADMIN_GITHUB_IDS, ADMIN_ADDRESSES } from '../constants';
 import { useIsDev } from './useIsDev';
 import { useTokens } from './useTokens';
 
@@ -26,7 +26,8 @@ export const useIsAdmin = (): boolean => {
   }
 
   /* Check if the user's githubId is in the list of admins on the FE */
-  const isAdmin = ADMIN_GITHUB_IDS.includes(payload.githubId);
+  const isAdmin =
+    ADMIN_GITHUB_IDS.includes(payload.githubId) || ADMIN_ADDRESSES.includes(payload.address);
 
   return isAdmin;
 };
