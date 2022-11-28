@@ -25,7 +25,7 @@ export const useIsAdmin = (): boolean => {
     return false;
   }
 
-  /* Check if the user's githubId is in the list of admins on the FE */
+  /* Check if the user's githubId or address is in the list of admins on the FE */
   const isAdmin =
     ADMIN_GITHUB_IDS.includes(payload.githubId) || ADMIN_ADDRESSES.includes(payload.address);
 
