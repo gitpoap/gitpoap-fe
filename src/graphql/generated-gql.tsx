@@ -22,6 +22,8 @@ export type Address = {
   _count?: Maybe<AddressCount>;
   createdAt: Scalars['DateTime'];
   createdGitPOAPs: Array<GitPoap>;
+  discordUser?: Maybe<DiscordUser>;
+  discordUserId?: Maybe<Scalars['Int']>;
   email?: Maybe<Email>;
   ensAvatarImageUrl?: Maybe<Scalars['String']>;
   ensName?: Maybe<Scalars['String']>;
@@ -84,11 +86,13 @@ export type AddressMintedClaimsArgs = {
 
 export type AddressAvgAggregate = {
   __typename?: 'AddressAvgAggregate';
+  discordUserId?: Maybe<Scalars['Float']>;
   githubUserId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
 export type AddressAvgOrderByAggregateInput = {
+  discordUserId?: InputMaybe<SortOrder>;
   githubUserId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
 };
@@ -107,6 +111,7 @@ export type AddressCountAggregate = {
   __typename?: 'AddressCountAggregate';
   _all: Scalars['Int'];
   createdAt: Scalars['Int'];
+  discordUserId: Scalars['Int'];
   ensAvatarImageUrl: Scalars['Int'];
   ensName: Scalars['Int'];
   ethAddress: Scalars['Int'];
@@ -117,6 +122,7 @@ export type AddressCountAggregate = {
 
 export type AddressCountOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
+  discordUserId?: InputMaybe<SortOrder>;
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
   ethAddress?: InputMaybe<SortOrder>;
@@ -133,6 +139,7 @@ export type AddressGroupBy = {
   _min?: Maybe<AddressMinAggregate>;
   _sum?: Maybe<AddressSumAggregate>;
   createdAt: Scalars['DateTime'];
+  discordUserId?: Maybe<Scalars['Int']>;
   ensAvatarImageUrl?: Maybe<Scalars['String']>;
   ensName?: Maybe<Scalars['String']>;
   ethAddress: Scalars['String'];
@@ -150,6 +157,7 @@ export type AddressListRelationFilter = {
 export type AddressMaxAggregate = {
   __typename?: 'AddressMaxAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
+  discordUserId?: Maybe<Scalars['Int']>;
   ensAvatarImageUrl?: Maybe<Scalars['String']>;
   ensName?: Maybe<Scalars['String']>;
   ethAddress?: Maybe<Scalars['String']>;
@@ -160,6 +168,7 @@ export type AddressMaxAggregate = {
 
 export type AddressMaxOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
+  discordUserId?: InputMaybe<SortOrder>;
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
   ethAddress?: InputMaybe<SortOrder>;
@@ -171,6 +180,7 @@ export type AddressMaxOrderByAggregateInput = {
 export type AddressMinAggregate = {
   __typename?: 'AddressMinAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
+  discordUserId?: Maybe<Scalars['Int']>;
   ensAvatarImageUrl?: Maybe<Scalars['String']>;
   ensName?: Maybe<Scalars['String']>;
   ethAddress?: Maybe<Scalars['String']>;
@@ -181,6 +191,7 @@ export type AddressMinAggregate = {
 
 export type AddressMinOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
+  discordUserId?: InputMaybe<SortOrder>;
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
   ethAddress?: InputMaybe<SortOrder>;
@@ -200,6 +211,7 @@ export type AddressOrderByWithAggregationInput = {
   _min?: InputMaybe<AddressMinOrderByAggregateInput>;
   _sum?: InputMaybe<AddressSumOrderByAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
+  discordUserId?: InputMaybe<SortOrder>;
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
   ethAddress?: InputMaybe<SortOrder>;
@@ -211,6 +223,8 @@ export type AddressOrderByWithAggregationInput = {
 export type AddressOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   createdGitPOAPs?: InputMaybe<GitPoapOrderByRelationAggregateInput>;
+  discordUser?: InputMaybe<DiscordUserOrderByWithRelationInput>;
+  discordUserId?: InputMaybe<SortOrder>;
   email?: InputMaybe<EmailOrderByWithRelationInput>;
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
@@ -233,6 +247,7 @@ export type AddressRelationFilter = {
 
 export enum AddressScalarFieldEnum {
   CreatedAt = 'createdAt',
+  DiscordUserId = 'discordUserId',
   EnsAvatarImageUrl = 'ensAvatarImageUrl',
   EnsName = 'ensName',
   EthAddress = 'ethAddress',
@@ -246,6 +261,7 @@ export type AddressScalarWhereWithAggregatesInput = {
   NOT?: InputMaybe<Array<AddressScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<AddressScalarWhereWithAggregatesInput>>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  discordUserId?: InputMaybe<IntNullableWithAggregatesFilter>;
   ensAvatarImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
   ensName?: InputMaybe<StringNullableWithAggregatesFilter>;
   ethAddress?: InputMaybe<StringWithAggregatesFilter>;
@@ -256,11 +272,13 @@ export type AddressScalarWhereWithAggregatesInput = {
 
 export type AddressSumAggregate = {
   __typename?: 'AddressSumAggregate';
+  discordUserId?: Maybe<Scalars['Int']>;
   githubUserId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
 };
 
 export type AddressSumOrderByAggregateInput = {
+  discordUserId?: InputMaybe<SortOrder>;
   githubUserId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
 };
@@ -271,6 +289,8 @@ export type AddressWhereInput = {
   OR?: InputMaybe<Array<AddressWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
   createdGitPOAPs?: InputMaybe<GitPoapListRelationFilter>;
+  discordUser?: InputMaybe<DiscordUserRelationFilter>;
+  discordUserId?: InputMaybe<IntNullableFilter>;
   email?: InputMaybe<EmailRelationFilter>;
   ensAvatarImageUrl?: InputMaybe<StringNullableFilter>;
   ensName?: InputMaybe<StringNullableFilter>;
@@ -313,6 +333,15 @@ export type AggregateClaim = {
   _max?: Maybe<ClaimMaxAggregate>;
   _min?: Maybe<ClaimMinAggregate>;
   _sum?: Maybe<ClaimSumAggregate>;
+};
+
+export type AggregateDiscordUser = {
+  __typename?: 'AggregateDiscordUser';
+  _avg?: Maybe<DiscordUserAvgAggregate>;
+  _count?: Maybe<DiscordUserCountAggregate>;
+  _max?: Maybe<DiscordUserMaxAggregate>;
+  _min?: Maybe<DiscordUserMinAggregate>;
+  _sum?: Maybe<DiscordUserSumAggregate>;
 };
 
 export type AggregateEmail = {
@@ -452,6 +481,8 @@ export type BoolWithAggregatesFilter = {
 export type Claim = {
   __typename?: 'Claim';
   createdAt: Scalars['DateTime'];
+  discordUser?: Maybe<DiscordUser>;
+  discordUserId?: Maybe<Scalars['Int']>;
   email?: Maybe<Email>;
   emailId?: Maybe<Scalars['Int']>;
   gitPOAP: GitPoap;
@@ -476,6 +507,7 @@ export type Claim = {
 
 export type ClaimAvgAggregate = {
   __typename?: 'ClaimAvgAggregate';
+  discordUserId?: Maybe<Scalars['Float']>;
   emailId?: Maybe<Scalars['Float']>;
   gitPOAPId?: Maybe<Scalars['Float']>;
   githubUserId?: Maybe<Scalars['Float']>;
@@ -487,6 +519,7 @@ export type ClaimAvgAggregate = {
 };
 
 export type ClaimAvgOrderByAggregateInput = {
+  discordUserId?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   githubUserId?: InputMaybe<SortOrder>;
@@ -501,6 +534,7 @@ export type ClaimCountAggregate = {
   __typename?: 'ClaimCountAggregate';
   _all: Scalars['Int'];
   createdAt: Scalars['Int'];
+  discordUserId: Scalars['Int'];
   emailId: Scalars['Int'];
   gitPOAPId: Scalars['Int'];
   githubUserId: Scalars['Int'];
@@ -519,6 +553,7 @@ export type ClaimCountAggregate = {
 
 export type ClaimCountOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
+  discordUserId?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   githubUserId?: InputMaybe<SortOrder>;
@@ -562,6 +597,7 @@ export type ClaimGroupBy = {
   _min?: Maybe<ClaimMinAggregate>;
   _sum?: Maybe<ClaimSumAggregate>;
   createdAt: Scalars['DateTime'];
+  discordUserId?: Maybe<Scalars['Int']>;
   emailId?: Maybe<Scalars['Int']>;
   gitPOAPId: Scalars['Int'];
   githubUserId?: Maybe<Scalars['Int']>;
@@ -587,6 +623,7 @@ export type ClaimListRelationFilter = {
 export type ClaimMaxAggregate = {
   __typename?: 'ClaimMaxAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
+  discordUserId?: Maybe<Scalars['Int']>;
   emailId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   githubUserId?: Maybe<Scalars['Int']>;
@@ -605,6 +642,7 @@ export type ClaimMaxAggregate = {
 
 export type ClaimMaxOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
+  discordUserId?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   githubUserId?: InputMaybe<SortOrder>;
@@ -623,6 +661,7 @@ export type ClaimMaxOrderByAggregateInput = {
 export type ClaimMinAggregate = {
   __typename?: 'ClaimMinAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
+  discordUserId?: Maybe<Scalars['Int']>;
   emailId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   githubUserId?: Maybe<Scalars['Int']>;
@@ -641,6 +680,7 @@ export type ClaimMinAggregate = {
 
 export type ClaimMinOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
+  discordUserId?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   githubUserId?: InputMaybe<SortOrder>;
@@ -667,6 +707,7 @@ export type ClaimOrderByWithAggregationInput = {
   _min?: InputMaybe<ClaimMinOrderByAggregateInput>;
   _sum?: InputMaybe<ClaimSumOrderByAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
+  discordUserId?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   githubUserId?: InputMaybe<SortOrder>;
@@ -684,6 +725,8 @@ export type ClaimOrderByWithAggregationInput = {
 
 export type ClaimOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
+  discordUser?: InputMaybe<DiscordUserOrderByWithRelationInput>;
+  discordUserId?: InputMaybe<SortOrder>;
   email?: InputMaybe<EmailOrderByWithRelationInput>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAP?: InputMaybe<GitPoapOrderByWithRelationInput>;
@@ -708,6 +751,7 @@ export type ClaimOrderByWithRelationInput = {
 
 export enum ClaimScalarFieldEnum {
   CreatedAt = 'createdAt',
+  DiscordUserId = 'discordUserId',
   EmailId = 'emailId',
   GitPoapId = 'gitPOAPId',
   GithubUserId = 'githubUserId',
@@ -729,6 +773,7 @@ export type ClaimScalarWhereWithAggregatesInput = {
   NOT?: InputMaybe<Array<ClaimScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<ClaimScalarWhereWithAggregatesInput>>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  discordUserId?: InputMaybe<IntNullableWithAggregatesFilter>;
   emailId?: InputMaybe<IntNullableWithAggregatesFilter>;
   gitPOAPId?: InputMaybe<IntWithAggregatesFilter>;
   githubUserId?: InputMaybe<IntNullableWithAggregatesFilter>;
@@ -753,6 +798,7 @@ export enum ClaimStatus {
 
 export type ClaimSumAggregate = {
   __typename?: 'ClaimSumAggregate';
+  discordUserId?: Maybe<Scalars['Int']>;
   emailId?: Maybe<Scalars['Int']>;
   gitPOAPId?: Maybe<Scalars['Int']>;
   githubUserId?: Maybe<Scalars['Int']>;
@@ -764,6 +810,7 @@ export type ClaimSumAggregate = {
 };
 
 export type ClaimSumOrderByAggregateInput = {
+  discordUserId?: InputMaybe<SortOrder>;
   emailId?: InputMaybe<SortOrder>;
   gitPOAPId?: InputMaybe<SortOrder>;
   githubUserId?: InputMaybe<SortOrder>;
@@ -779,6 +826,8 @@ export type ClaimWhereInput = {
   NOT?: InputMaybe<Array<ClaimWhereInput>>;
   OR?: InputMaybe<Array<ClaimWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  discordUser?: InputMaybe<DiscordUserRelationFilter>;
+  discordUserId?: InputMaybe<IntNullableFilter>;
   email?: InputMaybe<EmailRelationFilter>;
   emailId?: InputMaybe<IntNullableFilter>;
   gitPOAP?: InputMaybe<GitPoapRelationFilter>;
@@ -858,6 +907,196 @@ export type DateTimeWithAggregatesFilter = {
   lte?: InputMaybe<Scalars['DateTime']>;
   not?: InputMaybe<NestedDateTimeWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
+};
+
+export type DiscordUser = {
+  __typename?: 'DiscordUser';
+  _count?: Maybe<DiscordUserCount>;
+  addresses: Array<Address>;
+  claims: Array<Claim>;
+  createdAt: Scalars['DateTime'];
+  discordHandle: Scalars['String'];
+  discordId: Scalars['String'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type DiscordUserAddressesArgs = {
+  cursor?: InputMaybe<AddressWhereUniqueInput>;
+  distinct?: InputMaybe<Array<AddressScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<AddressOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<AddressWhereInput>;
+};
+
+export type DiscordUserClaimsArgs = {
+  cursor?: InputMaybe<ClaimWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ClaimScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ClaimOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ClaimWhereInput>;
+};
+
+export type DiscordUserAvgAggregate = {
+  __typename?: 'DiscordUserAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type DiscordUserAvgOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserCount = {
+  __typename?: 'DiscordUserCount';
+  addresses: Scalars['Int'];
+  claims: Scalars['Int'];
+};
+
+export type DiscordUserCountAggregate = {
+  __typename?: 'DiscordUserCountAggregate';
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  discordHandle: Scalars['Int'];
+  discordId: Scalars['Int'];
+  discordOAuthToken: Scalars['Int'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+};
+
+export type DiscordUserCountOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  discordHandle?: InputMaybe<SortOrder>;
+  discordId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserGroupBy = {
+  __typename?: 'DiscordUserGroupBy';
+  _avg?: Maybe<DiscordUserAvgAggregate>;
+  _count?: Maybe<DiscordUserCountAggregate>;
+  _max?: Maybe<DiscordUserMaxAggregate>;
+  _min?: Maybe<DiscordUserMinAggregate>;
+  _sum?: Maybe<DiscordUserSumAggregate>;
+  createdAt: Scalars['DateTime'];
+  discordHandle: Scalars['String'];
+  discordId: Scalars['String'];
+  discordOAuthToken?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type DiscordUserMaxAggregate = {
+  __typename?: 'DiscordUserMaxAggregate';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  discordHandle?: Maybe<Scalars['String']>;
+  discordId?: Maybe<Scalars['String']>;
+  discordOAuthToken?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type DiscordUserMaxOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  discordHandle?: InputMaybe<SortOrder>;
+  discordId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserMinAggregate = {
+  __typename?: 'DiscordUserMinAggregate';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  discordHandle?: Maybe<Scalars['String']>;
+  discordId?: Maybe<Scalars['String']>;
+  discordOAuthToken?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type DiscordUserMinOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  discordHandle?: InputMaybe<SortOrder>;
+  discordId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserOrderByWithAggregationInput = {
+  _avg?: InputMaybe<DiscordUserAvgOrderByAggregateInput>;
+  _count?: InputMaybe<DiscordUserCountOrderByAggregateInput>;
+  _max?: InputMaybe<DiscordUserMaxOrderByAggregateInput>;
+  _min?: InputMaybe<DiscordUserMinOrderByAggregateInput>;
+  _sum?: InputMaybe<DiscordUserSumOrderByAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  discordHandle?: InputMaybe<SortOrder>;
+  discordId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserOrderByWithRelationInput = {
+  addresses?: InputMaybe<AddressOrderByRelationAggregateInput>;
+  claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  discordHandle?: InputMaybe<SortOrder>;
+  discordId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserRelationFilter = {
+  is?: InputMaybe<DiscordUserWhereInput>;
+  isNot?: InputMaybe<DiscordUserWhereInput>;
+};
+
+export enum DiscordUserScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  DiscordHandle = 'discordHandle',
+  DiscordId = 'discordId',
+  DiscordOAuthToken = 'discordOAuthToken',
+  Id = 'id',
+  UpdatedAt = 'updatedAt',
+}
+
+export type DiscordUserScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  discordHandle?: InputMaybe<StringWithAggregatesFilter>;
+  discordId?: InputMaybe<StringWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+};
+
+export type DiscordUserSumAggregate = {
+  __typename?: 'DiscordUserSumAggregate';
+  id?: Maybe<Scalars['Int']>;
+};
+
+export type DiscordUserSumOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserWhereInput = {
+  AND?: InputMaybe<Array<DiscordUserWhereInput>>;
+  NOT?: InputMaybe<Array<DiscordUserWhereInput>>;
+  OR?: InputMaybe<Array<DiscordUserWhereInput>>;
+  addresses?: InputMaybe<AddressListRelationFilter>;
+  claims?: InputMaybe<ClaimListRelationFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  discordHandle?: InputMaybe<StringFilter>;
+  discordId?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type DiscordUserWhereUniqueInput = {
+  discordId?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type Email = {
@@ -1047,6 +1286,7 @@ export type Event = {
   _count?: Maybe<EventCount>;
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
+  discordHandle?: Maybe<Scalars['String']>;
   endDate: Scalars['DateTime'];
   githubHandle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
@@ -1068,6 +1308,7 @@ export type EventCount = {
 export type EventOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
+  discordHandle?: InputMaybe<SortOrder>;
   endDate?: InputMaybe<SortOrder>;
   gitPOAPs?: InputMaybe<GitPoapOrderByRelationAggregateInput>;
   githubHandle?: InputMaybe<SortOrder>;
@@ -1093,6 +1334,7 @@ export type EventWhereInput = {
   OR?: InputMaybe<Array<EventWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
   description?: InputMaybe<StringNullableFilter>;
+  discordHandle?: InputMaybe<StringNullableFilter>;
   endDate?: InputMaybe<DateTimeFilter>;
   gitPOAPs?: InputMaybe<GitPoapListRelationFilter>;
   githubHandle?: InputMaybe<StringNullableFilter>;
@@ -1268,7 +1510,7 @@ export type FullGitPoapEventData = {
 export type GitPoap = {
   __typename?: 'GitPOAP';
   _count?: Maybe<GitPoapCount>;
-  canRequestMoreCodes?: Maybe<Scalars['Boolean']>;
+  canRequestMoreCodes: Scalars['Boolean'];
   claims: Array<Claim>;
   createdAt: Scalars['DateTime'];
   creatorAddress?: Maybe<Address>;
@@ -1413,7 +1655,7 @@ export type GitPoapGroupBy = {
   _max?: Maybe<GitPoapMaxAggregate>;
   _min?: Maybe<GitPoapMinAggregate>;
   _sum?: Maybe<GitPoapSumAggregate>;
-  canRequestMoreCodes?: Maybe<Scalars['Boolean']>;
+  canRequestMoreCodes: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   creatorAddressId?: Maybe<Scalars['Int']>;
   creatorEmailId?: Maybe<Scalars['Int']>;
@@ -1992,7 +2234,7 @@ export type GitPoapScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<GitPoapScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<GitPoapScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<GitPoapScalarWhereWithAggregatesInput>>;
-  canRequestMoreCodes?: InputMaybe<BoolNullableWithAggregatesFilter>;
+  canRequestMoreCodes?: InputMaybe<BoolWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   creatorAddressId?: InputMaybe<IntNullableWithAggregatesFilter>;
   creatorEmailId?: InputMaybe<IntNullableWithAggregatesFilter>;
@@ -2061,7 +2303,7 @@ export type GitPoapWhereInput = {
   AND?: InputMaybe<Array<GitPoapWhereInput>>;
   NOT?: InputMaybe<Array<GitPoapWhereInput>>;
   OR?: InputMaybe<Array<GitPoapWhereInput>>;
-  canRequestMoreCodes?: InputMaybe<BoolNullableFilter>;
+  canRequestMoreCodes?: InputMaybe<BoolFilter>;
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   creatorAddress?: InputMaybe<AddressRelationFilter>;
@@ -3963,6 +4205,7 @@ export type Profile = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
+  discordHandle?: Maybe<Scalars['String']>;
   featuredPOAPs: Array<FeaturedPoap>;
   githubHandle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
@@ -4006,6 +4249,7 @@ export type ProfileCountAggregate = {
   bannerImageUrl: Scalars['Int'];
   bio: Scalars['Int'];
   createdAt: Scalars['Int'];
+  discordHandle: Scalars['Int'];
   githubHandle: Scalars['Int'];
   id: Scalars['Int'];
   isVisibleOnLeaderboard: Scalars['Int'];
@@ -4021,6 +4265,7 @@ export type ProfileCountOrderByAggregateInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  discordHandle?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
@@ -4042,6 +4287,7 @@ export type ProfileGroupBy = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
+  discordHandle?: Maybe<Scalars['String']>;
   githubHandle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   isVisibleOnLeaderboard: Scalars['Boolean'];
@@ -4058,6 +4304,7 @@ export type ProfileMaxAggregate = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
+  discordHandle?: Maybe<Scalars['String']>;
   githubHandle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   isVisibleOnLeaderboard?: Maybe<Scalars['Boolean']>;
@@ -4073,6 +4320,7 @@ export type ProfileMaxOrderByAggregateInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  discordHandle?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
@@ -4089,6 +4337,7 @@ export type ProfileMinAggregate = {
   bannerImageUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
+  discordHandle?: Maybe<Scalars['String']>;
   githubHandle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   isVisibleOnLeaderboard?: Maybe<Scalars['Boolean']>;
@@ -4104,6 +4353,7 @@ export type ProfileMinOrderByAggregateInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  discordHandle?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
@@ -4124,6 +4374,7 @@ export type ProfileOrderByWithAggregationInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  discordHandle?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   isVisibleOnLeaderboard?: InputMaybe<SortOrder>;
@@ -4140,6 +4391,7 @@ export type ProfileOrderByWithRelationInput = {
   bannerImageUrl?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  discordHandle?: InputMaybe<SortOrder>;
   featuredPOAPs?: InputMaybe<FeaturedPoapOrderByRelationAggregateInput>;
   githubHandle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
@@ -4161,6 +4413,7 @@ export enum ProfileScalarFieldEnum {
   BannerImageUrl = 'bannerImageUrl',
   Bio = 'bio',
   CreatedAt = 'createdAt',
+  DiscordHandle = 'discordHandle',
   GithubHandle = 'githubHandle',
   Id = 'id',
   IsVisibleOnLeaderboard = 'isVisibleOnLeaderboard',
@@ -4179,6 +4432,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   bannerImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
   bio?: InputMaybe<StringNullableWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  discordHandle?: InputMaybe<StringNullableWithAggregatesFilter>;
   githubHandle?: InputMaybe<StringNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   isVisibleOnLeaderboard?: InputMaybe<BoolWithAggregatesFilter>;
@@ -4209,6 +4463,7 @@ export type ProfileWhereInput = {
   bannerImageUrl?: InputMaybe<StringNullableFilter>;
   bio?: InputMaybe<StringNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  discordHandle?: InputMaybe<StringNullableFilter>;
   featuredPOAPs?: InputMaybe<FeaturedPoapListRelationFilter>;
   githubHandle?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
@@ -4408,6 +4663,7 @@ export type Query = {
   addresses: Array<Address>;
   aggregateAddress: AggregateAddress;
   aggregateClaim: AggregateClaim;
+  aggregateDiscordUser: AggregateDiscordUser;
   aggregateEmail: AggregateEmail;
   aggregateFeaturedPOAP: AggregateFeaturedPoap;
   aggregateGitPOAP: AggregateGitPoap;
@@ -4424,10 +4680,13 @@ export type Query = {
   allRepos?: Maybe<Array<Repo>>;
   claim?: Maybe<Claim>;
   claims: Array<Claim>;
+  discordUser?: Maybe<DiscordUser>;
+  discordUsers: Array<DiscordUser>;
   featuredPOAP?: Maybe<FeaturedPoap>;
   featuredPOAPS: Array<FeaturedPoap>;
   findFirstAddress?: Maybe<Address>;
   findFirstClaim?: Maybe<Claim>;
+  findFirstDiscordUser?: Maybe<DiscordUser>;
   findFirstFeaturedPOAP?: Maybe<FeaturedPoap>;
   findFirstGitPOAP?: Maybe<GitPoap>;
   findFirstGitPOAPRequest?: Maybe<GitPoapRequest>;
@@ -4455,6 +4714,7 @@ export type Query = {
   githubUsers: Array<GithubUser>;
   groupByAddress: Array<AddressGroupBy>;
   groupByClaim: Array<ClaimGroupBy>;
+  groupByDiscordUser: Array<DiscordUserGroupBy>;
   groupByFeaturedPOAP: Array<FeaturedPoapGroupBy>;
   groupByGitPOAP: Array<GitPoapGroupBy>;
   groupByGitPOAPRequest: Array<GitPoapRequestGroupBy>;
@@ -4526,6 +4786,14 @@ export type QueryAggregateClaimArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ClaimWhereInput>;
+};
+
+export type QueryAggregateDiscordUserArgs = {
+  cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<DiscordUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DiscordUserWhereInput>;
 };
 
 export type QueryAggregateEmailArgs = {
@@ -4650,6 +4918,19 @@ export type QueryClaimsArgs = {
   where?: InputMaybe<ClaimWhereInput>;
 };
 
+export type QueryDiscordUserArgs = {
+  where: DiscordUserWhereUniqueInput;
+};
+
+export type QueryDiscordUsersArgs = {
+  cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<DiscordUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<DiscordUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DiscordUserWhereInput>;
+};
+
 export type QueryFeaturedPoapArgs = {
   where: FeaturedPoapWhereUniqueInput;
 };
@@ -4679,6 +4960,15 @@ export type QueryFindFirstClaimArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ClaimWhereInput>;
+};
+
+export type QueryFindFirstDiscordUserArgs = {
+  cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<DiscordUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<DiscordUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DiscordUserWhereInput>;
 };
 
 export type QueryFindFirstFeaturedPoapArgs = {
@@ -4885,6 +5175,15 @@ export type QueryGroupByClaimArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ClaimWhereInput>;
+};
+
+export type QueryGroupByDiscordUserArgs = {
+  by: Array<DiscordUserScalarFieldEnum>;
+  having?: InputMaybe<DiscordUserScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<DiscordUserOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DiscordUserWhereInput>;
 };
 
 export type QueryGroupByFeaturedPoapArgs = {
