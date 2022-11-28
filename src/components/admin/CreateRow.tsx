@@ -63,7 +63,7 @@ const schema = z.object({
   eventUrl: z.string().url().min(1),
   email: z.string().email({ message: 'Invalid email' }),
   numRequestedCodes: z.number(),
-  ongoing: z.boolean(),
+  isOngoing: z.boolean(),
   isEnabled: z.boolean(),
   isPRBased: z.boolean(),
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),
@@ -100,7 +100,7 @@ export const CreateRow = (props: Props) => {
       eventUrl: '',
       email: 'issuer@gitpoap.io',
       numRequestedCodes: 20,
-      ongoing: false,
+      isOngoing: false,
       isEnabled: true,
       isPRBased: true,
       image: null,
@@ -111,7 +111,7 @@ export const CreateRow = (props: Props) => {
   useEffect(() => {
     if (!firstUpdate.current) {
       const isThisYearOrLater = values.year >= THIS_YEAR;
-      setFieldValue('ongoing', isThisYearOrLater);
+      setFieldValue('isOngoing', isThisYearOrLater);
     } else {
       firstUpdate.current = false;
     }
@@ -184,7 +184,7 @@ export const CreateRow = (props: Props) => {
         eventUrl: formValues.eventUrl,
         email: formValues.email,
         numRequestedCodes: formValues.numRequestedCodes,
-        ongoing: formValues.ongoing,
+        isOngoing: formValues.isOngoing,
         isEnabled: formValues.isEnabled,
         isPRBased: formValues.isPRBased,
         image: formValues.image,
@@ -250,7 +250,7 @@ export const CreateRow = (props: Props) => {
             <Checkbox
               mt="md"
               label="Ongoing?"
-              {...getInputProps('ongoing', { type: 'checkbox' })}
+              {...getInputProps('isOngoing', { type: 'checkbox' })}
             />
           </InfoTooltip>
 
