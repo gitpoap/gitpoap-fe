@@ -26,7 +26,7 @@ export const useRefreshTokens = () => {
     async (refreshToken: string | null, isOnline: boolean) => {
       // we refresh access token if only access token is expired
       const accessTokenExp = payload?.exp ?? 0;
-      const isExpired = DateTime.now().second + FIVE_MINUTES_IN_SEC > accessTokenExp;
+      const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_SEC > accessTokenExp;
       if (refreshToken && isOnline && isExpired) {
         const tokens = await api.auth.refresh();
         if (tokens?.accessToken && tokens?.refreshToken) {
