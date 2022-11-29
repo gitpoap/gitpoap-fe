@@ -1,6 +1,7 @@
 import { Button, Center, Stack } from '@mantine/core';
 import { rem } from 'polished';
 import { useGitPoapEventQuery } from '../../../graphql/generated-gql';
+import { useIsAdmin } from '../../../hooks/useIsAdmin';
 import { useUser } from '../../../hooks/useUser';
 import { Link } from '../../shared/compounds/Link';
 import { Header, Loader } from '../../shared/elements';
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export const ManageGitPOAPContainer = ({ gitPOAPId }: Props) => {
+  const isAdmin = useIsAdmin();
   const user = useUser();
   const [results] = useGitPoapEventQuery({
     variables: {
@@ -30,7 +32,7 @@ export const ManageGitPOAPContainer = ({ gitPOAPId }: Props) => {
     );
   }
 
-  if (!isCreator) {
+  if (!isCreator && !isAdmin) {
     return (
       <Center py={0} px={rem(20)} sx={{ width: '100%', height: 600 }}>
         <Stack align="center" justify="center" spacing="xs" style={{ width: '100%' }}>
