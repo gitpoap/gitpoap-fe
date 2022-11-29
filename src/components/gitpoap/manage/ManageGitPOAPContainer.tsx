@@ -1,5 +1,6 @@
-import { Button, Center, Stack } from '@mantine/core';
+import { Alert, Button, Center, Group, Stack } from '@mantine/core';
 import { rem } from 'polished';
+import { FiAlertCircle } from 'react-icons/fi';
 import { useGitPoapEventQuery } from '../../../graphql/generated-gql';
 import { User } from '../../../hooks/useUser';
 import { Link } from '../../shared/compounds/Link';
@@ -47,5 +48,16 @@ export const ManageGitPOAPContainer = ({ gitPOAPId, user }: Props) => {
     );
   }
 
-  return <ManageGitPOAP gitPOAPId={gitPOAPId} />;
+  return (
+    <>
+      {!isCreator && (
+        <Group position="center">
+          <Alert color="yellow" icon={<FiAlertCircle />} py={rem(6)}>
+            {'Viewing as Staff'}
+          </Alert>
+        </Group>
+      )}
+      <ManageGitPOAP gitPOAPId={gitPOAPId} />
+    </>
+  );
 };
