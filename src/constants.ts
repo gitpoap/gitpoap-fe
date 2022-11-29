@@ -44,7 +44,7 @@ interface Network {
 }
 
 /* GitPOAP Staff ~ used for soft-gating admin pages */
-export const ADMIN_GITHUB_IDS = [
+export const STAFF_GITHUB_IDS = [
   914240, // colfax23
   8076957, // peebeejay
   1555326, // burz
@@ -53,7 +53,7 @@ export const ADMIN_GITHUB_IDS = [
   19416312, // Aldo
 ];
 
-export const ADMIN_ADDRESSES = [
+export const STAFF_ADDRESSES = [
   '0x56d389c4e07a48d429035532402301310b8143a0', // Colfax
   '0xae32d159bb3abfcadfabe7abb461c2ab4805596d', // Jay
   '0xae95f7e7fb2fcf86148ef832faed2752ae5a358a', // Anna / burz

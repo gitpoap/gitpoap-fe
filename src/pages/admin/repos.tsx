@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 import { ConnectGitHub } from '../../components/admin/ConnectGitHub';
 import { useAllReposQuery, useGetAllStatsQuery } from '../../graphql/generated-gql';
 import { TableDashboard, TD } from '../../components/admin/TableDashboard';
-import { useIsAdmin } from '../../hooks/useIsAdmin';
+import { useIsStaff } from '../../hooks/useIsStaff';
 
 type RowData = {
   'Repo ID': TD<number>;
@@ -18,7 +18,7 @@ type RowData = {
 };
 
 const ReposDashboard: NextPage = () => {
-  const isAdmin = useIsAdmin();
+  const isStaff = useIsStaff();
   const [result] = useAllReposQuery({
     variables: {
       count: 200,
@@ -51,7 +51,7 @@ const ReposDashboard: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isAdmin ? (
+          {isStaff ? (
             <>
               {data && (
                 <TableDashboard<RowData[]>

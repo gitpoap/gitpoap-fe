@@ -1,5 +1,5 @@
 import { useWeb3Context } from '../components/wallet/Web3Context';
-import { useIsAdmin } from './useIsAdmin';
+import { useIsStaff } from './useIsStaff';
 import { useTokens } from './useTokens';
 
 export type User = {
@@ -17,7 +17,7 @@ export type User = {
     hasDiscord: boolean;
   };
   permissions: {
-    isAdmin: boolean;
+    isStaff: boolean;
   };
 };
 
@@ -27,7 +27,7 @@ export type User = {
  */
 export const useUser = (): User | null => {
   const { payload } = useTokens();
-  const isAdmin = useIsAdmin();
+  const isStaff = useIsStaff();
   const { connectionStatus } = useWeb3Context();
 
   let user = null;
@@ -47,7 +47,7 @@ export const useUser = (): User | null => {
         hasDiscord: !!payload?.discordId,
       },
       permissions: {
-        isAdmin,
+        isStaff,
       },
     };
   }

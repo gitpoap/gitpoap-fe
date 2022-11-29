@@ -15,7 +15,7 @@ import { DateInput } from '../../../components/shared/elements/DateInput';
 import { EventCreateRow } from '../../../components/admin/EventCreateRow';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { THIS_YEAR } from '../../../constants';
-import { useIsAdmin } from '../../../hooks/useIsAdmin';
+import { useIsStaff } from '../../../hooks/useIsStaff';
 
 const FormInput = styled(Input)`
   width: ${rem(375)};
@@ -51,7 +51,7 @@ const DEFAULT_EXPIRY_DATE = DateTime.local(THIS_YEAR + 1, 4, 1).toJSDate();
 type Row = { id: string };
 
 const CreateMultipleEvent: NextPage = () => {
-  const isAdmin = useIsAdmin();
+  const isStaff = useIsStaff();
   const [rows, setRows] = useState<Row[]>([{ id: uuidv4() }]);
   const { values, setFieldValue, getInputProps } = useForm<z.infer<typeof schema>>({
     validate: zodResolver(schema),
@@ -94,7 +94,7 @@ const CreateMultipleEvent: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isAdmin ? (
+          {isStaff ? (
             <Group position="center">
               <Stack>
                 <Header style={{ alignSelf: 'start' }}>

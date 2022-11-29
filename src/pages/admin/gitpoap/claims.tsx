@@ -9,7 +9,7 @@ import { useAdminClaimsQuery, useGetAllStatsQuery } from '../../../graphql/gener
 import { DateTime } from 'luxon';
 import { truncateAddress, truncateString } from '../../../helpers';
 import { TableDashboard, TD } from '../../../components/admin/TableDashboard';
-import { useIsAdmin } from '../../../hooks/useIsAdmin';
+import { useIsStaff } from '../../../hooks/useIsStaff';
 
 const LoaderContainer = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ type RowData = {
 };
 
 const ClaimsDashboard: NextPage = () => {
-  const isAdmin = useIsAdmin();
+  const isStaff = useIsStaff();
   const [result] = useAdminClaimsQuery({
     variables: {
       count: 200,
@@ -98,7 +98,7 @@ const ClaimsDashboard: NextPage = () => {
         }}
       >
         <Grid.Col xs={12} sm={12} md={12} lg={12} xl={12}>
-          {isAdmin ? (
+          {isStaff ? (
             <>
               {result.fetching && (
                 <LoaderContainer>

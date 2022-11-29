@@ -5,10 +5,10 @@ import Head from 'next/head';
 import { Grid } from '@mantine/core';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { GitPOAPRequestList } from '../../../components/admin/requests/AdminGitPOAPRequestList';
-import { useIsAdmin } from '../../../hooks/useIsAdmin';
+import { useIsStaff } from '../../../hooks/useIsStaff';
 
 const AdminGitPOAPRequests: NextPage = () => {
-  const isAdmin = useIsAdmin();
+  const isStaff = useIsStaff();
 
   return (
     <>
@@ -18,7 +18,7 @@ const AdminGitPOAPRequests: NextPage = () => {
       </Head>
       <Grid justify="center" mt={rem(20)} mb={rem(20)} style={{ flex: 1 }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isAdmin ? <GitPOAPRequestList /> : <ConnectGitHub />}
+          {isStaff ? <GitPOAPRequestList /> : <ConnectGitHub />}
         </Grid.Col>
       </Grid>
     </>
