@@ -1,19 +1,17 @@
 import { Button, Center, Stack } from '@mantine/core';
 import { rem } from 'polished';
 import { useGitPoapEventQuery } from '../../../graphql/generated-gql';
-import { useIsAdmin } from '../../../hooks/useIsAdmin';
-import { useUser } from '../../../hooks/useUser';
+import { User } from '../../../hooks/useUser';
 import { Link } from '../../shared/compounds/Link';
 import { Header, Loader } from '../../shared/elements';
 import { ManageGitPOAP } from './ManageGitPOAP';
 
 type Props = {
   gitPOAPId: number;
+  user: User;
 };
 
-export const ManageGitPOAPContainer = ({ gitPOAPId }: Props) => {
-  const isAdmin = useIsAdmin();
-  const user = useUser();
+export const ManageGitPOAPContainer = ({ gitPOAPId, user }: Props) => {
   const [results] = useGitPoapEventQuery({
     variables: {
       id: gitPOAPId,
@@ -22,7 +20,7 @@ export const ManageGitPOAPContainer = ({ gitPOAPId }: Props) => {
   });
 
   const creatorAddress = results.data?.gitPOAPEvent?.gitPOAP.creatorAddress?.ethAddress;
-  const isCreator = !!creatorAddress && !!user && creatorAddress === user.address;
+  const isCreator = !!creatorAddress && creatorAddress === user.address;
 
   if (results.fetching) {
     return (
@@ -32,7 +30,7 @@ export const ManageGitPOAPContainer = ({ gitPOAPId }: Props) => {
     );
   }
 
-  if (!isCreator && !isAdmin) {
+  if (!isCreator && !user.permissions.isAdmin) {
     return (
       <Center py={0} px={rem(20)} sx={{ width: '100%', height: 600 }}>
         <Stack align="center" justify="center" spacing="xs" style={{ width: '100%' }}>
