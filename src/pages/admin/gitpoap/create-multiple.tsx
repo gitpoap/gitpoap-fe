@@ -3,11 +3,11 @@ import Head from 'next/head';
 import { Grid } from '@mantine/core';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { CreateMultiple } from '../../../components/admin/CreateMultiple';
-import { useIsAdmin } from '../../../hooks/useIsAdmin';
+import { useIsStaff } from '../../../hooks/useIsStaff';
 import { Page } from '../../_app';
 
 const CreateMultipleForm: Page = () => {
-  const isAdmin = useIsAdmin();
+  const isStaff = useIsStaff();
 
   return (
     <Grid justify="center" mt={rem(20)}>
@@ -16,7 +16,7 @@ const CreateMultipleForm: Page = () => {
         <meta name="description" content="GitPOAP Admin" />
       </Head>
       <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-        {isAdmin ? <CreateMultiple /> : <ConnectGitHub />}
+        {isStaff ? <CreateMultiple /> : <ConnectGitHub />}
       </Grid.Col>
     </Grid>
   );

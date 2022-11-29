@@ -17,7 +17,7 @@ import { ConnectGitHub } from '../../components/admin/ConnectGitHub';
 import { ButtonStatus, SubmitButtonRow } from '../../components/admin/SubmitButtonRow';
 import { Errors } from '../../components/admin/ErrorText';
 import { useTokens } from '../../hooks/useTokens';
-import { useIsAdmin } from '../../hooks/useIsAdmin';
+import { useIsStaff } from '../../hooks/useIsStaff';
 
 export const Dropzone = styled(DropzoneUI)`
   background-color: ${BackgroundPanel};
@@ -98,7 +98,7 @@ type FormValues = z.infer<typeof schema>;
 
 const AddCodesPage: NextPage = () => {
   const { tokens } = useTokens();
-  const isAdmin = useIsAdmin();
+  const isStaff = useIsStaff();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const { setFieldValue, values, errors, onSubmit, getInputProps, setErrors, setValues } =
     useForm<FormValues>({
@@ -201,7 +201,7 @@ const AddCodesPage: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(40) }}>
         <Grid.Col span={10}>
-          {isAdmin ? (
+          {isStaff ? (
             <FormContainer>
               <AddCodesForm onSubmit={onSubmit((values) => submitCodes(values))}>
                 <Header style={{ alignSelf: 'start' }}>{'Admin - Add Codes'}</Header>

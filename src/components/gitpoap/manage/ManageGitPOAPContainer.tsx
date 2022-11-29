@@ -31,7 +31,7 @@ export const ManageGitPOAPContainer = ({ gitPOAPId, user }: Props) => {
     );
   }
 
-  if (!isCreator && !user.permissions.isAdmin) {
+  if (!isCreator && !user.permissions.isStaff) {
     return (
       <Center py={0} px={rem(20)} sx={{ width: '100%', height: 600 }}>
         <Stack align="center" justify="center" spacing="xs" style={{ width: '100%' }}>

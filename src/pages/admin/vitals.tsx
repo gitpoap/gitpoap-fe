@@ -5,10 +5,10 @@ import Head from 'next/head';
 import { Grid } from '@mantine/core';
 import { ConnectGitHub } from '../../components/admin/ConnectGitHub';
 import { VitalsDashboard } from '../../components/admin/VitalsDashboard';
-import { useIsAdmin } from '../../hooks/useIsAdmin';
+import { useIsStaff } from '../../hooks/useIsStaff';
 
 const ReposDashboard: NextPage = () => {
-  const isAdmin = useIsAdmin();
+  const isStaff = useIsStaff();
 
   return (
     <div>
@@ -18,7 +18,7 @@ const ReposDashboard: NextPage = () => {
       </Head>
       <Grid justify="center" style={{ marginTop: rem(20), marginBottom: rem(20) }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {isAdmin ? (
+          {isStaff ? (
             <>
               <VitalsDashboard />
             </>

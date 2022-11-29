@@ -68,7 +68,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               <Menu.Item component="a" href="https://docs.gitpoap.io" target="_blank">
                 {'Help'}
               </Menu.Item>
-              {user?.permissions.isAdmin && (
+              {user?.permissions.isStaff && (
                 <Menu.Item component={NextLink} href="/admin">
                   {'Admin'}
                 </Menu.Item>
