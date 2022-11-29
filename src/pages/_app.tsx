@@ -14,6 +14,7 @@ import { Layout } from '../components/Layout';
 import { theme } from '../lib/theme';
 import { ClaimContextProvider } from '../components/claims/ClaimContext';
 import { LoadingBar } from '../components/LoadingBar';
+import { HexagonPath } from '../components/shared/elements';
 
 const client = createClient({
   url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
@@ -70,6 +71,7 @@ const TheApp = ({ Component, pageProps }: Props) => {
                 <FeaturesProvider>
                   <ClaimContextProvider>
                     <GlobalStyles />
+                    <HexagonPath />
                     <Layout>
                       <LoadingBar />
                       {getLayout(<Component {...pageProps} />)}

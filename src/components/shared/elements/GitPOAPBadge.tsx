@@ -9,7 +9,6 @@ import {
   TextGray,
   BackgroundPanel2,
 } from '../../../colors';
-import { HexagonPath } from './HexagonPath';
 import Image from 'next/image';
 import { Link } from '../compounds/Link';
 import { Level } from '../../../types';
@@ -181,23 +180,20 @@ export const GitPOAPBadge = ({
   level,
 }: Props) => {
   const badgeCore = (
-    <>
-      <HexOuterBorder
-        className={className}
-        size={size}
-        disabled={disabled}
-        onClick={onClick}
-        disableHoverEffects={disableHoverEffects}
-        level={level}
-      >
-        <HexInnerBorder level={level} size={size}>
-          <HexBadge imgUrl={imgUrl} level={level} size={size}>
-            <Image alt={altText} layout="fill" src={imgUrl} />
-          </HexBadge>
-        </HexInnerBorder>
-      </HexOuterBorder>
-      <HexagonPath />
-    </>
+    <HexOuterBorder
+      className={className}
+      size={size}
+      disabled={disabled}
+      onClick={onClick}
+      disableHoverEffects={disableHoverEffects}
+      level={level}
+    >
+      <HexInnerBorder level={level} size={size}>
+        <HexBadge imgUrl={imgUrl} level={level} size={size}>
+          <Image alt={altText} layout="fill" src={imgUrl} />
+        </HexBadge>
+      </HexInnerBorder>
+    </HexOuterBorder>
   );
 
   if (href) {
