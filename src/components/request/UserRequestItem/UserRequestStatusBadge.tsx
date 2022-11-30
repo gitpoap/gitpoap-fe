@@ -1,14 +1,14 @@
 import { Badge } from '@mantine/core';
 import { ExtraRedDark, PrimaryBlue, BackgroundPanel3 } from '../../../colors';
-import { AdminApprovalStatus } from '../../../graphql/generated-gql';
+import { StaffApprovalStatus } from '../../../graphql/generated-gql';
 
 const statusColors = {
-  [AdminApprovalStatus.Pending]: BackgroundPanel3,
-  [AdminApprovalStatus.Approved]: PrimaryBlue,
-  [AdminApprovalStatus.Rejected]: ExtraRedDark,
+  [StaffApprovalStatus.Pending]: BackgroundPanel3,
+  [StaffApprovalStatus.Approved]: PrimaryBlue,
+  [StaffApprovalStatus.Rejected]: ExtraRedDark,
 };
 
-export const UserRequestStatusBadge = ({ status }: { status: AdminApprovalStatus }) => {
+export const UserRequestStatusBadge = ({ status }: { status: StaffApprovalStatus }) => {
   return (
     <Badge
       size="lg"

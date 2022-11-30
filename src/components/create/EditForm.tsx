@@ -22,10 +22,10 @@ const HeaderText = {
   REJECTED: 'Edit GitPOAP',
 };
 
-type AdminApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
+type StaffApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
 
 type Props = {
-  adminApprovalStatus: AdminApprovalStatus;
+  staffApprovalStatus: StaffApprovalStatus;
   creatorEmail: string;
   initialValues: EditFormValues;
   gitPOAPRequestId: number;
@@ -33,7 +33,7 @@ type Props = {
 };
 
 export const EditForm = ({
-  adminApprovalStatus,
+  staffApprovalStatus,
   creatorEmail,
   initialValues,
   gitPOAPRequestId,
@@ -91,11 +91,11 @@ export const EditForm = ({
         position="apart"
         style={{ left: '5%', position: 'absolute', width: '90%', zIndex: 99 }}
       >
-        <Header>{HeaderText[adminApprovalStatus]}</Header>
-        <Header>{adminApprovalStatus}</Header>
+        <Header>{HeaderText[staffApprovalStatus]}</Header>
+        <Header>{staffApprovalStatus}</Header>
       </Group>
       <FormFields
-        approvalStatus={adminApprovalStatus}
+        approvalStatus={staffApprovalStatus}
         buttonStatus={buttonStatus}
         creatorEmail={creatorEmail}
         imageUrl={imageUrl}

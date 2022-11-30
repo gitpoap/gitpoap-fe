@@ -888,7 +888,7 @@ query gitPOAPRequest($gitPOAPRequestId: Int!) {
       emailAddress
     }
     imageUrl
-    adminApprovalStatus
+    staffApprovalStatus
     address {
       ethAddress
     }
@@ -896,12 +896,12 @@ query gitPOAPRequest($gitPOAPRequestId: Int!) {
   }
 }
 
-query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStatus, $search: Int) {
+query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: StaffApprovalStatus, $search: Int) {
   gitPOAPRequests(
     take: $take
     skip: $skip
     # where clause that adds a search filter if its present, but omits it if it is undefined
-    where: { adminApprovalStatus: { equals: $approvalStatus }, id: { equals: $search } }
+    where: { staffApprovalStatus: { equals: $approvalStatus }, id: { equals: $search } }
     orderBy: { createdAt: desc }
   ) {
     id
@@ -915,7 +915,7 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStat
       emailAddress
     }
     contributors
-    adminApprovalStatus
+    staffApprovalStatus
     project {
       repos(take: 1) {
         id
@@ -930,8 +930,8 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: AdminApprovalStat
   }
 }
 
-query totalGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus) {
-  aggregateGitPOAPRequest(where: { adminApprovalStatus: { equals: $approvalStatus } }) {
+query totalGitPOAPRequestsCount($approvalStatus: StaffApprovalStatus) {
+  aggregateGitPOAPRequest(where: { staffApprovalStatus: { equals: $approvalStatus } }) {
     _count {
       id
     }
@@ -941,7 +941,7 @@ query totalGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus) {
 query userGitPOAPRequests(
   $take: Int
   $skip: Int
-  $approvalStatus: AdminApprovalStatus
+  $approvalStatus: StaffApprovalStatus
   $address: String
   $search: String
 ) {
@@ -949,7 +949,7 @@ query userGitPOAPRequests(
     take: $take
     skip: $skip
     where: {
-      adminApprovalStatus: { equals: $approvalStatus }
+      staffApprovalStatus: { equals: $approvalStatus }
       address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
       OR: [
         { name: { contains: $search, mode: insensitive } }
@@ -973,7 +973,7 @@ query userGitPOAPRequests(
       id
     }
     contributors
-    adminApprovalStatus
+    staffApprovalStatus
     project {
       repos(take: 1) {
         id
@@ -988,10 +988,10 @@ query userGitPOAPRequests(
   }
 }
 
-query totalUserGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus, $address: String) {
+query totalUserGitPOAPRequestsCount($approvalStatus: StaffApprovalStatus, $address: String) {
   aggregateGitPOAPRequest(
     where: {
-      adminApprovalStatus: { equals: $approvalStatus }
+      staffApprovalStatus: { equals: $approvalStatus }
       address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
     }
   ) {

@@ -35,7 +35,7 @@ const Divider = styled(DividerUI)`
 
 export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
   const {
-    adminApprovalStatus,
+    staffApprovalStatus,
     contributors,
     createdAt,
     description,
@@ -56,7 +56,7 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
     DateTime.DATE_MED,
   );
   const formattedEnd = DateTime.fromISO(endDate, { zone: 'utc' }).toLocaleString(DateTime.DATE_MED);
-  const isPendingPOAPApproval = adminApprovalStatus === 'APPROVED' && !GitPOAP?.id;
+  const isPendingStaffApproval = staffApprovalStatus === 'APPROVED' && !GitPOAP?.id;
 
   return (
     <>
@@ -70,7 +70,7 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
               imageUrl={imageUrl}
             />
             <Group position="center">
-              <UserRequestStatusBadge status={adminApprovalStatus} />
+              <UserRequestStatusBadge status={staffApprovalStatus} />
             </Group>
           </Stack>
 
@@ -82,10 +82,10 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
             <Text>{`From ${formattedStart} to ${formattedEnd}`}</Text>
             <Text>{`Created ${DateTime.fromISO(createdAt).toRelative()}`}</Text>
             <Group align="center" spacing="md">
-              {!isPendingPOAPApproval && (
+              {!isPendingStaffApproval && (
                 <Link
                   href={
-                    adminApprovalStatus === 'APPROVED'
+                    staffApprovalStatus === 'APPROVED'
                       ? `/gp/${GitPOAP?.id}/manage`
                       : `/create/${id}`
                   }
@@ -94,7 +94,7 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
                   <Button leftIcon={<FaEdit />}>{'Edit'}</Button>
                 </Link>
               )}
-              {adminApprovalStatus === 'APPROVED' && !GitPOAP?.id}
+              {staffApprovalStatus === 'APPROVED' && !GitPOAP?.id}
               <Button onClick={openContributorModal} leftIcon={<BsPeopleFill />}>
                 {'Contributors'}
               </Button>

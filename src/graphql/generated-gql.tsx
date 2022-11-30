@@ -311,12 +311,6 @@ export type AddressWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
 };
 
-export enum AdminApprovalStatus {
-  Approved = 'APPROVED',
-  Pending = 'PENDING',
-  Rejected = 'REJECTED',
-}
-
 export type AggregateAddress = {
   __typename?: 'AggregateAddress';
   _avg?: Maybe<AddressAvgAggregate>;
@@ -1193,23 +1187,6 @@ export type EmailWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
 };
 
-export type EnumAdminApprovalStatusFilter = {
-  equals?: InputMaybe<AdminApprovalStatus>;
-  in?: InputMaybe<Array<AdminApprovalStatus>>;
-  not?: InputMaybe<NestedEnumAdminApprovalStatusFilter>;
-  notIn?: InputMaybe<Array<AdminApprovalStatus>>;
-};
-
-export type EnumAdminApprovalStatusWithAggregatesFilter = {
-  _count?: InputMaybe<NestedIntFilter>;
-  _max?: InputMaybe<NestedEnumAdminApprovalStatusFilter>;
-  _min?: InputMaybe<NestedEnumAdminApprovalStatusFilter>;
-  equals?: InputMaybe<AdminApprovalStatus>;
-  in?: InputMaybe<Array<AdminApprovalStatus>>;
-  not?: InputMaybe<NestedEnumAdminApprovalStatusWithAggregatesFilter>;
-  notIn?: InputMaybe<Array<AdminApprovalStatus>>;
-};
-
 export type EnumClaimStatusFilter = {
   equals?: InputMaybe<ClaimStatus>;
   in?: InputMaybe<Array<ClaimStatus>>;
@@ -1266,6 +1243,23 @@ export type EnumMembershipRoleFilter = {
   in?: InputMaybe<Array<MembershipRole>>;
   not?: InputMaybe<NestedEnumMembershipRoleFilter>;
   notIn?: InputMaybe<Array<MembershipRole>>;
+};
+
+export type EnumStaffApprovalStatusFilter = {
+  equals?: InputMaybe<StaffApprovalStatus>;
+  in?: InputMaybe<Array<StaffApprovalStatus>>;
+  not?: InputMaybe<NestedEnumStaffApprovalStatusFilter>;
+  notIn?: InputMaybe<Array<StaffApprovalStatus>>;
+};
+
+export type EnumStaffApprovalStatusWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumStaffApprovalStatusFilter>;
+  _min?: InputMaybe<NestedEnumStaffApprovalStatusFilter>;
+  equals?: InputMaybe<StaffApprovalStatus>;
+  in?: InputMaybe<Array<StaffApprovalStatus>>;
+  not?: InputMaybe<NestedEnumStaffApprovalStatusWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<StaffApprovalStatus>>;
 };
 
 export type Event = {
@@ -1854,7 +1848,6 @@ export type GitPoapRequest = {
   GitPOAP?: Maybe<GitPoap>;
   address: Address;
   addressId: Scalars['Int'];
-  adminApprovalStatus: AdminApprovalStatus;
   contributors: Scalars['JSON'];
   createdAt: Scalars['DateTime'];
   creatorEmail: Email;
@@ -1870,6 +1863,8 @@ export type GitPoapRequest = {
   organizationId?: Maybe<Scalars['Int']>;
   project?: Maybe<Project>;
   projectId?: Maybe<Scalars['Int']>;
+  rejectionReason?: Maybe<Scalars['String']>;
+  staffApprovalStatus: StaffApprovalStatus;
   startDate: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
@@ -1899,7 +1894,6 @@ export type GitPoapRequestCountAggregate = {
   __typename?: 'GitPOAPRequestCountAggregate';
   _all: Scalars['Int'];
   addressId: Scalars['Int'];
-  adminApprovalStatus: Scalars['Int'];
   contributors: Scalars['Int'];
   createdAt: Scalars['Int'];
   creatorEmailId: Scalars['Int'];
@@ -1912,13 +1906,14 @@ export type GitPoapRequestCountAggregate = {
   numRequestedCodes: Scalars['Int'];
   organizationId: Scalars['Int'];
   projectId: Scalars['Int'];
+  rejectionReason: Scalars['Int'];
+  staffApprovalStatus: Scalars['Int'];
   startDate: Scalars['Int'];
   updatedAt: Scalars['Int'];
 };
 
 export type GitPoapRequestCountOrderByAggregateInput = {
   addressId?: InputMaybe<SortOrder>;
-  adminApprovalStatus?: InputMaybe<SortOrder>;
   contributors?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   creatorEmailId?: InputMaybe<SortOrder>;
@@ -1931,6 +1926,8 @@ export type GitPoapRequestCountOrderByAggregateInput = {
   numRequestedCodes?: InputMaybe<SortOrder>;
   organizationId?: InputMaybe<SortOrder>;
   projectId?: InputMaybe<SortOrder>;
+  rejectionReason?: InputMaybe<SortOrder>;
+  staffApprovalStatus?: InputMaybe<SortOrder>;
   startDate?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -1943,7 +1940,6 @@ export type GitPoapRequestGroupBy = {
   _min?: Maybe<GitPoapRequestMinAggregate>;
   _sum?: Maybe<GitPoapRequestSumAggregate>;
   addressId: Scalars['Int'];
-  adminApprovalStatus: AdminApprovalStatus;
   contributors: Scalars['JSON'];
   createdAt: Scalars['DateTime'];
   creatorEmailId: Scalars['Int'];
@@ -1956,6 +1952,8 @@ export type GitPoapRequestGroupBy = {
   numRequestedCodes: Scalars['Int'];
   organizationId?: Maybe<Scalars['Int']>;
   projectId?: Maybe<Scalars['Int']>;
+  rejectionReason?: Maybe<Scalars['String']>;
+  staffApprovalStatus: StaffApprovalStatus;
   startDate: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
@@ -1969,7 +1967,6 @@ export type GitPoapRequestListRelationFilter = {
 export type GitPoapRequestMaxAggregate = {
   __typename?: 'GitPOAPRequestMaxAggregate';
   addressId?: Maybe<Scalars['Int']>;
-  adminApprovalStatus?: Maybe<AdminApprovalStatus>;
   createdAt?: Maybe<Scalars['DateTime']>;
   creatorEmailId?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
@@ -1981,13 +1978,14 @@ export type GitPoapRequestMaxAggregate = {
   numRequestedCodes?: Maybe<Scalars['Int']>;
   organizationId?: Maybe<Scalars['Int']>;
   projectId?: Maybe<Scalars['Int']>;
+  rejectionReason?: Maybe<Scalars['String']>;
+  staffApprovalStatus?: Maybe<StaffApprovalStatus>;
   startDate?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type GitPoapRequestMaxOrderByAggregateInput = {
   addressId?: InputMaybe<SortOrder>;
-  adminApprovalStatus?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   creatorEmailId?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
@@ -1999,6 +1997,8 @@ export type GitPoapRequestMaxOrderByAggregateInput = {
   numRequestedCodes?: InputMaybe<SortOrder>;
   organizationId?: InputMaybe<SortOrder>;
   projectId?: InputMaybe<SortOrder>;
+  rejectionReason?: InputMaybe<SortOrder>;
+  staffApprovalStatus?: InputMaybe<SortOrder>;
   startDate?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -2006,7 +2006,6 @@ export type GitPoapRequestMaxOrderByAggregateInput = {
 export type GitPoapRequestMinAggregate = {
   __typename?: 'GitPOAPRequestMinAggregate';
   addressId?: Maybe<Scalars['Int']>;
-  adminApprovalStatus?: Maybe<AdminApprovalStatus>;
   createdAt?: Maybe<Scalars['DateTime']>;
   creatorEmailId?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
@@ -2018,13 +2017,14 @@ export type GitPoapRequestMinAggregate = {
   numRequestedCodes?: Maybe<Scalars['Int']>;
   organizationId?: Maybe<Scalars['Int']>;
   projectId?: Maybe<Scalars['Int']>;
+  rejectionReason?: Maybe<Scalars['String']>;
+  staffApprovalStatus?: Maybe<StaffApprovalStatus>;
   startDate?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type GitPoapRequestMinOrderByAggregateInput = {
   addressId?: InputMaybe<SortOrder>;
-  adminApprovalStatus?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   creatorEmailId?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
@@ -2036,6 +2036,8 @@ export type GitPoapRequestMinOrderByAggregateInput = {
   numRequestedCodes?: InputMaybe<SortOrder>;
   organizationId?: InputMaybe<SortOrder>;
   projectId?: InputMaybe<SortOrder>;
+  rejectionReason?: InputMaybe<SortOrder>;
+  staffApprovalStatus?: InputMaybe<SortOrder>;
   startDate?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -2051,7 +2053,6 @@ export type GitPoapRequestOrderByWithAggregationInput = {
   _min?: InputMaybe<GitPoapRequestMinOrderByAggregateInput>;
   _sum?: InputMaybe<GitPoapRequestSumOrderByAggregateInput>;
   addressId?: InputMaybe<SortOrder>;
-  adminApprovalStatus?: InputMaybe<SortOrder>;
   contributors?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   creatorEmailId?: InputMaybe<SortOrder>;
@@ -2064,6 +2065,8 @@ export type GitPoapRequestOrderByWithAggregationInput = {
   numRequestedCodes?: InputMaybe<SortOrder>;
   organizationId?: InputMaybe<SortOrder>;
   projectId?: InputMaybe<SortOrder>;
+  rejectionReason?: InputMaybe<SortOrder>;
+  staffApprovalStatus?: InputMaybe<SortOrder>;
   startDate?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -2072,7 +2075,6 @@ export type GitPoapRequestOrderByWithRelationInput = {
   GitPOAP?: InputMaybe<GitPoapOrderByWithRelationInput>;
   address?: InputMaybe<AddressOrderByWithRelationInput>;
   addressId?: InputMaybe<SortOrder>;
-  adminApprovalStatus?: InputMaybe<SortOrder>;
   contributors?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   creatorEmail?: InputMaybe<EmailOrderByWithRelationInput>;
@@ -2088,6 +2090,8 @@ export type GitPoapRequestOrderByWithRelationInput = {
   organizationId?: InputMaybe<SortOrder>;
   project?: InputMaybe<ProjectOrderByWithRelationInput>;
   projectId?: InputMaybe<SortOrder>;
+  rejectionReason?: InputMaybe<SortOrder>;
+  staffApprovalStatus?: InputMaybe<SortOrder>;
   startDate?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -2099,7 +2103,6 @@ export type GitPoapRequestRelationFilter = {
 
 export enum GitPoapRequestScalarFieldEnum {
   AddressId = 'addressId',
-  AdminApprovalStatus = 'adminApprovalStatus',
   Contributors = 'contributors',
   CreatedAt = 'createdAt',
   CreatorEmailId = 'creatorEmailId',
@@ -2112,6 +2115,8 @@ export enum GitPoapRequestScalarFieldEnum {
   NumRequestedCodes = 'numRequestedCodes',
   OrganizationId = 'organizationId',
   ProjectId = 'projectId',
+  RejectionReason = 'rejectionReason',
+  StaffApprovalStatus = 'staffApprovalStatus',
   StartDate = 'startDate',
   UpdatedAt = 'updatedAt',
 }
@@ -2121,7 +2126,6 @@ export type GitPoapRequestScalarWhereWithAggregatesInput = {
   NOT?: InputMaybe<Array<GitPoapRequestScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<GitPoapRequestScalarWhereWithAggregatesInput>>;
   addressId?: InputMaybe<IntWithAggregatesFilter>;
-  adminApprovalStatus?: InputMaybe<EnumAdminApprovalStatusWithAggregatesFilter>;
   contributors?: InputMaybe<JsonWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   creatorEmailId?: InputMaybe<IntWithAggregatesFilter>;
@@ -2134,6 +2138,8 @@ export type GitPoapRequestScalarWhereWithAggregatesInput = {
   numRequestedCodes?: InputMaybe<IntWithAggregatesFilter>;
   organizationId?: InputMaybe<IntNullableWithAggregatesFilter>;
   projectId?: InputMaybe<IntNullableWithAggregatesFilter>;
+  rejectionReason?: InputMaybe<StringNullableWithAggregatesFilter>;
+  staffApprovalStatus?: InputMaybe<EnumStaffApprovalStatusWithAggregatesFilter>;
   startDate?: InputMaybe<DateTimeWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
 };
@@ -2166,7 +2172,6 @@ export type GitPoapRequestWhereInput = {
   OR?: InputMaybe<Array<GitPoapRequestWhereInput>>;
   address?: InputMaybe<AddressRelationFilter>;
   addressId?: InputMaybe<IntFilter>;
-  adminApprovalStatus?: InputMaybe<EnumAdminApprovalStatusFilter>;
   contributors?: InputMaybe<JsonFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   creatorEmail?: InputMaybe<EmailRelationFilter>;
@@ -2182,6 +2187,8 @@ export type GitPoapRequestWhereInput = {
   organizationId?: InputMaybe<IntNullableFilter>;
   project?: InputMaybe<ProjectRelationFilter>;
   projectId?: InputMaybe<IntNullableFilter>;
+  rejectionReason?: InputMaybe<StringNullableFilter>;
+  staffApprovalStatus?: InputMaybe<EnumStaffApprovalStatusFilter>;
   startDate?: InputMaybe<DateTimeFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
@@ -3522,23 +3529,6 @@ export type NestedDateTimeWithAggregatesFilter = {
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
-export type NestedEnumAdminApprovalStatusFilter = {
-  equals?: InputMaybe<AdminApprovalStatus>;
-  in?: InputMaybe<Array<AdminApprovalStatus>>;
-  not?: InputMaybe<NestedEnumAdminApprovalStatusFilter>;
-  notIn?: InputMaybe<Array<AdminApprovalStatus>>;
-};
-
-export type NestedEnumAdminApprovalStatusWithAggregatesFilter = {
-  _count?: InputMaybe<NestedIntFilter>;
-  _max?: InputMaybe<NestedEnumAdminApprovalStatusFilter>;
-  _min?: InputMaybe<NestedEnumAdminApprovalStatusFilter>;
-  equals?: InputMaybe<AdminApprovalStatus>;
-  in?: InputMaybe<Array<AdminApprovalStatus>>;
-  not?: InputMaybe<NestedEnumAdminApprovalStatusWithAggregatesFilter>;
-  notIn?: InputMaybe<Array<AdminApprovalStatus>>;
-};
-
 export type NestedEnumClaimStatusFilter = {
   equals?: InputMaybe<ClaimStatus>;
   in?: InputMaybe<Array<ClaimStatus>>;
@@ -3595,6 +3585,23 @@ export type NestedEnumMembershipRoleFilter = {
   in?: InputMaybe<Array<MembershipRole>>;
   not?: InputMaybe<NestedEnumMembershipRoleFilter>;
   notIn?: InputMaybe<Array<MembershipRole>>;
+};
+
+export type NestedEnumStaffApprovalStatusFilter = {
+  equals?: InputMaybe<StaffApprovalStatus>;
+  in?: InputMaybe<Array<StaffApprovalStatus>>;
+  not?: InputMaybe<NestedEnumStaffApprovalStatusFilter>;
+  notIn?: InputMaybe<Array<StaffApprovalStatus>>;
+};
+
+export type NestedEnumStaffApprovalStatusWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumStaffApprovalStatusFilter>;
+  _min?: InputMaybe<NestedEnumStaffApprovalStatusFilter>;
+  equals?: InputMaybe<StaffApprovalStatus>;
+  in?: InputMaybe<Array<StaffApprovalStatus>>;
+  not?: InputMaybe<NestedEnumStaffApprovalStatusWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<StaffApprovalStatus>>;
 };
 
 export type NestedFloatFilter = {
@@ -5771,6 +5778,12 @@ export enum SortOrder {
   Desc = 'desc',
 }
 
+export enum StaffApprovalStatus {
+  Approved = 'APPROVED',
+  Pending = 'PENDING',
+  Rejected = 'REJECTED',
+}
+
 export type StringFilter = {
   contains?: InputMaybe<Scalars['String']>;
   endsWith?: InputMaybe<Scalars['String']>;
@@ -6952,7 +6965,7 @@ export type GitPoapRequestQuery = {
     startDate: any;
     endDate: any;
     imageUrl: string;
-    adminApprovalStatus: AdminApprovalStatus;
+    staffApprovalStatus: StaffApprovalStatus;
     gitPOAPId?: number | null;
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
     address: { __typename?: 'Address'; ethAddress: string };
@@ -6962,7 +6975,7 @@ export type GitPoapRequestQuery = {
 export type GitPoapRequestsQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
-  approvalStatus?: InputMaybe<AdminApprovalStatus>;
+  approvalStatus?: InputMaybe<StaffApprovalStatus>;
   search?: InputMaybe<Scalars['Int']>;
 }>;
 
@@ -6978,7 +6991,7 @@ export type GitPoapRequestsQuery = {
     endDate: any;
     numRequestedCodes: number;
     contributors: any;
-    adminApprovalStatus: AdminApprovalStatus;
+    staffApprovalStatus: StaffApprovalStatus;
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
     project?: {
       __typename?: 'Project';
@@ -6993,7 +7006,7 @@ export type GitPoapRequestsQuery = {
 };
 
 export type TotalGitPoapRequestsCountQueryVariables = Exact<{
-  approvalStatus?: InputMaybe<AdminApprovalStatus>;
+  approvalStatus?: InputMaybe<StaffApprovalStatus>;
 }>;
 
 export type TotalGitPoapRequestsCountQuery = {
@@ -7007,7 +7020,7 @@ export type TotalGitPoapRequestsCountQuery = {
 export type UserGitPoapRequestsQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
-  approvalStatus?: InputMaybe<AdminApprovalStatus>;
+  approvalStatus?: InputMaybe<StaffApprovalStatus>;
   address?: InputMaybe<Scalars['String']>;
   search?: InputMaybe<Scalars['String']>;
 }>;
@@ -7025,7 +7038,7 @@ export type UserGitPoapRequestsQuery = {
     numRequestedCodes: number;
     createdAt: any;
     contributors: any;
-    adminApprovalStatus: AdminApprovalStatus;
+    staffApprovalStatus: StaffApprovalStatus;
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
     GitPOAP?: { __typename?: 'GitPOAP'; id: number } | null;
     project?: {
@@ -7041,7 +7054,7 @@ export type UserGitPoapRequestsQuery = {
 };
 
 export type TotalUserGitPoapRequestsCountQueryVariables = Exact<{
-  approvalStatus?: InputMaybe<AdminApprovalStatus>;
+  approvalStatus?: InputMaybe<StaffApprovalStatus>;
   address?: InputMaybe<Scalars['String']>;
 }>;
 
@@ -8645,7 +8658,7 @@ export const GitPoapRequestDocument = gql`
         emailAddress
       }
       imageUrl
-      adminApprovalStatus
+      staffApprovalStatus
       address {
         ethAddress
       }
@@ -8666,13 +8679,13 @@ export const GitPoapRequestsDocument = gql`
   query gitPOAPRequests(
     $take: Int
     $skip: Int
-    $approvalStatus: AdminApprovalStatus
+    $approvalStatus: StaffApprovalStatus
     $search: Int
   ) {
     gitPOAPRequests(
       take: $take
       skip: $skip
-      where: { adminApprovalStatus: { equals: $approvalStatus }, id: { equals: $search } }
+      where: { staffApprovalStatus: { equals: $approvalStatus }, id: { equals: $search } }
       orderBy: { createdAt: desc }
     ) {
       id
@@ -8686,7 +8699,7 @@ export const GitPoapRequestsDocument = gql`
         emailAddress
       }
       contributors
-      adminApprovalStatus
+      staffApprovalStatus
       project {
         repos(take: 1) {
           id
@@ -8710,8 +8723,8 @@ export function useGitPoapRequestsQuery(
   });
 }
 export const TotalGitPoapRequestsCountDocument = gql`
-  query totalGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus) {
-    aggregateGitPOAPRequest(where: { adminApprovalStatus: { equals: $approvalStatus } }) {
+  query totalGitPOAPRequestsCount($approvalStatus: StaffApprovalStatus) {
+    aggregateGitPOAPRequest(where: { staffApprovalStatus: { equals: $approvalStatus } }) {
       _count {
         id
       }
@@ -8731,7 +8744,7 @@ export const UserGitPoapRequestsDocument = gql`
   query userGitPOAPRequests(
     $take: Int
     $skip: Int
-    $approvalStatus: AdminApprovalStatus
+    $approvalStatus: StaffApprovalStatus
     $address: String
     $search: String
   ) {
@@ -8739,7 +8752,7 @@ export const UserGitPoapRequestsDocument = gql`
       take: $take
       skip: $skip
       where: {
-        adminApprovalStatus: { equals: $approvalStatus }
+        staffApprovalStatus: { equals: $approvalStatus }
         address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
         OR: [
           { name: { contains: $search, mode: insensitive } }
@@ -8763,7 +8776,7 @@ export const UserGitPoapRequestsDocument = gql`
         id
       }
       contributors
-      adminApprovalStatus
+      staffApprovalStatus
       project {
         repos(take: 1) {
           id
@@ -8787,10 +8800,10 @@ export function useUserGitPoapRequestsQuery(
   });
 }
 export const TotalUserGitPoapRequestsCountDocument = gql`
-  query totalUserGitPOAPRequestsCount($approvalStatus: AdminApprovalStatus, $address: String) {
+  query totalUserGitPOAPRequestsCount($approvalStatus: StaffApprovalStatus, $address: String) {
     aggregateGitPOAPRequest(
       where: {
-        adminApprovalStatus: { equals: $approvalStatus }
+        staffApprovalStatus: { equals: $approvalStatus }
         address: { is: { ethAddress: { equals: $address, mode: insensitive } } }
       }
     ) {

@@ -48,7 +48,7 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
     );
   }
 
-  if (gitPOAPRequest.adminApprovalStatus === 'APPROVED') {
+  if (gitPOAPRequest.staffApprovalStatus === 'APPROVED') {
     return (
       <Center mt={44} style={{ width: 400, height: 400, zIndex: 1 }}>
         <Stack align="center" justify="center">
@@ -64,7 +64,7 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
 
   return (
     <EditForm
-      adminApprovalStatus={gitPOAPRequest.adminApprovalStatus}
+      staffApprovalStatus={gitPOAPRequest.staffApprovalStatus}
       creatorEmail={gitPOAPRequest.creatorEmail.emailAddress}
       initialValues={{
         name: gitPOAPRequest.name,

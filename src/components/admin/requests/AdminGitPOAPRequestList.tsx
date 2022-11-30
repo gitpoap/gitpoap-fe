@@ -5,7 +5,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import {
   useGitPoapRequestsQuery,
   useTotalGitPoapRequestsCountQuery,
-  AdminApprovalStatus,
+  StaffApprovalStatus,
 } from '../../../graphql/generated-gql';
 import { AdminGitPOAPRequest } from './AdminGitPOAPRequest';
 import { Select } from '../../shared/elements/Select';
@@ -43,14 +43,14 @@ export const GitPOAPRequestList = () => {
 
   const [totalCountResult] = useTotalGitPoapRequestsCountQuery({
     variables: {
-      approvalStatus: AdminApprovalStatus[filter],
+      approvalStatus: StaffApprovalStatus[filter],
     },
   });
   const [result, refetch] = useGitPoapRequestsQuery({
     variables: {
       take: variables.perPage,
       skip: (variables.page - 1) * variables.perPage,
-      approvalStatus: AdminApprovalStatus[filter],
+      approvalStatus: StaffApprovalStatus[filter],
       search: debouncedValue ? parseInt(debouncedValue, 10) : undefined,
     },
     pause: false,

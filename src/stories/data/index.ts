@@ -6,7 +6,7 @@ import {
   LeadersQuery,
   MostClaimedGitPoapsQuery,
   GitPoapEventQuery,
-  AdminApprovalStatus,
+  StaffApprovalStatus,
 } from '../../graphql/generated-gql';
 import { Holder } from '../../components/gitpoap/GitPOAPHolders';
 
@@ -529,7 +529,7 @@ export const gitPOAPRequests = [
     creatorEmail: {
       emailAddress: 'team@gitpoap.io',
     },
-    adminApprovalStatus: AdminApprovalStatus.Pending,
+    staffApprovalStatus: StaffApprovalStatus.Pending,
     contributors: {
       githubHandles: ['peebeejay', 'burz'],
       ethAddresses: ['0x1d82C486CC5f243F379F52B5eA7A205D091dc7C5'],
@@ -550,7 +550,7 @@ export const gitPOAPRequests = [
     creatorEmail: {
       emailAddress: 'team@gitpoap.io',
     },
-    adminApprovalStatus: AdminApprovalStatus.Pending,
+    staffApprovalStatus: StaffApprovalStatus.Pending,
     contributors: {
       githubHandles: ['peebeejay', 'burz', 'colfax23'],
       ethAddresses: ['0x1d82C486CC5f243F379F52B5eA7A205D091dc7C5'],
