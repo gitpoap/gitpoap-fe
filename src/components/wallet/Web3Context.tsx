@@ -140,39 +140,42 @@ export const Web3ContextProvider = (props: Props) => {
     [authenticate],
   );
 
-  // handle auth when account has changed
-  useEffect(() => {
-    // if wallet is not connected, do nothing
-    if (!isConnected) return;
-    // do nothing if signature is not loaded yet from indexedDB
-    if (signatureStatus !== IndexDBStatus.LOADED || (signature && signature.address !== account))
-      return;
-    // if wallet is connecting, do nothing
-    if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) return;
-    // if wallet is connected signed by current address, do nothing
-    if (connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && address === account) return;
+  const addListeners = useCallback(
+    async (provider: JsonRpcProvider) => {
+      provider.on('accountsChanged', async (accounts: string[]) => {
+        console.log('accountsChanged', accounts);
+        if (accounts.length > 0 && address !== accounts[0]) {
+          const provider = await web3Modal.connect();
+          const web3Provider = await initializeProvider(provider);
+          await authenticate(web3Provider, null);
+        } else {
+          await disconnectWallet();
+        }
+      });
 
-    // now that we go through authentication
-    // set connection status as connecting
-    setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+      // now that we go through authentication
+      // set connection status as connecting
+      setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
 
-    if (signature) {
-      void authenticateWithSignature(signature);
-    } else {
-      // we ask to sign a signature only if there is no signature for connected address
-      void authenticateWithoutSignature();
-    }
-  }, [
-    account,
-    address,
-    isConnected,
-    signature,
-    connectionStatus,
-    signatureStatus,
-    authenticateWithSignature,
-    authenticateWithoutSignature,
-    setConnectionStatus,
-  ]);
+      if (signature) {
+        void authenticateWithSignature(signature);
+      } else {
+        // we ask to sign a signature only if there is no signature for connected address
+        void authenticateWithoutSignature();
+      }
+    },
+    [
+      account,
+      address,
+      isConnected,
+      signature,
+      connectionStatus,
+      signatureStatus,
+      authenticateWithSignature,
+      authenticateWithoutSignature,
+      setConnectionStatus,
+    ],
+  );
 
   useEffect(() => {
     if (tokens?.accessToken === null && tokens?.refreshToken === null) {

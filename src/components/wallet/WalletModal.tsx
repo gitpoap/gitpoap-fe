@@ -1,14 +1,10 @@
-import { Stack, Group, Modal, Text } from '@mantine/core';
-import { UserRejectedRequestError } from '@web3-react/injected-connector';
+import { useEffect, useCallback } from 'react';
+import { Stack, Group, Modal, Button, Text } from '@mantine/core';
 import { useWeb3React } from '@web3-react/core';
 import { useLocalStorage } from '@mantine/hooks';
-import { rem } from 'polished';
-import { connectors } from '../../connectors';
-import { useWeb3Context, ConnectionStatus } from './Web3Context';
-import { BackgroundPanel, BackgroundPanel2 } from '../../colors';
-import { MetamaskLogo } from '../shared/elements/icons';
-import { WalletConnectLogo } from '../shared/elements/icons/WalletConnectLogo';
-import { CoinBaseLogo } from '../shared/elements/icons/CoinbaseLogo';
+import { JsonRpcSigner } from '@ethersproject/providers';
+import { connectors } from './WalletProviders';
+import { useApi } from '../../hooks/useApi';
 
 enum ProviderType {
   METAMASK = 'injected',
@@ -16,104 +12,78 @@ enum ProviderType {
   WALLET_CONNECT = 'walletConnect',
 }
 
-type WalletModalProps = {
+type SelectWalletModalProps = {
   isOpen: boolean;
   closeModal: () => void;
 };
 
-type ConnectionOptionProps = {
-  onClick: () => void;
-  logo: React.ReactNode;
-  text: string;
-};
-
-const ConnectionOption = ({ onClick, logo, text }: ConnectionOptionProps) => {
-  return (
-    <Group
-      p="sm"
-      position="apart"
-      sx={{
-        backgroundColor: BackgroundPanel,
-        cursor: 'pointer',
-        borderRadius: rem(10),
-        transition: 'background-color 150ms ease-in-out',
-        padding: `${rem(12)} ${rem(30)} !important`,
-        '&:hover:not(:active)': {
-          backgroundColor: BackgroundPanel2,
-        },
-      }}
-      onClick={onClick}
-    >
-      <Text size="md">{text}</Text>
-      {logo}
-    </Group>
-  );
-};
-
-export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
-  const { activate, setError } = useWeb3React();
-  const { setConnectionStatus } = useWeb3Context();
+export default function SelectWalletModal({ isOpen, closeModal }: SelectWalletModalProps) {
+  const { activate, account, library } = useWeb3React();
   const [, setProvider] = useLocalStorage<ProviderType>({
     key: 'provider',
     defaultValue: undefined,
   });
+  const api = useApi();
+
+  const isConnected = typeof account === 'string' && !!library;
+
+  const authenticate = useCallback(async () => {
+    const signer: JsonRpcSigner = library.getSigner();
+    await api.auth.authenticate(signer);
+  }, [library, api.auth]);
+
+  useEffect(() => {
+    if (isConnected && account) {
+      console.log('account', account);
+      void authenticate();
+    }
+  }, [account, isConnected, authenticate]);
 
   return (
-    <Modal
-      opened={isOpen}
-      onClose={closeModal}
-      centered
-      title={<Text size="lg">{'Select Wallet'}</Text>}
-    >
+    <Modal opened={isOpen} onClose={closeModal} centered>
       <Stack>
-        <ConnectionOption
+        <Button
+          variant="outline"
           onClick={() => {
-            activate(connectors.coinbaseWallet).catch((error) => {
-              // ignore the error if it's a user rejected request
-              if (error instanceof UserRejectedRequestError) {
-                setConnectionStatus(ConnectionStatus.UNINITIALIZED);
-              } else {
-                setError(error);
-              }
-            });
+            activate(connectors.coinbaseWallet);
             setProvider(ProviderType.COINBASE_WALLET);
             closeModal();
           }}
-          text={'Coinbase Wallet'}
-          logo={<CoinBaseLogo width={32} height={32} />}
-        />
-        <ConnectionOption
+          fullWidth
+        >
+          <Group position="center" grow>
+            {/* <img src="/cbw.png" alt="Coinbase Wallet Logo" width={25} height={25} /> */}
+            <Text>Coinbase Wallet</Text>
+          </Group>
+        </Button>
+        <Button
+          variant="outline"
           onClick={() => {
-            activate(connectors.walletConnect).catch((error) => {
-              // ignore the error if it's a user rejected request
-              if (error instanceof UserRejectedRequestError) {
-                setConnectionStatus(ConnectionStatus.UNINITIALIZED);
-              } else {
-                setError(error);
-              }
-            });
+            activate(connectors.walletConnect);
             setProvider(ProviderType.WALLET_CONNECT);
             closeModal();
           }}
-          text={'Wallet Connect'}
-          logo={<WalletConnectLogo width={32} height={32} />}
-        />
-        <ConnectionOption
+          fullWidth
+        >
+          <Group>
+            {/* <img src="/wc.png" alt="Wallet Connect Logo" width={26} height={26} /> */}
+            <Text>Wallet Connect</Text>
+          </Group>
+        </Button>
+        <Button
+          variant="outline"
           onClick={() => {
-            activate(connectors.injected).catch((error) => {
-              // ignore the error if it's a user rejected request
-              if (error instanceof UserRejectedRequestError) {
-                setConnectionStatus(ConnectionStatus.UNINITIALIZED);
-              } else {
-                setError(error);
-              }
-            });
+            activate(connectors.injected);
             setProvider(ProviderType.METAMASK);
             closeModal();
           }}
-          text={'Metamask'}
-          logo={<MetamaskLogo width={32} height={32} />}
-        />
+          fullWidth
+        >
+          <Group position="center" grow>
+            {/* <img src="/mm.png" alt="Metamask Logo" width={25} height={25} /> */}
+            <Text>Metamask</Text>
+          </Group>
+        </Button>
       </Stack>
     </Modal>
   );
