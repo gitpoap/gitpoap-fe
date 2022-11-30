@@ -157,6 +157,7 @@ export const Web3ContextProvider = (props: Props) => {
   const addListeners = useCallback(
     async (provider: JsonRpcProvider) => {
       provider.on('accountsChanged', async (accounts: string[]) => {
+        console.log('accountsChanged', accounts);
         if (accounts.length > 0 && address !== accounts[0]) {
           const provider = await web3Modal.connect();
           const web3Provider = await initializeProvider(provider);

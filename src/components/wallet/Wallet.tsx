@@ -3,11 +3,13 @@ import { NextLink } from '@mantine/next';
 import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import styled from 'styled-components';
+import { useDisclosure } from '@mantine/hooks';
 import { WalletStatus } from './WalletStatus';
 import { useWeb3Context } from './Web3Context';
 import { Button } from '../shared/elements/Button';
 import { useUser } from '../../hooks/useUser';
 import { shortenAddress } from '../../helpers';
+import SelectWalletModal from './WalletModal';
 
 const MenuHeader = styled(Menu.Label)`
   white-space: nowrap;
@@ -24,10 +26,12 @@ type Props = {
 };
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
-  const { connectionStatus, address, connect, disconnectWallet } = useWeb3Context();
+  const { connectionStatus, address, disconnectWallet } = useWeb3Context();
   const user = useUser();
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
+
+  const [opened, { close, open }] = useDisclosure(false);
 
   return (
     <Group position="center" align="center">
@@ -86,10 +90,11 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
           />
         )
       ) : (
-        <Button leftIcon={!hideText && <FaEthereum size={16} />} onClick={() => connect()}>
+        <Button leftIcon={!hideText && <FaEthereum size={16} />} onClick={open}>
           {!hideText ? 'Sign In' : <FaEthereum size={16} />}
         </Button>
       )}
+      <SelectWalletModal isOpen={opened} closeModal={close} />
     </Group>
   );
 };

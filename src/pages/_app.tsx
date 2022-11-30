@@ -14,6 +14,9 @@ import { Layout } from '../components/Layout';
 import { theme } from '../lib/theme';
 import { ClaimContextProvider } from '../components/claims/ClaimContext';
 import { LoadingBar } from '../components/LoadingBar';
+import { Web3ReactProvider } from '@web3-react/core';
+
+import { Web3Provider, ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers';
 
 const client = createClient({
   url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
@@ -52,6 +55,10 @@ type Props = AppProps & {
   Component: Page;
 };
 
+function getLibrary(provider: ExternalProvider | JsonRpcFetchFunc) {
+  return new Web3Provider(provider);
+}
+
 const TheApp = ({ Component, pageProps }: Props) => {
   /* Use custom page-specific layout once / if needed */
   const getLayout = Component.getLayout || ((page: React.ReactNode) => page);
@@ -62,25 +69,27 @@ const TheApp = ({ Component, pageProps }: Props) => {
         {/* <!-- Metadata for Viewport & Mantine (CANNOT GO IN _document.tsx) --> */}
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      <Web3ContextProvider>
-        <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-          <NotificationsProvider autoClose={5000}>
-            <URQLProvider value={client}>
-              <OAuthProvider>
-                <FeaturesProvider>
-                  <ClaimContextProvider>
-                    <GlobalStyles />
-                    <Layout>
-                      <LoadingBar />
-                      {getLayout(<Component {...pageProps} />)}
-                    </Layout>
-                  </ClaimContextProvider>
-                </FeaturesProvider>
-              </OAuthProvider>
-            </URQLProvider>
-          </NotificationsProvider>
-        </MantineProvider>
-      </Web3ContextProvider>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <Web3ContextProvider>
+          <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+            <NotificationsProvider autoClose={5000}>
+              <URQLProvider value={client}>
+                <OAuthProvider>
+                  <FeaturesProvider>
+                    <ClaimContextProvider>
+                      <GlobalStyles />
+                      <Layout>
+                        <LoadingBar />
+                        {getLayout(<Component {...pageProps} />)}
+                      </Layout>
+                    </ClaimContextProvider>
+                  </FeaturesProvider>
+                </OAuthProvider>
+              </URQLProvider>
+            </NotificationsProvider>
+          </MantineProvider>
+        </Web3ContextProvider>
+      </Web3ReactProvider>
     </>
   );
 };
