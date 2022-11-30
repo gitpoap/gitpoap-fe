@@ -22,14 +22,14 @@ const HeaderText = {
   REJECTED: 'Edit GitPOAP',
 };
 
-type AdminApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
+type StaffApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
 
 export const CreationForm = () => {
   const api = useApi();
   const form = useCreationForm();
   const router = useRouter();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
-  const approvalStatus: AdminApprovalStatus = 'UNSUBMITTED';
+  const approvalStatus: StaffApprovalStatus = 'UNSUBMITTED';
   const imageUrl = form.values.image ? URL.createObjectURL(form.values.image) : null;
 
   const submitCreateCustomGitPOAP = async (formValues: CreateFormValues) => {

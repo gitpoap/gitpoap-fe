@@ -68,7 +68,7 @@ export const AdminGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
       <Stack>
         <Group mb={rem(10)} position="left">
           <Text size={12}>{`Request ID: ${gitPOAPRequest.id}`}</Text>
-          <RequestStatusBadge status={gitPOAPRequest.adminApprovalStatus} />
+          <RequestStatusBadge status={gitPOAPRequest.staffApprovalStatus} />
         </Group>
         <Group align="center" position="left" spacing="md" mb={rem(20)}>
           <GitPOAPBadgePopover
@@ -86,7 +86,7 @@ export const AdminGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
           />
         </Group>
         <Group align="center" spacing="md" mb={rem(20)}>
-          {['PENDING', 'REJECTED'].includes(gitPOAPRequest.adminApprovalStatus) && (
+          {['PENDING', 'REJECTED'].includes(gitPOAPRequest.staffApprovalStatus) && (
             <StatusButton
               status={approveStatus}
               onClick={submitApproveGitPOAPRequest}
@@ -96,7 +96,7 @@ export const AdminGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
             </StatusButton>
           )}
 
-          {gitPOAPRequest.adminApprovalStatus === 'PENDING' && (
+          {gitPOAPRequest.staffApprovalStatus === 'PENDING' && (
             <StatusButton
               status={rejectStatus}
               onClick={submitRejectGitPOAPRequest}

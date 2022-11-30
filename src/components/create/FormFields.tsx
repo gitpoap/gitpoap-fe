@@ -23,10 +23,10 @@ const SubmitButtonText = {
   REJECTED: 'Save & Submit For Rereview',
 };
 
-type AdminApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
+type StaffApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
 
 type Props<FormValues> = {
-  approvalStatus: AdminApprovalStatus;
+  approvalStatus: StaffApprovalStatus;
   buttonStatus: ButtonStatus;
   creatorEmail?: string;
   imageUrl: string | null;

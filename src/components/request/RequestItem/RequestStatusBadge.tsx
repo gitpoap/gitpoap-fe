@@ -1,14 +1,14 @@
 import { Badge } from '@mantine/core';
 import { ExtraRedDark, PrimaryBlue } from '../../../colors';
-import { AdminApprovalStatus } from '../../../graphql/generated-gql';
+import { StaffApprovalStatus } from '../../../graphql/generated-gql';
 
-export const RequestStatusBadge = ({ status }: { status: AdminApprovalStatus }) => {
+export const RequestStatusBadge = ({ status }: { status: StaffApprovalStatus }) => {
   return (
     <Badge
       size="sm"
       variant="filled"
       style={{
-        backgroundColor: status === AdminApprovalStatus.Rejected ? ExtraRedDark : PrimaryBlue,
+        backgroundColor: status === StaffApprovalStatus.Rejected ? ExtraRedDark : PrimaryBlue,
       }}
     >
       {status}
