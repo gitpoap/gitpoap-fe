@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { Link } from './shared/compounds/Link';
 import { rem } from 'polished';
 import { Burger, Collapse, Stack, Group } from '@mantine/core';
-import { useWeb3React } from '@web3-react/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { DividerGray1, TextLight, MidnightBlue } from '../colors';
 import { BREAKPOINTS, TYPEFORM_LINKS } from '../constants';
@@ -13,7 +12,6 @@ import { Wallet } from './wallet/Wallet';
 import { ConnectionButton } from './oauth/ConnectionButton';
 import { SearchBox } from './search/box/SearchBox';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
-import useENSName from '../hooks/useENSName';
 import { useWeb3Context, ConnectionStatus } from './wallet/Web3Context';
 
 const Nav = styled(Group)`
@@ -87,10 +85,8 @@ const CollapseMenuContent = styled(Stack)`
 
 export const Navbar = () => {
   const router = useRouter();
-  const { account } = useWeb3React();
-  const ensName = useENSName(account ?? '');
 
-  const { connectionStatus } = useWeb3Context();
+  const { connectionStatus, ensName, address } = useWeb3Context();
 
   const matches1330 = useMediaQuery(`(min-width: ${rem(1330)})`, false);
   const matchesLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
@@ -131,7 +127,7 @@ export const Navbar = () => {
       </NavLinkAnchor>
       {connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && (
         <>
-          <NavLink href={`/p/${ensName ?? account}`}>{'Profile'}</NavLink>
+          <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
           <NavLink href={`/settings`}>{'Settings'}</NavLink>
         </>
       )}
