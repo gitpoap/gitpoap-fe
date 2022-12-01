@@ -10,27 +10,32 @@ const getStore = () => createStore('gitpoap', 'signature');
  * We store signature data into indexedDB
  */
 export const useIndexedDB = (key: string, defaultValue: SignatureType | null) => {
-  const [value, setValue] = useState<SignatureType | null>(defaultValue);
+  const [storedValue, setStoredValue] = useState<SignatureType | null>(defaultValue);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  const getValue = useCallback(async () => {
-    if (!key) return;
+  const setValue = useCallback(
+    (value: SignatureType | null) => {
+      setStoredValue(value);
+      void set(key, value, getStore());
+    },
+    [key],
+  );
 
-    setIsLoaded(false);
-    const currentValue = await get(key, getStore());
-    setValue(currentValue ?? defaultValue);
-    setIsLoaded(true);
-  }, [key, defaultValue]);
+  const getValue = useCallback(
+    async (key: string) => {
+      setIsLoaded(false);
+      const currentValue = await get(key, getStore());
+      setStoredValue(currentValue ?? defaultValue);
+      setIsLoaded(true);
+    },
+    [setStoredValue, defaultValue],
+  );
 
   useEffect(() => {
-    void getValue();
-  }, [getValue]);
-
-  useEffect(() => {
     if (!key) return;
 
-    void set(key, value, getStore());
-  }, [value, key]);
+    void getValue(key);
+  }, [key, getValue]);
 
-  return { value, setValue, isLoaded };
+  return { value: storedValue, setValue, isLoaded };
 };
