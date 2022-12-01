@@ -4,7 +4,9 @@ import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { NextRouter } from 'next/router';
-import { Web3ContextProvider } from '../../src/components/wallet/Web3Context';
+import { Web3ReactProvider } from '@web3-react/core';
+import { getLibrary } from '../../src/helpers';
+
 import { OAuthProvider } from '../../src/components/oauth/OAuthContext';
 import { FeaturesProvider } from '../../src/components/FeaturesContext';
 import { theme } from '../../src/lib/theme';
@@ -41,7 +43,7 @@ const mockRouter: NextRouter = {
 export const withProviders = (storyFn) => {
   return (
     <RouterContext.Provider value={mockRouter}>
-      <Web3ContextProvider>
+      <Web3ReactProvider getLibrary={getLibrary}>
         <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider autoClose={5000}>
             <URQLProvider value={client}>
@@ -51,7 +53,7 @@ export const withProviders = (storyFn) => {
             </URQLProvider>
           </NotificationsProvider>
         </MantineProvider>
-      </Web3ContextProvider>
+      </Web3ReactProvider>
     </RouterContext.Provider>
   );
 };
