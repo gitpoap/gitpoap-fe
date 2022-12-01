@@ -33,7 +33,6 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   }, [library, api.auth]);
 
   useEffect(() => {
-    console.log('account - useEffect', account, isConnected);
     if (isConnected && account) {
       void authenticate();
     }
