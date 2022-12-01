@@ -15,7 +15,7 @@ import { ClaimContextProvider } from '../components/claims/ClaimContext';
 import { LoadingBar } from '../components/LoadingBar';
 import { HexagonPath } from '../components/shared/elements';
 import { Web3ReactProvider } from '@web3-react/core';
-import { getLibrary } from '../helpers';
+import { getWeb3Provider } from '../helpers';
 import { Web3ContextProvider } from '../components/wallet/Web3Context';
 
 const client = createClient({
@@ -65,7 +65,7 @@ const TheApp = ({ Component, pageProps }: Props) => {
         {/* <!-- Metadata for Viewport & Mantine (CANNOT GO IN _document.tsx) --> */}
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      <Web3ReactProvider getLibrary={getLibrary}>
+      <Web3ReactProvider getLibrary={getWeb3Provider}>
         <Web3ContextProvider>
           <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
             <NotificationsProvider autoClose={5000}>
