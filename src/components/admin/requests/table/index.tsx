@@ -8,7 +8,6 @@ import {
   useTotalGitPoapRequestsCountQuery,
   StaffApprovalStatus,
 } from '../../../../graphql/generated-gql';
-import { HeaderItem } from '../../../gitpoap/manage/ManageGitPOAP';
 import { TableHeaderItem } from '../../../gitpoap/manage/TableHeaderItem';
 import { GitPOAPRequestModal } from '../modals/Details';
 import { Loader } from '../../../shared/elements';
@@ -16,7 +15,11 @@ import { BackgroundPanel } from '../../../../colors';
 import { GitPOAPRequestRejectModal } from '../modals/Reject';
 import { AdminGitPOAPRequestTableRow } from './Row';
 
-const HEADERS: HeaderItem[] = [
+const HEADERS: {
+  label: string;
+  key: string;
+  isSortable: boolean;
+}[] = [
   { label: 'ID', key: 'requestId', isSortable: false },
   { label: 'Status', key: 'status', isSortable: false },
   { label: 'Image', key: 'image', isSortable: false },
