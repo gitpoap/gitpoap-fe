@@ -218,12 +218,12 @@ export class GitPOAPRequestAPI extends API {
     return true;
   }
 
-  async reject(id: number) {
+  async reject(id: number, rejectionReason: string) {
     const res = await makeAPIRequestWithAuth(
       `/gitpoaps/custom/reject/${id}`,
       'PUT',
       this.token,
-      JSON.stringify({ rejectionReason: null }),
+      JSON.stringify({ rejectionReason }),
     );
 
     if (!res?.ok) {

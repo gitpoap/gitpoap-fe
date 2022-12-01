@@ -29,7 +29,10 @@ export const GitPOAPRequestRejectModal = ({ gitPOAPRequestId, onClose, onSubmit 
       return;
     }
     // setRejectStatus(ButtonStatus.LOADING);
-    const data = await api.gitPOAPRequest.reject(gitPOAPRequestId);
+    const data = await api.gitPOAPRequest.reject(
+      gitPOAPRequestId,
+      form.values.rejectionReason as string,
+    );
     if (data === null) {
       // setRejectStatus(ButtonStatus.ERROR);
       return;
