@@ -16,7 +16,7 @@ export const Login = () => {
         </Stack>
       )}
       {(connectionStatus === ConnectionStatus.CONNECTING_WALLET ||
-        connectionStatus === 'disconnecting') && <Loader />}
+        connectionStatus === ConnectionStatus.DISCONNECTING) && <Loader />}
     </Center>
   );
 };
