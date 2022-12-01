@@ -69,6 +69,6 @@ export const fetchWithToken = async (url: string, token: string | null) => {
   return await response.json();
 };
 
-export const getWeb3Provider = (provider: ExternalProvider | JsonRpcFetchFunc) => {
+export const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) => {
   return new Web3Provider(provider);
 };
