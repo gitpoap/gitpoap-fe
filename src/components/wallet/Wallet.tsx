@@ -12,9 +12,9 @@ import { shortenAddress } from '../../helpers';
 import { useApi } from '../../hooks/useApi';
 import { useIndexedDB } from '../../hooks/useIndexedDB';
 import { AuthenticateResponse } from '../../lib/api/auth';
-import { useConnectionStatus, ConnectionStatus } from '../../hooks/useConnectionStatus';
 import { sign, generateSignatureData } from '../../helpers';
 import { SignatureType } from '../../types';
+import { useWeb3Context, ConnectionStatus } from './Web3Context';
 
 const POPOVER_HOVER_TIME = 400;
 
@@ -25,7 +25,7 @@ type Props = {
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
   const { account, library, deactivate } = useWeb3React();
-  const { connectionStatus, setConnectionStatus } = useConnectionStatus();
+  const { connectionStatus, setConnectionStatus } = useWeb3Context();
   const isConnected = typeof account === 'string' && !!library;
   const user = useUser();
   const ensName = user?.ensName ?? null;
@@ -33,29 +33,35 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
 
   const api = useApi();
 
-  const { value: signature, setValue: setSignature } = useIndexedDB(account ?? '', null);
+  const {
+    value: signature,
+    setValue: setSignature,
+    isLoaded: isSignatureLoaded,
+  } = useIndexedDB(account ?? '', null);
 
   const authenticate = useCallback(
     async (address: string, signature: SignatureType) => {
       const authData: AuthenticateResponse | null = await api.auth.authenticate(address, signature);
-      console.log('get auth data', authData);
 
-      if (authData) {
-        // set signature data into IndexedDB
-        setSignature({
-          ...authData.signatureData,
-        });
+      if (!authData) {
+        // update signature
+        setSignature(null);
         // update connection status
-        setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
+        setConnectionStatus(ConnectionStatus.UNINITIALIZED);
+        return;
       }
+
+      // set signature data into IndexedDB
+      setSignature({
+        ...authData.signatureData,
+      });
+      // update connection status
+      setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
     },
     [api.auth, setConnectionStatus, setSignature],
   );
 
   const authenticateWithoutSignature = useCallback(async () => {
-    // set connection status as connecting
-    setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
-
     const signer: JsonRpcSigner = library.getSigner();
     const address = await signer.getAddress();
     const signatureData = generateSignatureData(address);
@@ -67,26 +73,28 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
       signature: signatureString,
       ...signatureData,
     });
-  }, [library, authenticate, setConnectionStatus]);
+  }, [library, authenticate]);
 
   const authenticateWithSignature = useCallback(
     async (signature: SignatureType) => {
       if (!account) return;
 
-      // set connection status as connecting
-      setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
-
       await authenticate(account, signature);
     },
-    [authenticate, account, setConnectionStatus],
+    [authenticate, account],
   );
 
   useEffect(() => {
-    console.log('account', account, signature);
     // if wallet is not connected, do no thing
     if (!isConnected) return;
     // if wallet is connecting or connected, disconnecting, do nothing
     if (connectionStatus !== ConnectionStatus.UNINITIALIZED) return;
+    // do nothing if signature is not loaded yet from indexedDB
+    if (!isSignatureLoaded) return;
+
+    // now that we go through authentication
+    // set connection status as connecting
+    setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
 
     if (signature) {
       void authenticateWithSignature(signature);
@@ -97,11 +105,13 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   }, [
     account,
     isConnected,
-    authenticate,
     signature,
+    connectionStatus,
+    isSignatureLoaded,
+    authenticate,
     authenticateWithSignature,
     authenticateWithoutSignature,
-    connectionStatus,
+    setConnectionStatus,
   ]);
 
   return (

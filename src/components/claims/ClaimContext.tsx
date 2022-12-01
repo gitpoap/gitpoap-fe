@@ -7,7 +7,7 @@ import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { ClaimModal } from './index';
 import { useTokens } from '../../hooks/useTokens';
 import { useUser } from '../../hooks/useUser';
-import { useConnectionStatus, ConnectionStatus } from '../../hooks/useConnectionStatus';
+import { useWeb3Context, ConnectionStatus } from '../wallet/Web3Context';
 
 type ClaimState = {
   isOpen: boolean;
@@ -40,7 +40,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
     requestPolicy: 'cache-and-network',
   });
 
-  const { connectionStatus } = useConnectionStatus();
+  const { connectionStatus } = useWeb3Context();
 
   const userClaims = result.data?.userClaims;
   const hasGithub = user?.capabilities.hasGithub;
