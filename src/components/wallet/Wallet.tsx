@@ -98,7 +98,6 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   );
 
   useEffect(() => {
-    console.log('account changed', account, connectedAddress, signature, isSignatureLoaded);
     // if wallet is not connected, do no thing
     if (!isConnected) return;
     // do nothing if signature is not loaded yet from indexedDB
