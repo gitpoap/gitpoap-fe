@@ -518,6 +518,8 @@ export const gitPOAPEvent: GitPoapEventQuery = {
 export const gitPOAPRequests = [
   {
     id: 10,
+    createdAt: '2021-12-01',
+    updatedAt: '2021-12-01',
     name: '2022 Custom GitPOAPs Release Contributor!',
     description: "You're a contributor to the 2022 Custom GitPOAPs Release!",
     imageUrl:
@@ -529,6 +531,9 @@ export const gitPOAPRequests = [
     creatorEmail: {
       emailAddress: 'team@gitpoap.io',
     },
+    address: {
+      ethAddress: '0xae95f7e7fb2fcf86148ef832faed2752ae5a358a',
+    },
     staffApprovalStatus: StaffApprovalStatus.Pending,
     contributors: {
       githubHandles: ['peebeejay', 'burz'],
@@ -539,6 +544,8 @@ export const gitPOAPRequests = [
   },
   {
     id: 2,
+    createdAt: '2021-12-01',
+    updatedAt: '2021-12-01',
     name: '2022 GitPOAP Marketing Push Team Member!',
     description: "This denotes that you're a contributor to the 2022 Marketing Push!",
     imageUrl:
@@ -549,6 +556,9 @@ export const gitPOAPRequests = [
     numRequestedCodes: 27,
     creatorEmail: {
       emailAddress: 'team@gitpoap.io',
+    },
+    address: {
+      ethAddress: '0xae95f7e7fb2fcf86148ef832faed2752ae5a358a',
     },
     staffApprovalStatus: StaffApprovalStatus.Pending,
     contributors: {
