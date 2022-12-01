@@ -34,6 +34,7 @@ import { GitPOAPRequestModal } from './modals/Details';
 import { Loader } from '../../shared/elements';
 import { BackgroundPanel } from '../../../colors';
 import { GitPOAPRequestRejectModal } from './modals/Reject';
+import { shortenAddress } from '../../../helpers';
 
 const HEADERS: HeaderItem[] = [
   { label: 'ID', key: 'requestId', isSortable: false },
@@ -41,7 +42,10 @@ const HEADERS: HeaderItem[] = [
   { label: 'Image', key: 'image', isSortable: false },
   { label: 'Name', key: 'name', isSortable: false },
   { label: 'Description', key: 'description', isSortable: false },
+  { label: 'Address', key: 'ethAddress', isSortable: false },
   { label: 'Email', key: 'email', isSortable: false },
+  { label: 'Creation Date', key: 'createdAt', isSortable: false },
+  { label: 'Last Updated', key: 'updatedAt', isSortable: false },
   { label: 'Start Date', key: 'startDate', isSortable: false },
   { label: 'End Date', key: 'endDate', isSortable: false },
   // { label: '# Codes', key: 'numCodes', isSortable: false },
@@ -215,6 +219,8 @@ const GitPOAPRequestRow = ({
 }: RowProps) => {
   const {
     id,
+    createdAt,
+    updatedAt,
     name,
     description,
     imageUrl,
@@ -224,6 +230,7 @@ const GitPOAPRequestRow = ({
     // numRequestedCodes,
     staffApprovalStatus,
     creatorEmail,
+    address,
   } = gitPOAPRequest;
 
   const api = useApi();
@@ -280,7 +287,22 @@ const GitPOAPRequestRow = ({
           <Text lineClamp={3}>{description}</Text>
         </td>
         <td>
+          <Tooltip label={address.ethAddress}>
+            <Text sx={{ whiteSpace: 'nowrap' }}>{shortenAddress(address.ethAddress)}</Text>
+          </Tooltip>
+        </td>
+        <td>
           <Text>{creatorEmail.emailAddress}</Text>
+        </td>
+        <td>
+          <Text sx={{ whiteSpace: 'nowrap' }}>
+            {DateTime.fromISO(createdAt, { zone: 'utc' }).toFormat('yyyy-MM-dd')}
+          </Text>
+        </td>
+        <td>
+          <Text sx={{ whiteSpace: 'nowrap' }}>
+            {DateTime.fromISO(updatedAt, { zone: 'utc' }).toFormat('yyyy-MM-dd')}
+          </Text>
         </td>
         <td>
           <Text sx={{ whiteSpace: 'nowrap' }}>

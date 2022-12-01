@@ -125,11 +125,14 @@ export const GitPOAPRequestModal = ({
     description,
     imageUrl,
     contributors,
+    createdAt,
+    updatedAt,
     startDate,
     endDate,
     numRequestedCodes,
     staffApprovalStatus,
     creatorEmail,
+    address,
   } = gitPOAPRequest;
 
   const api = useApi();
@@ -192,7 +195,18 @@ export const GitPOAPRequestModal = ({
           <Stack>
             <Text>{`Name: ${name}`}</Text>
             <Text>{`Description: ${description}`}</Text>
+            <Text>{`Creator Address: ${address.ethAddress}`}</Text>
             <Text>{`Creator Email: ${creatorEmail.emailAddress}`}</Text>
+            <Text sx={{ whiteSpace: 'nowrap' }}>
+              {`Creation Date: ${DateTime.fromISO(createdAt, { zone: 'utc' }).toFormat(
+                'yyyy-MM-dd',
+              )}`}
+            </Text>
+            <Text sx={{ whiteSpace: 'nowrap' }}>
+              {`Last Edited: ${DateTime.fromISO(updatedAt, { zone: 'utc' }).toFormat(
+                'yyyy-MM-dd',
+              )}`}
+            </Text>
             <Text sx={{ whiteSpace: 'nowrap' }}>
               {`Start Date: ${DateTime.fromISO(startDate, { zone: 'utc' }).toFormat('yyyy-MM-dd')}`}
             </Text>

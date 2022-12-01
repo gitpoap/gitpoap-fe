@@ -905,6 +905,8 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: StaffApprovalStat
     orderBy: { createdAt: desc }
   ) {
     id
+    createdAt
+    updatedAt
     name
     description
     imageUrl
@@ -916,6 +918,9 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: StaffApprovalStat
     }
     contributors
     staffApprovalStatus
+    address {
+      ethAddress
+    }
     project {
       repos(take: 1) {
         id
