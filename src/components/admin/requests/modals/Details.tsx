@@ -13,7 +13,7 @@ import {
   Text,
   Button,
   Modal,
-  UnstyledButton,
+  // UnstyledButton,
   AlphaSlider,
   HueSlider,
   ActionIcon,
@@ -28,15 +28,15 @@ import { useApi } from '../../../../hooks/useApi';
 import { ContributorModal } from '../../../request/RequestItem/ContributorModal';
 import { NextLink } from '@mantine/next';
 import { GitPOAPBadge } from '../../../shared/elements';
-import styled from 'styled-components';
-import { BackgroundPanel2 } from '../../../../colors';
+// import styled from 'styled-components';
+// import { BackgroundPanel2 } from '../../../../colors';
 import { hslToColorString, rem } from 'polished';
 import { GitPOAPTemplate } from '../GitPOAPTemplate';
 
-const POAP = styled.img`
-  border-radius: 50%;
-  background: ${BackgroundPanel2};
-`;
+// const POAP = styled.img`
+//   border-radius: 50%;
+//   background: ${BackgroundPanel2};
+// `;
 
 type ModalProps = {
   gitPOAPRequest: Exclude<GitPoapRequestsQuery['gitPOAPRequests'], undefined | null>[number];
@@ -50,22 +50,61 @@ type ModalProps = {
 const ImageCarousel = ({ imageUrl }: { imageUrl: string }) => {
   const [alpha, setAlpha] = useState(0.75);
   const [hue, setHue] = useState(0);
-  const [index, setIndex] = useState(0);
+  // const [index, setIndex] = useState(2);
 
   return (
     <Stack align="center">
       {
         {
           0: <GitPOAPBadge imgUrl={imageUrl} altText="preview" size="lg" />,
-          1: <POAP src={imageUrl} style={{ width: rem(370), height: rem(370) }} />,
+          1: (
+            <div
+              style={{
+                border: `${rem(1)} dashed white`,
+                width: rem(370),
+                height: rem(370),
+                background: `url(${imageUrl}) center/contain no-repeat`,
+                boxSizing: 'content-box',
+              }}
+            />
+          ),
           2: (
             <Stack>
-              <div style={{ border: `${rem(1)} solid white` }}>
-                <GitPOAPTemplate
-                  fill={hslToColorString({ hue, saturation: 1, lightness: 0.5, alpha })}
-                  style={{ position: 'absolute', width: rem(370), height: rem(370) }}
-                />
-                <POAP src={imageUrl} style={{ width: rem(370), height: rem(370) }} />
+              <div
+                style={{
+                  border: `${rem(1)} dashed white`,
+                  width: rem(370),
+                  height: rem(370),
+                  boxSizing: 'content-box',
+                }}
+              >
+                <div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    backgroundImage:
+                      'linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%),linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%)',
+                    backgroundPosition: '0 0, 10px 10px',
+                    backgroundSize: '20px 20px',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      background: `url(${imageUrl}) center/contain no-repeat`,
+                    }}
+                  >
+                    <GitPOAPTemplate
+                      fill={hslToColorString({ hue, saturation: 1, lightness: 0.5, alpha })}
+                      style={{
+                        position: 'absolute',
+                        width: rem(370),
+                        height: rem(370),
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
               <HueSlider value={hue} onChange={setHue} onChangeEnd={setHue} />
               <AlphaSlider
@@ -76,9 +115,9 @@ const ImageCarousel = ({ imageUrl }: { imageUrl: string }) => {
               />
             </Stack>
           ),
-        }[index]
+        }[2]
       }
-      <Group position="center">
+      {/* <Group position="center">
         <UnstyledButton
           onClick={() => setIndex(0)}
           p={rem(2)}
@@ -106,7 +145,7 @@ const ImageCarousel = ({ imageUrl }: { imageUrl: string }) => {
           />
           <POAP src={imageUrl} style={{ width: rem(54), height: rem(54) }} />
         </UnstyledButton>
-      </Group>
+      </Group> */}
     </Stack>
   );
 };
