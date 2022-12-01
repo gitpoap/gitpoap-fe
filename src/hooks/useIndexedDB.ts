@@ -11,12 +11,15 @@ const getStore = () => createStore('gitpoap', 'signature');
  */
 export const useIndexedDB = (key: string, defaultValue: SignatureType | null) => {
   const [value, setValue] = useState<SignatureType | null>(defaultValue);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const getValue = useCallback(async () => {
     if (!key) return;
 
+    setIsLoaded(false);
     const currentValue = await get(key, getStore());
     setValue(currentValue ?? defaultValue);
+    setIsLoaded(true);
   }, [key, defaultValue]);
 
   useEffect(() => {
@@ -29,5 +32,5 @@ export const useIndexedDB = (key: string, defaultValue: SignatureType | null) =>
     void set(key, value, getStore());
   }, [value, key]);
 
-  return { value, setValue };
+  return { value, setValue, isLoaded };
 };

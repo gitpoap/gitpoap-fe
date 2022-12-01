@@ -14,7 +14,7 @@ import { ConnectionButton } from './oauth/ConnectionButton';
 import { SearchBox } from './search/box/SearchBox';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
 import useENSName from '../hooks/useENSName';
-import { useConnectionStatus, ConnectionStatus } from '../hooks/useConnectionStatus';
+import { useWeb3Context, ConnectionStatus } from './wallet/Web3Context';
 
 const Nav = styled(Group)`
   color: ${TextLight} !important;
@@ -90,7 +90,7 @@ export const Navbar = () => {
   const { account } = useWeb3React();
   const ensName = useENSName(account ?? '');
 
-  const { connectionStatus } = useConnectionStatus();
+  const { connectionStatus } = useWeb3Context();
 
   const matches1330 = useMediaQuery(`(min-width: ${rem(1330)})`, false);
   const matchesLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);

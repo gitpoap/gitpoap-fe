@@ -1,16 +1,6 @@
-import { createContext, useCallback, useContext, useMemo, useState, useEffect } from 'react';
-import { useWeb3React } from '@web3-react/core';
-import { useDisclosure } from '@mantine/hooks';
-import { JsonRpcSigner } from '@ethersproject/providers';
-import { DateTime } from 'luxon';
+import { createContext, useContext, useMemo, useState } from 'react';
 import { useRefreshTokens } from '../../hooks/useRefreshTokens';
 import { useTokens } from '../../hooks/useTokens';
-import { useApi } from '../../hooks/useApi';
-import { useIndexedDB, IndexDBStatus } from '../../hooks/useIndexedDB';
-import { SignatureType } from '../../types';
-import { AuthenticateResponse } from '../../lib/api/auth';
-import { sign, generateSignatureData } from '../../lib/api/utils';
-import { ONE_MONTH_IN_S } from '../../constants';
 
 type Props = {
   children: React.ReactNode;
@@ -25,15 +15,9 @@ export enum ConnectionStatus {
 }
 
 type onChainProvider = {
-  address: string | null;
-  setAddress: (address: string) => void;
   ensName: string | null;
   connectionStatus: ConnectionStatus;
   setConnectionStatus: (connectionStatus: ConnectionStatus) => void;
-  disconnectWallet: () => void;
-  isModalOpened: boolean;
-  closeModal: () => void;
-  handleConnect: () => void;
 };
 
 type Web3ContextState = {
@@ -63,182 +47,18 @@ export const Web3ContextProvider = (props: Props) => {
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(
     ConnectionStatus.UNINITIALIZED,
   );
-  const [address, setAddress] = useState<string | null>(null);
-
-  const { deactivate, account, library } = useWeb3React();
-  const isConnected = typeof account === 'string' && !!library;
-
-  const [isModalOpened, { close: closeModal, open: openModal }] = useDisclosure(false);
-
-  const api = useApi();
-
-  const { setAccessToken, setRefreshToken, tokens, payload, refreshTokenPayload } = useTokens();
-
-  const {
-    value: signature,
-    setValue: setSignature,
-    status: signatureStatus,
-  } = useIndexedDB(account ?? '', null);
+  const { payload } = useTokens();
 
   /* This hook can only be used once here ~ it contains token refresh logic */
   useRefreshTokens();
 
-  const disconnectWallet = useCallback(() => {
-    deactivate();
-
-    setConnectionStatus(ConnectionStatus.DISCONNECTED);
-    setAddress('');
-    setRefreshToken(null);
-    setAccessToken(null);
-  }, [deactivate, setConnectionStatus, setRefreshToken, setAccessToken, setAddress]);
-
-  const authenticate = useCallback(
-    async (signature: SignatureType) => {
-      const authData: AuthenticateResponse | null = await api.auth.authenticate(signature);
-
-      if (!authData) {
-        // update connection status
-        setConnectionStatus(ConnectionStatus.UNINITIALIZED);
-        // update signature
-        setSignature(null);
-        return;
-      }
-
-      // set signature data into IndexedDB
-      setSignature({
-        ...authData.signatureData,
-      });
-      // update connection status
-      setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
-      setAddress(authData.signatureData.address);
-      // update tokens
-      setAccessToken(authData.tokens.accessToken);
-      setRefreshToken(authData.tokens.refreshToken);
-    },
-    [setConnectionStatus, setSignature, setAddress, api.auth, setAccessToken, setRefreshToken],
-  );
-
-  const authenticateWithoutSignature = useCallback(async () => {
-    const signer: JsonRpcSigner = library.getSigner();
-    const address = await signer.getAddress();
-    const signatureData = generateSignatureData(address);
-    const signatureString = await sign(signer, signatureData.message);
-
-    if (!signatureString) return;
-
-    await authenticate({
-      ...signatureData,
-      signature: signatureString,
-      address,
-    });
-  }, [library, authenticate]);
-
-  const authenticateWithSignature = useCallback(
-    async (signature: SignatureType) => {
-      await authenticate(signature);
-    },
-    [authenticate],
-  );
-
-  const addListeners = useCallback(
-    async (provider: JsonRpcProvider) => {
-      provider.on('accountsChanged', async (accounts: string[]) => {
-        console.log('accountsChanged', accounts);
-        if (accounts.length > 0 && address !== accounts[0]) {
-          const provider = await web3Modal.connect();
-          const web3Provider = await initializeProvider(provider);
-          await authenticate(web3Provider, null);
-        } else {
-          await disconnectWallet();
-        }
-      });
-
-      // now that we go through authentication
-      // set connection status as connecting
-      setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
-
-      if (signature) {
-        void authenticateWithSignature(signature);
-      } else {
-        // we ask to sign a signature only if there is no signature for connected address
-        void authenticateWithoutSignature();
-      }
-    },
-    [
-      account,
-      address,
-      isConnected,
-      signature,
-      connectionStatus,
-      signatureStatus,
-      authenticateWithSignature,
-      authenticateWithoutSignature,
-      setConnectionStatus,
-    ],
-  );
-
-  useEffect(() => {
-    if (tokens?.accessToken === null && tokens?.refreshToken === null) {
-      disconnectWallet();
-    }
-  }, [tokens, disconnectWallet]);
-
-  const refreshToken = useCallback(
-    async (address: string) => {
-      const tokens = await api.auth.refresh();
-
-      if (tokens?.accessToken && tokens?.refreshToken) {
-        setAccessToken(tokens.accessToken);
-        setRefreshToken(tokens.refreshToken);
-
-        // update connection status
-        setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
-        setAddress(address);
-      } else {
-        disconnectWallet();
-      }
-    },
-    [api.auth, setAccessToken, setRefreshToken, setConnectionStatus, setAddress, disconnectWallet],
-  );
-
-  const handleConnect = useCallback(async () => {
-    // if previous access token exists, we check if refresh token is valid or not
-    // if valid, we use it to refresh access token, no need to ask to sign
-    const issuedAt = refreshTokenPayload?.iat ?? 0;
-    const isExpired = DateTime.now().toUnixInteger() >= issuedAt + ONE_MONTH_IN_S;
-    if (tokens && payload?.address && !isExpired && tokens.refreshToken) {
-      // use existing refresh token to refresh access token
-      setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
-      void refreshToken(payload.address);
-    } else {
-      // otherwise, open wallet connect modal
-      openModal();
-    }
-  }, [tokens, payload, openModal, refreshToken, setConnectionStatus, refreshTokenPayload?.iat]);
-
   const onChainProvider = useMemo(
     () => ({
-      address,
-      setAddress,
       connectionStatus,
       setConnectionStatus,
       ensName: payload?.ensName ?? null,
-      disconnectWallet,
-      handleConnect,
-      isModalOpened,
-      closeModal,
     }),
-    [
-      address,
-      setAddress,
-      connectionStatus,
-      setConnectionStatus,
-      payload?.ensName,
-      disconnectWallet,
-      handleConnect,
-      isModalOpened,
-      closeModal,
-    ],
+    [connectionStatus, setConnectionStatus, payload?.ensName],
   );
 
   return <Web3Context.Provider value={{ onChainProvider }}>{props.children}</Web3Context.Provider>;
