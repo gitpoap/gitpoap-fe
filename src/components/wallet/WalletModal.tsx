@@ -3,7 +3,7 @@ import { Stack, Group, Modal, Button, Text } from '@mantine/core';
 import { useWeb3React } from '@web3-react/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { JsonRpcSigner } from '@ethersproject/providers';
-import { connectors } from './WalletProviders';
+import { connectors } from './connectors';
 import { useApi } from '../../hooks/useApi';
 
 enum ProviderType {
