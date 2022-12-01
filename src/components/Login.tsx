@@ -1,24 +1,25 @@
-import { Button, Center, Stack } from '@mantine/core';
+import { Center, Stack } from '@mantine/core';
 import { FaEthereum } from 'react-icons/fa';
-import { Header, Loader } from './shared/elements';
-import { useWeb3Context } from './wallet/Web3Context';
+import { useWeb3React } from '@web3-react/core';
+import { Header /* Loader */ } from './shared/elements';
+import ConnectWallet from './wallet/ConnectWallet';
 
 export const Login = () => {
-  const { connect, connectionStatus } = useWeb3Context();
+  const { account, library } = useWeb3React();
+  const isConnected = typeof account === 'string' && !!library;
 
   return (
     <Center style={{ width: '100%', height: 600 }}>
-      {(connectionStatus === 'disconnected' || connectionStatus === 'uninitialized') && (
+      {!isConnected && (
         <Stack spacing={32}>
           <Header>{'Sign In to Continue'}</Header>
-          <Button leftIcon={<FaEthereum size={16} />} onClick={() => connect()}>
-            {'Connect Wallet'}
-          </Button>
+          <ConnectWallet leftIcon={<FaEthereum size={16} />}>{'Connect Wallet'}</ConnectWallet>
         </Stack>
       )}
-      {(connectionStatus === 'connecting-wallet' || connectionStatus === 'disconnecting') && (
+      {/* TODO; Tyler */}
+      {/* {(connectionStatus === 'connecting-wallet' || connectionStatus === 'disconnecting') && (
         <Loader />
-      )}
+      )} */}
     </Center>
   );
 };
