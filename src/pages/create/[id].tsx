@@ -35,7 +35,7 @@ const Create: NextPage = () => {
         {address ? (
           <>
             <BackgroundHexes />
-            <EditContainer address={address} gitPOAPId={gitPOAPId} />
+            <EditContainer gitPOAPId={gitPOAPId} user={user} />
           </>
         ) : (
           <Login />

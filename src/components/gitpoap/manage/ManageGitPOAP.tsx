@@ -32,7 +32,7 @@ type Props = {
   gitPOAPId: number;
 };
 
-type HeaderItem = {
+export type HeaderItem = {
   label: string;
   key: string;
   isSortable: boolean;

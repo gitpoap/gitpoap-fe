@@ -41,7 +41,11 @@ export const TableHeaderItem = ({
           >
             {children}
           </Text>
-          <Center>{Icon && <Icon size={14} />}</Center>
+          {Icon && (
+            <Center>
+              <Icon size={14} />
+            </Center>
+          )}
         </Group>
       </UnstyledButton>
     </TableHeaderStyled>

@@ -8,18 +8,18 @@ import { textTheme } from './textThemes';
 import { tooltipThemes } from './tooltipThemes';
 import { paginationThemes } from './paginationThemes';
 import { badgeThemes } from './badgeThemes';
+import { actionIconThemes } from './actionIconThemes';
+import { tabsThemes } from './tabsThemes';
 
 export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
   colorScheme: 'dark',
   respectReducedMotion: false,
   components: {
+    ActionIcon: actionIconThemes,
+    Badge: badgeThemes,
     Button: buttonTheme,
     DatePicker: datePickerTheme,
-    Text: textTheme,
-    Tooltip: tooltipThemes,
-    Pagination: paginationThemes,
-    Badge: badgeThemes,
     InputWrapper: {
       styles: {
         error: {
@@ -57,6 +57,10 @@ export const theme: MantineProviderProps['theme'] = {
         },
       },
     },
+    Pagination: paginationThemes,
+    Text: textTheme,
+    Tabs: tabsThemes,
+    Tooltip: tooltipThemes,
   },
   fontFamily: 'PT Mono, monospace',
   headings: {
