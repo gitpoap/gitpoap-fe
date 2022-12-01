@@ -10,6 +10,8 @@ import ConnectWallet from '../wallet/ConnectWallet';
 import { useUser } from '../../hooks/useUser';
 import { shortenAddress } from '../../helpers';
 import { useApi } from '../../hooks/useApi';
+import { useIndexedDB } from '../../hooks/useIndexedDB';
+import { AuthenticateResponse } from '../../lib/api/auth';
 
 const POPOVER_HOVER_TIME = 400;
 
@@ -27,16 +29,30 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
 
   const api = useApi();
 
+  const { value: signature, setValue: setSignature } = useIndexedDB('signature');
+  const { value: connectedAddress, setValue: setConnectedAddress } = useIndexedDB('address');
+  const { setValue: setCreatedAt } = useIndexedDB('createdAt');
+
   const authenticate = useCallback(async () => {
+    console.log('connectedAddress', connectedAddress);
+
     const signer: JsonRpcSigner = library.getSigner();
-    await api.auth.authenticate(signer);
-  }, [library, api.auth]);
+    const authData: AuthenticateResponse | null = await api.auth.authenticate(signer);
+
+    if (authData) {
+      // set signature data into IndexedDB
+      setSignature(authData.signatureString);
+      setConnectedAddress(authData.address);
+      setCreatedAt(authData.signatureData.createdAt);
+    }
+  }, [library, api.auth, setSignature, setConnectedAddress, setCreatedAt, connectedAddress]);
 
   useEffect(() => {
-    if (isConnected && account) {
+    console.log('account', account, connectedAddress);
+    if (isConnected && account && (account !== connectedAddress || !signature)) {
       void authenticate();
     }
-  }, [account, isConnected, authenticate]);
+  }, [account, isConnected, authenticate, connectedAddress, signature]);
 
   return (
     <Group position="center" align="center">

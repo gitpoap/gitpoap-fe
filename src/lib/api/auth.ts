@@ -1,9 +1,19 @@
-import { API, makeAPIRequest, makeAPIRequestWithAuth } from './utils';
-import { SignatureType, Tokens } from '../../types';
+import { JsonRpcSigner } from '@ethersproject/providers';
+import {
+  API,
+  Tokens,
+  makeAPIRequest,
+  makeAPIRequestWithAuth,
+  sign,
+  generateSignatureData,
+  SignatureData,
+} from './utils';
 
 export type AuthenticateResponse = {
   tokens: Tokens;
-  signatureData: SignatureType;
+  signatureString: string;
+  signatureData: SignatureData;
+  address: string;
 };
 
 export class AuthAPI extends API {
@@ -14,7 +24,15 @@ export class AuthAPI extends API {
     this.refreshToken = tokens?.refreshToken ?? null;
   }
 
-  async authenticate(signatureData: SignatureType): Promise<AuthenticateResponse | null> {
+  async authenticate(signer: JsonRpcSigner): Promise<AuthenticateResponse | null> {
+    const address = await signer.getAddress();
+    const signatureData = generateSignatureData(address);
+    const signatureString = await sign(signer, signatureData.message);
+
+    if (!signatureString) {
+      return null;
+    }
+
     const res = await makeAPIRequest(
       '/auth',
       'POST',
@@ -33,7 +51,7 @@ export class AuthAPI extends API {
     }
 
     const tokens: Tokens = await res.json();
-    return { tokens, signatureData };
+    return { tokens, signatureData, signatureString, address };
   }
 
   async refresh() {
