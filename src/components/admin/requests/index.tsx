@@ -1,4 +1,5 @@
 import { Group, Stack, Tabs } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import styled from 'styled-components';
@@ -20,10 +21,12 @@ enum StatusFilter {
 }
 
 export const AdminGitPOAPRequestContainer = () => {
-  const { value, setValue, debouncedValue } = useUrlState('search');
+  const matches500 = useMediaQuery(`(max-width: ${rem(500)})`, false);
   const router = useRouter();
+  const { value, setValue, debouncedValue } = useUrlState('search');
+
   return (
-    <Stack>
+    <Stack my={rem(20)} px={rem(matches500 ? 16 : 32)}>
       <Group position="apart">
         <Header style={{ alignSelf: 'start' }}>{'GitPOAP Requests'}</Header>
         <Input
@@ -38,7 +41,7 @@ export const AdminGitPOAPRequestContainer = () => {
       </Group>
       <Tabs
         defaultValue={StatusFilter.Pending}
-        orientation="vertical"
+        orientation={matches500 ? 'horizontal' : 'vertical'}
         onTabChange={(value) =>
           router.push({ query: { filter: value } }, undefined, { shallow: true })
         }
