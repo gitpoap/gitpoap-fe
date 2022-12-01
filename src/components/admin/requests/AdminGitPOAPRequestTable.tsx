@@ -111,7 +111,7 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
       justify="flex-start"
       spacing="sm"
       py={0}
-      sx={{ border: `${rem(1)} solid ${BackgroundPanel}` }}
+      sx={{ border: `${rem(1)} solid ${BackgroundPanel}`, borderRadius: `${rem(6)} ${rem(6)} 0 0` }}
     >
       <Group position="apart" p={rem(16)} pr={rem(8)} sx={{ width: '100%' }}>
         <ActionIcon
