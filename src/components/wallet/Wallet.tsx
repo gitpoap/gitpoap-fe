@@ -1,13 +1,16 @@
+import { useEffect, useCallback } from 'react';
 import { Box, Group, Menu } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import { useWeb3React } from '@web3-react/core';
+import { JsonRpcSigner } from '@ethersproject/providers';
 import styled from 'styled-components';
 import { WalletStatus } from './WalletStatus';
 import ConnectWallet from '../wallet/ConnectWallet';
 import { useUser } from '../../hooks/useUser';
 import { shortenAddress } from '../../helpers';
+import { useApi } from '../../hooks/useApi';
 
 const MenuHeader = styled(Menu.Label)`
   white-space: nowrap;
@@ -29,6 +32,20 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   const user = useUser();
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
+
+  const api = useApi();
+
+  const authenticate = useCallback(async () => {
+    const signer: JsonRpcSigner = library.getSigner();
+    await api.auth.authenticate(signer);
+  }, [library, api.auth]);
+
+  useEffect(() => {
+    console.log('account - useEffect', account, isConnected);
+    if (isConnected && account) {
+      void authenticate();
+    }
+  }, [account, isConnected, authenticate]);
 
   return (
     <Group position="center" align="center">
