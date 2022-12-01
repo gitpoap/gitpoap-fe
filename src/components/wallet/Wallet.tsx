@@ -13,6 +13,8 @@ import { useApi } from '../../hooks/useApi';
 import { useIndexedDB } from '../../hooks/useIndexedDB';
 import { AuthenticateResponse } from '../../lib/api/auth';
 import { useConnectionStatus, ConnectionStatus } from '../../hooks/useConnectionStatus';
+import { sign, generateSignatureData } from '../../helpers';
+import { SignatureType } from '../../types';
 
 const POPOVER_HOVER_TIME = 400;
 
@@ -33,35 +35,74 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
 
   const { value: signature, setValue: setSignature } = useIndexedDB(account ?? '', null);
 
-  const authenticate = useCallback(async () => {
-    console.log('authenticate', signature);
+  const authenticate = useCallback(
+    async (address: string, signature: SignatureType) => {
+      const authData: AuthenticateResponse | null = await api.auth.authenticate(address, signature);
+      console.log('get auth data', authData);
+
+      if (authData) {
+        // set signature data into IndexedDB
+        setSignature({
+          ...authData.signatureData,
+        });
+        // update connection status
+        setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
+      }
+    },
+    [api.auth, setConnectionStatus, setSignature],
+  );
+
+  const authenticateWithoutSignature = useCallback(async () => {
+    // set connection status as connecting
+    setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
 
     const signer: JsonRpcSigner = library.getSigner();
-    console.log('ask sign');
-    const authData: AuthenticateResponse | null = await api.auth.authenticate(signer);
-    console.log('get auth data', authData);
+    const address = await signer.getAddress();
+    const signatureData = generateSignatureData(address);
+    const signatureString = await sign(signer, signatureData.message);
 
-    if (authData) {
-      // set signature data into IndexedDB
-      setSignature({
-        signature: authData.signatureString,
-        message: authData.signatureData.message,
-        createdAt: authData.signatureData.createdAt,
-      });
-      // update connection status
-      setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
-    }
-  }, [library, api.auth, setSignature, setConnectionStatus]);
+    if (!signatureString) return;
+
+    await authenticate(address, {
+      signature: signatureString,
+      ...signatureData,
+    });
+  }, [library, authenticate, setConnectionStatus]);
+
+  const authenticateWithSignature = useCallback(
+    async (signature: SignatureType) => {
+      if (!account) return;
+
+      // set connection status as connecting
+      setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+
+      await authenticate(account, signature);
+    },
+    [authenticate, account, setConnectionStatus],
+  );
 
   useEffect(() => {
     console.log('account', account, signature);
-    // if there is existing signature signed by current connected address, we will just get jwt token from its signature
+    // if wallet is not connected, do no thing
+    if (!isConnected) return;
+    // if wallet is connecting or connected, disconnecting, do nothing
+    if (connectionStatus !== ConnectionStatus.UNINITIALIZED) return;
 
-    // we make a call to authenticate only if wallet is connected and not previously signed address
-    if (isConnected && account && !signature) {
-      void authenticate();
+    if (signature) {
+      void authenticateWithSignature(signature);
+    } else {
+      // we make a call to authenticate only if wallet is connected and not previously signed address
+      void authenticateWithoutSignature();
     }
-  }, [account, isConnected, authenticate, signature]);
+  }, [
+    account,
+    isConnected,
+    authenticate,
+    signature,
+    authenticateWithSignature,
+    authenticateWithoutSignature,
+    connectionStatus,
+  ]);
 
   return (
     <Group position="center" align="center">
