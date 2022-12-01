@@ -1,4 +1,4 @@
-import { useWeb3Context } from '../components/wallet/Web3Context';
+import { useWeb3React } from '@web3-react/core';
 import { useIsStaff } from './useIsStaff';
 import { useTokens } from './useTokens';
 
@@ -28,10 +28,11 @@ export type User = {
 export const useUser = (): User | null => {
   const { payload } = useTokens();
   const isStaff = useIsStaff();
-  const { connectionStatus } = useWeb3Context();
+  const { account, library } = useWeb3React();
+  const isConnected = typeof account === 'string' && !!library;
 
   let user = null;
-  if (payload && connectionStatus === 'connected-to-wallet') {
+  if (payload && isConnected) {
     user = {
       githubId: payload.githubId,
       githubHandle: payload.githubHandle,

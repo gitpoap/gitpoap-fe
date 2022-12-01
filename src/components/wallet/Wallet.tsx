@@ -25,8 +25,8 @@ type Props = {
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
   const { account, library, deactivate } = useWeb3React();
-  const user = useUser();
   const isConnected = typeof account === 'string' && !!library;
+  const user = useUser();
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
 
