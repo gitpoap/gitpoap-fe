@@ -4,7 +4,7 @@ import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import styled from 'styled-components';
 import { WalletStatus } from './WalletStatus';
-import { useWeb3Context } from './Web3Context';
+import { useWeb3React } from '@web3-react/core';
 import ConnectWallet from '../wallet/ConnectWallet';
 import { useUser } from '../../hooks/useUser';
 import { shortenAddress } from '../../helpers';
@@ -24,14 +24,15 @@ type Props = {
 };
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
-  const { connectionStatus, address, disconnectWallet } = useWeb3Context();
+  const { account, library, deactivate } = useWeb3React();
   const user = useUser();
+  const isConnected = typeof account === 'string' && !!library;
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
 
   return (
     <Group position="center" align="center">
-      {connectionStatus === 'connected-to-wallet' && address ? (
+      {isConnected ? (
         !isMobile ? (
           <Menu
             closeDelay={POPOVER_HOVER_TIME}
@@ -46,7 +47,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             <Menu.Target>
               <Box>
                 <WalletStatus
-                  address={address}
+                  address={account}
                   ensName={ensName}
                   ensAvatarUrl={ensAvatarUrl}
                   hideText={hideText}
@@ -54,9 +55,9 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               </Box>
             </Menu.Target>
             <Menu.Dropdown>
-              <MenuHeader>{ensName ?? shortenAddress(address)}</MenuHeader>
+              <MenuHeader>{ensName ?? shortenAddress(account)}</MenuHeader>
               <Menu.Divider />
-              <Menu.Item component={NextLink} href={`/p/${ensName ?? address}`}>
+              <Menu.Item component={NextLink} href={`/p/${ensName ?? account}`}>
                 {'Profile'}
               </Menu.Item>
               <Menu.Item component={NextLink} href={'/me/gitpoaps'}>
@@ -74,12 +75,12 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                 </Menu.Item>
               )}
               <Menu.Divider />
-              <Menu.Item onClick={() => disconnectWallet()}>{'Disconnect'}</Menu.Item>
+              <Menu.Item onClick={deactivate}>{'Disconnect'}</Menu.Item>
             </Menu.Dropdown>
           </Menu>
         ) : (
           <WalletStatus
-            address={address}
+            address={account}
             ensName={ensName}
             ensAvatarUrl={ensAvatarUrl}
             hideText={hideText}
