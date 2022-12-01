@@ -127,7 +127,7 @@ export const makeAPIRequestWithResponseWithAuth = async (
   return response;
 };
 
-type SignatureData = {
+export type SignatureData = {
   message: string;
   createdAt: number;
 };

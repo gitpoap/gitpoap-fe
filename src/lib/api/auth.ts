@@ -6,7 +6,15 @@ import {
   makeAPIRequestWithAuth,
   sign,
   generateSignatureData,
+  SignatureData,
 } from './utils';
+
+export type AuthenticateResponse = {
+  tokens: Tokens;
+  signatureString: string;
+  signatureData: SignatureData;
+  address: string;
+};
 
 export class AuthAPI extends API {
   protected refreshToken: string | null;
@@ -16,7 +24,7 @@ export class AuthAPI extends API {
     this.refreshToken = tokens?.refreshToken ?? null;
   }
 
-  async authenticate(signer: JsonRpcSigner) {
+  async authenticate(signer: JsonRpcSigner): Promise<AuthenticateResponse | null> {
     const address = await signer.getAddress();
     const signatureData = generateSignatureData(address);
     const signatureString = await sign(signer, signatureData.message);
@@ -43,7 +51,7 @@ export class AuthAPI extends API {
     }
 
     const tokens: Tokens = await res.json();
-    return tokens;
+    return { tokens, signatureData, signatureString, address };
   }
 
   async refresh() {
@@ -58,6 +66,7 @@ export class AuthAPI extends API {
     }
 
     const tokens: Tokens = await res.json();
+
     return tokens;
   }
 
