@@ -12,6 +12,7 @@ import { shortenAddress } from '../../helpers';
 import { useApi } from '../../hooks/useApi';
 import { useIndexedDB } from '../../hooks/useIndexedDB';
 import { AuthenticateResponse } from '../../lib/api/auth';
+import { useConnectionStatus, ConnectionStatus } from '../../hooks/useConnectionStatus';
 
 const POPOVER_HOVER_TIME = 400;
 
@@ -22,6 +23,7 @@ type Props = {
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
   const { account, library, deactivate } = useWeb3React();
+  const { connectionStatus } = useConnectionStatus();
   const isConnected = typeof account === 'string' && !!library;
   const user = useUser();
   const ensName = user?.ensName ?? null;
@@ -57,7 +59,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
 
   return (
     <Group position="center" align="center">
-      {isConnected ? (
+      {account && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET ? (
         !isMobile ? (
           <Menu
             closeDelay={POPOVER_HOVER_TIME}
