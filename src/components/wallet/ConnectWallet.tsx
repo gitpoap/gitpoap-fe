@@ -1,34 +1,32 @@
+import { useWeb3React } from '@web3-react/core';
+import useENSName from '../../hooks/useENSName';
 import { Button, ButtonProps } from '@mantine/core';
-import WalletModal from './WalletModal';
+import { useDisclosure } from '@mantine/hooks';
+import SelectWalletModal from './WalletModal';
 import { truncateAddress } from '../../helpers';
-import { useWeb3Context, ConnectionStatus } from './Web3Context';
-import { Loader } from '../shared/elements';
-import { White } from '../../colors';
 
 const ConnectWallet = (props: ButtonProps) => {
-  const { address, ensName, connectionStatus, isModalOpened, closeModal, handleConnect } =
-    useWeb3Context();
+  const { error, account } = useWeb3React();
+  const [opened, { close, open }] = useDisclosure(false);
 
-  if (address && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET) {
-    return <Button {...props}>{ensName || `${truncateAddress(address, 4)}`}</Button>;
+  const ENSName = useENSName(account ?? '');
+
+  if (error) {
+    return null;
   }
 
-  if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) {
+  if (typeof account !== 'string') {
     return (
-      <Button>
-        <Loader size="sm" color={White} />
-      </Button>
+      <div>
+        <Button {...props} onClick={open}>
+          {props.children}
+        </Button>
+        <SelectWalletModal isOpen={opened} closeModal={close} />
+      </div>
     );
   }
 
-  return (
-    <>
-      <Button {...props} onClick={handleConnect}>
-        {props.children}
-      </Button>
-      <WalletModal isOpen={isModalOpened} closeModal={closeModal} />
-    </>
-  );
+  return <Button {...props}>{ENSName || `${truncateAddress(account, 4)}`}</Button>;
 };
 
 export default ConnectWallet;

@@ -3,12 +3,10 @@ import { NextLink } from '@mantine/next';
 import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import { JazzIconNoText, StyledAvatar, WalletStatus } from './WalletStatus';
-import { useDisclosure } from '@mantine/hooks';
 import { useWeb3Context } from './Web3Context';
-import { Button } from '../shared/elements/Button';
+import ConnectWallet from '../wallet/ConnectWallet';
 import { useUser } from '../../hooks/useUser';
 import { shortenAddress } from '../../helpers';
-import SelectWalletModal from './WalletModal';
 
 const POPOVER_HOVER_TIME = 400;
 
@@ -22,8 +20,6 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   const user = useUser();
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
-
-  const [opened, { close, open }] = useDisclosure(false);
 
   return (
     <Group position="center" align="center">
@@ -87,11 +83,10 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
           />
         )
       ) : (
-        <Button leftIcon={!hideText && <FaEthereum size={16} />} onClick={open}>
+        <ConnectWallet leftIcon={!hideText && <FaEthereum size={16} />}>
           {!hideText ? 'Sign In' : <FaEthereum size={16} />}
         </ConnectWallet>
       )}
-      <SelectWalletModal isOpen={opened} closeModal={close} />
     </Group>
   );
 };
