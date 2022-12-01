@@ -30,11 +30,11 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   const api = useApi();
 
   const { value: signature, setValue: setSignature } = useIndexedDB('signature');
-  const { value: connectedAddress, setValue: setConnectedAddress } = useIndexedDB('address');
+  const { value: singedAddress, setValue: setSignedAddress } = useIndexedDB('address');
   const { setValue: setCreatedAt } = useIndexedDB('createdAt');
 
   const authenticate = useCallback(async () => {
-    console.log('connectedAddress', connectedAddress);
+    console.log('connectedAddress', singedAddress);
 
     const signer: JsonRpcSigner = library.getSigner();
     const authData: AuthenticateResponse | null = await api.auth.authenticate(signer);
@@ -42,17 +42,18 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
     if (authData) {
       // set signature data into IndexedDB
       setSignature(authData.signatureString);
-      setConnectedAddress(authData.address);
+      setSignedAddress(authData.address);
       setCreatedAt(authData.signatureData.createdAt);
     }
-  }, [library, api.auth, setSignature, setConnectedAddress, setCreatedAt, connectedAddress]);
+  }, [library, api.auth, setSignature, setSignedAddress, setCreatedAt, singedAddress]);
 
   useEffect(() => {
-    console.log('account', account, connectedAddress);
-    if (isConnected && account && (account !== connectedAddress || !signature)) {
+    console.log('account', account, singedAddress);
+    // we make a call to authenticate only if wallet is connected and not previously signed address
+    if (isConnected && account && (account !== singedAddress || !signature)) {
       void authenticate();
     }
-  }, [account, isConnected, authenticate, connectedAddress, signature]);
+  }, [account, isConnected, authenticate, singedAddress, signature]);
 
   return (
     <Group position="center" align="center">
