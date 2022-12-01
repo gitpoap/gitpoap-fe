@@ -7,7 +7,6 @@ import { NotificationsProvider } from '@mantine/notifications';
 import * as Sentry from '@sentry/browser';
 import '../styles/styles.css';
 import { GlobalStyles } from '../styles/globalStyles';
-import { Web3ContextProvider } from '../components/wallet/Web3Context';
 import { OAuthProvider } from '../components/oauth/OAuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
 import { Layout } from '../components/Layout';
@@ -16,8 +15,7 @@ import { ClaimContextProvider } from '../components/claims/ClaimContext';
 import { LoadingBar } from '../components/LoadingBar';
 import { HexagonPath } from '../components/shared/elements';
 import { Web3ReactProvider } from '@web3-react/core';
-
-import { Web3Provider, ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers';
+import { getLibrary } from '../helpers';
 
 const client = createClient({
   url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
@@ -56,10 +54,6 @@ type Props = AppProps & {
   Component: Page;
 };
 
-function getLibrary(provider: ExternalProvider | JsonRpcFetchFunc) {
-  return new Web3Provider(provider);
-}
-
 const TheApp = ({ Component, pageProps }: Props) => {
   /* Use custom page-specific layout once / if needed */
   const getLayout = Component.getLayout || ((page: React.ReactNode) => page);
@@ -71,26 +65,24 @@ const TheApp = ({ Component, pageProps }: Props) => {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <Web3ReactProvider getLibrary={getLibrary}>
-        <Web3ContextProvider>
-          <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-            <NotificationsProvider autoClose={5000}>
-              <URQLProvider value={client}>
-                <OAuthProvider>
-                  <FeaturesProvider>
-                    <ClaimContextProvider>
-                      <GlobalStyles />
-                      <HexagonPath />
-                      <Layout>
-                        <LoadingBar />
-                        {getLayout(<Component {...pageProps} />)}
-                      </Layout>
-                    </ClaimContextProvider>
-                  </FeaturesProvider>
-                </OAuthProvider>
-              </URQLProvider>
-            </NotificationsProvider>
-          </MantineProvider>
-        </Web3ContextProvider>
+        <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+          <NotificationsProvider autoClose={5000}>
+            <URQLProvider value={client}>
+              <OAuthProvider>
+                <FeaturesProvider>
+                  <ClaimContextProvider>
+                    <GlobalStyles />
+                    <HexagonPath />
+                    <Layout>
+                      <LoadingBar />
+                      {getLayout(<Component {...pageProps} />)}
+                    </Layout>
+                  </ClaimContextProvider>
+                </FeaturesProvider>
+              </OAuthProvider>
+            </URQLProvider>
+          </NotificationsProvider>
+        </MantineProvider>
       </Web3ReactProvider>
     </>
   );
