@@ -12,6 +12,13 @@ const Panel = styled(Tabs.Panel)`
   width: 100%;
 `;
 
+enum StatusFilter {
+  All = 'all',
+  Pending = 'pending',
+  Rejected = 'rejected',
+  Approved = 'approved',
+}
+
 export const GitPOAPRequestTabs = () => {
   const { value, setValue, debouncedValue } = useUrlState('search');
   const router = useRouter();
@@ -30,7 +37,7 @@ export const GitPOAPRequestTabs = () => {
         />
       </Group>
       <Tabs
-        defaultValue="all"
+        defaultValue={StatusFilter.Pending}
         orientation="vertical"
         onTabChange={(value) =>
           router.push({ query: { filter: value } }, undefined, { shallow: true })
@@ -39,31 +46,31 @@ export const GitPOAPRequestTabs = () => {
         variant="pills"
       >
         <Tabs.List pr={rem(10)} pt={rem(10)}>
-          <Tabs.Tab value="all">{'All'}</Tabs.Tab>
-          <Tabs.Tab value="pending">{'Pending'}</Tabs.Tab>
-          <Tabs.Tab value="rejected">{'Rejected'}</Tabs.Tab>
-          <Tabs.Tab value="approved">{'Approved'}</Tabs.Tab>
+          <Tabs.Tab value={StatusFilter.All}>{'All'}</Tabs.Tab>
+          <Tabs.Tab value={StatusFilter.Pending}>{'Pending'}</Tabs.Tab>
+          <Tabs.Tab value={StatusFilter.Rejected}>{'Rejected'}</Tabs.Tab>
+          <Tabs.Tab value={StatusFilter.Approved}>{'Approved'}</Tabs.Tab>
         </Tabs.List>
 
-        <Panel value="all">
+        <Panel value={StatusFilter.All}>
           <GitPOAPRequestTable debouncedValue={debouncedValue} />
         </Panel>
 
-        <Panel value="pending">
+        <Panel value={StatusFilter.Pending}>
           <GitPOAPRequestTable
             staffApprovalStatus={StaffApprovalStatus['Pending']}
             debouncedValue={debouncedValue}
           />
         </Panel>
 
-        <Panel value="rejected">
+        <Panel value={StatusFilter.Rejected}>
           <GitPOAPRequestTable
             staffApprovalStatus={StaffApprovalStatus['Rejected']}
             debouncedValue={debouncedValue}
           />
         </Panel>
 
-        <Panel value="approved">
+        <Panel value={StatusFilter.Approved}>
           <GitPOAPRequestTable
             staffApprovalStatus={StaffApprovalStatus['Approved']}
             debouncedValue={debouncedValue}
