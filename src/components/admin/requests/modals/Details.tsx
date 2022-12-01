@@ -19,19 +19,19 @@ import {
   ActionIcon,
   SimpleGrid,
 } from '@mantine/core';
-import { GitPoapRequestsQuery } from '../../../graphql/generated-gql';
+import { GitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { DateTime } from 'luxon';
 import { useDisclosure } from '@mantine/hooks';
-import { RequestStatusBadge } from '../../request/RequestItem/RequestStatusBadge';
-import { ButtonStatus } from '../../shared/compounds/StatusButton';
-import { useApi } from '../../../hooks/useApi';
-import { ContributorModal } from '../../request/RequestItem/ContributorModal';
+import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
+import { ButtonStatus } from '../../../shared/compounds/StatusButton';
+import { useApi } from '../../../../hooks/useApi';
+import { ContributorModal } from '../../../request/RequestItem/ContributorModal';
 import { NextLink } from '@mantine/next';
-import { GitPOAPBadge } from '../../shared/elements';
+import { GitPOAPBadge } from '../../../shared/elements';
 import styled from 'styled-components';
-import { BackgroundPanel2 } from '../../../colors';
+import { BackgroundPanel2 } from '../../../../colors';
 import { hslToColorString, rem } from 'polished';
-import { GitPOAPTemplate } from './GitPOAPTemplate';
+import { GitPOAPTemplate } from '../GitPOAPTemplate';
 
 const POAP = styled.img`
   border-radius: 50%;
@@ -44,6 +44,7 @@ type ModalProps = {
   onClose: () => void;
   nextActiveGitPOAPRequest: () => void;
   prevActiveGitPOAPRequest: () => void;
+  setRejectGitPOAPRequest: (id: number | null) => void;
 };
 
 const ImageCarousel = ({ imageUrl }: { imageUrl: string }) => {
@@ -116,6 +117,7 @@ export const GitPOAPRequestModal = ({
   onClose,
   nextActiveGitPOAPRequest,
   prevActiveGitPOAPRequest,
+  setRejectGitPOAPRequest,
 }: ModalProps) => {
   const {
     id,
@@ -135,13 +137,13 @@ export const GitPOAPRequestModal = ({
   const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
     useDisclosure(false);
   const [approveStatus, setApproveStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
-  const [rejectStatus, setRejectStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
+  // const [rejectStatus, setRejectStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
 
   const areButtonsDisabled =
     approveStatus === ButtonStatus.LOADING ||
-    rejectStatus === ButtonStatus.LOADING ||
-    approveStatus === ButtonStatus.SUCCESS ||
-    rejectStatus === ButtonStatus.SUCCESS;
+    // rejectStatus === ButtonStatus.LOADING ||
+    approveStatus === ButtonStatus.SUCCESS;
+  // rejectStatus === ButtonStatus.SUCCESS;
 
   const numberOfContributors = Object.values(contributors).flat().length;
 
@@ -156,19 +158,9 @@ export const GitPOAPRequestModal = ({
     setApproveStatus(ButtonStatus.SUCCESS);
   }, [id, api.gitPOAPRequest]);
 
-  const submitRejectGitPOAPRequest = useCallback(async () => {
-    setRejectStatus(ButtonStatus.LOADING);
-    const data = await api.gitPOAPRequest.reject(id);
-    if (data === null) {
-      setRejectStatus(ButtonStatus.ERROR);
-      return;
-    }
-
-    setRejectStatus(ButtonStatus.SUCCESS);
-  }, [id, api.gitPOAPRequest]);
-
   return (
     <Modal
+      centered
       opened={opened}
       onClose={onClose}
       size="auto"
@@ -242,7 +234,7 @@ export const GitPOAPRequestModal = ({
                 ['APPROVED', 'REJECTED'].includes(gitPOAPRequest.staffApprovalStatus)
               }
               leftIcon={<MdClose />}
-              onClick={submitRejectGitPOAPRequest}
+              onClick={() => setRejectGitPOAPRequest(id)}
               variant="filled"
             >
               {'Reject'}

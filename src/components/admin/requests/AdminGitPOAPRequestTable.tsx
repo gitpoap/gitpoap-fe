@@ -30,9 +30,10 @@ import { useApi } from '../../../hooks/useApi';
 import { ContributorModal } from '../../request/RequestItem/ContributorModal';
 import { MdCheck, MdClose, MdOutlineEdit } from 'react-icons/md';
 import { NextLink } from '@mantine/next';
-import { GitPOAPRequestModal } from './AdminGitPOAPRequestModal';
+import { GitPOAPRequestModal } from './modals/Details';
 import { Loader } from '../../shared/elements';
 import { BackgroundPanel } from '../../../colors';
+import { GitPOAPRequestRejectModal } from './modals/Reject';
 
 const HEADERS: HeaderItem[] = [
   { label: 'ID', key: 'requestId', isSortable: false },
@@ -79,6 +80,7 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
     requestPolicy: 'network-only',
   });
   const [activeGitPOAPRequest, setActiveGitPOAPRequest] = useState<number | null>(null);
+  const [rejectGitPOAPRequest, setRejectGitPOAPRequest] = useState<number | null>(null);
 
   const handlePageChange = useCallback(
     (page: number) =>
@@ -141,6 +143,7 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
                     active={activeGitPOAPRequest === i}
                     gitPOAPRequest={gitPOAPRequest}
                     setActiveGitPOAPRequest={() => setActiveGitPOAPRequest(i)}
+                    setRejectGitPOAPRequest={() => setRejectGitPOAPRequest(gitPOAPRequest.id)}
                   />
                 );
               })}
@@ -172,6 +175,17 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
                 gitPOAPRequests.length,
             )
           }
+          setRejectGitPOAPRequest={setRejectGitPOAPRequest}
+        />
+      )}
+      {rejectGitPOAPRequest !== null && (
+        <GitPOAPRequestRejectModal
+          gitPOAPRequestId={rejectGitPOAPRequest}
+          onClose={() => setRejectGitPOAPRequest(null)}
+          onSubmit={() => {
+            setRejectGitPOAPRequest(null);
+            setActiveGitPOAPRequest(null);
+          }}
         />
       )}
     </Stack>
@@ -190,9 +204,15 @@ type RowProps = {
   active: boolean;
   gitPOAPRequest: Exclude<GitPoapRequestsQuery['gitPOAPRequests'], undefined | null>[number];
   setActiveGitPOAPRequest: () => void;
+  setRejectGitPOAPRequest: () => void;
 };
 
-const GitPOAPRequestRow = ({ active, gitPOAPRequest, setActiveGitPOAPRequest }: RowProps) => {
+const GitPOAPRequestRow = ({
+  active,
+  gitPOAPRequest,
+  setActiveGitPOAPRequest,
+  setRejectGitPOAPRequest,
+}: RowProps) => {
   const {
     id,
     name,
@@ -213,13 +233,13 @@ const GitPOAPRequestRow = ({ active, gitPOAPRequest, setActiveGitPOAPRequest }: 
   const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
     useDisclosure(false);
   const [approveStatus, setApproveStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
-  const [rejectStatus, setRejectStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
+  // const [rejectStatus, setRejectStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
 
   const areButtonsDisabled =
     approveStatus === ButtonStatus.LOADING ||
-    rejectStatus === ButtonStatus.LOADING ||
-    approveStatus === ButtonStatus.SUCCESS ||
-    rejectStatus === ButtonStatus.SUCCESS;
+    // rejectStatus === ButtonStatus.LOADING ||
+    approveStatus === ButtonStatus.SUCCESS;
+  // rejectStatus === ButtonStatus.SUCCESS;
 
   const numberOfContributors = Object.values(contributors).flat().length;
 
@@ -232,17 +252,6 @@ const GitPOAPRequestRow = ({ active, gitPOAPRequest, setActiveGitPOAPRequest }: 
     }
 
     setApproveStatus(ButtonStatus.SUCCESS);
-  }, [id, api.gitPOAPRequest]);
-
-  const submitRejectGitPOAPRequest = useCallback(async () => {
-    setRejectStatus(ButtonStatus.LOADING);
-    const data = await api.gitPOAPRequest.reject(id);
-    if (data === null) {
-      setRejectStatus(ButtonStatus.ERROR);
-      return;
-    }
-
-    setRejectStatus(ButtonStatus.SUCCESS);
   }, [id, api.gitPOAPRequest]);
 
   return (
@@ -324,7 +333,7 @@ const GitPOAPRequestRow = ({ active, gitPOAPRequest, setActiveGitPOAPRequest }: 
                 }
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
-                  void submitRejectGitPOAPRequest();
+                  setRejectGitPOAPRequest();
                 }}
                 variant="filled"
               >
