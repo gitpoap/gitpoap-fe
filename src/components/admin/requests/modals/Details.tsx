@@ -27,7 +27,7 @@ import { useApi } from '../../../../hooks/useApi';
 import { ContributorModal } from '../../../request/RequestItem/ContributorModal';
 import { NextLink } from '@mantine/next';
 import { hslToColorString, rem } from 'polished';
-import { GitPOAPTemplate } from '../GitPOAPTemplate';
+import { GitPOAPTemplate } from '../../../shared/elements/GitPOAPTemplate';
 
 type ModalProps = {
   gitPOAPRequest: Exclude<GitPoapRequestsQuery['gitPOAPRequests'], undefined | null>[number];

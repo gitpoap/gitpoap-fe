@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { StaffApprovalStatus } from '../../../graphql/generated-gql';
 import { useUrlState } from '../../../hooks/useUrlState';
 import { Header, Input } from '../../shared/elements';
-import { GitPOAPRequestTable } from './AdminGitPOAPRequestTable';
+import { GitPOAPRequestTable } from './table';
 
 const Panel = styled(Tabs.Panel)`
   overflow: hidden;
@@ -19,7 +19,7 @@ enum StatusFilter {
   Approved = 'approved',
 }
 
-export const GitPOAPRequestTabs = () => {
+export const AdminGitPOAPRequestContainer = () => {
   const { value, setValue, debouncedValue } = useUrlState('search');
   const router = useRouter();
   return (
