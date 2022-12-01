@@ -31,7 +31,7 @@ type Props = {
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
   const { account, library, deactivate } = useWeb3React();
-  const { connectionStatus } = useConnectionStatus();
+  const { connectionStatus, setConnectionStatus } = useConnectionStatus();
   const isConnected = typeof account === 'string' && !!library;
   const user = useUser();
   const ensName = user?.ensName ?? null;
@@ -39,31 +39,37 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
 
   const api = useApi();
 
-  const { value: signature, setValue: setSignature } = useIndexedDB('signature');
-  const { value: singedAddress, setValue: setSignedAddress } = useIndexedDB('address');
-  const { setValue: setCreatedAt } = useIndexedDB('createdAt');
+  const { value: signature, setValue: setSignature } = useIndexedDB(account ?? '', null);
 
   const authenticate = useCallback(async () => {
-    console.log('connectedAddress', singedAddress);
+    console.log('authenticate', signature);
 
     const signer: JsonRpcSigner = library.getSigner();
+    console.log('ask sign');
     const authData: AuthenticateResponse | null = await api.auth.authenticate(signer);
+    console.log('get auth data', authData);
 
     if (authData) {
       // set signature data into IndexedDB
-      setSignature(authData.signatureString);
-      setSignedAddress(authData.address);
-      setCreatedAt(authData.signatureData.createdAt);
+      setSignature({
+        signature: authData.signatureString,
+        message: authData.signatureData.message,
+        createdAt: authData.signatureData.createdAt,
+      });
+      // update connection status
+      setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
     }
-  }, [library, api.auth, setSignature, setSignedAddress, setCreatedAt, singedAddress]);
+  }, [library, api.auth, setSignature, setConnectionStatus]);
 
   useEffect(() => {
-    console.log('account', account, singedAddress);
+    console.log('account', account, signature);
+    // if there is existing signature signed by current connected address, we will just get jwt token from its signature
+
     // we make a call to authenticate only if wallet is connected and not previously signed address
-    if (isConnected && account && (account !== singedAddress || !signature)) {
+    if (isConnected && account && !signature) {
       void authenticate();
     }
-  }, [account, isConnected, authenticate, singedAddress, signature]);
+  }, [account, isConnected, authenticate, signature]);
 
   return (
     <Group position="center" align="center">
