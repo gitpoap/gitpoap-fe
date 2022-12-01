@@ -16,6 +16,11 @@ export type AuthenticateResponse = {
   address: string;
 };
 
+export type ExistingSignatureType = {
+  signatureString: string;
+  createdAt: number;
+};
+
 export class AuthAPI extends API {
   protected refreshToken: string | null;
 
