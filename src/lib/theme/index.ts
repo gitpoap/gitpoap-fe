@@ -1,15 +1,17 @@
-import { BREAKPOINTS } from '../../constants';
 import { MantineProviderProps } from '@mantine/core';
-import { BackgroundPanel, Black, ExtraHover, MidnightBlue } from '../../colors';
 import { rem } from 'polished';
+
+import { BackgroundPanel, Black, ExtraHover, MidnightBlue } from '../../colors';
+import { BREAKPOINTS } from '../../constants';
+
+import { actionIconThemes } from './actionIconThemes';
+import { badgeThemes } from './badgeThemes';
 import { buttonTheme } from './buttonThemes';
 import { datePickerTheme } from './datePickerThemes';
+import { paginationThemes } from './paginationThemes';
+import { tabsThemes } from './tabsThemes';
 import { textTheme } from './textThemes';
 import { tooltipThemes } from './tooltipThemes';
-import { paginationThemes } from './paginationThemes';
-import { badgeThemes } from './badgeThemes';
-import { actionIconThemes } from './actionIconThemes';
-import { tabsThemes } from './tabsThemes';
 
 export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
@@ -58,8 +60,8 @@ export const theme: MantineProviderProps['theme'] = {
       },
     },
     Pagination: paginationThemes,
-    Text: textTheme,
     Tabs: tabsThemes,
+    Text: textTheme,
     Tooltip: tooltipThemes,
   },
   fontFamily: 'PT Mono, monospace',
