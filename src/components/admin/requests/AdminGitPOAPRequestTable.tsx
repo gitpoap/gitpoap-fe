@@ -102,8 +102,9 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
   );
 
   const totalCount = totalCountResult.data?.aggregateGitPOAPRequest._count?.id ?? 0;
-  const totalPages = Math.floor(totalCount / variables.perPage + 1);
+  const totalPages = Math.ceil(totalCount / variables.perPage + 1);
   const gitPOAPRequests = result.data?.gitPOAPRequests;
+  const currentIndex = (variables.page - 1) * variables.perPage;
 
   return (
     <Stack
@@ -124,9 +125,10 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
         </ActionIcon>
         <Group>
           <Text color="dimmed">
-            {`${(variables.page - 1) * variables.perPage + 1}-${
-              variables.page * variables.perPage
-            } of ${totalCount}`}
+            {`${currentIndex + 1}-${Math.min(
+              currentIndex + variables.perPage,
+              totalCount,
+            )} of ${totalCount}`}
           </Text>
           <ActionIcon
             disabled={variables.page === 1}
