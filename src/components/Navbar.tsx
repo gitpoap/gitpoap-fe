@@ -14,6 +14,7 @@ import { ConnectionButton } from './oauth/ConnectionButton';
 import { SearchBox } from './search/box/SearchBox';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
 import useENSName from '../hooks/useENSName';
+import { useConnectionStatus, ConnectionStatus } from '../hooks/useConnectionStatus';
 
 const Nav = styled(Group)`
   color: ${TextLight} !important;
@@ -86,9 +87,10 @@ const CollapseMenuContent = styled(Stack)`
 
 export const Navbar = () => {
   const router = useRouter();
-  const { account, library } = useWeb3React();
+  const { account } = useWeb3React();
   const ensName = useENSName(account ?? '');
-  const isConnected = typeof account === 'string' && !!library;
+
+  const { connectionStatus } = useConnectionStatus();
 
   const matches1330 = useMediaQuery(`(min-width: ${rem(1330)})`, false);
   const matchesLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
@@ -127,7 +129,7 @@ export const Navbar = () => {
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
       </NavLinkAnchor>
-      {isConnected && (
+      {connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && (
         <>
           <NavLink href={`/p/${ensName ?? account}`}>{'Profile'}</NavLink>
           <NavLink href={`/settings`}>{'Settings'}</NavLink>
