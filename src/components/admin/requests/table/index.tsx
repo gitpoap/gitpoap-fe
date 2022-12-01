@@ -28,7 +28,6 @@ const HEADERS: {
   { label: 'Address', key: 'ethAddress', isSortable: false },
   { label: 'Email', key: 'email', isSortable: false },
   { label: 'Creation Date', key: 'createdAt', isSortable: false },
-  { label: 'Last Updated', key: 'updatedAt', isSortable: false },
   { label: 'Start Date', key: 'startDate', isSortable: false },
   { label: 'End Date', key: 'endDate', isSortable: false },
   { label: 'Contributors', key: 'contributors', isSortable: false },

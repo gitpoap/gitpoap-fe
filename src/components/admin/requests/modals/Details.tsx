@@ -53,7 +53,6 @@ export const GitPOAPRequestModal = ({
     imageUrl,
     contributors,
     createdAt,
-    updatedAt,
     startDate,
     endDate,
     numRequestedCodes,
@@ -172,11 +171,6 @@ export const GitPOAPRequestModal = ({
             <Text>{`Creator Email: ${creatorEmail.emailAddress}`}</Text>
             <Text sx={{ whiteSpace: 'nowrap' }}>
               {`Creation Date: ${DateTime.fromISO(createdAt, { zone: 'utc' }).toFormat(
-                'yyyy-MM-dd',
-              )}`}
-            </Text>
-            <Text sx={{ whiteSpace: 'nowrap' }}>
-              {`Last Edited: ${DateTime.fromISO(updatedAt, { zone: 'utc' }).toFormat(
                 'yyyy-MM-dd',
               )}`}
             </Text>

@@ -37,7 +37,6 @@ export const AdminGitPOAPRequestTableRow = ({
   const {
     id,
     createdAt,
-    updatedAt,
     name,
     description,
     imageUrl,
@@ -101,11 +100,6 @@ export const AdminGitPOAPRequestTableRow = ({
         <td>
           <Text sx={{ whiteSpace: 'nowrap' }}>
             {DateTime.fromISO(createdAt, { zone: 'utc' }).toFormat('yyyy-MM-dd')}
-          </Text>
-        </td>
-        <td>
-          <Text sx={{ whiteSpace: 'nowrap' }}>
-            {DateTime.fromISO(updatedAt, { zone: 'utc' }).toFormat('yyyy-MM-dd')}
           </Text>
         </td>
         <td>
