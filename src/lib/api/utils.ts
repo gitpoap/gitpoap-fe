@@ -1,8 +1,4 @@
-import jwtDecode from 'jwt-decode';
-import { DateTime } from 'luxon';
-import { GITPOAP_API_URL, FIVE_MINUTES_IN_S, ONE_MONTH_IN_S } from '../../constants';
-import { AccessTokenPayload, RefreshTokenPayload, Tokens } from '../../types';
-import { JsonRpcSigner } from '@ethersproject/providers';
+import { GITPOAP_API_URL } from '../../constants';
 
 /* The methods that can be passed to the sign function */
 export type Methods = 'POST /auth';
@@ -192,35 +188,4 @@ export const makeAPIRequestWithResponseWithAuth = async (
   });
 
   return response;
-};
-
-export type SignatureData = {
-  message: string;
-  createdAt: number;
-};
-
-export function generateSignatureMessage(address: string, createdAt: number): string {
-  return `This signature attests that I am ${address.toLowerCase()}, for the purpose of signing into GitPOAP.
-Signing this message requires no ETH and will not create or send a transaction.
-Created at: ${createdAt}.`;
-}
-
-export function generateSignatureData(address: string): SignatureData {
-  const createdAt = Date.now();
-  const message = generateSignatureMessage(address, createdAt);
-
-  return { message, createdAt };
-}
-
-/**
- * This utility function signs a message with the user's wallet & returns the resulting
- * signature.
- */
-export const sign = async (signer: JsonRpcSigner, message: string) => {
-  try {
-    return await signer.signMessage(message);
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
 };
