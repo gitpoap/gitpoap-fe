@@ -38,3 +38,9 @@ export type MetaMaskError = {
 };
 
 export type Level = 'bronze' | 'silver' | 'gold';
+
+export type SignatureType = {
+  signature: string;
+  message: string;
+  createdAt: number;
+};

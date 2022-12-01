@@ -1,5 +1,4 @@
 import { GITPOAP_API_URL } from '../../constants';
-import { JsonRpcSigner } from '@ethersproject/providers';
 
 export type Tokens = {
   accessToken: string;
@@ -125,35 +124,4 @@ export const makeAPIRequestWithResponseWithAuth = async (
   });
 
   return response;
-};
-
-export type SignatureData = {
-  message: string;
-  createdAt: number;
-};
-
-export function generateSignatureMessage(address: string, createdAt: number): string {
-  return `This signature attests that I am ${address.toLowerCase()}, for the purpose of signing into GitPOAP.
-Signing this message requires no ETH and will not create or send a transaction.
-Created at: ${createdAt}.`;
-}
-
-export function generateSignatureData(address: string): SignatureData {
-  const createdAt = Date.now();
-  const message = generateSignatureMessage(address, createdAt);
-
-  return { message, createdAt };
-}
-
-/**
- * This utility function signs a message with the user's wallet & returns the resulting
- * signature.
- */
-export const sign = async (signer: JsonRpcSigner, message: string) => {
-  try {
-    return await signer.signMessage(message);
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
 };
