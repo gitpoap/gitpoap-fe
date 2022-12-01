@@ -25,7 +25,12 @@ type Props = {
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
   const { account, library, deactivate } = useWeb3React();
-  const { connectionStatus, setConnectionStatus } = useWeb3Context();
+  const {
+    connectionStatus,
+    setConnectionStatus,
+    address: connectedAddress,
+    setAddress: setConnectedAddress,
+  } = useWeb3Context();
   const isConnected = typeof account === 'string' && !!library;
   const user = useUser();
   const ensName = user?.ensName ?? null;
@@ -40,8 +45,8 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   } = useIndexedDB(account ?? '', null);
 
   const authenticate = useCallback(
-    async (address: string, signature: SignatureType) => {
-      const authData: AuthenticateResponse | null = await api.auth.authenticate(address, signature);
+    async (signature: SignatureType) => {
+      const authData: AuthenticateResponse | null = await api.auth.authenticate(signature);
 
       if (!authData) {
         // update signature
@@ -57,8 +62,9 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
       });
       // update connection status
       setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
+      setConnectedAddress(authData.signatureData.address);
     },
-    [api.auth, setConnectionStatus, setSignature],
+    [setConnectionStatus, setSignature, setConnectedAddress, api.auth],
   );
 
   const authenticateWithoutSignature = useCallback(async () => {
@@ -69,28 +75,31 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
 
     if (!signatureString) return;
 
-    await authenticate(address, {
-      signature: signatureString,
+    await authenticate({
       ...signatureData,
+      signature: signatureString,
+      address,
     });
   }, [library, authenticate]);
 
   const authenticateWithSignature = useCallback(
     async (signature: SignatureType) => {
-      if (!account) return;
-
-      await authenticate(account, signature);
+      await authenticate(signature);
     },
-    [authenticate, account],
+    [authenticate],
   );
 
   useEffect(() => {
+    console.log('account changed', account, connectedAddress, signature, isSignatureLoaded);
     // if wallet is not connected, do no thing
     if (!isConnected) return;
-    // if wallet is connecting or connected, disconnecting, do nothing
-    if (connectionStatus !== ConnectionStatus.UNINITIALIZED) return;
     // do nothing if signature is not loaded yet from indexedDB
-    if (!isSignatureLoaded) return;
+    if (!isSignatureLoaded || (signature && signature.address !== account)) return;
+    // if wallet is connecting, do nothing
+    if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) return;
+    // if wallet is connected signed by current address, do nothing
+    if (connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && connectedAddress === account)
+      return;
 
     // now that we go through authentication
     // set connection status as connecting
@@ -99,16 +108,16 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
     if (signature) {
       void authenticateWithSignature(signature);
     } else {
-      // we make a call to authenticate only if wallet is connected and not previously signed address
+      // we ask to sign a signature only if there is no signature for connected address
       void authenticateWithoutSignature();
     }
   }, [
     account,
+    connectedAddress,
     isConnected,
     signature,
     connectionStatus,
     isSignatureLoaded,
-    authenticate,
     authenticateWithSignature,
     authenticateWithoutSignature,
     setConnectionStatus,

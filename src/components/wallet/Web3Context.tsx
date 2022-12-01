@@ -15,6 +15,8 @@ export enum ConnectionStatus {
 }
 
 type onChainProvider = {
+  address: string | null;
+  setAddress: (address: string) => void;
   ensName: string | null;
   connectionStatus: ConnectionStatus;
   setConnectionStatus: (connectionStatus: ConnectionStatus) => void;
@@ -47,6 +49,8 @@ export const Web3ContextProvider = (props: Props) => {
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(
     ConnectionStatus.UNINITIALIZED,
   );
+  const [address, setAddress] = useState<string | null>(null);
+
   const { payload } = useTokens();
 
   /* This hook can only be used once here ~ it contains token refresh logic */
@@ -54,11 +58,13 @@ export const Web3ContextProvider = (props: Props) => {
 
   const onChainProvider = useMemo(
     () => ({
+      address,
+      setAddress,
       connectionStatus,
       setConnectionStatus,
       ensName: payload?.ensName ?? null,
     }),
-    [connectionStatus, setConnectionStatus, payload?.ensName],
+    [address, setAddress, connectionStatus, setConnectionStatus, payload?.ensName],
   );
 
   return <Web3Context.Provider value={{ onChainProvider }}>{props.children}</Web3Context.Provider>;

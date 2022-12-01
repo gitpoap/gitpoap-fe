@@ -14,16 +14,17 @@ export class AuthAPI extends API {
     this.refreshToken = tokens?.refreshToken ?? null;
   }
 
-  async authenticate(
-    address: string,
-    signatureData: SignatureType,
-  ): Promise<AuthenticateResponse | null> {
+  async authenticate(signatureData: SignatureType): Promise<AuthenticateResponse | null> {
     const res = await makeAPIRequest(
       '/auth',
       'POST',
       JSON.stringify({
-        address,
-        signatureData,
+        address: signatureData.address,
+        signatureData: {
+          signature: signatureData.signature,
+          message: signatureData.message,
+          createdAt: signatureData.createdAt,
+        },
       }),
     );
 
