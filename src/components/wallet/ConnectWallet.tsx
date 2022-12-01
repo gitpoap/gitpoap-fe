@@ -1,22 +1,15 @@
-import { useWeb3React } from '@web3-react/core';
-import useENSName from '../../hooks/useENSName';
 import { Button, ButtonProps } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import SelectWalletModal from './WalletModal';
 import { truncateAddress } from '../../helpers';
+import { useWeb3Context } from './Web3Context';
 
 const ConnectWallet = (props: ButtonProps) => {
-  const { error, account } = useWeb3React();
+  const { address, ensName } = useWeb3Context();
 
   const [opened, { close, open }] = useDisclosure(false);
 
-  const ENSName = useENSName(account ?? '');
-
-  if (error) {
-    return null;
-  }
-
-  if (typeof account !== 'string') {
+  if (typeof address !== 'string') {
     return (
       <div>
         <Button {...props} onClick={open}>
@@ -27,7 +20,7 @@ const ConnectWallet = (props: ButtonProps) => {
     );
   }
 
-  return <Button {...props}>{ENSName || `${truncateAddress(account, 4)}`}</Button>;
+  return <Button {...props}>{ensName || `${truncateAddress(address, 4)}`}</Button>;
 };
 
 export default ConnectWallet;
