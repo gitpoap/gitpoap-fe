@@ -73,14 +73,12 @@ export const IntakeForm = ({ githubHandle }: Props) => {
     key: `onboarding-${githubHandle}`,
   });
   const [stage, setStage] = useState<number>(queueNumber ? 0 : 0);
-  const [hasFetched, setHasFetched] = useState<boolean>(false);
   const [repos, setRepos] = useState<Repo[]>();
   const [error, setError] = useState<unknown>();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       try {
         const data = await fetchWithToken(
           `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`,
@@ -90,11 +88,10 @@ export const IntakeForm = ({ githubHandle }: Props) => {
       } catch (err: unknown) {
         setError(err);
         setLoading(false);
-        setHasFetched(true);
         console.error(err);
       }
     };
-    if (!repos) {
+    if (tokens?.accessToken && !repos) {
       void fetchData();
     }
   }, [tokens?.accessToken, repos]);
@@ -163,12 +160,24 @@ export const IntakeForm = ({ githubHandle }: Props) => {
     }
   };
 
-  if (!repos && !error && loading) {
+  if (error) {
+    <Container mt={32} size={500}>
+      <Stack>
+        <Text size={40} align="center" mb={rem(20)} style={{ lineHeight: rem(40) }}>
+          {'An error occured'}
+        </Text>
+        <Text>{'An error occured while fetching your repos. Please try again later.'}</Text>
+        <Text>{'If the problem persists, please contact us at team@gitpoap.io'}</Text>
+      </Stack>
+    </Container>;
+  }
+
+  if (!repos && loading) {
     return <StyledLoader />;
   }
 
   // The user doesn't have any repos
-  if (hasFetched && (!repos || (repos.length === 0 && !loading))) {
+  if (!repos) {
     return (
       <Container mt={32} size={500}>
         <Stack>
@@ -189,7 +198,7 @@ export const IntakeForm = ({ githubHandle }: Props) => {
   }
 
   // The user doesn't have high enough permissions on any of their repos
-  if (hasFetched && (!repos || repos.length === 0)) {
+  if (repos.length === 0) {
     return (
       <Container mt={32} size={500}>
         <Stack>

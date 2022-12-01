@@ -204,8 +204,8 @@ export const SelectContributors = ({ contributors, addContributor, removeContrib
                     : true,
                 )
                 .map(({ contributor, index }) => (
-                  <Group key={'contributor-' + index} position="apart">
-                    <Group position="left">
+                  <Group noWrap key={'contributor-' + index} position="apart">
+                    <Group noWrap position="left" sx={{ maxWidth: '100%' }}>
                       <Text>
                         {contributor.type === 'ethAddresses'
                           ? shortenAddress(contributor.value, 4)
