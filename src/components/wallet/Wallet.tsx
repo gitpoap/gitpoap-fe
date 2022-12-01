@@ -3,7 +3,7 @@ import { NextLink } from '@mantine/next';
 import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import { JazzIconNoText, StyledAvatar, WalletStatus } from './WalletStatus';
-import { useWeb3Context } from './Web3Context';
+import { useWeb3React } from '@web3-react/core';
 import ConnectWallet from '../wallet/ConnectWallet';
 import { useUser } from '../../hooks/useUser';
 import { shortenAddress } from '../../helpers';
@@ -16,14 +16,15 @@ type Props = {
 };
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
-  const { connectionStatus, address, disconnectWallet } = useWeb3Context();
+  const { account, library, deactivate } = useWeb3React();
   const user = useUser();
+  const isConnected = typeof account === 'string' && !!library;
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
 
   return (
     <Group position="center" align="center">
-      {connectionStatus === 'connected-to-wallet' && address ? (
+      {isConnected ? (
         !isMobile ? (
           <Menu
             closeDelay={POPOVER_HOVER_TIME}
@@ -37,7 +38,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             <Menu.Target>
               <Box>
                 <WalletStatus
-                  address={address}
+                  address={account}
                   ensName={ensName}
                   ensAvatarUrl={ensAvatarUrl}
                   hideText={hideText}
@@ -45,14 +46,14 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               </Box>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item component={NextLink} href={`/p/${ensName ?? address}`}>
+              <Menu.Item component={NextLink} href={`/p/${ensName ?? account}`}>
                 <Group noWrap>
                   {ensAvatarUrl ? (
                     <StyledAvatar src={ensAvatarUrl} useDefaultImageTag />
                   ) : (
-                    <JazzIconNoText address={address} />
+                    <JazzIconNoText address={account} />
                   )}
-                  {ensName ?? shortenAddress(address)}
+                  {ensName ?? shortenAddress(account)}
                 </Group>
               </Menu.Item>
               <Menu.Divider />
@@ -71,12 +72,12 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                 </Menu.Item>
               )}
               <Menu.Divider />
-              <Menu.Item onClick={() => disconnectWallet()}>{'Disconnect'}</Menu.Item>
+              <Menu.Item onClick={deactivate}>{'Disconnect'}</Menu.Item>
             </Menu.Dropdown>
           </Menu>
         ) : (
           <WalletStatus
-            address={address}
+            address={account}
             ensName={ensName}
             ensAvatarUrl={ensAvatarUrl}
             hideText={hideText}
