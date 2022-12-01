@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Modal, Center, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { useWeb3React } from '@web3-react/core';
 import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { FaEthereum } from 'react-icons/fa';
 import { Pagination } from '../shared/elements/Pagination';
@@ -20,8 +21,8 @@ import { ClaimBlock } from '../shared/compounds/ClaimBlock';
 import { BREAKPOINTS } from '../../constants';
 import { OpenClaimsQuery } from '../../graphql/generated-gql';
 import { Link } from '../shared/compounds/Link';
+import useENSName from '../../hooks/useENSName';
 import ConnectWallet from '../wallet/ConnectWallet';
-import { useWeb3Context } from '../wallet/Web3Context';
 
 type Props = {
   isConnected: boolean;
@@ -129,7 +130,8 @@ export const ClaimModal = ({
   const start = (page - 1) * perPage;
   const end = start + perPage;
 
-  const { address, ensName } = useWeb3Context();
+  const { account } = useWeb3React();
+  const ensName = useENSName(account ?? '');
 
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = !!loadingClaimIds && loadingClaimIds.length === claims.length;
@@ -221,7 +223,7 @@ export const ClaimModal = ({
         {claimedIds?.length > 0 && address && (
           <TwitterShareButton
             claimedCount={claimedIds.length}
-            address={address}
+            address={account ?? ''}
             ensName={ensName}
             claims={claims}
           />

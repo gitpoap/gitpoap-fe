@@ -1,5 +1,6 @@
 import React, { useEffect, createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useListState } from '@mantine/hooks';
+import { useWeb3React } from '@web3-react/core';
 import { GITPOAP_API_URL } from '../../constants';
 import { ClaimStatus, OpenClaimsQuery, useOpenClaimsQuery } from '../../graphql/generated-gql';
 import { Notifications } from '../../notifications';
@@ -27,6 +28,7 @@ type Props = {
 };
 
 export const ClaimContextProvider = ({ children }: Props) => {
+  const { account, library } = useWeb3React();
   const user = useUser();
   const { tokens } = useTokens();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -40,8 +42,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
     requestPolicy: 'cache-and-network',
   });
 
-  const { connectionStatus } = useWeb3Context();
-
+  const isConnected = typeof account === 'string' && !!library;
   const userClaims = result.data?.userClaims;
   const hasGithub = user?.capabilities.hasGithub;
   const hasEmail = user?.capabilities.hasEmail;
@@ -132,7 +133,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
       {children}
       <ClaimModal
         claims={userClaims ?? []}
-        isConnected={connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET}
+        isConnected={isConnected}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onClickClaim={claimGitPOAPs}

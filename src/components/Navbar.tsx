@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { Link } from './shared/compounds/Link';
 import { rem } from 'polished';
 import { Burger, Collapse, Stack, Group } from '@mantine/core';
+import { useWeb3React } from '@web3-react/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { DividerGray1, TextLight, MidnightBlue } from '../colors';
 import { BREAKPOINTS, TYPEFORM_LINKS } from '../constants';
@@ -12,7 +13,7 @@ import { Wallet } from './wallet/Wallet';
 import { ConnectionButton } from './oauth/ConnectionButton';
 import { SearchBox } from './search/box/SearchBox';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
-import { useWeb3Context, ConnectionStatus } from './wallet/Web3Context';
+import useENSName from '../hooks/useENSName';
 
 const Nav = styled(Group)`
   color: ${TextLight} !important;
@@ -85,8 +86,9 @@ const CollapseMenuContent = styled(Stack)`
 
 export const Navbar = () => {
   const router = useRouter();
-
-  const { connectionStatus, ensName, address } = useWeb3Context();
+  const { account, library } = useWeb3React();
+  const ensName = useENSName(account ?? '');
+  const isConnected = typeof account === 'string' && !!library;
 
   const matches1330 = useMediaQuery(`(min-width: ${rem(1330)})`, false);
   const matchesLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
@@ -125,9 +127,9 @@ export const Navbar = () => {
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
       </NavLinkAnchor>
-      {connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && (
+      {isConnected && (
         <>
-          <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
+          <NavLink href={`/p/${ensName ?? account}`}>{'Profile'}</NavLink>
           <NavLink href={`/settings`}>{'Settings'}</NavLink>
         </>
       )}
