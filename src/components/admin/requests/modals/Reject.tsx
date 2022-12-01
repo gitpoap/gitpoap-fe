@@ -42,22 +42,16 @@ export const GitPOAPRequestRejectModal = ({ gitPOAPRequestId, onClose, onSubmit 
   }, [gitPOAPRequestId, api.gitPOAPRequest]);
 
   return (
-    <Modal
-      centered
-      opened={true}
-      onClose={onClose}
-      size="auto"
-      title={<Text>{'Rejection Reason'}</Text>}
-    >
+    <Modal centered opened={true} onClose={onClose} title={<Text>{'Rejection Reason'}</Text>}>
       <Textarea
         label={<Text>{'What is the reason for this rejection:'}</Text>}
         {...form.getInputProps('rejectionReason')}
       />
       <Group align="center" grow pt="lg" spacing="md" noWrap>
-        <Button onClick={onClose} variant="filled">
+        <Button onClick={onClose} variant="outline">
           {'Cancel'}
         </Button>
-        <Button disabled={!form.isValid()} onClick={submitRejectGitPOAPRequest} variant="filled">
+        <Button disabled={!form.isValid()} onClick={submitRejectGitPOAPRequest}>
           {'Reject'}
         </Button>
       </Group>
