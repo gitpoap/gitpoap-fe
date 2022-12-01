@@ -357,7 +357,7 @@ const GitPOAPRequestRow = ({
           </Center>
         </td>
         <td>
-          <Group align="center" spacing="md" noWrap>
+          <Group align="center" spacing="lg" noWrap>
             <Tooltip label="Approve" withArrow withinPortal>
               <ActionIcon
                 color="blue"
