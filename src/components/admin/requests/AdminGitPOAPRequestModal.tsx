@@ -126,7 +126,7 @@ export const GitPOAPRequestModal = ({
     startDate,
     endDate,
     numRequestedCodes,
-    adminApprovalStatus,
+    staffApprovalStatus,
     creatorEmail,
   } = gitPOAPRequest;
 
@@ -181,7 +181,7 @@ export const GitPOAPRequestModal = ({
         <Group position="apart">
           <Group>
             <Text>{`Request ID: ${id}`}</Text>
-            <RequestStatusBadge status={adminApprovalStatus} />
+            <RequestStatusBadge status={staffApprovalStatus} />
           </Group>
           <Group>
             <ActionIcon onClick={prevActiveGitPOAPRequest}>
@@ -228,7 +228,7 @@ export const GitPOAPRequestModal = ({
           <Group align="center" grow pt="lg" spacing="md" noWrap>
             <Button
               disabled={
-                areButtonsDisabled || ['APPROVED'].includes(gitPOAPRequest.adminApprovalStatus)
+                areButtonsDisabled || ['APPROVED'].includes(gitPOAPRequest.staffApprovalStatus)
               }
               leftIcon={<MdCheck />}
               onClick={submitApproveGitPOAPRequest}
@@ -239,7 +239,7 @@ export const GitPOAPRequestModal = ({
             <Button
               disabled={
                 areButtonsDisabled ||
-                ['APPROVED', 'REJECTED'].includes(gitPOAPRequest.adminApprovalStatus)
+                ['APPROVED', 'REJECTED'].includes(gitPOAPRequest.staffApprovalStatus)
               }
               leftIcon={<MdClose />}
               onClick={submitRejectGitPOAPRequest}
@@ -250,7 +250,7 @@ export const GitPOAPRequestModal = ({
             <Button
               component={NextLink}
               disabled={
-                areButtonsDisabled || ['APPROVED'].includes(gitPOAPRequest.adminApprovalStatus)
+                areButtonsDisabled || ['APPROVED'].includes(gitPOAPRequest.staffApprovalStatus)
               }
               href={`/create/${id}`}
               leftIcon={<MdOutlineEdit />}

@@ -17,7 +17,7 @@ import React, { useState, useCallback } from 'react';
 import {
   useGitPoapRequestsQuery,
   useTotalGitPoapRequestsCountQuery,
-  AdminApprovalStatus,
+  StaffApprovalStatus,
   GitPoapRequestsQuery,
 } from '../../../graphql/generated-gql';
 import { HeaderItem } from '../../gitpoap/manage/ManageGitPOAP';
@@ -54,25 +54,25 @@ type QueryVars = {
 };
 
 type Props = {
-  adminApprovalStatus?: AdminApprovalStatus;
+  staffApprovalStatus?: StaffApprovalStatus;
   debouncedValue?: string;
 };
 
-export const GitPOAPRequestTable = ({ adminApprovalStatus, debouncedValue }: Props) => {
+export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Props) => {
   const [variables, setVariables] = useState<QueryVars>({
     page: 1,
     perPage: 20,
   });
   const [totalCountResult] = useTotalGitPoapRequestsCountQuery({
     variables: {
-      approvalStatus: adminApprovalStatus,
+      approvalStatus: staffApprovalStatus,
     },
   });
   const [result] = useGitPoapRequestsQuery({
     variables: {
       take: variables.perPage,
       skip: (variables.page - 1) * variables.perPage,
-      approvalStatus: adminApprovalStatus,
+      approvalStatus: staffApprovalStatus,
       search: debouncedValue ? parseInt(debouncedValue, 10) : undefined,
     },
     pause: false,
@@ -202,7 +202,7 @@ const GitPOAPRequestRow = ({ active, gitPOAPRequest, setActiveGitPOAPRequest }: 
     startDate,
     endDate,
     // numRequestedCodes,
-    adminApprovalStatus,
+    staffApprovalStatus,
     creatorEmail,
   } = gitPOAPRequest;
 
@@ -252,7 +252,7 @@ const GitPOAPRequestRow = ({ active, gitPOAPRequest, setActiveGitPOAPRequest }: 
           <Text>{id}</Text>
         </td>
         <td>
-          <RequestStatusBadge status={adminApprovalStatus} />
+          <RequestStatusBadge status={staffApprovalStatus} />
         </td>
         <td>
           <GitPOAPBadgePopover
@@ -304,7 +304,7 @@ const GitPOAPRequestRow = ({ active, gitPOAPRequest, setActiveGitPOAPRequest }: 
               <ActionIcon
                 color="blue"
                 disabled={
-                  areButtonsDisabled || ['APPROVED'].includes(gitPOAPRequest.adminApprovalStatus)
+                  areButtonsDisabled || ['APPROVED'].includes(gitPOAPRequest.staffApprovalStatus)
                 }
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
@@ -320,7 +320,7 @@ const GitPOAPRequestRow = ({ active, gitPOAPRequest, setActiveGitPOAPRequest }: 
                 color="blue"
                 disabled={
                   areButtonsDisabled ||
-                  ['APPROVED', 'REJECTED'].includes(gitPOAPRequest.adminApprovalStatus)
+                  ['APPROVED', 'REJECTED'].includes(gitPOAPRequest.staffApprovalStatus)
                 }
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
@@ -336,7 +336,7 @@ const GitPOAPRequestRow = ({ active, gitPOAPRequest, setActiveGitPOAPRequest }: 
                 color="blue"
                 component={NextLink}
                 disabled={
-                  areButtonsDisabled || ['APPROVED'].includes(gitPOAPRequest.adminApprovalStatus)
+                  areButtonsDisabled || ['APPROVED'].includes(gitPOAPRequest.staffApprovalStatus)
                 }
                 href={`/create/${id}`}
                 onClick={(e: React.MouseEvent) => e.stopPropagation()}

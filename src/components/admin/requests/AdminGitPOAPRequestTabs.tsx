@@ -2,7 +2,7 @@ import { Group, Stack, Tabs } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import styled from 'styled-components';
-import { AdminApprovalStatus } from '../../../graphql/generated-gql';
+import { StaffApprovalStatus } from '../../../graphql/generated-gql';
 import { useUrlState } from '../../../hooks/useUrlState';
 import { Header, Input } from '../../shared/elements';
 import { GitPOAPRequestTable } from './AdminGitPOAPRequestTable';
@@ -51,21 +51,21 @@ export const GitPOAPRequestTabs = () => {
 
         <Panel value="pending">
           <GitPOAPRequestTable
-            adminApprovalStatus={AdminApprovalStatus['Pending']}
+            staffApprovalStatus={StaffApprovalStatus['Pending']}
             debouncedValue={debouncedValue}
           />
         </Panel>
 
         <Panel value="rejected">
           <GitPOAPRequestTable
-            adminApprovalStatus={AdminApprovalStatus['Rejected']}
+            staffApprovalStatus={StaffApprovalStatus['Rejected']}
             debouncedValue={debouncedValue}
           />
         </Panel>
 
         <Panel value="approved">
           <GitPOAPRequestTable
-            adminApprovalStatus={AdminApprovalStatus['Approved']}
+            staffApprovalStatus={StaffApprovalStatus['Approved']}
             debouncedValue={debouncedValue}
           />
         </Panel>
