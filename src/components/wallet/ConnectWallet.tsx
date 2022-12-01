@@ -7,6 +7,7 @@ import { truncateAddress } from '../../helpers';
 
 const ConnectWallet = (props: ButtonProps) => {
   const { error, account } = useWeb3React();
+
   const [opened, { close, open }] = useDisclosure(false);
 
   const ENSName = useENSName(account ?? '');

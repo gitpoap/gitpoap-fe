@@ -1,10 +1,7 @@
-import { useEffect, useCallback } from 'react';
 import { Stack, Group, Modal, Button, Text } from '@mantine/core';
 import { useWeb3React } from '@web3-react/core';
 import { useLocalStorage } from '@mantine/hooks';
-import { JsonRpcSigner } from '@ethersproject/providers';
 import { connectors } from './connectors';
-import { useApi } from '../../hooks/useApi';
 
 enum ProviderType {
   METAMASK = 'injected',
@@ -18,26 +15,11 @@ type SelectWalletModalProps = {
 };
 
 export default function SelectWalletModal({ isOpen, closeModal }: SelectWalletModalProps) {
-  const { activate, account, library } = useWeb3React();
+  const { activate } = useWeb3React();
   const [, setProvider] = useLocalStorage<ProviderType>({
     key: 'provider',
     defaultValue: undefined,
   });
-  const api = useApi();
-
-  const isConnected = typeof account === 'string' && !!library;
-
-  const authenticate = useCallback(async () => {
-    const signer: JsonRpcSigner = library.getSigner();
-    await api.auth.authenticate(signer);
-  }, [library, api.auth]);
-
-  useEffect(() => {
-    if (isConnected && account) {
-      console.log('account', account);
-      void authenticate();
-    }
-  }, [account, isConnected, authenticate]);
 
   return (
     <Modal opened={isOpen} onClose={closeModal} centered>
