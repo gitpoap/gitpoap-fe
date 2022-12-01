@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Text, Grid, Group, TextProps, Box, BoxProps } from '@mantine/core';
 import { FaHeartBroken } from 'react-icons/fa';
+import { useWeb3React } from '@web3-react/core';
 import { POAP } from '../../types';
 import { POAPBadge } from '../shared/elements/POAPBadge';
 import { TextAccent, TextDarkGray } from '../../colors';
@@ -11,7 +12,6 @@ import { useFeaturedPOAPs, GitPOAP as GitPOAPType } from './FeaturedPOAPsContext
 import { Text as TextUI } from '../shared/elements/Text';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
-import { useWeb3Context } from '../wallet/Web3Context';
 import { useProfileContext } from './ProfileContext';
 
 const Container = styled(Box)<BoxProps>`
@@ -40,9 +40,8 @@ export const FeaturedPOAPs = () => {
     showHearts,
   } = useFeaturedPOAPs();
   const { profileData } = useProfileContext();
-  const { address: walletAddress } = useWeb3Context();
-  const isViewerOwner =
-    profileData && walletAddress && profileData.address === walletAddress.toLowerCase();
+  const { account } = useWeb3React();
+  const isViewerOwner = profileData && account && profileData.address === account.toLowerCase();
 
   if (featuredPOAPsFull.length === 0 && !isViewerOwner) {
     return null;
