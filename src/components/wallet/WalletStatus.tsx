@@ -32,11 +32,11 @@ const JazzIcon = styled(JazzIconReact)`
   margin-left: ${rem(5)};
 `;
 
-const JazzIconNoText = styled(JazzIconReact)`
+export const JazzIconNoText = styled(JazzIconReact)`
   ${JazzIconStyles}
 `;
 
-const StyledAvatar = styled(Avatar)`
+export const StyledAvatar = styled(Avatar)`
   height: ${rem(16)};
   width: ${rem(16)};
 `;

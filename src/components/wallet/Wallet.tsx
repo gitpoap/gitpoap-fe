@@ -2,19 +2,11 @@ import { Box, Group, Menu } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
-import styled from 'styled-components';
-import { WalletStatus } from './WalletStatus';
+import { JazzIconNoText, StyledAvatar, WalletStatus } from './WalletStatus';
 import { useWeb3Context } from './Web3Context';
 import { Button } from '../shared/elements/Button';
 import { useUser } from '../../hooks/useUser';
 import { shortenAddress } from '../../helpers';
-
-const MenuHeader = styled(Menu.Label)`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-`;
 
 const POPOVER_HOVER_TIME = 400;
 
@@ -41,7 +33,6 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             position="bottom-end"
             radius="md"
             trigger="click"
-            width={160}
           >
             <Menu.Target>
               <Box>
@@ -54,11 +45,17 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               </Box>
             </Menu.Target>
             <Menu.Dropdown>
-              <MenuHeader>{ensName ?? shortenAddress(address)}</MenuHeader>
-              <Menu.Divider />
               <Menu.Item component={NextLink} href={`/p/${ensName ?? address}`}>
-                {'Profile'}
+                <Group noWrap>
+                  {ensAvatarUrl ? (
+                    <StyledAvatar src={ensAvatarUrl} useDefaultImageTag />
+                  ) : (
+                    <JazzIconNoText address={address} />
+                  )}
+                  {ensName ?? shortenAddress(address)}
+                </Group>
               </Menu.Item>
+              <Menu.Divider />
               <Menu.Item component={NextLink} href={'/me/gitpoaps'}>
                 {'My GitPOAPs'}
               </Menu.Item>
