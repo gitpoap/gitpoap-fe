@@ -18,6 +18,7 @@ export const FIVE_MINUTES_IN_SEC = 5 * 60; // in seconds
 export const ONE_DAY_IN_S = 86400; // in seconds
 export const ONE_YEAR_IN_S = ONE_DAY_IN_S * 365; // in seconds
 export const ONE_WEEK_IN_S = ONE_DAY_IN_S * 7; // in seconds
+export const ONE_MONTH_IN_S = ONE_DAY_IN_S * 30; // in seconds
 
 /** Date Constants **/
 export const THIS_YEAR = DateTime.local().year;

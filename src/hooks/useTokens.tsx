@@ -23,6 +23,14 @@ export type AccessTokenPayload = {
   iat: number;
 };
 
+export type RefreshTokenPayload = {
+  authTokenId: number;
+  addressId: number;
+  generation: number;
+  exp: number;
+  iat: number;
+};
+
 export const isTokens = (tokens: unknown): tokens is Tokens => {
   return (
     typeof tokens === 'object' &&
@@ -49,6 +57,7 @@ export const useTokens = () => {
 
   let tokens = null;
   let payload = null;
+  let refreshTokenPayload;
   if (accessToken && refreshToken) {
     tokens = {
       accessToken,
@@ -56,7 +65,8 @@ export const useTokens = () => {
     };
 
     payload = jwtDecode<AccessTokenPayload>(accessToken);
+    refreshTokenPayload = jwtDecode<RefreshTokenPayload>(refreshToken);
   }
 
-  return { tokens, setRefreshToken, setAccessToken, payload };
+  return { tokens, setRefreshToken, setAccessToken, payload, refreshTokenPayload };
 };
