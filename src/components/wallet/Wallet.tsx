@@ -91,14 +91,6 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   );
 
   useEffect(() => {
-    console.log(
-      'account changed',
-      account,
-      connectedAddress,
-      signature,
-      signatureStatus,
-      connectionStatus,
-    );
     // if wallet is not connected, do no thing
     if (!isConnected) return;
     // do nothing if signature is not loaded yet from indexedDB
@@ -115,24 +107,8 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
     setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
 
     if (signature) {
-      console.log(
-        'use existing signature',
-        account,
-        connectedAddress,
-        signature,
-        signatureStatus,
-        connectionStatus,
-      );
       void authenticateWithSignature(signature);
     } else {
-      console.log(
-        'ask sign',
-        account,
-        connectedAddress,
-        signature,
-        signatureStatus,
-        connectionStatus,
-      );
       // we ask to sign a signature only if there is no signature for connected address
       void authenticateWithoutSignature();
     }

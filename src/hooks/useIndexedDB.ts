@@ -21,7 +21,6 @@ export const useIndexedDB = (key: string, defaultValue: SignatureType | null) =>
 
   const setValue = useCallback(
     (value: SignatureType | null) => {
-      console.log('set value', value);
       setStoredValue(value);
       void set(key, value, getStore());
     },
@@ -31,12 +30,10 @@ export const useIndexedDB = (key: string, defaultValue: SignatureType | null) =>
   const getValue = useCallback(
     async (key: string) => {
       if (status === IndexDBStatus.UNINITIALIZED) {
-        console.log('start getting value', key, storedValue);
         setStatus(IndexDBStatus.LOADING);
         const currentValue = await get(key, getStore());
         setStoredValue(currentValue ?? defaultValue);
         setStatus(IndexDBStatus.LOADED);
-        console.log('finished getting value', key, currentValue ?? defaultValue);
       }
     },
     [setStoredValue, defaultValue, status, setStatus],
