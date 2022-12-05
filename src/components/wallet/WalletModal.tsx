@@ -1,7 +1,7 @@
 import { Stack, Group, Modal, Button, Text } from '@mantine/core';
 import { useWeb3React } from '@web3-react/core';
 import { useLocalStorage } from '@mantine/hooks';
-import { connectors } from './connectors';
+import { connectors } from '../../connectors';
 
 enum ProviderType {
   METAMASK = 'injected',
