@@ -1,7 +1,9 @@
 import { Stack, Group, Modal, Button, Text } from '@mantine/core';
+import { UserRejectedRequestError } from '@web3-react/injected-connector';
 import { useWeb3React } from '@web3-react/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { connectors } from '../../connectors';
+import { useWeb3Context, ConnectionStatus } from './Web3Context';
 
 enum ProviderType {
   METAMASK = 'injected',
@@ -15,7 +17,8 @@ type SelectWalletModalProps = {
 };
 
 export default function SelectWalletModal({ isOpen, closeModal }: SelectWalletModalProps) {
-  const { activate } = useWeb3React();
+  const { activate, setError } = useWeb3React();
+  const { setConnectionStatus } = useWeb3Context();
   const [, setProvider] = useLocalStorage<ProviderType>({
     key: 'provider',
     defaultValue: undefined,
@@ -27,7 +30,14 @@ export default function SelectWalletModal({ isOpen, closeModal }: SelectWalletMo
         <Button
           variant="outline"
           onClick={() => {
-            activate(connectors.coinbaseWallet);
+            activate(connectors.coinbaseWallet).catch((error) => {
+              // ignore the error if it's a user rejected request
+              if (error instanceof UserRejectedRequestError) {
+                setConnectionStatus(ConnectionStatus.UNINITIALIZED);
+              } else {
+                setError(error);
+              }
+            });
             setProvider(ProviderType.COINBASE_WALLET);
             closeModal();
           }}
@@ -41,7 +51,14 @@ export default function SelectWalletModal({ isOpen, closeModal }: SelectWalletMo
         <Button
           variant="outline"
           onClick={() => {
-            activate(connectors.walletConnect);
+            activate(connectors.walletConnect).catch((error) => {
+              // ignore the error if it's a user rejected request
+              if (error instanceof UserRejectedRequestError) {
+                setConnectionStatus(ConnectionStatus.UNINITIALIZED);
+              } else {
+                setError(error);
+              }
+            });
             setProvider(ProviderType.WALLET_CONNECT);
             closeModal();
           }}
@@ -55,7 +72,14 @@ export default function SelectWalletModal({ isOpen, closeModal }: SelectWalletMo
         <Button
           variant="outline"
           onClick={() => {
-            activate(connectors.injected);
+            activate(connectors.injected).catch((error) => {
+              // ignore the error if it's a user rejected request
+              if (error instanceof UserRejectedRequestError) {
+                setConnectionStatus(ConnectionStatus.UNINITIALIZED);
+              } else {
+                setError(error);
+              }
+            });
             setProvider(ProviderType.METAMASK);
             closeModal();
           }}

@@ -17,7 +17,7 @@ const ConnectWallet = (props: ButtonProps) => {
   if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) {
     return (
       <Button>
-        <Loader />
+        <Loader size="sm" />
       </Button>
     );
   }
