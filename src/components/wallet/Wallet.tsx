@@ -15,6 +15,7 @@ import { AuthenticateResponse } from '../../lib/api/auth';
 import { sign, generateSignatureData } from '../../helpers';
 import { SignatureType } from '../../types';
 import { useWeb3Context, ConnectionStatus } from './Web3Context';
+import { useTokens } from '../../hooks/useTokens';
 
 const POPOVER_HOVER_TIME = 400;
 
@@ -25,6 +26,7 @@ type Props = {
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
   const { account, library } = useWeb3React();
+  const { setAccessToken, setRefreshToken } = useTokens();
   const {
     connectionStatus,
     setConnectionStatus,
@@ -64,8 +66,18 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
       // update connection status
       setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
       setConnectedAddress(authData.signatureData.address);
+      // update tokens
+      setAccessToken(authData.tokens.accessToken);
+      setRefreshToken(authData.tokens.refreshToken);
     },
-    [setConnectionStatus, setSignature, setConnectedAddress, api.auth],
+    [
+      setConnectionStatus,
+      setSignature,
+      setConnectedAddress,
+      api.auth,
+      setAccessToken,
+      setRefreshToken,
+    ],
   );
 
   const authenticateWithoutSignature = useCallback(async () => {
@@ -126,7 +138,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
 
   return (
     <Group position="center" align="center">
-      {account && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET ? (
+      {connectedAddress && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET ? (
         !isMobile ? (
           <Menu
             closeDelay={POPOVER_HOVER_TIME}
@@ -140,7 +152,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             <Menu.Target>
               <Box>
                 <WalletStatus
-                  address={account}
+                  address={connectedAddress}
                   ensName={ensName}
                   ensAvatarUrl={ensAvatarUrl}
                   hideText={hideText}
@@ -153,9 +165,9 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                   {ensAvatarUrl ? (
                     <StyledAvatar src={ensAvatarUrl} useDefaultImageTag />
                   ) : (
-                    <JazzIconNoText address={account} />
+                    <JazzIconNoText address={connectedAddress} />
                   )}
-                  {ensName ?? shortenAddress(account)}
+                  {ensName ?? shortenAddress(connectedAddress)}
                 </Group>
               </Menu.Item>
               <Menu.Divider />
@@ -179,7 +191,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
           </Menu>
         ) : (
           <WalletStatus
-            address={account}
+            address={connectedAddress}
             ensName={ensName}
             ensAvatarUrl={ensAvatarUrl}
             hideText={hideText}
