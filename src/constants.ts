@@ -61,6 +61,7 @@ export const STAFF_ADDRESSES = [
   '0xa4c58baf393ebf3a281a4bc6152ae084e63dc28e', // Kayla
   '0x02738d122e0970aaf8deadf0c6a217a1923e1e99', // Aldo
   '0x61C192be9582B8C96c91Ced88045446f41aEE483', // Tyler
+  '0x9B6e1a427be7A9456f4aF18eeaa354ccabF3980a', // gitpoap.eth
 ];
 
 /**
