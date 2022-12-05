@@ -2,6 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { createStore, get, set } from 'idb-keyval';
 import { SignatureType } from '../types';
 
+export enum IndexDBStatus {
+  UNINITIALIZED,
+  LOADING,
+  LOADED,
+}
+
 // create gitpoap store in indexedDB
 const getStore = () => createStore('gitpoap', 'signature');
 
@@ -11,10 +17,11 @@ const getStore = () => createStore('gitpoap', 'signature');
  */
 export const useIndexedDB = (key: string, defaultValue: SignatureType | null) => {
   const [storedValue, setStoredValue] = useState<SignatureType | null>(defaultValue);
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [status, setStatus] = useState<IndexDBStatus>(IndexDBStatus.UNINITIALIZED);
 
   const setValue = useCallback(
     (value: SignatureType | null) => {
+      console.log('set value', value);
       setStoredValue(value);
       void set(key, value, getStore());
     },
@@ -23,19 +30,27 @@ export const useIndexedDB = (key: string, defaultValue: SignatureType | null) =>
 
   const getValue = useCallback(
     async (key: string) => {
-      setIsLoaded(false);
-      const currentValue = await get(key, getStore());
-      setStoredValue(currentValue ?? defaultValue);
-      setIsLoaded(true);
+      if (status === IndexDBStatus.UNINITIALIZED) {
+        console.log('start getting value', key, storedValue);
+        setStatus(IndexDBStatus.LOADING);
+        const currentValue = await get(key, getStore());
+        setStoredValue(currentValue ?? defaultValue);
+        setStatus(IndexDBStatus.LOADED);
+        console.log('finished getting value', key, currentValue ?? defaultValue);
+      }
     },
-    [setStoredValue, defaultValue],
+    [setStoredValue, defaultValue, status, setStatus],
   );
 
   useEffect(() => {
-    if (!key) return;
+    if (status !== IndexDBStatus.LOADING) setStatus(IndexDBStatus.UNINITIALIZED);
+  }, [key]);
 
-    void getValue(key);
+  useEffect(() => {
+    if (key) {
+      void getValue(key);
+    }
   }, [key, getValue]);
 
-  return { value: storedValue, setValue, isLoaded };
+  return { value: storedValue, setValue, status };
 };

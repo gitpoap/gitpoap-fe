@@ -1,4 +1,5 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { useWeb3React } from '@web3-react/core';
 import { useRefreshTokens } from '../../hooks/useRefreshTokens';
 import { useTokens } from '../../hooks/useTokens';
 
@@ -20,6 +21,7 @@ type onChainProvider = {
   ensName: string | null;
   connectionStatus: ConnectionStatus;
   setConnectionStatus: (connectionStatus: ConnectionStatus) => void;
+  disconnectWallet: () => void;
 };
 
 type Web3ContextState = {
@@ -51,10 +53,21 @@ export const Web3ContextProvider = (props: Props) => {
   );
   const [address, setAddress] = useState<string | null>(null);
 
-  const { payload } = useTokens();
+  const { setAccessToken, setRefreshToken, payload } = useTokens();
+
+  const { deactivate } = useWeb3React();
 
   /* This hook can only be used once here ~ it contains token refresh logic */
   useRefreshTokens();
+
+  const disconnectWallet = useCallback(() => {
+    deactivate();
+
+    setConnectionStatus(ConnectionStatus.DISCONNECTED);
+    setAddress('');
+    setRefreshToken(null);
+    setAccessToken(null);
+  }, [deactivate, setConnectionStatus, setRefreshToken, setAccessToken, setAddress]);
 
   const onChainProvider = useMemo(
     () => ({
@@ -63,8 +76,16 @@ export const Web3ContextProvider = (props: Props) => {
       connectionStatus,
       setConnectionStatus,
       ensName: payload?.ensName ?? null,
+      disconnectWallet,
     }),
-    [address, setAddress, connectionStatus, setConnectionStatus, payload?.ensName],
+    [
+      address,
+      setAddress,
+      connectionStatus,
+      setConnectionStatus,
+      payload?.ensName,
+      disconnectWallet,
+    ],
   );
 
   return <Web3Context.Provider value={{ onChainProvider }}>{props.children}</Web3Context.Provider>;

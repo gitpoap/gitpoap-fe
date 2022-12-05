@@ -2,25 +2,34 @@ import { Button, ButtonProps } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import SelectWalletModal from './WalletModal';
 import { truncateAddress } from '../../helpers';
-import { useWeb3Context } from './Web3Context';
+import { useWeb3Context, ConnectionStatus } from './Web3Context';
+import { Loader } from '../shared/elements';
 
 const ConnectWallet = (props: ButtonProps) => {
-  const { address, ensName } = useWeb3Context();
+  const { address, ensName, connectionStatus } = useWeb3Context();
 
   const [opened, { close, open }] = useDisclosure(false);
 
-  if (typeof address !== 'string') {
+  if (address && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET) {
+    return <Button {...props}>{ensName || `${truncateAddress(address, 4)}`}</Button>;
+  }
+
+  if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) {
     return (
-      <div>
-        <Button {...props} onClick={open}>
-          {props.children}
-        </Button>
-        <SelectWalletModal isOpen={opened} closeModal={close} />
-      </div>
+      <Button>
+        <Loader />
+      </Button>
     );
   }
 
-  return <Button {...props}>{ensName || `${truncateAddress(address, 4)}`}</Button>;
+  return (
+    <div>
+      <Button {...props} onClick={open}>
+        {props.children}
+      </Button>
+      <SelectWalletModal isOpen={opened} closeModal={close} />
+    </div>
+  );
 };
 
 export default ConnectWallet;

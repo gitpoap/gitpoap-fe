@@ -10,7 +10,7 @@ import ConnectWallet from '../wallet/ConnectWallet';
 import { useUser } from '../../hooks/useUser';
 import { shortenAddress } from '../../helpers';
 import { useApi } from '../../hooks/useApi';
-import { useIndexedDB } from '../../hooks/useIndexedDB';
+import { useIndexedDB, IndexDBStatus } from '../../hooks/useIndexedDB';
 import { AuthenticateResponse } from '../../lib/api/auth';
 import { sign, generateSignatureData } from '../../helpers';
 import { SignatureType } from '../../types';
@@ -24,12 +24,13 @@ type Props = {
 };
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
-  const { account, library, deactivate } = useWeb3React();
+  const { account, library } = useWeb3React();
   const {
     connectionStatus,
     setConnectionStatus,
     address: connectedAddress,
     setAddress: setConnectedAddress,
+    disconnectWallet,
   } = useWeb3Context();
   const isConnected = typeof account === 'string' && !!library;
   const user = useUser();
@@ -41,7 +42,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   const {
     value: signature,
     setValue: setSignature,
-    isLoaded: isSignatureLoaded,
+    status: signatureStatus,
   } = useIndexedDB(account ?? '', null);
 
   const authenticate = useCallback(
@@ -49,10 +50,10 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
       const authData: AuthenticateResponse | null = await api.auth.authenticate(signature);
 
       if (!authData) {
-        // update signature
-        setSignature(null);
         // update connection status
         setConnectionStatus(ConnectionStatus.UNINITIALIZED);
+        // update signature
+        setSignature(null);
         return;
       }
 
@@ -90,10 +91,19 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   );
 
   useEffect(() => {
+    console.log(
+      'account changed',
+      account,
+      connectedAddress,
+      signature,
+      signatureStatus,
+      connectionStatus,
+    );
     // if wallet is not connected, do no thing
     if (!isConnected) return;
     // do nothing if signature is not loaded yet from indexedDB
-    if (!isSignatureLoaded || (signature && signature.address !== account)) return;
+    if (signatureStatus !== IndexDBStatus.LOADED || (signature && signature.address !== account))
+      return;
     // if wallet is connecting, do nothing
     if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) return;
     // if wallet is connected signed by current address, do nothing
@@ -105,8 +115,24 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
     setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
 
     if (signature) {
+      console.log(
+        'use existing signature',
+        account,
+        connectedAddress,
+        signature,
+        signatureStatus,
+        connectionStatus,
+      );
       void authenticateWithSignature(signature);
     } else {
+      console.log(
+        'ask sign',
+        account,
+        connectedAddress,
+        signature,
+        signatureStatus,
+        connectionStatus,
+      );
       // we ask to sign a signature only if there is no signature for connected address
       void authenticateWithoutSignature();
     }
@@ -116,7 +142,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
     isConnected,
     signature,
     connectionStatus,
-    isSignatureLoaded,
+    signatureStatus,
     authenticateWithSignature,
     authenticateWithoutSignature,
     setConnectionStatus,
@@ -172,7 +198,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                 </Menu.Item>
               )}
               <Menu.Divider />
-              <Menu.Item onClick={deactivate}>{'Disconnect'}</Menu.Item>
+              <Menu.Item onClick={disconnectWallet}>{'Disconnect'}</Menu.Item>
             </Menu.Dropdown>
           </Menu>
         ) : (
