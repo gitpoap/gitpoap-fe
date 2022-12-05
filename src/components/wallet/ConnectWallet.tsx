@@ -1,6 +1,6 @@
 import { Button, ButtonProps } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import SelectWalletModal from './WalletModal';
+import WalletModal from './WalletModal';
 import { truncateAddress } from '../../helpers';
 import { useWeb3Context, ConnectionStatus } from './Web3Context';
 import { Loader } from '../shared/elements';
@@ -27,7 +27,7 @@ const ConnectWallet = (props: ButtonProps) => {
       <Button {...props} onClick={open}>
         {props.children}
       </Button>
-      <SelectWalletModal isOpen={opened} closeModal={close} />
+      <WalletModal isOpen={opened} closeModal={close} />
     </div>
   );
 };
