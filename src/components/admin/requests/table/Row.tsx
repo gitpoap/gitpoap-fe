@@ -1,12 +1,11 @@
 import { DateTime } from 'luxon';
 import { Group, Text, Button, ActionIcon, Tooltip, Center } from '@mantine/core';
 import styled from 'styled-components';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { GitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { GitPOAPBadgePopover } from '../../../request/RequestItem/GitPOAPBadgePopover';
 import { useDisclosure } from '@mantine/hooks';
 import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
-import { useApi } from '../../../../hooks/useApi';
 import { ContributorModal } from '../../../request/RequestItem/ContributorModal';
 import { MdCheck, MdClose, MdOutlineEdit } from 'react-icons/md';
 import { NextLink } from '@mantine/next';
@@ -25,6 +24,7 @@ type RowProps = {
   active: boolean;
   gitPOAPRequest: Exclude<GitPoapRequestsQuery['gitPOAPRequests'], undefined | null>[number];
   setActiveGitPOAPRequest: () => void;
+  setApproveGitPOAPRequest: () => void;
   setRejectGitPOAPRequest: () => void;
 };
 
@@ -32,6 +32,7 @@ export const AdminGitPOAPRequestTableRow = ({
   active,
   gitPOAPRequest,
   setActiveGitPOAPRequest,
+  setApproveGitPOAPRequest,
   setRejectGitPOAPRequest,
 }: RowProps) => {
   const {
@@ -48,21 +49,12 @@ export const AdminGitPOAPRequestTableRow = ({
     address,
   } = gitPOAPRequest;
 
-  const api = useApi();
-
   const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
     useDisclosure(false);
   const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
     useDisclosure(false);
 
   const numberOfContributors = Object.values(contributors).flat().length;
-
-  const submitApproveGitPOAPRequest = useCallback(async () => {
-    const data = await api.gitPOAPRequest.approve(id);
-    if (data === null) {
-      return;
-    }
-  }, [id, api.gitPOAPRequest]);
 
   return (
     <>
@@ -134,7 +126,7 @@ export const AdminGitPOAPRequestTableRow = ({
                 disabled={['APPROVED'].includes(gitPOAPRequest.staffApprovalStatus)}
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
-                  void submitApproveGitPOAPRequest();
+                  setApproveGitPOAPRequest();
                 }}
                 variant="filled"
               >

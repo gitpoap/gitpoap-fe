@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
   MdCheck,
   MdClose,
@@ -23,7 +23,6 @@ import { GitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { DateTime } from 'luxon';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
-import { useApi } from '../../../../hooks/useApi';
 import { ContributorModal } from '../../../request/RequestItem/ContributorModal';
 import { NextLink } from '@mantine/next';
 import { hslToColorString, rem } from 'polished';
@@ -35,6 +34,7 @@ type ModalProps = {
   onClose: () => void;
   nextActiveGitPOAPRequest: () => void;
   prevActiveGitPOAPRequest: () => void;
+  setApproveGitPOAPRequest: (id: number | null) => void;
   setRejectGitPOAPRequest: (id: number | null) => void;
 };
 
@@ -44,6 +44,7 @@ export const GitPOAPRequestModal = ({
   onClose,
   nextActiveGitPOAPRequest,
   prevActiveGitPOAPRequest,
+  setApproveGitPOAPRequest,
   setRejectGitPOAPRequest,
 }: ModalProps) => {
   const {
@@ -61,22 +62,12 @@ export const GitPOAPRequestModal = ({
     address,
   } = gitPOAPRequest;
 
-  const api = useApi();
-
   const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
     useDisclosure(false);
   const matches420 = useMediaQuery(`(max-width: ${rem(420)})`, false);
   const matches500 = useMediaQuery(`(max-width: ${rem(500)})`, false);
   const [alpha, setAlpha] = useState(0.75);
   const [hue, setHue] = useState(0);
-
-  const submitApproveGitPOAPRequest = useCallback(async () => {
-    const data = await api.gitPOAPRequest.approve(id);
-    if (data === null) {
-      return;
-    }
-    onClose();
-  }, [id, api.gitPOAPRequest]);
 
   const numberOfContributors = Object.values(contributors).flat().length;
 
@@ -202,7 +193,7 @@ export const GitPOAPRequestModal = ({
             <Button
               disabled={['APPROVED'].includes(gitPOAPRequest.staffApprovalStatus)}
               leftIcon={!matches500 && <MdCheck />}
-              onClick={submitApproveGitPOAPRequest}
+              onClick={() => setApproveGitPOAPRequest(id)}
             >
               {!matches500 || (matches500 && !matches420) ? 'Approve' : <MdCheck />}
             </Button>

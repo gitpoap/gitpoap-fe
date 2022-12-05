@@ -14,6 +14,7 @@ import { Loader } from '../../../shared/elements';
 import { BackgroundPanel } from '../../../../colors';
 import { GitPOAPRequestRejectModal } from '../modals/Reject';
 import { AdminGitPOAPRequestTableRow } from './Row';
+import { GitPOAPRequestApproveModal } from '../modals/Approve';
 
 const HEADERS: {
   label: string;
@@ -65,6 +66,7 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
     requestPolicy: 'network-only',
   });
   const [activeGitPOAPRequest, setActiveGitPOAPRequest] = useState<number | null>(null);
+  const [approveGitPOAPRequest, setApproveGitPOAPRequest] = useState<number | null>(null);
   const [rejectGitPOAPRequest, setRejectGitPOAPRequest] = useState<number | null>(null);
 
   const handlePageChange = useCallback(
@@ -158,6 +160,7 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
                       active={activeGitPOAPRequest === i}
                       gitPOAPRequest={gitPOAPRequest}
                       setActiveGitPOAPRequest={() => setActiveGitPOAPRequest(i)}
+                      setApproveGitPOAPRequest={() => setApproveGitPOAPRequest(gitPOAPRequest.id)}
                       setRejectGitPOAPRequest={() => setRejectGitPOAPRequest(gitPOAPRequest.id)}
                     />
                   );
@@ -183,7 +186,19 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
                 gitPOAPRequests.length,
             )
           }
+          setApproveGitPOAPRequest={setApproveGitPOAPRequest}
           setRejectGitPOAPRequest={setRejectGitPOAPRequest}
+        />
+      )}
+      {approveGitPOAPRequest !== null && (
+        <GitPOAPRequestApproveModal
+          gitPOAPRequestId={approveGitPOAPRequest}
+          onClose={() => setApproveGitPOAPRequest(null)}
+          onSubmit={() => {
+            setApproveGitPOAPRequest(null);
+            setRejectGitPOAPRequest(null);
+            setActiveGitPOAPRequest(null);
+          }}
         />
       )}
       {rejectGitPOAPRequest !== null && (
@@ -191,6 +206,7 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
           gitPOAPRequestId={rejectGitPOAPRequest}
           onClose={() => setRejectGitPOAPRequest(null)}
           onSubmit={() => {
+            setApproveGitPOAPRequest(null);
             setRejectGitPOAPRequest(null);
             setActiveGitPOAPRequest(null);
           }}
