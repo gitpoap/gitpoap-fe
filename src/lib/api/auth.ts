@@ -1,5 +1,5 @@
-import { API, Tokens, makeAPIRequest, makeAPIRequestWithAuth } from './utils';
-import { SignatureType } from '../../types';
+import { API, makeAPIRequest, makeAPIRequestWithAuth } from './utils';
+import { SignatureType, Tokens } from '../../types';
 
 export type AuthenticateResponse = {
   tokens: Tokens;

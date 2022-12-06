@@ -2,14 +2,6 @@ import { useLocalStorage } from '@mantine/hooks';
 import jwtDecode from 'jwt-decode';
 import { Tokens, AccessTokenPayload, RefreshTokenPayload } from '../types';
 
-export type RefreshTokenPayload = {
-  authTokenId: number;
-  addressId: number;
-  generation: number;
-  exp: number;
-  iat: number;
-};
-
 export const isTokens = (tokens: unknown): tokens is Tokens => {
   return (
     typeof tokens === 'object' &&
