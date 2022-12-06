@@ -18,10 +18,7 @@ enum ProviderType {
 }
 
 const ConnectionOption = styled(Group)`
-  background-color: ${BackgroundPanel};
-  cursor: pointer;
-  border-radius: ${rem(10)};
-  transition: background-color 150ms ease-in-out;
+  padding: ${rem(12)} ${rem(30)};
 
   &:hover:not(:active) {
     background-color: ${BackgroundPanel2};
@@ -51,7 +48,13 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
       <Stack>
         <ConnectionOption
           p="sm"
-          position="center"
+          position="apart"
+          sx={{
+            backgroundColor: BackgroundPanel,
+            cursor: 'pointer',
+            borderRadius: rem(10),
+            transition: 'background-color 150ms ease-in-out',
+          }}
           onClick={() => {
             activate(connectors.coinbaseWallet).catch((error) => {
               // ignore the error if it's a user rejected request
@@ -65,12 +68,19 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
             closeModal();
           }}
         >
-          <CoinBaseLogo width={32} height={32} />
           <Text size="md">{'Coinbase Wallet'}</Text>
+          <CoinBaseLogo width={32} height={32} />
         </ConnectionOption>
         <ConnectionOption
           p="sm"
-          position="center"
+          position="apart"
+          sx={{
+            backgroundColor: BackgroundPanel,
+            cursor: 'pointer',
+            borderRadius: rem(10),
+            transition: 'background-color 150ms ease-in-out',
+            padding: `0 ${rem(10)}`,
+          }}
           onClick={() => {
             activate(connectors.walletConnect).catch((error) => {
               // ignore the error if it's a user rejected request
@@ -84,12 +94,19 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
             closeModal();
           }}
         >
-          <WalletConnectLogo width={32} height={32} />
           <Text size="md">{'Wallet Connect'}</Text>
+          <WalletConnectLogo width={32} height={32} />
         </ConnectionOption>
         <ConnectionOption
           p="sm"
-          position="center"
+          position="apart"
+          sx={{
+            backgroundColor: BackgroundPanel,
+            cursor: 'pointer',
+            borderRadius: rem(10),
+            transition: 'background-color 150ms ease-in-out',
+            padding: `0 ${rem(10)}`,
+          }}
           onClick={() => {
             activate(connectors.injected).catch((error) => {
               // ignore the error if it's a user rejected request
@@ -103,8 +120,8 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
             closeModal();
           }}
         >
-          <MetamaskLogo width={32} height={32} />
           <Text size="md">{'Metamask'}</Text>
+          <MetamaskLogo width={32} height={32} />
         </ConnectionOption>
       </Stack>
     </Modal>
