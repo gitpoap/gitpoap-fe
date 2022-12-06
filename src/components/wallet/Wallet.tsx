@@ -26,7 +26,7 @@ type Props = {
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
   const { account, library } = useWeb3React();
-  const { setAccessToken, setRefreshToken } = useTokens();
+  const { setAccessToken, setRefreshToken, tokens } = useTokens();
   const {
     connectionStatus,
     setConnectionStatus,
@@ -135,6 +135,12 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
     authenticateWithoutSignature,
     setConnectionStatus,
   ]);
+
+  useEffect(() => {
+    if (tokens?.accessToken === null && tokens?.refreshToken === null) {
+      disconnectWallet;
+    }
+  }, [tokens, disconnectWallet]);
 
   return (
     <Group position="center" align="center">
