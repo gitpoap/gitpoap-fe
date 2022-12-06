@@ -3,7 +3,6 @@ import { UserRejectedRequestError } from '@web3-react/injected-connector';
 import { useWeb3React } from '@web3-react/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
-import styled from 'styled-components';
 import { connectors } from '../../connectors';
 import { useWeb3Context, ConnectionStatus } from './Web3Context';
 import { BackgroundPanel, BackgroundPanel2 } from '../../colors';
@@ -17,17 +16,38 @@ enum ProviderType {
   WALLET_CONNECT = 'walletConnect',
 }
 
-const ConnectionOption = styled(Group)`
-  padding: ${rem(12)} ${rem(30)};
-
-  &:hover:not(:active) {
-    background-color: ${BackgroundPanel2};
-  }
-`;
-
 type WalletModalProps = {
   isOpen: boolean;
   closeModal: () => void;
+};
+
+type ConnectionOptionProps = {
+  onClick: () => void;
+  logo: React.ReactNode;
+  text: string;
+};
+
+const ConnectionOption = ({ onClick, logo, text }: ConnectionOptionProps) => {
+  return (
+    <Group
+      p="sm"
+      position="apart"
+      sx={{
+        backgroundColor: BackgroundPanel,
+        cursor: 'pointer',
+        borderRadius: rem(10),
+        transition: 'background-color 150ms ease-in-out',
+        padding: `${rem(12)} ${rem(30)} !important`,
+        '&:hover:not(:active)': {
+          backgroundColor: BackgroundPanel2,
+        },
+      }}
+      onClick={onClick}
+    >
+      <Text size="md">{text}</Text>
+      {logo}
+    </Group>
+  );
 };
 
 export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
@@ -47,14 +67,6 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
     >
       <Stack>
         <ConnectionOption
-          p="sm"
-          position="apart"
-          sx={{
-            backgroundColor: BackgroundPanel,
-            cursor: 'pointer',
-            borderRadius: rem(10),
-            transition: 'background-color 150ms ease-in-out',
-          }}
           onClick={() => {
             activate(connectors.coinbaseWallet).catch((error) => {
               // ignore the error if it's a user rejected request
@@ -67,20 +79,10 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
             setProvider(ProviderType.COINBASE_WALLET);
             closeModal();
           }}
-        >
-          <Text size="md">{'Coinbase Wallet'}</Text>
-          <CoinBaseLogo width={32} height={32} />
-        </ConnectionOption>
+          text={'Coinbase Wallet'}
+          logo={<CoinBaseLogo width={32} height={32} />}
+        />
         <ConnectionOption
-          p="sm"
-          position="apart"
-          sx={{
-            backgroundColor: BackgroundPanel,
-            cursor: 'pointer',
-            borderRadius: rem(10),
-            transition: 'background-color 150ms ease-in-out',
-            padding: `0 ${rem(10)}`,
-          }}
           onClick={() => {
             activate(connectors.walletConnect).catch((error) => {
               // ignore the error if it's a user rejected request
@@ -93,20 +95,10 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
             setProvider(ProviderType.WALLET_CONNECT);
             closeModal();
           }}
-        >
-          <Text size="md">{'Wallet Connect'}</Text>
-          <WalletConnectLogo width={32} height={32} />
-        </ConnectionOption>
+          text={'Wallet Connect'}
+          logo={<WalletConnectLogo width={32} height={32} />}
+        />
         <ConnectionOption
-          p="sm"
-          position="apart"
-          sx={{
-            backgroundColor: BackgroundPanel,
-            cursor: 'pointer',
-            borderRadius: rem(10),
-            transition: 'background-color 150ms ease-in-out',
-            padding: `0 ${rem(10)}`,
-          }}
           onClick={() => {
             activate(connectors.injected).catch((error) => {
               // ignore the error if it's a user rejected request
@@ -119,10 +111,9 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
             setProvider(ProviderType.METAMASK);
             closeModal();
           }}
-        >
-          <Text size="md">{'Metamask'}</Text>
-          <MetamaskLogo width={32} height={32} />
-        </ConnectionOption>
+          text={'Metamask'}
+          logo={<MetamaskLogo width={32} height={32} />}
+        />
       </Stack>
     </Modal>
   );
