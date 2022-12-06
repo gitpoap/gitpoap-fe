@@ -1175,34 +1175,36 @@ exports[`Navbar renders a Navbar 1`] = `
       <div
         class="emotion-0 emotion-12"
       >
-        <button
-          class="emotion-4 emotion-5 emotion-6"
-          data-button="true"
-          type="button"
-        >
-          <div
-            class="emotion-7 emotion-8"
+        <div>
+          <button
+            class="emotion-4 emotion-5 emotion-6"
+            data-button="true"
+            type="button"
           >
-            <span
-              class="emotion-9 emotion-10"
-              style="text-transform: uppercase;"
+            <div
+              class="emotion-7 emotion-8"
             >
-              <svg
-                fill="currentColor"
-                height="16"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 320 512"
-                width="16"
-                xmlns="http://www.w3.org/2000/svg"
+              <span
+                class="emotion-9 emotion-10"
+                style="text-transform: uppercase;"
               >
-                <path
-                  d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"
-                />
-              </svg>
-            </span>
-          </div>
-        </button>
+                <svg
+                  fill="currentColor"
+                  height="16"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 320 512"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"
+                  />
+                </svg>
+              </span>
+            </div>
+          </button>
+        </div>
       </div>
     </div>
     <button
@@ -1347,39 +1349,41 @@ exports[`Navbar renders a Navbar 1`] = `
         <div
           class="emotion-0 emotion-12"
         >
-          <button
-            class="emotion-4 emotion-5 emotion-49"
-            data-button="true"
-            type="button"
-          >
-            <div
-              class="emotion-7 emotion-8"
+          <div>
+            <button
+              class="emotion-4 emotion-5 emotion-49"
+              data-button="true"
+              type="button"
             >
-              <span
-                class="emotion-52 emotion-53 emotion-54"
+              <div
+                class="emotion-7 emotion-8"
               >
-                <svg
-                  fill="currentColor"
-                  height="16"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 320 512"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
+                <span
+                  class="emotion-52 emotion-53 emotion-54"
                 >
-                  <path
-                    d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"
-                  />
-                </svg>
-              </span>
-              <span
-                class="emotion-9 emotion-10"
-                style="text-transform: uppercase;"
-              >
-                Sign In
-              </span>
-            </div>
-          </button>
+                  <svg
+                    fill="currentColor"
+                    height="16"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 320 512"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="emotion-9 emotion-10"
+                  style="text-transform: uppercase;"
+                >
+                  Sign In
+                </span>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </div>
