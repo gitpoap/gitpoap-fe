@@ -1,9 +1,4 @@
-import {
-  Web3Provider,
-  ExternalProvider,
-  JsonRpcFetchFunc,
-  JsonRpcSigner,
-} from '@ethersproject/providers';
+import { Web3Provider, ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers';
 
 /* Shorten check-summed version of the input address ~ 0x + 4 chars @ start + end */
 export function shortenAddress(address: string, chars = 4): string {
@@ -70,35 +65,4 @@ export const fetchWithToken = async (url: string, token: string | null) => {
 
 export const getWeb3Provider = (provider: ExternalProvider | JsonRpcFetchFunc) => {
   return new Web3Provider(provider);
-};
-
-export type SignatureData = {
-  message: string;
-  createdAt: number;
-};
-
-export function generateSignatureMessage(address: string, createdAt: number): string {
-  return `This signature attests that I am ${address.toLowerCase()}, for the purpose of signing into GitPOAP.
-Signing this message requires no ETH and will not create or send a transaction.
-Created at: ${createdAt}.`;
-}
-
-export function generateSignatureData(address: string): SignatureData {
-  const createdAt = Date.now();
-  const message = generateSignatureMessage(address, createdAt);
-
-  return { message, createdAt };
-}
-
-/**
- * This utility function signs a message with the user's wallet & returns the resulting
- * signature.
- */
-export const sign = async (signer: JsonRpcSigner, message: string) => {
-  try {
-    return await signer.signMessage(message);
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
 };

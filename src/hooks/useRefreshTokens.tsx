@@ -25,15 +25,17 @@ export const useRefreshTokens = () => {
   const performRefresh = useCallback(
     async (refreshToken: string | null, isOnline: boolean) => {
       // we refresh access token if only access token is expired
-      const accessTokenExp = payload?.exp ?? 0;
-      const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_SEC > accessTokenExp;
-      if (refreshToken && isOnline && isExpired) {
-        const tokens = await api.auth.refresh();
-        if (tokens?.accessToken && tokens?.refreshToken) {
-          setAccessToken(tokens.accessToken);
-          setRefreshToken(tokens.refreshToken);
-        } else {
-          disconnect();
+      const accessTokenExp = payload?.exp;
+      if (refreshToken && isOnline && accessTokenExp) {
+        const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_SEC > accessTokenExp;
+        if (isExpired) {
+          const tokens = await api.auth.refresh();
+          if (tokens?.accessToken && tokens?.refreshToken) {
+            setAccessToken(tokens.accessToken);
+            setRefreshToken(tokens.refreshToken);
+          } else {
+            disconnect();
+          }
         }
       }
     },
@@ -59,7 +61,7 @@ export const useRefreshTokens = () => {
     if (refreshToken) {
       if (isPageVisible && !trackedIsPageVisible) {
         /* Essentially perform on token refresh on page load & whenever the user focuses on the page */
-        performRefresh(refreshToken, isOnline);
+        void performRefresh(refreshToken, isOnline);
         setTrackedIsPageVisible(true);
       } else if (!isPageVisible && trackedIsPageVisible) {
         setTrackedIsPageVisible(false);

@@ -6,7 +6,7 @@ import { useApi } from '../../hooks/useApi';
 import { useIndexedDB, IndexDBStatus } from '../../hooks/useIndexedDB';
 import { SignatureType } from '../../types';
 import { AuthenticateResponse } from '../../lib/api/auth';
-import { sign, generateSignatureData } from '../../helpers';
+import { sign, generateSignatureData } from '../../lib/api/utils';
 import { JsonRpcSigner } from '@ethersproject/providers';
 
 type Props = {
