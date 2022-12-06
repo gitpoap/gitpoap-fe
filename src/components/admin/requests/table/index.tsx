@@ -173,18 +173,20 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
           gitPOAPRequest={gitPOAPRequests[activeGitPOAPRequest]}
           opened={true}
           onClose={() => setActiveGitPOAPRequest(null)}
-          nextActiveGitPOAPRequest={() =>
-            setActiveGitPOAPRequest(
-              (((activeGitPOAPRequest + 1) % gitPOAPRequests.length) + gitPOAPRequests.length) %
-                gitPOAPRequests.length,
-            )
-          }
-          prevActiveGitPOAPRequest={() =>
-            setActiveGitPOAPRequest(
-              (((activeGitPOAPRequest - 1) % gitPOAPRequests.length) + gitPOAPRequests.length) %
-                gitPOAPRequests.length,
-            )
-          }
+          nextActiveGitPOAPRequest={() => {
+            if (activeGitPOAPRequest < gitPOAPRequests.length - 1) {
+              setActiveGitPOAPRequest(activeGitPOAPRequest + 1);
+            } else {
+              setActiveGitPOAPRequest(0);
+            }
+          }}
+          prevActiveGitPOAPRequest={() => {
+            if (activeGitPOAPRequest > 0) {
+              setActiveGitPOAPRequest(activeGitPOAPRequest - 1);
+            } else {
+              setActiveGitPOAPRequest(gitPOAPRequests.length - 1);
+            }
+          }}
           setApproveGitPOAPRequest={setApproveGitPOAPRequest}
           setRejectGitPOAPRequest={setRejectGitPOAPRequest}
         />
