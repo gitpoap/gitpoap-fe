@@ -1,5 +1,6 @@
 import { Notifications } from '../../notifications';
-import { API, Tokens, makeAPIRequestWithAuth } from './utils';
+import { API, makeAPIRequestWithAuth } from './utils';
+import { Tokens } from '../../types';
 
 export class TriggersAPI extends API {
   constructor(tokens: Tokens | null) {

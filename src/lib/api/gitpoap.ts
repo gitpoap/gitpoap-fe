@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import { Notifications } from '../../notifications';
-import { API, Tokens, makeAPIRequestWithAuth } from './utils';
+import { API, makeAPIRequestWithAuth } from './utils';
+import { Tokens } from '../../types';
 
 type GitPOAPCreateValues = {
   project: { githubRepoIds: number[] } | { projectId: number };

@@ -4,7 +4,8 @@ import { DateTime } from 'luxon';
 import { z } from 'zod';
 import { isValidGithubHandleWithout0x } from '../../helpers';
 import { Notifications } from '../../notifications';
-import { API, Tokens, makeAPIRequestWithAuth } from './utils';
+import { API, makeAPIRequestWithAuth } from './utils';
+import { Tokens } from '../../types';
 
 export const MAX_FILE_SIZE = 4000000;
 export const ACCEPTED_IMAGE_TYPES = ['image/png', 'image/gif'];

@@ -2,7 +2,7 @@ import { AuthAPI } from './auth';
 import { EmailAPI } from './email';
 import { GitPOAPAPI } from './gitpoap';
 import { GitPOAPRequestAPI } from './gitpoapRequest';
-import { Tokens } from './utils';
+import { Tokens } from '../../types';
 import { TriggersAPI } from './triggers';
 
 export class APIClient {
