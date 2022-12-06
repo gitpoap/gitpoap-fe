@@ -9,7 +9,8 @@ export const Login = () => {
 
   return (
     <Center style={{ width: '100%', height: 600 }}>
-      {connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && (
+      {(connectionStatus === ConnectionStatus.DISCONNECTED ||
+        connectionStatus === ConnectionStatus.UNINITIALIZED) && (
         <Stack spacing={32}>
           <Header>{'Sign In to Continue'}</Header>
           <ConnectWallet leftIcon={<FaEthereum size={16} />}>{'Connect Wallet'}</ConnectWallet>
