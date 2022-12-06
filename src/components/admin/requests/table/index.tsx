@@ -142,7 +142,6 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
                     isSortable={header.isSortable}
                     isSorted={false}
                     isReversed={false}
-                    onSort={() => {}}
                   >
                     {header.label}
                   </TableHeaderItem>

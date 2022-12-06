@@ -11,7 +11,7 @@ interface TableHeaderItemProps {
   isSortable: boolean;
   isReversed: boolean;
   isSorted: boolean;
-  onSort(): void;
+  onSort?: () => void;
 }
 
 export const TableHeaderItem = ({
