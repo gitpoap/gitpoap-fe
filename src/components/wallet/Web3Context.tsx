@@ -1,7 +1,13 @@
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { useRefreshTokens } from '../../hooks/useRefreshTokens';
 import { useTokens } from '../../hooks/useTokens';
+import { useApi } from '../../hooks/useApi';
+import { useIndexedDB, IndexDBStatus } from '../../hooks/useIndexedDB';
+import { SignatureType } from '../../types';
+import { AuthenticateResponse } from '../../lib/api/auth';
+import { sign, generateSignatureData } from '../../helpers';
+import { JsonRpcSigner } from '@ethersproject/providers';
 
 type Props = {
   children: React.ReactNode;
@@ -53,9 +59,18 @@ export const Web3ContextProvider = (props: Props) => {
   );
   const [address, setAddress] = useState<string | null>(null);
 
-  const { setAccessToken, setRefreshToken, payload } = useTokens();
+  const { deactivate, account, library } = useWeb3React();
+  const isConnected = typeof account === 'string' && !!library;
 
-  const { deactivate } = useWeb3React();
+  const api = useApi();
+
+  const { setAccessToken, setRefreshToken, tokens, payload } = useTokens();
+
+  const {
+    value: signature,
+    setValue: setSignature,
+    status: signatureStatus,
+  } = useIndexedDB(account ?? '', null);
 
   /* This hook can only be used once here ~ it contains token refresh logic */
   useRefreshTokens();
@@ -68,6 +83,94 @@ export const Web3ContextProvider = (props: Props) => {
     setRefreshToken(null);
     setAccessToken(null);
   }, [deactivate, setConnectionStatus, setRefreshToken, setAccessToken, setAddress]);
+
+  const authenticate = useCallback(
+    async (signature: SignatureType) => {
+      const authData: AuthenticateResponse | null = await api.auth.authenticate(signature);
+
+      if (!authData) {
+        // update connection status
+        setConnectionStatus(ConnectionStatus.UNINITIALIZED);
+        // update signature
+        setSignature(null);
+        return;
+      }
+
+      // set signature data into IndexedDB
+      setSignature({
+        ...authData.signatureData,
+      });
+      // update connection status
+      setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
+      setAddress(authData.signatureData.address);
+      // update tokens
+      setAccessToken(authData.tokens.accessToken);
+      setRefreshToken(authData.tokens.refreshToken);
+    },
+    [setConnectionStatus, setSignature, setAddress, api.auth, setAccessToken, setRefreshToken],
+  );
+
+  const authenticateWithoutSignature = useCallback(async () => {
+    const signer: JsonRpcSigner = library.getSigner();
+    const address = await signer.getAddress();
+    const signatureData = generateSignatureData(address);
+    const signatureString = await sign(signer, signatureData.message);
+
+    if (!signatureString) return;
+
+    await authenticate({
+      ...signatureData,
+      signature: signatureString,
+      address,
+    });
+  }, [library, authenticate]);
+
+  const authenticateWithSignature = useCallback(
+    async (signature: SignatureType) => {
+      await authenticate(signature);
+    },
+    [authenticate],
+  );
+
+  // handle auth when account has changed
+  useEffect(() => {
+    // if wallet is not connected, do nothing
+    if (!isConnected) return;
+    // do nothing if signature is not loaded yet from indexedDB
+    if (signatureStatus !== IndexDBStatus.LOADED || (signature && signature.address !== account))
+      return;
+    // if wallet is connecting, do nothing
+    if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) return;
+    // if wallet is connected signed by current address, do nothing
+    if (connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && address === account) return;
+
+    // now that we go through authentication
+    // set connection status as connecting
+    setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+
+    if (signature) {
+      void authenticateWithSignature(signature);
+    } else {
+      // we ask to sign a signature only if there is no signature for connected address
+      void authenticateWithoutSignature();
+    }
+  }, [
+    account,
+    address,
+    isConnected,
+    signature,
+    connectionStatus,
+    signatureStatus,
+    authenticateWithSignature,
+    authenticateWithoutSignature,
+    setConnectionStatus,
+  ]);
+
+  useEffect(() => {
+    if (tokens?.accessToken === null && tokens?.refreshToken === null) {
+      disconnectWallet();
+    }
+  }, [tokens, disconnectWallet]);
 
   const onChainProvider = useMemo(
     () => ({

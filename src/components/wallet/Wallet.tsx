@@ -1,21 +1,13 @@
-import { useEffect, useCallback } from 'react';
 import { Box, Group, Menu } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import { JazzIconNoText, StyledAvatar, WalletStatus } from './WalletStatus';
 import { useWeb3React } from '@web3-react/core';
-import { JsonRpcSigner } from '@ethersproject/providers';
 import ConnectWallet from '../wallet/ConnectWallet';
 import { useUser } from '../../hooks/useUser';
 import { shortenAddress } from '../../helpers';
-import { useApi } from '../../hooks/useApi';
-import { useIndexedDB, IndexDBStatus } from '../../hooks/useIndexedDB';
-import { AuthenticateResponse } from '../../lib/api/auth';
-import { sign, generateSignatureData } from '../../helpers';
-import { SignatureType } from '../../types';
 import { useWeb3Context, ConnectionStatus } from './Web3Context';
-import { useTokens } from '../../hooks/useTokens';
 
 const POPOVER_HOVER_TIME = 400;
 
@@ -25,122 +17,11 @@ type Props = {
 };
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
-  const { account, library } = useWeb3React();
-  const { setAccessToken, setRefreshToken, tokens } = useTokens();
-  const {
-    connectionStatus,
-    setConnectionStatus,
-    address: connectedAddress,
-    setAddress: setConnectedAddress,
-    disconnectWallet,
-  } = useWeb3Context();
-  const isConnected = typeof account === 'string' && !!library;
+  const { account } = useWeb3React();
+  const { connectionStatus, address: connectedAddress, disconnectWallet } = useWeb3Context();
   const user = useUser();
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
-
-  const api = useApi();
-
-  const {
-    value: signature,
-    setValue: setSignature,
-    status: signatureStatus,
-  } = useIndexedDB(account ?? '', null);
-
-  const authenticate = useCallback(
-    async (signature: SignatureType) => {
-      const authData: AuthenticateResponse | null = await api.auth.authenticate(signature);
-
-      if (!authData) {
-        // update connection status
-        setConnectionStatus(ConnectionStatus.UNINITIALIZED);
-        // update signature
-        setSignature(null);
-        return;
-      }
-
-      // set signature data into IndexedDB
-      setSignature({
-        ...authData.signatureData,
-      });
-      // update connection status
-      setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
-      setConnectedAddress(authData.signatureData.address);
-      // update tokens
-      setAccessToken(authData.tokens.accessToken);
-      setRefreshToken(authData.tokens.refreshToken);
-    },
-    [
-      setConnectionStatus,
-      setSignature,
-      setConnectedAddress,
-      api.auth,
-      setAccessToken,
-      setRefreshToken,
-    ],
-  );
-
-  const authenticateWithoutSignature = useCallback(async () => {
-    const signer: JsonRpcSigner = library.getSigner();
-    const address = await signer.getAddress();
-    const signatureData = generateSignatureData(address);
-    const signatureString = await sign(signer, signatureData.message);
-
-    if (!signatureString) return;
-
-    await authenticate({
-      ...signatureData,
-      signature: signatureString,
-      address,
-    });
-  }, [library, authenticate]);
-
-  const authenticateWithSignature = useCallback(
-    async (signature: SignatureType) => {
-      await authenticate(signature);
-    },
-    [authenticate],
-  );
-
-  useEffect(() => {
-    // if wallet is not connected, do nothing
-    if (!isConnected) return;
-    // do nothing if signature is not loaded yet from indexedDB
-    if (signatureStatus !== IndexDBStatus.LOADED || (signature && signature.address !== account))
-      return;
-    // if wallet is connecting, do nothing
-    if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) return;
-    // if wallet is connected signed by current address, do nothing
-    if (connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && connectedAddress === account)
-      return;
-
-    // now that we go through authentication
-    // set connection status as connecting
-    setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
-
-    if (signature) {
-      void authenticateWithSignature(signature);
-    } else {
-      // we ask to sign a signature only if there is no signature for connected address
-      void authenticateWithoutSignature();
-    }
-  }, [
-    account,
-    connectedAddress,
-    isConnected,
-    signature,
-    connectionStatus,
-    signatureStatus,
-    authenticateWithSignature,
-    authenticateWithoutSignature,
-    setConnectionStatus,
-  ]);
-
-  useEffect(() => {
-    if (tokens?.accessToken === null && tokens?.refreshToken === null) {
-      disconnectWallet;
-    }
-  }, [tokens, disconnectWallet]);
 
   return (
     <Group position="center" align="center">
