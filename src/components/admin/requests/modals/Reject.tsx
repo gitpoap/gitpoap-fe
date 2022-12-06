@@ -3,6 +3,7 @@ import { Group, Text, Button, Modal, Textarea } from '@mantine/core';
 import { useApi } from '../../../../hooks/useApi';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
+import { Notifications } from '../../../../notifications';
 
 type ModalProps = {
   gitPOAPRequestId: number;
@@ -33,6 +34,7 @@ export const GitPOAPRequestRejectModal = ({ gitPOAPRequestId, onClose, onSubmit 
       form.values.rejectionReason as string,
     );
     if (data === null) {
+      Notifications.error('Error - Unable to reject request');
       return;
     }
     onSubmit();

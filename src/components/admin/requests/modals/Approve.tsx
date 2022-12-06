@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Group, Text, Button, Modal } from '@mantine/core';
 import { useApi } from '../../../../hooks/useApi';
+import { Notifications } from '../../../../notifications';
 
 type ModalProps = {
   gitPOAPRequestId: number;
@@ -14,6 +15,7 @@ export const GitPOAPRequestApproveModal = ({ gitPOAPRequestId, onClose, onSubmit
   const submitApproveGitPOAPRequest = useCallback(async () => {
     const data = await api.gitPOAPRequest.approve(gitPOAPRequestId);
     if (data === null) {
+      Notifications.error('Error - Request to claim GitPOAP failed');
       return;
     }
     onSubmit();
