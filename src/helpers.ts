@@ -31,6 +31,8 @@ export const isValidURL = (str: string): boolean => {
   return !!pattern.test(str);
 };
 
+// Use this helper function to adjust dates from UTC to the local timezone.
+// Including the zone adjusts via timezone offset to make the date UTC.
 export const formatUTCDate = (date: string): string =>
   DateTime.fromISO(date, { zone: 'utc' }).toFormat('yyyy-MM-dd');
 
