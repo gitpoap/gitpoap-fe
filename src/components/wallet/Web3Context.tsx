@@ -1,5 +1,8 @@
 import { createContext, useCallback, useContext, useMemo, useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
+import { useDisclosure } from '@mantine/hooks';
+import { JsonRpcSigner } from '@ethersproject/providers';
+import { DateTime } from 'luxon';
 import { useRefreshTokens } from '../../hooks/useRefreshTokens';
 import { useTokens } from '../../hooks/useTokens';
 import { useApi } from '../../hooks/useApi';
@@ -7,7 +10,7 @@ import { useIndexedDB, IndexDBStatus } from '../../hooks/useIndexedDB';
 import { SignatureType } from '../../types';
 import { AuthenticateResponse } from '../../lib/api/auth';
 import { sign, generateSignatureData } from '../../lib/api/utils';
-import { JsonRpcSigner } from '@ethersproject/providers';
+import { ONE_MONTH_IN_S } from '../../constants';
 
 type Props = {
   children: React.ReactNode;
@@ -28,6 +31,9 @@ type onChainProvider = {
   connectionStatus: ConnectionStatus;
   setConnectionStatus: (connectionStatus: ConnectionStatus) => void;
   disconnectWallet: () => void;
+  isModalOpened: boolean;
+  closeModal: () => void;
+  handleConnect: () => void;
 };
 
 type Web3ContextState = {
@@ -62,9 +68,11 @@ export const Web3ContextProvider = (props: Props) => {
   const { deactivate, account, library } = useWeb3React();
   const isConnected = typeof account === 'string' && !!library;
 
+  const [isModalOpened, { close: closeModal, open: openModal }] = useDisclosure(false);
+
   const api = useApi();
 
-  const { setAccessToken, setRefreshToken, tokens, payload } = useTokens();
+  const { setAccessToken, setRefreshToken, tokens, payload, refreshTokenPayload } = useTokens();
 
   const {
     value: signature,
@@ -172,6 +180,39 @@ export const Web3ContextProvider = (props: Props) => {
     }
   }, [tokens, disconnectWallet]);
 
+  const refreshToken = useCallback(
+    async (address: string) => {
+      const tokens = await api.auth.refresh();
+
+      if (tokens?.accessToken && tokens?.refreshToken) {
+        setAccessToken(tokens.accessToken);
+        setRefreshToken(tokens.refreshToken);
+
+        // update connection status
+        setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
+        setAddress(address);
+      } else {
+        disconnectWallet();
+      }
+    },
+    [api.auth, setAccessToken, setRefreshToken, setConnectionStatus, setAddress, disconnectWallet],
+  );
+
+  const handleConnect = useCallback(async () => {
+    // if previous access token exists, we check if refresh token is valid or not
+    // if valid, we use it to refresh access token, no need to ask to sign
+    const issuedAt = refreshTokenPayload?.iat ?? 0;
+    const isExpired = DateTime.now().toUnixInteger() >= issuedAt + ONE_MONTH_IN_S;
+    if (tokens && payload?.address && !isExpired && tokens.refreshToken) {
+      // use existing refresh token to refresh access token
+      setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+      void refreshToken(payload.address);
+    } else {
+      // otherwise, open wallet connect modal
+      openModal();
+    }
+  }, [tokens, payload, openModal, refreshToken, setConnectionStatus, refreshTokenPayload?.iat]);
+
   const onChainProvider = useMemo(
     () => ({
       address,
@@ -180,6 +221,9 @@ export const Web3ContextProvider = (props: Props) => {
       setConnectionStatus,
       ensName: payload?.ensName ?? null,
       disconnectWallet,
+      handleConnect,
+      isModalOpened,
+      closeModal,
     }),
     [
       address,
@@ -188,6 +232,9 @@ export const Web3ContextProvider = (props: Props) => {
       setConnectionStatus,
       payload?.ensName,
       disconnectWallet,
+      handleConnect,
+      isModalOpened,
+      closeModal,
     ],
   );
 
