@@ -221,7 +221,7 @@ export const ClaimModal = ({
         {claimedIds?.length > 0 && address && (
           <TwitterShareButton
             claimedCount={claimedIds.length}
-            address={address ?? ''}
+            address={address}
             ensName={ensName}
             claims={claims}
           />
