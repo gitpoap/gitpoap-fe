@@ -79,7 +79,7 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
   );
 
   const totalCount = totalCountResult.data?.aggregateGitPOAPRequest._count?.id ?? 0;
-  const totalPages = Math.ceil(totalCount / variables.perPage + 1);
+  const totalPages = Math.ceil(totalCount / variables.perPage);
   const gitPOAPRequests = result.data?.gitPOAPRequests;
   const currentIndex = (variables.page - 1) * variables.perPage;
 
@@ -114,7 +114,7 @@ export const GitPOAPRequestTable = ({ staffApprovalStatus, debouncedValue }: Pro
             <MdKeyboardArrowLeft size="20" />
           </ActionIcon>
           <ActionIcon
-            disabled={variables.page === totalPages - 1}
+            disabled={variables.page === totalPages}
             onClick={() => void handlePageChange(variables.page + 1)}
           >
             <MdKeyboardArrowRight size="20" />

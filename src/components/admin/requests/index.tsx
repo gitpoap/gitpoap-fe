@@ -33,6 +33,7 @@ export const AdminGitPOAPRequestContainer = () => {
           placeholder={'Request ID'}
           value={value}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            // Prevents searches from triggering due to non-numeric characters (spaces, etc.)
             if ((e.target.value && /^\d+$/.test(e.target.value)) || e.target.value === '') {
               setValue(e.target.value);
             }
