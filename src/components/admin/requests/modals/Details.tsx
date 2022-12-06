@@ -20,13 +20,13 @@ import {
   Center,
 } from '@mantine/core';
 import { GitPoapRequestsQuery } from '../../../../graphql/generated-gql';
-import { DateTime } from 'luxon';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
 import { ContributorModal } from '../../../request/RequestItem/ContributorModal';
 import { NextLink } from '@mantine/next';
 import { hslToColorString, rem } from 'polished';
 import { GitPOAPTemplate } from '../../../shared/elements/GitPOAPTemplate';
+import { formatUTCDate } from '../../../../helpers';
 
 type ModalProps = {
   gitPOAPRequest: Exclude<GitPoapRequestsQuery['gitPOAPRequests'], undefined | null>[number];
@@ -161,16 +161,10 @@ export const GitPOAPRequestModal = ({
             <Text>{`Creator Address: ${address.ethAddress}`}</Text>
             <Text>{`Creator Email: ${creatorEmail.emailAddress}`}</Text>
             <Text sx={{ whiteSpace: 'nowrap' }}>
-              {`Creation Date: ${DateTime.fromISO(createdAt, { zone: 'utc' }).toFormat(
-                'yyyy-MM-dd',
-              )}`}
+              {`Creation Date: ${formatUTCDate(createdAt)}`}
             </Text>
-            <Text sx={{ whiteSpace: 'nowrap' }}>
-              {`Start Date: ${DateTime.fromISO(startDate, { zone: 'utc' }).toFormat('yyyy-MM-dd')}`}
-            </Text>
-            <Text sx={{ whiteSpace: 'nowrap' }}>
-              {`End Date: ${DateTime.fromISO(endDate, { zone: 'utc' }).toFormat('yyyy-MM-dd')}`}
-            </Text>
+            <Text sx={{ whiteSpace: 'nowrap' }}>{`Start Date: ${formatUTCDate(startDate)}`}</Text>
+            <Text sx={{ whiteSpace: 'nowrap' }}>{`End Date: ${formatUTCDate(endDate)}`}</Text>
             <Text>{`Number of Codes: ${numRequestedCodes}`}</Text>
             <Text>
               {'Contributors: '}

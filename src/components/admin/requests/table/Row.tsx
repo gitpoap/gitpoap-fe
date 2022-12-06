@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon';
 import { Group, Text, Button, ActionIcon, Tooltip, Center } from '@mantine/core';
 import styled from 'styled-components';
 import React from 'react';
@@ -10,7 +9,7 @@ import { ContributorModal } from '../../../request/RequestItem/ContributorModal'
 import { MdCheck, MdClose, MdOutlineEdit } from 'react-icons/md';
 import { NextLink } from '@mantine/next';
 import { BackgroundPanel } from '../../../../colors';
-import { shortenAddress } from '../../../../helpers';
+import { formatUTCDate, shortenAddress } from '../../../../helpers';
 
 const TableRow = styled.tr<{ active: boolean }>`
   cursor: pointer;
@@ -90,19 +89,13 @@ export const AdminGitPOAPRequestTableRow = ({
           <Text>{creatorEmail.emailAddress}</Text>
         </td>
         <td>
-          <Text sx={{ whiteSpace: 'nowrap' }}>
-            {DateTime.fromISO(createdAt, { zone: 'utc' }).toFormat('yyyy-MM-dd')}
-          </Text>
+          <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(createdAt)}</Text>
         </td>
         <td>
-          <Text sx={{ whiteSpace: 'nowrap' }}>
-            {DateTime.fromISO(startDate, { zone: 'utc' }).toFormat('yyyy-MM-dd')}
-          </Text>
+          <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(startDate)}</Text>
         </td>
         <td>
-          <Text sx={{ whiteSpace: 'nowrap' }}>
-            {DateTime.fromISO(endDate, { zone: 'utc' }).toFormat('yyyy-MM-dd')}
-          </Text>
+          <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(endDate)}</Text>
         </td>
         <td>
           <Center>
