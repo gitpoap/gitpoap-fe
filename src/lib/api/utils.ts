@@ -106,17 +106,19 @@ export const makeAPIRequestWithAuth = async (
 
   // check if access token is expired
   const payload = jwtDecode<AccessTokenPayload>(accessToken);
-  const accessTokenExp = payload?.exp ?? 0;
-  const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_S > accessTokenExp;
+  const accessTokenExp = payload?.exp;
 
-  if (isExpired) {
-    const tokens: Tokens | null = await refreshTokens();
+  if (accessTokenExp) {
+    const willExpire = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_S > accessTokenExp;
+    if (willExpire) {
+      const tokens: Tokens | null = await refreshTokens();
 
-    if (!tokens) {
-      return null;
+      if (!tokens) {
+        return null;
+      }
+
+      accessToken = tokens.accessToken;
     }
-
-    accessToken = tokens.accessToken;
   }
 
   const response = await makeAPIRequest(endpoint, method, body, {
