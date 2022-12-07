@@ -54,7 +54,7 @@ export const AdminGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
 
   const submitRejectGitPOAPRequest = useCallback(async () => {
     setRejectStatus(ButtonStatus.LOADING);
-    const data = await api.gitPOAPRequest.reject(gitPOAPRequest.id);
+    const data = await api.gitPOAPRequest.reject(gitPOAPRequest.id, 'Rejection Reason');
     if (data === null) {
       setRejectStatus(ButtonStatus.ERROR);
       return;

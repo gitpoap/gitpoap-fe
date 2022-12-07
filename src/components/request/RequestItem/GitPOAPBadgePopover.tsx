@@ -2,7 +2,7 @@ import { Box, Group, Popover } from '@mantine/core';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { BackgroundPanel2 } from '../../../colors';
-import { GitPOAPBadge } from '../../shared/elements';
+import { GitPOAPBadge, Sizes } from '../../shared/elements';
 
 type Props = {
   isOpen: boolean;
@@ -10,6 +10,7 @@ type Props = {
   onOpen: () => void;
   imageUrl: string;
   showWithoutTemplate?: boolean;
+  size?: Sizes;
 };
 
 const POAP = styled.img`
@@ -25,6 +26,7 @@ export const GitPOAPBadgePopover = ({
   onOpen,
   imageUrl,
   showWithoutTemplate,
+  size = 'sm',
 }: Props) => {
   return (
     <Popover
@@ -32,6 +34,7 @@ export const GitPOAPBadgePopover = ({
       onClose={onClose}
       position="left"
       withArrow
+      withinPortal
       trapFocus={false}
       closeOnEscape={false}
       transition="pop-top-left"
@@ -45,7 +48,7 @@ export const GitPOAPBadgePopover = ({
     >
       <Popover.Target>
         <Box onMouseEnter={onOpen} onMouseLeave={onClose}>
-          <GitPOAPBadge imgUrl={imageUrl} altText="preview" size="sm" />
+          <GitPOAPBadge imgUrl={imageUrl} altText="preview" size={size} />
         </Box>
       </Popover.Target>
       <Popover.Dropdown>

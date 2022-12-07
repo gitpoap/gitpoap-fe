@@ -1,5 +1,6 @@
 import { Center, Loader, Stack, Text } from '@mantine/core';
 import { useGitPoapRequestQuery } from '../../graphql/generated-gql';
+import { User } from '../../hooks/useUser';
 import { Link } from '../shared/compounds/Link';
 import { Header } from '../shared/elements';
 import { convertContributorsObjectToList } from './convertContributorsObjectToList';
@@ -11,11 +12,11 @@ function addTimezoneOffset(date: Date) {
 }
 
 type Props = {
-  address: string;
   gitPOAPId: number;
+  user: User;
 };
 
-export const EditContainer = ({ address, gitPOAPId }: Props) => {
+export const EditContainer = ({ gitPOAPId, user }: Props) => {
   const [result] = useGitPoapRequestQuery({
     variables: {
       gitPOAPRequestId: gitPOAPId,
@@ -40,7 +41,9 @@ export const EditContainer = ({ address, gitPOAPId }: Props) => {
     );
   }
 
-  if (gitPOAPRequest.address.ethAddress !== address) {
+  const isCreator = gitPOAPRequest.address.ethAddress === user.address;
+
+  if (!isCreator && !user.permissions.isStaff) {
     return (
       <Center mt={44} style={{ width: 400, height: 400 }}>
         <Header>Unauthorized</Header>
