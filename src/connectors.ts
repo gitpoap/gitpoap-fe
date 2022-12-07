@@ -23,10 +23,12 @@ export const [walletConnect, walletConnectHooks] = initializeConnector<WalletCon
     new WalletConnect({
       actions,
       options: {
-        rpc: {
-          1: [`https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`],
-        },
+        rpc: { 1: [`https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`] },
+        bridge: 'https://bridge.walletconnect.org',
+        qrcode: true,
+        supportedChainIds: [1],
       },
+      defaultChainId: 1,
     }),
 );
 

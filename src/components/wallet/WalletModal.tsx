@@ -1,11 +1,14 @@
+import { useEffect } from 'react';
 import { Stack, Group, Modal, Text } from '@mantine/core';
 import { rem } from 'polished';
+import { URI_AVAILABLE } from '@web3-react/walletconnect';
 import { connectors } from '../../connectors';
 import { useWeb3Context, ConnectionStatus, ConnectorType } from './Web3Context';
 import { BackgroundPanel, BackgroundPanel2 } from '../../colors';
 import { MetamaskLogo } from '../shared/elements/icons';
 import { WalletConnectLogo } from '../shared/elements/icons/WalletConnectLogo';
 import { CoinBaseLogo } from '../shared/elements/icons/CoinbaseLogo';
+import { walletConnect } from '../../connectors';
 
 type WalletModalProps = {
   isOpen: boolean;
@@ -44,6 +47,19 @@ const ConnectionOption = ({ onClick, logo, text }: ConnectionOptionProps) => {
 export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
   const { setConnectionStatus, setConnector } = useWeb3Context();
 
+  // log URI when available
+  useEffect(() => {
+    walletConnect.events.on(URI_AVAILABLE, (uri: string) => {
+      console.log(`uri: ${uri}`);
+    });
+  }, []);
+
+  useEffect(() => {
+    walletConnect.connectEagerly().catch(() => {
+      console.debug('Failed to connect eagerly to walletconnect');
+    });
+  }, []);
+
   return (
     <Modal
       opened={isOpen}
@@ -78,7 +94,8 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
               .then(() => {
                 setConnectionStatus(ConnectionStatus.REINITIALIZED);
               })
-              .catch(() => {
+              .catch((err) => {
+                console.log('Error on wallet connect', err);
                 setConnectionStatus(ConnectionStatus.UNINITIALIZED);
               });
             closeModal();
