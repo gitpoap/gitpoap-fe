@@ -3,7 +3,6 @@ import { NextLink } from '@mantine/next';
 import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import { JazzIconNoText, StyledAvatar, WalletStatus } from './WalletStatus';
-import { useWeb3React } from '@web3-react/core';
 import ConnectWallet from '../wallet/ConnectWallet';
 import { useUser } from '../../hooks/useUser';
 import { shortenAddress } from '../../helpers';
@@ -17,7 +16,6 @@ type Props = {
 };
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
-  const { account } = useWeb3React();
   const { connectionStatus, address: connectedAddress, disconnectWallet } = useWeb3Context();
   const user = useUser();
   const ensName = user?.ensName ?? null;
@@ -47,7 +45,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               </Box>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item component={NextLink} href={`/p/${ensName ?? account}`}>
+              <Menu.Item component={NextLink} href={`/p/${ensName ?? connectedAddress}`}>
                 <Group noWrap>
                   {ensAvatarUrl ? (
                     <StyledAvatar src={ensAvatarUrl} useDefaultImageTag />
