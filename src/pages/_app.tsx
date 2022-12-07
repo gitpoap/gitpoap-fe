@@ -15,8 +15,8 @@ import { ClaimContextProvider } from '../components/claims/ClaimContext';
 import { LoadingBar } from '../components/LoadingBar';
 import { HexagonPath } from '../components/shared/elements';
 import { Web3ReactProvider } from '@web3-react/core';
-import { getWeb3Provider } from '../helpers';
 import { Web3ContextProvider } from '../components/wallet/Web3Context';
+import { connectors } from '../connectors';
 
 const client = createClient({
   url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
@@ -65,7 +65,7 @@ const TheApp = ({ Component, pageProps }: Props) => {
         {/* <!-- Metadata for Viewport & Mantine (CANNOT GO IN _document.tsx) --> */}
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      <Web3ReactProvider getLibrary={getWeb3Provider}>
+      <Web3ReactProvider connectors={connectors}>
         <Web3ContextProvider>
           <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
             <NotificationsProvider autoClose={5000}>

@@ -7,12 +7,12 @@ import React, {
   Dispatch,
   SetStateAction,
 } from 'react';
-import { useWeb3React } from '@web3-react/core';
 import { useProfileQuery, ProfileQuery } from '../../graphql/generated-gql';
 import { GITPOAP_API_URL } from '../../constants';
 import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { useTokens } from '../../hooks/useTokens';
+import { useWeb3Context } from '../wallet/Web3Context';
 
 export type EditableProfileData = Partial<
   Pick<
@@ -45,7 +45,7 @@ type Props = {
 
 export const ProfileProvider = ({ children, addressOrEns }: Props) => {
   const { tokens } = useTokens();
-  const { account } = useWeb3React();
+  const { address } = useWeb3Context();
   const [profileData, setProfileData] = useState<ProfileQuery['profileData']>();
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
   const [isSaveSuccessful, setIsSaveSuccessful] = useState<boolean>(false);
@@ -56,7 +56,7 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
   });
 
   const showEditProfileButton =
-    profileData?.address?.toLocaleLowerCase() === account?.toLocaleLowerCase();
+    profileData?.address?.toLocaleLowerCase() === address?.toLocaleLowerCase();
 
   /* Hook to set profile data to state */
   useEffect(() => {

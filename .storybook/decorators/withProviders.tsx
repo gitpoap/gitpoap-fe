@@ -5,7 +5,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { NextRouter } from 'next/router';
 import { Web3ReactProvider } from '@web3-react/core';
-import { getWeb3Provider } from '../../src/helpers';
+import { connectors } from '../../src/connectors';
 
 import { Web3ContextProvider } from '../../src/components/wallet/Web3Context';
 import { OAuthProvider } from '../../src/components/oauth/OAuthContext';
@@ -44,7 +44,7 @@ const mockRouter: NextRouter = {
 export const withProviders = (storyFn) => {
   return (
     <RouterContext.Provider value={mockRouter}>
-      <Web3ReactProvider getLibrary={getWeb3Provider}>
+      <Web3ReactProvider connectors={connectors}>
         <Web3ContextProvider>
           <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
             <NotificationsProvider autoClose={5000}>

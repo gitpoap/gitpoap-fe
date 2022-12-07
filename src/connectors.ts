@@ -1,27 +1,37 @@
-import { WalletLinkConnector } from '@web3-react/walletlink-connector';
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { InjectedConnector } from '@web3-react/injected-connector';
+import { initializeConnector, Web3ReactHooks } from '@web3-react/core';
+import { MetaMask } from '@web3-react/metamask';
+import { CoinbaseWallet } from '@web3-react/coinbase-wallet';
+import { WalletConnect } from '@web3-react/walletconnect';
 
-const supportedChainIds = [1, 3, 4, 5, 42];
+export const [metaMask, metaMaskHooks] = initializeConnector<MetaMask>(
+  (actions) => new MetaMask({ actions }),
+);
 
-const walletlink = new WalletLinkConnector({
-  url: `https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
-  appName: 'gitpoap-fe',
-  supportedChainIds,
-});
+export const [coinbaseWallet, coinbaseWalletHooks] = initializeConnector<CoinbaseWallet>(
+  (actions) =>
+    new CoinbaseWallet({
+      actions,
+      options: {
+        url: `https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
+        appName: 'web3-react',
+      },
+    }),
+);
 
-const walletconnect = new WalletConnectConnector({
-  rpc: { 1: `https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}` },
-  bridge: 'https://bridge.walletconnect.org',
-  qrcode: true,
-});
+export const [walletConnect, walletConnectHooks] = initializeConnector<WalletConnect>(
+  (actions) =>
+    new WalletConnect({
+      actions,
+      options: {
+        rpc: {
+          1: [`https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`],
+        },
+      },
+    }),
+);
 
-const injected = new InjectedConnector({
-  supportedChainIds,
-});
-
-export const connectors = {
-  injected: injected,
-  walletConnect: walletconnect,
-  coinbaseWallet: walletlink,
-};
+export const connectors: [MetaMask | WalletConnect | CoinbaseWallet, Web3ReactHooks][] = [
+  [metaMask, metaMaskHooks],
+  [walletConnect, walletConnectHooks],
+  [coinbaseWallet, coinbaseWalletHooks],
+];

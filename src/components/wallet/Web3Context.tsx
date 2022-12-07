@@ -16,12 +16,20 @@ type Props = {
   children: React.ReactNode;
 };
 
+export enum ConnectorType {
+  METAMASK,
+  WALLET_CONNECT,
+  COINBASE_WALLET,
+}
+
 export enum ConnectionStatus {
   CONNECTED_TO_WALLET = 'connected-to-wallet' /* Connected to wallet & authenticated */,
   CONNECTING_WALLET = 'connecting-wallet' /* Connecting to wallet & authenticating*/,
   DISCONNECTING = 'disconnecting' /* Disconnecting from wallet */,
   DISCONNECTED = 'disconnected' /* Not connected to any wallet */,
   UNINITIALIZED = 'uninitialized' /* Wallet connection hasn't been attempted yet */,
+  INITIALIZED = 'initialized' /* Wallet connection has attempted */,
+  REINITIALIZED = 'reinitialized' /* Connect wallet under the hood */,
 }
 
 type onChainProvider = {
@@ -65,8 +73,7 @@ export const Web3ContextProvider = (props: Props) => {
   );
   const [address, setAddress] = useState<string | null>(null);
 
-  const { deactivate, account, library } = useWeb3React();
-  const isConnected = typeof account === 'string' && !!library;
+  const { account, connector, provider } = useWeb3React();
 
   const [isModalOpened, { close: closeModal, open: openModal }] = useDisclosure(false);
 
@@ -84,21 +91,27 @@ export const Web3ContextProvider = (props: Props) => {
   useRefreshTokens();
 
   const disconnectWallet = useCallback(() => {
-    deactivate();
+    if (connector.deactivate) {
+      connector.deactivate();
+    }
 
     setConnectionStatus(ConnectionStatus.DISCONNECTED);
     setAddress('');
     setRefreshToken(null);
     setAccessToken(null);
-  }, [deactivate, setConnectionStatus, setRefreshToken, setAccessToken, setAddress]);
+  }, [connector, setConnectionStatus, setRefreshToken, setAccessToken, setAddress]);
+
+  useEffect(() => {
+    console.log('connector', connector);
+  }, [connector]);
 
   const authenticate = useCallback(
     async (signature: SignatureType) => {
       const authData: AuthenticateResponse | null = await api.auth.authenticate(signature);
 
       if (!authData) {
-        // update connection status
-        setConnectionStatus(ConnectionStatus.UNINITIALIZED);
+        // since authentication is failed, we ask to sign
+        setConnectionStatus(ConnectionStatus.REINITIALIZED);
         // update signature
         setSignature(null);
         return;
@@ -119,19 +132,28 @@ export const Web3ContextProvider = (props: Props) => {
   );
 
   const authenticateWithoutSignature = useCallback(async () => {
-    const signer: JsonRpcSigner = library.getSigner();
+    const signer: JsonRpcSigner | undefined = provider?.getSigner();
+    if (!signer) {
+      console.error('No signer is initialized in current provider');
+      return;
+    }
+
     const address = await signer.getAddress();
     const signatureData = generateSignatureData(address);
     const signatureString = await sign(signer, signatureData.message);
 
-    if (!signatureString) return;
+    // set connectionStatus to initialized if we get no signature
+    if (!signatureString) {
+      setConnectionStatus(ConnectionStatus.UNINITIALIZED);
+      return;
+    }
 
     await authenticate({
       ...signatureData,
       signature: signatureString,
       address,
     });
-  }, [library, authenticate]);
+  }, [authenticate, provider]);
 
   const authenticateWithSignature = useCallback(
     async (signature: SignatureType) => {
@@ -142,15 +164,18 @@ export const Web3ContextProvider = (props: Props) => {
 
   // handle auth when account has changed
   useEffect(() => {
+    console.log('account changed', account, signatureStatus, connectionStatus, address);
     // if wallet is not connected, do nothing
-    if (!isConnected) return;
+    if (!account) return;
     // do nothing if signature is not loaded yet from indexedDB
     if (signatureStatus !== IndexDBStatus.LOADED || (signature && signature.address !== account))
       return;
-    // if wallet is connecting, do nothing
-    if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) return;
-    // if wallet is connected signed by current address, do nothing
-    if (connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && address === account) return;
+    // if wallet connection hasn't attempted, do nothing
+    if (
+      connectionStatus !== ConnectionStatus.REINITIALIZED &&
+      connectionStatus !== ConnectionStatus.INITIALIZED
+    )
+      return;
 
     // now that we go through authentication
     // set connection status as connecting
@@ -165,14 +190,25 @@ export const Web3ContextProvider = (props: Props) => {
   }, [
     account,
     address,
-    isConnected,
     signature,
-    connectionStatus,
     signatureStatus,
+    connectionStatus,
+    setConnectionStatus,
     authenticateWithSignature,
     authenticateWithoutSignature,
-    setConnectionStatus,
   ]);
+
+  useEffect(() => {
+    console.log('reinitialized');
+    setConnectionStatus(ConnectionStatus.REINITIALIZED);
+  }, [account]);
+
+  // useEffect(() => {
+  //   console.log('initialized');
+  //   if (connectionStatus === ConnectionStatus.INITIALIZED) {
+  //     setConnectionStatus(ConnectionStatus.REINITIALIZED);
+  //   }
+  // }, [connectionStatus]);
 
   useEffect(() => {
     if (tokens?.accessToken === null && tokens?.refreshToken === null) {

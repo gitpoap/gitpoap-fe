@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useClient } from 'urql';
-import { useWeb3React } from '@web3-react/core';
 import {
   FeaturedPoapsDocument,
   FeaturedPoapsQuery,
@@ -11,6 +10,7 @@ import { GITPOAP_API_URL } from '../../constants';
 import { Notifications } from '../../notifications';
 import { useProfileContext } from './ProfileContext';
 import { useTokens } from '../../hooks/useTokens';
+import { useWeb3Context } from '../wallet/Web3Context';
 
 export type GitPOAP = Exclude<
   FeaturedPoapsQuery['profileFeaturedPOAPs'],
@@ -61,7 +61,7 @@ type Props = {
 };
 
 export const FeaturedPOAPsProvider = ({ children }: Props) => {
-  const { account } = useWeb3React();
+  const { address } = useWeb3Context();
   const { profileData } = useProfileContext();
   const { tokens } = useTokens();
   const [showHearts, setShowHearts] = useState(false);
@@ -79,13 +79,13 @@ export const FeaturedPOAPsProvider = ({ children }: Props) => {
 
   const checkIfUserOwnsProfile = useCallback(
     (profileAddress: string) => {
-      if (profileAddress.toLocaleLowerCase() === account?.toLocaleLowerCase()) {
+      if (profileAddress.toLocaleLowerCase() === address?.toLocaleLowerCase()) {
         setShowHearts(true);
       } else {
         setShowHearts(false);
       }
     },
-    [account],
+    [address],
   );
 
   /* Checks if the user owns the profile they're currently viewing */

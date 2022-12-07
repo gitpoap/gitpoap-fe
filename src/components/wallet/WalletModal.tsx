@@ -1,20 +1,11 @@
 import { Stack, Group, Modal, Text } from '@mantine/core';
-import { UserRejectedRequestError } from '@web3-react/injected-connector';
-import { useWeb3React } from '@web3-react/core';
-import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import { connectors } from '../../connectors';
-import { useWeb3Context, ConnectionStatus } from './Web3Context';
+import { useWeb3Context, ConnectionStatus, ConnectorType } from './Web3Context';
 import { BackgroundPanel, BackgroundPanel2 } from '../../colors';
 import { MetamaskLogo } from '../shared/elements/icons';
 import { WalletConnectLogo } from '../shared/elements/icons/WalletConnectLogo';
 import { CoinBaseLogo } from '../shared/elements/icons/CoinbaseLogo';
-
-enum ProviderType {
-  METAMASK = 'injected',
-  COINBASE_WALLET = 'coinbaseWallet',
-  WALLET_CONNECT = 'walletConnect',
-}
 
 type WalletModalProps = {
   isOpen: boolean;
@@ -51,12 +42,7 @@ const ConnectionOption = ({ onClick, logo, text }: ConnectionOptionProps) => {
 };
 
 export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
-  const { activate, setError } = useWeb3React();
   const { setConnectionStatus } = useWeb3Context();
-  const [, setProvider] = useLocalStorage<ProviderType>({
-    key: 'provider',
-    defaultValue: undefined,
-  });
 
   return (
     <Modal
@@ -68,15 +54,14 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
       <Stack>
         <ConnectionOption
           onClick={() => {
-            activate(connectors.coinbaseWallet).catch((error) => {
-              // ignore the error if it's a user rejected request
-              if (error instanceof UserRejectedRequestError) {
+            connectors[ConnectorType.COINBASE_WALLET][0]
+              .activate()
+              .then(() => {
+                setConnectionStatus(ConnectionStatus.INITIALIZED);
+              })
+              .catch(() => {
                 setConnectionStatus(ConnectionStatus.UNINITIALIZED);
-              } else {
-                setError(error);
-              }
-            });
-            setProvider(ProviderType.COINBASE_WALLET);
+              });
             closeModal();
           }}
           text={'Coinbase Wallet'}
@@ -84,15 +69,14 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
         />
         <ConnectionOption
           onClick={() => {
-            activate(connectors.walletConnect).catch((error) => {
-              // ignore the error if it's a user rejected request
-              if (error instanceof UserRejectedRequestError) {
+            connectors[ConnectorType.WALLET_CONNECT][0]
+              .activate()
+              .then(() => {
+                setConnectionStatus(ConnectionStatus.INITIALIZED);
+              })
+              .catch(() => {
                 setConnectionStatus(ConnectionStatus.UNINITIALIZED);
-              } else {
-                setError(error);
-              }
-            });
-            setProvider(ProviderType.WALLET_CONNECT);
+              });
             closeModal();
           }}
           text={'Wallet Connect'}
@@ -100,15 +84,14 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
         />
         <ConnectionOption
           onClick={() => {
-            activate(connectors.injected).catch((error) => {
-              // ignore the error if it's a user rejected request
-              if (error instanceof UserRejectedRequestError) {
+            connectors[ConnectorType.METAMASK][0]
+              .activate()
+              .then(() => {
+                setConnectionStatus(ConnectionStatus.INITIALIZED);
+              })
+              .catch(() => {
                 setConnectionStatus(ConnectionStatus.UNINITIALIZED);
-              } else {
-                setError(error);
-              }
-            });
-            setProvider(ProviderType.METAMASK);
+              });
             closeModal();
           }}
           text={'Metamask'}

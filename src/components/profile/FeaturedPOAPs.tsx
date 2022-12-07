@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Text, Grid, Group, TextProps, Box, BoxProps } from '@mantine/core';
 import { FaHeartBroken } from 'react-icons/fa';
-import { useWeb3React } from '@web3-react/core';
+import { useWeb3Context } from '../wallet/Web3Context';
 import { POAP } from '../../types';
 import { POAPBadge } from '../shared/elements/POAPBadge';
 import { TextAccent, TextDarkGray } from '../../colors';
@@ -40,8 +40,8 @@ export const FeaturedPOAPs = () => {
     showHearts,
   } = useFeaturedPOAPs();
   const { profileData } = useProfileContext();
-  const { account } = useWeb3React();
-  const isViewerOwner = profileData && account && profileData.address === account.toLowerCase();
+  const { address } = useWeb3Context();
+  const isViewerOwner = profileData && address && profileData.address === address.toLowerCase();
 
   if (featuredPOAPsFull.length === 0 && !isViewerOwner) {
     return null;
