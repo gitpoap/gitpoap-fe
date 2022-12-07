@@ -3,6 +3,7 @@ import WalletModal from './WalletModal';
 import { truncateAddress } from '../../helpers';
 import { useWeb3Context, ConnectionStatus } from './Web3Context';
 import { Loader } from '../shared/elements';
+import { White } from '../../colors';
 
 const ConnectWallet = (props: ButtonProps) => {
   const { address, ensName, connectionStatus, isModalOpened, closeModal, handleConnect } =
@@ -15,18 +16,18 @@ const ConnectWallet = (props: ButtonProps) => {
   if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) {
     return (
       <Button>
-        <Loader size="sm" />
+        <Loader size="sm" color={White} />
       </Button>
     );
   }
 
   return (
-    <div>
+    <>
       <Button {...props} onClick={handleConnect}>
         {props.children}
       </Button>
       <WalletModal isOpen={isModalOpened} closeModal={closeModal} />
-    </div>
+    </>
   );
 };
 

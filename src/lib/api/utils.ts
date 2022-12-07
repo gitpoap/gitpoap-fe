@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import { DateTime } from 'luxon';
-import { GITPOAP_API_URL, FIVE_MINUTES_IN_SEC, ONE_MONTH_IN_S } from '../../constants';
+import { GITPOAP_API_URL, FIVE_MINUTES_IN_S, ONE_MONTH_IN_S } from '../../constants';
 import { AccessTokenPayload, RefreshTokenPayload, Tokens } from '../../types';
 import { JsonRpcSigner } from '@ethersproject/providers';
 
@@ -107,7 +107,7 @@ export const makeAPIRequestWithAuth = async (
   // check if access token is expired
   const payload = jwtDecode<AccessTokenPayload>(accessToken);
   const accessTokenExp = payload?.exp ?? 0;
-  const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_SEC > accessTokenExp;
+  const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_S > accessTokenExp;
 
   if (isExpired) {
     const tokens: Tokens | null = await refreshTokens();
@@ -174,7 +174,7 @@ export const makeAPIRequestWithResponseWithAuth = async (
   // check if access token is expired
   const payload = jwtDecode<AccessTokenPayload>(accessToken);
   const accessTokenExp = payload?.exp ?? 0;
-  const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_SEC > accessTokenExp;
+  const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_S > accessTokenExp;
 
   if (isExpired) {
     const tokens: Tokens | null = await refreshTokens();

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { FIVE_MINUTES_IN_MS, FIVE_MINUTES_IN_SEC } from '../constants';
+import { FIVE_MINUTES_IN_MS, FIVE_MINUTES_IN_S } from '../constants';
 import { useApi } from './useApi';
 import { useIsOnline } from './useIsOnline';
 import { usePageVisibility } from './usePageVisibility';
@@ -27,7 +27,7 @@ export const useRefreshTokens = () => {
       // we refresh access token if only access token is expired
       const accessTokenExp = payload?.exp;
       if (refreshToken && isOnline && accessTokenExp) {
-        const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_SEC > accessTokenExp;
+        const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_S > accessTokenExp;
         if (isExpired) {
           const tokens = await api.auth.refresh();
           if (tokens?.accessToken && tokens?.refreshToken) {

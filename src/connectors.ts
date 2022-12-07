@@ -2,10 +2,12 @@ import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 
+const supportedChainIds = [1, 3, 4, 5, 42];
+
 const walletlink = new WalletLinkConnector({
   url: `https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
   appName: 'gitpoap-fe',
-  supportedChainIds: [1, 3, 4, 5, 42],
+  supportedChainIds,
 });
 
 const walletconnect = new WalletConnectConnector({
@@ -15,7 +17,7 @@ const walletconnect = new WalletConnectConnector({
 });
 
 const injected = new InjectedConnector({
-  supportedChainIds: [1, 3, 4, 5, 42],
+  supportedChainIds,
 });
 
 export const connectors = {
