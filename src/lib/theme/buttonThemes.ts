@@ -23,7 +23,7 @@ export const buttonTheme = {
   }),
 };
 
-const buttonFilled = {
+export const buttonFilled = {
   backgroundColor: PrimaryBlue,
   '&:disabled': {
     backgroundColor: DarkGray,
@@ -48,7 +48,7 @@ const buttonFilled = {
   },
 };
 
-const buttonOutline = {
+export const buttonOutline = {
   backgroundColor: 'transparent',
   borderColor: TextGray,
   color: White,

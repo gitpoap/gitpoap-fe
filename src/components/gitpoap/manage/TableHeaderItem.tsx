@@ -11,7 +11,7 @@ interface TableHeaderItemProps {
   isSortable: boolean;
   isReversed: boolean;
   isSorted: boolean;
-  onSort(): void;
+  onSort?: () => void;
 }
 
 export const TableHeaderItem = ({
@@ -41,7 +41,11 @@ export const TableHeaderItem = ({
           >
             {children}
           </Text>
-          <Center>{Icon && <Icon size={14} />}</Center>
+          {Icon && (
+            <Center>
+              <Icon size={14} />
+            </Center>
+          )}
         </Group>
       </UnstyledButton>
     </TableHeaderStyled>

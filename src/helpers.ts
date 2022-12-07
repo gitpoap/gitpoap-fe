@@ -1,4 +1,5 @@
 import { Web3Provider, ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers';
+import { DateTime } from 'luxon';
 
 /* Shorten check-summed version of the input address ~ 0x + 4 chars @ start + end */
 export function shortenAddress(address: string, chars = 4): string {
@@ -30,6 +31,11 @@ export const isValidURL = (str: string): boolean => {
 
   return !!pattern.test(str);
 };
+
+// Use this helper function to adjust dates from UTC to the local timezone.
+// Including the zone adjusts via timezone offset to make the date UTC.
+export const formatUTCDate = (date: string): string =>
+  DateTime.fromISO(date, { zone: 'utc' }).toFormat('yyyy-MM-dd');
 
 /**
  * Github username may only contain alphanumeric characters or hyphens.

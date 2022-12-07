@@ -6984,6 +6984,8 @@ export type GitPoapRequestsQuery = {
   gitPOAPRequests: Array<{
     __typename?: 'GitPOAPRequest';
     id: number;
+    createdAt: any;
+    updatedAt: any;
     name: string;
     description: string;
     imageUrl: string;
@@ -6993,6 +6995,7 @@ export type GitPoapRequestsQuery = {
     contributors: any;
     staffApprovalStatus: StaffApprovalStatus;
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
+    address: { __typename?: 'Address'; ethAddress: string };
     project?: {
       __typename?: 'Project';
       repos: Array<{
@@ -8689,6 +8692,8 @@ export const GitPoapRequestsDocument = gql`
       orderBy: { createdAt: desc }
     ) {
       id
+      createdAt
+      updatedAt
       name
       description
       imageUrl
@@ -8700,6 +8705,9 @@ export const GitPoapRequestsDocument = gql`
       }
       contributors
       staffApprovalStatus
+      address {
+        ethAddress
+      }
       project {
         repos(take: 1) {
           id
