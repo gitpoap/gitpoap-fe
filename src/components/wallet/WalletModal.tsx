@@ -42,7 +42,7 @@ const ConnectionOption = ({ onClick, logo, text }: ConnectionOptionProps) => {
 };
 
 export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
-  const { setConnectionStatus } = useWeb3Context();
+  const { setConnectionStatus, setConnector } = useWeb3Context();
 
   return (
     <Modal
@@ -54,10 +54,12 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
       <Stack>
         <ConnectionOption
           onClick={() => {
+            setConnectionStatus(ConnectionStatus.INITIALIZED);
+            setConnector(connectors[ConnectorType.COINBASE_WALLET]);
             connectors[ConnectorType.COINBASE_WALLET][0]
               .activate()
               .then(() => {
-                setConnectionStatus(ConnectionStatus.INITIALIZED);
+                setConnectionStatus(ConnectionStatus.REINITIALIZED);
               })
               .catch(() => {
                 setConnectionStatus(ConnectionStatus.UNINITIALIZED);
@@ -69,10 +71,12 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
         />
         <ConnectionOption
           onClick={() => {
+            setConnectionStatus(ConnectionStatus.INITIALIZED);
+            setConnector(connectors[ConnectorType.WALLET_CONNECT]);
             connectors[ConnectorType.WALLET_CONNECT][0]
               .activate()
               .then(() => {
-                setConnectionStatus(ConnectionStatus.INITIALIZED);
+                setConnectionStatus(ConnectionStatus.REINITIALIZED);
               })
               .catch(() => {
                 setConnectionStatus(ConnectionStatus.UNINITIALIZED);
@@ -84,10 +88,12 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
         />
         <ConnectionOption
           onClick={() => {
+            setConnectionStatus(ConnectionStatus.INITIALIZED);
+            setConnector(connectors[ConnectorType.METAMASK]);
             connectors[ConnectorType.METAMASK][0]
               .activate()
               .then(() => {
-                setConnectionStatus(ConnectionStatus.INITIALIZED);
+                setConnectionStatus(ConnectionStatus.REINITIALIZED);
               })
               .catch(() => {
                 setConnectionStatus(ConnectionStatus.UNINITIALIZED);

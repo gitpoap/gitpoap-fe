@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState, useEffect } from 'react';
-import { useWeb3React } from '@web3-react/core';
+import { Web3ReactHooks } from '@web3-react/core';
 import { useDisclosure } from '@mantine/hooks';
 import { JsonRpcSigner } from '@ethersproject/providers';
 import { DateTime } from 'luxon';
@@ -11,6 +11,10 @@ import { SignatureType } from '../../types';
 import { AuthenticateResponse } from '../../lib/api/auth';
 import { sign, generateSignatureData } from '../../lib/api/utils';
 import { ONE_MONTH_IN_S } from '../../constants';
+import { connectors } from '../../connectors';
+import { MetaMask } from '@web3-react/metamask';
+import { CoinbaseWallet } from '@web3-react/coinbase-wallet';
+import { WalletConnect } from '@web3-react/walletconnect';
 
 type Props = {
   children: React.ReactNode;
@@ -42,6 +46,7 @@ type onChainProvider = {
   isModalOpened: boolean;
   closeModal: () => void;
   handleConnect: () => void;
+  setConnector: (connector: [MetaMask | WalletConnect | CoinbaseWallet, Web3ReactHooks]) => void;
 };
 
 type Web3ContextState = {
@@ -73,7 +78,16 @@ export const Web3ContextProvider = (props: Props) => {
   );
   const [address, setAddress] = useState<string | null>(null);
 
-  const { account, connector, provider } = useWeb3React();
+  const [connector, setConnector] = useState<
+    [MetaMask | WalletConnect | CoinbaseWallet, Web3ReactHooks]
+  >(connectors[ConnectorType.METAMASK]);
+
+  const { useIsActivating, useIsActive, useAccount, useProvider } = connector[1];
+
+  const account = useAccount();
+  const isActive = useIsActive();
+  const isActivating = useIsActivating();
+  const provider = useProvider();
 
   const [isModalOpened, { close: closeModal, open: openModal }] = useDisclosure(false);
 
@@ -91,8 +105,8 @@ export const Web3ContextProvider = (props: Props) => {
   useRefreshTokens();
 
   const disconnectWallet = useCallback(() => {
-    if (connector.deactivate) {
-      connector.deactivate();
+    if (connector[0].deactivate) {
+      connector[0].deactivate();
     }
 
     setConnectionStatus(ConnectionStatus.DISCONNECTED);
@@ -100,10 +114,6 @@ export const Web3ContextProvider = (props: Props) => {
     setRefreshToken(null);
     setAccessToken(null);
   }, [connector, setConnectionStatus, setRefreshToken, setAccessToken, setAddress]);
-
-  useEffect(() => {
-    console.log('connector', connector);
-  }, [connector]);
 
   const authenticate = useCallback(
     async (signature: SignatureType) => {
@@ -164,18 +174,13 @@ export const Web3ContextProvider = (props: Props) => {
 
   // handle auth when account has changed
   useEffect(() => {
-    console.log('account changed', account, signatureStatus, connectionStatus, address);
     // if wallet is not connected, do nothing
-    if (!account) return;
+    if (!account && !isActive) return;
     // do nothing if signature is not loaded yet from indexedDB
     if (signatureStatus !== IndexDBStatus.LOADED || (signature && signature.address !== account))
       return;
     // if wallet connection hasn't attempted, do nothing
-    if (
-      connectionStatus !== ConnectionStatus.REINITIALIZED &&
-      connectionStatus !== ConnectionStatus.INITIALIZED
-    )
-      return;
+    if (connectionStatus !== ConnectionStatus.REINITIALIZED) return;
 
     // now that we go through authentication
     // set connection status as connecting
@@ -191,6 +196,8 @@ export const Web3ContextProvider = (props: Props) => {
     account,
     address,
     signature,
+    isActive,
+    isActivating,
     signatureStatus,
     connectionStatus,
     setConnectionStatus,
@@ -199,16 +206,14 @@ export const Web3ContextProvider = (props: Props) => {
   ]);
 
   useEffect(() => {
-    console.log('reinitialized');
     setConnectionStatus(ConnectionStatus.REINITIALIZED);
   }, [account]);
 
-  // useEffect(() => {
-  //   console.log('initialized');
-  //   if (connectionStatus === ConnectionStatus.INITIALIZED) {
-  //     setConnectionStatus(ConnectionStatus.REINITIALIZED);
-  //   }
-  // }, [connectionStatus]);
+  useEffect(() => {
+    if (isActivating && connectionStatus !== ConnectionStatus.CONNECTING_WALLET) {
+      setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+    }
+  }, [isActivating, connectionStatus, isActive]);
 
   useEffect(() => {
     if (tokens?.accessToken === null && tokens?.refreshToken === null) {
@@ -260,6 +265,7 @@ export const Web3ContextProvider = (props: Props) => {
       handleConnect,
       isModalOpened,
       closeModal,
+      setConnector,
     }),
     [
       address,
@@ -271,6 +277,7 @@ export const Web3ContextProvider = (props: Props) => {
       handleConnect,
       isModalOpened,
       closeModal,
+      setConnector,
     ],
   );
 
