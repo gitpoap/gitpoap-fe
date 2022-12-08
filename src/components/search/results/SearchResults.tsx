@@ -53,10 +53,10 @@ export const SearchResults = ({ searchQuery }: Props) => {
 
   const orgs = useMemo(
     () =>
-      orgResult.data?.organizations.filter(
+      orgResult.data?.githubOrganizations.filter(
         (org) => org.repos.length > 0 && org.repos[0].project.gitPOAPs.length > 0,
       ) ?? [],
-    [orgResult.data?.organizations],
+    [orgResult.data?.githubOrganizations],
   );
   const repos = useMemo(
     () => repoResult.data?.repos.filter((repo) => repo.project.gitPOAPs.length > 0) ?? [],

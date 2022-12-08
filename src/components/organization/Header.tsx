@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import { LinkStyles } from '../../components/shared/elements/NavLink';
 import { OrganizationDataQuery } from '../../graphql/generated-gql';
 import { Header as HeaderText } from '../shared/elements/Header';
-import { GitHub, GitPOAP, Globe, Minted, People, Project, Twitter } from '../shared/elements/icons';
-import { Text } from '../shared/elements/Text';
+import { GitHub, GitPOAP, Minted, People, Project } from '../shared/elements/icons';
 import {
   Social,
   StyledLink,
@@ -60,18 +59,7 @@ export const Header = ({ org }: Props) => (
   <HeaderWrapper>
     <OrganizationTag>{'Organization'}</OrganizationTag>
     <HeaderText>{org.name}</HeaderText>
-    {org.description && <Text style={{ paddingTop: rem(13) }}>{org.description}</Text>}
     <Social>
-      {org.twitterHandle && (
-        <StyledLink
-          href={`https://twitter.com/${org.twitterHandle}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          passHref
-        >
-          <Twitter />
-        </StyledLink>
-      )}
       <StyledLink
         href={`https://github.com/${org.name}`}
         target="_blank"
@@ -80,11 +68,6 @@ export const Header = ({ org }: Props) => (
       >
         <GitHub />
       </StyledLink>
-      {org.url && (
-        <StyledLink href={org.url} target="_blank" rel="noopener noreferrer" passHref>
-          <Globe />
-        </StyledLink>
-      )}
     </Social>
     <SubHeader>
       <SubHeaderItem>

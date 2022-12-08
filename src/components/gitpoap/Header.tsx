@@ -2,12 +2,10 @@ import { Group, Modal, Stack, Table } from '@mantine/core';
 import { useDisclosure, useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import React, { useEffect } from 'react';
-import { FaTwitter as TwitterIcon } from 'react-icons/fa';
-import { VscGlobe as GlobeIcon } from 'react-icons/vsc';
 import styled from 'styled-components';
 import { useClaimContext } from '../claims/ClaimContext';
 import { Index } from '../home/LeaderBoardItem';
-import { IconLink, Link } from '../shared/compounds/Link';
+import { Link } from '../shared/compounds/Link';
 import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleLink } from '../shared/elements';
 import { textEllipses } from '../shared/styles';
 import { TextGray, ExtraHover, PrimaryBlue } from '../../colors';
@@ -91,14 +89,6 @@ const Repos = styled.div`
 const Badge = styled(GitPOAPBadge)`
   margin-top: ${rem(64)};
   cursor: default;
-`;
-
-const Links = styled.div`
-  margin-top: ${rem(18)};
-`;
-
-const StyledLink = styled(IconLink)`
-  margin: 0 ${rem(12)};
 `;
 
 const CheckEligibilityButton = styled(Button)`
@@ -215,27 +205,6 @@ export const Header = ({ gitPOAPId }: Props) => {
               )}
             </ReposContentRight>
           </Repos>
-
-          <Links>
-            {repos[0].organization.twitterHandle && (
-              <StyledLink
-                href={`https://twitter.com/${repos[0].organization.twitterHandle}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <TwitterIcon size={24} />
-              </StyledLink>
-            )}
-            {repos[0].organization.url && (
-              <StyledLink
-                href={repos[0].organization.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <GlobeIcon size={24} />
-              </StyledLink>
-            )}
-          </Links>
           <Modal
             centered
             opened={opened}

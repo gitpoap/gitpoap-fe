@@ -107,7 +107,7 @@ export const getStaticPaths = async () => {
     .toPromise();
 
   const paths =
-    results?.data?.organizations.map((org) => ({
+    results?.data?.githubOrganizations.map((org) => ({
       params: { id: org.id.toString() },
     })) ?? [];
 
