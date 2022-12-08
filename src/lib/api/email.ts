@@ -1,11 +1,11 @@
 import { isTokens } from '../../hooks/useTokens';
 import {
   API,
-  Tokens,
   makeAPIRequestWithAuth,
   makeAPIRequestWithResponseWithAuth,
   makeAPIRequestWithResponse,
 } from './utils';
+import { Tokens } from '../../types';
 
 export type EmailReturnType = {
   id: number;

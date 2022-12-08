@@ -4,10 +4,10 @@ import { GITPOAP_API_URL } from '../../constants';
 import { ClaimStatus, OpenClaimsQuery, useOpenClaimsQuery } from '../../graphql/generated-gql';
 import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
-import { useWeb3Context } from '../wallet/Web3Context';
 import { ClaimModal } from './index';
 import { useTokens } from '../../hooks/useTokens';
 import { useUser } from '../../hooks/useUser';
+import { useWeb3Context, ConnectionStatus } from '../wallet/Web3Context';
 
 type ClaimState = {
   isOpen: boolean;
@@ -27,7 +27,6 @@ type Props = {
 };
 
 export const ClaimContextProvider = ({ children }: Props) => {
-  const { connectionStatus } = useWeb3Context();
   const user = useUser();
   const { tokens } = useTokens();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -40,6 +39,8 @@ export const ClaimContextProvider = ({ children }: Props) => {
     pause: true,
     requestPolicy: 'cache-and-network',
   });
+
+  const { connectionStatus } = useWeb3Context();
 
   const userClaims = result.data?.userClaims;
   const hasGithub = user?.capabilities.hasGithub;
@@ -131,7 +132,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
       {children}
       <ClaimModal
         claims={userClaims ?? []}
-        isConnected={connectionStatus === 'connected-to-wallet'}
+        isConnected={connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onClickClaim={claimGitPOAPs}

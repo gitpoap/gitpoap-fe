@@ -1,10 +1,8 @@
-import { GITPOAP_API_URL } from '../../constants';
+import jwtDecode from 'jwt-decode';
+import { DateTime } from 'luxon';
+import { GITPOAP_API_URL, FIVE_MINUTES_IN_S, ONE_MONTH_IN_S } from '../../constants';
+import { AccessTokenPayload, RefreshTokenPayload, Tokens } from '../../types';
 import { JsonRpcSigner } from '@ethersproject/providers';
-
-export type Tokens = {
-  accessToken: string;
-  refreshToken: string;
-};
 
 /* The methods that can be passed to the sign function */
 export type Methods = 'POST /auth';
@@ -50,6 +48,42 @@ export const makeAPIRequest = async (
   }
 };
 
+export const refreshTokens = async (): Promise<Tokens | null> => {
+  const refreshTokenRaw = localStorage.getItem('refreshToken');
+  const refreshToken = refreshTokenRaw ? JSON.parse(refreshTokenRaw) : '';
+
+  if (!refreshToken) {
+    console.warn('No refreshToken provided');
+    return null;
+  }
+
+  const refreshTokenPayload = jwtDecode<RefreshTokenPayload>(refreshToken);
+  const issuedAt = refreshTokenPayload?.iat ?? 0;
+  const isExpired = DateTime.now().toUnixInteger() >= issuedAt + ONE_MONTH_IN_S;
+
+  if (isExpired) {
+    console.warn('RefreshToken is expired');
+    return null;
+  }
+  // refresh tokens
+  const res = await makeAPIRequest(
+    '/auth/refresh',
+    'POST',
+    JSON.stringify({ token: refreshToken }),
+  );
+
+  if (!res) {
+    return null;
+  }
+
+  const tokens: Tokens = await res.json();
+
+  localStorage.setItem('accessToken', tokens.accessToken);
+  localStorage.setItem('refreshToken', tokens.refreshToken);
+
+  return tokens;
+};
+
 /**
  * This function makes a generic API request to the GitPOAP API &
  * also adds an Authorization header with the user's accessToken.
@@ -64,14 +98,30 @@ export const makeAPIRequestWithAuth = async (
     'Content-Type': 'application/json',
   },
 ) => {
-  if (!token) {
+  let accessToken = token;
+  if (!accessToken) {
     console.warn('No token provided');
     return null;
   }
 
+  // check if access token is expired
+  const payload = jwtDecode<AccessTokenPayload>(accessToken);
+  const accessTokenExp = payload?.exp ?? 0;
+  const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_S > accessTokenExp;
+
+  if (isExpired) {
+    const tokens: Tokens | null = await refreshTokens();
+
+    if (!tokens) {
+      return null;
+    }
+
+    accessToken = tokens.accessToken;
+  }
+
   const response = await makeAPIRequest(endpoint, method, body, {
     ...headers,
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${accessToken}`,
   });
 
   return response;
@@ -114,20 +164,37 @@ export const makeAPIRequestWithResponseWithAuth = async (
     'Content-Type': 'application/json',
   },
 ) => {
-  if (!token) {
+  let accessToken = token;
+
+  if (!accessToken) {
     console.warn('No token provided');
     return null;
   }
 
+  // check if access token is expired
+  const payload = jwtDecode<AccessTokenPayload>(accessToken);
+  const accessTokenExp = payload?.exp ?? 0;
+  const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_S > accessTokenExp;
+
+  if (isExpired) {
+    const tokens: Tokens | null = await refreshTokens();
+
+    if (!tokens) {
+      return null;
+    }
+
+    accessToken = tokens.accessToken;
+  }
+
   const response = await makeAPIRequestWithResponse(endpoint, method, body, {
     ...headers,
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${accessToken}`,
   });
 
   return response;
 };
 
-type SignatureData = {
+export type SignatureData = {
   message: string;
   createdAt: number;
 };

@@ -1,3 +1,4 @@
+import { Web3Provider, ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers';
 import { DateTime } from 'luxon';
 
 /* Shorten check-summed version of the input address ~ 0x + 4 chars @ start + end */
@@ -66,4 +67,8 @@ export const fetchWithToken = async (url: string, token: string | null) => {
   }
 
   return await response.json();
+};
+
+export const getWeb3Provider = (provider: ExternalProvider | JsonRpcFetchFunc) => {
+  return new Web3Provider(provider);
 };

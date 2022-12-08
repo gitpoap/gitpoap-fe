@@ -1255,7 +1255,7 @@ exports[`Navbar renders a Navbar 1`] = `
               <input
                 aria-invalid="false"
                 class="emotion-37 emotion-38 emotion-39 emotion-40 emotion-41"
-                id="mantine-r0"
+                id="mantine-r1"
                 placeholder="POAP.ETH OR 0xf6B6..."
                 spellcheck="false"
                 type="text"

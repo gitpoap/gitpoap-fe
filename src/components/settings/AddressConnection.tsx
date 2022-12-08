@@ -1,10 +1,10 @@
 import { Button, Group, Stack, Title, Text, Tooltip } from '@mantine/core';
 import { rem } from 'polished';
 import { FaEthereum } from 'react-icons/fa';
+import { useWeb3Context } from '../wallet/Web3Context';
 import { shortenAddress } from '../../helpers';
 import { User } from '../../hooks/useUser';
 import { Link } from '../shared/compounds/Link';
-import { useWeb3Context } from '../wallet/Web3Context';
 
 type Props = {
   user: User;
@@ -40,7 +40,7 @@ export const AddressConnection = ({ user }: Props) => {
           </Text>
         </Stack>
       </Group>
-      <Button variant="outline" onClick={() => disconnectWallet()} sx={{ width: rem(145) }}>
+      <Button variant="outline" onClick={disconnectWallet} sx={{ width: rem(145) }}>
         {'SIGN OUT'}
       </Button>
     </Group>

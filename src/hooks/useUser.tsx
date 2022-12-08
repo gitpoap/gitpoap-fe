@@ -1,6 +1,6 @@
-import { useWeb3Context } from '../components/wallet/Web3Context';
 import { useIsStaff } from './useIsStaff';
 import { useTokens } from './useTokens';
+import { useWeb3Context, ConnectionStatus } from '../components/wallet/Web3Context';
 
 export type User = {
   addressId: number;
@@ -31,7 +31,7 @@ export const useUser = (): User | null => {
   const { connectionStatus } = useWeb3Context();
 
   let user = null;
-  if (payload && connectionStatus === 'connected-to-wallet') {
+  if (payload && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET) {
     user = {
       githubId: payload.githubId,
       githubHandle: payload.githubHandle,

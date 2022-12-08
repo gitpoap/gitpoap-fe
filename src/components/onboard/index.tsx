@@ -7,13 +7,13 @@ import { GoMarkGithub } from 'react-icons/go';
 import { useUser } from '../../hooks/useUser';
 import { useOAuthContext } from '../oauth/OAuthContext';
 import { Button, Text } from '../shared/elements';
-import { useWeb3Context } from '../wallet/Web3Context';
 import { StyledLink } from './Completed';
 import { IntakeForm } from './IntakeForm';
+import ConnectWallet from '../wallet/ConnectWallet';
 
 export const OnboardingPage = () => {
   const { github } = useOAuthContext();
-  const { connect } = useWeb3Context();
+
   const user = useUser();
   const [getStarted, setGetStarted] = useState(false);
 
@@ -66,29 +66,31 @@ export const OnboardingPage = () => {
               </StyledLink>
               {'!'}
             </Text>
-            <Button
-              onClick={() => {
-                if (!user) {
-                  /* User's ETH wallet isn't connected */
-                  void connect();
-                } else if (!user?.capabilities.hasGithub) {
-                  /* User doesn't have a connected Github */
-                  setIsOnboardingConnectButtonActive(true);
-                  github.authorize();
-                } else {
-                  /* If ETH wallet is connected & Github is connected, then progress */
-                  setGetStarted(true);
-                }
-              }}
-              leftIcon={!user ? <FaEthereum /> : <GoMarkGithub />}
-              style={{ margin: `${rem(16)} auto`, width: 'fit-content' }}
-            >
-              {!user
-                ? 'CONNECT WALLET'
-                : !user?.capabilities.hasGithub
-                ? 'CONNECT GITHUB'
-                : 'GET STARTED'}
-            </Button>
+            {!user ? (
+              <ConnectWallet
+                style={{ margin: `${rem(16)} auto`, width: 'fit-content' }}
+                leftIcon={<FaEthereum />}
+              >
+                {'CONNECT WALLET'}
+              </ConnectWallet>
+            ) : (
+              <Button
+                onClick={() => {
+                  if (!user?.capabilities.hasGithub) {
+                    /* User doesn't have a connected Github */
+                    setIsOnboardingConnectButtonActive(true);
+                    github.authorize();
+                  } else {
+                    /* If ETH wallet is connected & Github is connected, then progress */
+                    setGetStarted(true);
+                  }
+                }}
+                leftIcon={<GoMarkGithub />}
+                style={{ margin: `${rem(16)} auto`, width: 'fit-content' }}
+              >
+                {!user?.capabilities.hasGithub ? 'CONNECT GITHUB' : 'GET STARTED'}
+              </Button>
+            )}
           </Stack>
         </Center>
       </Container>

@@ -4,7 +4,7 @@ import { rem, tint } from 'polished';
 import { Button } from '../elements/Button';
 import { PrimaryBlue } from '../../../colors';
 import { GitPOAP } from './GitPOAP';
-import { FaCheckCircle, FaCoins, FaEthereum } from 'react-icons/fa';
+import { FaCheckCircle, FaCoins } from 'react-icons/fa';
 import { useReward } from 'react-rewards';
 
 type Props = {
@@ -18,7 +18,6 @@ type Props = {
   isClaimingAll: boolean;
   isClaimed?: boolean;
   isLoading?: boolean;
-  isConnected?: boolean;
 };
 
 const Wrapper = styled.div`
@@ -37,17 +36,7 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-const getButtonText = (isClaimed: boolean | undefined, isConnected: boolean | undefined) => {
-  if (isClaimed) {
-    return 'Minted';
-  }
-
-  if (!isConnected) {
-    return 'Connect';
-  }
-
-  return 'Mint';
-};
+const getButtonText = (isClaimed: boolean | undefined) => (isClaimed ? 'Minted' : 'Mint');
 
 export const ClaimBlock = ({
   gitPOAPId,
@@ -60,7 +49,6 @@ export const ClaimBlock = ({
   isClaimed,
   isLoading,
   isClaimingAll,
-  isConnected,
 }: Props) => {
   const [isClaimedPrev, setIsClaimedPrev] = useState<boolean>(!!isClaimed);
   const rewardId = 'rewardId-' + gitPOAPId;
@@ -99,10 +87,10 @@ export const ClaimBlock = ({
           id={rewardId}
           onClick={onClickClaim}
           loading={isLoading}
-          leftIcon={isClaimed ? <FaCheckCircle /> : !isConnected ? <FaEthereum /> : <FaCoins />}
+          leftIcon={isClaimed ? <FaCheckCircle /> : <FaCoins />}
           disabled={isClaimed || isClaimingAll}
         >
-          {getButtonText(isClaimed, isConnected)}
+          {getButtonText(isClaimed)}
         </Button>
       </ButtonWrapper>
     </Wrapper>

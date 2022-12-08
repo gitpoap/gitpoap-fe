@@ -4,6 +4,7 @@ import { rem } from 'polished';
 import { Modal, Center, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { BsFillMoonStarsFill } from 'react-icons/bs';
+import { FaEthereum } from 'react-icons/fa';
 import { Pagination } from '../shared/elements/Pagination';
 import {
   ExtraHover,
@@ -16,10 +17,11 @@ import {
 import { Button } from '../shared/elements/Button';
 import { TwitterShareButton } from '../shared/elements/TwitterShareButton';
 import { ClaimBlock } from '../shared/compounds/ClaimBlock';
-import { useWeb3Context } from '../wallet/Web3Context';
 import { BREAKPOINTS } from '../../constants';
 import { OpenClaimsQuery } from '../../graphql/generated-gql';
 import { Link } from '../shared/compounds/Link';
+import ConnectWallet from '../wallet/ConnectWallet';
+import { useWeb3Context } from '../wallet/Web3Context';
 
 type Props = {
   isConnected: boolean;
@@ -127,7 +129,8 @@ export const ClaimModal = ({
   const start = (page - 1) * perPage;
   const end = start + perPage;
 
-  const { connect, address, ensName } = useWeb3Context();
+  const { address, ensName } = useWeb3Context();
+
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = !!loadingClaimIds && loadingClaimIds.length === claims.length;
   const claimText = getClaimText(isConnected, claims.length, claimedIds.length);
@@ -151,7 +154,7 @@ export const ClaimModal = ({
                 .sort((a, b) => b.claim.id - a.claim.id)
                 .slice(start, end)
                 .map((userClaim) => {
-                  return (
+                  return isConnected ? (
                     <ClaimBlock
                       key={userClaim.claim.id}
                       gitPOAPId={userClaim.claim.gitPOAP.id}
@@ -159,15 +162,14 @@ export const ClaimModal = ({
                       name={userClaim.event.name}
                       orgName={userClaim.claim.pullRequestEarned?.repo.organization.name}
                       description={userClaim.event.description}
-                      onClickClaim={() =>
-                        isConnected ? onClickClaim([userClaim.claim.id]) : connect()
-                      }
+                      onClickClaim={() => onClickClaim([userClaim.claim.id])}
                       onClickBadge={onClose}
                       isClaimed={claimedIds?.includes(userClaim.claim.id)}
                       isClaimingAll={isClaimingAll}
                       isLoading={!isClaimingAll && loadingClaimIds?.includes(userClaim.claim.id)}
-                      isConnected={isConnected}
                     />
+                  ) : (
+                    <ConnectWallet leftIcon={<FaEthereum />}>{'Connect Wallet'}</ConnectWallet>
                   );
                 })}
             </GitPOAPClaims>
@@ -216,7 +218,7 @@ export const ClaimModal = ({
             </>
           )}
         </ClaimText>
-        {claimedIds?.length > 0 && (
+        {claimedIds?.length > 0 && address && (
           <TwitterShareButton
             claimedCount={claimedIds.length}
             address={address}

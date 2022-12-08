@@ -7,8 +7,8 @@ import React, {
   Dispatch,
   SetStateAction,
 } from 'react';
+import { useWeb3React } from '@web3-react/core';
 import { useProfileQuery, ProfileQuery } from '../../graphql/generated-gql';
-import { useWeb3Context } from '../wallet/Web3Context';
 import { GITPOAP_API_URL } from '../../constants';
 import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
@@ -45,7 +45,7 @@ type Props = {
 
 export const ProfileProvider = ({ children, addressOrEns }: Props) => {
   const { tokens } = useTokens();
-  const { address: connectedWalletAddress } = useWeb3Context();
+  const { account } = useWeb3React();
   const [profileData, setProfileData] = useState<ProfileQuery['profileData']>();
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
   const [isSaveSuccessful, setIsSaveSuccessful] = useState<boolean>(false);
@@ -56,7 +56,7 @@ export const ProfileProvider = ({ children, addressOrEns }: Props) => {
   });
 
   const showEditProfileButton =
-    profileData?.address?.toLocaleLowerCase() === connectedWalletAddress?.toLocaleLowerCase();
+    profileData?.address?.toLocaleLowerCase() === account?.toLocaleLowerCase();
 
   /* Hook to set profile data to state */
   useEffect(() => {

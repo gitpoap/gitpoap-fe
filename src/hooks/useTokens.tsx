@@ -1,27 +1,6 @@
 import { useLocalStorage } from '@mantine/hooks';
 import jwtDecode from 'jwt-decode';
-
-export type Tokens = {
-  /* GitPOAP issued access token */
-  accessToken: string;
-  /* GitPOAP issued refresh token */
-  refreshToken: string;
-};
-
-export type AccessTokenPayload = {
-  authTokenId: number;
-  addressId: number;
-  address: string;
-  ensName: string | null;
-  ensAvatarImageUrl: string | null;
-  githubId: number | null;
-  githubHandle: string | null;
-  emailId: number | null;
-  discordId: number | null;
-  discordHandle: string | null;
-  exp: number;
-  iat: number;
-};
+import { Tokens, AccessTokenPayload, RefreshTokenPayload } from '../types';
 
 export const isTokens = (tokens: unknown): tokens is Tokens => {
   return (
@@ -42,6 +21,7 @@ export const useTokens = () => {
     key: 'refreshToken',
     defaultValue: null,
   });
+
   const [accessToken, setAccessToken] = useLocalStorage<string | null>({
     key: 'accessToken',
     defaultValue: null,
@@ -49,6 +29,7 @@ export const useTokens = () => {
 
   let tokens = null;
   let payload = null;
+  let refreshTokenPayload;
   if (accessToken && refreshToken) {
     tokens = {
       accessToken,
@@ -56,7 +37,8 @@ export const useTokens = () => {
     };
 
     payload = jwtDecode<AccessTokenPayload>(accessToken);
+    refreshTokenPayload = jwtDecode<RefreshTokenPayload>(refreshToken);
   }
 
-  return { tokens, setRefreshToken, setAccessToken, payload };
+  return { tokens, setRefreshToken, setAccessToken, payload, refreshTokenPayload };
 };

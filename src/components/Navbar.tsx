@@ -11,8 +11,8 @@ import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
 import { Wallet } from './wallet/Wallet';
 import { ConnectionButton } from './oauth/ConnectionButton';
 import { SearchBox } from './search/box/SearchBox';
-import { useWeb3Context } from './wallet/Web3Context';
 import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
+import { useWeb3Context, ConnectionStatus } from './wallet/Web3Context';
 
 const Nav = styled(Group)`
   color: ${TextLight} !important;
@@ -85,7 +85,9 @@ const CollapseMenuContent = styled(Stack)`
 
 export const Navbar = () => {
   const router = useRouter();
-  const { connectionStatus, address, ensName } = useWeb3Context();
+
+  const { connectionStatus, ensName, address } = useWeb3Context();
+
   const matches1330 = useMediaQuery(`(min-width: ${rem(1330)})`, false);
   const matchesLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
   const matchesMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`, false);
@@ -123,7 +125,7 @@ export const Navbar = () => {
       <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
       </NavLinkAnchor>
-      {connectionStatus === 'connected-to-wallet' && (
+      {connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && (
         <>
           <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
           <NavLink href={`/settings`}>{'Settings'}</NavLink>
