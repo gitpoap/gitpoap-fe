@@ -216,9 +216,6 @@ query gitPoapEvent($id: Float!) {
           organization {
             id
             name
-            description
-            twitterHandle
-            url
           }
         }
       }
@@ -371,9 +368,6 @@ query repoData($repoId: Float!) {
     organization {
       id
       name
-      description
-      twitterHandle
-      url
     }
     project {
       gitPOAPs {
@@ -474,9 +468,6 @@ query organizationData($orgId: Float!) {
   organizationData(orgId: $orgId) {
     id
     name
-    description
-    twitterHandle
-    url
     contributorCount
     gitPOAPCount
     mintedGitPOAPCount
@@ -535,7 +526,7 @@ query totalRepoCount {
 }
 
 query totalOrganizationCount($search: String) {
-  aggregateOrganization(where: { name: { contains: $search, mode: insensitive } }) {
+  aggregateGithubOrganization(where: { name: { contains: $search, mode: insensitive } }) {
     _count {
       id
     }
@@ -591,7 +582,7 @@ query profilesSince($date: DateTime) {
 }
 
 query orgsSince($date: DateTime) {
-  organizations(where: { createdAt: { gt: $date } }) {
+  githubOrganizations(where: { createdAt: { gt: $date } }) {
     id
   }
 }
@@ -751,7 +742,7 @@ query reposGetStaticPaths {
 }
 
 query orgsGetStaticPaths {
-  organizations {
+  githubOrganizations {
     id
     name
   }
@@ -792,7 +783,7 @@ query repoSearchByName($search: String!, $take: Int = 4) {
 
 # For the search bar
 query orgSearchByName($search: String!, $take: Int = 4) {
-  organizations(take: $take, where: { name: { contains: $search, mode: insensitive } }) {
+  githubOrganizations(take: $take, where: { name: { contains: $search, mode: insensitive } }) {
     id
     name
     githubOrgId
@@ -862,9 +853,6 @@ query trendingRepos($count: Float!, $numDays: Float!) {
     organization {
       id
       name
-      description
-      twitterHandle
-      url
     }
     project {
       gitPOAPs {
@@ -974,7 +962,7 @@ query userGitPOAPRequests(
     creatorEmail {
       emailAddress
     }
-    GitPOAP {
+    gitPOAP {
       id
     }
     contributors

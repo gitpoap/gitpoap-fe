@@ -249,7 +249,7 @@ export const VitalsDashboard = () => {
           />
           <DashboardItem
             name={'Orgs Added (last 7 days)'}
-            value={orgsResult.data?.organizations.length}
+            value={orgsResult.data?.githubOrganizations.length}
           />
           <DashboardItem
             name={'GitPOAPs Added (last 7 days)'}

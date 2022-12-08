@@ -496,10 +496,6 @@ export const gitPOAPEvent: GitPoapEventQuery = {
             organization: {
               id: 4,
               name: 'gitpoap',
-              description:
-                'A recognition platform for recognizing and rewarding your contributors through POAPs.',
-              twitterHandle: 'gitpoap',
-              url: 'http://gitpoap.io',
             },
           },
         ],

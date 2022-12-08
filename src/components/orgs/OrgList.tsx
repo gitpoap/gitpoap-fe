@@ -77,7 +77,7 @@ export const OrgList = () => {
     },
   });
   const allOrganizations = result.data?.allOrganizations;
-  const total = totalResult.data?.aggregateOrganization._count?.id;
+  const total = totalResult.data?.aggregateGithubOrganization._count?.id;
   const queryVariables = result.operation?.variables;
   const hasMore = !!total && variables.page * variables.perPage < total;
 

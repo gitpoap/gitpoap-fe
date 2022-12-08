@@ -44,7 +44,7 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
     imageUrl,
     name,
     startDate,
-    GitPOAP,
+    gitPOAP,
   } = gitPOAPRequest;
 
   const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
@@ -56,7 +56,7 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
     DateTime.DATE_MED,
   );
   const formattedEnd = DateTime.fromISO(endDate, { zone: 'utc' }).toLocaleString(DateTime.DATE_MED);
-  const isPendingStaffApproval = staffApprovalStatus === 'APPROVED' && !GitPOAP?.id;
+  const isPendingStaffApproval = staffApprovalStatus === 'APPROVED' && !gitPOAP?.id;
 
   return (
     <>
@@ -86,7 +86,7 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
                 <Link
                   href={
                     staffApprovalStatus === 'APPROVED'
-                      ? `/gp/${GitPOAP?.id}/manage`
+                      ? `/gp/${gitPOAP?.id}/manage`
                       : `/create/${id}`
                   }
                   passHref
@@ -94,7 +94,7 @@ export const UserGitPOAPRequest = ({ gitPOAPRequest }: Props) => {
                   <Button leftIcon={<FaEdit />}>{'Edit'}</Button>
                 </Link>
               )}
-              {staffApprovalStatus === 'APPROVED' && !GitPOAP?.id}
+              {staffApprovalStatus === 'APPROVED' && !gitPOAP?.id}
               <Button onClick={openContributorModal} leftIcon={<BsPeopleFill />}>
                 {'Contributors'}
               </Button>

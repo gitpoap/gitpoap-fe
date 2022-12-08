@@ -5,7 +5,7 @@ import { RepoHeaderHexagon } from './RepoHeaderHexagon';
 import { Header as HeaderText, Text, TitleStyles } from '../shared/elements';
 import { ExtraHover, TextAccent, TextGray } from '../../colors';
 import { Link, IconLink } from '../shared/compounds/Link';
-import { People, GitPOAP, Star, Globe, Twitter } from '../shared/elements/icons';
+import { People, GitPOAP, Star } from '../shared/elements/icons';
 import { RepoDataQuery, useRepoStarCountQuery } from '../../graphql/generated-gql';
 import { FaGithub as GitHub } from 'react-icons/fa';
 import { textEllipses } from '../shared/styles';
@@ -152,16 +152,6 @@ export const Header = ({ repo }: Props) => {
           <OrgLink href={`/gh/${repo.organization.name}`}>{repo.organization.name}</OrgLink>
         </OrgNameStyled>
         <Social>
-          {repo.organization.twitterHandle && (
-            <StyledLink
-              href={`https://twitter.com/${repo.organization.twitterHandle}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              passHref
-            >
-              <Twitter />
-            </StyledLink>
-          )}
           <StyledLink
             href={`https://github.com/${repo.organization.name}/${repo.name}`}
             target="_blank"
@@ -170,16 +160,6 @@ export const Header = ({ repo }: Props) => {
           >
             <GitHub />
           </StyledLink>
-          {repo.organization.url && (
-            <StyledLink
-              href={repo.organization.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              passHref
-            >
-              <Globe />
-            </StyledLink>
-          )}
         </Social>
       </HexagonWrapper>
       <SubHeader>

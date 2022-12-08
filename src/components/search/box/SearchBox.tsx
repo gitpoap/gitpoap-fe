@@ -162,10 +162,10 @@ export const SearchBox = ({ className }: Props) => {
   );
   const orgs = useMemo(
     () =>
-      orgResults.data?.organizations.filter(
+      orgResults.data?.githubOrganizations.filter(
         (org) => org.repos.length > 0 && org.repos[0].project.gitPOAPs.length > 0,
       ) ?? [],
-    [orgResults.data?.organizations],
+    [orgResults.data?.githubOrganizations],
   );
   const gitPOAPs = gitPOAPResults.data?.gitPOAPS;
   const isLoading =
