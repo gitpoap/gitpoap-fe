@@ -1,6 +1,7 @@
 import { Stack, Group, Text as TextUI } from '@mantine/core';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { HiOutlineMailOpen } from 'react-icons/hi';
+import { getHotkeyHandler } from '@mantine/hooks';
 
 import { EmailConnectionStatus } from './EmailConnection';
 import { EmailConnectionFormReturnTypes } from './useEmailConnectionForm';
@@ -27,37 +28,47 @@ export const EmailConnectionModalConnect = ({
   values,
 }: ConnectProps) => {
   const api = useApi();
+
+  const handleSubmit = useCallback(async () => {
+    if (!validate().hasErrors) {
+      try {
+        const data = await api.email.add(values.email);
+
+        if (data === null) {
+          throw new Error();
+        } else if (data.msg === 'SUBMITTED') {
+          setStatus('SUBMITTED');
+        } else if (data.msg === 'TAKEN') {
+          setErrors({ email: 'Email is already connected to another account' });
+        } else {
+          throw new Error();
+        }
+      } catch (err) {
+        Notifications.error('Oops, something went wrong!');
+      }
+    }
+  }, [api.email, setErrors, setStatus, validate, values.email]);
   return (
     <Stack align="stretch" spacing={16}>
       <Text>{`Enter a valid email address.`}</Text>
-      <Input placeholder="Email" required {...getInputProps('email')} />
+      <Input
+        placeholder="Email"
+        required
+        {...getInputProps('email')}
+        onKeyDown={getHotkeyHandler([
+          [
+            'Enter',
+            () => {
+              void handleSubmit();
+            },
+          ],
+        ])}
+      />
       <Group grow mt={16}>
         <Button color="red" onClick={closeModal} variant="outline">
           {'Cancel'}
         </Button>
-        <Button
-          onClick={async () => {
-            if (!validate().hasErrors) {
-              try {
-                const data = await api.email.add(values.email);
-
-                if (data === null) {
-                  throw new Error();
-                } else if (data.msg === 'SUBMITTED') {
-                  setStatus('SUBMITTED');
-                } else if (data.msg === 'TAKEN') {
-                  setErrors({ email: 'Email is already taken' });
-                } else {
-                  throw new Error();
-                }
-              } catch (err) {
-                Notifications.error('Oops, something went wrong!');
-              }
-            }
-          }}
-        >
-          {'Submit'}
-        </Button>
+        <Button onClick={handleSubmit}>{'Submit'}</Button>
       </Group>
     </Stack>
   );
