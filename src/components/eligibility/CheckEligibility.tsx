@@ -82,17 +82,25 @@ export const CheckEligibility = () => {
           {'No unminted GitPOAPs found'}
         </Text>
       ) : (
-        <ClaimListContainer mt={rem(50)} mb={rem(55)}>
-          <>
-            {allClaims &&
-              debouncedValue &&
-              result.operation?.variables.query &&
-              result.operation?.variables.query.length > 0 &&
-              allClaims.map((claim, i) => {
-                return <ClaimItem key={i} claim={claim} />;
-              })}
-          </>
-        </ClaimListContainer>
+        <>
+          {allClaims &&
+            debouncedValue &&
+            result.operation?.variables.query &&
+            result.operation?.variables.query.length > 0 && (
+              <Text style={{ fontSize: rem(18) }}>{`${allClaims.length} GitPOAPs found`}</Text>
+            )}
+          <ClaimListContainer mt={rem(50)} mb={rem(55)}>
+            <>
+              {allClaims &&
+                debouncedValue &&
+                result.operation?.variables.query &&
+                result.operation?.variables.query.length > 0 &&
+                allClaims.map((claim, i) => {
+                  return <ClaimItem key={i} claim={claim} />;
+                })}
+            </>
+          </ClaimListContainer>
+        </>
       )}
     </Stack>
   );
