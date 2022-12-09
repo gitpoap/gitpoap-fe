@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Modal, Center, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { useRouter } from 'next/router';
 import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { FaEthereum } from 'react-icons/fa';
 import { Pagination } from '../shared/elements/Pagination';
@@ -65,12 +66,6 @@ const GitPOAPClaims = styled.div`
   }
 `;
 
-const ClaimAll = styled(Center)`
-  display: inline-flex;
-  flex-direction: column;
-  margin-top: ${rem(30)};
-`;
-
 const ClaimText = styled.div`
   font-size: ${rem(12)};
   text-align: center;
@@ -131,6 +126,8 @@ export const ClaimModal = ({
 
   const { address, ensName } = useWeb3Context();
 
+  const router = useRouter();
+
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = !!loadingClaimIds && loadingClaimIds.length === claims.length;
   const claimText = getClaimText(isConnected, claims.length, claimedIds.length);
@@ -185,8 +182,22 @@ export const ClaimModal = ({
           </>
         )}
 
-        {claims.length > 1 && !hasClaimedAll && (
-          <ClaimAll>
+        <Group mt={rem(30)}>
+          <Button
+            onClick={() => {
+              onClose();
+              void router.push(`/p/${ensName ?? address}`);
+            }}
+            disabled={
+              loadingClaimIds &&
+              loadingClaimIds.length > 0 &&
+              loadingClaimIds.length < allClaimIds.length
+            }
+            loading={isClaimingAll}
+          >
+            {'Go to profile'}
+          </Button>
+          {claims.length > 1 && !hasClaimedAll && (
             <Button
               onClick={() => onClickClaim(allClaimIds)}
               disabled={
@@ -198,8 +209,9 @@ export const ClaimModal = ({
             >
               {'Mint all'}
             </Button>
-          </ClaimAll>
-        )}
+          )}
+        </Group>
+
         {claims.length === 0 && (
           <Group style={{ marginTop: rem(50), marginBottom: rem(50) }}>
             <BsFillMoonStarsFill color={TextDarkGray} size={rem(74)} />
