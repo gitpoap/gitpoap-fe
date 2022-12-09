@@ -91,7 +91,7 @@ export const UserGitPOAPRequestList = () => {
     <Group position="center" py={0} px={rem(20)}>
       <Stack align="center" justify="flex-start" spacing="sm" style={{ width: '100%' }}>
         <Group position="apart" align="center" grow style={{ width: '100%' }}>
-          <Header style={{ alignSelf: 'start' }}>{'My GitPOAPs'}</Header>
+          <Header style={{ alignSelf: 'start' }}>{'GitPOAP Requests'}</Header>
           <Group position="right" spacing="lg">
             <Input
               placeholder={'Search for request'}
