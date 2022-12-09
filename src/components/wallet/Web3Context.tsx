@@ -144,6 +144,7 @@ export const Web3ContextProvider = (props: Props) => {
     [authenticate],
   );
 
+  // check if metamask is installed
   useEffect(() => {
     if (typeof window === 'undefined') {
       return;
