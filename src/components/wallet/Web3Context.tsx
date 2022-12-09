@@ -10,7 +10,7 @@ import { useIndexedDB, IndexDBStatus } from '../../hooks/useIndexedDB';
 import { SignatureType } from '../../types';
 import { AuthenticateResponse } from '../../lib/api/auth';
 import { sign, generateSignatureData } from '../../lib/api/utils';
-import { ONE_MONTH_IN_S } from '../../constants';
+import { ONE_MONTH_IN_S, FIVE_MINUTES_IN_S } from '../../constants';
 
 type Props = {
   children: React.ReactNode;
@@ -179,6 +179,22 @@ export const Web3ContextProvider = (props: Props) => {
       disconnectWallet();
     }
   }, [tokens, disconnectWallet]);
+
+  // handle connect account if we have valid token in localstorage
+  useEffect(() => {
+    // check if token is still not expired, connection status is uninitialized
+    if (tokens?.accessToken && payload && connectionStatus === ConnectionStatus.UNINITIALIZED) {
+      const accessTokenExp = payload?.exp;
+      if (accessTokenExp) {
+        const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_S > accessTokenExp;
+        if (!isExpired) {
+          // update connection status
+          setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
+          setAddress(payload.address);
+        }
+      }
+    }
+  }, [tokens, payload, connectionStatus]);
 
   const refreshToken = useCallback(
     async (address: string) => {
