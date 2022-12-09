@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useMemo, useState, useEffect } 
 import { useWeb3React } from '@web3-react/core';
 import { useDisclosure } from '@mantine/hooks';
 import { JsonRpcSigner } from '@ethersproject/providers';
+import detectEthereumProvider from '@metamask/detect-provider';
 import { DateTime } from 'luxon';
 import { useRefreshTokens } from '../../hooks/useRefreshTokens';
 import { useTokens } from '../../hooks/useTokens';
@@ -34,6 +35,7 @@ type onChainProvider = {
   isModalOpened: boolean;
   closeModal: () => void;
   handleConnect: () => void;
+  isMetaMaskInstalled: boolean;
 };
 
 type Web3ContextState = {
@@ -64,6 +66,8 @@ export const Web3ContextProvider = (props: Props) => {
     ConnectionStatus.UNINITIALIZED,
   );
   const [address, setAddress] = useState<string | null>(null);
+
+  const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState<boolean>(false);
 
   const { deactivate, account, library } = useWeb3React();
   const isConnected = typeof account === 'string' && !!library;
@@ -139,6 +143,27 @@ export const Web3ContextProvider = (props: Props) => {
     },
     [authenticate],
   );
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    async function checkForMetaMask() {
+      const provider = await detectEthereumProvider({
+        timeout: 1000,
+        mustBeMetaMask: true,
+      });
+
+      if (provider) {
+        setIsMetaMaskInstalled(true);
+      } else {
+        setIsMetaMaskInstalled(false);
+      }
+    }
+
+    void checkForMetaMask();
+  }, []);
 
   // handle auth when account has changed
   useEffect(() => {
@@ -240,6 +265,7 @@ export const Web3ContextProvider = (props: Props) => {
       handleConnect,
       isModalOpened,
       closeModal,
+      isMetaMaskInstalled,
     }),
     [
       address,
@@ -251,6 +277,7 @@ export const Web3ContextProvider = (props: Props) => {
       handleConnect,
       isModalOpened,
       closeModal,
+      isMetaMaskInstalled,
     ],
   );
 

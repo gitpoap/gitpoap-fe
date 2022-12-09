@@ -52,7 +52,7 @@ const ConnectionOption = ({ onClick, logo, text }: ConnectionOptionProps) => {
 
 export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
   const { activate, setError } = useWeb3React();
-  const { setConnectionStatus } = useWeb3Context();
+  const { setConnectionStatus, isMetaMaskInstalled } = useWeb3Context();
   const [, setProvider] = useLocalStorage<ProviderType>({
     key: 'provider',
     defaultValue: undefined,
@@ -98,22 +98,24 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
           text={'Wallet Connect'}
           logo={<WalletConnectLogo width={32} height={32} />}
         />
-        <ConnectionOption
-          onClick={() => {
-            activate(connectors.injected).catch((error) => {
-              // ignore the error if it's a user rejected request
-              if (error instanceof UserRejectedRequestError) {
-                setConnectionStatus(ConnectionStatus.UNINITIALIZED);
-              } else {
-                setError(error);
-              }
-            });
-            setProvider(ProviderType.METAMASK);
-            closeModal();
-          }}
-          text={'Metamask'}
-          logo={<MetamaskLogo width={32} height={32} />}
-        />
+        {isMetaMaskInstalled && (
+          <ConnectionOption
+            onClick={() => {
+              activate(connectors.injected).catch((error) => {
+                // ignore the error if it's a user rejected request
+                if (error instanceof UserRejectedRequestError) {
+                  setConnectionStatus(ConnectionStatus.UNINITIALIZED);
+                } else {
+                  setError(error);
+                }
+              });
+              setProvider(ProviderType.METAMASK);
+              closeModal();
+            }}
+            text={'Metamask'}
+            logo={<MetamaskLogo width={32} height={32} />}
+          />
+        )}
       </Stack>
     </Modal>
   );
