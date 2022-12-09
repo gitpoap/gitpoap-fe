@@ -1,8 +1,6 @@
-import { Grid } from '@mantine/core';
 import { Page } from '../_app';
 import { SEO } from '../../components/shared/compounds/SEO';
-import { UserGitPOAPRequestList } from '../../components/request/UserGitPOAPRequestList';
-import { rem } from 'polished';
+import { UserGitPOAPRequestPage } from '../../components/request/UserGitPOAPRequestPage';
 import { Login } from '../../components/Login';
 import { useUser } from '../../hooks/useUser';
 
@@ -18,11 +16,7 @@ const UserGitPOAPs: Page = () => {
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/settings`}
       />
-      <Grid justify="center" mt={rem(20)} mb={rem(20)} style={{ flex: 1 }}>
-        <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {address ? <UserGitPOAPRequestList /> : <Login />}
-        </Grid.Col>
-      </Grid>
+      {address ? <UserGitPOAPRequestPage /> : <Login />}
     </>
   );
 };
