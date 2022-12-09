@@ -11,7 +11,7 @@ import {
 import { TableHeaderItem } from '../../gitpoap/manage/TableHeaderItem';
 import { Loader } from '../../shared/elements';
 import { BackgroundPanel } from '../../../colors';
-import { UserGitPOAPRequestTableRow } from './row';
+import { UserGitPOAPRequestTableRow } from './Row';
 
 const HEADERS: {
   label: string;
