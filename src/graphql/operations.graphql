@@ -908,6 +908,7 @@ query gitPOAPRequests($take: Int, $skip: Int, $approvalStatus: StaffApprovalStat
     staffApprovalStatus
     address {
       ethAddress
+      ensName
     }
     project {
       repos(take: 1) {

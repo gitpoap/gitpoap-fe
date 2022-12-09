@@ -7398,7 +7398,7 @@ export type GitPoapRequestsQuery = {
     contributors: any;
     staffApprovalStatus: StaffApprovalStatus;
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
-    address: { __typename?: 'Address'; ethAddress: string };
+    address: { __typename?: 'Address'; ethAddress: string; ensName?: string | null };
     project?: {
       __typename?: 'Project';
       repos: Array<{
@@ -9098,6 +9098,7 @@ export const GitPoapRequestsDocument = gql`
       staffApprovalStatus
       address {
         ethAddress
+        ensName
       }
       project {
         repos(take: 1) {
