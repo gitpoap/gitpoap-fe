@@ -65,7 +65,7 @@ const schema = z.object({
   year: z.number(),
   eventUrl: z.string().url().min(1),
   email: z.string().email({ message: 'Invalid email' }),
-  numRequestedCodes: z.number(),
+  numRequestedCodes: z.number().min(20),
   isOngoing: z.boolean(),
   image: typeof window === 'undefined' ? z.any() : z.instanceof(File),
   city: z.string().optional(),

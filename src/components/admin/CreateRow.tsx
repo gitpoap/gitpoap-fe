@@ -62,7 +62,7 @@ const schema = z.object({
   year: z.number(),
   eventUrl: z.string().url().min(1),
   email: z.string().email({ message: 'Invalid email' }),
-  numRequestedCodes: z.number(),
+  numRequestedCodes: z.number().min(20),
   isOngoing: z.boolean(),
   isEnabled: z.boolean(),
   isPRBased: z.boolean(),
@@ -99,7 +99,7 @@ export const CreateRow = (props: Props) => {
       year: THIS_YEAR,
       eventUrl: '',
       email: 'issuer@gitpoap.io',
-      numRequestedCodes: 20,
+      numRequestedCodes: 20, // minimum
       isOngoing: false,
       isEnabled: true,
       isPRBased: true,

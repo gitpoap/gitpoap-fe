@@ -37,7 +37,7 @@ const schema = z.object({
   startDate: z.date(),
   endDate: z.date(),
   expiryDate: z.date(),
-  codeCount: z.number(),
+  codeCount: z.number().min(20),
   hasYear: z.boolean(),
   city: z.string().optional(),
   country: z.string().optional(),
@@ -60,7 +60,7 @@ const CreateMultipleEvent: NextPage = () => {
       startDate: DEFAULT_START_DATE,
       endDate: DEFAULT_END_DATE,
       expiryDate: DEFAULT_EXPIRY_DATE,
-      codeCount: 10,
+      codeCount: 20, // minimum
       hasYear: true,
       city: undefined,
       country: undefined,
@@ -125,7 +125,7 @@ const CreateMultipleEvent: NextPage = () => {
                       required
                       label={'Requested Codes'}
                       name={'codeCount'}
-                      placeholder={'10'}
+                      placeholder={'20'}
                       hideControls
                       {...getInputProps('codeCount')}
                     />
