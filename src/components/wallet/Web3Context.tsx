@@ -244,7 +244,7 @@ export const Web3ContextProvider = (props: Props) => {
                   }
                 }
               }
-            } else if (provider === 'coinbase') {
+            } else if (provider === 'coinbaseWallet') {
               cachedConnector = connectors.coinbaseWallet;
             }
 
