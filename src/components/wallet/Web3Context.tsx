@@ -1,7 +1,8 @@
 import { createContext, useCallback, useContext, useMemo, useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useLocalStorage } from '@mantine/hooks';
 import { JsonRpcSigner } from '@ethersproject/providers';
+import detectEthereumProvider from '@metamask/detect-provider';
 import { DateTime } from 'luxon';
 import { useRefreshTokens } from '../../hooks/useRefreshTokens';
 import { useTokens } from '../../hooks/useTokens';
@@ -10,7 +11,8 @@ import { useIndexedDB, IndexDBStatus } from '../../hooks/useIndexedDB';
 import { SignatureType } from '../../types';
 import { AuthenticateResponse } from '../../lib/api/auth';
 import { sign, generateSignatureData } from '../../lib/api/utils';
-import { ONE_MONTH_IN_S } from '../../constants';
+import { ONE_MONTH_IN_S, FIVE_MINUTES_IN_S } from '../../constants';
+import { connectors } from '../../connectors';
 
 type Props = {
   children: React.ReactNode;
@@ -34,6 +36,7 @@ type onChainProvider = {
   isModalOpened: boolean;
   closeModal: () => void;
   handleConnect: () => void;
+  isMetaMaskInstalled: boolean;
 };
 
 type Web3ContextState = {
@@ -65,7 +68,9 @@ export const Web3ContextProvider = (props: Props) => {
   );
   const [address, setAddress] = useState<string | null>(null);
 
-  const { deactivate, account, library } = useWeb3React();
+  const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState<boolean>(false);
+
+  const { deactivate, account, library, activate } = useWeb3React();
   const isConnected = typeof account === 'string' && !!library;
 
   const [isModalOpened, { close: closeModal, open: openModal }] = useDisclosure(false);
@@ -73,6 +78,11 @@ export const Web3ContextProvider = (props: Props) => {
   const api = useApi();
 
   const { setAccessToken, setRefreshToken, tokens, payload, refreshTokenPayload } = useTokens();
+
+  const [provider] = useLocalStorage<string | null>({
+    key: 'provider',
+    defaultValue: null,
+  });
 
   const {
     value: signature,
@@ -140,6 +150,28 @@ export const Web3ContextProvider = (props: Props) => {
     [authenticate],
   );
 
+  // check if metamask is installed
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    async function checkForMetaMask() {
+      const provider = await detectEthereumProvider({
+        timeout: 1000,
+        mustBeMetaMask: true,
+      });
+
+      if (provider) {
+        setIsMetaMaskInstalled(true);
+      } else {
+        setIsMetaMaskInstalled(false);
+      }
+    }
+
+    void checkForMetaMask();
+  }, []);
+
   // handle auth when account has changed
   useEffect(() => {
     // if wallet is not connected, do nothing
@@ -150,7 +182,11 @@ export const Web3ContextProvider = (props: Props) => {
     // if wallet is connecting, do nothing
     if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) return;
     // if wallet is connected signed by current address, do nothing
-    if (connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && address === account) return;
+    if (
+      connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET &&
+      address?.toLowerCase() === account.toLowerCase()
+    )
+      return;
 
     // now that we go through authentication
     // set connection status as connecting
@@ -179,6 +215,39 @@ export const Web3ContextProvider = (props: Props) => {
       disconnectWallet();
     }
   }, [tokens, disconnectWallet]);
+
+  // handle connect account if we have valid token in localstorage
+  useEffect(() => {
+    const connectToCachedProvider = async () => {
+      // check if token is still not expired, connection status is uninitialized
+      if (tokens?.accessToken && payload && connectionStatus === ConnectionStatus.UNINITIALIZED) {
+        const accessTokenExp = payload?.exp;
+        if (accessTokenExp) {
+          const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_S > accessTokenExp;
+          if (!isExpired) {
+            // get cached connector
+            let cachedConnector = null;
+            if (provider === 'injected') {
+              cachedConnector = connectors.injected;
+            } else if (provider === 'coinbase') {
+              cachedConnector = connectors.coinbaseWallet;
+            }
+
+            if (!cachedConnector) return;
+
+            setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+
+            void activate(cachedConnector);
+            setAddress(payload.address);
+
+            setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
+          }
+        }
+      }
+    };
+
+    void connectToCachedProvider();
+  }, [tokens, payload, connectionStatus, activate, account, provider]);
 
   const refreshToken = useCallback(
     async (address: string) => {
@@ -224,6 +293,7 @@ export const Web3ContextProvider = (props: Props) => {
       handleConnect,
       isModalOpened,
       closeModal,
+      isMetaMaskInstalled,
     }),
     [
       address,
@@ -235,6 +305,7 @@ export const Web3ContextProvider = (props: Props) => {
       handleConnect,
       isModalOpened,
       closeModal,
+      isMetaMaskInstalled,
     ],
   );
 
