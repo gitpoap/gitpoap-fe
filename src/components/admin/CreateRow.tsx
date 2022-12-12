@@ -30,7 +30,6 @@ const FormNumberInput = styled(NumberInput)`
 
 const FormDatePicker = styled(DateInput)`
   width: ${rem(200)};
-  margin-bottom: ${rem(20)};
 `;
 
 const RowContainer = styled.div`
@@ -220,6 +219,8 @@ export const CreateRow = (props: Props) => {
             clearable={false}
             label={'Event Start Date'}
             name={'startDate'}
+            allowFreeInput
+            mb={rem(20)}
             {...getInputProps('startDate')}
           />
           <FormDatePicker
@@ -227,6 +228,8 @@ export const CreateRow = (props: Props) => {
             clearable={false}
             label={'Event End Date'}
             name={'endDate'}
+            allowFreeInput
+            mb={rem(20)}
             {...getInputProps('endDate')}
           />
           <FormDatePicker
@@ -234,6 +237,8 @@ export const CreateRow = (props: Props) => {
             clearable={false}
             label={'POAP Expiration Date'}
             name={'expiryDate'}
+            allowFreeInput
+            mb={rem(20)}
             {...getInputProps('expiryDate')}
           />
         </Group>
