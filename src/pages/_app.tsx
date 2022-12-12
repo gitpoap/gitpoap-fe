@@ -17,6 +17,7 @@ import { HexagonPath } from '../components/shared/elements';
 import { Web3ReactProvider } from '@web3-react/core';
 import { getWeb3Provider } from '../helpers';
 import { Web3ContextProvider } from '../components/wallet/Web3Context';
+import { ModalsProvider } from '@mantine/modals';
 
 const client = createClient({
   url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
@@ -68,22 +69,24 @@ const TheApp = ({ Component, pageProps }: Props) => {
       <Web3ReactProvider getLibrary={getWeb3Provider}>
         <Web3ContextProvider>
           <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-            <NotificationsProvider autoClose={5000}>
-              <URQLProvider value={client}>
-                <OAuthProvider>
-                  <FeaturesProvider>
-                    <ClaimContextProvider>
-                      <GlobalStyles />
-                      <HexagonPath />
-                      <Layout>
-                        <LoadingBar />
-                        {getLayout(<Component {...pageProps} />)}
-                      </Layout>
-                    </ClaimContextProvider>
-                  </FeaturesProvider>
-                </OAuthProvider>
-              </URQLProvider>
-            </NotificationsProvider>
+            <ModalsProvider>
+              <NotificationsProvider autoClose={5000}>
+                <URQLProvider value={client}>
+                  <OAuthProvider>
+                    <FeaturesProvider>
+                      <ClaimContextProvider>
+                        <GlobalStyles />
+                        <HexagonPath />
+                        <Layout>
+                          <LoadingBar />
+                          {getLayout(<Component {...pageProps} />)}
+                        </Layout>
+                      </ClaimContextProvider>
+                    </FeaturesProvider>
+                  </OAuthProvider>
+                </URQLProvider>
+              </NotificationsProvider>
+            </ModalsProvider>
           </MantineProvider>
         </Web3ContextProvider>
       </Web3ReactProvider>
