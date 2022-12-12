@@ -216,7 +216,12 @@ export const Web3ContextProvider = (props: Props) => {
     }
   }, [tokens, disconnectWallet]);
 
-  // handle connect account if we have valid token in localstorage
+  /**
+   * Hook to check whether a cached provider exists. If it does, connect to provider. It also
+   * prevents MetaMask from prompting login on page load if the wallet is cached, but locked.
+   *
+   * Additionally checks to ensure that there is a valid token in localStorage.
+   */
   useEffect(() => {
     const connectToCachedProvider = async () => {
       // check if token is still not expired, connection status is uninitialized
@@ -229,18 +234,26 @@ export const Web3ContextProvider = (props: Props) => {
             let cachedConnector = null;
             if (provider === 'injected') {
               cachedConnector = connectors.injected;
+              if (window.ethereum.isMetaMask) {
+                if (window.ethereum.request) {
+                  /* Check if MetaMask is unlocked - if locked, then skip */
+                  const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                  if (!accounts.length) {
+                    console.warn('MetaMask is not enabled');
+                    return;
+                  }
+                }
+              }
             } else if (provider === 'coinbase') {
               cachedConnector = connectors.coinbaseWallet;
             }
 
-            if (!cachedConnector) return;
-
-            setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
-
-            void activate(cachedConnector);
-            setAddress(payload.address);
-
-            setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
+            if (cachedConnector) {
+              setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+              void activate(cachedConnector);
+              setAddress(payload.address);
+              setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
+            }
           }
         }
       }
