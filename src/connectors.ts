@@ -16,6 +16,7 @@ const walletconnect = new WalletConnectConnector({
   qrcode: true,
 });
 
+/* Metamask */
 const injected = new InjectedConnector({
   supportedChainIds,
 });

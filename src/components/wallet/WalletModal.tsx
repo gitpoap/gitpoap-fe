@@ -67,6 +67,7 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
     >
       <Stack>
         <ConnectionOption
+          key="coinbase-wallet-option"
           onClick={() => {
             activate(connectors.coinbaseWallet).catch((error) => {
               // ignore the error if it's a user rejected request
@@ -83,6 +84,7 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
           logo={<CoinBaseLogo width={32} height={32} />}
         />
         <ConnectionOption
+          key="wallet-connect-option"
           onClick={() => {
             activate(connectors.walletConnect).catch((error) => {
               // ignore the error if it's a user rejected request
@@ -100,6 +102,7 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
         />
         {isMetaMaskInstalled && (
           <ConnectionOption
+            key="metamask-wallet-option"
             onClick={() => {
               activate(connectors.injected).catch((error) => {
                 // ignore the error if it's a user rejected request

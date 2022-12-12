@@ -23,7 +23,7 @@ const ConnectWallet = (props: ButtonProps) => {
 
   return (
     <>
-      <Button {...props} onClick={handleConnect}>
+      <Button {...props} onClick={handleConnect} key="connect-wallet-button">
         {props.children}
       </Button>
       <WalletModal isOpen={isModalOpened} closeModal={closeModal} />
