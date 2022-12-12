@@ -13,7 +13,7 @@ const UserGitPOAPs: Page = () => {
   return (
     <>
       <SEO
-        title={`My GitPOAPs | GitPOAP`}
+        title={`GitPOAP Requests | GitPOAP`}
         description={`GitPOAP - a decentralized reputation platform that represents off-chain accomplishments and contributions on chain as POAPs.`}
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/settings`}

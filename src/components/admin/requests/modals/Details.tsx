@@ -159,6 +159,7 @@ export const GitPOAPRequestModal = ({
             <Text>{`Name: ${name}`}</Text>
             <Text>{`Description: ${description}`}</Text>
             <Text>{`Creator Address: ${address.ethAddress}`}</Text>
+            {address.ensName && <Text>{`Creator ENS name: ${address.ensName}`}</Text>}
             <Text>{`Creator Email: ${creatorEmail.emailAddress}`}</Text>
             <Text sx={{ whiteSpace: 'nowrap' }}>
               {`Creation Date: ${formatUTCDate(createdAt)}`}
