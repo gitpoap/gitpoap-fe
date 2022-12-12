@@ -115,7 +115,11 @@ export const ContributorRow = ({ claim, index, refetch }: Props) => {
       title: 'Remove this contributor?',
       centered: true,
       children: (
-        <Text size="sm">{`Are you sure you want to remove ${issuedTo} as a contributor?`}</Text>
+        <Text size="sm">
+          {`Are you sure you want to remove `}
+          <b>{issuedTo}</b>
+          {` as a contributor?`}
+        </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onConfirm: () => handleDeleteClaim(claim.id),
