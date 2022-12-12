@@ -1,4 +1,5 @@
 import { ActionIcon, Badge, Box, Group, Text, TextProps, Tooltip } from '@mantine/core';
+import { openConfirmModal } from '@mantine/modals';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
@@ -103,6 +104,27 @@ const IssuedTo = ({ claim }: { claim: Props['claim'] }) => {
 };
 
 export const ContributorRow = ({ claim, index, refetch }: Props) => {
+  const issuedTo =
+    claim.issuedAddress?.ensName ??
+    claim.issuedAddress?.ethAddress ??
+    claim.githubUser?.githubHandle ??
+    claim.email?.emailAddress ??
+    'UNKNOWN';
+  const openModal = () =>
+    openConfirmModal({
+      title: 'Remove this contributor?',
+      centered: true,
+      children: (
+        <Text size="sm">
+          {`Are you sure you want to remove `}
+          <b>{issuedTo}</b>
+          {` as a contributor?`}
+        </Text>
+      ),
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onConfirm: () => handleDeleteClaim(claim.id),
+    });
+
   const api = useApi();
   const { status, mintedAddress } = claim;
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
@@ -244,7 +266,7 @@ export const ContributorRow = ({ claim, index, refetch }: Props) => {
                 radius="sm"
                 disabled={isDeleteDisabled}
                 loading={buttonStatus === ButtonStatus.LOADING}
-                onClick={() => handleDeleteClaim(claim.id)}
+                onClick={openModal}
                 sx={{
                   background: PrimaryBlue,
                   transition: 'background 200ms ease',
