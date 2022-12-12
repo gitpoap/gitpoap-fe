@@ -81,7 +81,7 @@ export const AdminGitPOAPRequestTableRow = ({
           <Text lineClamp={3}>{description}</Text>
         </td>
         <td>
-          <Tooltip label={address.ensName ?? address.ethAddress}>
+          <Tooltip label={address.ethAddress}>
             <Text sx={{ whiteSpace: 'nowrap' }}>
               {address.ensName ?? shortenAddress(address.ethAddress)}
             </Text>

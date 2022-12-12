@@ -87,8 +87,8 @@ export const CheckEligibility = () => {
         result.operation?.variables.query &&
         result.operation?.variables.query.length > 0 && (
           <>
-            <Text style={{ fontSize: rem(18) }}>{`${allClaims.length} GitPOAPs found`}</Text>
-            <ClaimListContainer mt={rem(50)} mb={rem(55)}>
+            <Text style={{ fontSize: rem(18) }}>{`${allClaims.length} found`}</Text>
+            <ClaimListContainer mt={rem(20)} mb={rem(55)}>
               <>
                 {allClaims.map((claim, i) => {
                   return <ClaimItem key={i} claim={claim} />;
