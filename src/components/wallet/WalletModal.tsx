@@ -4,17 +4,11 @@ import { useWeb3React } from '@web3-react/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import { connectors } from '../../connectors';
-import { useWeb3Context, ConnectionStatus } from './Web3Context';
+import { useWeb3Context, ConnectionStatus, ProviderType } from './Web3Context';
 import { BackgroundPanel, BackgroundPanel2 } from '../../colors';
 import { MetamaskLogo } from '../shared/elements/icons';
 import { WalletConnectLogo } from '../shared/elements/icons/WalletConnectLogo';
 import { CoinBaseLogo } from '../shared/elements/icons/CoinbaseLogo';
-
-enum ProviderType {
-  METAMASK = 'injected',
-  COINBASE_WALLET = 'coinbaseWallet',
-  WALLET_CONNECT = 'walletConnect',
-}
 
 type WalletModalProps = {
   isOpen: boolean;

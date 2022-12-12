@@ -18,6 +18,12 @@ type Props = {
   children: React.ReactNode;
 };
 
+export enum ProviderType {
+  METAMASK = 'injected',
+  COINBASE_WALLET = 'coinbaseWallet',
+  WALLET_CONNECT = 'walletConnect',
+}
+
 export enum ConnectionStatus {
   CONNECTED_TO_WALLET = 'connected-to-wallet' /* Connected to wallet & authenticated */,
   CONNECTING_WALLET = 'connecting-wallet' /* Connecting to wallet & authenticating*/,
@@ -67,19 +73,13 @@ export const Web3ContextProvider = (props: Props) => {
     ConnectionStatus.UNINITIALIZED,
   );
   const [address, setAddress] = useState<string | null>(null);
-
   const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState<boolean>(false);
-
   const { deactivate, account, library, activate } = useWeb3React();
   const isConnected = typeof account === 'string' && !!library;
-
   const [isModalOpened, { close: closeModal, open: openModal }] = useDisclosure(false);
-
   const api = useApi();
-
   const { setAccessToken, setRefreshToken, tokens, payload, refreshTokenPayload } = useTokens();
-
-  const [provider] = useLocalStorage<string | null>({
+  const [provider, setProvider] = useLocalStorage<string | null>({
     key: 'provider',
     defaultValue: null,
   });
@@ -97,10 +97,11 @@ export const Web3ContextProvider = (props: Props) => {
     deactivate();
 
     setConnectionStatus(ConnectionStatus.DISCONNECTED);
+    setProvider(null);
     setAddress('');
     setRefreshToken(null);
     setAccessToken(null);
-  }, [deactivate, setConnectionStatus, setRefreshToken, setAccessToken, setAddress]);
+  }, [deactivate, setConnectionStatus, setRefreshToken, setAccessToken, setAddress, setProvider]);
 
   const authenticate = useCallback(
     async (signature: SignatureType) => {
