@@ -1,12 +1,11 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Login } from '../../components/Login';
-import { TeamContainer } from '../../components/team/TeamContainer';
+import { TeamContainer } from '../../components/team';
 import { useUser } from '../../hooks/useUser';
 
 const TeamPage: NextPage = () => {
   const user = useUser();
-  const isStaff = user?.isStaff;
 
   return (
     <>
@@ -17,7 +16,7 @@ const TeamPage: NextPage = () => {
           content="Manage GiPOAPs"
         />
       </Head>
-      {isStaff ? <TeamContainer user={user} /> : <Login />}
+      {user?.permissions.isStaff ? <TeamContainer user={user} /> : <Login />}
     </>
   );
 };
