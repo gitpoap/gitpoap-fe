@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { User } from '../../hooks/useUser';
-import { TeamDashboard } from './Dashboard2';
+import { TeamDashboard } from './dashboard';
 
 const Panel = styled(Tabs.Panel)`
   overflow: hidden;
