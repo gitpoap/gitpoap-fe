@@ -9,6 +9,7 @@ import { badgeThemes } from './badgeThemes';
 import { buttonTheme } from './buttonThemes';
 import { datePickerTheme } from './datePickerThemes';
 import { paginationThemes } from './paginationThemes';
+import { cardThemes } from './cardThemes';
 import { tabsThemes } from './tabsThemes';
 import { textTheme } from './textThemes';
 import { tooltipThemes } from './tooltipThemes';
@@ -21,6 +22,7 @@ export const theme: MantineProviderProps['theme'] = {
     ActionIcon: actionIconThemes,
     Badge: badgeThemes,
     Button: buttonTheme,
+    Card: cardThemes,
     DatePicker: datePickerTheme,
     InputWrapper: {
       styles: {
