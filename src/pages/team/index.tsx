@@ -6,7 +6,7 @@ import { useUser } from '../../hooks/useUser';
 
 const TeamPage: NextPage = () => {
   const user = useUser();
-  const address = user?.address;
+  const isStaff = user?.isStaff;
 
   return (
     <>
@@ -17,7 +17,7 @@ const TeamPage: NextPage = () => {
           content="Manage GiPOAPs"
         />
       </Head>
-      {address ? <TeamContainer user={user} /> : <Login />}
+      {isStaff ? <TeamContainer user={user} /> : <Login />}
     </>
   );
 };
