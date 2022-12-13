@@ -24,7 +24,7 @@ export const ONE_MONTH_IN_S = ONE_DAY_IN_S * 30; // in seconds
 export const THIS_YEAR = DateTime.local().year;
 export const DEFAULT_START_DATE = DateTime.local(THIS_YEAR, 1, 1).toJSDate();
 export const DEFAULT_END_DATE = DateTime.local(THIS_YEAR, 12, 31).toJSDate();
-export const DEFAULT_EXPIRY = DateTime.local(THIS_YEAR + 1, 4, 1).toJSDate();
+export const DEFAULT_EXPIRY = DateTime.local(2024, 1, 1).toJSDate();
 
 /** TypeForm Links **/
 export const TYPEFORM_LINKS = {
