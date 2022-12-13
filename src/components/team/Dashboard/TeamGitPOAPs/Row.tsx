@@ -1,13 +1,13 @@
 import { Text, Button, Center } from '@mantine/core';
 import styled from 'styled-components';
 import React from 'react';
-import { UserGitPoapRequestsQuery } from '../../../graphql/generated-gql';
-import { GitPOAPBadgePopover } from '../../request/RequestItem/GitPOAPBadgePopover';
+import { UserGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
+import { GitPOAPBadgePopover } from '../../../request/RequestItem/GitPOAPBadgePopover';
 import { useDisclosure } from '@mantine/hooks';
-import { RequestStatusBadge } from '../../request/RequestItem/RequestStatusBadge';
-import { ContributorModal } from '../../request/RequestItem/ContributorModal';
-import { BackgroundPanel2 } from '../../../colors';
-import { formatUTCDate } from '../../../helpers';
+import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
+import { ContributorModal } from '../../../request/RequestItem/ContributorModal';
+import { BackgroundPanel2 } from '../../../../colors';
+import { formatUTCDate } from '../../../../helpers';
 
 const TableRow = styled.tr`
   cursor: pointer;

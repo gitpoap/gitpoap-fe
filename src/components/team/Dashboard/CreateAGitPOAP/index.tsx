@@ -4,9 +4,9 @@ import React from 'react';
 import { BsArrowRightCircle } from 'react-icons/bs';
 import { FaGithub, FaMedal } from 'react-icons/fa';
 import { RiShareBoxFill } from 'react-icons/ri';
-import { BackgroundPanel, BackgroundPanel2, TextGray } from '../../../colors';
-import { Link } from '../../shared/compounds/Link';
-import { Header } from '../../shared/elements';
+import { BackgroundPanel, BackgroundPanel2, TextGray } from '../../../../colors';
+import { Link } from '../../../shared/compounds/Link';
+import { Header } from '../../../shared/elements';
 
 type SelectOptionsProps = {
   name: string;

@@ -4,12 +4,15 @@ import { rem } from 'polished';
 import React, { useState, useEffect } from 'react';
 import { MdGridView, MdList } from 'react-icons/md';
 
-import { TextGray, White } from '../../../colors';
-import { StaffApprovalStatus, useUserGitPoapRequestsQuery } from '../../../graphql/generated-gql';
-import { useUser } from '../../../hooks/useUser';
-import { gitPOAPRequests as sampleGitPOAPRequests } from '../../../stories/data';
-import { SelectOption } from '../../shared/compounds/ItemList';
-import { Header, Select } from '../../shared/elements';
+import { TextGray, White } from '../../../../colors';
+import {
+  StaffApprovalStatus,
+  useUserGitPoapRequestsQuery,
+} from '../../../../graphql/generated-gql';
+import { useUser } from '../../../../hooks/useUser';
+import { gitPOAPRequests as sampleGitPOAPRequests } from '../../../../stories/data';
+import { SelectOption } from '../../../shared/compounds/ItemList';
+import { Header, Select } from '../../../shared/elements';
 import { TeamGitPOAPsGrid } from './Grid';
 import { TeamGitPOAPsList } from './List';
 

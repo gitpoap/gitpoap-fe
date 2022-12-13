@@ -3,9 +3,7 @@ import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { User } from '../../hooks/useUser';
-import { Header } from '../shared/elements';
-import { CreateAGitPOAP } from './CreateAGitPOAP';
-import { TeamGitPOAPs } from './TeamGitPOAPs';
+import { TeamDashboard } from './Dashboard';
 
 const Panel = styled(Tabs.Panel)`
   overflow: hidden;
@@ -22,7 +20,7 @@ type Props = {
   user: User;
 };
 
-export const TeamDashboard = ({ user }: Props) => {
+export const TeamContainer = ({ user }: Props) => {
   const router = useRouter();
 
   if (!user) {
@@ -31,7 +29,6 @@ export const TeamDashboard = ({ user }: Props) => {
 
   return (
     <Stack m={rem(20)}>
-      <Header style={{ alignSelf: 'start' }}>{'Team Name'}</Header>
       <Tabs
         defaultValue={Section.Dashboard}
         orientation="vertical"
@@ -48,10 +45,7 @@ export const TeamDashboard = ({ user }: Props) => {
         </Tabs.List>
 
         <Panel value={Section.Dashboard}>
-          <Stack pl={rem(32)}>
-            <CreateAGitPOAP />
-            <TeamGitPOAPs />
-          </Stack>
+          <TeamDashboard />
         </Panel>
 
         <Panel value={Section.Members}>

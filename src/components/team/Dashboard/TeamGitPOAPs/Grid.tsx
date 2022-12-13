@@ -2,11 +2,11 @@ import { Group, Text, Card, ActionIcon, Center, Overlay, Container, Menu } from 
 import { rem } from 'polished';
 import React from 'react';
 import { MdMoreHoriz } from 'react-icons/md';
-import { BackgroundPanel, BackgroundPanel2 } from '../../../colors';
+import { BackgroundPanel, BackgroundPanel2 } from '../../../../colors';
 
-import { UserGitPoapRequestsQuery } from '../../../graphql/generated-gql';
-import { RequestStatusBadge } from '../../request/RequestItem/RequestStatusBadge';
-import { GitPOAPBadge } from '../../shared/elements';
+import { UserGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
+import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
+import { GitPOAPBadge } from '../../../shared/elements';
 
 type Props = {
   gitPOAPRequests: Exclude<UserGitPoapRequestsQuery['gitPOAPRequests'], null | undefined>;

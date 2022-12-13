@@ -2,10 +2,10 @@ import { Stack, Table, ScrollArea } from '@mantine/core';
 import { rem } from 'polished';
 import React from 'react';
 
-import { TableHeaderItem } from '../../gitpoap/manage/TableHeaderItem';
-import { BackgroundPanel } from '../../../colors';
+import { TableHeaderItem } from '../../../gitpoap/manage/TableHeaderItem';
+import { BackgroundPanel } from '../../../../colors';
 import { TeamGitPOAPsRow } from './Row';
-import { UserGitPoapRequestsQuery } from '../../../graphql/generated-gql';
+import { UserGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 
 const HEADERS: {
   label: string;
