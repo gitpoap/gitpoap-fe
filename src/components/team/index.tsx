@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { User } from '../../hooks/useUser';
+import { Header } from '../shared/elements';
 import { TeamDashboard } from './Dashboard2';
 
 const Panel = styled(Tabs.Panel)`
@@ -29,6 +30,7 @@ export const TeamContainer = ({ user }: Props) => {
 
   return (
     <Stack m={rem(20)}>
+      <Header style={{ alignSelf: 'start' }}>{'Team Name'}</Header>
       <Tabs
         defaultValue={Section.Dashboard}
         orientation="vertical"
