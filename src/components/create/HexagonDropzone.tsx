@@ -77,12 +77,7 @@ export const HexagonDropzone = ({ imageUrl, setError, addImage, removeImage }: P
         >
           {imageUrl ? (
             <>
-              <Image
-                alt="GitPOAP Image"
-                src={imageUrl}
-                layout="fill"
-                style={{ pointerEvents: 'none' }}
-              />
+              <Image alt="GitPOAP Image" src={imageUrl} fill style={{ pointerEvents: 'none' }} />
               <Stack>
                 <Button variant="filled">{'Replace'}</Button>
                 <Button
