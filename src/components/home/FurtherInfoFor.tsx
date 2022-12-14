@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Grid } from '@mantine/core';
-import { Body, BodyAsAnchor, Button, Header, InfoHexBase, Text } from '../shared/elements';
+import { Body, Button, Header, InfoHexBase, Text } from '../shared/elements';
 import { FaArrowRight } from 'react-icons/fa';
 import { BREAKPOINTS } from '../../constants';
 import { useClaimContext } from '../claims/ClaimContext';
@@ -45,7 +45,7 @@ const InfoHex = styled(InfoHexBase)`
   width: ${rem(600)};
   max-width: 100%;
 
-  ${Body}, ${BodyAsAnchor} {
+  ${Body} {
     display: flex;
     align-items: center;
     justify-content: center;

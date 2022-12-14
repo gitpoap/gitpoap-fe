@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { ExtraHover, ExtraPressed, Slate1, TextGray } from '../../colors';
-import { Body, BodyAsAnchor, InfoHexBase } from '../shared/elements/InfoHexBase';
+import { Body, InfoHexBase } from '../shared/elements/InfoHexBase';
 import { TitleNoHover } from '../shared/elements/Title';
 import { Repo } from './RepoList';
 import { TextSkeleton } from '../shared/elements';
@@ -49,7 +49,7 @@ const Stats = styled.div`
 const BODY_HEIGHT = 20;
 
 export const InfoHexBaseStyled = styled(InfoHexBase)`
-  ${Body}, ${BodyAsAnchor} {
+  ${Body} {
     display: flex;
     align-items: center;
     justify-content: center;
