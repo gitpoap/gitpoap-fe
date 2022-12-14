@@ -35,6 +35,9 @@ const moduleExports = {
       'lh3.googleusercontent.com',
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   sentry: {
     hideSourceMaps: true,
   },

@@ -47,7 +47,7 @@ export const LinkStyles = css`
   ${LinkHoverStyles}
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled.div`
   ${LinkStyles}
   margin-right: ${rem(18)};
   @media (max-width: ${rem(BREAKPOINTS.sm + 40)}) {
@@ -61,11 +61,4 @@ export const NavLink = ({ children, ...restProps }: React.ComponentProps<typeof 
       <StyledLink>{children}</StyledLink>
     </Link>
   );
-};
-
-export const NavLinkAnchor = ({
-  children,
-  ...restProps
-}: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
-  return <StyledLink {...restProps}>{children}</StyledLink>;
 };
