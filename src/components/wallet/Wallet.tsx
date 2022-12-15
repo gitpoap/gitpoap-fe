@@ -1,5 +1,5 @@
 import { Box, Group, Menu } from '@mantine/core';
-import { NextLink } from '@mantine/next';
+import Link from 'next/link';
 import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import { JazzIconNoText, StyledAvatar, WalletStatus } from './WalletStatus';
@@ -45,7 +45,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               </Box>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item component={NextLink} href={`/p/${ensName ?? connectedAddress}`}>
+              <Menu.Item component={Link} href={`/p/${ensName ?? connectedAddress}`}>
                 <Group noWrap>
                   {ensAvatarUrl ? (
                     <StyledAvatar src={ensAvatarUrl} useDefaultImageTag />
@@ -56,17 +56,17 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                 </Group>
               </Menu.Item>
               <Menu.Divider />
-              <Menu.Item component={NextLink} href={'/me/gitpoaps'}>
+              <Menu.Item component={Link} href={'/me/gitpoaps'}>
                 {'GitPOAP Requests'}
               </Menu.Item>
-              <Menu.Item component={NextLink} href="/settings">
+              <Menu.Item component={Link} href="/settings">
                 {'Settings'}
               </Menu.Item>
               <Menu.Item component="a" href="https://docs.gitpoap.io" target="_blank">
                 {'Help'}
               </Menu.Item>
               {user?.permissions.isStaff && (
-                <Menu.Item component={NextLink} href="/admin">
+                <Menu.Item component={Link} href="/admin">
                   {'Admin'}
                 </Menu.Item>
               )}
