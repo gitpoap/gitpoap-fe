@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RepoHexSmall should render with a link 1`] = `
-.c5 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -33,7 +33,7 @@ exports[`RepoHexSmall should render with a link 1`] = `
   color: #E2E2EE;
 }
 
-.c2 {
+.c1 {
   display: inline-block;
   font-weight: 700;
   font-size: 0.8125rem;
@@ -50,66 +50,7 @@ exports[`RepoHexSmall should render with a link 1`] = `
   color: #307AE8;
 }
 
-.c0 {
-  margin-top: 3.125rem;
-  margin-bottom: 3.125rem;
-  background-color: #1E1F2E;
-  position: relative;
-  min-height: 6.25rem;
-  -webkit-transition: 150ms background-color ease;
-  transition: 150ms background-color ease;
-  pointer-events: auto;
-}
-
-.c0:before {
-  position: absolute;
-  content: '';
-  -webkit-clip-path: polygon(50% 0%,0% 100%,100% 100%);
-  clip-path: polygon(50% 0%,0% 100%,100% 100%);
-  width: 100%;
-  height: 3.125rem;
-  background-color: #1E1F2E;
-  top: -3.09375rem;
-  -webkit-transition: 150ms background-color ease;
-  transition: 150ms background-color ease;
-  left: 0;
-}
-
-.c0:after {
-  content: '';
-  -webkit-clip-path: polygon(50% 100%,0 0,100% 0);
-  clip-path: polygon(50% 100%,0 0,100% 0);
-  position: absolute;
-  width: 100%;
-  height: 3.125rem;
-  background-color: #1E1F2E;
-  bottom: -3.125rem;
-  -webkit-transition: 150ms background-color ease;
-  transition: 150ms background-color ease;
-  left: 0;
-}
-
-.c0:hover {
-  background-color: #292B3D;
-  cursor: pointer;
-}
-
-.c0:hover::before,
-.c0:hover::after {
-  background-color: #292B3D;
-}
-
-.c0:active {
-  background-color: #1E1F2E;
-  cursor: pointer;
-}
-
-.c0:active::before,
-.c0:active::after {
-  background-color: #1E1F2E;
-}
-
-.c4 {
+.c3 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -127,11 +68,11 @@ exports[`RepoHexSmall should render with a link 1`] = `
   align-items: center;
 }
 
-.c4 > *:not(:last-child) {
+.c3 > *:not(:last-child) {
   margin-right: 0.625rem;
 }
 
-.c3 {
+.c2 {
   font-family: PT Mono;
   font-style: normal;
   font-weight: bold;
@@ -150,7 +91,7 @@ exports[`RepoHexSmall should render with a link 1`] = `
   max-width: 10.625rem;
 }
 
-.c1 {
+.c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -194,22 +135,21 @@ exports[`RepoHexSmall should render with a link 1`] = `
 }
 
 <a
-  class="c0"
   href="/gh/testOrg/testRepoHexSmall"
 >
   <div
-    class="c1"
+    class="c0"
   >
     <div
-      class="emotion-0 c2 c3 emotion-1"
+      class="emotion-0 c1 c2 emotion-1"
     >
       testRepoHexSmall
     </div>
     <div
-      class="c4"
+      class="c3"
     />
     <div
-      class="c5 emotion-2"
+      class="c4 emotion-2"
     >
       testOrg
     </div>
@@ -218,7 +158,7 @@ exports[`RepoHexSmall should render with a link 1`] = `
 `;
 
 exports[`RepoHexSmall should render with gitPoapCount 1`] = `
-.c7 {
+.c9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -250,7 +190,7 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   color: #E2E2EE;
 }
 
-.c6 {
+.c8 {
   -webkit-text-decoration: none;
   text-decoration: none;
   -webkit-transition: 200ms fill ease,200ms stroke ease,200ms color ease;
@@ -260,12 +200,12 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   color: #838495;
 }
 
-.c6 path {
+.c8 path {
   -webkit-transition: 200ms fill ease;
   transition: 200ms fill ease;
 }
 
-.c3 {
+.c5 {
   display: inline-block;
   font-weight: 700;
   font-size: 0.8125rem;
@@ -282,7 +222,7 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   color: #307AE8;
 }
 
-.c1 {
+.c3 {
   margin-top: 3.125rem;
   margin-bottom: 3.125rem;
   background-color: #1E1F2E;
@@ -293,7 +233,7 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   pointer-events: auto;
 }
 
-.c1:before {
+.c3:before {
   position: absolute;
   content: '';
   -webkit-clip-path: polygon(50% 0%,0% 100%,100% 100%);
@@ -307,7 +247,7 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   left: 0;
 }
 
-.c1:after {
+.c3:after {
   content: '';
   -webkit-clip-path: polygon(50% 100%,0 0,100% 0);
   clip-path: polygon(50% 100%,0 0,100% 0);
@@ -321,23 +261,23 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   left: 0;
 }
 
-.c1:hover {
+.c3:hover {
   background-color: #292B3D;
   cursor: pointer;
 }
 
-.c1:hover::before,
-.c1:hover::after {
+.c3:hover::before,
+.c3:hover::after {
   background-color: #292B3D;
 }
 
-.c1:active {
+.c3:active {
   background-color: #1E1F2E;
   cursor: pointer;
 }
 
-.c1:active::before,
-.c1:active::after {
+.c3:active::before,
+.c3:active::after {
   background-color: #1E1F2E;
 }
 
@@ -353,7 +293,7 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   pointer-events: none;
 }
 
-.c5 {
+.c7 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -371,11 +311,11 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   align-items: center;
 }
 
-.c5 > *:not(:last-child) {
+.c7 > *:not(:last-child) {
   margin-right: 0.625rem;
 }
 
-.c4 {
+.c6 {
   font-family: PT Mono;
   font-style: normal;
   font-weight: bold;
@@ -394,7 +334,7 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   max-width: 10.625rem;
 }
 
-.c2 {
+.c4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -412,6 +352,34 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   justify-content: center;
   padding: 0.9375rem 1.25rem;
   width: 100%;
+}
+
+.c1 .c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
+  min-height: unset;
+}
+
+.c1 .c2:before {
+  height: 0.625rem;
+  top: -0.625rem;
+}
+
+.c1 .c2:after {
+  height: 0.625rem;
+  bottom: -0.625rem;
 }
 
 .emotion-1 {
@@ -502,60 +470,63 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
 }
 
 <div
-  class="c0 "
+  class="c0 c1"
 >
-  <a
-    class="c1"
-    href="/gh/testOrg/testRepoHexSmall"
+  <div
+    class="c2 c3"
   >
-    <div
-      class="c2"
+    <a
+      href="/gh/testOrg/testRepoHexSmall"
     >
       <div
-        class="emotion-0 c3 c4 emotion-1"
-      >
-        testRepoHexSmall
-      </div>
-      <div
-        class="c5"
+        class="c4"
       >
         <div
-          class="emotion-2 emotion-3"
+          class="emotion-0 c5 c6 emotion-1"
         >
-          <svg
-            class="c6"
-            fill="none"
-            height="12"
-            viewBox="0 0 15 17"
-            width="14"
-            xmlns="http://www.w3.org/2000/svg"
+          testRepoHexSmall
+        </div>
+        <div
+          class="c7"
+        >
+          <div
+            class="emotion-2 emotion-3"
           >
-            <path
-              clip-rule="evenodd"
-              d="M12.383 11.144l1.691 3.092c.176.291 0 .496-.408.496l-1.488.058c-.32 0-.73.292-.846.554l-.788 1.46a.314.314 0 01-.583 0s-1.05-1.926-1.692-3.18c.166-.048.293-.115.397-.17l.07-.035 3.646-2.275zM.539 14.236l1.692-3.092 3.617 2.275c.054.022.104.047.156.074.089.046.182.094.31.13a173.077 173.077 0 01-1.691 3.18.315.315 0 01-.584 0l-.787-1.459c-.117-.291-.525-.554-.847-.554l-1.487-.058c-.438 0-.496-.234-.38-.496zM13.345 8.43c0 .817-.496 1.663-1.225 2.072l-3.588 1.984a2.81 2.81 0 01-1.226.292c-.408 0-.846-.059-1.225-.292l-3.588-2.013c-.73-.408-1.225-1.254-1.225-2.071V4.376c0-.817.496-1.663 1.225-2.071L6.081.29C6.43.116 6.869 0 7.306 0c.409 0 .788.058 1.226.291l3.588 2.013c.787.41 1.225 1.196 1.225 2.071V8.43zm-6.943 2.393c.291.175.583.204.904.204.32 0 .641-.059.904-.204l2.597-1.459c.554-.32.904-.904.904-1.517V4.93c0-.671-.321-1.225-.904-1.517L8.21 1.954c-.32-.175-.583-.204-.904-.204-.321 0-.642.088-.904.204L3.805 3.413c-.554.32-.904.904-.904 1.517v2.917c0 .613.379 1.226.904 1.517l2.597 1.459zm-.513-5.694a.365.365 0 00-.626-.249L4.214 5.96a.365.365 0 00-.003.504l1.05 1.109a.365.365 0 00.528-.502l-.808-.854.805-.829a.365.365 0 00.103-.259zm3.052-.331a.364.364 0 00-.118.594l.825.825-.828.85a.365.365 0 10.522.51l1.079-1.109a.365.365 0 00-.003-.512l-1.08-1.08a.364.364 0 00-.397-.078zm-.77.047a.365.365 0 00-.12-.078h.001a.364.364 0 00-.475.201l-.933 2.305a.364.364 0 10.676.274l.933-2.305a.365.365 0 00-.082-.397z"
-              fill="#838495"
-              fill-rule="evenodd"
-            />
-          </svg>
-          <span
-            class="emotion-0 emotion-5"
-          >
-            5
-          </span>
+            <svg
+              class="c8"
+              fill="none"
+              height="12"
+              viewBox="0 0 15 17"
+              width="14"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M12.383 11.144l1.691 3.092c.176.291 0 .496-.408.496l-1.488.058c-.32 0-.73.292-.846.554l-.788 1.46a.314.314 0 01-.583 0s-1.05-1.926-1.692-3.18c.166-.048.293-.115.397-.17l.07-.035 3.646-2.275zM.539 14.236l1.692-3.092 3.617 2.275c.054.022.104.047.156.074.089.046.182.094.31.13a173.077 173.077 0 01-1.691 3.18.315.315 0 01-.584 0l-.787-1.459c-.117-.291-.525-.554-.847-.554l-1.487-.058c-.438 0-.496-.234-.38-.496zM13.345 8.43c0 .817-.496 1.663-1.225 2.072l-3.588 1.984a2.81 2.81 0 01-1.226.292c-.408 0-.846-.059-1.225-.292l-3.588-2.013c-.73-.408-1.225-1.254-1.225-2.071V4.376c0-.817.496-1.663 1.225-2.071L6.081.29C6.43.116 6.869 0 7.306 0c.409 0 .788.058 1.226.291l3.588 2.013c.787.41 1.225 1.196 1.225 2.071V8.43zm-6.943 2.393c.291.175.583.204.904.204.32 0 .641-.059.904-.204l2.597-1.459c.554-.32.904-.904.904-1.517V4.93c0-.671-.321-1.225-.904-1.517L8.21 1.954c-.32-.175-.583-.204-.904-.204-.321 0-.642.088-.904.204L3.805 3.413c-.554.32-.904.904-.904 1.517v2.917c0 .613.379 1.226.904 1.517l2.597 1.459zm-.513-5.694a.365.365 0 00-.626-.249L4.214 5.96a.365.365 0 00-.003.504l1.05 1.109a.365.365 0 00.528-.502l-.808-.854.805-.829a.365.365 0 00.103-.259zm3.052-.331a.364.364 0 00-.118.594l.825.825-.828.85a.365.365 0 10.522.51l1.079-1.109a.365.365 0 00-.003-.512l-1.08-1.08a.364.364 0 00-.397-.078zm-.77.047a.365.365 0 00-.12-.078h.001a.364.364 0 00-.475.201l-.933 2.305a.364.364 0 10.676.274l.933-2.305a.365.365 0 00-.082-.397z"
+                fill="#838495"
+                fill-rule="evenodd"
+              />
+            </svg>
+            <span
+              class="emotion-0 emotion-5"
+            >
+              5
+            </span>
+          </div>
+        </div>
+        <div
+          class="c9 emotion-6"
+        >
+          testOrg
         </div>
       </div>
-      <div
-        class="c7 emotion-6"
-      >
-        testOrg
-      </div>
-    </div>
-  </a>
+    </a>
+  </div>
 </div>
 `;
 
 exports[`RepoHexSmall should render with memberCount 1`] = `
-.c7 {
+.c9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -587,7 +558,7 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   color: #E2E2EE;
 }
 
-.c6 {
+.c8 {
   -webkit-text-decoration: none;
   text-decoration: none;
   -webkit-transition: 200ms fill ease,200ms stroke ease,200ms color ease;
@@ -597,12 +568,12 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   color: #838495;
 }
 
-.c6 path {
+.c8 path {
   -webkit-transition: 200ms fill ease;
   transition: 200ms fill ease;
 }
 
-.c3 {
+.c5 {
   display: inline-block;
   font-weight: 700;
   font-size: 0.8125rem;
@@ -619,7 +590,7 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   color: #307AE8;
 }
 
-.c1 {
+.c3 {
   margin-top: 3.125rem;
   margin-bottom: 3.125rem;
   background-color: #1E1F2E;
@@ -630,7 +601,7 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   pointer-events: auto;
 }
 
-.c1:before {
+.c3:before {
   position: absolute;
   content: '';
   -webkit-clip-path: polygon(50% 0%,0% 100%,100% 100%);
@@ -644,7 +615,7 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   left: 0;
 }
 
-.c1:after {
+.c3:after {
   content: '';
   -webkit-clip-path: polygon(50% 100%,0 0,100% 0);
   clip-path: polygon(50% 100%,0 0,100% 0);
@@ -658,23 +629,23 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   left: 0;
 }
 
-.c1:hover {
+.c3:hover {
   background-color: #292B3D;
   cursor: pointer;
 }
 
-.c1:hover::before,
-.c1:hover::after {
+.c3:hover::before,
+.c3:hover::after {
   background-color: #292B3D;
 }
 
-.c1:active {
+.c3:active {
   background-color: #1E1F2E;
   cursor: pointer;
 }
 
-.c1:active::before,
-.c1:active::after {
+.c3:active::before,
+.c3:active::after {
   background-color: #1E1F2E;
 }
 
@@ -690,7 +661,7 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   pointer-events: none;
 }
 
-.c5 {
+.c7 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -708,11 +679,11 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   align-items: center;
 }
 
-.c5 > *:not(:last-child) {
+.c7 > *:not(:last-child) {
   margin-right: 0.625rem;
 }
 
-.c4 {
+.c6 {
   font-family: PT Mono;
   font-style: normal;
   font-weight: bold;
@@ -731,7 +702,7 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   max-width: 10.625rem;
 }
 
-.c2 {
+.c4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -749,6 +720,34 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   justify-content: center;
   padding: 0.9375rem 1.25rem;
   width: 100%;
+}
+
+.c1 .c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
+  min-height: unset;
+}
+
+.c1 .c2:before {
+  height: 0.625rem;
+  top: -0.625rem;
+}
+
+.c1 .c2:after {
+  height: 0.625rem;
+  bottom: -0.625rem;
 }
 
 .emotion-1 {
@@ -839,60 +838,63 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
 }
 
 <div
-  class="c0 "
+  class="c0 c1"
 >
-  <a
-    class="c1"
-    href="/gh/testOrg/testRepoHexSmall"
+  <div
+    class="c2 c3"
   >
-    <div
-      class="c2"
+    <a
+      href="/gh/testOrg/testRepoHexSmall"
     >
       <div
-        class="emotion-0 c3 c4 emotion-1"
-      >
-        testRepoHexSmall
-      </div>
-      <div
-        class="c5"
+        class="c4"
       >
         <div
-          class="emotion-2 emotion-3"
+          class="emotion-0 c5 c6 emotion-1"
         >
-          <svg
-            class="c6"
-            fill="none"
-            height="11"
-            viewBox="0 0 78 65"
-            width="13"
-            xmlns="http://www.w3.org/2000/svg"
+          testRepoHexSmall
+        </div>
+        <div
+          class="c7"
+        >
+          <div
+            class="emotion-2 emotion-3"
           >
-            <path
-              clip-rule="evenodd"
-              d="M4.852 42.635a16.567 16.567 0 0111.715-4.852H41.7a16.566 16.566 0 0116.567 16.566v6.284a4 4 0 11-8 0v-6.284a8.567 8.567 0 00-8.567-8.566H16.567A8.567 8.567 0 008 54.349v6.284a4 4 0 11-8 0v-6.284c0-4.393 1.745-8.607 4.852-11.714zM29.133 8.083a8.567 8.567 0 100 17.133 8.567 8.567 0 000-17.133zM12.567 16.65C12.567 7.5 19.984.083 29.133.083 38.283.083 45.7 7.5 45.7 16.65s-7.417 16.566-16.567 16.566S12.567 25.8 12.567 16.65zM59.819 41.191a4 4 0 014.873-2.873 16.567 16.567 0 0112.425 16.029v6.286a4 4 0 01-8 0v-6.282a8.567 8.567 0 00-6.425-8.287 4 4 0 01-2.873-4.873zM47.25 3.5A4 4 0 0152.117.616a16.567 16.567 0 010 32.098 4 4 0 01-1.984-7.75 8.567 8.567 0 000-16.598 4 4 0 01-2.883-4.868z"
-              fill="#838495"
-              fill-rule="evenodd"
-            />
-          </svg>
-          <span
-            class="emotion-0 emotion-5"
-          >
-            10
-          </span>
+            <svg
+              class="c8"
+              fill="none"
+              height="11"
+              viewBox="0 0 78 65"
+              width="13"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M4.852 42.635a16.567 16.567 0 0111.715-4.852H41.7a16.566 16.566 0 0116.567 16.566v6.284a4 4 0 11-8 0v-6.284a8.567 8.567 0 00-8.567-8.566H16.567A8.567 8.567 0 008 54.349v6.284a4 4 0 11-8 0v-6.284c0-4.393 1.745-8.607 4.852-11.714zM29.133 8.083a8.567 8.567 0 100 17.133 8.567 8.567 0 000-17.133zM12.567 16.65C12.567 7.5 19.984.083 29.133.083 38.283.083 45.7 7.5 45.7 16.65s-7.417 16.566-16.567 16.566S12.567 25.8 12.567 16.65zM59.819 41.191a4 4 0 014.873-2.873 16.567 16.567 0 0112.425 16.029v6.286a4 4 0 01-8 0v-6.282a8.567 8.567 0 00-6.425-8.287 4 4 0 01-2.873-4.873zM47.25 3.5A4 4 0 0152.117.616a16.567 16.567 0 010 32.098 4 4 0 01-1.984-7.75 8.567 8.567 0 000-16.598 4 4 0 01-2.883-4.868z"
+                fill="#838495"
+                fill-rule="evenodd"
+              />
+            </svg>
+            <span
+              class="emotion-0 emotion-5"
+            >
+              10
+            </span>
+          </div>
+        </div>
+        <div
+          class="c9 emotion-6"
+        >
+          testOrg
         </div>
       </div>
-      <div
-        class="c7 emotion-6"
-      >
-        testOrg
-      </div>
-    </div>
-  </a>
+    </a>
+  </div>
 </div>
 `;
 
 exports[`RepoHexSmall should render with name and orgName 1`] = `
-.c6 {
+.c8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -924,7 +926,7 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
   color: #E2E2EE;
 }
 
-.c3 {
+.c5 {
   display: inline-block;
   font-weight: 700;
   font-size: 0.8125rem;
@@ -941,7 +943,7 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
   color: #307AE8;
 }
 
-.c1 {
+.c3 {
   margin-top: 3.125rem;
   margin-bottom: 3.125rem;
   background-color: #1E1F2E;
@@ -952,7 +954,7 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
   pointer-events: auto;
 }
 
-.c1:before {
+.c3:before {
   position: absolute;
   content: '';
   -webkit-clip-path: polygon(50% 0%,0% 100%,100% 100%);
@@ -966,7 +968,7 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
   left: 0;
 }
 
-.c1:after {
+.c3:after {
   content: '';
   -webkit-clip-path: polygon(50% 100%,0 0,100% 0);
   clip-path: polygon(50% 100%,0 0,100% 0);
@@ -980,23 +982,23 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
   left: 0;
 }
 
-.c1:hover {
+.c3:hover {
   background-color: #292B3D;
   cursor: pointer;
 }
 
-.c1:hover::before,
-.c1:hover::after {
+.c3:hover::before,
+.c3:hover::after {
   background-color: #292B3D;
 }
 
-.c1:active {
+.c3:active {
   background-color: #1E1F2E;
   cursor: pointer;
 }
 
-.c1:active::before,
-.c1:active::after {
+.c3:active::before,
+.c3:active::after {
   background-color: #1E1F2E;
 }
 
@@ -1012,7 +1014,7 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
   pointer-events: none;
 }
 
-.c5 {
+.c7 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1030,11 +1032,11 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
   align-items: center;
 }
 
-.c5 > *:not(:last-child) {
+.c7 > *:not(:last-child) {
   margin-right: 0.625rem;
 }
 
-.c4 {
+.c6 {
   font-family: PT Mono;
   font-style: normal;
   font-weight: bold;
@@ -1053,7 +1055,7 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
   max-width: 10.625rem;
 }
 
-.c2 {
+.c4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1071,6 +1073,34 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
   justify-content: center;
   padding: 0.9375rem 1.25rem;
   width: 100%;
+}
+
+.c1 .c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
+  min-height: unset;
+}
+
+.c1 .c2:before {
+  height: 0.625rem;
+  top: -0.625rem;
+}
+
+.c1 .c2:after {
+  height: 0.625rem;
+  bottom: -0.625rem;
 }
 
 .emotion-1 {
@@ -1097,35 +1127,38 @@ exports[`RepoHexSmall should render with name and orgName 1`] = `
 }
 
 <div
-  class="c0 "
+  class="c0 c1"
 >
-  <a
-    class="c1"
-    href="/gh/testOrg/testRepoHexSmall"
+  <div
+    class="c2 c3"
   >
-    <div
-      class="c2"
+    <a
+      href="/gh/testOrg/testRepoHexSmall"
     >
       <div
-        class="emotion-0 c3 c4 emotion-1"
+        class="c4"
       >
-        testRepoHexSmall
+        <div
+          class="emotion-0 c5 c6 emotion-1"
+        >
+          testRepoHexSmall
+        </div>
+        <div
+          class="c7"
+        />
+        <div
+          class="c8 emotion-2"
+        >
+          testOrg
+        </div>
       </div>
-      <div
-        class="c5"
-      />
-      <div
-        class="c6 emotion-2"
-      >
-        testOrg
-      </div>
-    </div>
-  </a>
+    </a>
+  </div>
 </div>
 `;
 
 exports[`RepoHexSmall should render with stars 1`] = `
-.c7 {
+.c9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1157,7 +1190,7 @@ exports[`RepoHexSmall should render with stars 1`] = `
   color: #E2E2EE;
 }
 
-.c6 {
+.c8 {
   -webkit-text-decoration: none;
   text-decoration: none;
   -webkit-transition: 200ms fill ease,200ms stroke ease,200ms color ease;
@@ -1167,12 +1200,12 @@ exports[`RepoHexSmall should render with stars 1`] = `
   color: #838495;
 }
 
-.c6 path {
+.c8 path {
   -webkit-transition: 200ms fill ease;
   transition: 200ms fill ease;
 }
 
-.c3 {
+.c5 {
   display: inline-block;
   font-weight: 700;
   font-size: 0.8125rem;
@@ -1189,7 +1222,7 @@ exports[`RepoHexSmall should render with stars 1`] = `
   color: #307AE8;
 }
 
-.c1 {
+.c3 {
   margin-top: 3.125rem;
   margin-bottom: 3.125rem;
   background-color: #1E1F2E;
@@ -1200,7 +1233,7 @@ exports[`RepoHexSmall should render with stars 1`] = `
   pointer-events: auto;
 }
 
-.c1:before {
+.c3:before {
   position: absolute;
   content: '';
   -webkit-clip-path: polygon(50% 0%,0% 100%,100% 100%);
@@ -1214,7 +1247,7 @@ exports[`RepoHexSmall should render with stars 1`] = `
   left: 0;
 }
 
-.c1:after {
+.c3:after {
   content: '';
   -webkit-clip-path: polygon(50% 100%,0 0,100% 0);
   clip-path: polygon(50% 100%,0 0,100% 0);
@@ -1228,23 +1261,23 @@ exports[`RepoHexSmall should render with stars 1`] = `
   left: 0;
 }
 
-.c1:hover {
+.c3:hover {
   background-color: #292B3D;
   cursor: pointer;
 }
 
-.c1:hover::before,
-.c1:hover::after {
+.c3:hover::before,
+.c3:hover::after {
   background-color: #292B3D;
 }
 
-.c1:active {
+.c3:active {
   background-color: #1E1F2E;
   cursor: pointer;
 }
 
-.c1:active::before,
-.c1:active::after {
+.c3:active::before,
+.c3:active::after {
   background-color: #1E1F2E;
 }
 
@@ -1260,7 +1293,7 @@ exports[`RepoHexSmall should render with stars 1`] = `
   pointer-events: none;
 }
 
-.c5 {
+.c7 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1278,11 +1311,11 @@ exports[`RepoHexSmall should render with stars 1`] = `
   align-items: center;
 }
 
-.c5 > *:not(:last-child) {
+.c7 > *:not(:last-child) {
   margin-right: 0.625rem;
 }
 
-.c4 {
+.c6 {
   font-family: PT Mono;
   font-style: normal;
   font-weight: bold;
@@ -1301,7 +1334,7 @@ exports[`RepoHexSmall should render with stars 1`] = `
   max-width: 10.625rem;
 }
 
-.c2 {
+.c4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1319,6 +1352,34 @@ exports[`RepoHexSmall should render with stars 1`] = `
   justify-content: center;
   padding: 0.9375rem 1.25rem;
   width: 100%;
+}
+
+.c1 .c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
+  min-height: unset;
+}
+
+.c1 .c2:before {
+  height: 0.625rem;
+  top: -0.625rem;
+}
+
+.c1 .c2:after {
+  height: 0.625rem;
+  bottom: -0.625rem;
 }
 
 .emotion-1 {
@@ -1409,54 +1470,57 @@ exports[`RepoHexSmall should render with stars 1`] = `
 }
 
 <div
-  class="c0 "
+  class="c0 c1"
 >
-  <a
-    class="c1"
-    href="/gh/testOrg/testRepoHexSmall"
+  <div
+    class="c2 c3"
   >
-    <div
-      class="c2"
+    <a
+      href="/gh/testOrg/testRepoHexSmall"
     >
       <div
-        class="emotion-0 c3 c4 emotion-1"
-      >
-        testRepoHexSmall
-      </div>
-      <div
-        class="c5"
+        class="c4"
       >
         <div
-          class="emotion-2 emotion-3"
+          class="emotion-0 c5 c6 emotion-1"
         >
-          <svg
-            class="c6"
-            fill="none"
-            height="12"
-            viewBox="0 0 15 17"
-            width="14"
-            xmlns="http://www.w3.org/2000/svg"
+          testRepoHexSmall
+        </div>
+        <div
+          class="c7"
+        >
+          <div
+            class="emotion-2 emotion-3"
           >
-            <path
-              clip-rule="evenodd"
-              d="M12.383 11.144l1.691 3.092c.176.291 0 .496-.408.496l-1.488.058c-.32 0-.73.292-.846.554l-.788 1.46a.314.314 0 01-.583 0s-1.05-1.926-1.692-3.18c.166-.048.293-.115.397-.17l.07-.035 3.646-2.275zM.539 14.236l1.692-3.092 3.617 2.275c.054.022.104.047.156.074.089.046.182.094.31.13a173.077 173.077 0 01-1.691 3.18.315.315 0 01-.584 0l-.787-1.459c-.117-.291-.525-.554-.847-.554l-1.487-.058c-.438 0-.496-.234-.38-.496zM13.345 8.43c0 .817-.496 1.663-1.225 2.072l-3.588 1.984a2.81 2.81 0 01-1.226.292c-.408 0-.846-.059-1.225-.292l-3.588-2.013c-.73-.408-1.225-1.254-1.225-2.071V4.376c0-.817.496-1.663 1.225-2.071L6.081.29C6.43.116 6.869 0 7.306 0c.409 0 .788.058 1.226.291l3.588 2.013c.787.41 1.225 1.196 1.225 2.071V8.43zm-6.943 2.393c.291.175.583.204.904.204.32 0 .641-.059.904-.204l2.597-1.459c.554-.32.904-.904.904-1.517V4.93c0-.671-.321-1.225-.904-1.517L8.21 1.954c-.32-.175-.583-.204-.904-.204-.321 0-.642.088-.904.204L3.805 3.413c-.554.32-.904.904-.904 1.517v2.917c0 .613.379 1.226.904 1.517l2.597 1.459zm-.513-5.694a.365.365 0 00-.626-.249L4.214 5.96a.365.365 0 00-.003.504l1.05 1.109a.365.365 0 00.528-.502l-.808-.854.805-.829a.365.365 0 00.103-.259zm3.052-.331a.364.364 0 00-.118.594l.825.825-.828.85a.365.365 0 10.522.51l1.079-1.109a.365.365 0 00-.003-.512l-1.08-1.08a.364.364 0 00-.397-.078zm-.77.047a.365.365 0 00-.12-.078h.001a.364.364 0 00-.475.201l-.933 2.305a.364.364 0 10.676.274l.933-2.305a.365.365 0 00-.082-.397z"
-              fill="#838495"
-              fill-rule="evenodd"
-            />
-          </svg>
-          <span
-            class="emotion-0 emotion-5"
-          >
-            15
-          </span>
+            <svg
+              class="c8"
+              fill="none"
+              height="12"
+              viewBox="0 0 15 17"
+              width="14"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M12.383 11.144l1.691 3.092c.176.291 0 .496-.408.496l-1.488.058c-.32 0-.73.292-.846.554l-.788 1.46a.314.314 0 01-.583 0s-1.05-1.926-1.692-3.18c.166-.048.293-.115.397-.17l.07-.035 3.646-2.275zM.539 14.236l1.692-3.092 3.617 2.275c.054.022.104.047.156.074.089.046.182.094.31.13a173.077 173.077 0 01-1.691 3.18.315.315 0 01-.584 0l-.787-1.459c-.117-.291-.525-.554-.847-.554l-1.487-.058c-.438 0-.496-.234-.38-.496zM13.345 8.43c0 .817-.496 1.663-1.225 2.072l-3.588 1.984a2.81 2.81 0 01-1.226.292c-.408 0-.846-.059-1.225-.292l-3.588-2.013c-.73-.408-1.225-1.254-1.225-2.071V4.376c0-.817.496-1.663 1.225-2.071L6.081.29C6.43.116 6.869 0 7.306 0c.409 0 .788.058 1.226.291l3.588 2.013c.787.41 1.225 1.196 1.225 2.071V8.43zm-6.943 2.393c.291.175.583.204.904.204.32 0 .641-.059.904-.204l2.597-1.459c.554-.32.904-.904.904-1.517V4.93c0-.671-.321-1.225-.904-1.517L8.21 1.954c-.32-.175-.583-.204-.904-.204-.321 0-.642.088-.904.204L3.805 3.413c-.554.32-.904.904-.904 1.517v2.917c0 .613.379 1.226.904 1.517l2.597 1.459zm-.513-5.694a.365.365 0 00-.626-.249L4.214 5.96a.365.365 0 00-.003.504l1.05 1.109a.365.365 0 00.528-.502l-.808-.854.805-.829a.365.365 0 00.103-.259zm3.052-.331a.364.364 0 00-.118.594l.825.825-.828.85a.365.365 0 10.522.51l1.079-1.109a.365.365 0 00-.003-.512l-1.08-1.08a.364.364 0 00-.397-.078zm-.77.047a.365.365 0 00-.12-.078h.001a.364.364 0 00-.475.201l-.933 2.305a.364.364 0 10.676.274l.933-2.305a.365.365 0 00-.082-.397z"
+                fill="#838495"
+                fill-rule="evenodd"
+              />
+            </svg>
+            <span
+              class="emotion-0 emotion-5"
+            >
+              15
+            </span>
+          </div>
+        </div>
+        <div
+          class="c9 emotion-6"
+        >
+          testOrg
         </div>
       </div>
-      <div
-        class="c7 emotion-6"
-      >
-        testOrg
-      </div>
-    </div>
-  </a>
+    </a>
+  </div>
 </div>
 `;
