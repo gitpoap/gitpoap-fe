@@ -21,7 +21,6 @@ const moduleExports = withBundleAnalyzer({
   compiler: {
     styledComponents: true,
   },
-  experimental: { appDir: true },
   images: {
     remotePatterns: [
       {
