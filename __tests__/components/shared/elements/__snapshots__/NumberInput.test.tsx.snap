@@ -144,39 +144,39 @@ exports[`NumberInput renders an NumberInput and label 1`] = `
 }
 
 .emotion-11::-webkit-input-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #adb5bd;
+  opacity: 1;
 }
 
 .emotion-11::-moz-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #adb5bd;
+  opacity: 1;
 }
 
 .emotion-11:-ms-input-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #adb5bd;
+  opacity: 1;
 }
 
 .emotion-11::placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #adb5bd;
+  opacity: 1;
 }
 
 .emotion-11::-webkit-inner-spin-button,

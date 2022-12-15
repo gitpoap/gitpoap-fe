@@ -327,10 +327,10 @@ exports[`Footer renders a Footer 1`] = `
   -webkit-justify-content: top;
   justify-content: top;
   gap: 0;
+  padding-right: 2.8125rem;
+  padding-left: 2.8125rem;
   padding-top: 0;
   padding-bottom: 0;
-  padding-left: 2.8125rem;
-  padding-right: 2.8125rem;
 }
 
 .emotion-4 {
@@ -363,10 +363,10 @@ exports[`Footer renders a Footer 1`] = `
   -webkit-justify-content: flex-start;
   justify-content: flex-start;
   gap: 0;
+  padding-right: 0;
+  padding-left: 0;
   padding-top: 2rem;
   padding-bottom: 2rem;
-  padding-left: 0;
-  padding-right: 0;
 }
 
 .emotion-6>* {
@@ -558,39 +558,39 @@ exports[`Footer renders a Footer 1`] = `
 }
 
 .emotion-38::-webkit-input-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-38::-moz-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-38:-ms-input-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-38::placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-38::-webkit-inner-spin-button,
