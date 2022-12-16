@@ -23,7 +23,7 @@ import { GitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
 import { ContributorModal } from '../../../request/RequestItem/ContributorModal';
-import { NextLink } from '@mantine/next';
+import Link from 'next/link';
 import { hslToColorString, rem } from 'polished';
 import { GitPOAPTemplate } from '../../../shared/elements/GitPOAPTemplate';
 import { formatUTCDate } from '../../../../helpers';
@@ -200,7 +200,7 @@ export const GitPOAPRequestModal = ({
               {!matches500 || (matches500 && !matches420) ? 'Reject' : <MdClose />}
             </Button>
             <Button
-              component={NextLink}
+              component={Link}
               disabled={['APPROVED'].includes(gitPOAPRequest.staffApprovalStatus)}
               href={`/create/${id}`}
               leftIcon={!matches500 && <MdOutlineEdit />}

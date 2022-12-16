@@ -55,14 +55,17 @@ exports[`InfoHexBase renders an InfoHexBase WITH href 1`] = `
 <div
   class="c0"
 >
-  <a
+  <div
     class="c1"
-    href="/repos"
   >
-    <div>
-      test
-    </div>
-  </a>
+    <a
+      href="/repos"
+    >
+      <div>
+        test
+      </div>
+    </a>
+  </div>
 </div>
 `;
 

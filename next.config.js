@@ -1,4 +1,7 @@
 const { withSentryConfig } = require('@sentry/nextjs');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
 
 const sentryWebpackPluginOptions = {
   // Additional config options for the Sentry Webpack plugin. Keep in mind that
@@ -13,7 +16,7 @@ const sentryWebpackPluginOptions = {
 };
 
 /** @type {import('next').NextConfig} */
-const moduleExports = {
+const moduleExports = withBundleAnalyzer({
   reactStrictMode: true,
   compiler: {
     styledComponents: true,
@@ -34,6 +37,9 @@ const moduleExports = {
       'avatars.githubusercontent.com',
       'lh3.googleusercontent.com',
     ],
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
   },
   sentry: {
     hideSourceMaps: true,
@@ -108,6 +114,6 @@ const moduleExports = {
 
     return config;
   },
-};
+});
 
 module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);

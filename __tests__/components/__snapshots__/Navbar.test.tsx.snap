@@ -828,39 +828,39 @@ exports[`Navbar renders a Navbar 1`] = `
 }
 
 .emotion-41::-webkit-input-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-41::-moz-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-41:-ms-input-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-41::placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-41::-webkit-inner-spin-button,

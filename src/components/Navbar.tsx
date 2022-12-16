@@ -11,7 +11,7 @@ import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
 import { Wallet } from './wallet/Wallet';
 import { ConnectionButton } from './oauth/ConnectionButton';
 import { SearchBox } from './search/box/SearchBox';
-import { NavLink, NavLinkAnchor } from './shared/elements/NavLink';
+import { NavLink } from './shared/elements/NavLink';
 import { useWeb3Context, ConnectionStatus } from './wallet/Web3Context';
 
 const Nav = styled(Group)`
@@ -107,9 +107,9 @@ export const Navbar = () => {
       <NavLink href="/repos">{'Repos'}</NavLink>
       <NavLink href="/orgs">{'Orgs'}</NavLink>
       {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
-      <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
+      <NavLink href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
-      </NavLinkAnchor>
+      </NavLink>
       <ClaimButton hideText={!matchesLg} />
       <Wallet hideText={!matches1330} isMobile={false} />
     </>
@@ -122,9 +122,9 @@ export const Navbar = () => {
       <NavLink href="/repos">{'Repos'}</NavLink>
       <NavLink href="/orgs">{'Orgs'}</NavLink>
       {showContributorsPage && <NavLink href="/contributors">{'Contributors'}</NavLink>}
-      <NavLinkAnchor href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
+      <NavLink href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
-      </NavLinkAnchor>
+      </NavLink>
       {connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && (
         <>
           <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>

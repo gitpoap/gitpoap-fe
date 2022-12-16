@@ -60,6 +60,25 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
       title={<Text size="lg">{'Select Wallet'}</Text>}
     >
       <Stack>
+        {isMetaMaskInstalled && (
+          <ConnectionOption
+            key="metamask-wallet-option"
+            onClick={() => {
+              activate(connectors.injected).catch((error) => {
+                // ignore the error if it's a user rejected request
+                if (error instanceof UserRejectedRequestError) {
+                  setConnectionStatus(ConnectionStatus.UNINITIALIZED);
+                } else {
+                  setError(error);
+                }
+              });
+              setProvider(ProviderType.METAMASK);
+              closeModal();
+            }}
+            text={'Metamask'}
+            logo={<MetamaskLogo width={32} height={32} />}
+          />
+        )}
         <ConnectionOption
           key="coinbase-wallet-option"
           onClick={() => {
@@ -94,25 +113,6 @@ export default function WalletModal({ isOpen, closeModal }: WalletModalProps) {
           text={'Wallet Connect'}
           logo={<WalletConnectLogo width={32} height={32} />}
         />
-        {isMetaMaskInstalled && (
-          <ConnectionOption
-            key="metamask-wallet-option"
-            onClick={() => {
-              activate(connectors.injected).catch((error) => {
-                // ignore the error if it's a user rejected request
-                if (error instanceof UserRejectedRequestError) {
-                  setConnectionStatus(ConnectionStatus.UNINITIALIZED);
-                } else {
-                  setError(error);
-                }
-              });
-              setProvider(ProviderType.METAMASK);
-              closeModal();
-            }}
-            text={'Metamask'}
-            logo={<MetamaskLogo width={32} height={32} />}
-          />
-        )}
       </Stack>
     </Modal>
   );

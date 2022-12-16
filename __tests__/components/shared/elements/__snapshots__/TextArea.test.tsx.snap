@@ -136,39 +136,39 @@ exports[`TextArea renders a TextArea 1`] = `
 }
 
 .emotion-8::-webkit-input-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #adb5bd;
+  opacity: 1;
 }
 
 .emotion-8::-moz-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #adb5bd;
+  opacity: 1;
 }
 
 .emotion-8:-ms-input-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #adb5bd;
+  opacity: 1;
 }
 
 .emotion-8::placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #adb5bd;
+  opacity: 1;
 }
 
 .emotion-8::-webkit-inner-spin-button,

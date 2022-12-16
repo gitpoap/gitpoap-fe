@@ -189,6 +189,13 @@ exports[`Radio renders a RadioGroup 1`] = `
 
 .emotion-15 {
   font-family: PT Mono,monospace;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-tap-highlight-color: transparent;
   font-size: 14px;
   line-height: 20px;
@@ -217,7 +224,8 @@ exports[`Radio renders a RadioGroup 1`] = `
         >
           <input
             class="emotion-11 emotion-12"
-            id="mantine-r0"
+            id="mantine-r1"
+            name="mantine-r0"
             type="radio"
             value="radio-test"
           />

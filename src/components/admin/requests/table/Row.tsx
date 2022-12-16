@@ -7,7 +7,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
 import { ContributorModal } from '../../../request/RequestItem/ContributorModal';
 import { MdCheck, MdClose, MdOutlineEdit } from 'react-icons/md';
-import { NextLink } from '@mantine/next';
+import Link from 'next/link';
 import { BackgroundPanel } from '../../../../colors';
 import { formatUTCDate, shortenAddress } from '../../../../helpers';
 
@@ -144,7 +144,7 @@ export const AdminGitPOAPRequestTableRow = ({
             <Tooltip label="Edit" withArrow withinPortal>
               <ActionIcon
                 color="blue"
-                component={NextLink}
+                component={Link}
                 disabled={['APPROVED'].includes(gitPOAPRequest.staffApprovalStatus)}
                 href={`/create/${id}`}
                 onClick={(e: React.MouseEvent) => e.stopPropagation()}

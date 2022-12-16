@@ -31,7 +31,13 @@ export const Avatar = ({ quality = 100, className, src, useDefaultImageTag }: Pr
       {useDefaultImageTag ? (
         <DefaultImage src={src} alt="" />
       ) : (
-        <Image src={src} layout="fill" quality={quality} alt="" />
+        <Image
+          src={src}
+          fill
+          quality={quality}
+          alt=""
+          sizes={`(max-width: 768px) ${rem(80)}, ${rem(80)}`}
+        />
       )}
     </AvatarWrapper>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { ExtraHover, ExtraPressed, Slate1 } from '../../colors';
-import { Body, BodyAsAnchor, InfoHexBase } from '../shared/elements/InfoHexBase';
+import { Body, InfoHexBase } from '../shared/elements/InfoHexBase';
 import { GitPOAP, People, Star } from '../shared/elements/icons';
 import { Text } from '../shared/elements/Text';
 import { TitleNoHover } from '../shared/elements/Title';
@@ -28,7 +28,7 @@ const OrgName = styled(TitleNoHover)`
 const BODY_HEIGHT = 20;
 
 export const InfoHexBaseStyled = styled(InfoHexBase)`
-  ${Body}, ${BodyAsAnchor} {
+  ${Body} {
     display: flex;
     align-items: center;
     justify-content: center;

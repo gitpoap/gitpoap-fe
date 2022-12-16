@@ -89,39 +89,39 @@ exports[`ItemList should render search input 1`] = `
 }
 
 .emotion-2::-webkit-input-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-2::-moz-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-2:-ms-input-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-2::placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-2::-webkit-inner-spin-button,

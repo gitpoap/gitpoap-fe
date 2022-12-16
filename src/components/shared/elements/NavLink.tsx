@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { ExtraHover, ExtraPressed, TextDarkGray, TextGray } from '../../../colors';
-import Link from 'next/link';
+import { Link } from '../compounds/Link';
 import { BREAKPOINTS } from '../../../constants';
 
 export const LinkHoverStyles = css`
@@ -47,7 +47,7 @@ export const LinkStyles = css`
   ${LinkHoverStyles}
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
   ${LinkStyles}
   margin-right: ${rem(18)};
   @media (max-width: ${rem(BREAKPOINTS.sm + 40)}) {
@@ -55,17 +55,12 @@ const StyledLink = styled.a`
   }
 `;
 
-export const NavLink = ({ children, ...restProps }: React.ComponentProps<typeof Link>) => {
-  return (
-    <Link passHref {...restProps}>
-      <StyledLink>{children}</StyledLink>
-    </Link>
-  );
-};
+type Props = React.ComponentProps<typeof Link>;
 
-export const NavLinkAnchor = ({
-  children,
-  ...restProps
-}: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
-  return <StyledLink {...restProps}>{children}</StyledLink>;
+export const NavLink = ({ children, href, target, rel, className }: Props) => {
+  return (
+    <StyledLink passHref href={href} className={className} target={target} rel={rel}>
+      {children}
+    </StyledLink>
+  );
 };

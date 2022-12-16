@@ -152,39 +152,39 @@ exports[`DateInput renders an DateInput and label 1`] = `
 }
 
 .emotion-14::-webkit-input-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-14::-moz-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-14:-ms-input-placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-14::placeholder {
-  opacity: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   color: #5c5f66;
+  opacity: 1;
 }
 
 .emotion-14::-webkit-inner-spin-button,

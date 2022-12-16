@@ -8,7 +8,7 @@ import { IconCount } from '../elements/IconCount';
 import { GitPOAP, People, Star } from '../../shared/elements/icons';
 import { textEllipses } from '../styles';
 import { ExtraHover, ExtraPressed } from '../../../colors';
-import { Body, BodyAsAnchor, InfoHexBase } from '../../shared/elements/InfoHexBase';
+import { Body, InfoHexBase } from '../../shared/elements/InfoHexBase';
 
 const Icons = styled.div`
   display: flex;
@@ -52,7 +52,7 @@ const RepoName = styled(TitleNoHover)`
 const BODY_HEIGHT = 10;
 
 const InfoHexBaseStyled = styled(InfoHexBase)`
-  ${Body}, ${BodyAsAnchor} {
+  ${Body} {
     display: flex;
     align-items: center;
     justify-content: center;

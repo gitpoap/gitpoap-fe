@@ -86,9 +86,11 @@ export const InfoHexBase = React.forwardRef(
     if (href) {
       return (
         <Hex className={className} {...props}>
-          <BodyAsAnchor href={href} onClick={onClick} hoverEffects={hoverEffects} passHref>
-            {children}
-          </BodyAsAnchor>
+          <Body onClick={onClick} hoverEffects={hoverEffects}>
+            <Link href={href} passHref>
+              {children}
+            </Link>
+          </Body>
         </Hex>
       );
     }
