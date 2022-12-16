@@ -18,10 +18,9 @@ import { Web3ReactProvider } from '@web3-react/core';
 import { getWeb3Provider } from '../helpers';
 import { Web3ContextProvider } from '../components/wallet/Web3Context';
 import { ModalsProvider } from '@mantine/modals';
+import { urqlClientOptions } from '../lib/urql';
 
-const client = createClient({
-  url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
-});
+const client = createClient(urqlClientOptions);
 
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,

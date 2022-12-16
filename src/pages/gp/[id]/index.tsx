@@ -3,10 +3,8 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
-import { withUrqlClient, initUrqlClient, SSRData } from 'next-urql';
-import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
+import { withUrqlClient, SSRData } from 'next-urql';
 import { Grid } from '@mantine/core';
-
 import { Page } from '../../_app';
 import { BackgroundHexes } from '../../../components/gitpoap/BackgroundHexes';
 import { GitPOAPHolders } from '../../../components/gitpoap/GitPOAPHolders';
@@ -20,6 +18,7 @@ import {
 } from '../../../graphql/generated-gql';
 import { SEO } from '../../../components/shared/compounds/SEO';
 import { ONE_WEEK_IN_S } from '../../../constants';
+import { createSSRUrqlClient, urqlClientOptions } from '../../../lib/urql';
 
 const Error = styled(Header)`
   position: fixed;
@@ -81,14 +80,7 @@ export const getStaticProps = async (
   props: PageProps;
   revalidate: number;
 }> => {
-  const ssrCache = ssrExchange({ isClient: false });
-  const client = initUrqlClient(
-    {
-      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
-      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
-    },
-    false,
-  );
+  const { client, ssrCache } = createSSRUrqlClient();
   const id = parseInt(context.params?.id as string);
   const results = await client
     ?.query<GitPoapEventQuery>(GitPoapEventDocument, {
@@ -106,15 +98,7 @@ export const getStaticProps = async (
 };
 
 export const getStaticPaths = async () => {
-  const ssrCache = ssrExchange({ isClient: false });
-  const client = initUrqlClient(
-    {
-      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
-      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
-    },
-    false,
-  );
-
+  const { client } = createSSRUrqlClient();
   const results = await client?.query<AllGitPoapIdsQuery>(AllGitPoapIdsDocument, {}).toPromise();
   const paths =
     results?.data?.gitPOAPS.map((gitpoap) => ({
@@ -127,9 +111,6 @@ export const getStaticPaths = async () => {
   };
 };
 
-export default withUrqlClient(
-  () => ({
-    url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
-  }),
-  { ssr: false, staleWhileRevalidate: true },
-)(GitPOAP);
+export default withUrqlClient(() => urqlClientOptions, { ssr: false, staleWhileRevalidate: true })(
+  GitPOAP,
+);

@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
-import { withUrqlClient, initUrqlClient, SSRData } from 'next-urql';
-import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
+import { withUrqlClient, SSRData } from 'next-urql';
 import { Grid } from '@mantine/core';
 import { Page } from '../_app';
 import { RepoPage, RepoNotFound } from '../../components/repo/RepoPage';
@@ -16,6 +15,7 @@ import {
   ReposGetStaticPathsQuery,
   ReposGetStaticPathsDocument,
 } from '../../graphql/generated-gql';
+import { createSSRUrqlClient, urqlClientOptions } from '../../lib/urql';
 
 const Error = styled(Header)`
   position: fixed;
@@ -68,14 +68,7 @@ const Repo: Page<PageProps> = (props) => {
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ id: string }>,
 ): Promise<{ props: PageProps }> => {
-  const ssrCache = ssrExchange({ isClient: false });
-  const client = initUrqlClient(
-    {
-      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
-      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
-    },
-    false,
-  );
+  const { client, ssrCache } = createSSRUrqlClient();
   const repoId = parseInt(context.params?.id as string);
   const results = await client
     ?.query<RepoSeoByIdQuery>(RepoSeoByIdDocument, {
@@ -96,15 +89,7 @@ export const getStaticProps = async (
  * paths: { params: { id: string } }[]
  */
 export const getStaticPaths = async () => {
-  const ssrCache = ssrExchange({ isClient: false });
-  const client = initUrqlClient(
-    {
-      url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
-      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
-    },
-    false,
-  );
-
+  const { client } = createSSRUrqlClient();
   const results = await client
     ?.query<ReposGetStaticPathsQuery>(ReposGetStaticPathsDocument, {})
     .toPromise();
@@ -121,8 +106,6 @@ export const getStaticPaths = async () => {
 };
 
 export default withUrqlClient(
-  () => ({
-    url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
-  }),
+  () => urqlClientOptions,
   { ssr: false }, // Important so we don't wrap our component in getInitialProps
 )(Repo);
