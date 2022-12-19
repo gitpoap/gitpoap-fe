@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import { NextPageWithLayout } from '../_app';
 import Head from 'next/head';
 import Link from 'next/link';
 import { rem } from 'polished';
@@ -20,7 +20,7 @@ const Container = styled(Grid)`
   }
 `;
 
-const SelectType: NextPage = () => {
+const SelectType: NextPageWithLayout = () => {
   return (
     <>
       <Head>

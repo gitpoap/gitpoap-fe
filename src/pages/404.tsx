@@ -1,5 +1,5 @@
 import React from 'react';
-import { NextPage } from 'next';
+import { NextPageWithLayout } from './_app';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Header } from '../components/shared/elements/Header';
@@ -17,7 +17,7 @@ const SubText = styled(Header)`
   font-size: ${rem(26)};
 `;
 
-const Custom404: NextPage = () => {
+const Custom404: NextPageWithLayout = () => {
   return (
     <Container>
       <Header>{'404'}</Header>

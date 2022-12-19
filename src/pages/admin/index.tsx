@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
-import type { NextPage } from 'next';
+import { NextPageWithLayout } from '../_app';
 import Head from 'next/head';
 import { Link } from '../../components/shared/compounds/Link';
 import { Grid, Stack } from '@mantine/core';
@@ -50,7 +50,7 @@ const HeaderLink = styled(Header)`
   }
 `;
 
-const AdminHome: NextPage = () => {
+const AdminHome: NextPageWithLayout = () => {
   return (
     <div>
       <Head>

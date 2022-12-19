@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid } from '@mantine/core';
-import { Page } from '../_app';
+import { NextPageWithLayout } from '../_app';
 import { GitPOAPList } from '../../components/gitpoaps/GitPOAPList';
 import { SEO } from '../../components/shared/compounds/SEO';
 
-const GitPOAPs: Page = () => {
+const GitPOAPs: NextPageWithLayout = () => {
   return (
     <>
       <SEO

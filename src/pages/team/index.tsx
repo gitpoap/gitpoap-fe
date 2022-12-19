@@ -1,10 +1,10 @@
-import type { NextPage } from 'next';
+import { NextPageWithLayout } from '../_app';
 import Head from 'next/head';
 import { Login } from '../../components/Login';
 import { TeamContainer } from '../../components/team';
 import { useUser } from '../../hooks/useUser';
 
-const TeamPage: NextPage = () => {
+const TeamPage: NextPageWithLayout = () => {
   const user = useUser();
 
   return (

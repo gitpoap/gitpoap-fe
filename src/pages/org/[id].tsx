@@ -4,7 +4,7 @@ import { rem } from 'polished';
 import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
 import { withUrqlClient, SSRData } from 'next-urql';
-import { Page } from '../_app';
+import { NextPageWithLayout } from '../_app';
 import { Grid } from '@mantine/core';
 import { SEO } from '../../components/shared/compounds/SEO';
 import { Header } from '../../components/shared/elements/Header';
@@ -29,7 +29,7 @@ type PageProps = {
   data: OrganizationSeoByIdQuery | null;
 };
 
-const Organization: Page<PageProps> = (props) => {
+const Organization: NextPageWithLayout<PageProps> = (props) => {
   const router = useRouter();
   const { id } = router.query;
 

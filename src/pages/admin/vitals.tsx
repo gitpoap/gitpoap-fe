@@ -1,13 +1,13 @@
 import React from 'react';
 import { rem } from 'polished';
-import type { NextPage } from 'next';
+import { NextPageWithLayout } from '../_app';
 import Head from 'next/head';
 import { Grid } from '@mantine/core';
 import { ConnectGitHub } from '../../components/admin/ConnectGitHub';
 import { VitalsDashboard } from '../../components/admin/VitalsDashboard';
 import { useIsStaff } from '../../hooks/useIsStaff';
 
-const ReposDashboard: NextPage = () => {
+const ReposDashboard: NextPageWithLayout = () => {
   const isStaff = useIsStaff();
 
   return (

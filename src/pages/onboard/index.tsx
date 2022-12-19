@@ -1,8 +1,8 @@
-import type { NextPage } from 'next';
+import { NextPageWithLayout } from '../_app';
 import Head from 'next/head';
 import { OnboardingPage } from '../../components/onboard';
 
-const SubmitRepos: NextPage = () => {
+const SubmitRepos: NextPageWithLayout = () => {
   return (
     <div>
       <Head>

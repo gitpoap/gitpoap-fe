@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
 import { withUrqlClient, SSRData } from 'next-urql';
 import { Grid } from '@mantine/core';
-import { Page } from '../_app';
+import { NextPageWithLayout } from '../_app';
 import { RepoPage, RepoNotFound } from '../../components/repo/RepoPage';
 import { SEO } from '../../components/shared/compounds/SEO';
 import { Header } from '../../components/shared/elements/Header';
@@ -29,7 +29,7 @@ type PageProps = {
   data: RepoSeoByIdQuery | null;
 };
 
-const Repo: Page<PageProps> = (props) => {
+const Repo: NextPageWithLayout<PageProps> = (props) => {
   const router = useRouter();
   const { id } = router.query;
 

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Grid } from '@mantine/core';
-import { Page } from './_app';
+import { NextPageWithLayout } from './_app';
 import { BannerStats } from '../components/home/BannerStats';
 import { MostClaimed } from '../components/home/MostClaimed';
 import { LeaderBoard } from '../components/home/LeaderBoard';
@@ -33,7 +33,7 @@ const CenteredCol = styled(Grid.Col)`
   align-items: center;
 `;
 
-const Home: Page = () => {
+const Home: NextPageWithLayout = () => {
   return (
     <>
       <SEO

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Container } from '@mantine/core';
-import { Page } from '../_app';
+import { NextPageWithLayout } from '../_app';
 import { SEO } from '../../components/shared/compounds/SEO';
 import { SettingsPage } from '../../components/settings/SettingsPage';
 import { ProfileProvider } from '../../components/profile/ProfileContext';
@@ -11,7 +11,7 @@ const Wrapper = styled(Container)`
   width: 100vw;
 `;
 
-const Settings: Page = () => {
+const Settings: NextPageWithLayout = () => {
   const user = useUser();
   const address = user?.address;
 

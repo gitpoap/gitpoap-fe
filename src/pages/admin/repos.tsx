@@ -1,6 +1,6 @@
 import React from 'react';
 import { rem } from 'polished';
-import type { NextPage } from 'next';
+import { NextPageWithLayout } from '../_app';
 import Head from 'next/head';
 import { Grid } from '@mantine/core';
 import { DateTime } from 'luxon';
@@ -17,7 +17,7 @@ type RowData = {
   'Created At': TD<string>;
 };
 
-const ReposDashboard: NextPage = () => {
+const ReposDashboard: NextPageWithLayout = () => {
   const isStaff = useIsStaff();
   const [result] = useAllReposQuery({
     variables: {

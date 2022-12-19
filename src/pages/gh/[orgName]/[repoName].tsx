@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
 import { withUrqlClient, SSRData } from 'next-urql';
 import { Grid } from '@mantine/core';
-import { Page } from '../../_app';
+import { NextPageWithLayout } from '../../_app';
 import { RepoPage, RepoNotFound } from '../../../components/repo/RepoPage';
 import {
   RepoSeoByNameQuery,
@@ -19,7 +19,7 @@ type PageProps = {
   data: RepoSeoByNameQuery | null;
 };
 
-const Repo: Page<PageProps> = (props) => {
+const Repo: NextPageWithLayout<PageProps> = (props) => {
   const router = useRouter();
   const { orgName, repoName } = router.query;
 
