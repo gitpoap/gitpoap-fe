@@ -18,15 +18,18 @@ import {
   ActionIcon,
   SimpleGrid,
   Center,
+  Switch,
+  Overlay,
 } from '@mantine/core';
-import { GitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
-import { ContributorModal } from '../../../request/RequestItem/ContributorModal';
 import Link from 'next/link';
 import { hslToColorString, rem } from 'polished';
+import { GitPoapRequestsQuery } from '../../../../graphql/generated-gql';
+import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
+import { ContributorModal } from '../../../request/RequestItem/ContributorModal';
 import { GitPOAPTemplate } from '../../../shared/elements/GitPOAPTemplate';
 import { formatUTCDate } from '../../../../helpers';
+import { BackgroundPanel } from '../../../../colors';
 
 type ModalProps = {
   gitPOAPRequest: Exclude<GitPoapRequestsQuery['gitPOAPRequests'], undefined | null>[number];
@@ -66,6 +69,11 @@ export const GitPOAPRequestModal = ({
     useDisclosure(false);
   const matches420 = useMediaQuery(`(max-width: ${rem(420)})`, false);
   const matches500 = useMediaQuery(`(max-width: ${rem(500)})`, false);
+
+  const [showBorder, setShowBorder] = useState(false);
+  const [showBackground, setShowBackground] = useState(false);
+  const [showTemplateOverlay, setShowTemplateOverlay] = useState(false);
+
   const [alpha, setAlpha] = useState(0.75);
   const [hue, setHue] = useState(0);
 
@@ -105,53 +113,78 @@ export const GitPOAPRequestModal = ({
       <SimpleGrid cols={2} spacing="lg" breakpoints={[{ maxWidth: 1100, cols: 1 }]}>
         <Center pb="md" pt="xs">
           <Stack>
-            <div
-              style={{
-                border: `${rem(1)} dashed white`,
-                width: rem(370),
-                height: rem(370),
-                maxWidth: '80vw',
-                maxHeight: '80vw',
-                boxSizing: 'content-box',
-                margin: 'auto',
-              }}
-            >
+            <Link href={imageUrl} target="_blank">
               <div
                 style={{
-                  width: '100%',
-                  height: '100%',
-                  backgroundImage:
-                    'linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%),linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%)',
-                  backgroundPosition: '0 0, 10px 10px',
-                  backgroundSize: '20px 20px',
+                  border: `${rem(1)} dashed ${showBorder ? 'white' : 'transparent'}`,
+                  width: rem(370),
+                  height: rem(370),
+                  maxWidth: '80vw',
+                  maxHeight: '80vw',
+                  boxSizing: 'content-box',
+                  margin: 'auto',
                 }}
               >
                 <div
                   style={{
                     width: '100%',
                     height: '100%',
-                    background: `url(${imageUrl}) center/contain no-repeat`,
-                    position: 'relative',
+                    backgroundImage: showBackground
+                      ? 'linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%),linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%)'
+                      : 'none',
+                    backgroundPosition: '0 0, 10px 10px',
+                    backgroundSize: '20px 20px',
                   }}
                 >
-                  <GitPOAPTemplate
-                    fill={hslToColorString({ hue, saturation: 1, lightness: 0.5, alpha })}
+                  <div
                     style={{
-                      position: 'absolute',
                       width: '100%',
                       height: '100%',
+                      background: `url(${imageUrl}) center/contain no-repeat`,
+                      position: 'relative',
                     }}
-                  />
+                  >
+                    {showTemplateOverlay && (
+                      <GitPOAPTemplate
+                        fill={hslToColorString({ hue, saturation: 1, lightness: 0.5, alpha })}
+                        style={{
+                          position: 'absolute',
+                          width: '100%',
+                          height: '100%',
+                        }}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-            <HueSlider value={hue} onChange={setHue} onChangeEnd={setHue} />
-            <AlphaSlider
-              color={hslToColorString({ hue, saturation: 1, lightness: 0.5 })}
-              value={alpha}
-              onChange={setAlpha}
-              onChangeEnd={setAlpha}
+            </Link>
+            <Group grow>
+              <Switch
+                checked={showBorder}
+                onChange={(e) => setShowBorder(e.currentTarget.checked)}
+                label="Border"
+              />
+              <Switch
+                checked={showBackground}
+                onChange={(e) => setShowBackground(e.currentTarget.checked)}
+                label="Background"
+              />
+            </Group>
+            <Switch
+              checked={showTemplateOverlay}
+              onChange={(e) => setShowTemplateOverlay(e.currentTarget.checked)}
+              label="Template Overlay"
             />
+            <Stack px={1} sx={{ position: 'relative' }}>
+              {!showTemplateOverlay && <Overlay color={BackgroundPanel} />}
+              <HueSlider value={hue} onChange={setHue} onChangeEnd={setHue} />
+              <AlphaSlider
+                color={hslToColorString({ hue, saturation: 1, lightness: 0.5 })}
+                value={alpha}
+                onChange={setAlpha}
+                onChangeEnd={setAlpha}
+              />
+            </Stack>
           </Stack>
         </Center>
         <Stack justify="space-between" sx={{ maxWidth: rem(500), width: '100%', height: '100%' }}>
