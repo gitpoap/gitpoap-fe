@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { Stack, Group, Modal, Loader } from '@mantine/core';
-
 import { Button, Text } from '../../../shared/elements';
 import { useRemoveMembershipMutation } from '../../../../graphql/generated-gql';
+import { useUrqlContext } from '../../../../hooks/useUrqlContext';
 
 type RemoveMemberModalProps = {
   teamId: number;
@@ -12,14 +12,18 @@ type RemoveMemberModalProps = {
 };
 
 export const RemoveMemberModal = ({ teamId, address, isOpen, onClose }: RemoveMemberModalProps) => {
+  const context = useUrqlContext();
   const [result, removeMember] = useRemoveMembershipMutation();
 
   const handleSubmit = useCallback(async () => {
-    removeMember({
-      teamId,
-      address,
-    });
-  }, [teamId, address, removeMember]);
+    await removeMember(
+      {
+        teamId,
+        address,
+      },
+      context,
+    );
+  }, [teamId, address, removeMember, context]);
 
   if (result.data?.removeMembership) {
     return (

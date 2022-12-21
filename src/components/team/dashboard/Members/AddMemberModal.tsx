@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import { Stack, Group, Modal, Loader } from '@mantine/core';
 import { getHotkeyHandler } from '@mantine/hooks';
-
 import { Button, Text, Input } from '../../../shared/elements';
 import { useAddressForm } from './useAddressForm';
 import { useAddMembershipMutation } from '../../../../graphql/generated-gql';
+import { useUrqlContext } from '../../../../hooks/useUrqlContext';
 
 type AddMemberModalProps = {
   teamId: number;
@@ -15,16 +15,21 @@ type AddMemberModalProps = {
 export const AddMemberModal = ({ teamId, isOpen, onClose }: AddMemberModalProps) => {
   const { values, getInputProps, validate, setErrors } = useAddressForm();
 
+  const context = useUrqlContext();
+
   const [result, addMember] = useAddMembershipMutation();
 
   const handleSubmit = useCallback(async () => {
     if (!validate().hasErrors) {
-      addMember({
-        teamId,
-        address: values.address,
-      });
+      await addMember(
+        {
+          teamId,
+          address: values.address,
+        },
+        context,
+      );
     }
-  }, [teamId, validate, values, addMember]);
+  }, [teamId, validate, values, addMember, context]);
 
   useEffect(() => {
     if (result.error) {
