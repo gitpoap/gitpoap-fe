@@ -6,6 +6,7 @@ import { Header, Divider } from '../shared/elements';
 import { TableHeaderItem } from '../gitpoap/manage/TableHeaderItem';
 import { UserMembershipRow } from './UserMembershipRow';
 import { useUrqlContext } from '../../hooks/useUrqlContext';
+import { BackgroundPanel } from '../../colors';
 
 const HEADERS: {
   label: string;
@@ -57,7 +58,17 @@ export const UserMembershipList = () => {
             {'No Memberships Found'}
           </Text>
         )}
-        <Stack style={{ width: '100%' }}>
+        <Stack
+          align="center"
+          justify="flex-start"
+          spacing="sm"
+          py={0}
+          sx={{
+            background: BackgroundPanel,
+            borderRadius: `${rem(6)} ${rem(6)} 0 0`,
+            width: '100%',
+          }}
+        >
           <Table highlightOnHover horizontalSpacing="md" verticalSpacing="xs" fontSize="sm">
             <thead>
               <tr>

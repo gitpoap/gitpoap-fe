@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { Loader } from '@mantine/core';
+import { rem } from 'polished';
 import styled from 'styled-components';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import {
@@ -27,7 +28,7 @@ type RowProps = {
 };
 
 export const UserMembershipRow = ({ membership }: RowProps) => {
-  const { role, acceptanceStatus, joinedOn, createdAt, teamId } = membership;
+  const { role, acceptanceStatus, joinedOn, createdAt, teamId, team } = membership;
   const context = useUrqlContext();
 
   const [result, acceptMembership] = useAcceptMembershipMutation();
@@ -43,7 +44,7 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
           <AcceptanceStatusBadge status={acceptanceStatus} />
         </td>
         <td>
-          <Text lineClamp={3}>{teamId}</Text>
+          <Text lineClamp={3}>{team.name}</Text>
         </td>
         <td>
           <Text lineClamp={3}>{role}</Text>
@@ -57,7 +58,7 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         <td>
           {acceptanceStatus === MembershipAcceptanceStatus.Pending && (
             <Button onClick={handleAccept} disabled={result.fetching}>
-              {result.fetching ? <Loader /> : <AiFillCheckCircle size={'sm'} />}
+              {result.fetching ? <Loader /> : <AiFillCheckCircle size={rem(16)} />}
             </Button>
           )}
         </td>

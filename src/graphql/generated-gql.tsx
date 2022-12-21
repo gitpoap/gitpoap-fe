@@ -3819,7 +3819,11 @@ export type MembershipMinOrderByAggregateInput = {
 
 export type MembershipMutationPayload = {
   __typename?: 'MembershipMutationPayload';
+<<<<<<< HEAD
   membership?: Maybe<MembershipWithTeam>;
+=======
+  membership: MembershipWithTeam;
+>>>>>>> 0944ac7 (feat: update table data)
 };
 
 export type MembershipOrderByRelationAggregateInput = {
@@ -7740,13 +7744,15 @@ export type TeamMembershipsQuery = {
     __typename?: 'TeamMemberships';
     total: number;
     memberships: Array<{
-      __typename?: 'Membership';
+      __typename?: 'MembershipWithTeam';
       id: number;
       addressId: number;
       joinedOn?: any | null;
       role: MembershipRole;
       acceptanceStatus: MembershipAcceptanceStatus;
       createdAt: any;
+      address: { __typename?: 'Address'; ethAddress: string };
+      team: { __typename?: 'Team'; name: string };
     }>;
   } | null;
 };
@@ -7758,7 +7764,7 @@ export type UserMembershipsQuery = {
   userMemberships?: {
     __typename?: 'UserMemberships';
     memberships: Array<{
-      __typename?: 'Membership';
+      __typename?: 'MembershipWithTeam';
       id: number;
       teamId: number;
       addressId: number;
@@ -7766,6 +7772,8 @@ export type UserMembershipsQuery = {
       role: MembershipRole;
       acceptanceStatus: MembershipAcceptanceStatus;
       createdAt: any;
+      team: { __typename?: 'Team'; name: string };
+      address: { __typename?: 'Address'; ethAddress: string };
     }>;
   } | null;
 };
@@ -7780,7 +7788,7 @@ export type AddMembershipMutation = {
   addNewMembership: {
     __typename?: 'MembershipMutationPayload';
     membership: {
-      __typename?: 'Membership';
+      __typename?: 'MembershipWithTeam';
       acceptanceStatus: MembershipAcceptanceStatus;
       role: MembershipRole;
     };
@@ -7797,7 +7805,7 @@ export type RemoveMembershipMutation = {
   removeMembership: {
     __typename?: 'MembershipMutationPayload';
     membership: {
-      __typename?: 'Membership';
+      __typename?: 'MembershipWithTeam';
       acceptanceStatus: MembershipAcceptanceStatus;
       role: MembershipRole;
     };
@@ -7813,7 +7821,7 @@ export type AcceptMembershipMutation = {
   acceptMembership: {
     __typename?: 'MembershipMutationPayload';
     membership: {
-      __typename?: 'Membership';
+      __typename?: 'MembershipWithTeam';
       acceptanceStatus: MembershipAcceptanceStatus;
       role: MembershipRole;
     };
@@ -9645,10 +9653,16 @@ export const TeamMembershipsDocument = gql`
       memberships {
         id
         addressId
+        address {
+          ethAddress
+        }
         joinedOn
         role
         acceptanceStatus
         createdAt
+        team {
+          name
+        }
       }
     }
   }
@@ -9686,7 +9700,13 @@ export const UserMembershipsDocument = gql`
       memberships {
         id
         teamId
+        team {
+          name
+        }
         addressId
+        address {
+          ethAddress
+        }
         joinedOn
         role
         acceptanceStatus

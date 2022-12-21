@@ -1099,10 +1099,16 @@ query teamMemberships($teamId: Float!, $page: Float, $perPage: Float, $sort: Str
     memberships {
       id
       addressId
+      address {
+        ethAddress
+      }
       joinedOn
       role
       acceptanceStatus
       createdAt
+      team {
+        name
+      }
     }
   }
 }
@@ -1124,7 +1130,13 @@ query userMemberships {
     memberships {
       id
       teamId
+      team {
+        name
+      }
       addressId
+      address {
+        ethAddress
+      }
       joinedOn
       role
       acceptanceStatus

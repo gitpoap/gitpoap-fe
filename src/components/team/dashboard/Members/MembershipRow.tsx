@@ -32,7 +32,7 @@ export const MembershipRow = ({
   openRemoveModal,
   closeRemoveModal,
 }: RowProps) => {
-  const { addressId, role, acceptanceStatus, joinedOn, createdAt } = membership;
+  const { role, acceptanceStatus, joinedOn, createdAt, address } = membership;
 
   return (
     <>
@@ -41,7 +41,7 @@ export const MembershipRow = ({
           <AcceptanceStatusBadge status={acceptanceStatus} />
         </td>
         <td>
-          <Text lineClamp={3}>{addressId}</Text>
+          <Text lineClamp={3}>{address.ethAddress}</Text>
         </td>
         <td>
           <Text lineClamp={3}>{role}</Text>
@@ -60,7 +60,7 @@ export const MembershipRow = ({
       </TableRow>
       <RemoveMemberModal
         teamId={teamId}
-        address={'0xE078c3BDEe620829135e1ab526bE860498B06339'}
+        address={address.ethAddress}
         isOpen={isRemoveModalOpen}
         onClose={closeRemoveModal}
       />

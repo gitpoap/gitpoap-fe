@@ -45,7 +45,7 @@ type Props = {
   teamId: number;
 };
 
-export const MembersList = ({ teamId }: Props) => {
+export const MembershipList = ({ teamId }: Props) => {
   const [isAddModalOpen, { open: openAddModal, close: closeAddModal }] = useDisclosure(false);
   const [isRemoveModalOpen, { open: openRemoveModal, close: closeRemoveModal }] =
     useDisclosure(false);
