@@ -1,23 +1,48 @@
-import React, { useCallback } from 'react';
-import { Stack, Group, Modal } from '@mantine/core';
+import React, { useCallback, useEffect } from 'react';
+import { Stack, Group, Modal, Loader } from '@mantine/core';
 import { getHotkeyHandler } from '@mantine/hooks';
 
 import { Button, Text, Input } from '../../../shared/elements';
 import { useAddressForm } from './useAddressForm';
+import { useAddMembershipMutation } from '../../../../graphql/generated-gql';
 
 type AddMemberModalProps = {
+  teamId: number;
   isOpen: boolean;
   onClose: () => void;
 };
 
-export const AddMemberModal = ({ isOpen, onClose }: AddMemberModalProps) => {
-  const { values, getInputProps, validate } = useAddressForm();
+export const AddMemberModal = ({ teamId, isOpen, onClose }: AddMemberModalProps) => {
+  const { values, getInputProps, validate, setErrors } = useAddressForm();
 
-  const handleSubmit = () => {
+  const [result, addMember] = useAddMembershipMutation();
+
+  const handleSubmit = useCallback(async () => {
     if (!validate().hasErrors) {
-      console.log('address', values.address);
+      addMember({
+        teamId,
+        address: values.address,
+      });
     }
-  };
+  }, [teamId, validate, values, addMember]);
+
+  useEffect(() => {
+    if (result.error) {
+      setErrors({ address: result.error.message });
+    }
+  }, [result, setErrors]);
+
+  if (result.data) {
+    return (
+      <Modal
+        centered
+        opened={isOpen}
+        onClose={onClose}
+        padding={32}
+        title={'Successfully added a new member'}
+      ></Modal>
+    );
+  }
 
   return (
     <Modal
@@ -43,10 +68,12 @@ export const AddMemberModal = ({ isOpen, onClose }: AddMemberModalProps) => {
           ])}
         />
         <Group grow mt={16}>
-          <Button color="red" onClick={onClose} variant="outline">
+          <Button color="red" variant="outline" onClick={onClose} disabled={result.fetching}>
             {'Cancel'}
           </Button>
-          <Button onClick={handleSubmit}>{'Add'}</Button>
+          <Button onClick={handleSubmit} disabled={result.fetching}>
+            {result.fetching ? <Loader /> : 'Add'}
+          </Button>
         </Group>
       </Stack>
     </Modal>

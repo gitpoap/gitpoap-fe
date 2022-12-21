@@ -160,7 +160,7 @@ export const MembersList = ({ teamId }: Props) => {
           </Stack>
         )}
       </Stack>
-      <AddMemberModal isOpen={isAddModalOpen} onClose={closeAddModal} />
+      <AddMemberModal teamId={teamId} isOpen={isAddModalOpen} onClose={closeAddModal} />
     </Group>
   );
 };
