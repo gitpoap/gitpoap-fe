@@ -119,6 +119,13 @@ export const VitalsDashboard = () => {
   const today = DateTime.local().toFormat('yyyy-MM-dd');
   const [claimsResult] = useClaimsSinceQuery({
     variables: { date: todayMinus7Days },
+    context: {
+      fetchOptions: {
+        headers: {
+          Authorization: `Bearer ${tokens?.accessToken}`,
+        },
+      },
+    },
   });
   const [dailyClaimsResult] = useClaimsSinceQuery({
     variables: { date: today },

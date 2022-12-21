@@ -1,13 +1,29 @@
 import styled from 'styled-components';
 import NextLink from 'next/link';
 import { IconStyles, IconStylesHover } from '../elements/icons';
+import mixpanel from 'mixpanel-browser';
 
 type Props = React.ComponentProps<typeof NextLink>;
 
 export const Link = (props: Props) => {
   const { children, className, ...restProps } = props;
+
   return (
-    <NextLink {...restProps} className={className} target={restProps.target} rel={restProps.rel}>
+    <NextLink
+      {...restProps}
+      className={className}
+      target={restProps.target}
+      rel={restProps.rel}
+      onClick={(e) => {
+        console.log('wassupppp');
+        mixpanel.track('Click link', {
+          href: restProps.href,
+        });
+        if (restProps.onClick) {
+          restProps.onClick(e);
+        }
+      }}
+    >
       {children}
     </NextLink>
   );

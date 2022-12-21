@@ -5,6 +5,7 @@ import { createClient, Provider as URQLProvider } from 'urql';
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import * as Sentry from '@sentry/browser';
+import mixpanel from 'mixpanel-browser';
 import '../styles/styles.css';
 import { GlobalStyles } from '../styles/globalStyles';
 import { OAuthProvider } from '../components/oauth/OAuthContext';
@@ -21,6 +22,8 @@ import { ModalsProvider } from '@mantine/modals';
 import { urqlClientOptions } from '../lib/urql';
 
 const client = createClient(urqlClientOptions);
+
+mixpanel.init('c863acbefa495e77dfd8b2e05d20c47e', { ignore_dnt: true, debug: true });
 
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
