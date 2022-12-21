@@ -1,10 +1,12 @@
-import { Text } from '@mantine/core';
-import styled from 'styled-components';
 import React from 'react';
+import styled from 'styled-components';
+import { MdDelete } from 'react-icons/md';
 import { TeamMembershipsQuery } from '../../../../graphql/generated-gql';
 import { AcceptanceStatusBadge } from './AcceptanceStatusBadge';
 import { BackgroundPanel2 } from '../../../../colors';
 import { formatUTCDate } from '../../../../helpers';
+import { Button, Text } from '../../../shared/elements';
+import { RemoveMemberModal } from './RemoveMemberModal';
 
 const TableRow = styled.tr`
   cursor: pointer;
@@ -16,10 +18,20 @@ const TableRow = styled.tr`
 type TeamMemberships = Exclude<TeamMembershipsQuery['teamMemberships'], undefined | null>;
 
 type RowProps = {
+  teamId: number;
   membership: TeamMemberships['memberships'][number];
+  openRemoveModal: () => void;
+  closeRemoveModal: () => void;
+  isRemoveModalOpen: boolean;
 };
 
-export const MembershipRow = ({ membership }: RowProps) => {
+export const MembershipRow = ({
+  teamId,
+  membership,
+  isRemoveModalOpen,
+  openRemoveModal,
+  closeRemoveModal,
+}: RowProps) => {
   const { addressId, role, acceptanceStatus, joinedOn, createdAt } = membership;
 
   return (
@@ -40,7 +52,18 @@ export const MembershipRow = ({ membership }: RowProps) => {
         <td>
           <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(createdAt)}</Text>
         </td>
+        <td>
+          <Button onClick={openRemoveModal}>
+            <MdDelete />
+          </Button>
+        </td>
       </TableRow>
+      <RemoveMemberModal
+        teamId={teamId}
+        address={'0xE078c3BDEe620829135e1ab526bE860498B06339'}
+        isOpen={isRemoveModalOpen}
+        onClose={closeRemoveModal}
+      />
     </>
   );
 };

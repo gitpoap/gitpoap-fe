@@ -24,6 +24,7 @@ const HEADERS: {
   { label: 'Role', key: 'role', isSortable: false },
   { label: 'Joined On', key: 'joinedOn', isSortable: false },
   { label: 'Creation Date', key: 'createdAt', isSortable: false },
+  { label: 'Actions', key: 'actions', isSortable: false },
 ];
 
 type QueryVars = {
@@ -46,6 +47,8 @@ type Props = {
 
 export const MembersList = ({ teamId }: Props) => {
   const [isAddModalOpen, { open: openAddModal, close: closeAddModal }] = useDisclosure(false);
+  const [isRemoveModalOpen, { open: openRemoveModal, close: closeRemoveModal }] =
+    useDisclosure(false);
   const [sortBy, setSortBy] = useState<SortOptions>('date');
 
   const [variables, setVariables] = useState<QueryVars>({
@@ -144,7 +147,16 @@ export const MembersList = ({ teamId }: Props) => {
                   {memberships &&
                     memberships.length > 0 &&
                     memberships.map((membership) => {
-                      return <MembershipRow key={membership.id} membership={membership} />;
+                      return (
+                        <MembershipRow
+                          key={membership.id}
+                          teamId={teamId}
+                          membership={membership}
+                          isRemoveModalOpen={isRemoveModalOpen}
+                          openRemoveModal={openRemoveModal}
+                          closeRemoveModal={closeRemoveModal}
+                        />
+                      );
                     })}
                 </tbody>
               </Table>
