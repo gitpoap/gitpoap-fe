@@ -1,7 +1,7 @@
 import { Text } from '@mantine/core';
 import styled from 'styled-components';
 import React from 'react';
-import { StaffApprovalStatus, TeamGitPoaPsQuery } from '../../../../graphql/generated-gql';
+import { TeamGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { GitPOAPBadgePopover } from '../../../request/RequestItem/GitPOAPBadgePopover';
 import { useDisclosure } from '@mantine/hooks';
 import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
@@ -17,32 +17,34 @@ const TableRow = styled.tr`
 `;
 
 type RowProps = {
-  gitPOAP: Exclude<TeamGitPoaPsQuery['teamGitPOAPs'], null | undefined>[number];
+  gitPOAPRequest: Exclude<
+    TeamGitPoapRequestsQuery['teamGitPOAPRequests'],
+    null | undefined
+  >[number];
 };
 
-const PoapToStaffApprovalStatus = {
-  APPROVED: 'APPROVED',
-  DEPRECATED: 'REJECTED',
-  REDEEM_REQUEST_PENDING: 'APROVED',
-  UNAPPROVED: 'PENDING',
-};
-
-export const TeamGitPOAPsRow = ({ gitPOAP }: RowProps) => {
-  const { id, name, description, imageUrl, createdAt, updatedAt, poapApprovalStatus, claims } =
-    gitPOAP;
+export const TeamGitPOAPRequestsRow = ({ gitPOAPRequest }: RowProps) => {
+  const {
+    id,
+    createdAt,
+    updatedAt,
+    name,
+    description,
+    imageUrl,
+    contributors,
+    staffApprovalStatus,
+  } = gitPOAPRequest;
 
   const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
     useDisclosure(false);
 
-  const numberOfClaims = claims.length;
+  const numberOfContributors = Object.values(contributors).flat().length;
 
   return (
-    <Link href={`/gp/${id}/manage`}>
+    <Link href={`/create/${id}`}>
       <TableRow>
         <td>
-          <RequestStatusBadge
-            status={PoapToStaffApprovalStatus[poapApprovalStatus] as StaffApprovalStatus}
-          />
+          <RequestStatusBadge status={staffApprovalStatus} />
         </td>
         <td>
           <GitPOAPBadgePopover
@@ -67,7 +69,7 @@ export const TeamGitPOAPsRow = ({ gitPOAP }: RowProps) => {
           <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(updatedAt)}</Text>
         </td>
         <td>
-          <Text>{numberOfClaims}</Text>
+          <Text>{numberOfContributors}</Text>
         </td>
       </TableRow>
     </Link>

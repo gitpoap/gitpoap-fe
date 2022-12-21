@@ -4,29 +4,22 @@ import React from 'react';
 import { MdMoreHoriz } from 'react-icons/md';
 import { BackgroundPanel, BackgroundPanel2 } from '../../../../colors';
 
-import { StaffApprovalStatus, TeamGitPoaPsQuery } from '../../../../graphql/generated-gql';
+import { TeamGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
 import { GitPOAPBadge } from '../../../shared/elements';
 
 type Props = {
-  gitPOAPs: Exclude<TeamGitPoaPsQuery['teamGitPOAPs'], null | undefined>;
+  gitPOAPRequests: Exclude<TeamGitPoapRequestsQuery['teamGitPOAPRequests'], null | undefined>;
 };
 
-const PoapToStaffApprovalStatus = {
-  APPROVED: 'APPROVED',
-  DEPRECATED: 'REJECTED',
-  REDEEM_REQUEST_PENDING: 'APROVED',
-  UNAPPROVED: 'PENDING',
-};
-
-export const TeamGitPOAPsGrid = ({ gitPOAPs }: Props) => {
+export const TeamGitPOAPRequestsGrid = ({ gitPOAPRequests }: Props) => {
   return (
     <Group position="left">
-      {gitPOAPs &&
-        gitPOAPs.length > 0 &&
-        gitPOAPs.map((gitPOAPs) => (
+      {gitPOAPRequests &&
+        gitPOAPRequests.length > 0 &&
+        gitPOAPRequests.map((gitPOAPRequest) => (
           <Card
-            key={gitPOAPs.id}
+            key={gitPOAPRequest.id}
             sx={{
               cursor: 'pointer',
               width: rem(250),
@@ -69,19 +62,15 @@ export const TeamGitPOAPsGrid = ({ gitPOAPs }: Props) => {
                 </Menu.Dropdown>
               </Menu>
               <GitPOAPBadge
-                imgUrl={gitPOAPs.imageUrl}
-                altText={gitPOAPs.name}
+                imgUrl={gitPOAPRequest.imageUrl}
+                altText={gitPOAPRequest.name}
                 size="md"
                 onClick={() => {}}
               />
             </Center>
             <Container p={16}>
-              <Text>{gitPOAPs.name}</Text>
-              <RequestStatusBadge
-                status={
-                  PoapToStaffApprovalStatus[gitPOAPs.poapApprovalStatus] as StaffApprovalStatus
-                }
-              />
+              <Text>{gitPOAPRequest.name}</Text>
+              <RequestStatusBadge status={gitPOAPRequest.staffApprovalStatus} />
             </Container>
           </Card>
         ))}

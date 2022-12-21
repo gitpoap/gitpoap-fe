@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { User } from '../../hooks/useUser';
 import { Header } from '../shared/elements';
 import { TeamDashboard } from './dashboard';
+import { TeamGitPOAPs } from './dashboard/TeamGitPOAPs';
 
 const Panel = styled(Tabs.Panel)`
   overflow: hidden;
@@ -13,6 +14,7 @@ const Panel = styled(Tabs.Panel)`
 
 enum Section {
   Dashboard = 'dashboard',
+  Requests = 'requests',
   Members = 'members',
   Settings = 'settings',
 }
@@ -42,12 +44,19 @@ export const TeamContainer = ({ user }: Props) => {
       >
         <Tabs.List pt={rem(10)}>
           <Tabs.Tab value={Section.Dashboard}>{'Dashboard'}</Tabs.Tab>
+          <Tabs.Tab value={Section.Requests}>{'Requests'}</Tabs.Tab>
           <Tabs.Tab value={Section.Members}>{'Members'}</Tabs.Tab>
           <Tabs.Tab value={Section.Settings}>{'Settings'}</Tabs.Tab>
         </Tabs.List>
 
         <Panel value={Section.Dashboard}>
           <TeamDashboard />
+        </Panel>
+
+        <Panel value={Section.Requests}>
+          <Stack pl={rem(32)}>
+            <TeamGitPOAPs />
+          </Stack>
         </Panel>
 
         <Panel value={Section.Members}>

@@ -4,18 +4,21 @@ import React, { useState } from 'react';
 import { MdGridView, MdList } from 'react-icons/md';
 
 import { TextGray, White } from '../../../../colors';
-import { useTeamGitPoaPsQuery } from '../../../../graphql/generated-gql';
+import {
+  StaffApprovalStatus,
+  useTeamGitPoapRequestsQuery,
+} from '../../../../graphql/generated-gql';
 import { SelectOption } from '../../../shared/compounds/ItemList';
 import { Header, Select } from '../../../shared/elements';
-import { TeamGitPOAPsGrid } from './Grid';
-import { TeamGitPOAPsList } from './List';
+import { TeamGitPOAPRequestsGrid } from './Grid';
+import { TeamGitPOAPRequestsList } from './List';
 
-type StatusSortOptions = 'LIVE' | 'PENDING' | 'DEPRECATED' | 'ALL';
+type StatusSortOptions = 'Pending' | 'Rejected' | 'Approved' | 'All';
 const statusSelectOptions: SelectOption<StatusSortOptions>[] = [
-  { value: 'ALL', label: 'ALL GITPOAPS' },
-  { value: 'LIVE', label: 'LIVE' },
-  { value: 'PENDING', label: 'PENDING' },
-  { value: 'DEPRECATED', label: 'DEPRECATED' },
+  { value: 'All', label: 'ALL REQUESTS' },
+  { value: 'Approved', label: 'APPROVED' },
+  { value: 'Pending', label: 'PENDING' },
+  { value: 'Rejected', label: 'REJECTED' },
 ];
 
 type DateSortOptions = 'Created' | 'Modified' | 'Alphabetical';
@@ -25,15 +28,15 @@ const dateSelectOptions: SelectOption<DateSortOptions>[] = [
   { value: 'Alphabetical', label: 'ALPHABETICAL' },
 ];
 
-export const TeamGitPOAPs = () => {
+export const TeamGitPOAPRequests = () => {
   const [view, setView] = useState<'grid' | 'list'>('grid');
   const [dateFilter, setDateFilter] = useState<DateSortOptions>('Created');
-  const [statusFilter, setStatusFilter] = useState<StatusSortOptions>('ALL');
+  const [statusFilter, setStatusFilter] = useState<StatusSortOptions>('All');
 
-  const [result] = useTeamGitPoaPsQuery({
+  const [result] = useTeamGitPoapRequestsQuery({
     variables: {
       teamId: 1,
-      approvalStatus: statusFilter === 'ALL' ? undefined : statusFilter,
+      approvalStatus: statusFilter === 'All' ? undefined : StaffApprovalStatus[statusFilter],
       sort: dateFilter,
     },
     pause: false,
@@ -52,7 +55,7 @@ export const TeamGitPOAPs = () => {
     }
   };
 
-  const gitPOAPs = result.data?.teamGitPOAPs;
+  const gitPOAPRequests = result.data?.teamGitPOAPRequests;
 
   return (
     <Group position="center" p={0}>
@@ -84,15 +87,15 @@ export const TeamGitPOAPs = () => {
             </Group>
           </Group>
         </Group>
-        {!result.fetching && gitPOAPs && gitPOAPs.length === 0 && (
+        {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
           <Text my={rem(20)} size={18}>
             {'No GitPOAPs Found'}
           </Text>
         )}
-        {gitPOAPs &&
+        {gitPOAPRequests &&
           {
-            grid: <TeamGitPOAPsGrid gitPOAPs={gitPOAPs} />,
-            list: <TeamGitPOAPsList gitPOAPs={gitPOAPs} />,
+            grid: <TeamGitPOAPRequestsGrid gitPOAPRequests={gitPOAPRequests} />,
+            list: <TeamGitPOAPRequestsList gitPOAPRequests={gitPOAPRequests} />,
           }[view]}
       </Stack>
     </Group>
