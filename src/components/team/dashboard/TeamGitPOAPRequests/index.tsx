@@ -61,7 +61,7 @@ export const TeamGitPOAPRequests = () => {
     <Group position="center" p={0}>
       <Stack align="center" justify="flex-start" style={{ width: '100%' }}>
         <Group position="apart" align="center" style={{ width: '100%' }}>
-          <Header style={{ alignSelf: 'start' }}>{'Team GitPOAPs'}</Header>
+          <Header style={{ alignSelf: 'start' }}>{'Requests'}</Header>
           <Group position="right" spacing={32}>
             <Group spacing="xs">
               <Select

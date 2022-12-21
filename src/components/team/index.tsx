@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { User } from '../../hooks/useUser';
 import { Header } from '../shared/elements';
 import { TeamDashboard } from './dashboard';
-import { TeamGitPOAPs } from './dashboard/TeamGitPOAPs';
+import { TeamGitPOAPRequests } from './dashboard/TeamGitPOAPRequests';
 
 const Panel = styled(Tabs.Panel)`
   overflow: hidden;
@@ -55,7 +55,7 @@ export const TeamContainer = ({ user }: Props) => {
 
         <Panel value={Section.Requests}>
           <Stack pl={rem(32)}>
-            <TeamGitPOAPs />
+            <TeamGitPOAPRequests />
           </Stack>
         </Panel>
 
