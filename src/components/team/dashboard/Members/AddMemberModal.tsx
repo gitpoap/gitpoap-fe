@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import { Stack, Group, Modal } from '@mantine/core';
 import { getHotkeyHandler } from '@mantine/hooks';
-// import { utils } from 'ethers';
 
 import { Button, Text, Input } from '../../../shared/elements';
+import { useAddressForm } from './useAddressForm';
 
 type AddMemberModalProps = {
   isOpen: boolean;
@@ -11,12 +11,12 @@ type AddMemberModalProps = {
 };
 
 export const AddMemberModal = ({ isOpen, onClose }: AddMemberModalProps) => {
-  const [address, setAddress] = useState('');
+  const { values, getInputProps, validate } = useAddressForm();
 
-  const handleSubmit = () => {};
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(e.target.value);
+  const handleSubmit = () => {
+    if (!validate().hasErrors) {
+      console.log('address', values.address);
+    }
   };
 
   return (
@@ -32,8 +32,7 @@ export const AddMemberModal = ({ isOpen, onClose }: AddMemberModalProps) => {
         <Input
           placeholder="Address"
           required
-          value={address}
-          onChange={handleChange}
+          {...getInputProps('address')}
           onKeyDown={getHotkeyHandler([
             [
               'Enter',
