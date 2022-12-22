@@ -2,10 +2,10 @@ import type { ReactElement, ReactNode } from 'react';
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { createClient, Provider as URQLProvider } from 'urql';
+import { Provider as URQLProvider } from 'urql';
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
-import * as Sentry from '@sentry/browser';
+
 import '../styles/styles.css';
 import { GlobalStyles } from '../styles/globalStyles';
 import { OAuthProvider } from '../components/oauth/OAuthContext';
@@ -18,35 +18,10 @@ import { Web3ReactProvider } from '@web3-react/core';
 import { getWeb3Provider } from '../helpers';
 import { Web3ContextProvider } from '../components/wallet/Web3Context';
 import { ModalsProvider } from '@mantine/modals';
-import { urqlClientOptions } from '../lib/urql';
-import { Layout } from '../components/Layout';
+import { client } from '../lib/urql';
+import { setupExternalServiceClients } from '../lib/app';
 
-const client = createClient(urqlClientOptions);
-
-Sentry.init({
-  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-  environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
-  /* Only enable Sentry if the app is in production mode */
-  enabled: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT === 'production',
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-  beforeSend(event, hint) {
-    const error = hint?.originalException;
-
-    if (error) {
-      if (event.user?.ip_address) {
-        delete event.user.ip_address;
-      }
-      if (event.user?.email) {
-        delete event.user.email;
-      }
-    }
-
-    return event;
-  },
-});
+setupExternalServiceClients();
 
 export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
