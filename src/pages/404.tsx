@@ -1,5 +1,6 @@
 import React from 'react';
 import { NextPageWithLayout } from './_app';
+import Head from 'next/head';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { Header } from '../components/shared/elements/Header';
@@ -20,6 +21,9 @@ const SubText = styled(Header)`
 const Custom404: NextPageWithLayout = () => {
   return (
     <Container>
+      <Head>
+        <title>{'Page Not Found | GitPOAP'}</title>
+      </Head>
       <Header>{'404'}</Header>
       <SubText>{'This page could not be found'}</SubText>
     </Container>
