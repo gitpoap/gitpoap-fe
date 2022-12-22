@@ -5,7 +5,6 @@ import { useUserMembershipsQuery } from '../../graphql/generated-gql';
 import { Header, Divider } from '../shared/elements';
 import { TableHeaderItem } from '../gitpoap/manage/TableHeaderItem';
 import { UserMembershipRow } from './UserMembershipRow';
-import { useUrqlContext } from '../../hooks/useUrqlContext';
 import { BackgroundPanel } from '../../colors';
 
 const HEADERS: {
@@ -22,11 +21,7 @@ const HEADERS: {
 ];
 
 export const UserMembershipList = () => {
-  const context = useUrqlContext();
-
-  const [result] = useUserMembershipsQuery({
-    context,
-  });
+  const [result] = useUserMembershipsQuery();
 
   const memberships = result.data?.userMemberships?.memberships ?? null;
 

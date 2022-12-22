@@ -11,7 +11,6 @@ import { BREAKPOINTS } from '../../../../constants';
 import { Divider, Button, Text } from '../../../shared/elements';
 import { MembershipRow } from './MembershipRow';
 import { AddMemberModal } from './AddMemberModal';
-import { useUrqlContext } from '../../../../hooks/useUrqlContext';
 import { useTeamMembershipsQuery } from '../../../../graphql/generated-gql';
 
 const HEADERS: {
@@ -56,8 +55,6 @@ export const MembershipList = ({ teamId }: Props) => {
     perPage: 20,
   });
 
-  const context = useUrqlContext();
-
   const [result] = useTeamMembershipsQuery({
     variables: {
       teamId,
@@ -65,7 +62,6 @@ export const MembershipList = ({ teamId }: Props) => {
       perPage: variables.perPage,
       sort: sortBy,
     },
-    context,
   });
 
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.lg)})`, false);

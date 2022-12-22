@@ -12,7 +12,6 @@ import { AcceptanceStatusBadge } from '../team/dashboard/Members/AcceptanceStatu
 import { BackgroundPanel2 } from '../../colors';
 import { formatUTCDate } from '../../helpers';
 import { Button, Text } from '../shared/elements';
-import { useUrqlContext } from '../../hooks/useUrqlContext';
 
 const TableRow = styled.tr`
   cursor: pointer;
@@ -29,13 +28,12 @@ type RowProps = {
 
 export const UserMembershipRow = ({ membership }: RowProps) => {
   const { role, acceptanceStatus, joinedOn, createdAt, teamId, team } = membership;
-  const context = useUrqlContext();
 
   const [result, acceptMembership] = useAcceptMembershipMutation();
 
   const handleAccept = useCallback(async () => {
-    await acceptMembership({ teamId }, context);
-  }, [teamId, acceptMembership, context]);
+    await acceptMembership({ teamId });
+  }, [teamId, acceptMembership]);
 
   return (
     <>
