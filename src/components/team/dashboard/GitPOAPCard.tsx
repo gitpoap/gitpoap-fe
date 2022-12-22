@@ -50,14 +50,14 @@ export const GitPOAPCard = ({ imageUrl, name, staffApprovalStatus, href }: Props
                 opacity: 0,
                 transition: '150ms opacity ease',
               }}
-              onClick={(event) => event.stopPropagation()}
+              onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
               <MdMoreHoriz size={rem(20)} />
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown
-            onClick={(event) => {
-              event.stopPropagation();
+            onClick={(e: React.MouseEvent) => {
+              e.stopPropagation();
             }}
           >
             {href && <Menu.Item onClick={() => router.push(href)}>View</Menu.Item>}
