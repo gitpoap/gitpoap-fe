@@ -12,36 +12,31 @@ type AddMemberModalProps = {
 };
 
 export const AddMemberModal = ({ teamId, isOpen, onClose }: AddMemberModalProps) => {
-  const { values, getInputProps, validate, setErrors } = useAddressForm();
+  const { values, getInputProps, validate, setErrors, setValues } = useAddressForm();
 
   const [result, addMember] = useAddMembershipMutation();
 
   const handleSubmit = useCallback(async () => {
     if (!validate().hasErrors) {
-      await addMember({
+      const res = await addMember({
         teamId,
         address: values.address,
       });
+
+      if (res.data?.addNewMembership) {
+        setValues({
+          address: '',
+        });
+        onClose();
+      }
     }
-  }, [teamId, validate, values, addMember]);
+  }, [teamId, validate, values, addMember, onClose, setValues]);
 
   useEffect(() => {
     if (result.error) {
       setErrors({ address: result.error.message.replace('[GraphQL] ', '') });
     }
   }, [result, setErrors]);
-
-  if (result.data) {
-    return (
-      <Modal
-        centered
-        opened={isOpen}
-        onClose={onClose}
-        padding={32}
-        title={'Successfully added a new member'}
-      ></Modal>
-    );
-  }
 
   return (
     <Modal

@@ -14,23 +14,15 @@ export const RemoveMemberModal = ({ teamId, address, isOpen, onClose }: RemoveMe
   const [result, removeMember] = useRemoveMembershipMutation();
 
   const handleSubmit = useCallback(async () => {
-    await removeMember({
+    const res = await removeMember({
       teamId,
       address,
     });
-  }, [teamId, address, removeMember]);
 
-  if (result.data?.removeMembership) {
-    return (
-      <Modal
-        centered
-        opened={isOpen}
-        onClose={onClose}
-        padding={32}
-        title={'Successfully removed a member from the team'}
-      ></Modal>
-    );
-  }
+    if (res.data?.removeMembership) {
+      onClose();
+    }
+  }, [teamId, address, removeMember, onClose]);
 
   return (
     <Modal
