@@ -38,7 +38,7 @@ export const GitPOAPCard = ({ imageUrl, name, staffApprovalStatus, href }: Props
           p={4}
           sx={{ opacity: 0, transition: '150ms opacity ease' }}
         />
-        <Menu position="right" withinPortal>
+        <Menu position="right" withinPortal width={rem(100)}>
           <Menu.Target>
             <ActionIcon
               sx={{
@@ -55,11 +55,13 @@ export const GitPOAPCard = ({ imageUrl, name, staffApprovalStatus, href }: Props
               <MdMoreHoriz size={rem(20)} />
             </ActionIcon>
           </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item>Share</Menu.Item>
-            <Menu.Item>Edit</Menu.Item>
-            <Menu.Item>Details</Menu.Item>
-            <Menu.Item>Contributors</Menu.Item>
+          <Menu.Dropdown
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
+            {href && <Menu.Item onClick={() => router.push(href)}>View</Menu.Item>}
+            {href && <Menu.Item onClick={() => href && router.push(href)}>Edit</Menu.Item>}
           </Menu.Dropdown>
         </Menu>
         <GitPOAPBadge imgUrl={imageUrl} altText={name} size="md" onClick={() => {}} />
