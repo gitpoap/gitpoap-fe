@@ -21,7 +21,7 @@ export const getAccessToken = () => {
 
   const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
 
-  return accessToken?.slice(1, -1);
+  return accessToken ? JSON.parse(accessToken) : null;
 };
 
 /**
