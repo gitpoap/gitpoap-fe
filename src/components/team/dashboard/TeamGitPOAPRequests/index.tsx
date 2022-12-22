@@ -82,7 +82,7 @@ export const TeamGitPOAPRequests = () => {
         </Group>
         {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
           <Text my={rem(20)} size={18}>
-            {'No GitPOAPs Found'}
+            {'No GitPOAP Requests Found'}
           </Text>
         )}
         {gitPOAPRequests &&
