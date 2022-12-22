@@ -5,7 +5,6 @@ import Head from 'next/head';
 import { Provider as URQLProvider } from 'urql';
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
-
 import '../styles/styles.css';
 import { GlobalStyles } from '../styles/globalStyles';
 import { OAuthProvider } from '../components/oauth/OAuthContext';
@@ -20,6 +19,7 @@ import { Web3ContextProvider } from '../components/wallet/Web3Context';
 import { ModalsProvider } from '@mantine/modals';
 import { client } from '../lib/urql';
 import { setupExternalServiceClients } from '../lib/app';
+import { Layout } from '../components/Layout';
 
 setupExternalServiceClients();
 
