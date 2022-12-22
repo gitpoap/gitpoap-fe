@@ -17,7 +17,7 @@ const PoapToStaffApprovalStatus = {
 
 export const TeamGitPOAPsGrid = ({ gitPOAPs }: Props) => {
   return (
-    <Group position="left" sx={{ width: '100%' }}>
+    <Group align="baseline" position="left" sx={{ width: '100%' }}>
       {gitPOAPs &&
         gitPOAPs.length > 0 &&
         gitPOAPs.map((gitPOAP) => (

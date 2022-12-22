@@ -65,7 +65,7 @@ export const GitPOAPCard = ({ imageUrl, name, staffApprovalStatus, href }: Props
         <GitPOAPBadge imgUrl={imageUrl} altText={name} size="md" onClick={() => {}} />
       </Center>
       <Container p={16}>
-        <Text lineClamp={2}>{name}</Text>
+        <Text lineClamp={3}>{name}</Text>
         <RequestStatusBadge status={staffApprovalStatus} />
       </Container>
     </Card>
