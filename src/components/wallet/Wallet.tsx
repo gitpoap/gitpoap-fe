@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import { JazzIconNoText, StyledAvatar, WalletStatus } from './WalletStatus';
-import ConnectWallet from '../wallet/ConnectWallet';
+import { ConnectWalletButton } from '../wallet/ConnectWallet';
 import { useUser } from '../../hooks/useUser';
 import { shortenAddress } from '../../helpers';
 import { useWeb3Context, ConnectionStatus } from './Web3Context';
@@ -83,9 +83,9 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
           />
         )
       ) : (
-        <ConnectWallet leftIcon={!hideText && <FaEthereum size={16} />}>
+        <ConnectWalletButton leftIcon={!hideText && <FaEthereum size={16} />}>
           {!hideText ? 'Sign In' : <FaEthereum size={16} />}
-        </ConnectWallet>
+        </ConnectWalletButton>
       )}
     </Group>
   );

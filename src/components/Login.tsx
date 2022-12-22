@@ -1,7 +1,7 @@
 import { Center, Stack } from '@mantine/core';
 import { FaEthereum } from 'react-icons/fa';
 import { Header, Loader } from './shared/elements';
-import ConnectWallet from './wallet/ConnectWallet';
+import { ConnectWalletButton } from './wallet/ConnectWallet';
 import { useWeb3Context, ConnectionStatus } from './wallet/Web3Context';
 
 export const Login = () => {
@@ -13,7 +13,9 @@ export const Login = () => {
         connectionStatus === ConnectionStatus.UNINITIALIZED) && (
         <Stack spacing={32}>
           <Header>{'Sign In to Continue'}</Header>
-          <ConnectWallet leftIcon={<FaEthereum size={16} />}>{'Connect Wallet'}</ConnectWallet>
+          <ConnectWalletButton leftIcon={<FaEthereum size={16} />}>
+            {'Connect Wallet'}
+          </ConnectWalletButton>
         </Stack>
       )}
       {(connectionStatus === ConnectionStatus.CONNECTING_WALLET ||
