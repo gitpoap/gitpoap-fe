@@ -1,12 +1,16 @@
 import { initUrqlClient } from 'next-urql';
 import { dedupExchange, cacheExchange, fetchExchange, ssrExchange, ClientOptions } from 'urql';
+import { getAccessToken } from '../hooks/useTokens';
 
 export const urqlClientOptions: ClientOptions = {
   url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
-  fetchOptions: {
-    headers: {
-      Authorization: 'Bearer null',
-    },
+  fetchOptions: () => {
+    const accessToken = getAccessToken();
+    return {
+      headers: {
+        Authorization: `Bearer ${accessToken ?? null}`,
+      },
+    };
   },
 };
 
