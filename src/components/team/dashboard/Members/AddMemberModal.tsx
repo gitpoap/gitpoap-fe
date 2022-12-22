@@ -33,7 +33,7 @@ export const AddMemberModal = ({ teamId, isOpen, onClose }: AddMemberModalProps)
 
   useEffect(() => {
     if (result.error) {
-      setErrors({ address: result.error.message });
+      setErrors({ address: result.error.message.replace('[GraphQL] ', '') });
     }
   }, [result, setErrors]);
 

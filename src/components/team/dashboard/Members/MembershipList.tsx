@@ -93,7 +93,7 @@ export const MembershipList = ({ teamId }: Props) => {
   if (result.error) {
     return (
       <Stack align="center" justify="flex-start" spacing="sm" mt={rem(50)}>
-        <Text size="lg">{result.error.message}</Text>
+        <Text size="lg">{result.error.message.replace('[GraphQL] ', '')}</Text>
       </Stack>
     );
   }

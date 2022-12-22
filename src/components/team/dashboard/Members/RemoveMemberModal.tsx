@@ -46,7 +46,7 @@ export const RemoveMemberModal = ({ teamId, address, isOpen, onClose }: RemoveMe
       title={'Are you sure to remove this member from the team?'}
     >
       <Stack align="stretch" spacing={16}>
-        {result.error && <Text color="red">{result.error.message}</Text>}
+        {result.error && <Text color="red">{result.error.message.replace('[GraphQL] ', '')}</Text>}
         <Group grow mt={16}>
           <Button color="red" variant="outline" onClick={onClose} disabled={result.fetching}>
             {'Cancel'}

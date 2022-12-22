@@ -39,7 +39,7 @@ export const UserMembershipList = () => {
           </Group>
           <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
           <Text my={rem(20)} size={18}>
-            {result.error.message}
+            {result.error.message.replace('[GraphQL] ', '')}
           </Text>
         </Stack>
       </Group>
