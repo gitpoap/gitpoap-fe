@@ -1,19 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
 import { MdDelete } from 'react-icons/md';
 import { TeamMembershipsQuery } from '../../../../graphql/generated-gql';
 import { AcceptanceStatusBadge } from './AcceptanceStatusBadge';
-import { BackgroundPanel2 } from '../../../../colors';
 import { formatUTCDate } from '../../../../helpers';
 import { Button, Text } from '../../../shared/elements';
 import { RemoveMemberModal } from './RemoveMemberModal';
-
-const TableRow = styled.tr`
-  cursor: pointer;
-  &:hover {
-    background-color: ${BackgroundPanel2} !important;
-  }
-`;
+import { Link } from '../../../shared/compounds/Link';
 
 type TeamMemberships = Exclude<TeamMembershipsQuery['teamMemberships'], undefined | null>;
 
@@ -36,12 +28,16 @@ export const MembershipRow = ({
 
   return (
     <>
-      <TableRow>
+      <tr>
         <td>
           <AcceptanceStatusBadge status={acceptanceStatus} />
         </td>
         <td>
-          <Text lineClamp={3}>{address.ethAddress}</Text>
+          <Link href={`/p/${address.ethAddress}`}>
+            <Text lineClamp={3} variant="link">
+              {address.ethAddress}
+            </Text>
+          </Link>
         </td>
         <td>
           <Text lineClamp={3}>{role}</Text>
@@ -57,7 +53,7 @@ export const MembershipRow = ({
             <MdDelete />
           </Button>
         </td>
-      </TableRow>
+      </tr>
       <RemoveMemberModal
         teamId={teamId}
         address={address.ethAddress}
