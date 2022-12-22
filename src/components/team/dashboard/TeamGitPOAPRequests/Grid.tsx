@@ -10,7 +10,7 @@ type Props = {
 
 export const TeamGitPOAPRequestsGrid = ({ gitPOAPRequests }: Props) => {
   return (
-    <Group position="left">
+    <Group position="left" sx={{ width: '100%' }}>
       {gitPOAPRequests &&
         gitPOAPRequests.length > 0 &&
         gitPOAPRequests.map((gitPOAPRequest) => (
