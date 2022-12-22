@@ -22,7 +22,6 @@ const HEADERS: {
   { label: 'Address', key: 'address', isSortable: false },
   { label: 'Role', key: 'role', isSortable: false },
   { label: 'Joined On', key: 'joinedOn', isSortable: false },
-  { label: 'Creation Date', key: 'createdAt', isSortable: false },
   { label: 'Actions', key: 'actions', isSortable: false },
 ];
 

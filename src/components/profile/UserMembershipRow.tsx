@@ -27,7 +27,7 @@ type RowProps = {
 };
 
 export const UserMembershipRow = ({ membership }: RowProps) => {
-  const { role, acceptanceStatus, joinedOn, createdAt, teamId, team } = membership;
+  const { role, acceptanceStatus, joinedOn, teamId, team } = membership;
 
   const [result, acceptMembership] = useAcceptMembershipMutation();
 
@@ -49,9 +49,6 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         </td>
         <td>
           <Text sx={{ whiteSpace: 'nowrap' }}>{joinedOn ? formatUTCDate(joinedOn) : ''}</Text>
-        </td>
-        <td>
-          <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(createdAt)}</Text>
         </td>
         <td>
           {acceptanceStatus === MembershipAcceptanceStatus.Pending && (

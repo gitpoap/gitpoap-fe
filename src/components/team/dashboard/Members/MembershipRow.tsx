@@ -24,7 +24,7 @@ export const MembershipRow = ({
   openRemoveModal,
   closeRemoveModal,
 }: RowProps) => {
-  const { role, acceptanceStatus, joinedOn, createdAt, address } = membership;
+  const { role, acceptanceStatus, joinedOn, address } = membership;
 
   return (
     <>
@@ -44,9 +44,6 @@ export const MembershipRow = ({
         </td>
         <td>
           <Text sx={{ whiteSpace: 'nowrap' }}>{joinedOn ? formatUTCDate(joinedOn) : ''}</Text>
-        </td>
-        <td>
-          <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(createdAt)}</Text>
         </td>
         <td>
           <Button onClick={openRemoveModal}>
