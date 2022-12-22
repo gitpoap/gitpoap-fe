@@ -3,7 +3,8 @@
 This is a [Next.js](https://nextjs.org/) project - view the [docs](https://nextjs.org/docs/getting-started) for more info.
 
 Example `.env`
-```
+
+```bash
 NEXT_PUBLIC_SENTRY_DSN=https://99be3ffab4cc404ea3283c08cf6b020a@o1178229.ingest.sentry.io/6289197
 NEXT_PUBLIC_SENTRY_ENVIRONMENT='development'
 SENTRY_AUTH_TOKEN=fcb9a6ffbe8b4ee8bd724a43834eaf63737e4eb9f9334b39ad96ead41cc5a906

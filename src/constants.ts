@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
 
-export const REACT_APP_CLIENT_ID = process.env.NEXT_PUBLIC_REACT_APP_CLIENT_ID;
-export const GITPOAP_API_URL = process.env.NEXT_PUBLIC_GITPOAP_API_URL;
-export const DISCORD_CLIENT_ID = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID;
+/* Environment Constants */
+export const DEV_ENVIRONMENT = 'development';
+export const PRODUCTION_ENVIRONMENT = 'production';
 
 /* CSS Breakpoints */
 export const BREAKPOINTS = {

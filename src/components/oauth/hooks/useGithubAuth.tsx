@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef } from 'react';
-import { REACT_APP_CLIENT_ID } from '../../../constants';
+import { REACT_APP_CLIENT_ID } from '../../../environment';
 import { useApi } from '../../../hooks/useApi';
 import { useTokens } from '../../../hooks/useTokens';
 import { Notifications } from '../../../notifications';

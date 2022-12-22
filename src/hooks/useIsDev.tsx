@@ -1,3 +1,6 @@
+import { DEV_ENVIRONMENT } from '../constants';
+import { SENTRY_ENVIRONMENT } from '../environment';
+
 /**
  * This hook is used to check whether the application is currently in the development
  * environment via the NEXT_PUBLIC_SENTRY_ENVIRONMENT environment variable.
@@ -7,7 +10,7 @@
  * @returns boolean
  */
 export const useIsDev = () => {
-  const isDev = process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT === 'development';
+  const isDev = SENTRY_ENVIRONMENT === DEV_ENVIRONMENT;
 
   return isDev;
 };

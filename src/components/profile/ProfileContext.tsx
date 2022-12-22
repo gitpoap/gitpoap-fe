@@ -8,7 +8,7 @@ import React, {
   SetStateAction,
 } from 'react';
 import { useProfileQuery, ProfileQuery } from '../../graphql/generated-gql';
-import { GITPOAP_API_URL } from '../../constants';
+import { GITPOAP_API_URL } from '../../environment';
 import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { useTokens } from '../../hooks/useTokens';

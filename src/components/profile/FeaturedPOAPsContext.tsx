@@ -6,7 +6,7 @@ import {
   useFeaturedPoapsQuery,
 } from '../../graphql/generated-gql';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
-import { GITPOAP_API_URL } from '../../constants';
+import { GITPOAP_API_URL } from '../../environment';
 import { Notifications } from '../../notifications';
 import { useProfileContext } from './ProfileContext';
 import { useTokens } from '../../hooks/useTokens';
