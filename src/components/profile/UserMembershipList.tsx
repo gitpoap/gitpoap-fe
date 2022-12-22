@@ -58,41 +58,43 @@ export const UserMembershipList = () => {
             {'No Memberships Found'}
           </Text>
         )}
-        <Stack
-          align="center"
-          justify="flex-start"
-          spacing="sm"
-          py={0}
-          sx={{
-            background: BackgroundPanel,
-            borderRadius: `${rem(6)} ${rem(6)} 0 0`,
-            width: '100%',
-          }}
-        >
-          <Table highlightOnHover horizontalSpacing="md" verticalSpacing="xs" fontSize="sm">
-            <thead>
-              <tr>
-                {HEADERS.map((header, i) => (
-                  <TableHeaderItem
-                    key={`header-${i}`}
-                    isSortable={header.isSortable}
-                    isSorted={false}
-                    isReversed={false}
-                  >
-                    {header.label}
-                  </TableHeaderItem>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {memberships &&
-                memberships.length > 0 &&
-                memberships.map((membership) => {
-                  return <UserMembershipRow key={membership.id} membership={membership} />;
-                })}
-            </tbody>
-          </Table>
-        </Stack>
+        {!result.fetching && memberships && memberships.length > 0 && (
+          <Stack
+            align="center"
+            justify="flex-start"
+            spacing="sm"
+            py={0}
+            sx={{
+              background: BackgroundPanel,
+              borderRadius: `${rem(6)} ${rem(6)} 0 0`,
+              width: '100%',
+            }}
+          >
+            <Table highlightOnHover horizontalSpacing="md" verticalSpacing="xs" fontSize="sm">
+              <thead>
+                <tr>
+                  {HEADERS.map((header, i) => (
+                    <TableHeaderItem
+                      key={`header-${i}`}
+                      isSortable={header.isSortable}
+                      isSorted={false}
+                      isReversed={false}
+                    >
+                      {header.label}
+                    </TableHeaderItem>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {memberships &&
+                  memberships.length > 0 &&
+                  memberships.map((membership) => {
+                    return <UserMembershipRow key={membership.id} membership={membership} />;
+                  })}
+              </tbody>
+            </Table>
+          </Stack>
+        )}
       </Stack>
     </Group>
   );
