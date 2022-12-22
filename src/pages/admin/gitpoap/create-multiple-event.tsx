@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import type { NextPage } from 'next';
+import { NextPageWithLayout } from '../../_app';
 import Head from 'next/head';
 import { z } from 'zod';
 import { HiPlus } from 'react-icons/hi';
@@ -50,7 +50,7 @@ const DEFAULT_EXPIRY_DATE = DateTime.local(THIS_YEAR + 1, 4, 1).toJSDate();
 
 type Row = { id: string };
 
-const CreateMultipleEvent: NextPage = () => {
+const CreateMultipleEvent: NextPageWithLayout = () => {
   const isStaff = useIsStaff();
   const [rows, setRows] = useState<Row[]>([{ id: uuidv4() }]);
   const { values, setFieldValue, getInputProps } = useForm<z.infer<typeof schema>>({

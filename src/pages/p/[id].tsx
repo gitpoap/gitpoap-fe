@@ -4,7 +4,7 @@ import { rem } from 'polished';
 import { Grid } from '@mantine/core';
 import { isAddress } from 'ethers/lib/utils';
 import { GetStaticPropsContext } from 'next';
-import { Page } from '../_app';
+import { NextPageWithLayout } from '../_app';
 import { AllPOAPs } from '../../components/profile/AllPOAPs';
 import { GitPOAPs } from '../../components/profile/GitPOAPs';
 import { ProfileSidebar } from '../../components/profile/ProfileSidebar';
@@ -40,7 +40,7 @@ type PageProps = {
   addressOrEns: string;
 };
 
-const Profile: Page<PageProps> = (props) => {
+const Profile: NextPageWithLayout<PageProps> = (props) => {
   const seoTitle = isAddress(props.addressOrEns)
     ? truncateAddress(props.addressOrEns ?? '', 8, 4)
     : props.addressOrEns;

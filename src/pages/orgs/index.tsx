@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid } from '@mantine/core';
-import { Page } from '../_app';
+import { NextPageWithLayout } from '../_app';
 import { OrgList } from '../../components/orgs/OrgList';
 import { SEO } from '../../components/shared/compounds/SEO';
 
-const Orgs: Page = () => {
+const Orgs: NextPageWithLayout = () => {
   return (
     <>
       <SEO

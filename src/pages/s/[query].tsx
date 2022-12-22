@@ -2,10 +2,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { Grid } from '@mantine/core';
-import { Page } from '../_app';
+import { NextPageWithLayout } from '../_app';
 import { SearchResults } from '../../components/search/results/SearchResults';
 
-const Search: Page = () => {
+const Search: NextPageWithLayout = () => {
   const router = useRouter();
   const searchQuery = router.query.query as string;
 

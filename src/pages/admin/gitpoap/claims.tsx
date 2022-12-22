@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import type { NextPage } from 'next';
+import { NextPageWithLayout } from '../../_app';
 import Head from 'next/head';
 import { Grid, Loader } from '@mantine/core';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
@@ -32,7 +32,7 @@ type RowData = {
   'Created At': TD<string>;
 };
 
-const ClaimsDashboard: NextPage = () => {
+const ClaimsDashboard: NextPageWithLayout = () => {
   const isStaff = useIsStaff();
   const [result] = useAdminClaimsQuery({
     variables: {

@@ -1,12 +1,12 @@
 import { Grid } from '@mantine/core';
-import type { NextPage } from 'next';
+import { NextPageWithLayout } from '../_app';
 import Head from 'next/head';
 import { CreationForm } from '../../components/create/CreationForm';
 import { BackgroundHexes } from '../../components/gitpoap/BackgroundHexes';
 import { Login } from '../../components/Login';
 import { useUser } from '../../hooks/useUser';
 
-const Create: NextPage = () => {
+const Create: NextPageWithLayout = () => {
   const user = useUser();
   const address = user?.address;
 

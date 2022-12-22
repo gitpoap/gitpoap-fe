@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { z } from 'zod';
-import type { NextPage } from 'next';
+import { NextPageWithLayout } from '../_app';
 import Head from 'next/head';
 import { HiDocumentText } from 'react-icons/hi';
 import { useForm, zodResolver } from '@mantine/form';
@@ -96,7 +96,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-const AddCodesPage: NextPage = () => {
+const AddCodesPage: NextPageWithLayout = () => {
   const { tokens } = useTokens();
   const isStaff = useIsStaff();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);

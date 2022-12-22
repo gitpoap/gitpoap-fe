@@ -1,12 +1,12 @@
 import { Grid } from '@mantine/core';
-import { Page } from '../_app';
+import { NextPageWithLayout } from '../_app';
 import { SEO } from '../../components/shared/compounds/SEO';
 import { UserGitPOAPRequestList } from '../../components/request/UserGitPOAPRequestList';
 import { rem } from 'polished';
 import { Login } from '../../components/Login';
 import { useUser } from '../../hooks/useUser';
 
-const UserGitPOAPs: Page = () => {
+const UserGitPOAPs: NextPageWithLayout = () => {
   const user = useUser();
   const address = user?.address;
 

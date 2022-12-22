@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
 import { withUrqlClient, SSRData } from 'next-urql';
-import { Page } from '../../_app';
+import { NextPageWithLayout } from '../../_app';
 import { Grid } from '@mantine/core';
 import { SEO } from '../../../components/shared/compounds/SEO';
 import { OrgPage, OrgNotFound } from '../../../components/organization/OrgPage';
@@ -19,7 +19,7 @@ type PageProps = {
   data: OrganizationSeoByNameQuery | null;
 };
 
-const Organization: Page<PageProps> = (props) => {
+const Organization: NextPageWithLayout<PageProps> = (props) => {
   const router = useRouter();
   const { orgName } = router.query;
 

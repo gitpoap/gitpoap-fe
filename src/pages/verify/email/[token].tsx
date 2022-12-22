@@ -1,10 +1,10 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { Page } from '../../_app';
+import { NextPageWithLayout } from '../../_app';
 import { VerifyEmail } from '../../../components/verify/VerifyEmail';
 
-const Search: Page = () => {
+const Search: NextPageWithLayout = () => {
   const router = useRouter();
   const token = router.query.token as string;
 

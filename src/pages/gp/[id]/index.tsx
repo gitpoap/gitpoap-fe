@@ -5,7 +5,7 @@ import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { withUrqlClient, SSRData } from 'next-urql';
 import { Grid } from '@mantine/core';
-import { Page } from '../../_app';
+import { NextPageWithLayout } from '../../_app';
 import { BackgroundHexes } from '../../../components/gitpoap/BackgroundHexes';
 import { GitPOAPHolders } from '../../../components/gitpoap/GitPOAPHolders';
 import { Header as PageHeader } from '../../../components/gitpoap/Header';
@@ -32,7 +32,7 @@ type PageProps = {
   gitpoap: GitPoapEventQuery | null;
 };
 
-const GitPOAP: Page<PageProps> = (props) => {
+const GitPOAP: NextPageWithLayout<PageProps> = (props) => {
   const router = useRouter();
   const { id } = router.query;
 

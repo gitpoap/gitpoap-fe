@@ -4,9 +4,9 @@ import { Grid } from '@mantine/core';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { CreateMultiple } from '../../../components/admin/CreateMultiple';
 import { useIsStaff } from '../../../hooks/useIsStaff';
-import { Page } from '../../_app';
+import { NextPageWithLayout } from '../../_app';
 
-const CreateMultipleForm: Page = () => {
+const CreateMultipleForm: NextPageWithLayout = () => {
   const isStaff = useIsStaff();
 
   return (

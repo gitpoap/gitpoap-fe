@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid } from '@mantine/core';
-import { Page } from '../_app';
+import { NextPageWithLayout } from '../_app';
 import { RepoList } from '../../components/repos/RepoList';
 import { SEO } from '../../components/shared/compounds/SEO';
 
-const Repos: Page = () => {
+const Repos: NextPageWithLayout = () => {
   return (
     <>
       <SEO

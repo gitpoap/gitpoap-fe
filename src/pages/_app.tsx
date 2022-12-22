@@ -1,3 +1,4 @@
+import type { ReactElement, ReactNode } from 'react';
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -9,7 +10,6 @@ import '../styles/styles.css';
 import { GlobalStyles } from '../styles/globalStyles';
 import { OAuthProvider } from '../components/oauth/OAuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
-import { Layout } from '../components/Layout';
 import { theme } from '../lib/theme';
 import { ClaimContextProvider } from '../components/claims/ClaimContext';
 import { LoadingBar } from '../components/LoadingBar';
@@ -19,6 +19,7 @@ import { getWeb3Provider } from '../helpers';
 import { Web3ContextProvider } from '../components/wallet/Web3Context';
 import { ModalsProvider } from '@mantine/modals';
 import { urqlClientOptions } from '../lib/urql';
+import { Layout } from '../components/Layout';
 
 const client = createClient(urqlClientOptions);
 
@@ -47,17 +48,16 @@ Sentry.init({
   },
 });
 
-export type Page<P = unknown> = NextPage<P> & {
-  getLayout?: (page: React.ReactNode) => React.ReactNode;
+export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
 };
 
-type Props = AppProps & {
-  Component: Page;
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
 };
 
-const TheApp = ({ Component, pageProps }: Props) => {
-  /* Use custom page-specific layout once / if needed */
-  const getLayout = Component.getLayout || ((page: React.ReactNode) => page);
+const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
+  const getLayout = Component.getLayout || ((page: React.ReactNode) => <Layout>{page}</Layout>);
 
   return (
     <>
@@ -76,10 +76,8 @@ const TheApp = ({ Component, pageProps }: Props) => {
                       <ClaimContextProvider>
                         <GlobalStyles />
                         <HexagonPath />
-                        <Layout>
-                          <LoadingBar />
-                          {getLayout(<Component {...pageProps} />)}
-                        </Layout>
+                        <LoadingBar />
+                        {getLayout(<Component {...pageProps} />)}
                       </ClaimContextProvider>
                     </FeaturesProvider>
                   </OAuthProvider>

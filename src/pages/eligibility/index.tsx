@@ -2,10 +2,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { Grid } from '@mantine/core';
-import { Page } from '../_app';
+import { NextPageWithLayout } from '../_app';
 import { CheckEligibility } from '../../components/eligibility/CheckEligibility';
 
-const CheckEligibilityPage: Page = () => {
+const CheckEligibilityPage: NextPageWithLayout = () => {
   const router = useRouter();
   const searchQuery = router.query.search as string | undefined;
 

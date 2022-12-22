@@ -1,5 +1,5 @@
 import { Grid } from '@mantine/core';
-import type { NextPage } from 'next';
+import { NextPageWithLayout } from '../../_app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { rem } from 'polished';
@@ -8,7 +8,7 @@ import { Login } from '../../../components/Login';
 import { useUser } from '../../../hooks/useUser';
 import Custom404 from '../../404';
 
-const ManageGitPOAPPage: NextPage = () => {
+const ManageGitPOAPPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { id } = router.query;
   const user = useUser();
