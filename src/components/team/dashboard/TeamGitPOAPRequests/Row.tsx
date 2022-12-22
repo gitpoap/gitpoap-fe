@@ -1,13 +1,13 @@
 import { Text } from '@mantine/core';
-import styled from 'styled-components';
+import { useDisclosure } from '@mantine/hooks';
+import { useRouter } from 'next/router';
 import React from 'react';
+import styled from 'styled-components';
 import { TeamGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { GitPOAPBadgePopover } from '../../../request/RequestItem/GitPOAPBadgePopover';
-import { useDisclosure } from '@mantine/hooks';
 import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
 import { BackgroundPanel2 } from '../../../../colors';
 import { formatUTCDate } from '../../../../helpers';
-import Link from 'next/link';
 
 const TableRow = styled.tr`
   cursor: pointer;
@@ -35,43 +35,42 @@ export const TeamGitPOAPRequestsRow = ({ gitPOAPRequest }: RowProps) => {
     staffApprovalStatus,
   } = gitPOAPRequest;
 
+  const router = useRouter();
   const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
     useDisclosure(false);
 
   const numberOfContributors = Object.values(contributors).flat().length;
 
   return (
-    <Link href={`/create/${id}`}>
-      <TableRow>
-        <td>
-          <RequestStatusBadge status={staffApprovalStatus} />
-        </td>
-        <td>
-          <GitPOAPBadgePopover
-            isOpen={isImagePopoverOpen}
-            onClose={closeImagePopover}
-            onOpen={openImagePopover}
-            imageUrl={imageUrl}
-            showWithoutTemplate
-            size="xxs"
-          />
-        </td>
-        <td>
-          <Text lineClamp={3}>{name}</Text>
-        </td>
-        <td>
-          <Text lineClamp={3}>{description}</Text>
-        </td>
-        <td>
-          <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(createdAt)}</Text>
-        </td>
-        <td>
-          <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(updatedAt)}</Text>
-        </td>
-        <td>
-          <Text>{numberOfContributors}</Text>
-        </td>
-      </TableRow>
-    </Link>
+    <TableRow onClick={() => router.push(`/create/${id}`)}>
+      <td>
+        <RequestStatusBadge status={staffApprovalStatus} />
+      </td>
+      <td>
+        <GitPOAPBadgePopover
+          isOpen={isImagePopoverOpen}
+          onClose={closeImagePopover}
+          onOpen={openImagePopover}
+          imageUrl={imageUrl}
+          showWithoutTemplate
+          size="xxs"
+        />
+      </td>
+      <td>
+        <Text lineClamp={3}>{name}</Text>
+      </td>
+      <td>
+        <Text lineClamp={3}>{description}</Text>
+      </td>
+      <td>
+        <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(createdAt)}</Text>
+      </td>
+      <td>
+        <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(updatedAt)}</Text>
+      </td>
+      <td>
+        <Text>{numberOfContributors}</Text>
+      </td>
+    </TableRow>
   );
 };

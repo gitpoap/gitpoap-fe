@@ -76,7 +76,7 @@ export const TeamGitPOAPsGrid = ({ gitPOAPs }: Props) => {
               />
             </Center>
             <Container p={16}>
-              <Text>{gitPOAPs.name}</Text>
+              <Text lineClamp={2}>{gitPOAPs.name}</Text>
               <RequestStatusBadge
                 status={
                   PoapToStaffApprovalStatus[gitPOAPs.poapApprovalStatus] as StaffApprovalStatus

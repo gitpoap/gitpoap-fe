@@ -10,45 +10,45 @@ import { Header, Select } from '../../../shared/elements';
 import { TeamGitPOAPsGrid } from './Grid';
 import { TeamGitPOAPsList } from './List';
 
-type StatusSortOptions = 'LIVE' | 'PENDING' | 'DEPRECATED' | 'ALL';
-const statusSelectOptions: SelectOption<StatusSortOptions>[] = [
+type FilterOptions = 'ALL' | 'LIVE' | 'PENDING' | 'DEPRECATED';
+const filterOptions: SelectOption<FilterOptions>[] = [
   { value: 'ALL', label: 'ALL GITPOAPS' },
   { value: 'LIVE', label: 'LIVE' },
   { value: 'PENDING', label: 'PENDING' },
   { value: 'DEPRECATED', label: 'DEPRECATED' },
 ];
 
-type DateSortOptions = 'Created' | 'Modified' | 'Alphabetical';
-const dateSelectOptions: SelectOption<DateSortOptions>[] = [
-  { value: 'Created', label: 'LAST CREATED' },
-  { value: 'Modified', label: 'LAST MODIFIED' },
-  { value: 'Alphabetical', label: 'ALPHABETICAL' },
+type SortOptions = 'createdAt' | 'updatedAt' | 'alphabetical';
+const sortOptions: SelectOption<SortOptions>[] = [
+  { value: 'createdAt', label: 'LAST CREATED' },
+  { value: 'updatedAt', label: 'LAST MODIFIED' },
+  { value: 'alphabetical', label: 'ALPHABETICAL' },
 ];
 
 export const TeamGitPOAPs = () => {
   const [view, setView] = useState<'grid' | 'list'>('grid');
-  const [dateFilter, setDateFilter] = useState<DateSortOptions>('Created');
-  const [statusFilter, setStatusFilter] = useState<StatusSortOptions>('ALL');
+  const [filter, setFilter] = useState<FilterOptions>('ALL');
+  const [sort, setSort] = useState<SortOptions>('createdAt');
 
   const [result] = useTeamGitPoaPsQuery({
     variables: {
       teamId: 1,
-      approvalStatus: statusFilter === 'ALL' ? undefined : statusFilter,
-      sort: dateFilter,
+      approvalStatus: filter === 'ALL' ? undefined : filter,
+      sort: sort,
     },
     pause: false,
     requestPolicy: 'network-only',
   });
 
-  const onDateSelectChange = (filterValue: DateSortOptions) => {
-    if (filterValue !== dateFilter) {
-      setDateFilter(filterValue as DateSortOptions);
+  const onFilterChange = (filterValue: FilterOptions) => {
+    if (filterValue !== filter) {
+      setFilter(filterValue as FilterOptions);
     }
   };
 
-  const onStatusSelectChange = (filterValue: StatusSortOptions) => {
-    if (filterValue !== statusFilter) {
-      setStatusFilter(filterValue as StatusSortOptions);
+  const onSortChange = (filterValue: SortOptions) => {
+    if (filterValue !== sort) {
+      setSort(filterValue as SortOptions);
     }
   };
 
@@ -61,12 +61,8 @@ export const TeamGitPOAPs = () => {
           <Header style={{ alignSelf: 'start' }}>{'Team GitPOAPs'}</Header>
           <Group position="right" spacing={32}>
             <Group spacing="xs">
-              <Select
-                data={statusSelectOptions}
-                value={statusFilter}
-                onChange={onStatusSelectChange}
-              />
-              <Select data={dateSelectOptions} value={dateFilter} onChange={onDateSelectChange} />
+              <Select data={filterOptions} value={filter} onChange={onFilterChange} />
+              <Select data={sortOptions} value={sort} onChange={onSortChange} />
             </Group>
             <Group spacing="xs">
               <ActionIcon

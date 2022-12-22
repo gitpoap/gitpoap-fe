@@ -69,7 +69,7 @@ export const TeamGitPOAPRequestsGrid = ({ gitPOAPRequests }: Props) => {
               />
             </Center>
             <Container p={16}>
-              <Text>{gitPOAPRequest.name}</Text>
+              <Text lineClamp={2}>{gitPOAPRequest.name}</Text>
               <RequestStatusBadge status={gitPOAPRequest.staffApprovalStatus} />
             </Container>
           </Card>
