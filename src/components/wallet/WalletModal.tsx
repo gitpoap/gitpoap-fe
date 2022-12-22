@@ -9,6 +9,7 @@ import { BackgroundPanel, BackgroundPanel2 } from '../../colors';
 import { MetamaskLogo } from '../shared/elements/icons';
 import { WalletConnectLogo } from '../shared/elements/icons/WalletConnectLogo';
 import { CoinBaseLogo } from '../shared/elements/icons/CoinbaseLogo';
+import { trackSelectWalletModalOption } from '../../lib/tracking/events';
 
 type WalletModalProps = {
   isOpen: boolean;
@@ -36,7 +37,10 @@ const ConnectionOption = ({ onClick, logo, text }: ConnectionOptionProps) => {
           backgroundColor: BackgroundPanel2,
         },
       }}
-      onClick={onClick}
+      onClick={() => {
+        trackSelectWalletModalOption(text);
+        onClick();
+      }}
     >
       <Text size="md">{text}</Text>
       {logo}

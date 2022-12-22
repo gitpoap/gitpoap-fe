@@ -21,8 +21,9 @@ import { ClaimBlock } from '../shared/compounds/ClaimBlock';
 import { BREAKPOINTS } from '../../constants';
 import { OpenClaimsQuery } from '../../graphql/generated-gql';
 import { Link } from '../shared/compounds/Link';
-import ConnectWallet from '../wallet/ConnectWallet';
+import { ConnectWalletButton } from '../wallet/ConnectWallet';
 import { useWeb3Context } from '../wallet/Web3Context';
+import { trackClickMintAll } from '../../lib/tracking/events';
 
 type Props = {
   isConnected: boolean;
@@ -166,7 +167,9 @@ export const ClaimModal = ({
                       isLoading={!isClaimingAll && loadingClaimIds?.includes(userClaim.claim.id)}
                     />
                   ) : (
-                    <ConnectWallet leftIcon={<FaEthereum />}>{'Connect Wallet'}</ConnectWallet>
+                    <ConnectWalletButton leftIcon={<FaEthereum />}>
+                      {'Connect Wallet'}
+                    </ConnectWalletButton>
                   );
                 })}
             </GitPOAPClaims>
@@ -199,7 +202,10 @@ export const ClaimModal = ({
           </Button>
           {claims.length > 1 && !hasClaimedAll && (
             <Button
-              onClick={() => onClickClaim(allClaimIds)}
+              onClick={() => {
+                trackClickMintAll(address, allClaimIds);
+                onClickClaim(allClaimIds);
+              }}
               disabled={
                 loadingClaimIds &&
                 loadingClaimIds.length > 0 &&

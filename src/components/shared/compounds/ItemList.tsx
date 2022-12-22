@@ -7,6 +7,7 @@ import { FaPlus } from 'react-icons/fa';
 import { Header, Button, Select, Text, Input } from '../elements';
 import { TextGray } from '../../../colors';
 import { BREAKPOINTS } from '../../../constants';
+import { trackItemListChangeFilter, trackItemListShowMore } from '../../../lib/tracking/events';
 
 type Props = BoxProps & {
   title?: string;
@@ -14,7 +15,7 @@ type Props = BoxProps & {
   children?: React.ReactNode;
   selectOptions: SelectOption[];
   selectValue: string;
-  onSelectChange: (value: string) => void;
+  onSelectChange: (value: string | null) => void;
   isLoading: boolean;
   hasShowMoreButton: boolean;
   showMoreOnClick: () => void;
@@ -104,13 +105,23 @@ export const ItemList = ({
             />
           )}
           {!matchesBreakpointSmall && <SortBy>{'Sort By: '}</SortBy>}
-          <Select data={selectOptions} value={selectValue} onChange={onSelectChange} />
+          <Select
+            data={selectOptions}
+            value={selectValue}
+            onChange={(value) => {
+              trackItemListChangeFilter(value);
+              onSelectChange(value);
+            }}
+          />
         </Sorting>
       </Heading>
       {children}
       {hasShowMoreButton && (
         <ShowMore
-          onClick={showMoreOnClick}
+          onClick={() => {
+            trackItemListShowMore();
+            showMoreOnClick();
+          }}
           leftIcon={<FaPlus />}
           variant="outline"
           loading={isLoading}

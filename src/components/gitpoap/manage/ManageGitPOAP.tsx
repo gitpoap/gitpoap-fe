@@ -27,6 +27,7 @@ import { AddZone } from './AddZone';
 import { Link } from '../../shared/compounds/Link';
 import { useDebouncedValue } from '@mantine/hooks';
 import { TableHeaderItem } from './TableHeaderItem';
+import { trackOpenAddContributorsModal } from '../../../lib/tracking/events';
 
 type Props = {
   gitPOAPId: number;
@@ -168,7 +169,13 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
                   }
                 />
                 <MediaQuery smallerThan="lg" styles={{ display: 'none' }}>
-                  <Button leftIcon={<FaPlus />} onClick={() => setIsAddContributorsModalOpen(true)}>
+                  <Button
+                    leftIcon={<FaPlus />}
+                    onClick={() => {
+                      trackOpenAddContributorsModal(gitPOAPId);
+                      setIsAddContributorsModalOpen(true);
+                    }}
+                  >
                     {'Add Contributors'}
                   </Button>
                 </MediaQuery>
@@ -219,7 +226,10 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
           )}
           <Box>
             <AddZone
-              onClick={() => setIsAddContributorsModalOpen(true)}
+              onClick={() => {
+                trackOpenAddContributorsModal(gitPOAPId);
+                setIsAddContributorsModalOpen(true);
+              }}
               text={'+ ADD CONTRIBUTORS'}
             />
           </Box>

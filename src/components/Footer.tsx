@@ -19,6 +19,7 @@ import { Link } from './shared/compounds/Link';
 import { Button, Input } from './shared/elements';
 import { BREAKPOINTS } from '../constants';
 import { GITPOAP_API_URL } from '../environment';
+import { trackClickEmailSignup } from '../lib/tracking/events';
 
 const Container = styled(Group)`
   justify-content: space-evenly;
@@ -305,6 +306,7 @@ export const Footer = () => {
             <Button
               onClick={async () => {
                 if (validate(email)) {
+                  trackClickEmailSignup('footer');
                   await submitEmail();
                 }
               }}

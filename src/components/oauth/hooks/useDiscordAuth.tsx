@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { DISCORD_CLIENT_ID } from '../../../environment';
 import { useApi } from '../../../hooks/useApi';
 import { useTokens } from '../../../hooks/useTokens';
+import { trackAddAccountConnection } from '../../../lib/tracking/events';
 import { Notifications } from '../../../notifications';
 import { OAuthConnectionType } from '../types';
 
@@ -30,7 +31,10 @@ export const useDiscordAuth = () => {
   }, [api.auth, setAccessToken, setRefreshToken]);
 
   /* Redirect to discord to authorize if not connected / logged in */
-  const authorize = useCallback(() => push(discordAuthURL), [discordAuthURL, push]);
+  const authorize = useCallback(() => {
+    trackAddAccountConnection(OAuthConnectionType.DISCORD);
+    void push(discordAuthURL);
+  }, [discordAuthURL, push]);
 
   const authenticate = useCallback(
     async (code: string) => {

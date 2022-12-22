@@ -13,6 +13,7 @@ import { AuthenticateResponse } from '../../lib/api/auth';
 import { sign, generateSignatureData } from '../../lib/api/utils';
 import { ONE_MONTH_IN_S, FIVE_MINUTES_IN_S } from '../../constants';
 import { connectors } from '../../connectors';
+import { trackConnectWallet, trackDisconnectWallet } from '../../lib/tracking/events';
 
 type Props = {
   children: React.ReactNode;
@@ -95,13 +96,22 @@ export const Web3ContextProvider = (props: Props) => {
 
   const disconnectWallet = useCallback(() => {
     deactivate();
+    trackDisconnectWallet(address);
 
     setConnectionStatus(ConnectionStatus.DISCONNECTED);
     setProvider(null);
     setAddress('');
     setRefreshToken(null);
     setAccessToken(null);
-  }, [deactivate, setConnectionStatus, setRefreshToken, setAccessToken, setAddress, setProvider]);
+  }, [
+    deactivate,
+    setConnectionStatus,
+    setRefreshToken,
+    setAccessToken,
+    setAddress,
+    setProvider,
+    address,
+  ]);
 
   const authenticate = useCallback(
     async (signature: SignatureType) => {
@@ -286,6 +296,7 @@ export const Web3ContextProvider = (props: Props) => {
     // if valid, we use it to refresh access token, no need to ask to sign
     const issuedAt = refreshTokenPayload?.iat ?? 0;
     const isExpired = DateTime.now().toUnixInteger() >= issuedAt + ONE_MONTH_IN_S;
+    trackConnectWallet(payload?.address);
     if (tokens && payload?.address && !isExpired && tokens.refreshToken) {
       // use existing refresh token to refresh access token
       setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);

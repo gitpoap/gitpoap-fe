@@ -19,6 +19,7 @@ import { MdEdit } from 'react-icons/md';
 import { useState } from 'react';
 import { useApi } from '../../../hooks/useApi';
 import { Link } from '../../shared/compounds/Link';
+import { trackDeleteClaimOnManagePage } from '../../../lib/tracking/events';
 
 enum ButtonStatus {
   INITIAL,
@@ -122,7 +123,10 @@ export const ContributorRow = ({ claim, index, refetch }: Props) => {
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
-      onConfirm: () => handleDeleteClaim(claim.id),
+      onConfirm: () => {
+        trackDeleteClaimOnManagePage(claim.id);
+        void handleDeleteClaim(claim.id);
+      },
     });
 
   const api = useApi();

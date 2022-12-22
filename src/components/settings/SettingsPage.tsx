@@ -21,6 +21,7 @@ import { Login } from '../Login';
 import { GithubConnection } from './GithubConnection';
 import { DiscordConnection } from './DiscordConnection';
 import { AddressConnection } from './AddressConnection';
+import { trackClickSaveUserSettings } from '../../lib/tracking/events';
 
 const Input = styled(InputUI)`
   flex: 1;
@@ -130,14 +131,15 @@ export const SettingsPage = () => {
       <Box my={rem(24)}>
         <Group position="left">
           <Button
-            onClick={() =>
+            onClick={() => {
+              trackClickSaveUserSettings();
               updateProfile({
                 twitterHandle: twitterHandleValue,
                 bio: bioValue,
                 personalSiteUrl: personSiteUrlValue,
                 isVisibleOnLeaderboard: isVisibleOnLeaderboardValue,
-              })
-            }
+              });
+            }}
             disabled={!haveChangesBeenMade}
             loading={isSaveLoading}
             style={{ minWidth: rem(100) }}

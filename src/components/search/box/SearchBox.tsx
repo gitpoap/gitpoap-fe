@@ -18,6 +18,7 @@ import {
 } from '../../../graphql/generated-gql';
 import { BREAKPOINTS } from '../../../constants';
 import { useGeneratedProfileResult } from '../useGeneratedProfileResult';
+import { trackClickSearchItem, trackSearchInputFocused } from '../../../lib/tracking/events';
 
 const Container = styled.div<{ isActive: boolean }>`
   margin-right: ${rem(25)};
@@ -323,8 +324,13 @@ export const SearchBox = ({ className }: Props) => {
         icon={isLoading ? <Loader size={18} /> : <FaSearch />}
         onKeyDown={handleKeyDown}
         rightSection={<InputHintSection isFocused={isSearchInputFocused} />}
-        onFocus={() => setIsSearchInputFocused(true)}
-        onBlur={() => setIsSearchInputFocused(false)}
+        onFocus={() => {
+          trackSearchInputFocused();
+          setIsSearchInputFocused(true);
+        }}
+        onBlur={() => {
+          setIsSearchInputFocused(false);
+        }}
       />
 
       {isSearchActive && (
@@ -342,6 +348,7 @@ export const SearchBox = ({ className }: Props) => {
                     ensAvatarUrl={profile.ensAvatarUrl}
                     useDefaultImageTag={profile.useDefaultImageTag}
                     onClick={() => {
+                      trackClickSearchItem('profile', profile.id);
                       setQuery('');
                       setIsSearchActive(false);
                       setProfileResults([]);
@@ -364,6 +371,7 @@ export const SearchBox = ({ className }: Props) => {
                       gitPOAP.name.startsWith('GitPOAP: ') ? gitPOAP.name.slice(8) : gitPOAP.name
                     }
                     onClick={() => {
+                      trackClickSearchItem('gitpoap', gitPOAP.id);
                       setQuery('');
                       setIsSearchActive(false);
                       setProfileResults([]);
@@ -387,6 +395,7 @@ export const SearchBox = ({ className }: Props) => {
                     subText={repo.organization.name}
                     imageUrl={repo.project.gitPOAPs[0].imageUrl}
                     onClick={() => {
+                      trackClickSearchItem('repo', repo.id);
                       setQuery('');
                       setIsSearchActive(false);
                       setProfileResults([]);
@@ -407,6 +416,7 @@ export const SearchBox = ({ className }: Props) => {
                     href={`/gh/${org.name}`}
                     text={org.name}
                     onClick={() => {
+                      trackClickSearchItem('org', org.id);
                       setQuery('');
                       setIsSearchActive(false);
                       setProfileResults([]);

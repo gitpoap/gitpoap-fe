@@ -14,6 +14,7 @@ import {
   useTotalRepoCountQuery,
   useRepoSearchOnRepoPageQuery,
 } from '../../graphql/generated-gql';
+import { trackSearchForRepos } from '../../lib/tracking/events';
 
 type SortOptions = 'alphabetical' | 'date' | 'gitpoap-count' | 'organization';
 
@@ -94,6 +95,13 @@ export const RepoList = () => {
     }
     /* Do not include handlers below */
   }, [allRepos, queryVariables]);
+
+  /* Hook only for tracking purposes */
+  useEffect(() => {
+    if (debouncedSearch.length > 0) {
+      trackSearchForRepos(debouncedSearch);
+    }
+  }, [debouncedSearch]);
 
   if (result.error) {
     return null;

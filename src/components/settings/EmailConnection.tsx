@@ -3,7 +3,6 @@ import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { HiOutlineMail } from 'react-icons/hi';
 import { truncateString } from '../../helpers';
-
 import { useGetEmail } from '../../hooks/useGetEmail';
 import { Button, Text } from '../shared/elements';
 import {

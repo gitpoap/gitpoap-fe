@@ -18,6 +18,7 @@ import { UploadDesigns } from './UploadDesigns';
 import { useMantineForm } from './useMantineForm';
 import { useTokens } from '../../hooks/useTokens';
 import { GITPOAP_API_URL } from '../../environment';
+import { trackClickSubmitOnboarding } from '../../lib/tracking/events';
 
 export const StyledLink = styled(Link)`
   color: ${PrimaryBlue};
@@ -150,6 +151,7 @@ export const IntakeForm = ({ githubHandle }: Props) => {
           throw new Error(JSON.stringify(data));
         }
 
+        trackClickSubmitOnboarding();
         setQueueNumber(data.queueNumber);
         setStage(3);
       } catch (error) {
