@@ -1,5 +1,4 @@
 import { Stack, Tabs } from '@mantine/core';
-import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { User } from '../../hooks/useUser';
@@ -25,8 +24,6 @@ type Props = {
 };
 
 export const TeamContainer = ({ teamId, user }: Props) => {
-  const router = useRouter();
-
   if (!user) {
     return <div>Not logged in</div>;
   }
@@ -34,15 +31,7 @@ export const TeamContainer = ({ teamId, user }: Props) => {
   return (
     <Stack m={rem(20)}>
       <Header style={{ alignSelf: 'start' }}>{'Team Name'}</Header>
-      <Tabs
-        defaultValue={Section.Dashboard}
-        orientation="vertical"
-        onTabChange={(value) =>
-          router.push({ query: { filter: value } }, undefined, { shallow: true })
-        }
-        value={router.query.filter as string}
-        variant="pills"
-      >
+      <Tabs defaultValue={Section.Dashboard} orientation="vertical" variant="pills">
         <Tabs.List pt={rem(10)}>
           <Tabs.Tab value={Section.Dashboard}>{'Dashboard'}</Tabs.Tab>
           <Tabs.Tab value={Section.Requests}>{'Requests'}</Tabs.Tab>
