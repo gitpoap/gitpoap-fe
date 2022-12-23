@@ -20,10 +20,11 @@ enum Section {
 }
 
 type Props = {
+  teamId: number;
   user: User;
 };
 
-export const TeamContainer = ({ user }: Props) => {
+export const TeamContainer = ({ teamId, user }: Props) => {
   const router = useRouter();
 
   if (!user) {
@@ -50,12 +51,12 @@ export const TeamContainer = ({ user }: Props) => {
         </Tabs.List>
 
         <Panel value={Section.Dashboard}>
-          <TeamDashboard />
+          <TeamDashboard teamId={teamId} />
         </Panel>
 
         <Panel value={Section.Requests}>
           <Stack pl={rem(32)}>
-            <TeamGitPOAPRequests />
+            <TeamGitPOAPRequests teamId={teamId} />
           </Stack>
         </Panel>
 

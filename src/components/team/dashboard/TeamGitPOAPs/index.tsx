@@ -25,14 +25,18 @@ const sortOptions: SelectOption<SortOptions>[] = [
   { value: 'alphabetical', label: 'ALPHABETICAL' },
 ];
 
-export const TeamGitPOAPs = () => {
+type Props = {
+  teamId: number;
+};
+
+export const TeamGitPOAPs = ({ teamId }: Props) => {
   const [view, setView] = useState<'grid' | 'list'>('grid');
   const [filter, setFilter] = useState<FilterOptions>('ALL');
   const [sort, setSort] = useState<SortOptions>('createdAt');
 
   const [result] = useTeamGitPoaPsQuery({
     variables: {
-      teamId: 1,
+      teamId,
       approvalStatus: filter === 'ALL' ? undefined : filter,
       sort: sort,
     },

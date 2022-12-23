@@ -1,11 +1,25 @@
 import { NextPageWithLayout } from '../_app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { Login } from '../../components/Login';
 import { TeamContainer } from '../../components/team';
 import { useUser } from '../../hooks/useUser';
+import Custom404 from '../404';
 
 const TeamPage: NextPageWithLayout = () => {
   const user = useUser();
+  const router = useRouter();
+  const { id } = router.query;
+
+  if (typeof id !== 'string') {
+    return <></>;
+  }
+
+  const teamId = parseInt(id);
+
+  if (isNaN(teamId)) {
+    return <Custom404 />;
+  }
 
   return (
     <>
@@ -16,7 +30,7 @@ const TeamPage: NextPageWithLayout = () => {
           content="Manage GiPOAPs"
         />
       </Head>
-      {user?.permissions.isStaff ? <TeamContainer user={user} /> : <Login />}
+      {user?.permissions.isStaff ? <TeamContainer teamId={teamId} user={user} /> : <Login />}
     </>
   );
 };
