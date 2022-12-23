@@ -4,7 +4,6 @@ import { TeamMembershipsQuery } from '../../../../graphql/generated-gql';
 import { AcceptanceStatusBadge } from './AcceptanceStatusBadge';
 import { formatUTCDate } from '../../../../helpers';
 import { Button, Text } from '../../../shared/elements';
-import { RemoveMemberModal } from './RemoveMemberModal';
 import { Link } from '../../../shared/compounds/Link';
 
 type TeamMemberships = Exclude<TeamMembershipsQuery['teamMemberships'], undefined | null>;
@@ -12,18 +11,10 @@ type TeamMemberships = Exclude<TeamMembershipsQuery['teamMemberships'], undefine
 type RowProps = {
   teamId: number;
   membership: TeamMemberships['memberships'][number];
-  openRemoveModal: () => void;
-  closeRemoveModal: () => void;
-  isRemoveModalOpen: boolean;
+  openRemoveModal: (address: string) => void;
 };
 
-export const MembershipRow = ({
-  teamId,
-  membership,
-  isRemoveModalOpen,
-  openRemoveModal,
-  closeRemoveModal,
-}: RowProps) => {
+export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
   const { role, acceptanceStatus, joinedOn, address } = membership;
 
   return (
@@ -46,17 +37,11 @@ export const MembershipRow = ({
           <Text sx={{ whiteSpace: 'nowrap' }}>{joinedOn ? formatUTCDate(joinedOn) : ''}</Text>
         </td>
         <td>
-          <Button onClick={openRemoveModal}>
+          <Button onClick={() => openRemoveModal(address.ethAddress)}>
             <MdDelete />
           </Button>
         </td>
       </tr>
-      <RemoveMemberModal
-        teamId={teamId}
-        address={address.ethAddress}
-        isOpen={isRemoveModalOpen}
-        onClose={closeRemoveModal}
-      />
     </>
   );
 };

@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Group, Stack, Table, ScrollArea, Pagination } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { rem } from 'polished';
-
+import { openConfirmModal } from '@mantine/modals';
 import { Select } from '../../../shared/elements/Select';
 import { Header } from '../../../shared/elements/Header';
 import { TableHeaderItem } from '../../../gitpoap/manage/TableHeaderItem';
@@ -11,7 +11,10 @@ import { BREAKPOINTS } from '../../../../constants';
 import { Divider, Button, Text } from '../../../shared/elements';
 import { MembershipRow } from './MembershipRow';
 import { AddMemberModal } from './AddMemberModal';
-import { useTeamMembershipsQuery } from '../../../../graphql/generated-gql';
+import {
+  useTeamMembershipsQuery,
+  useRemoveMembershipMutation,
+} from '../../../../graphql/generated-gql';
 
 const HEADERS: {
   label: string;
@@ -45,8 +48,6 @@ type Props = {
 
 export const MembershipList = ({ teamId }: Props) => {
   const [isAddModalOpen, { open: openAddModal, close: closeAddModal }] = useDisclosure(false);
-  const [isRemoveModalOpen, { open: openRemoveModal, close: closeRemoveModal }] =
-    useDisclosure(false);
   const [sortBy, setSortBy] = useState<SortOptions>('date');
 
   const [variables, setVariables] = useState<QueryVars>({
@@ -62,6 +63,8 @@ export const MembershipList = ({ teamId }: Props) => {
       sort: sortBy,
     },
   });
+
+  const [, removeMember] = useRemoveMembershipMutation();
 
   const matchesBreakpointSmall = useMediaQuery(`(max-width: ${rem(BREAKPOINTS.lg)})`, false);
 
@@ -85,6 +88,26 @@ export const MembershipList = ({ teamId }: Props) => {
     }
   };
 
+  const openRemoveModal = (address: string) =>
+    openConfirmModal({
+      title: 'Remove this member?',
+      centered: true,
+      children: (
+        <Text size="sm">
+          {`Are you sure you want to remove `}
+          <b>{address}</b>
+          {` from the team?`}
+        </Text>
+      ),
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onConfirm: () => {
+        void removeMember({
+          teamId,
+          address,
+        });
+      },
+    });
+
   if (result.error) {
     return (
       <Stack align="center" justify="flex-start" spacing="sm" mt={rem(50)}>
@@ -105,70 +128,63 @@ export const MembershipList = ({ teamId }: Props) => {
               </Text>
             )}
             <Select data={selectOptions} value={sortBy} onChange={onSelectChange} />
-            <Button onClick={openAddModal}>{'Add new member'}</Button>
+            <Button onClick={openAddModal}>{'Add members'}</Button>
           </Group>
         </Group>
         <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
-        {totalCount === 0 ? (
-          <Stack align="center" justify="flex-start" spacing="sm" mt={rem(50)}>
-            <Text size="lg">{'No members in this team'}</Text>
-          </Stack>
-        ) : (
-          <Stack
-            align="center"
-            justify="flex-start"
-            spacing="sm"
-            py={0}
-            sx={{
-              background: BackgroundPanel,
-              borderRadius: `${rem(6)} ${rem(6)} 0 0`,
-              width: '100%',
-            }}
-          >
-            <ScrollArea style={{ width: '100%' }}>
-              <Table highlightOnHover horizontalSpacing="md" verticalSpacing="xs" fontSize="sm">
-                <thead>
-                  <tr>
-                    {HEADERS.map((header, i) => (
-                      <TableHeaderItem
-                        key={`header-${i}`}
-                        isSortable={header.isSortable}
-                        isSorted={false}
-                        isReversed={false}
-                      >
-                        {header.label}
-                      </TableHeaderItem>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {memberships &&
-                    memberships.length > 0 &&
-                    memberships.map((membership) => {
-                      return (
-                        <MembershipRow
-                          key={membership.id}
-                          teamId={teamId}
-                          membership={membership}
-                          isRemoveModalOpen={isRemoveModalOpen}
-                          openRemoveModal={openRemoveModal}
-                          closeRemoveModal={closeRemoveModal}
-                        />
-                      );
-                    })}
-                </tbody>
-              </Table>
-            </ScrollArea>
-            {totalCount > variables.perPage && (
-              <Pagination
-                page={variables.page}
-                onChange={handlePageChange}
-                total={totalPages}
-                mt={rem(20)}
-              />
-            )}
-          </Stack>
-        )}
+
+        <Stack
+          align="center"
+          justify="flex-start"
+          spacing="sm"
+          py={0}
+          sx={{
+            background: BackgroundPanel,
+            borderRadius: `${rem(6)} ${rem(6)} 0 0`,
+            width: '100%',
+          }}
+        >
+          <ScrollArea style={{ width: '100%' }}>
+            <Table highlightOnHover horizontalSpacing="md" verticalSpacing="xs" fontSize="sm">
+              <thead>
+                <tr>
+                  {HEADERS.map((header, i) => (
+                    <TableHeaderItem
+                      key={`header-${i}`}
+                      isSortable={header.isSortable}
+                      isSorted={false}
+                      isReversed={false}
+                    >
+                      {header.label}
+                    </TableHeaderItem>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {memberships &&
+                  memberships.length > 0 &&
+                  memberships.map((membership) => {
+                    return (
+                      <MembershipRow
+                        key={membership.id}
+                        teamId={teamId}
+                        membership={membership}
+                        openRemoveModal={openRemoveModal}
+                      />
+                    );
+                  })}
+              </tbody>
+            </Table>
+          </ScrollArea>
+          {totalCount > variables.perPage && (
+            <Pagination
+              page={variables.page}
+              onChange={handlePageChange}
+              total={totalPages}
+              mt={rem(20)}
+            />
+          )}
+        </Stack>
       </Stack>
       <AddMemberModal teamId={teamId} isOpen={isAddModalOpen} onClose={closeAddModal} />
     </Group>

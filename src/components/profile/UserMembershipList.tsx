@@ -1,6 +1,6 @@
 import React from 'react';
 import { rem } from 'polished';
-import { Group, Stack, Text, Table } from '@mantine/core';
+import { Group, Stack, Text, Table, Button } from '@mantine/core';
 import { useUserMembershipsQuery } from '../../graphql/generated-gql';
 import { Header, Divider } from '../shared/elements';
 import { TableHeaderItem } from '../gitpoap/manage/TableHeaderItem';
@@ -48,9 +48,7 @@ export const UserMembershipList = () => {
         </Group>
         <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
         {!result.fetching && memberships && memberships.length === 0 && (
-          <Text my={rem(20)} size={18}>
-            {'No Memberships Found'}
-          </Text>
+          <Button>{'+ Create Team'}</Button>
         )}
         {!result.fetching && memberships && memberships.length > 0 && (
           <Stack
