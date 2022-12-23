@@ -120,7 +120,7 @@ export const MembershipList = ({ teamId }: Props) => {
     <Group position="center" py={0} px={rem(20)}>
       <Stack align="center" justify="flex-start" spacing="sm" style={{ width: '100%' }}>
         <Group position="apart" align="center" grow style={{ width: '100%' }}>
-          <Header style={{ alignSelf: 'start' }}>{'[Team name] Members'}</Header>
+          <Header style={{ alignSelf: 'start' }}>{'Members'}</Header>
           <Group position="right" spacing="lg">
             {!matchesBreakpointSmall && (
               <Text color={TextGray} transform="uppercase">

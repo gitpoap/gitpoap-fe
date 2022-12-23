@@ -5,7 +5,11 @@ import { User } from '../../hooks/useUser';
 import { Header } from '../shared/elements';
 import { TeamDashboard } from './dashboard';
 import { TeamGitPOAPRequests } from './dashboard/TeamGitPOAPRequests';
+<<<<<<< HEAD
 import { TeamSettings } from './settings';
+=======
+import { MembershipList } from './dashboard/Members/MembershipList';
+>>>>>>> 5be3d02 (feat: move members to teams tab)
 
 const Panel = styled(Tabs.Panel)`
   overflow: hidden;
@@ -51,7 +55,7 @@ export const TeamContainer = ({ teamId, user }: Props) => {
         </Panel>
 
         <Panel value={Section.Members}>
-          <div>Members</div>
+          <MembershipList teamId={teamId} />
         </Panel>
 
         <Panel value={Section.Settings}>

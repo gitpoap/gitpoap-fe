@@ -1,11 +1,11 @@
 import { Grid } from '@mantine/core';
-import { Page } from '../_app';
+import { NextPageWithLayout } from '../_app';
 import { rem } from 'polished';
 import { Login } from '../../components/Login';
 import { useUser } from '../../hooks/useUser';
 import { UserMembershipList } from '../../components/profile/UserMembershipList';
 
-const UserMemberships: Page = () => {
+const UserMemberships: NextPageWithLayout = () => {
   const user = useUser();
   const address = user?.address;
 
