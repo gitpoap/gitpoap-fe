@@ -2,17 +2,20 @@ import { useForm, zodResolver } from '@mantine/form';
 import { utils } from 'ethers';
 import { z } from 'zod';
 
-const isValidAddress = (address: string) => utils.isAddress(address);
+const isValidAddress = (addresses: string) =>
+  addresses.split(',').every((address) => utils.isAddress(address.trim()));
 
 export const useAddressForm = () =>
   useForm<{
-    address: string;
+    addresses: string;
   }>({
     validate: zodResolver(
-      z.object({ address: z.string().refine(isValidAddress, { message: 'Not a valid address' }) }),
+      z.object({
+        addresses: z.string().refine(isValidAddress, { message: 'Not valid addresses' }),
+      }),
     ),
     initialValues: {
-      address: '',
+      addresses: '',
     },
   });
 
