@@ -18,10 +18,9 @@ const filterOptions: SelectOption<FilterOptions>[] = [
   { value: 'DEPRECATED', label: 'DEPRECATED' },
 ];
 
-type SortOptions = 'createdAt' | 'updatedAt' | 'alphabetical';
+type SortOptions = 'createdAt' | 'alphabetical';
 const sortOptions: SelectOption<SortOptions>[] = [
   { value: 'createdAt', label: 'LAST CREATED' },
-  { value: 'updatedAt', label: 'LAST MODIFIED' },
   { value: 'alphabetical', label: 'ALPHABETICAL' },
 ];
 

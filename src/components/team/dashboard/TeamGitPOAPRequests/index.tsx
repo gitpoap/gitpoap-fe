@@ -10,18 +10,16 @@ import { Header, Select } from '../../../shared/elements';
 import { TeamGitPOAPRequestsGrid } from './Grid';
 import { TeamGitPOAPRequestsList } from './List';
 
-type FilterOptions = 'ALL' | 'APPROVED' | 'PENDING' | 'REJECTED';
+type FilterOptions = 'ALL' | 'PENDING' | 'REJECTED';
 const filterOptions: SelectOption<FilterOptions>[] = [
   { value: 'ALL', label: 'ALL REQUESTS' },
-  { value: 'APPROVED', label: 'APPROVED' },
   { value: 'PENDING', label: 'PENDING' },
   { value: 'REJECTED', label: 'REJECTED' },
 ];
 
-type SortOptions = 'createdAt' | 'updatedAt' | 'alphabetical';
+type SortOptions = 'createdAt' | 'alphabetical';
 const sortOptions: SelectOption<SortOptions>[] = [
   { value: 'createdAt', label: 'LAST CREATED' },
-  { value: 'updatedAt', label: 'LAST MODIFIED' },
   { value: 'alphabetical', label: 'ALPHABETICAL' },
 ];
 

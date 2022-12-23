@@ -1069,7 +1069,6 @@ query teamGitPOAPs($teamId: Float!, $approvalStatus: String, $sort: String) {
     description
     imageUrl
     createdAt
-    updatedAt
     poapApprovalStatus
     claims {
       id
@@ -1084,7 +1083,6 @@ query teamGitPOAPRequests($teamId: Float!, $approvalStatus: String, $sort: Strin
     description
     imageUrl
     createdAt
-    updatedAt
     staffApprovalStatus
     contributors
   }

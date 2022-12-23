@@ -12,12 +12,12 @@ const HEADERS: {
   key: string;
   isSortable: boolean;
 }[] = [
+  { label: '', key: 'index', isSortable: false },
   { label: 'Status', key: 'status', isSortable: false },
   { label: 'Image', key: 'image', isSortable: false },
   { label: 'Name', key: 'name', isSortable: false },
   { label: 'Description', key: 'description', isSortable: false },
   { label: 'Creation Date', key: 'createdAt', isSortable: false },
-  { label: 'Last Updated', key: 'updatedAt', isSortable: false },
   { label: 'Claims', key: 'claims', isSortable: false },
 ];
 
@@ -53,8 +53,8 @@ export const TeamGitPOAPsList = ({ gitPOAPs }: Props) => {
           <tbody>
             {gitPOAPs &&
               gitPOAPs.length > 0 &&
-              gitPOAPs.map((gitPOAP) => {
-                return <TeamGitPOAPsRow key={gitPOAP.id} gitPOAP={gitPOAP} />;
+              gitPOAPs.map((gitPOAP, i) => {
+                return <TeamGitPOAPsRow key={gitPOAP.id} gitPOAP={gitPOAP} index={i + 1} />;
               })}
           </tbody>
         </Table>

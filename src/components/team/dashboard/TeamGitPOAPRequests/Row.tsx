@@ -1,5 +1,6 @@
-import { Text } from '@mantine/core';
+import { Text, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { DateTime } from 'luxon';
 import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
@@ -7,7 +8,6 @@ import { TeamGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { GitPOAPBadgePopover } from '../../../request/RequestItem/GitPOAPBadgePopover';
 import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
 import { BackgroundPanel2 } from '../../../../colors';
-import { formatUTCDate } from '../../../../helpers';
 
 const TableRow = styled.tr`
   cursor: pointer;
@@ -21,19 +21,12 @@ type RowProps = {
     TeamGitPoapRequestsQuery['teamGitPOAPRequests'],
     null | undefined
   >[number];
+  index: number;
 };
 
-export const TeamGitPOAPRequestsRow = ({ gitPOAPRequest }: RowProps) => {
-  const {
-    id,
-    createdAt,
-    updatedAt,
-    name,
-    description,
-    imageUrl,
-    contributors,
-    staffApprovalStatus,
-  } = gitPOAPRequest;
+export const TeamGitPOAPRequestsRow = ({ gitPOAPRequest, index }: RowProps) => {
+  const { id, createdAt, name, description, imageUrl, contributors, staffApprovalStatus } =
+    gitPOAPRequest;
 
   const router = useRouter();
   const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
@@ -43,6 +36,9 @@ export const TeamGitPOAPRequestsRow = ({ gitPOAPRequest }: RowProps) => {
 
   return (
     <TableRow onClick={() => router.push(`/create/${id}`)}>
+      <td>
+        <Text>{index}</Text>
+      </td>
       <td>
         <RequestStatusBadge status={staffApprovalStatus} />
       </td>
@@ -63,10 +59,18 @@ export const TeamGitPOAPRequestsRow = ({ gitPOAPRequest }: RowProps) => {
         <Text lineClamp={3}>{description}</Text>
       </td>
       <td>
-        <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(createdAt)}</Text>
-      </td>
-      <td>
-        <Text sx={{ whiteSpace: 'nowrap' }}>{formatUTCDate(updatedAt)}</Text>
+        <Tooltip
+          label={DateTime.fromISO(createdAt).toFormat('dd LLL yyyy HH:mm')}
+          multiline
+          withArrow
+          transition="fade"
+          position="top-start"
+          sx={{ textAlign: 'center' }}
+        >
+          <Text sx={{ whiteSpace: 'nowrap' }}>
+            {DateTime.fromISO(createdAt).toRelative() ?? '-'}
+          </Text>
+        </Tooltip>
       </td>
       <td>
         <Text>{numberOfContributors}</Text>
