@@ -1,7 +1,6 @@
 import { useIsStaff } from './useIsStaff';
 import { useTokens } from './useTokens';
 import { useWeb3Context, ConnectionStatus } from '../components/wallet/Web3Context';
-import mixpanel from 'mixpanel-browser';
 
 export type User = {
   addressId: number;
@@ -52,9 +51,6 @@ export const useUser = (): User | null => {
       },
     };
   }
-
-  /* Include user data within tracking event payloads */
-  mixpanel.register({ user });
 
   return user;
 };

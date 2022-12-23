@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Modal, Center, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useRouter } from 'next/router';
 import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { FaEthereum } from 'react-icons/fa';
 import { Pagination } from '../shared/elements/Pagination';
@@ -127,8 +126,6 @@ export const ClaimModal = ({
 
   const { address, ensName } = useWeb3Context();
 
-  const router = useRouter();
-
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = !!loadingClaimIds && loadingClaimIds.length === claims.length;
   const claimText = getClaimText(isConnected, claims.length, claimedIds.length);
@@ -186,20 +183,6 @@ export const ClaimModal = ({
         )}
 
         <Group mt={rem(30)}>
-          <Button
-            onClick={() => {
-              onClose();
-              void router.push(`/p/${ensName ?? address}`);
-            }}
-            disabled={
-              loadingClaimIds &&
-              loadingClaimIds.length > 0 &&
-              loadingClaimIds.length < allClaimIds.length
-            }
-            loading={isClaimingAll}
-          >
-            {'Go to profile'}
-          </Button>
           {claims.length > 1 && !hasClaimedAll && (
             <Button
               onClick={() => {

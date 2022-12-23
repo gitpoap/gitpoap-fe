@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -20,6 +20,7 @@ import { ModalsProvider } from '@mantine/modals';
 import { client } from '../lib/urql';
 import { setupExternalServiceClients } from '../lib/app';
 import { Layout } from '../components/Layout';
+import { Amplitude } from '../components/Amplitude';
 
 setupExternalServiceClients();
 
@@ -42,6 +43,7 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
       </Head>
       <Web3ReactProvider getLibrary={getWeb3Provider}>
         <Web3ContextProvider>
+          <Amplitude />
           <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
             <ModalsProvider>
               <NotificationsProvider autoClose={5000}>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import NextLink from 'next/link';
 import { IconStyles, IconStylesHover } from '../elements/icons';
-import { trackLinkClick } from '../../../lib/tracking/events';
+import { trackLink } from '../../../lib/tracking/events';
 
 type Props = React.ComponentProps<typeof NextLink>;
 
@@ -15,10 +15,7 @@ export const Link = (props: Props) => {
       target={restProps.target}
       rel={restProps.rel}
       onClick={(e) => {
-        trackLinkClick(restProps.href.toString(), e.target);
-        if (restProps.onClick) {
-          restProps.onClick(e);
-        }
+        trackLink(e);
       }}
     >
       {children}

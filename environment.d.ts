@@ -11,7 +11,7 @@ declare global {
       NEXT_PUBLIC_REACT_APP_CLIENT_ID: string;
       NEXT_PUBLIC_GITPOAP_API_URL: string;
       NEXT_PUBLIC_DISCORD_CLIENT_ID?: string;
-      NEXT_PUBLIC_MIXPANEL_TOKEN: string;
+      NEXT_PUBLIC_AMPLITUDE_TOKEN: string;
     }
   }
 }

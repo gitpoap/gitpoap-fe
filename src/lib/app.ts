@@ -1,15 +1,9 @@
-import * as Sentry from '@sentry/browser';
-import mixpanel from 'mixpanel-browser';
+import * as sentry from '@sentry/browser';
 import { PRODUCTION_ENVIRONMENT } from '../constants';
-import { SENTRY_ENVIRONMENT, SENTRY_DSN, MIXPANEL_TOKEN } from '../environment';
+import { SENTRY_ENVIRONMENT, SENTRY_DSN } from '../environment';
 
 export const setupExternalServiceClients = () => {
-  mixpanel.init(MIXPANEL_TOKEN, {
-    ignore_dnt: SENTRY_ENVIRONMENT !== PRODUCTION_ENVIRONMENT,
-    debug: SENTRY_ENVIRONMENT !== PRODUCTION_ENVIRONMENT,
-  });
-
-  Sentry.init({
+  sentry.init({
     dsn: SENTRY_DSN,
     environment: SENTRY_ENVIRONMENT,
     /* Only enable Sentry if the app is in production mode */

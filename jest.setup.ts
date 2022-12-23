@@ -4,7 +4,7 @@
 // Used for __tests__/testing-library.js
 // Learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
-import '__mocks__/external/mixpanel';
+import '__mocks__/external/amplitude';
 
 /* Mock out the slack client for ALL tests */
-jest.mock('__mocks__/external/mixpanel');
+jest.mock('__mocks__/external/amplitude');
