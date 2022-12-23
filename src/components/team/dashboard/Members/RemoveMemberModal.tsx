@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Stack, Group, Modal, Loader } from '@mantine/core';
+import { Stack, Group, Modal } from '@mantine/core';
 import { Button, Text } from '../../../shared/elements';
 import { useRemoveMembershipMutation } from '../../../../graphql/generated-gql';
 
@@ -38,8 +38,8 @@ export const RemoveMemberModal = ({ teamId, address, isOpen, onClose }: RemoveMe
           <Button color="red" variant="outline" onClick={onClose} disabled={result.fetching}>
             {'Cancel'}
           </Button>
-          <Button onClick={handleSubmit} disabled={result.fetching}>
-            {result.fetching ? <Loader /> : 'Delete'}
+          <Button onClick={handleSubmit} loading={result.fetching}>
+            {'Delete'}
           </Button>
         </Group>
       </Stack>

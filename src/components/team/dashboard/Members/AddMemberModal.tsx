@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { Stack, Group, Modal, Loader } from '@mantine/core';
+import { Stack, Group, Modal } from '@mantine/core';
 import { getHotkeyHandler } from '@mantine/hooks';
 import { Button, Text, Input } from '../../../shared/elements';
 import { useAddressForm } from './useAddressForm';
@@ -39,15 +39,9 @@ export const AddMemberModal = ({ teamId, isOpen, onClose }: AddMemberModalProps)
   }, [result, setErrors]);
 
   return (
-    <Modal
-      centered
-      opened={isOpen}
-      onClose={onClose}
-      padding={32}
-      title={'Add a new member by address'}
-    >
+    <Modal centered opened={isOpen} onClose={onClose} padding={32} title={'Add members'}>
       <Stack align="stretch" spacing={16}>
-        <Text>{`Enter a valid eth address.`}</Text>
+        <Text>{`Enter a valid Ethereum address.`}</Text>
         <Input
           placeholder="Address"
           required
@@ -65,8 +59,8 @@ export const AddMemberModal = ({ teamId, isOpen, onClose }: AddMemberModalProps)
           <Button color="red" variant="outline" onClick={onClose} disabled={result.fetching}>
             {'Cancel'}
           </Button>
-          <Button onClick={handleSubmit} disabled={result.fetching}>
-            {result.fetching ? <Loader /> : 'Add'}
+          <Button onClick={handleSubmit} loading={result.fetching}>
+            {'Add'}
           </Button>
         </Group>
       </Stack>
