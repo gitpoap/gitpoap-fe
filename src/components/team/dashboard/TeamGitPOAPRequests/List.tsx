@@ -4,8 +4,8 @@ import React from 'react';
 
 import { TableHeaderItem } from '../../../gitpoap/manage/TableHeaderItem';
 import { BackgroundPanel } from '../../../../colors';
-import { TeamGitPOAPsRow } from './Row';
-import { TeamGitPoaPsQuery } from '../../../../graphql/generated-gql';
+import { TeamGitPOAPRequestsRow } from './Row';
+import { TeamGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 
 const HEADERS: {
   label: string;
@@ -18,14 +18,14 @@ const HEADERS: {
   { label: 'Name', key: 'name', isSortable: false },
   { label: 'Description', key: 'description', isSortable: false },
   { label: 'Creation Date', key: 'createdAt', isSortable: false },
-  { label: 'Claims', key: 'claims', isSortable: false },
+  { label: 'Contributors', key: 'contributors', isSortable: false },
 ];
 
 type Props = {
-  gitPOAPs: Exclude<TeamGitPoaPsQuery['teamGitPOAPs'], null | undefined>;
+  gitPOAPRequests: Exclude<TeamGitPoapRequestsQuery['teamGitPOAPRequests'], null | undefined>;
 };
 
-export const TeamGitPOAPsList = ({ gitPOAPs }: Props) => {
+export const TeamGitPOAPRequestsList = ({ gitPOAPRequests }: Props) => {
   return (
     <Stack
       align="center"
@@ -51,10 +51,16 @@ export const TeamGitPOAPsList = ({ gitPOAPs }: Props) => {
             </tr>
           </thead>
           <tbody>
-            {gitPOAPs &&
-              gitPOAPs.length > 0 &&
-              gitPOAPs.map((gitPOAP, i) => {
-                return <TeamGitPOAPsRow key={gitPOAP.id} gitPOAP={gitPOAP} index={i + 1} />;
+            {gitPOAPRequests &&
+              gitPOAPRequests.length > 0 &&
+              gitPOAPRequests.map((gitPOAPRequest, i) => {
+                return (
+                  <TeamGitPOAPRequestsRow
+                    key={gitPOAPRequest.id}
+                    gitPOAPRequest={gitPOAPRequest}
+                    index={i + 1}
+                  />
+                );
               })}
           </tbody>
         </Table>

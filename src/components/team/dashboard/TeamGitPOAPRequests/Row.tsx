@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
-import { StaffApprovalStatus, TeamGitPoaPsQuery } from '../../../../graphql/generated-gql';
+import { TeamGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { GitPOAPBadgePopover } from '../../../request/RequestItem/GitPOAPBadgePopover';
 import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
 import { BackgroundPanel2 } from '../../../../colors';
@@ -17,35 +17,30 @@ const TableRow = styled.tr`
 `;
 
 type RowProps = {
-  gitPOAP: Exclude<TeamGitPoaPsQuery['teamGitPOAPs'], null | undefined>[number];
+  gitPOAPRequest: Exclude<
+    TeamGitPoapRequestsQuery['teamGitPOAPRequests'],
+    null | undefined
+  >[number];
   index: number;
 };
 
-const PoapToStaffApprovalStatus = {
-  APPROVED: 'APPROVED',
-  DEPRECATED: 'REJECTED',
-  REDEEM_REQUEST_PENDING: 'APROVED',
-  UNAPPROVED: 'PENDING',
-};
-
-export const TeamGitPOAPsRow = ({ gitPOAP, index }: RowProps) => {
-  const { id, name, description, imageUrl, createdAt, poapApprovalStatus, claims } = gitPOAP;
+export const TeamGitPOAPRequestsRow = ({ gitPOAPRequest, index }: RowProps) => {
+  const { id, createdAt, name, description, imageUrl, contributors, staffApprovalStatus } =
+    gitPOAPRequest;
 
   const router = useRouter();
   const [isImagePopoverOpen, { open: openImagePopover, close: closeImagePopover }] =
     useDisclosure(false);
 
-  const numberOfClaims = claims.length;
+  const numberOfContributors = Object.values(contributors).flat().length;
 
   return (
-    <TableRow onClick={() => router.push(`/gp/${id}/manage`)}>
+    <TableRow onClick={() => router.push(`/create/${id}`)}>
       <td>
         <Text>{index}</Text>
       </td>
       <td>
-        <RequestStatusBadge
-          status={PoapToStaffApprovalStatus[poapApprovalStatus] as StaffApprovalStatus}
-        />
+        <RequestStatusBadge status={staffApprovalStatus} />
       </td>
       <td>
         <GitPOAPBadgePopover
@@ -78,7 +73,7 @@ export const TeamGitPOAPsRow = ({ gitPOAP, index }: RowProps) => {
         </Tooltip>
       </td>
       <td>
-        <Text>{numberOfClaims}</Text>
+        <Text>{numberOfContributors}</Text>
       </td>
     </TableRow>
   );

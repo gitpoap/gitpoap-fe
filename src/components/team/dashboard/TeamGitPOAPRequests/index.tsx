@@ -4,18 +4,17 @@ import React, { useState } from 'react';
 import { MdGridView, MdList } from 'react-icons/md';
 
 import { TextGray, White } from '../../../../colors';
-import { useTeamGitPoaPsQuery } from '../../../../graphql/generated-gql';
+import { useTeamGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { SelectOption } from '../../../shared/compounds/ItemList';
 import { Header, Select } from '../../../shared/elements';
-import { TeamGitPOAPsGrid } from './Grid';
-import { TeamGitPOAPsList } from './List';
+import { TeamGitPOAPRequestsGrid } from './Grid';
+import { TeamGitPOAPRequestsList } from './List';
 
-type FilterOptions = 'ALL' | 'LIVE' | 'PENDING' | 'DEPRECATED';
+type FilterOptions = 'ALL' | 'PENDING' | 'REJECTED';
 const filterOptions: SelectOption<FilterOptions>[] = [
-  { value: 'ALL', label: 'ALL GITPOAPS' },
-  { value: 'LIVE', label: 'LIVE' },
+  { value: 'ALL', label: 'ALL REQUESTS' },
   { value: 'PENDING', label: 'PENDING' },
-  { value: 'DEPRECATED', label: 'DEPRECATED' },
+  { value: 'REJECTED', label: 'REJECTED' },
 ];
 
 type SortOptions = 'createdAt' | 'alphabetical';
@@ -28,12 +27,12 @@ type Props = {
   teamId: number;
 };
 
-export const TeamGitPOAPs = ({ teamId }: Props) => {
+export const TeamGitPOAPRequests = ({ teamId }: Props) => {
   const [view, setView] = useState<'grid' | 'list'>('grid');
   const [filter, setFilter] = useState<FilterOptions>('ALL');
   const [sort, setSort] = useState<SortOptions>('createdAt');
 
-  const [result] = useTeamGitPoaPsQuery({
+  const [result] = useTeamGitPoapRequestsQuery({
     variables: {
       teamId,
       approvalStatus: filter === 'ALL' ? undefined : filter,
@@ -55,13 +54,13 @@ export const TeamGitPOAPs = ({ teamId }: Props) => {
     }
   };
 
-  const gitPOAPs = result.data?.teamGitPOAPs;
+  const gitPOAPRequests = result.data?.teamGitPOAPRequests;
 
   return (
     <Group position="center" p={0}>
       <Stack align="center" justify="flex-start" style={{ width: '100%' }}>
         <Group position="apart" align="center" style={{ width: '100%' }}>
-          <Header style={{ alignSelf: 'start' }}>{'Team GitPOAPs'}</Header>
+          <Header style={{ alignSelf: 'start' }}>{'Requests'}</Header>
           <Group position="right" spacing={32}>
             <Group spacing="xs">
               <Select data={filterOptions} value={filter} onChange={onFilterChange} />
@@ -83,15 +82,15 @@ export const TeamGitPOAPs = ({ teamId }: Props) => {
             </Group>
           </Group>
         </Group>
-        {!result.fetching && gitPOAPs && gitPOAPs.length === 0 && (
+        {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
           <Text my={rem(20)} size={18}>
-            {'No GitPOAPs Found'}
+            {'No GitPOAP Requests Found'}
           </Text>
         )}
-        {gitPOAPs &&
+        {gitPOAPRequests &&
           {
-            grid: <TeamGitPOAPsGrid gitPOAPs={gitPOAPs} />,
-            list: <TeamGitPOAPsList gitPOAPs={gitPOAPs} />,
+            grid: <TeamGitPOAPRequestsGrid gitPOAPRequests={gitPOAPRequests} />,
+            list: <TeamGitPOAPRequestsList gitPOAPRequests={gitPOAPRequests} />,
           }[view]}
       </Stack>
     </Group>

@@ -1061,3 +1061,29 @@ query gitPOAPWithClaims(
     }
   }
 }
+
+query teamGitPOAPs($teamId: Float!, $approvalStatus: String, $sort: String) {
+  teamGitPOAPs(teamId: $teamId, approvalStatus: $approvalStatus, sort: $sort) {
+    id
+    name
+    description
+    imageUrl
+    createdAt
+    poapApprovalStatus
+    claims {
+      id
+    }
+  }
+}
+
+query teamGitPOAPRequests($teamId: Float!, $approvalStatus: String, $sort: String) {
+  teamGitPOAPRequests(teamId: $teamId, approvalStatus: $approvalStatus, sort: $sort) {
+    id
+    name
+    description
+    imageUrl
+    createdAt
+    staffApprovalStatus
+    contributors
+  }
+}
