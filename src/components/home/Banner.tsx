@@ -11,6 +11,7 @@ import { Link } from '../shared/compounds/Link';
 import { TitleLink } from '../shared/elements';
 import { useLocalStorage } from '@mantine/hooks';
 import { useUser } from '../../hooks/useUser';
+import { trackClickCheckEligibility } from '../../lib/tracking/events';
 
 const StyledStack = styled(Stack)`
   margin-bottom: ${rem(48)};
@@ -113,7 +114,10 @@ export const Banner = () => {
           </StartIssuingButton>
         </Link>
         <StartMintingButton
-          onClick={() => router.push('/eligibility')}
+          onClick={() => {
+            trackClickCheckEligibility();
+            void router.push('/eligibility');
+          }}
           radius="md"
           size="md"
           rightIcon={<FaArrowRight />}

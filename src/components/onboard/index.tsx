@@ -9,7 +9,7 @@ import { useOAuthContext } from '../oauth/OAuthContext';
 import { Button, Text } from '../shared/elements';
 import { StyledLink } from './Completed';
 import { IntakeForm } from './IntakeForm';
-import ConnectWallet from '../wallet/ConnectWallet';
+import { ConnectWalletButton } from '../wallet/ConnectWallet';
 
 export const OnboardingPage = () => {
   const { github } = useOAuthContext();
@@ -67,12 +67,12 @@ export const OnboardingPage = () => {
               {'!'}
             </Text>
             {!user ? (
-              <ConnectWallet
+              <ConnectWalletButton
                 style={{ margin: `${rem(16)} auto`, width: 'fit-content' }}
                 leftIcon={<FaEthereum />}
               >
                 {'CONNECT WALLET'}
-              </ConnectWallet>
+              </ConnectWalletButton>
             ) : (
               <Button
                 onClick={() => {

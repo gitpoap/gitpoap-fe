@@ -17,6 +17,7 @@
     "test:ci": "jest --ci --verbose"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^1.6.7",
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
     "@mantine/core": "^5.9.4",

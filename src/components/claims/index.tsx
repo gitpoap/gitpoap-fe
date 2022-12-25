@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Modal, Center, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useRouter } from 'next/router';
 import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { FaEthereum } from 'react-icons/fa';
 import { Pagination } from '../shared/elements/Pagination';
@@ -21,8 +20,9 @@ import { ClaimBlock } from '../shared/compounds/ClaimBlock';
 import { BREAKPOINTS } from '../../constants';
 import { OpenClaimsQuery } from '../../graphql/generated-gql';
 import { Link } from '../shared/compounds/Link';
-import ConnectWallet from '../wallet/ConnectWallet';
+import { ConnectWalletButton } from '../wallet/ConnectWallet';
 import { useWeb3Context } from '../wallet/Web3Context';
+import { trackClickMintAll } from '../../lib/tracking/events';
 
 type Props = {
   isConnected: boolean;
@@ -126,8 +126,6 @@ export const ClaimModal = ({
 
   const { address, ensName } = useWeb3Context();
 
-  const router = useRouter();
-
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = !!loadingClaimIds && loadingClaimIds.length === claims.length;
   const claimText = getClaimText(isConnected, claims.length, claimedIds.length);
@@ -166,7 +164,9 @@ export const ClaimModal = ({
                       isLoading={!isClaimingAll && loadingClaimIds?.includes(userClaim.claim.id)}
                     />
                   ) : (
-                    <ConnectWallet leftIcon={<FaEthereum />}>{'Connect Wallet'}</ConnectWallet>
+                    <ConnectWalletButton leftIcon={<FaEthereum />}>
+                      {'Connect Wallet'}
+                    </ConnectWalletButton>
                   );
                 })}
             </GitPOAPClaims>
@@ -183,23 +183,12 @@ export const ClaimModal = ({
         )}
 
         <Group mt={rem(30)}>
-          <Button
-            onClick={() => {
-              onClose();
-              void router.push(`/p/${ensName ?? address}`);
-            }}
-            disabled={
-              loadingClaimIds &&
-              loadingClaimIds.length > 0 &&
-              loadingClaimIds.length < allClaimIds.length
-            }
-            loading={isClaimingAll}
-          >
-            {'Go to profile'}
-          </Button>
           {claims.length > 1 && !hasClaimedAll && (
             <Button
-              onClick={() => onClickClaim(allClaimIds)}
+              onClick={() => {
+                trackClickMintAll(address, allClaimIds);
+                onClickClaim(allClaimIds);
+              }}
               disabled={
                 loadingClaimIds &&
                 loadingClaimIds.length > 0 &&

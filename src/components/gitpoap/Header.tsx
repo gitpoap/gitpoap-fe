@@ -14,6 +14,7 @@ import { useGitPoapEventQuery } from '../../graphql/generated-gql';
 import { useUser } from '../../hooks/useUser';
 import { useRouter } from 'next/router';
 import { GitPOAP } from '../shared/elements/icons';
+import { trackClickManageGitPOAP } from '../../lib/tracking/events';
 
 type Props = {
   gitPOAPId: number;
@@ -230,7 +231,13 @@ export const Header = ({ gitPOAPId }: Props) => {
       )}
       {user?.address && user.address === gitPOAP?.creatorAddress?.ethAddress ? (
         <Group position="right">
-          <Button variant="outline" onClick={() => router.push(`/gp/${gitPOAP?.id}/manage`)}>
+          <Button
+            variant="outline"
+            onClick={() => {
+              trackClickManageGitPOAP(gitPOAP.id);
+              void router.push(`/gp/${gitPOAP.id}/manage`);
+            }}
+          >
             {'MANAGE GITPOAP'}
           </Button>
         </Group>

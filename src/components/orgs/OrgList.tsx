@@ -11,6 +11,7 @@ import {
 } from '../../graphql/generated-gql';
 import { useDebouncedValue } from '@mantine/hooks';
 import { Header, Input, TextSkeleton } from '../shared/elements';
+import { trackSearchForOrgs } from '../../lib/tracking/events';
 
 type SortOptions = 'alphabetical' | 'date';
 
@@ -98,6 +99,13 @@ export const OrgList = () => {
       page: 1,
       search,
     }));
+  }, [debouncedSearch]);
+
+  /* Hook only for tracking purposes */
+  useEffect(() => {
+    if (debouncedSearch.length > 0) {
+      trackSearchForOrgs(debouncedSearch);
+    }
   }, [debouncedSearch]);
 
   if (result.error) {

@@ -1,9 +1,17 @@
 import { initUrqlClient } from 'next-urql';
-import { dedupExchange, cacheExchange, fetchExchange, ssrExchange, ClientOptions } from 'urql';
+import {
+  dedupExchange,
+  cacheExchange,
+  fetchExchange,
+  ssrExchange,
+  ClientOptions,
+  createClient,
+} from 'urql';
+import { GITPOAP_API_URL } from '../environment';
 import { getAccessToken } from '../hooks/useTokens';
 
 export const urqlClientOptions: ClientOptions = {
-  url: `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/graphql`,
+  url: `${GITPOAP_API_URL}/graphql`,
   fetchOptions: () => {
     const accessToken = getAccessToken();
     return {
@@ -26,3 +34,5 @@ export const createSSRUrqlClient = () => {
 
   return { client, ssrCache };
 };
+
+export const client = createClient(urqlClientOptions);

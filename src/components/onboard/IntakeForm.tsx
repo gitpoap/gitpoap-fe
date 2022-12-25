@@ -17,6 +17,8 @@ import { Repo } from './types';
 import { UploadDesigns } from './UploadDesigns';
 import { useMantineForm } from './useMantineForm';
 import { useTokens } from '../../hooks/useTokens';
+import { GITPOAP_API_URL } from '../../environment';
+import { trackClickSubmitOnboarding } from '../../lib/tracking/events';
 
 export const StyledLink = styled(Link)`
   color: ${PrimaryBlue};
@@ -81,7 +83,7 @@ export const IntakeForm = ({ githubHandle }: Props) => {
     const fetchData = async () => {
       try {
         const data = await fetchWithToken(
-          `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/github/repos`,
+          `${GITPOAP_API_URL}/onboarding/github/repos`,
           tokens?.accessToken ?? null,
         );
         setRepos(data);
@@ -136,22 +138,20 @@ export const IntakeForm = ({ githubHandle }: Props) => {
         });
 
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/onboarding/intake-form`,
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              Authorization: `Bearer ${tokens?.accessToken}`,
-            },
-            body: formData,
+        const response = await fetch(`${GITPOAP_API_URL}/onboarding/intake-form`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${tokens?.accessToken}`,
           },
-        );
+          body: formData,
+        });
         const data = await response.json();
         if (response.status >= 400) {
           throw new Error(JSON.stringify(data));
         }
 
+        trackClickSubmitOnboarding();
         setQueueNumber(data.queueNumber);
         setStage(3);
       } catch (error) {

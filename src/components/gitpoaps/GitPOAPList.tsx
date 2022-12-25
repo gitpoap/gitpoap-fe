@@ -15,6 +15,7 @@ import {
   GitPoapOrderByWithRelationInput,
 } from '../../graphql/generated-gql';
 import { GitPOAP, GitPOAPSkeleton } from '../shared/compounds/GitPOAP';
+import { trackSearchForGitPOAP } from '../../lib/tracking/events';
 
 type SortOptions = 'count' | 'new';
 
@@ -137,6 +138,13 @@ export const GitPOAPList = () => {
     }
     /* Do not include handlers below */
   }, [allGitPOAPs, queryVariables]);
+
+  /* Hook only for tracking purposes */
+  useEffect(() => {
+    if (debouncedSearch.length > 0) {
+      trackSearchForGitPOAP(debouncedSearch);
+    }
+  }, [debouncedSearch]);
 
   if (result.error) {
     return null;

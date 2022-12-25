@@ -10,7 +10,7 @@ import { Group, Grid } from '@mantine/core';
 import { Dropzone as DropzoneUI } from '@mantine/dropzone';
 import { useGitpoapByPoapEventIdQuery } from '../../graphql/generated-gql';
 import { NumberInput, Text, Header } from '../../components/shared/elements';
-import { GITPOAP_API_URL } from '../../constants';
+import { GITPOAP_API_URL } from '../../environment';
 import { BackgroundPanel, BackgroundPanel2, ExtraRed, TextLight } from '../../colors';
 import { Notifications } from '../../notifications';
 import { ConnectGitHub } from '../../components/admin/ConnectGitHub';

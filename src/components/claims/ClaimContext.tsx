@@ -1,6 +1,6 @@
 import React, { useEffect, createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useListState } from '@mantine/hooks';
-import { GITPOAP_API_URL } from '../../constants';
+import { GITPOAP_API_URL } from '../../environment';
 import { ClaimStatus, OpenClaimsQuery, useOpenClaimsQuery } from '../../graphql/generated-gql';
 import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
@@ -8,6 +8,7 @@ import { ClaimModal } from './index';
 import { useTokens } from '../../hooks/useTokens';
 import { useUser } from '../../hooks/useUser';
 import { useWeb3Context, ConnectionStatus } from '../wallet/Web3Context';
+import { trackClickMint } from '../../lib/tracking/events';
 
 type ClaimState = {
   isOpen: boolean;
@@ -104,6 +105,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
           refetchUserClaims();
           setLoadingClaimIds([]);
         }
+        trackClickMint(user?.address, claimIds);
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.warn(err);
@@ -112,7 +114,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
         setLoadingClaimIds([]);
       }
     },
-    [tokens?.accessToken, refetchUserClaims],
+    [tokens?.accessToken, refetchUserClaims, user?.address],
   );
 
   const value = useMemo(

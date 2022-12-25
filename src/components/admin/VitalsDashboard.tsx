@@ -38,6 +38,7 @@ import { Link } from '../shared/compounds/Link';
 import { TextLight } from '../../colors';
 import { useTokens } from '../../hooks/useTokens';
 import { useApi } from '../../hooks/useApi';
+import { GITPOAP_API_URL } from '../../environment';
 
 const Dashboard = styled.div`
   width: ${rem(500)};
@@ -164,17 +165,11 @@ export const VitalsDashboard = () => {
   const [totalEmailsWithClaimsResult] = useTotalEmailsWithClaimsQuery();
 
   const { data: ongoingIssuanceResult } = useSWR<{ lastRun: string }>(
-    [
-      `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/vitals/ongoing-issuance`,
-      tokens?.accessToken ?? null,
-    ],
+    [`${GITPOAP_API_URL}/vitals/ongoing-issuance`, tokens?.accessToken ?? null],
     fetchWithToken,
   );
   const { data: checkForCodesResult } = useSWR<{ lastRun: string }>(
-    [
-      `${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/vitals/check-for-codes`,
-      tokens?.accessToken ?? null,
-    ],
+    [`${GITPOAP_API_URL}/vitals/check-for-codes`, tokens?.accessToken ?? null],
     fetchWithToken,
   );
   const { data: botInstallResults } = useSWR<{ totalInstalls: number }>(

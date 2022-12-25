@@ -1,6 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import { DateTime } from 'luxon';
-import { GITPOAP_API_URL, FIVE_MINUTES_IN_S, ONE_MONTH_IN_S } from '../../constants';
+import { FIVE_MINUTES_IN_S, ONE_MONTH_IN_S } from '../../constants';
+import { GITPOAP_API_URL } from '../../environment';
 import { AccessTokenPayload, RefreshTokenPayload, Tokens } from '../../types';
 import { JsonRpcSigner } from '@ethersproject/providers';
 

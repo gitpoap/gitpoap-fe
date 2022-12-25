@@ -7,6 +7,11 @@ import { useRouter } from 'next/router';
 import { useUser } from '../../hooks/useUser';
 import { GitPOAP } from '../shared/elements/icons';
 import { useGetEmail } from '../../hooks/useGetEmail';
+import {
+  trackClickCheckEligibility,
+  trackGoToSettings,
+  trackOpenClaimModal,
+} from '../../lib/tracking/events';
 
 const Content = styled.div`
   display: flex;
@@ -37,7 +42,13 @@ export const ConnectionButton = ({ className, hideText }: Props) => {
   if (user === null) {
     return (
       <Content className={className}>
-        <Button onClick={() => router.push('/eligibility')} leftIcon={!hideText && <GitPOAPIcon />}>
+        <Button
+          onClick={() => {
+            trackClickCheckEligibility();
+            void router.push('/eligibility');
+          }}
+          leftIcon={!hideText && <GitPOAPIcon />}
+        >
           {hideText ? <GitPOAPIcon /> : 'Check Eligibility'}
         </Button>
       </Content>
@@ -51,7 +62,10 @@ export const ConnectionButton = ({ className, hideText }: Props) => {
     return (
       <Content className={className}>
         <Button
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            trackOpenClaimModal();
+            setIsOpen(true);
+          }}
           leftIcon={!hideText && <GitPOAPIcon />}
           rightIcon={
             !hideText && <ClaimCircle key={`claim-circle-${netClaims}`} value={netClaims} />
@@ -71,7 +85,13 @@ export const ConnectionButton = ({ className, hideText }: Props) => {
   if (!user?.capabilities.hasGithub && !email) {
     return (
       <Content className={className}>
-        <Button onClick={() => router.push(`/settings`)} leftIcon={!hideText && <GitPOAPIcon />}>
+        <Button
+          onClick={() => {
+            trackGoToSettings();
+            void router.push(`/settings`);
+          }}
+          leftIcon={!hideText && <GitPOAPIcon />}
+        >
           {hideText ? <GitPOAPIcon /> : 'Connect Accounts'}
         </Button>
       </Content>
@@ -82,7 +102,10 @@ export const ConnectionButton = ({ className, hideText }: Props) => {
   return (
     <Content className={className}>
       <Button
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          trackOpenClaimModal();
+          setIsOpen(true);
+        }}
         variant="outline"
         leftIcon={!hideText && <GitPOAPIcon />}
         sx={{ minWidth: hideText ? 0 : rem(125) }}

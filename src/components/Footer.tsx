@@ -18,6 +18,8 @@ import {
 import { Link } from './shared/compounds/Link';
 import { Button, Input } from './shared/elements';
 import { BREAKPOINTS } from '../constants';
+import { GITPOAP_API_URL } from '../environment';
+import { trackClickEmailSignup } from '../lib/tracking/events';
 
 const Container = styled(Group)`
   justify-content: space-evenly;
@@ -185,14 +187,14 @@ export const Footer = () => {
   const submitEmail = useCallback(async () => {
     try {
       setLoadingState('loading');
-      const resJwt = await fetch(`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/jwt/`, {
+      const resJwt = await fetch(`${GITPOAP_API_URL}/jwt/`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       });
       const data = await (resJwt.json() as Promise<{ access_token: string }>);
-      await fetch(`${process.env.NEXT_PUBLIC_GITPOAP_API_URL}/subscribe`, {
+      await fetch(`${GITPOAP_API_URL}/subscribe`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -304,6 +306,7 @@ export const Footer = () => {
             <Button
               onClick={async () => {
                 if (validate(email)) {
+                  trackClickEmailSignup('footer');
                   await submitEmail();
                 }
               }}

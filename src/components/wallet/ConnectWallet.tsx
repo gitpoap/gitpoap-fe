@@ -5,7 +5,7 @@ import { useWeb3Context, ConnectionStatus } from './Web3Context';
 import { Loader } from '../shared/elements';
 import { White } from '../../colors';
 
-const ConnectWallet = (props: ButtonProps) => {
+export const ConnectWalletButton = (props: ButtonProps) => {
   const { address, ensName, connectionStatus, isModalOpened, closeModal, handleConnect } =
     useWeb3Context();
 
@@ -30,5 +30,3 @@ const ConnectWallet = (props: ButtonProps) => {
     </>
   );
 };
-
-export default ConnectWallet;
