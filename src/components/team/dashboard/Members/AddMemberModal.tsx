@@ -1,11 +1,9 @@
-import React, { useCallback } from 'react';
-import { Stack, Group, Modal } from '@mantine/core';
+import React, { useCallback, useState } from 'react';
+import { Stack, Group, Modal, MultiSelect } from '@mantine/core';
 import { getHotkeyHandler } from '@mantine/hooks';
-import { rem } from 'polished';
-import { Button, TextArea } from '../../../shared/elements';
-import { useAddressForm } from './useAddressForm';
+import { utils } from 'ethers';
+import { Button } from '../../../shared/elements';
 import { useAddMembershipMutation } from '../../../../graphql/generated-gql';
-import { DarkGray } from '../../../../colors';
 
 type AddMemberModalProps = {
   teamId: number;
@@ -14,53 +12,65 @@ type AddMemberModalProps = {
 };
 
 export const AddMemberModal = ({ teamId, isOpen, onClose }: AddMemberModalProps) => {
-  const { values, getInputProps, validate, setErrors, setValues } = useAddressForm();
-
+  const [values, setValues] = useState<string[]>([]);
+  const [error, setError] = useState<string>('');
   const [result, addMember] = useAddMembershipMutation();
 
   const handleSubmit = useCallback(async () => {
-    if (!validate().hasErrors) {
-      const addresses = values.addresses.split(',').map((address) => address.trim());
-      Promise.all(
-        addresses.map((address) =>
-          addMember({
-            teamId,
-            address,
-          }),
-        ),
-      )
-        .then((results) => {
-          let errors = '';
-          results.forEach((res, index) => {
-            if (res.error) {
-              errors += `${addresses[index]}: ${res.error.message.replace('[GraphQL] ', '')}\n`;
-            }
-          });
-
-          if (errors) {
-            setErrors({
-              addresses: errors,
-            });
-          } else {
-            setValues({
-              addresses: '',
-            });
-            onClose();
+    const addresses = values.map((address) => address.trim());
+    Promise.all(
+      addresses.map((address) =>
+        addMember({
+          teamId,
+          address,
+        }),
+      ),
+    )
+      .then((results) => {
+        let errors = '';
+        results.forEach((res, index) => {
+          if (res.error) {
+            errors += `${addresses[index]}: ${res.error.message.replace('[GraphQL] ', '')}\n`;
           }
-        })
-        .catch((error) => {
-          setErrors(error);
         });
-    }
-  }, [teamId, validate, values, addMember, onClose, setValues, setErrors]);
+        if (errors) {
+          setError(errors);
+        } else {
+          setValues([]);
+          onClose();
+        }
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  }, [teamId, addMember, onClose, setError, values]);
+
+  const handleClose = useCallback(() => {
+    setError('');
+    onClose();
+  }, [setError, onClose]);
 
   return (
-    <Modal centered opened={isOpen} onClose={onClose} padding={32} title={'Add members'}>
+    <Modal centered opened={isOpen} onClose={handleClose} padding={32} title={'Add members'}>
       <Stack align="stretch" spacing={16}>
-        <TextArea
-          label="Enter ETH addresses separated by commas"
-          placeholder="0x1234567890b,0x1234567812d"
-          {...getInputProps('addresses')}
+        <MultiSelect
+          label="Enter ETH addresses"
+          data={[]}
+          placeholder="0x1234567890b"
+          getCreateLabel={(query) => `+ Add ${query}`}
+          onCreate={(query) => {
+            const item = { value: query, label: query };
+            if (!utils.isAddress(query)) {
+              setError(`${query} is an invalid address`);
+              return;
+            } else {
+              setError('');
+              setValues([...values, query]);
+              return item;
+            }
+          }}
+          error={error}
+          onChange={(value) => setValues(value)}
           onKeyDown={getHotkeyHandler([
             [
               'Enter',
@@ -69,16 +79,12 @@ export const AddMemberModal = ({ teamId, isOpen, onClose }: AddMemberModalProps)
               },
             ],
           ])}
-          id="addresses"
-          styles={{
-            input: {
-              border: `${rem(1)} solid ${DarkGray} !important`,
-            },
-          }}
+          searchable
+          creatable
           required
         />
         <Group grow mt={16}>
-          <Button color="red" variant="outline" onClick={onClose} disabled={result.fetching}>
+          <Button color="red" variant="outline" onClick={handleClose} disabled={result.fetching}>
             {'Cancel'}
           </Button>
           <Button onClick={handleSubmit} loading={result.fetching}>
