@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Group } from '@mantine/core';
 import { openConfirmModal } from '@mantine/modals';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { DateTime } from 'luxon';
 import {
   UserMembershipsQuery,
   MembershipAcceptanceStatus,
@@ -11,7 +12,6 @@ import {
 } from '../../graphql/generated-gql';
 import { AcceptanceStatusBadge } from '../team/dashboard/Members/AcceptanceStatusBadge';
 import { BackgroundPanel2 } from '../../colors';
-import { formatUTCDate } from '../../helpers';
 import { Button, Text } from '../shared/elements';
 
 const TableRow = styled.tr`
@@ -80,7 +80,9 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
           <Text lineClamp={3}>{role}</Text>
         </td>
         <td>
-          <Text sx={{ whiteSpace: 'nowrap' }}>{joinedOn ? formatUTCDate(joinedOn) : ''}</Text>
+          <Text sx={{ whiteSpace: 'nowrap' }}>
+            {joinedOn ? DateTime.fromISO(joinedOn).toRelative() : ''}
+          </Text>
         </td>
         <td>
           {acceptanceStatus === MembershipAcceptanceStatus.Pending && (

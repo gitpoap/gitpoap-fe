@@ -1101,6 +1101,7 @@ query teamMemberships($teamId: Float!, $page: Float, $perPage: Float, $sort: Str
       addressId
       address {
         ethAddress
+        ensName
       }
       joinedOn
       role
@@ -1136,6 +1137,7 @@ query userMemberships {
       addressId
       address {
         ethAddress
+        ensName
       }
       joinedOn
       role

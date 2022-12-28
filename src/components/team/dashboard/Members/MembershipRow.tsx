@@ -1,8 +1,9 @@
 import React from 'react';
 import { MdDelete } from 'react-icons/md';
+import { DateTime } from 'luxon';
 import { TeamMembershipsQuery } from '../../../../graphql/generated-gql';
 import { AcceptanceStatusBadge } from './AcceptanceStatusBadge';
-import { formatUTCDate, shortenAddress } from '../../../../helpers';
+import { shortenAddress } from '../../../../helpers';
 import { Button, Text } from '../../../shared/elements';
 import { Link } from '../../../shared/compounds/Link';
 
@@ -26,7 +27,7 @@ export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
         <td>
           <Link href={`/p/${address.ethAddress}`}>
             <Text lineClamp={3} variant="link">
-              {shortenAddress(address.ethAddress)}
+              {address.ensName ?? shortenAddress(address.ethAddress)}
             </Text>
           </Link>
         </td>
@@ -34,7 +35,9 @@ export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
           <Text lineClamp={3}>{role}</Text>
         </td>
         <td>
-          <Text sx={{ whiteSpace: 'nowrap' }}>{joinedOn ? formatUTCDate(joinedOn) : ''}</Text>
+          <Text sx={{ whiteSpace: 'nowrap' }}>
+            {joinedOn ? DateTime.fromISO(joinedOn).toRelative() : ''}
+          </Text>
         </td>
         <td>
           <Button onClick={() => openRemoveModal(id, address.ethAddress)} compact>

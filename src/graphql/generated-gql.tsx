@@ -7755,7 +7755,7 @@ export type TeamMembershipsQuery = {
       role: MembershipRole;
       acceptanceStatus: MembershipAcceptanceStatus;
       createdAt: any;
-      address: { __typename?: 'Address'; ethAddress: string };
+      address: { __typename?: 'Address'; ethAddress: string; ensName?: string | null };
       team: { __typename?: 'Team'; name: string };
     }>;
   } | null;
@@ -7777,7 +7777,7 @@ export type UserMembershipsQuery = {
       acceptanceStatus: MembershipAcceptanceStatus;
       createdAt: any;
       team: { __typename?: 'Team'; name: string };
-      address: { __typename?: 'Address'; ethAddress: string };
+      address: { __typename?: 'Address'; ethAddress: string; ensName?: string | null };
     }>;
   } | null;
 };
@@ -9648,6 +9648,7 @@ export const TeamMembershipsDocument = gql`
         addressId
         address {
           ethAddress
+          ensName
         }
         joinedOn
         role
@@ -9699,6 +9700,7 @@ export const UserMembershipsDocument = gql`
         addressId
         address {
           ethAddress
+          ensName
         }
         joinedOn
         role
