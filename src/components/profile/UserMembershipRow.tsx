@@ -1,12 +1,13 @@
-import React, { useCallback } from 'react';
-import { Loader } from '@mantine/core';
-import { rem } from 'polished';
+import React from 'react';
 import styled from 'styled-components';
-import { AiFillCheckCircle } from 'react-icons/ai';
+import { Group } from '@mantine/core';
+import { openConfirmModal } from '@mantine/modals';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import {
   UserMembershipsQuery,
   MembershipAcceptanceStatus,
   useAcceptMembershipMutation,
+  useRemoveMembershipMutation,
 } from '../../graphql/generated-gql';
 import { AcceptanceStatusBadge } from '../team/dashboard/Members/AcceptanceStatusBadge';
 import { BackgroundPanel2 } from '../../colors';
@@ -27,13 +28,44 @@ type RowProps = {
 };
 
 export const UserMembershipRow = ({ membership }: RowProps) => {
-  const { role, acceptanceStatus, joinedOn, teamId, team } = membership;
+  const { id, role, acceptanceStatus, joinedOn, teamId, team } = membership;
 
-  const [result, acceptMembership] = useAcceptMembershipMutation();
+  const [, acceptMembership] = useAcceptMembershipMutation();
+  const [, removeMember] = useRemoveMembershipMutation();
 
-  const handleAccept = useCallback(async () => {
-    await acceptMembership({ teamId });
-  }, [teamId, acceptMembership]);
+  const handleAccept = () =>
+    openConfirmModal({
+      title: 'Accept this membership?',
+      centered: true,
+      children: (
+        <Text size="sm">
+          {`Are you sure you want to accept this membership from `}
+          <b>{team.name}</b>
+          {` ?`}
+        </Text>
+      ),
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onConfirm: () => {
+        void acceptMembership({ teamId });
+      },
+    });
+
+  const handleReject = () =>
+    openConfirmModal({
+      title: 'Reject this membership?',
+      centered: true,
+      children: (
+        <Text size="sm">
+          {`Are you sure you want to reject this membership from `}
+          <b>{team.name}</b>
+          {` ?`}
+        </Text>
+      ),
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onConfirm: () => {
+        void removeMember({ membershipId: id });
+      },
+    });
 
   return (
     <>
@@ -52,9 +84,14 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         </td>
         <td>
           {acceptanceStatus === MembershipAcceptanceStatus.Pending && (
-            <Button onClick={handleAccept} disabled={result.fetching}>
-              {result.fetching ? <Loader /> : <AiFillCheckCircle size={rem(16)} />}
-            </Button>
+            <Group align={'center'}>
+              <Button onClick={handleAccept} compact>
+                <FaCheckCircle />
+              </Button>
+              <Button onClick={handleReject} compact>
+                <FaTimesCircle />
+              </Button>
+            </Group>
           )}
         </td>
       </TableRow>

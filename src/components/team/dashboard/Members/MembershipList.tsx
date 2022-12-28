@@ -34,11 +34,11 @@ type QueryVars = {
 };
 
 type SelectOption<T = string> = { value: T; label: string };
-type SortOptions = 'acceptance_status' | 'date' | 'role';
+type SortOptions = 'acceptance_status' | 'joinedOn' | 'role';
 
 const selectOptions: SelectOption<SortOptions>[] = [
   { value: 'acceptance_status', label: 'STATUS' },
-  { value: 'date', label: 'DATE' },
+  { value: 'joinedOn', label: 'JOINED ON' },
   { value: 'role', label: 'ROLE' },
 ];
 
@@ -48,7 +48,7 @@ type Props = {
 
 export const MembershipList = ({ teamId }: Props) => {
   const [isAddModalOpen, { open: openAddModal, close: closeAddModal }] = useDisclosure(false);
-  const [sortBy, setSortBy] = useState<SortOptions>('date');
+  const [sortBy, setSortBy] = useState<SortOptions>('joinedOn');
 
   const [variables, setVariables] = useState<QueryVars>({
     page: 1,
@@ -88,7 +88,7 @@ export const MembershipList = ({ teamId }: Props) => {
     }
   };
 
-  const openRemoveModal = (address: string) =>
+  const openRemoveModal = (membershipId: number, address: string) =>
     openConfirmModal({
       title: 'Remove this member?',
       centered: true,
@@ -102,8 +102,7 @@ export const MembershipList = ({ teamId }: Props) => {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onConfirm: () => {
         void removeMember({
-          teamId,
-          address,
+          membershipId,
         });
       },
     });

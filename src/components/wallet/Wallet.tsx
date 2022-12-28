@@ -59,9 +59,11 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               <Menu.Item component={Link} href={'/me/gitpoaps'}>
                 {'GitPOAP Requests'}
               </Menu.Item>
-              <Menu.Item component={Link} href={'/me/memberships'}>
-                {'Memberships'}
-              </Menu.Item>
+              {user?.permissions.isStaff && (
+                <Menu.Item component={Link} href={'/me/memberships'}>
+                  {'Memberships'}
+                </Menu.Item>
+              )}
               <Menu.Item component={Link} href="/settings">
                 {'Settings'}
               </Menu.Item>

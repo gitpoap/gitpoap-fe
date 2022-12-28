@@ -3820,10 +3820,14 @@ export type MembershipMinOrderByAggregateInput = {
 export type MembershipMutationPayload = {
   __typename?: 'MembershipMutationPayload';
 <<<<<<< HEAD
+<<<<<<< HEAD
   membership?: Maybe<MembershipWithTeam>;
 =======
   membership: MembershipWithTeam;
 >>>>>>> 0944ac7 (feat: update table data)
+=======
+  membership?: Maybe<MembershipWithTeam>;
+>>>>>>> f51d241 (feat: update member table)
 };
 
 export type MembershipOrderByRelationAggregateInput = {
@@ -7787,30 +7791,19 @@ export type AddMembershipMutation = {
   __typename?: 'Mutation';
   addNewMembership: {
     __typename?: 'MembershipMutationPayload';
-    membership: {
+    membership?: {
       __typename?: 'MembershipWithTeam';
       acceptanceStatus: MembershipAcceptanceStatus;
       role: MembershipRole;
-    };
+    } | null;
   };
 };
 
 export type RemoveMembershipMutationVariables = Exact<{
-  teamId: Scalars['Float'];
-  address: Scalars['String'];
+  membershipId: Scalars['Float'];
 }>;
 
-export type RemoveMembershipMutation = {
-  __typename?: 'Mutation';
-  removeMembership: {
-    __typename?: 'MembershipMutationPayload';
-    membership: {
-      __typename?: 'MembershipWithTeam';
-      acceptanceStatus: MembershipAcceptanceStatus;
-      role: MembershipRole;
-    };
-  };
-};
+export type RemoveMembershipMutation = { __typename?: 'Mutation'; removeMembership: number };
 
 export type AcceptMembershipMutationVariables = Exact<{
   teamId: Scalars['Float'];
@@ -7820,11 +7813,11 @@ export type AcceptMembershipMutation = {
   __typename?: 'Mutation';
   acceptMembership: {
     __typename?: 'MembershipMutationPayload';
-    membership: {
+    membership?: {
       __typename?: 'MembershipWithTeam';
       acceptanceStatus: MembershipAcceptanceStatus;
       role: MembershipRole;
-    };
+    } | null;
   };
 >>>>>>> fe9f050 (feat: show team members)
 };
@@ -9749,13 +9742,8 @@ export function useAddMembershipMutation() {
   );
 }
 export const RemoveMembershipDocument = gql`
-  mutation removeMembership($teamId: Float!, $address: String!) {
-    removeMembership(teamId: $teamId, address: $address) {
-      membership {
-        acceptanceStatus
-        role
-      }
-    }
+  mutation removeMembership($membershipId: Float!) {
+    removeMembership(membershipId: $membershipId)
   }
 `;
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { MdDelete } from 'react-icons/md';
 import { TeamMembershipsQuery } from '../../../../graphql/generated-gql';
 import { AcceptanceStatusBadge } from './AcceptanceStatusBadge';
-import { formatUTCDate } from '../../../../helpers';
+import { formatUTCDate, shortenAddress } from '../../../../helpers';
 import { Button, Text } from '../../../shared/elements';
 import { Link } from '../../../shared/compounds/Link';
 
@@ -11,11 +11,11 @@ type TeamMemberships = Exclude<TeamMembershipsQuery['teamMemberships'], undefine
 type RowProps = {
   teamId: number;
   membership: TeamMemberships['memberships'][number];
-  openRemoveModal: (address: string) => void;
+  openRemoveModal: (membershipId: number, address: string) => void;
 };
 
 export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
-  const { role, acceptanceStatus, joinedOn, address } = membership;
+  const { id, role, acceptanceStatus, joinedOn, address } = membership;
 
   return (
     <>
@@ -26,7 +26,7 @@ export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
         <td>
           <Link href={`/p/${address.ethAddress}`}>
             <Text lineClamp={3} variant="link">
-              {address.ethAddress}
+              {shortenAddress(address.ethAddress)}
             </Text>
           </Link>
         </td>
@@ -37,7 +37,7 @@ export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
           <Text sx={{ whiteSpace: 'nowrap' }}>{joinedOn ? formatUTCDate(joinedOn) : ''}</Text>
         </td>
         <td>
-          <Button onClick={() => openRemoveModal(address.ethAddress)}>
+          <Button onClick={() => openRemoveModal(id, address.ethAddress)} compact>
             <MdDelete />
           </Button>
         </td>
