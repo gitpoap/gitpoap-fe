@@ -61,7 +61,6 @@ export const Amplitude = () => {
    */
   useEffect(() => {
     if (typeof window !== 'undefined' && isReady) {
-      console.log('tracking page view', pathname, asPath);
       trackPageView(pathname, asPath);
     }
     /* Purposely don't include asPath */
