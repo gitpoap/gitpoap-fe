@@ -9,12 +9,13 @@ import { TableHeaderItem } from '../../../gitpoap/manage/TableHeaderItem';
 import { BackgroundPanel, TextGray } from '../../../../colors';
 import { BREAKPOINTS } from '../../../../constants';
 import { Divider, Button, Text } from '../../../shared/elements';
-import { MembershipRow } from './MembershipRow';
+import { MembershipRow, Address } from './MembershipRow';
 import { AddMemberModal } from './AddMemberModal';
 import {
   useTeamMembershipsQuery,
   useRemoveMembershipMutation,
 } from '../../../../graphql/generated-gql';
+import { shortenAddress } from '../../../../helpers';
 
 const HEADERS: {
   label: string;
@@ -88,14 +89,14 @@ export const MembershipList = ({ teamId }: Props) => {
     }
   };
 
-  const openRemoveModal = (membershipId: number, address: string) =>
+  const openRemoveModal = (membershipId: number, address: Address) =>
     openConfirmModal({
-      title: 'Remove this member?',
+      title: 'Remove member?',
       centered: true,
       children: (
         <Text size="sm">
           {`Are you sure you want to remove `}
-          <b>{address}</b>
+          <b>{address.ensName ?? shortenAddress(address.ethAddress)}</b>
           {` from the team?`}
         </Text>
       ),
@@ -127,7 +128,7 @@ export const MembershipList = ({ teamId }: Props) => {
               </Text>
             )}
             <Select data={selectOptions} value={sortBy} onChange={onSelectChange} />
-            <Button onClick={openAddModal}>{'Add members'}</Button>
+            <Button onClick={openAddModal}>{'+ Add members'}</Button>
           </Group>
         </Group>
         <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />

@@ -18,31 +18,27 @@ export const AddMemberModal = ({ teamId, isOpen, onClose }: AddMemberModalProps)
 
   const handleSubmit = useCallback(async () => {
     const addresses = values.map((address) => address.trim());
-    Promise.all(
+    const results = await Promise.all(
       addresses.map((address) =>
         addMember({
           teamId,
           address,
         }),
       ),
-    )
-      .then((results) => {
-        let errors = '';
-        results.forEach((res, index) => {
-          if (res.error) {
-            errors += `${addresses[index]}: ${res.error.message.replace('[GraphQL] ', '')}\n`;
-          }
-        });
-        if (errors) {
-          setError(errors);
-        } else {
-          setValues([]);
-          onClose();
-        }
-      })
-      .catch((error) => {
-        setError(error);
-      });
+    );
+
+    let errors = '';
+    results.forEach((res, index) => {
+      if (res.error) {
+        errors += `${addresses[index]}: ${res.error.message.replace('[GraphQL] ', '')}\n`;
+      }
+    });
+    if (errors) {
+      setError(errors);
+    } else {
+      setValues([]);
+      onClose();
+    }
   }, [teamId, addMember, onClose, setError, values]);
 
   const handleClose = useCallback(() => {

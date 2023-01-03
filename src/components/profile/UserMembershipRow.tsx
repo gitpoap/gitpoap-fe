@@ -35,11 +35,11 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
 
   const handleAccept = () =>
     openConfirmModal({
-      title: 'Accept this membership?',
+      title: 'Accept invitation?',
       centered: true,
       children: (
         <Text size="sm">
-          {`Are you sure you want to accept this membership from `}
+          {`Are you sure you want to accept this invitation from `}
           <b>{team.name}</b>
           {` ?`}
         </Text>
@@ -52,11 +52,11 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
 
   const handleReject = () =>
     openConfirmModal({
-      title: 'Reject this membership?',
+      title: 'Reject invitation?',
       centered: true,
       children: (
         <Text size="sm">
-          {`Are you sure you want to reject this membership from `}
+          {`Are you sure you want to reject this invitation from `}
           <b>{team.name}</b>
           {` ?`}
         </Text>
@@ -68,35 +68,33 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
     });
 
   return (
-    <>
-      <TableRow>
-        <td>
-          <AcceptanceStatusBadge status={acceptanceStatus} />
-        </td>
-        <td>
-          <Text lineClamp={3}>{team.name}</Text>
-        </td>
-        <td>
-          <Text lineClamp={3}>{role}</Text>
-        </td>
-        <td>
-          <Text sx={{ whiteSpace: 'nowrap' }}>
-            {joinedOn ? DateTime.fromISO(joinedOn).toRelative() : ''}
-          </Text>
-        </td>
-        <td>
-          {acceptanceStatus === MembershipAcceptanceStatus.Pending && (
-            <Group align={'center'}>
-              <Button onClick={handleAccept} compact>
-                <FaCheckCircle />
-              </Button>
-              <Button onClick={handleReject} compact>
-                <FaTimesCircle />
-              </Button>
-            </Group>
-          )}
-        </td>
-      </TableRow>
-    </>
+    <TableRow>
+      <td>
+        <AcceptanceStatusBadge status={acceptanceStatus} />
+      </td>
+      <td>
+        <Text lineClamp={3}>{team.name}</Text>
+      </td>
+      <td>
+        <Text lineClamp={3}>{role}</Text>
+      </td>
+      <td>
+        <Text sx={{ whiteSpace: 'nowrap' }}>
+          {joinedOn ? DateTime.fromISO(joinedOn).toRelative() : ''}
+        </Text>
+      </td>
+      <td>
+        {acceptanceStatus === MembershipAcceptanceStatus.Pending && (
+          <Group align={'center'}>
+            <Button onClick={handleAccept} compact>
+              <FaCheckCircle />
+            </Button>
+            <Button onClick={handleReject} compact>
+              <FaTimesCircle />
+            </Button>
+          </Group>
+        )}
+      </td>
+    </TableRow>
   );
 };

@@ -9,10 +9,12 @@ import { Link } from '../../../shared/compounds/Link';
 
 type TeamMemberships = Exclude<TeamMembershipsQuery['teamMemberships'], undefined | null>;
 
+export type Address = TeamMemberships['memberships'][number]['address'];
+
 type RowProps = {
   teamId: number;
   membership: TeamMemberships['memberships'][number];
-  openRemoveModal: (membershipId: number, address: string) => void;
+  openRemoveModal: (membershipId: number, address: Address) => void;
 };
 
 export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
@@ -40,7 +42,7 @@ export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
           </Text>
         </td>
         <td>
-          <Button onClick={() => openRemoveModal(id, address.ethAddress)} compact>
+          <Button onClick={() => openRemoveModal(id, address)} compact>
             <MdDelete />
           </Button>
         </td>
