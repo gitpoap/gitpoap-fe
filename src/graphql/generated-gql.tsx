@@ -4928,14 +4928,16 @@ export type Query = {
   search: SearchResults;
   team?: Maybe<Team>;
 <<<<<<< HEAD
+<<<<<<< HEAD
   teamData: Team;
 =======
 <<<<<<< HEAD
 >>>>>>> 429c6fe (feat: show team members)
+=======
+  teamData: Team;
+>>>>>>> 2409c4c (feat: update gql)
   teamGitPOAPRequests: Array<GitPoapRequest>;
   teamGitPOAPs: Array<GitPoap>;
-=======
->>>>>>> fe9f050 (feat: show team members)
   teamMemberships?: Maybe<TeamMemberships>;
   teams: Array<Team>;
   totalClaims: Scalars['Float'];
@@ -5656,13 +5658,19 @@ export type QueryTeamArgs = {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2409c4c (feat: update gql)
 export type QueryTeamDataArgs = {
   teamId: Scalars['Float'];
 };
 
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> 429c6fe (feat: show team members)
+=======
+>>>>>>> 2409c4c (feat: update gql)
 export type QueryTeamGitPoapRequestsArgs = {
   approvalStatus?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['String']>;
@@ -5675,8 +5683,6 @@ export type QueryTeamGitPoaPsArgs = {
   teamId: Scalars['Float'];
 };
 
-=======
->>>>>>> fe9f050 (feat: show team members)
 export type QueryTeamMembershipsArgs = {
   page?: InputMaybe<Scalars['Float']>;
   perPage?: InputMaybe<Scalars['Float']>;
@@ -7668,6 +7674,7 @@ export type GitPoapWithClaimsQuery = {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export type TeamDataQueryVariables = Exact<{
   teamId: Scalars['Int'];
 }>;
@@ -7696,6 +7703,8 @@ export type UpdateTeamMutation = {
 =======
 <<<<<<< HEAD
 >>>>>>> 429c6fe (feat: show team members)
+=======
+>>>>>>> 2409c4c (feat: update gql)
 export type TeamGitPoaPsQueryVariables = Exact<{
   teamId: Scalars['Float'];
   approvalStatus?: InputMaybe<Scalars['String']>;
@@ -7716,6 +7725,7 @@ export type TeamGitPoaPsQuery = {
   }>;
 };
 
+<<<<<<< HEAD
 export type TeamGitPoapRequestsQueryVariables = Exact<{
   teamId: Scalars['Float'];
   approvalStatus?: InputMaybe<Scalars['String']>;
@@ -7735,6 +7745,8 @@ export type TeamGitPoapRequestsQuery = {
     contributors: any;
   }>;
 =======
+=======
+>>>>>>> 2409c4c (feat: update gql)
 export type TeamMembershipsQueryVariables = Exact<{
   teamId: Scalars['Float'];
   page?: InputMaybe<Scalars['Float']>;
@@ -7759,6 +7771,26 @@ export type TeamMembershipsQuery = {
       team: { __typename?: 'Team'; name: string };
     }>;
   } | null;
+};
+
+export type TeamGitPoapRequestsQueryVariables = Exact<{
+  teamId: Scalars['Float'];
+  approvalStatus?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['String']>;
+}>;
+
+export type TeamGitPoapRequestsQuery = {
+  __typename?: 'Query';
+  teamGitPOAPRequests: Array<{
+    __typename?: 'GitPOAPRequest';
+    id: number;
+    name: string;
+    description: string;
+    imageUrl: string;
+    createdAt: any;
+    staffApprovalStatus: StaffApprovalStatus;
+    contributors: any;
+  }>;
 };
 
 export type UserMembershipsQueryVariables = Exact<{ [key: string]: never }>;
@@ -7819,7 +7851,6 @@ export type AcceptMembershipMutation = {
       role: MembershipRole;
     } | null;
   };
->>>>>>> fe9f050 (feat: show team members)
 };
 
 export const GetAllStatsDocument = gql`
@@ -9639,6 +9670,19 @@ export const TeamGitPoaPsDocument = gql`
       poapApprovalStatus
       claims {
         id
+      }
+    }
+  }
+`;
+
+export function useTeamGitPoaPsQuery(
+  options: Omit<Urql.UseQueryArgs<TeamGitPoaPsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TeamGitPoaPsQuery, TeamGitPoaPsQueryVariables>({
+    query: TeamGitPoaPsDocument,
+    ...options,
+  });
+}
 export const TeamMembershipsDocument = gql`
   query teamMemberships($teamId: Float!, $page: Float, $perPage: Float, $sort: String) {
     teamMemberships(teamId: $teamId, page: $page, perPage: $perPage, sort: $sort) {
@@ -9662,11 +9706,11 @@ export const TeamMembershipsDocument = gql`
   }
 `;
 
-export function useTeamGitPoaPsQuery(
-  options: Omit<Urql.UseQueryArgs<TeamGitPoaPsQueryVariables>, 'query'>,
+export function useTeamMembershipsQuery(
+  options: Omit<Urql.UseQueryArgs<TeamMembershipsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<TeamGitPoaPsQuery, TeamGitPoaPsQueryVariables>({
-    query: TeamGitPoaPsDocument,
+  return Urql.useQuery<TeamMembershipsQuery, TeamMembershipsQueryVariables>({
+    query: TeamMembershipsDocument,
     ...options,
   });
 }
@@ -9680,11 +9724,15 @@ export const TeamGitPoapRequestsDocument = gql`
       createdAt
       staffApprovalStatus
       contributors
-export function useTeamMembershipsQuery(
-  options: Omit<Urql.UseQueryArgs<TeamMembershipsQueryVariables>, 'query'>,
+    }
+  }
+`;
+
+export function useTeamGitPoapRequestsQuery(
+  options: Omit<Urql.UseQueryArgs<TeamGitPoapRequestsQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<TeamMembershipsQuery, TeamMembershipsQueryVariables>({
-    query: TeamMembershipsDocument,
+  return Urql.useQuery<TeamGitPoapRequestsQuery, TeamGitPoapRequestsQueryVariables>({
+    query: TeamGitPoapRequestsDocument,
     ...options,
   });
 }
@@ -9711,14 +9759,6 @@ export const UserMembershipsDocument = gql`
   }
 `;
 
-export function useTeamGitPoapRequestsQuery(
-  options: Omit<Urql.UseQueryArgs<TeamGitPoapRequestsQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<TeamGitPoapRequestsQuery, TeamGitPoapRequestsQueryVariables>({
-    query: TeamGitPoapRequestsDocument,
-    ...options,
-  });
-}
 export function useUserMembershipsQuery(
   options?: Omit<Urql.UseQueryArgs<UserMembershipsQueryVariables>, 'query'>,
 ) {
