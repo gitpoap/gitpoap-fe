@@ -1062,6 +1062,17 @@ query gitPOAPWithClaims(
   }
 }
 
+query userTeams($address: String!) {
+  teams(
+    where: { memberships: { some: { address: { is: { ethAddress: { equals: $address } } } } } }
+  ) {
+    id
+    name
+    description
+    logoImageUrl
+  }
+}
+
 query teamData($teamId: Int!) {
   team(where: { id: $teamId }) {
     id
