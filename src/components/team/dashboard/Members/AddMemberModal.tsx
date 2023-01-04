@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
-import { Stack, Group, Modal, MultiSelect } from '@mantine/core';
+import { Stack, Group, Modal } from '@mantine/core';
 import { getHotkeyHandler } from '@mantine/hooks';
 import { utils } from 'ethers';
-import { Button } from '../../../shared/elements';
+import { Button, Text, MultiSelect } from '../../../shared/elements';
 import { useAddMembershipMutation } from '../../../../graphql/generated-gql';
 
 type AddMemberModalProps = {
@@ -55,10 +55,16 @@ export const AddMemberModal = ({
   }, [setError, onClose]);
 
   return (
-    <Modal centered opened={isOpen} onClose={handleClose} padding={32} title={'Add members'}>
+    <Modal
+      centered
+      opened={isOpen}
+      onClose={handleClose}
+      padding={32}
+      title={<Text>Add members</Text>}
+    >
       <Stack align="stretch" spacing={16}>
         <MultiSelect
-          label="Enter ETH addresses"
+          label={<Text>Enter ETH addresses</Text>}
           data={[]}
           placeholder="0x1234567890b"
           getCreateLabel={(query) => `+ Add ${query}`}
@@ -85,7 +91,6 @@ export const AddMemberModal = ({
           ])}
           searchable
           creatable
-          required
         />
         <Group grow mt={16}>
           <Button color="red" variant="outline" onClick={handleClose} disabled={result.fetching}>
