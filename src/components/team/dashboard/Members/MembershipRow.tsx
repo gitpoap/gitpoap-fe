@@ -36,7 +36,7 @@ export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
           <Text lineClamp={3}>{role}</Text>
         </td>
         <td>
-          <RelativeDate sx={{ whiteSpace: 'nowrap' }} iosDate={joinedOn} />
+          <RelativeDate sx={{ whiteSpace: 'nowrap' }} isoDate={joinedOn} />
         </td>
         <td>
           <Button onClick={() => openRemoveModal(id, address)} compact>

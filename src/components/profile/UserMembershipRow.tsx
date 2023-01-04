@@ -78,7 +78,7 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         <Text lineClamp={3}>{role}</Text>
       </td>
       <td>
-        <RelativeDate sx={{ whiteSpace: 'nowrap' }} iosDate={joinedOn} />
+        <RelativeDate sx={{ whiteSpace: 'nowrap' }} isoDate={joinedOn} />
       </td>
       <td>
         {acceptanceStatus === MembershipAcceptanceStatus.Pending && (
