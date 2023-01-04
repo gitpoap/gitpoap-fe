@@ -5,6 +5,7 @@ import { User } from '../../hooks/useUser';
 import { Header } from '../shared/elements';
 import { TeamDashboard } from './dashboard';
 import { TeamGitPOAPRequests } from './dashboard/TeamGitPOAPRequests';
+import { TeamSettings } from './settings';
 
 const Panel = styled(Tabs.Panel)`
   overflow: hidden;
@@ -54,7 +55,7 @@ export const TeamContainer = ({ teamId, user }: Props) => {
         </Panel>
 
         <Panel value={Section.Settings}>
-          <div>Settings</div>
+          <TeamSettings teamId={teamId} />
         </Panel>
       </Tabs>
     </Stack>

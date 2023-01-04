@@ -3697,13 +3697,11 @@ export type JsonWithAggregatesFilter = {
 export type Membership = {
   __typename?: 'Membership';
   acceptanceStatus: MembershipAcceptanceStatus;
-  address: Address;
   addressId: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   joinedOn?: Maybe<Scalars['DateTime']>;
   role: MembershipRole;
-  team: Team;
   teamId: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
 };
@@ -3821,7 +3819,7 @@ export type MembershipMinOrderByAggregateInput = {
 
 export type MembershipMutationPayload = {
   __typename?: 'MembershipMutationPayload';
-  membership: Membership;
+  membership?: Maybe<MembershipWithTeam>;
 };
 
 export type MembershipOrderByRelationAggregateInput = {
@@ -3927,11 +3925,26 @@ export type MembershipWhereUniqueInput = {
   teamId_addressId?: InputMaybe<MembershipTeamIdAddressIdCompoundUniqueInput>;
 };
 
+export type MembershipWithTeam = {
+  __typename?: 'MembershipWithTeam';
+  acceptanceStatus: MembershipAcceptanceStatus;
+  address: Address;
+  addressId: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  joinedOn?: Maybe<Scalars['DateTime']>;
+  role: MembershipRole;
+  team: Team;
+  teamId: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   acceptMembership: MembershipMutationPayload;
   addNewMembership: MembershipMutationPayload;
-  removeMembership: MembershipMutationPayload;
+  removeMembership: Scalars['Float'];
+  updateTeam: TeamUpdatePayload;
 };
 
 export type MutationAcceptMembershipArgs = {
@@ -3944,7 +3957,11 @@ export type MutationAddNewMembershipArgs = {
 };
 
 export type MutationRemoveMembershipArgs = {
-  address: Scalars['String'];
+  membershipId: Scalars['Float'];
+};
+
+export type MutationUpdateTeamArgs = {
+  input: TeamUpdateInput;
   teamId: Scalars['Float'];
 };
 
@@ -4284,6 +4301,10 @@ export type NullableProfile = {
   profileImageUrl?: Maybe<Scalars['String']>;
   twitterHandle?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: InputMaybe<Scalars['String']>;
 };
 
 export type OrganizationData = {
@@ -4898,6 +4919,7 @@ export type Query = {
   repos: Array<Repo>;
   search: SearchResults;
   team?: Maybe<Team>;
+  teamData: Team;
   teamGitPOAPRequests: Array<GitPoapRequest>;
   teamGitPOAPs: Array<GitPoap>;
   teamMemberships?: Maybe<TeamMemberships>;
@@ -5619,6 +5641,10 @@ export type QueryTeamArgs = {
   where: TeamWhereUniqueInput;
 };
 
+export type QueryTeamDataArgs = {
+  teamId: Scalars['Float'];
+};
+
 export type QueryTeamGitPoapRequestsArgs = {
   approvalStatus?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['String']>;
@@ -6054,6 +6080,10 @@ export enum StaffApprovalStatus {
   Rejected = 'REJECTED',
 }
 
+export type StringFieldUpdateOperationsInput = {
+  set?: InputMaybe<Scalars['String']>;
+};
+
 export type StringFilter = {
   contains?: InputMaybe<Scalars['String']>;
   endsWith?: InputMaybe<Scalars['String']>;
@@ -6126,42 +6156,11 @@ export type Team = {
   approvalStatus: StaffApprovalStatus;
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
-  gitPOAPRequests: Array<GitPoapRequest>;
-  gitPOAPs: Array<GitPoap>;
   id: Scalars['Int'];
   logoImageUrl: Scalars['String'];
-  memberships: Array<Membership>;
   name: Scalars['String'];
-  ownerAddress: Address;
   ownerAddressId: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
-};
-
-export type TeamGitPoapRequestsArgs = {
-  cursor?: InputMaybe<GitPoapRequestWhereUniqueInput>;
-  distinct?: InputMaybe<Array<GitPoapRequestScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<GitPoapRequestOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<GitPoapRequestWhereInput>;
-};
-
-export type TeamGitPoaPsArgs = {
-  cursor?: InputMaybe<GitPoapWhereUniqueInput>;
-  distinct?: InputMaybe<Array<GitPoapScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<GitPoapOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<GitPoapWhereInput>;
-};
-
-export type TeamMembershipsArgs = {
-  cursor?: InputMaybe<MembershipWhereUniqueInput>;
-  distinct?: InputMaybe<Array<MembershipScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<MembershipOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<MembershipWhereInput>;
 };
 
 export type TeamAvgAggregate = {
@@ -6254,7 +6253,7 @@ export type TeamMaxOrderByAggregateInput = {
 
 export type TeamMemberships = {
   __typename?: 'TeamMemberships';
-  memberships: Array<Membership>;
+  memberships: Array<MembershipWithTeam>;
   total: Scalars['Float'];
 };
 
@@ -6357,6 +6356,17 @@ export type TeamSumOrderByAggregateInput = {
   ownerAddressId?: InputMaybe<SortOrder>;
 };
 
+export type TeamUpdateInput = {
+  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type TeamUpdatePayload = {
+  __typename?: 'TeamUpdatePayload';
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type TeamWhereInput = {
   AND?: InputMaybe<Array<TeamWhereInput>>;
   NOT?: InputMaybe<Array<TeamWhereInput>>;
@@ -6406,7 +6416,7 @@ export type UserGitPoapData = {
 
 export type UserMemberships = {
   __typename?: 'UserMemberships';
-  memberships: Array<Membership>;
+  memberships: Array<MembershipWithTeam>;
 };
 
 export type UserPoaPs = {
@@ -7637,6 +7647,31 @@ export type GitPoapWithClaimsQuery = {
   } | null;
 };
 
+export type TeamDataQueryVariables = Exact<{
+  teamId: Scalars['Int'];
+}>;
+
+export type TeamDataQuery = {
+  __typename?: 'Query';
+  team?: {
+    __typename?: 'Team';
+    id: number;
+    name: string;
+    description?: string | null;
+    logoImageUrl: string;
+  } | null;
+};
+
+export type UpdateTeamMutationVariables = Exact<{
+  teamId: Scalars['Float'];
+  input: TeamUpdateInput;
+}>;
+
+export type UpdateTeamMutation = {
+  __typename?: 'Mutation';
+  updateTeam: { __typename?: 'TeamUpdatePayload'; name: string; description?: string | null };
+};
+
 export type TeamGitPoaPsQueryVariables = Exact<{
   teamId: Scalars['Float'];
   approvalStatus?: InputMaybe<Scalars['String']>;
@@ -7652,7 +7687,6 @@ export type TeamGitPoaPsQuery = {
     description: string;
     imageUrl: string;
     createdAt: any;
-    updatedAt: any;
     poapApprovalStatus: GitPoapStatus;
     claims: Array<{ __typename?: 'Claim'; id: number }>;
   }>;
@@ -7673,7 +7707,6 @@ export type TeamGitPoapRequestsQuery = {
     description: string;
     imageUrl: string;
     createdAt: any;
-    updatedAt: any;
     staffApprovalStatus: StaffApprovalStatus;
     contributors: any;
   }>;
@@ -9454,6 +9487,37 @@ export function useGitPoapWithClaimsQuery(
     ...options,
   });
 }
+export const TeamDataDocument = gql`
+  query teamData($teamId: Int!) {
+    team(where: { id: $teamId }) {
+      id
+      name
+      description
+      logoImageUrl
+    }
+  }
+`;
+
+export function useTeamDataQuery(
+  options: Omit<Urql.UseQueryArgs<TeamDataQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TeamDataQuery, TeamDataQueryVariables>({
+    query: TeamDataDocument,
+    ...options,
+  });
+}
+export const UpdateTeamDocument = gql`
+  mutation updateTeam($teamId: Float!, $input: TeamUpdateInput!) {
+    updateTeam(teamId: $teamId, input: $input) {
+      name
+      description
+    }
+  }
+`;
+
+export function useUpdateTeamMutation() {
+  return Urql.useMutation<UpdateTeamMutation, UpdateTeamMutationVariables>(UpdateTeamDocument);
+}
 export const TeamGitPoaPsDocument = gql`
   query teamGitPOAPs($teamId: Float!, $approvalStatus: String, $sort: String) {
     teamGitPOAPs(teamId: $teamId, approvalStatus: $approvalStatus, sort: $sort) {
@@ -9462,7 +9526,6 @@ export const TeamGitPoaPsDocument = gql`
       description
       imageUrl
       createdAt
-      updatedAt
       poapApprovalStatus
       claims {
         id
@@ -9487,7 +9550,6 @@ export const TeamGitPoapRequestsDocument = gql`
       description
       imageUrl
       createdAt
-      updatedAt
       staffApprovalStatus
       contributors
     }
