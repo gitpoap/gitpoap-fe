@@ -72,3 +72,29 @@ export const fetchWithToken = async (url: string, token: string | null) => {
 export const getWeb3Provider = (provider: ExternalProvider | JsonRpcFetchFunc) => {
   return new Web3Provider(provider);
 };
+
+enum MembershipErrorMessage {
+  NOT_AUTHORIZED = 'Not authorized',
+  ADDRESS_NOT_FOUND = 'Address not found',
+  TEAM_NOT_FOUND = 'Team not found',
+  MEMBERSHIP_NOT_FOUND = 'Membership not found',
+  ALREADY_ACCEPTED = 'Already accepted',
+  ALREADY_EXISTS = 'Already Exists',
+}
+
+export const getMembershipGQLErrorMessage = (error: string) => {
+  switch (error) {
+    case MembershipErrorMessage.NOT_AUTHORIZED:
+      return 'You are not authorized for this action';
+    case MembershipErrorMessage.ADDRESS_NOT_FOUND:
+      return 'Address is not valid';
+    case MembershipErrorMessage.TEAM_NOT_FOUND:
+      return 'Team is not valid';
+    case MembershipErrorMessage.MEMBERSHIP_NOT_FOUND:
+      return 'Membership is not valid';
+    case MembershipErrorMessage.ALREADY_ACCEPTED:
+      return 'You already accepted this invitation';
+    case MembershipErrorMessage.ALREADY_EXISTS:
+      return 'You already invited this address';
+  }
+};

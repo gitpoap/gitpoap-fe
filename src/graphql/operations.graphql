@@ -1157,7 +1157,13 @@ mutation addMembership($teamId: Float!, $address: String!) {
 }
 
 mutation removeMembership($membershipId: Float!) {
-  removeMembership(membershipId: $membershipId)
+  removeMembership(membershipId: $membershipId) {
+    membership {
+      id
+      teamId
+      role
+    }
+  }
 }
 
 mutation acceptMembership($teamId: Float!) {

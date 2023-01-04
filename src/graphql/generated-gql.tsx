@@ -3951,7 +3951,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   acceptMembership: MembershipMutationPayload;
   addNewMembership: MembershipMutationPayload;
-  removeMembership: Scalars['Float'];
+  removeMembership: MembershipMutationPayload;
   updateTeam: TeamUpdatePayload;
 };
 
@@ -7835,7 +7835,18 @@ export type RemoveMembershipMutationVariables = Exact<{
   membershipId: Scalars['Float'];
 }>;
 
-export type RemoveMembershipMutation = { __typename?: 'Mutation'; removeMembership: number };
+export type RemoveMembershipMutation = {
+  __typename?: 'Mutation';
+  removeMembership: {
+    __typename?: 'MembershipMutationPayload';
+    membership?: {
+      __typename?: 'MembershipWithTeam';
+      id: number;
+      teamId: number;
+      role: MembershipRole;
+    } | null;
+  };
+};
 
 export type AcceptMembershipMutationVariables = Exact<{
   teamId: Scalars['Float'];
@@ -9785,7 +9796,13 @@ export function useAddMembershipMutation() {
 }
 export const RemoveMembershipDocument = gql`
   mutation removeMembership($membershipId: Float!) {
-    removeMembership(membershipId: $membershipId)
+    removeMembership(membershipId: $membershipId) {
+      membership {
+        id
+        teamId
+        role
+      }
+    }
   }
 `;
 

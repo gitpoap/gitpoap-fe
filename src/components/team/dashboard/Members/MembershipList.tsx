@@ -15,7 +15,7 @@ import {
   useTeamMembershipsQuery,
   useRemoveMembershipMutation,
 } from '../../../../graphql/generated-gql';
-import { shortenAddress } from '../../../../helpers';
+import { shortenAddress, getMembershipGQLErrorMessage } from '../../../../helpers';
 
 const HEADERS: {
   label: string;
@@ -101,8 +101,8 @@ export const MembershipList = ({ teamId }: Props) => {
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
-      onConfirm: () => {
-        void removeMember({
+      onConfirm: async () => {
+        await removeMember({
           membershipId,
         });
       },
@@ -111,7 +111,9 @@ export const MembershipList = ({ teamId }: Props) => {
   if (result.error) {
     return (
       <Stack align="center" justify="flex-start" spacing="sm" mt={rem(50)}>
-        <Text size="lg">{result.error.message.replace('[GraphQL] ', '')}</Text>
+        <Text size="lg">
+          {getMembershipGQLErrorMessage(result.error.message.replace('[GraphQL] ', ''))}
+        </Text>
       </Stack>
     );
   }

@@ -4,6 +4,7 @@ import { getHotkeyHandler } from '@mantine/hooks';
 import { utils } from 'ethers';
 import { Button } from '../../../shared/elements';
 import { useAddMembershipMutation } from '../../../../graphql/generated-gql';
+import { getMembershipGQLErrorMessage } from '../../../../helpers';
 
 type AddMemberModalProps = {
   teamId: number;
@@ -30,7 +31,8 @@ export const AddMemberModal = ({ teamId, isOpen, onClose }: AddMemberModalProps)
     let errors = '';
     results.forEach((res, index) => {
       if (res.error) {
-        errors += `${addresses[index]}: ${res.error.message.replace('[GraphQL] ', '')}\n`;
+        const errorMessage = res.error.message.replace('[GraphQL] ', '');
+        errors += `${addresses[index]}: ${getMembershipGQLErrorMessage(errorMessage)}\n`;
       }
     });
     if (errors) {

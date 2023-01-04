@@ -45,8 +45,8 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
-      onConfirm: () => {
-        void acceptMembership({ teamId });
+      onConfirm: async () => {
+        await acceptMembership({ teamId });
       },
     });
 
@@ -62,8 +62,8 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
-      onConfirm: () => {
-        void removeMember({ membershipId: id });
+      onConfirm: async () => {
+        await removeMember({ membershipId: id });
       },
     });
 
