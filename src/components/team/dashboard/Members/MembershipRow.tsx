@@ -1,10 +1,9 @@
 import React from 'react';
 import { MdDelete } from 'react-icons/md';
-import { DateTime } from 'luxon';
 import { TeamMembershipsQuery } from '../../../../graphql/generated-gql';
 import { AcceptanceStatusBadge } from './AcceptanceStatusBadge';
 import { shortenAddress } from '../../../../helpers';
-import { Button, Text } from '../../../shared/elements';
+import { Button, Text, RelativeDate } from '../../../shared/elements';
 import { Link } from '../../../shared/compounds/Link';
 
 type TeamMemberships = Exclude<TeamMembershipsQuery['teamMemberships'], undefined | null>;
@@ -37,9 +36,7 @@ export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
           <Text lineClamp={3}>{role}</Text>
         </td>
         <td>
-          <Text sx={{ whiteSpace: 'nowrap' }}>
-            {joinedOn ? DateTime.fromISO(joinedOn).toRelative() : ''}
-          </Text>
+          <RelativeDate sx={{ whiteSpace: 'nowrap' }}>{joinedOn}</RelativeDate>
         </td>
         <td>
           <Button onClick={() => openRemoveModal(id, address)} compact>

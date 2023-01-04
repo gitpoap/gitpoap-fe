@@ -15,7 +15,7 @@ import {
   useTeamMembershipsQuery,
   useRemoveMembershipMutation,
 } from '../../../../graphql/generated-gql';
-import { shortenAddress, getMembershipGQLErrorMessage } from '../../../../helpers';
+import { shortenAddress } from '../../../../helpers';
 
 const HEADERS: {
   label: string;
@@ -113,9 +113,7 @@ export const MembershipList = ({ teamId }: Props) => {
   if (result.error) {
     return (
       <Stack align="center" justify="flex-start" spacing="sm" mt={rem(50)}>
-        <Text size="lg">
-          {getMembershipGQLErrorMessage(result.error.message.replace('[GraphQL] ', ''))}
-        </Text>
+        <Text size="lg">{'Something went wrong!'}</Text>
       </Stack>
     );
   }
