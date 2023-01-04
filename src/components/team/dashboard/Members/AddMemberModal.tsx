@@ -10,9 +10,15 @@ type AddMemberModalProps = {
   teamId: number;
   isOpen: boolean;
   onClose: () => void;
+  refetchMemberships: () => void;
 };
 
-export const AddMemberModal = ({ teamId, isOpen, onClose }: AddMemberModalProps) => {
+export const AddMemberModal = ({
+  teamId,
+  isOpen,
+  onClose,
+  refetchMemberships,
+}: AddMemberModalProps) => {
   const [values, setValues] = useState<string[]>([]);
   const [error, setError] = useState<string>('');
   const [result, addMember] = useAddMembershipMutation();
@@ -35,13 +41,15 @@ export const AddMemberModal = ({ teamId, isOpen, onClose }: AddMemberModalProps)
         errors += `${addresses[index]}: ${getMembershipGQLErrorMessage(errorMessage)}\n`;
       }
     });
+
     if (errors) {
       setError(errors);
     } else {
+      refetchMemberships();
       setValues([]);
       onClose();
     }
-  }, [teamId, addMember, onClose, setError, values]);
+  }, [teamId, addMember, onClose, setError, refetchMemberships, values]);
 
   const handleClose = useCallback(() => {
     setError('');

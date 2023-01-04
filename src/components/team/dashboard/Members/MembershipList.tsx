@@ -56,13 +56,15 @@ export const MembershipList = ({ teamId }: Props) => {
     perPage: 20,
   });
 
-  const [result] = useTeamMembershipsQuery({
+  const [result, refetch] = useTeamMembershipsQuery({
     variables: {
       teamId,
       page: variables.page,
       perPage: variables.perPage,
       sort: sortBy,
     },
+    pause: false,
+    requestPolicy: 'network-only',
   });
 
   const [, removeMember] = useRemoveMembershipMutation();
@@ -178,17 +180,22 @@ export const MembershipList = ({ teamId }: Props) => {
               </tbody>
             </Table>
           </ScrollArea>
-          {totalCount > variables.perPage && (
-            <Pagination
-              page={variables.page}
-              onChange={handlePageChange}
-              total={totalPages}
-              mt={rem(20)}
-            />
-          )}
         </Stack>
+        {totalCount > variables.perPage && (
+          <Pagination
+            page={variables.page}
+            onChange={handlePageChange}
+            total={totalPages}
+            mt={rem(20)}
+          />
+        )}
       </Stack>
-      <AddMemberModal teamId={teamId} isOpen={isAddModalOpen} onClose={closeAddModal} />
+      <AddMemberModal
+        teamId={teamId}
+        isOpen={isAddModalOpen}
+        onClose={closeAddModal}
+        refetchMemberships={refetch}
+      />
     </Group>
   );
 };
