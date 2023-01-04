@@ -1062,6 +1062,22 @@ query gitPOAPWithClaims(
   }
 }
 
+query teamData($teamId: Int!) {
+  team(where: { id: $teamId }) {
+    id
+    name
+    description
+    logoImageUrl
+  }
+}
+
+mutation updateTeam($teamId: Float!, $input: TeamUpdateInput!) {
+  updateTeam(teamId: $teamId, input: $input) {
+    name
+    description
+  }
+}
+
 query teamGitPOAPs($teamId: Float!, $approvalStatus: String, $sort: String) {
   teamGitPOAPs(teamId: $teamId, approvalStatus: $approvalStatus, sort: $sort) {
     id
