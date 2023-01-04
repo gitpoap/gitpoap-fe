@@ -44,27 +44,27 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
       </Head>
       <Web3ReactProvider getLibrary={getWeb3Provider}>
         <Web3ContextProvider>
-          <TeamsProvider>
-            <Amplitude />
-            <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-              <ModalsProvider>
-                <NotificationsProvider autoClose={5000}>
-                  <URQLProvider value={client}>
-                    <OAuthProvider>
-                      <FeaturesProvider>
+          <Amplitude />
+          <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+            <ModalsProvider>
+              <NotificationsProvider autoClose={5000}>
+                <URQLProvider value={client}>
+                  <OAuthProvider>
+                    <FeaturesProvider>
+                      <TeamsProvider>
                         <ClaimContextProvider>
                           <GlobalStyles />
                           <HexagonPath />
                           <LoadingBar />
                           {getLayout(<Component {...pageProps} />)}
                         </ClaimContextProvider>
-                      </FeaturesProvider>
-                    </OAuthProvider>
-                  </URQLProvider>
-                </NotificationsProvider>
-              </ModalsProvider>
-            </MantineProvider>
-          </TeamsProvider>
+                      </TeamsProvider>
+                    </FeaturesProvider>
+                  </OAuthProvider>
+                </URQLProvider>
+              </NotificationsProvider>
+            </ModalsProvider>
+          </MantineProvider>
         </Web3ContextProvider>
       </Web3ReactProvider>
     </>
