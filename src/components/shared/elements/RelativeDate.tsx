@@ -3,19 +3,19 @@ import { TextProps, Tooltip } from '@mantine/core';
 import { Text } from './Text';
 
 type RelativeDateProps = TextProps & {
-  isoDate: string;
+  date: DateTime;
 };
 
-export const RelativeDate = ({ isoDate, ...props }: RelativeDateProps) => {
+export const RelativeDate = ({ date, ...props }: RelativeDateProps) => {
   return (
     <Tooltip
-      label={isoDate ? DateTime.fromISO(isoDate).toFormat('dd LLL yyyy HH:mm') : '-'}
+      label={date.toFormat('dd LLL yyyy HH:mm')}
       withArrow
       transition="fade"
       position="top-start"
       sx={{ textAlign: 'center' }}
     >
-      <Text {...props}>{isoDate ? DateTime.fromISO(isoDate).toRelative() : ''}</Text>
+      <Text {...props}>{date.toRelative()}</Text>
     </Tooltip>
   );
 };

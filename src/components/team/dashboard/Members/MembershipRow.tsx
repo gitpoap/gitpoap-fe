@@ -1,5 +1,6 @@
 import React from 'react';
 import { MdDelete } from 'react-icons/md';
+import { DateTime } from 'luxon';
 import { TeamMembershipsQuery } from '../../../../graphql/generated-gql';
 import { AcceptanceStatusBadge } from './AcceptanceStatusBadge';
 import { shortenAddress } from '../../../../helpers';
@@ -36,7 +37,7 @@ export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
           <Text lineClamp={3}>{role}</Text>
         </td>
         <td>
-          <RelativeDate sx={{ whiteSpace: 'nowrap' }} isoDate={joinedOn} />
+          <RelativeDate sx={{ whiteSpace: 'nowrap' }} date={DateTime.fromISO(joinedOn)} />
         </td>
         <td>
           <Button onClick={() => openRemoveModal(id, address)} compact>

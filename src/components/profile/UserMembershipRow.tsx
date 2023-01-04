@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Group } from '@mantine/core';
+import { DateTime } from 'luxon';
 import { openConfirmModal } from '@mantine/modals';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import {
@@ -78,7 +79,7 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         <Text lineClamp={3}>{role}</Text>
       </td>
       <td>
-        <RelativeDate sx={{ whiteSpace: 'nowrap' }} isoDate={joinedOn} />
+        <RelativeDate sx={{ whiteSpace: 'nowrap' }} date={DateTime.fromISO(joinedOn)} />
       </td>
       <td>
         {acceptanceStatus === MembershipAcceptanceStatus.Pending && (
