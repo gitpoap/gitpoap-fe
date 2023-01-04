@@ -3943,7 +3943,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   acceptMembership: MembershipMutationPayload;
   addNewMembership: MembershipMutationPayload;
-  removeMembership: Scalars['Float'];
+  removeMembership: MembershipMutationPayload;
   updateTeam: TeamUpdatePayload;
 };
 
@@ -7692,6 +7692,32 @@ export type TeamGitPoaPsQuery = {
   }>;
 };
 
+export type TeamMembershipsQueryVariables = Exact<{
+  teamId: Scalars['Float'];
+  page?: InputMaybe<Scalars['Float']>;
+  perPage?: InputMaybe<Scalars['Float']>;
+  sort?: InputMaybe<Scalars['String']>;
+}>;
+
+export type TeamMembershipsQuery = {
+  __typename?: 'Query';
+  teamMemberships?: {
+    __typename?: 'TeamMemberships';
+    total: number;
+    memberships: Array<{
+      __typename?: 'MembershipWithTeam';
+      id: number;
+      addressId: number;
+      joinedOn?: any | null;
+      role: MembershipRole;
+      acceptanceStatus: MembershipAcceptanceStatus;
+      createdAt: any;
+      address: { __typename?: 'Address'; ethAddress: string; ensName?: string | null };
+      team: { __typename?: 'Team'; name: string };
+    }>;
+  } | null;
+};
+
 export type TeamGitPoapRequestsQueryVariables = Exact<{
   teamId: Scalars['Float'];
   approvalStatus?: InputMaybe<Scalars['String']>;
@@ -7710,6 +7736,77 @@ export type TeamGitPoapRequestsQuery = {
     staffApprovalStatus: StaffApprovalStatus;
     contributors: any;
   }>;
+};
+
+export type UserMembershipsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type UserMembershipsQuery = {
+  __typename?: 'Query';
+  userMemberships?: {
+    __typename?: 'UserMemberships';
+    memberships: Array<{
+      __typename?: 'MembershipWithTeam';
+      id: number;
+      teamId: number;
+      addressId: number;
+      joinedOn?: any | null;
+      role: MembershipRole;
+      acceptanceStatus: MembershipAcceptanceStatus;
+      createdAt: any;
+      team: { __typename?: 'Team'; name: string };
+      address: { __typename?: 'Address'; ethAddress: string; ensName?: string | null };
+    }>;
+  } | null;
+};
+
+export type AddMembershipMutationVariables = Exact<{
+  teamId: Scalars['Float'];
+  address: Scalars['String'];
+}>;
+
+export type AddMembershipMutation = {
+  __typename?: 'Mutation';
+  addNewMembership: {
+    __typename?: 'MembershipMutationPayload';
+    membership?: {
+      __typename?: 'MembershipWithTeam';
+      acceptanceStatus: MembershipAcceptanceStatus;
+      role: MembershipRole;
+    } | null;
+  };
+};
+
+export type RemoveMembershipMutationVariables = Exact<{
+  membershipId: Scalars['Float'];
+}>;
+
+export type RemoveMembershipMutation = {
+  __typename?: 'Mutation';
+  removeMembership: {
+    __typename?: 'MembershipMutationPayload';
+    membership?: {
+      __typename?: 'MembershipWithTeam';
+      id: number;
+      teamId: number;
+      role: MembershipRole;
+    } | null;
+  };
+};
+
+export type AcceptMembershipMutationVariables = Exact<{
+  teamId: Scalars['Float'];
+}>;
+
+export type AcceptMembershipMutation = {
+  __typename?: 'Mutation';
+  acceptMembership: {
+    __typename?: 'MembershipMutationPayload';
+    membership?: {
+      __typename?: 'MembershipWithTeam';
+      acceptanceStatus: MembershipAcceptanceStatus;
+      role: MembershipRole;
+    } | null;
+  };
 };
 
 export const GetAllStatsDocument = gql`
@@ -9542,6 +9639,37 @@ export function useTeamGitPoaPsQuery(
     ...options,
   });
 }
+export const TeamMembershipsDocument = gql`
+  query teamMemberships($teamId: Float!, $page: Float, $perPage: Float, $sort: String) {
+    teamMemberships(teamId: $teamId, page: $page, perPage: $perPage, sort: $sort) {
+      total
+      memberships {
+        id
+        addressId
+        address {
+          ethAddress
+          ensName
+        }
+        joinedOn
+        role
+        acceptanceStatus
+        createdAt
+        team {
+          name
+        }
+      }
+    }
+  }
+`;
+
+export function useTeamMembershipsQuery(
+  options: Omit<Urql.UseQueryArgs<TeamMembershipsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<TeamMembershipsQuery, TeamMembershipsQueryVariables>({
+    query: TeamMembershipsDocument,
+    ...options,
+  });
+}
 export const TeamGitPoapRequestsDocument = gql`
   query teamGitPOAPRequests($teamId: Float!, $approvalStatus: String, $sort: String) {
     teamGitPOAPRequests(teamId: $teamId, approvalStatus: $approvalStatus, sort: $sort) {
@@ -9563,4 +9691,84 @@ export function useTeamGitPoapRequestsQuery(
     query: TeamGitPoapRequestsDocument,
     ...options,
   });
+}
+export const UserMembershipsDocument = gql`
+  query userMemberships {
+    userMemberships {
+      memberships {
+        id
+        teamId
+        team {
+          name
+        }
+        addressId
+        address {
+          ethAddress
+          ensName
+        }
+        joinedOn
+        role
+        acceptanceStatus
+        createdAt
+      }
+    }
+  }
+`;
+
+export function useUserMembershipsQuery(
+  options?: Omit<Urql.UseQueryArgs<UserMembershipsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<UserMembershipsQuery, UserMembershipsQueryVariables>({
+    query: UserMembershipsDocument,
+    ...options,
+  });
+}
+export const AddMembershipDocument = gql`
+  mutation addMembership($teamId: Float!, $address: String!) {
+    addNewMembership(teamId: $teamId, address: $address) {
+      membership {
+        acceptanceStatus
+        role
+      }
+    }
+  }
+`;
+
+export function useAddMembershipMutation() {
+  return Urql.useMutation<AddMembershipMutation, AddMembershipMutationVariables>(
+    AddMembershipDocument,
+  );
+}
+export const RemoveMembershipDocument = gql`
+  mutation removeMembership($membershipId: Float!) {
+    removeMembership(membershipId: $membershipId) {
+      membership {
+        id
+        teamId
+        role
+      }
+    }
+  }
+`;
+
+export function useRemoveMembershipMutation() {
+  return Urql.useMutation<RemoveMembershipMutation, RemoveMembershipMutationVariables>(
+    RemoveMembershipDocument,
+  );
+}
+export const AcceptMembershipDocument = gql`
+  mutation acceptMembership($teamId: Float!) {
+    acceptMembership(teamId: $teamId) {
+      membership {
+        acceptanceStatus
+        role
+      }
+    }
+  }
+`;
+
+export function useAcceptMembershipMutation() {
+  return Urql.useMutation<AcceptMembershipMutation, AcceptMembershipMutationVariables>(
+    AcceptMembershipDocument,
+  );
 }

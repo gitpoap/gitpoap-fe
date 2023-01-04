@@ -1092,6 +1092,28 @@ query teamGitPOAPs($teamId: Float!, $approvalStatus: String, $sort: String) {
   }
 }
 
+query teamMemberships($teamId: Float!, $page: Float, $perPage: Float, $sort: String) {
+  teamMemberships(teamId: $teamId, page: $page, perPage: $perPage, sort: $sort) {
+    total
+
+    memberships {
+      id
+      addressId
+      address {
+        ethAddress
+        ensName
+      }
+      joinedOn
+      role
+      acceptanceStatus
+      createdAt
+      team {
+        name
+      }
+    }
+  }
+}
+
 query teamGitPOAPRequests($teamId: Float!, $approvalStatus: String, $sort: String) {
   teamGitPOAPRequests(teamId: $teamId, approvalStatus: $approvalStatus, sort: $sort) {
     id
@@ -1101,5 +1123,54 @@ query teamGitPOAPRequests($teamId: Float!, $approvalStatus: String, $sort: Strin
     createdAt
     staffApprovalStatus
     contributors
+  }
+}
+
+query userMemberships {
+  userMemberships {
+    memberships {
+      id
+      teamId
+      team {
+        name
+      }
+      addressId
+      address {
+        ethAddress
+        ensName
+      }
+      joinedOn
+      role
+      acceptanceStatus
+      createdAt
+    }
+  }
+}
+
+mutation addMembership($teamId: Float!, $address: String!) {
+  addNewMembership(teamId: $teamId, address: $address) {
+    membership {
+      acceptanceStatus
+      role
+    }
+  }
+}
+
+mutation removeMembership($membershipId: Float!) {
+  removeMembership(membershipId: $membershipId) {
+    membership {
+      id
+      teamId
+      role
+    }
+  }
+}
+
+mutation acceptMembership($teamId: Float!) {
+  acceptMembership(teamId: $teamId) {
+    membership {
+      acceptanceStatus
+      role
+    }
   }
 }

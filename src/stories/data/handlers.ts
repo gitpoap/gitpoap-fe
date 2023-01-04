@@ -9,6 +9,8 @@ import {
   gitPOAPHolders,
   gitPOAPEvent,
   gitPOAPRequests,
+  userMemberships,
+  teamMemberships,
 } from './index';
 
 export const GetAllStatsHandler = graphql.query('GetAllStats', (req, res, ctx) => {
@@ -85,6 +87,22 @@ export const GitPOAPRequestsHandler = graphql.query('gitPOAPRequests', (req, res
   return res(
     ctx.data({
       gitPOAPRequests,
+    }),
+  );
+});
+
+export const UserMembershipsHandler = graphql.query('userMemberships', (req, res, ctx) => {
+  return res(
+    ctx.data({
+      userMemberships,
+    }),
+  );
+});
+
+export const TeamMembershipsHandler = graphql.query('teamMemberships', (req, res, ctx) => {
+  return res(
+    ctx.data({
+      teamMemberships,
     }),
   );
 });

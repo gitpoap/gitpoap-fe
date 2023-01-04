@@ -565,3 +565,162 @@ export const gitPOAPRequests = [
     },
   },
 ];
+
+export const userMemberships = {
+  memberships: [
+    {
+      id: 5,
+      teamId: 3,
+      team: {
+        name: 'Ethereum team',
+        __typename: 'Team',
+      },
+      addressId: 7,
+      address: {
+        ethAddress: '0x8404ddf7ed9cce1efdc14f3af4c8ed0015d28937',
+        ensName: null,
+        __typename: 'Address',
+      },
+      joinedOn: '2022-12-22T12:50:15.112Z',
+      role: 'MEMBER',
+      acceptanceStatus: 'ACCEPTED',
+      createdAt: '2022-12-22T11:49:00.261Z',
+      __typename: 'MembershipWithTeam',
+    },
+    {
+      id: 73,
+      teamId: 5,
+      team: {
+        name: 'target transparent models',
+        __typename: 'Team',
+      },
+      addressId: 7,
+      address: {
+        ethAddress: '0x8404ddf7ed9cce1efdc14f3af4c8ed0015d28937',
+        ensName: null,
+        __typename: 'Address',
+      },
+      joinedOn: null,
+      role: 'ADMIN',
+      acceptanceStatus: 'PENDING',
+      createdAt: '2023-01-04T11:48:35.800Z',
+      __typename: 'MembershipWithTeam',
+    },
+    {
+      id: 4,
+      teamId: 2,
+      team: {
+        name: 'GitPoap dev team',
+        __typename: 'Team',
+      },
+      addressId: 7,
+      address: {
+        ethAddress: '0x8404ddf7ed9cce1efdc14f3af4c8ed0015d28937',
+        ensName: null,
+        __typename: 'Address',
+      },
+      joinedOn: '2023-01-04T00:27:22.337Z',
+      role: 'MEMBER',
+      acceptanceStatus: 'ACCEPTED',
+      createdAt: '2022-12-22T11:49:00.254Z',
+      __typename: 'MembershipWithTeam',
+    },
+  ],
+};
+
+export const teamMemberships = {
+  total: 5,
+  memberships: [
+    {
+      id: 73,
+      addressId: 7,
+      address: {
+        ethAddress: '0x8404ddf7ed9cce1efdc14f3af4c8ed0015d28937',
+        ensName: null,
+        __typename: 'Address',
+      },
+      joinedOn: '2023-01-04T12:43:11.676Z',
+      role: 'ADMIN',
+      acceptanceStatus: 'ACCEPTED',
+      createdAt: '2023-01-04T11:48:35.800Z',
+      team: {
+        name: 'target transparent models',
+        __typename: 'Team',
+      },
+      __typename: 'MembershipWithTeam',
+    },
+    {
+      id: 74,
+      addressId: 8,
+      address: {
+        ethAddress: '0x04c0cd38b8c203b14ef2b7b8d736d69b938aff71',
+        ensName: 'nixorokish.eth',
+        __typename: 'Address',
+      },
+      joinedOn: null,
+      role: 'ADMIN',
+      acceptanceStatus: 'PENDING',
+      createdAt: '2023-01-04T12:39:16.465Z',
+      team: {
+        name: 'target transparent models',
+        __typename: 'Team',
+      },
+      __typename: 'MembershipWithTeam',
+    },
+    {
+      id: 75,
+      addressId: 6,
+      address: {
+        ethAddress: '0x02738d122e0970aaf8deadf0c6a217a1923e1e99',
+        ensName: 'lamberti.eth',
+        __typename: 'Address',
+      },
+      joinedOn: null,
+      role: 'ADMIN',
+      acceptanceStatus: 'PENDING',
+      createdAt: '2023-01-04T12:39:16.508Z',
+      team: {
+        name: 'target transparent models',
+        __typename: 'Team',
+      },
+      __typename: 'MembershipWithTeam',
+    },
+    {
+      id: 76,
+      addressId: 1,
+      address: {
+        ethAddress: '0xae32d159bb3abfcadfabe7abb461c2ab4805596d',
+        ensName: 'peebeejay.eth',
+        __typename: 'Address',
+      },
+      joinedOn: null,
+      role: 'ADMIN',
+      acceptanceStatus: 'PENDING',
+      createdAt: '2023-01-04T12:39:16.521Z',
+      team: {
+        name: 'target transparent models',
+        __typename: 'Team',
+      },
+      __typename: 'MembershipWithTeam',
+    },
+    {
+      id: 77,
+      addressId: 2,
+      address: {
+        ethAddress: '0xae95f7e7fb2fcf86148ef832faed2752ae5a358a',
+        ensName: 'burz.eth',
+        __typename: 'Address',
+      },
+      joinedOn: null,
+      role: 'ADMIN',
+      acceptanceStatus: 'PENDING',
+      createdAt: '2023-01-04T12:39:16.519Z',
+      team: {
+        name: 'target transparent models',
+        __typename: 'Team',
+      },
+      __typename: 'MembershipWithTeam',
+    },
+  ],
+  __typename: 'TeamMemberships',
+};
