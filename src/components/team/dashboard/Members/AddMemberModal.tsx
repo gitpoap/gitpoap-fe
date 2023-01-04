@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { Stack, Group, Modal } from '@mantine/core';
-import { getHotkeyHandler } from '@mantine/hooks';
 import { utils } from 'ethers';
 import { Button, Text, MultiSelect } from '../../../shared/elements';
 import { useAddMembershipMutation } from '../../../../graphql/generated-gql';
@@ -81,14 +80,6 @@ export const AddMemberModal = ({
           }}
           error={error}
           onChange={(value) => setValues(value)}
-          onKeyDown={getHotkeyHandler([
-            [
-              'Enter',
-              () => {
-                void handleSubmit();
-              },
-            ],
-          ])}
           searchable
           creatable
         />
