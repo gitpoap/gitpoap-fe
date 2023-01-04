@@ -1,10 +1,10 @@
-import { Button, FileButton, Grid, Group, Input as InputUI, Stack } from '@mantine/core';
+import { Button, FileButton, Grid, Group, Stack } from '@mantine/core';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
 import { useTeamDataQuery, useUpdateTeamMutation } from '../../../graphql/generated-gql';
 import { useApi } from '../../../hooks/useApi';
 import { Notifications } from '../../../notifications';
-import { Header, Input, TextArea } from '../../shared/elements';
+import { Header, Input, Text, TextArea } from '../../shared/elements';
 import { TeamLogo } from './TeamLogo';
 
 type Props = {
@@ -67,16 +67,16 @@ export const TeamSettings = ({ teamId }: Props) => {
       <Header>{'Settings'}</Header>
       <Grid>
         <Grid.Col span="auto">
-          <Stack sx={{ maxWidth: rem(600), minWidth: rem(300) }}>
+          <Stack spacing={32} sx={{ maxWidth: rem(600), minWidth: rem(300) }}>
             <Input
               placeholder="Name"
-              label={'Name'}
+              label={<Text>{'Name'}</Text>}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <TextArea
               placeholder="Description"
-              label={'Description'}
+              label={<Text>{'Description'}</Text>}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -87,7 +87,7 @@ export const TeamSettings = ({ teamId }: Props) => {
         </Grid.Col>
         <Grid.Col span="content">
           <Stack>
-            <InputUI.Label>{'Team Logo'}</InputUI.Label>
+            <Text>{'Team Logo'}</Text>
             <TeamLogo name={name} size={250} imageUrl={logoImageUrl ?? undefined} />
             <Group sx={{ width: '100%' }}>
               <FileButton onChange={onLogoUpload} accept="image/png,image/jpeg">
