@@ -3819,15 +3819,7 @@ export type MembershipMinOrderByAggregateInput = {
 
 export type MembershipMutationPayload = {
   __typename?: 'MembershipMutationPayload';
-<<<<<<< HEAD
-<<<<<<< HEAD
   membership?: Maybe<MembershipWithTeam>;
-=======
-  membership: MembershipWithTeam;
->>>>>>> 0944ac7 (feat: update table data)
-=======
-  membership?: Maybe<MembershipWithTeam>;
->>>>>>> f51d241 (feat: update member table)
 };
 
 export type MembershipOrderByRelationAggregateInput = {
@@ -4927,15 +4919,7 @@ export type Query = {
   repos: Array<Repo>;
   search: SearchResults;
   team?: Maybe<Team>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   teamData: Team;
-=======
-<<<<<<< HEAD
->>>>>>> 429c6fe (feat: show team members)
-=======
-  teamData: Team;
->>>>>>> 2409c4c (feat: update gql)
   teamGitPOAPRequests: Array<GitPoapRequest>;
   teamGitPOAPs: Array<GitPoap>;
   teamMemberships?: Maybe<TeamMemberships>;
@@ -5657,20 +5641,10 @@ export type QueryTeamArgs = {
   where: TeamWhereUniqueInput;
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 2409c4c (feat: update gql)
 export type QueryTeamDataArgs = {
   teamId: Scalars['Float'];
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 429c6fe (feat: show team members)
-=======
->>>>>>> 2409c4c (feat: update gql)
 export type QueryTeamGitPoapRequestsArgs = {
   approvalStatus?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['String']>;
@@ -7673,8 +7647,6 @@ export type GitPoapWithClaimsQuery = {
   } | null;
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type TeamDataQueryVariables = Exact<{
   teamId: Scalars['Int'];
 }>;
@@ -7700,11 +7672,6 @@ export type UpdateTeamMutation = {
   updateTeam: { __typename?: 'TeamUpdatePayload'; name: string; description?: string | null };
 };
 
-=======
-<<<<<<< HEAD
->>>>>>> 429c6fe (feat: show team members)
-=======
->>>>>>> 2409c4c (feat: update gql)
 export type TeamGitPoaPsQueryVariables = Exact<{
   teamId: Scalars['Float'];
   approvalStatus?: InputMaybe<Scalars['String']>;
@@ -7725,28 +7692,6 @@ export type TeamGitPoaPsQuery = {
   }>;
 };
 
-<<<<<<< HEAD
-export type TeamGitPoapRequestsQueryVariables = Exact<{
-  teamId: Scalars['Float'];
-  approvalStatus?: InputMaybe<Scalars['String']>;
-  sort?: InputMaybe<Scalars['String']>;
-}>;
-
-export type TeamGitPoapRequestsQuery = {
-  __typename?: 'Query';
-  teamGitPOAPRequests: Array<{
-    __typename?: 'GitPOAPRequest';
-    id: number;
-    name: string;
-    description: string;
-    imageUrl: string;
-    createdAt: any;
-    staffApprovalStatus: StaffApprovalStatus;
-    contributors: any;
-  }>;
-=======
-=======
->>>>>>> 2409c4c (feat: update gql)
 export type TeamMembershipsQueryVariables = Exact<{
   teamId: Scalars['Float'];
   page?: InputMaybe<Scalars['Float']>;
