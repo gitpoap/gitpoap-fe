@@ -32,15 +32,10 @@ export const AddMemberModal = ({
       ),
     );
 
-    let errors = '';
-    results.forEach((res, index) => {
-      if (res.error) {
-        errors += `${addresses[index]}: ${'Something went wrong!'}\n`;
-      }
-    });
+    const hasError = results.some((res) => res.error);
 
-    if (errors) {
-      setError(errors);
+    if (hasError) {
+      setError('Something went wrong');
     } else {
       refetchMemberships();
       setValues([]);
