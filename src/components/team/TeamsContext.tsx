@@ -60,6 +60,7 @@ export const TeamsProvider = ({ children }: Props) => {
   /* Hook to set profile data to state */
   useEffect(() => {
     setTeamsData(result.data?.teams);
+    setTeamId(result.data?.teams?.[0]?.id);
   }, [result.data]);
 
   const updateTeamData = useCallback(

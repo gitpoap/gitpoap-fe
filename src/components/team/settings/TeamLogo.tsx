@@ -23,7 +23,7 @@ export const TeamLogo = ({ name, size, imageUrl }: Props) => (
     }}
   >
     {!imageUrl && (
-      <Text size={size / 2} sx={{ userSelect: 'none' }}>
+      <Text size={size / 2} sx={{ userSelect: 'none' }} transform="uppercase">
         {name.charAt(0)}
       </Text>
     )}

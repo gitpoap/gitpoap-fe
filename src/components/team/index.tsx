@@ -1,12 +1,14 @@
-import { Stack, Tabs } from '@mantine/core';
+import { Button, Menu, Stack, Tabs } from '@mantine/core';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { User } from '../../hooks/useUser';
 import { Header } from '../shared/elements';
 import { TeamDashboard } from './dashboard';
+import { MembershipList } from './dashboard/Members/MembershipList';
 import { TeamGitPOAPRequests } from './dashboard/TeamGitPOAPRequests';
 import { TeamSettings } from './settings';
-import { MembershipList } from './dashboard/Members/MembershipList';
+import { TeamLogo } from './settings/TeamLogo';
+import { useTeamsContext } from './TeamsContext';
 
 const Panel = styled(Tabs.Panel)`
   overflow: hidden;
@@ -21,18 +23,64 @@ enum Section {
 }
 
 type Props = {
-  teamId: number;
   user: User;
 };
 
-export const TeamContainer = ({ teamId, user }: Props) => {
+export const TeamContainer = ({ user }: Props) => {
+  const teams = useTeamsContext();
+
   if (!user) {
     return <div>Not logged in</div>;
   }
 
+  if (!teams || !teams.teamsData || !teams.teamId) {
+    return <div>No Teams</div>;
+  }
+
+  const currTeam = teams.teamsData.find((team) => team.id === teams.teamId);
+
+  if (!currTeam) {
+    return <div>Team not found</div>;
+  }
+
   return (
     <Stack m={rem(20)}>
-      <Header style={{ alignSelf: 'start' }}>{'Team Name'}</Header>
+      <Menu width={400} withArrow>
+        <Menu.Target>
+          <Button
+            p={16}
+            leftIcon={<TeamLogo name={currTeam?.name} size={32} imageUrl={currTeam.logoImageUrl} />}
+            sx={{
+              boxSizing: 'content-box',
+              width: 'fit-content',
+            }}
+            variant="outline"
+          >
+            <Header style={{ fontSize: rem(32) }}>{currTeam?.name}</Header>
+          </Button>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item
+            icon={<TeamLogo name={currTeam.name} size={32} imageUrl={currTeam.logoImageUrl} />}
+            sx={{ pointerEvents: 'none' }}
+          >
+            {currTeam.name}
+          </Menu.Item>
+          <Menu.Divider />
+          {teams.teamsData.map(
+            (team) =>
+              team.id !== teams.teamId && (
+                <Menu.Item
+                  icon={<TeamLogo name={team.name} size={32} imageUrl={team.logoImageUrl} />}
+                  key={`team-${team.id}`}
+                  onClick={() => teams.setTeamId(team.id)}
+                >
+                  {team.name}
+                </Menu.Item>
+              ),
+          )}
+        </Menu.Dropdown>
+      </Menu>
       <Tabs defaultValue={Section.Dashboard} orientation="vertical" variant="pills">
         <Tabs.List pt={rem(10)}>
           <Tabs.Tab value={Section.Dashboard}>{'Dashboard'}</Tabs.Tab>
@@ -42,21 +90,21 @@ export const TeamContainer = ({ teamId, user }: Props) => {
         </Tabs.List>
 
         <Panel value={Section.Dashboard}>
-          <TeamDashboard teamId={teamId} />
+          <TeamDashboard teamId={teams.teamId} />
         </Panel>
 
         <Panel value={Section.Requests}>
           <Stack pl={rem(32)}>
-            <TeamGitPOAPRequests teamId={teamId} />
+            <TeamGitPOAPRequests teamId={teams.teamId} />
           </Stack>
         </Panel>
 
         <Panel value={Section.Members}>
-          <MembershipList teamId={teamId} />
+          <MembershipList teamId={teams.teamId} />
         </Panel>
 
         <Panel value={Section.Settings}>
-          <TeamSettings teamId={teamId} />
+          <TeamSettings teamId={teams.teamId} />
         </Panel>
       </Tabs>
     </Stack>
