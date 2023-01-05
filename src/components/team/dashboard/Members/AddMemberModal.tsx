@@ -12,12 +12,15 @@ type AddMemberModalProps = {
   refetchMemberships: () => void;
 };
 
+type Item = { value: string; label: string };
+
 export const AddMemberModal = ({
   teamId,
   isOpen,
   onClose,
   refetchMemberships,
 }: AddMemberModalProps) => {
+  const [data, setData] = useState<Item[]>([]);
   const [values, setValues] = useState<string[]>([]);
   const [error, setError] = useState<string>('');
   const [result, addMember] = useAddMembershipMutation();
@@ -37,6 +40,7 @@ export const AddMemberModal = ({
       setError('Something went wrong');
     } else {
       refetchMemberships();
+      setData([]);
       setValues([]);
       onClose();
     }
@@ -58,7 +62,7 @@ export const AddMemberModal = ({
       <Stack align="stretch" spacing={16}>
         <MultiSelect
           label={<Text>Enter ETH addresses</Text>}
-          data={[]}
+          data={data}
           placeholder="0x1234567890b"
           getCreateLabel={(query) => `+ Add ${query}`}
           onCreate={(query) => {
@@ -68,10 +72,11 @@ export const AddMemberModal = ({
               return;
             } else {
               setError('');
-              setValues([...values, query]);
+              setData((current) => [...current, item]);
               return item;
             }
           }}
+          value={values}
           onChange={setValues}
           error={error}
           searchable
