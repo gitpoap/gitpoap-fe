@@ -1,4 +1,5 @@
 import { Button, Menu, Stack, Tabs } from '@mantine/core';
+import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import styled from 'styled-components';
 import { User } from '../../hooks/useUser';
@@ -27,6 +28,7 @@ type Props = {
 };
 
 export const TeamContainer = ({ user }: Props) => {
+  const router = useRouter();
   const teams = useTeamsContext();
 
   if (!user) {
@@ -45,10 +47,11 @@ export const TeamContainer = ({ user }: Props) => {
 
   return (
     <Stack m={rem(20)}>
-      <Menu width={400} withArrow>
+      <Menu position="bottom-start">
         <Menu.Target>
           <Button
-            p={16}
+            px={32}
+            py={16}
             leftIcon={<TeamLogo name={currTeam?.name} size={32} imageUrl={currTeam.logoImageUrl} />}
             sx={{
               boxSizing: 'content-box',
@@ -81,7 +84,15 @@ export const TeamContainer = ({ user }: Props) => {
           )}
         </Menu.Dropdown>
       </Menu>
-      <Tabs defaultValue={Section.Dashboard} orientation="vertical" variant="pills">
+      <Tabs
+        defaultValue={Section.Dashboard}
+        onTabChange={(value) =>
+          router.push({ query: { section: value } }, undefined, { shallow: true })
+        }
+        value={router.query.section as string}
+        orientation="vertical"
+        variant="pills"
+      >
         <Tabs.List pt={rem(10)}>
           <Tabs.Tab value={Section.Dashboard}>{'Dashboard'}</Tabs.Tab>
           <Tabs.Tab value={Section.Requests}>{'Requests'}</Tabs.Tab>
