@@ -5,6 +5,7 @@ import {
   BackgroundPanel,
   TextLight,
   BackgroundPanel2,
+  BackgroundPanel3,
   ExtraRed,
   TextDarkGray,
 } from '../../../colors';
@@ -65,6 +66,26 @@ const StyledMultiSelect = styled(BaseMultiSelect)`
 
     /* Must !important since Mantine is using it */
     color: ${ExtraRed} !important;
+  }
+
+  .mantine-MultiSelect-dropdown {
+    background-color: ${BackgroundPanel};
+
+    .mantine-MultiSelect-item {
+      background-color: ${BackgroundPanel};
+
+      &:hover {
+        background-color: ${BackgroundPanel2};
+      }
+    }
+  }
+
+  .mantine-MultiSelect-value {
+    background-color: ${BackgroundPanel3};
+  }
+
+  .mantine-Input-rightSection {
+    display: none;
   }
 `;
 

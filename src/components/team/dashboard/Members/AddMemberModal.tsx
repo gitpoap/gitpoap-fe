@@ -3,6 +3,7 @@ import { Stack, Group, Modal } from '@mantine/core';
 import { utils } from 'ethers';
 import { Button, Text, MultiSelect } from '../../../shared/elements';
 import { useAddMembershipMutation } from '../../../../graphql/generated-gql';
+import { shortenAddress } from '../../../../helpers';
 
 type AddMemberModalProps = {
   teamId: number;
@@ -31,9 +32,7 @@ export const AddMemberModal = ({
         }),
       ),
     );
-
     const hasError = results.some((res) => res.error);
-
     if (hasError) {
       setError('Something went wrong');
     } else {
@@ -63,7 +62,7 @@ export const AddMemberModal = ({
           placeholder="0x1234567890b"
           getCreateLabel={(query) => `+ Add ${query}`}
           onCreate={(query) => {
-            const item = { value: query, label: query };
+            const item = { label: shortenAddress(query), value: query };
             if (!utils.isAddress(query)) {
               setError(`${query} is an invalid address`);
               return;
@@ -73,8 +72,8 @@ export const AddMemberModal = ({
               return item;
             }
           }}
+          onChange={setValues}
           error={error}
-          onChange={(value) => setValues(value)}
           searchable
           creatable
         />
