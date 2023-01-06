@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Stack, Group, Modal, Grid, Box } from '@mantine/core';
 import { rem } from 'polished';
@@ -16,23 +16,30 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
   const api = useApi();
   const router = useRouter();
 
-  const { values, getInputProps, validate, setFieldValue } = useCreateTeamForm();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [apiError, setAPIError] = useState<string>('');
+
+  const { values, getInputProps, validate, setFieldValue, errors } = useCreateTeamForm();
 
   const logoImageUrl = values.image ? URL.createObjectURL(values.image) : null;
 
   const handleSubmit = useCallback(async () => {
-    // if (validate().hasErrors) {
-    //   return;
-    // }
+    if (validate().hasErrors) {
+      return;
+    }
 
+    setIsSubmitting(true);
     const data = await api.team.create({
       ...values,
     });
-
-    if (data) {
-      await router.push(`/team/${data.id}`);
+    setIsSubmitting(false);
+    if (data === null) {
+      setAPIError('Something went wrong');
+      return;
     }
-  }, [validate, api, router, values]);
+    setAPIError('');
+    await router.push(`/team/${data.id}`);
+  }, [validate, api, router, values, setAPIError]);
 
   const onLogoUpload = async (file: File) => {
     setFieldValue('image', file);
@@ -51,28 +58,16 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
         <Grid gutter={36}>
           <Grid.Col span="content">
             <Stack>
-              <Text>{'Team Logo'}</Text>
               <TeamLogo
                 size={250}
                 imageUrl={logoImageUrl ?? undefined}
                 onLogoUpload={onLogoUpload}
+                error={errors.image}
               />
-              {/* <Group sx={{ width: '100%' }}>
-                <FileButton onChange={onLogoUpload} accept="image/png,image/jpeg">
-                  {(props) => (
-                    <Button {...props} variant="outline">
-                      {logoImageUrl ? 'Replace' : 'Upload'}
-                    </Button>
-                  )}
-                </FileButton>
-              </Group> */}
             </Stack>
           </Grid.Col>
           <Grid.Col span="auto">
-            <Stack
-              // justify="space-between"
-              sx={{ maxWidth: rem(600), minWidth: rem(300) }}
-            >
+            <Stack sx={{ maxWidth: rem(600), minWidth: rem(300) }}>
               <Input placeholder="Name" label="Team Name" {...getInputProps('name')} required />
               <TextArea
                 placeholder="Description"
@@ -80,6 +75,9 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
                 minRows={4}
                 {...getInputProps('description')}
               />
+
+              {apiError && <Text color="red">{apiError}</Text>}
+
               <Group mt={16} position="right">
                 <Box>
                   <Button variant="outline" onClick={onClose}>
@@ -87,7 +85,9 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
                   </Button>
                 </Box>
                 <Box>
-                  <Button onClick={handleSubmit}>{'Create'}</Button>
+                  <Button onClick={handleSubmit} loading={isSubmitting}>
+                    {'Create'}
+                  </Button>
                 </Box>
               </Group>
             </Stack>

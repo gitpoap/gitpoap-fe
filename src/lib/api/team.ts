@@ -20,12 +20,11 @@ const ImageFileSchema = z
     'File type must be image/png or image/gif',
   );
 
-export const CreateTeamFormValidationSchema = () =>
-  z.object({
-    name: z.string().min(1, { message: 'Name is required' }),
-    description: z.string().optional(),
-    image: ImageFileSchema,
-  });
+export const CreateTeamFormValidationSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required' }),
+  description: z.string().optional(),
+  image: ImageFileSchema,
+});
 
 export type CreateTeamResponse = {
   id: number;
