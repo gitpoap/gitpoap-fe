@@ -26,15 +26,17 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
   const imageUrl = values.image ? URL.createObjectURL(values.image) : null;
 
   const handleSubmit = useCallback(async () => {
-    if (validate().hasErrors) {
-      return;
-    }
+    // if (validate().hasErrors) {
+    //   return;
+    // }
 
     const data = await api.team.create({
       ...values,
     });
 
-    await router.push(`/team/${data.id}`);
+    if (data) {
+      await router.push(`/team/${data.id}`);
+    }
   }, [validate, api, router, values]);
 
   return (

@@ -27,19 +27,23 @@ const ImageFileSchema = z
 export const CreateTeamFormValidationSchema = () =>
   z.object({
     name: z.string().min(1, { message: 'Name is required' }),
-    description: z.string().min(1, { message: 'Description is required' }),
-    addresses: z.array(
-      z.string().refine(isAddress, (val) => ({ message: `${val} is not a valid address` })),
-    ),
+    description: z.string().optional(),
+    addresses: z
+      .array(z.string().refine(isAddress, (val) => ({ message: `${val} is not a valid address` })))
+      .optional(),
     image: ImageFileSchema,
   });
+
+export type CreateTeamResponse = {
+  id: number;
+};
 
 export class TeamApi extends API {
   constructor(tokens: Tokens | null) {
     super(tokens?.accessToken);
   }
 
-  async create(values: CreateTeamFormValues) {
+  async create(values: CreateTeamFormValues): Promise<CreateTeamResponse | null> {
     const formData = new FormData();
 
     formData.append('name', values.name);
