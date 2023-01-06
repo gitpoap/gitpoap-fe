@@ -4,7 +4,6 @@ import { CreateTeamFormValues, CreateTeamFormValidationSchema } from '../../lib/
 const defaultInitialValues: CreateTeamFormValues = {
   name: '',
   description: '',
-  addresses: [],
   image: null,
 };
 

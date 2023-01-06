@@ -1,27 +1,22 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { Stack, Group, Modal } from '@mantine/core';
 import { useApi } from '../../hooks/useApi';
 import { FileWithPath } from '@mantine/dropzone';
-import { Input, Button, Text, TextArea, MultiSelect } from '../../components/shared/elements';
+import { Input, Button, Text, TextArea } from '../../components/shared/elements';
 import { HexagonDropzone } from '../shared/compounds/HexagonDropzone';
 import { useCreateTeamForm } from './useCreateTeamForm';
-import { shortenAddress } from '../../helpers';
 
 type CreateTeamModalProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-type Item = { value: string; label: string };
-
 export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
   const api = useApi();
   const router = useRouter();
 
   const { values, getInputProps, validate, setFieldValue, setFieldError } = useCreateTeamForm();
-
-  const [data, setData] = useState<Item[]>([]);
 
   const imageUrl = values.image ? URL.createObjectURL(values.image) : null;
 
@@ -69,25 +64,6 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
           placeholder="Description"
           label="Description"
           {...getInputProps('description')}
-        />
-
-        <MultiSelect
-          sx={{
-            width: '100%',
-          }}
-          label={<Text>Enter ETH addresses to invite</Text>}
-          data={data}
-          placeholder="0x1234567890b"
-          getCreateLabel={(query) => `+ Add ${query}`}
-          onCreate={(query) => {
-            const item = { label: shortenAddress(query), value: query };
-            setFieldValue('addresses', [...values.addresses, query]);
-            setData((current) => [...current, item]);
-            return item;
-          }}
-          {...getInputProps('addresses')}
-          searchable
-          creatable
         />
       </Stack>
 

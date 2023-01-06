@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { utils } from 'ethers';
 import { API, makeAPIRequestWithResponseWithAuth } from './utils';
 import { Notifications } from '../../notifications';
 import { Tokens } from '../../types';
@@ -7,14 +6,11 @@ import { Tokens } from '../../types';
 export type CreateTeamFormValues = {
   name: string;
   description: string;
-  addresses: string[];
   image: File | null;
 };
 
 export const MAX_FILE_SIZE = 4000000;
 export const ACCEPTED_IMAGE_TYPES = ['image/png', 'image/gif'];
-
-const isAddress = (address: string) => utils.isAddress(address);
 
 const ImageFileSchema = z
   .any()
@@ -28,9 +24,6 @@ export const CreateTeamFormValidationSchema = () =>
   z.object({
     name: z.string().min(1, { message: 'Name is required' }),
     description: z.string().optional(),
-    addresses: z
-      .array(z.string().refine(isAddress, (val) => ({ message: `${val} is not a valid address` })))
-      .optional(),
     image: ImageFileSchema,
   });
 
@@ -48,7 +41,6 @@ export class TeamApi extends API {
 
     formData.append('name', values.name);
     formData.append('description', values.description);
-    formData.append('addresses', JSON.stringify(values.addresses));
     formData.append('image', values.image ?? '');
 
     const res = await makeAPIRequestWithResponseWithAuth(
