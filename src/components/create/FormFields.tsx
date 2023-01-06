@@ -8,7 +8,7 @@ import { ButtonStatus, StatusButton } from '../shared/compounds/StatusButton';
 import { DateInput, Header, Input, TextArea, TextInputLabelStyles } from '../shared/elements';
 import { SelectContributors } from './SelectContributors';
 import { CreateFormValues, EditFormValues } from '../../lib/api/gitpoapRequest';
-import { HexagonDropzone } from '../shared/compounds/HexagonDropzone';
+import { HexagonDropzone } from './HexagonDropzone';
 import { Link } from '../shared/compounds/Link';
 import { ExtraRed } from '../../colors';
 
@@ -50,7 +50,6 @@ export const FormFields = <FormValues extends CreateFormValues | EditFormValues>
 }: Props<FormValues>) => (
   <Stack align="center" spacing={32}>
     <HexagonDropzone
-      label={'Upload Art'}
       imageUrl={imageUrl}
       setError={form.setFieldError}
       addImage={addImage}

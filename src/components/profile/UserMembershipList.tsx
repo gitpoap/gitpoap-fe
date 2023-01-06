@@ -76,6 +76,7 @@ export const UserMembershipList = () => {
             </Table>
           </TableWrapper>
         )}
+        <Button onClick={openModal}>{'+ Create Team'}</Button>
       </Stack>
       <CreateTeamModal isOpen={isModalOpen} onClose={closeModal} />
     </Group>
