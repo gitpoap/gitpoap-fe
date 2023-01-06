@@ -1,9 +1,10 @@
-import { Button, Menu, Stack, Tabs } from '@mantine/core';
+import { Center, Group, Menu, Stack, Tabs, Text, UnstyledButton } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { rem } from 'polished';
+import { MdKeyboardArrowDown } from 'react-icons/md';
 import styled from 'styled-components';
 import { User } from '../../hooks/useUser';
-import { Header } from '../shared/elements';
+import { Header, Loader } from '../shared/elements';
 import { TeamDashboard } from './dashboard';
 import { MembershipList } from './dashboard/Members/MembershipList';
 import { TeamGitPOAPRequests } from './dashboard/TeamGitPOAPRequests';
@@ -35,55 +36,38 @@ export const TeamContainer = ({ user }: Props) => {
     return <div>Not logged in</div>;
   }
 
+  if (!teams.hasFetchedTeams) {
+    return (
+      <Center my={240}>
+        <Loader />
+      </Center>
+    );
+  }
+
   if (!teams || !teams.teamsData || !teams.teamId) {
-    return <div>No Teams</div>;
+    return (
+      <Center my={240}>
+        <Header>No Teams</Header>
+      </Center>
+    );
   }
 
   const currTeam = teams.teamsData.find((team) => team.id === teams.teamId);
 
+  // This should never happen, but just in case
   if (!currTeam) {
-    return <div>Team not found</div>;
+    return (
+      <Center my={240}>
+        <Stack align="center">
+          <Header>An Issue Occured</Header>
+          <Header>Contact Support</Header>
+        </Stack>
+      </Center>
+    );
   }
 
   return (
     <Stack m={rem(20)}>
-      <Menu position="bottom-start">
-        <Menu.Target>
-          <Button
-            px={32}
-            py={16}
-            leftIcon={<TeamLogo name={currTeam?.name} size={32} imageUrl={currTeam.logoImageUrl} />}
-            sx={{
-              boxSizing: 'content-box',
-              width: 'fit-content',
-            }}
-            variant="outline"
-          >
-            <Header style={{ fontSize: rem(32) }}>{currTeam?.name}</Header>
-          </Button>
-        </Menu.Target>
-        <Menu.Dropdown>
-          <Menu.Item
-            icon={<TeamLogo name={currTeam.name} size={32} imageUrl={currTeam.logoImageUrl} />}
-            sx={{ pointerEvents: 'none' }}
-          >
-            {currTeam.name}
-          </Menu.Item>
-          <Menu.Divider />
-          {teams.teamsData.map(
-            (team) =>
-              team.id !== teams.teamId && (
-                <Menu.Item
-                  icon={<TeamLogo name={team.name} size={32} imageUrl={team.logoImageUrl} />}
-                  key={`team-${team.id}`}
-                  onClick={() => teams.setTeamId(team.id)}
-                >
-                  {team.name}
-                </Menu.Item>
-              ),
-          )}
-        </Menu.Dropdown>
-      </Menu>
       <Tabs
         defaultValue={Section.Dashboard}
         onTabChange={(value) =>
@@ -94,6 +78,49 @@ export const TeamContainer = ({ user }: Props) => {
         variant="pills"
       >
         <Tabs.List pt={rem(10)}>
+          <Menu position="bottom-start">
+            <Menu.Target>
+              <UnstyledButton
+                sx={{
+                  height: 'auto',
+                  width: rem(220),
+                }}
+                mb={rem(16)}
+              >
+                <Group spacing={12} noWrap>
+                  <TeamLogo name={currTeam?.name} size={32} imageUrl={currTeam.logoImageUrl} />
+                  <Text
+                    sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                    weight="bold"
+                  >
+                    {currTeam?.name}
+                  </Text>
+                  <MdKeyboardArrowDown size={20} style={{ flex: 'none', marginLeft: 'auto' }} />
+                </Group>
+              </UnstyledButton>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item
+                icon={<TeamLogo name={currTeam.name} size={32} imageUrl={currTeam.logoImageUrl} />}
+                sx={{ pointerEvents: 'none' }}
+              >
+                {currTeam.name}
+              </Menu.Item>
+              <Menu.Divider />
+              {teams.teamsData.map(
+                (team) =>
+                  team.id !== teams.teamId && (
+                    <Menu.Item
+                      icon={<TeamLogo name={team.name} size={32} imageUrl={team.logoImageUrl} />}
+                      key={`team-${team.id}`}
+                      onClick={() => teams.setTeamId(team.id)}
+                    >
+                      {team.name}
+                    </Menu.Item>
+                  ),
+              )}
+            </Menu.Dropdown>
+          </Menu>
           <Tabs.Tab value={Section.Dashboard}>{'Dashboard'}</Tabs.Tab>
           <Tabs.Tab value={Section.Requests}>{'Requests'}</Tabs.Tab>
           <Tabs.Tab value={Section.Members}>{'Members'}</Tabs.Tab>

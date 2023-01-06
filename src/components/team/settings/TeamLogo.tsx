@@ -20,6 +20,7 @@ export const TeamLogo = ({ name, size, imageUrl }: Props) => (
       backgroundPosition: 'center',
       borderRadius: rem(6),
       backgroundSize: 'cover',
+      flex: 'none',
     }}
   >
     {!imageUrl && (
