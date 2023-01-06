@@ -1,10 +1,12 @@
 import React from 'react';
 import { rem } from 'polished';
+import { useDisclosure } from '@mantine/hooks';
 import { Group, Stack, Text, Table, Button } from '@mantine/core';
 import { useUserMembershipsQuery } from '../../graphql/generated-gql';
 import { Header, Divider } from '../shared/elements';
 import { UserMembershipRow } from './UserMembershipRow';
 import { HeaderItem, TableHeaderItem, TableWrapper } from '../shared/elements/Table';
+import { CreateTeamModal } from './CreateTeamModal';
 
 const HEADERS: HeaderItem[] = [
   { label: 'Status', key: 'status', isSortable: false },
@@ -15,6 +17,8 @@ const HEADERS: HeaderItem[] = [
 ];
 
 export const UserMembershipList = () => {
+  const [isModalOpen, { open: openModal, close: closeModal }] = useDisclosure(false);
+
   const [result] = useUserMembershipsQuery();
 
   const memberships = result.data?.userMemberships?.memberships ?? null;
@@ -43,7 +47,7 @@ export const UserMembershipList = () => {
         </Group>
         <Divider style={{ marginTop: rem(10), marginBottom: rem(10) }} />
         {!result.fetching && memberships && memberships.length === 0 && (
-          <Button>{'+ Create Team'}</Button>
+          <Button onClick={openModal}>{'+ Create Team'}</Button>
         )}
         {!result.fetching && memberships && memberships.length > 0 && (
           <TableWrapper>
@@ -73,6 +77,7 @@ export const UserMembershipList = () => {
           </TableWrapper>
         )}
       </Stack>
+      <CreateTeamModal isOpen={isModalOpen} onClose={closeModal} />
     </Group>
   );
 };

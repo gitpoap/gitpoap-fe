@@ -4,9 +4,9 @@ import { rem } from 'polished';
 import { ImFilePicture } from 'react-icons/im';
 import styled from 'styled-components';
 
-import { HexagonPath, HexagonStyles } from '../shared/elements';
-import { BackgroundPanel, BackgroundPanel2, BackgroundPanel3 } from '../../colors';
-import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '../../lib/api/gitpoapRequest';
+import { HexagonPath, HexagonStyles } from '../elements';
+import { BackgroundPanel, BackgroundPanel2, BackgroundPanel3 } from '../../../colors';
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '../../../lib/api/gitpoapRequest';
 import { Button, Center, Group, Stack, Text } from '@mantine/core';
 
 const StyledDropzone = styled(Dropzone)`
@@ -34,13 +34,14 @@ const DropzoneBorder = styled.div`
 `;
 
 type Props = {
+  label: string | null;
   imageUrl: string | null;
   setError: (path: string, error: React.ReactNode) => void;
   addImage: (image: FileWithPath) => void;
   removeImage: () => void;
 };
 
-export const HexagonDropzone = ({ imageUrl, setError, addImage, removeImage }: Props) => {
+export const HexagonDropzone = ({ label, imageUrl, setError, addImage, removeImage }: Props) => {
   return (
     <Center mt={44}>
       <DropzoneBorder>
@@ -100,7 +101,7 @@ export const HexagonDropzone = ({ imageUrl, setError, addImage, removeImage }: P
             </>
           ) : (
             <Group align="center">
-              <Text size="md">{'Upload Art'}</Text>
+              <Text size="md">{label}</Text>
               <ImFilePicture />
             </Group>
           )}
