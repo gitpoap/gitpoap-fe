@@ -46,9 +46,6 @@ export const UserMembershipList = () => {
           <Header style={{ alignSelf: 'start' }}>{'My Memberships'}</Header>
         </Group>
         <Divider style={{ marginTop: rem(10), marginBottom: rem(10) }} />
-        {!result.fetching && memberships && memberships.length === 0 && (
-          <Button onClick={openModal}>{'+ Create Team'}</Button>
-        )}
         {!result.fetching && memberships && memberships.length > 0 && (
           <TableWrapper>
             <Table highlightOnHover horizontalSpacing="md" verticalSpacing="xs" fontSize="sm">
