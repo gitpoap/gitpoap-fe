@@ -24,6 +24,7 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
   const logoImageUrl = values.image ? URL.createObjectURL(values.image) : null;
 
   const handleSubmit = useCallback(async () => {
+    setAPIError('');
     if (validate().hasErrors) {
       return;
     }
@@ -37,7 +38,7 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
       setAPIError('Something went wrong');
       return;
     }
-    setAPIError('');
+
     await router.push(`/team/${data.id}`);
   }, [validate, api, router, values, setAPIError]);
 
