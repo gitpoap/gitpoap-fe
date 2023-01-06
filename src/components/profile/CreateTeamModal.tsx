@@ -25,15 +25,19 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
 
   const handleSubmit = useCallback(async () => {
     setAPIError('');
+
     if (validate().hasErrors) {
       return;
     }
 
     setIsSubmitting(true);
+
     const data = await api.team.create({
       ...values,
     });
+
     setIsSubmitting(false);
+
     if (data === null) {
       setAPIError('Something went wrong');
       return;
