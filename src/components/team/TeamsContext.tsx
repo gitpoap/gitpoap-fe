@@ -7,8 +7,8 @@ import { useWeb3Context } from '../wallet/Web3Context';
 export type TeamDataWithColor = UserTeamsQuery['teams'][0] & { color: string };
 
 type TeamsContext = {
+  currTeam?: TeamDataWithColor;
   teamsData?: TeamDataWithColor[];
-  teamId?: number;
   setTeamId: (val: number) => void;
   hasFetchedTeams: boolean;
 };
@@ -35,7 +35,6 @@ export const TeamsProvider = ({ children }: Props) => {
     },
   });
 
-  /* Hook to set profile data to state */
   useEffect(() => {
     if (result.data?.teams && result.data.teams.length) {
       setTeamsData(
@@ -51,11 +50,13 @@ export const TeamsProvider = ({ children }: Props) => {
     }
   }, [result.data]);
 
+  const currTeam = teamsData?.find((team) => team.id === teamId);
+
   return (
     <TeamsContext.Provider
       value={{
+        currTeam,
         teamsData,
-        teamId,
         setTeamId,
         hasFetchedTeams,
       }}

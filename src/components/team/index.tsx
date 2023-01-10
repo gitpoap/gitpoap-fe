@@ -17,7 +17,7 @@ const Panel = styled(Tabs.Panel)`
   width: 100%;
 `;
 
-enum Section {
+export enum TeamRoutes {
   Dashboard = 'dashboard',
   Requests = 'requests',
   Members = 'members',
@@ -25,10 +25,11 @@ enum Section {
 }
 
 type Props = {
+  page: TeamRoutes;
   user: User;
 };
 
-export const TeamContainer = ({ user }: Props) => {
+export const TeamContainer = ({ page, user }: Props) => {
   const router = useRouter();
   const teams = useTeamsContext();
 
@@ -44,7 +45,7 @@ export const TeamContainer = ({ user }: Props) => {
     );
   }
 
-  if (!teams || !teams.teamsData || !teams.teamId) {
+  if (!teams || !teams.currTeam) {
     return (
       <Center my={240}>
         <Header>No Teams</Header>
@@ -52,28 +53,14 @@ export const TeamContainer = ({ user }: Props) => {
     );
   }
 
-  const currTeam = teams.teamsData.find((team) => team.id === teams.teamId);
-
-  // This should never happen, but just in case
-  if (!currTeam) {
-    return (
-      <Center my={240}>
-        <Stack align="center">
-          <Header>An Issue Occured</Header>
-          <Header>Contact Support</Header>
-        </Stack>
-      </Center>
-    );
-  }
+  const currTeam = teams.currTeam;
 
   return (
     <Stack m={rem(20)}>
       <Tabs
-        defaultValue={Section.Dashboard}
-        onTabChange={(value) =>
-          router.push({ query: { section: value } }, undefined, { shallow: true })
-        }
-        value={router.query.section as string}
+        defaultValue={TeamRoutes.Dashboard}
+        onTabChange={(value) => router.push(`/app/team/${value}`, undefined, { shallow: true })}
+        value={page}
         orientation="vertical"
         variant="pills"
       >
@@ -89,7 +76,7 @@ export const TeamContainer = ({ user }: Props) => {
               >
                 <Group spacing={12} noWrap>
                   <TeamLogo
-                    name={currTeam?.name}
+                    name={currTeam.name}
                     size={32}
                     color={currTeam.color}
                     imageUrl={currTeam.logoImageUrl}
@@ -98,7 +85,7 @@ export const TeamContainer = ({ user }: Props) => {
                     sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                     weight="bold"
                   >
-                    {currTeam?.name}
+                    {currTeam.name}
                   </Text>
                   <MdKeyboardArrowDown size={20} style={{ flex: 'none', marginLeft: 'auto' }} />
                 </Group>
@@ -121,7 +108,7 @@ export const TeamContainer = ({ user }: Props) => {
               <Menu.Divider />
               {teams.teamsData.map(
                 (team) =>
-                  team.id !== teams.teamId && (
+                  team.id !== currTeam.id && (
                     <Menu.Item
                       icon={
                         <TeamLogo
@@ -140,27 +127,27 @@ export const TeamContainer = ({ user }: Props) => {
               )}
             </Menu.Dropdown>
           </Menu>
-          <Tabs.Tab value={Section.Dashboard}>{'Dashboard'}</Tabs.Tab>
-          <Tabs.Tab value={Section.Requests}>{'Requests'}</Tabs.Tab>
-          <Tabs.Tab value={Section.Members}>{'Members'}</Tabs.Tab>
-          <Tabs.Tab value={Section.Settings}>{'Settings'}</Tabs.Tab>
+          <Tabs.Tab value={TeamRoutes.Dashboard}>{'Dashboard'}</Tabs.Tab>
+          <Tabs.Tab value={TeamRoutes.Requests}>{'Requests'}</Tabs.Tab>
+          <Tabs.Tab value={TeamRoutes.Members}>{'Members'}</Tabs.Tab>
+          <Tabs.Tab value={TeamRoutes.Settings}>{'Settings'}</Tabs.Tab>
         </Tabs.List>
 
-        <Panel value={Section.Dashboard}>
-          <TeamDashboard teamId={teams.teamId} />
+        <Panel value={TeamRoutes.Dashboard}>
+          <TeamDashboard teamId={currTeam.id} />
         </Panel>
 
-        <Panel value={Section.Requests}>
+        <Panel value={TeamRoutes.Requests}>
           <Stack pl={rem(32)}>
-            <TeamGitPOAPRequests teamId={teams.teamId} />
+            <TeamGitPOAPRequests teamId={currTeam.id} />
           </Stack>
         </Panel>
 
-        <Panel value={Section.Members}>
-          <MembershipList teamId={teams.teamId} />
+        <Panel value={TeamRoutes.Members}>
+          <MembershipList teamId={currTeam.id} />
         </Panel>
 
-        <Panel value={Section.Settings}>
+        <Panel value={TeamRoutes.Settings}>
           <TeamSettings teamData={currTeam} />
         </Panel>
       </Tabs>
