@@ -8,7 +8,6 @@ import {
   Box,
   MediaQuery,
   Loader,
-  ScrollArea,
 } from '@mantine/core';
 import { Divider, GitPOAPBadge, Header, Input } from '../../shared/elements';
 import {
@@ -28,6 +27,7 @@ import { Link } from '../../shared/compounds/Link';
 import { useDebouncedValue } from '@mantine/hooks';
 import { TableHeaderItem } from './TableHeaderItem';
 import { trackOpenAddContributorsModal } from '../../../lib/tracking/events';
+import { TableWrapper } from '../../shared/elements/TableWrapper';
 
 type Props = {
   gitPOAPId: number;
@@ -186,7 +186,7 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
         <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
         <Stack style={{ width: '100%' }}>
           {gitPOAP && (
-            <ScrollArea>
+            <TableWrapper border={false}>
               <Table horizontalSpacing="md" verticalSpacing="xs" fontSize="sm">
                 <thead>
                   <tr>
@@ -217,7 +217,7 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
                     })}
                 </tbody>
               </Table>
-            </ScrollArea>
+            </TableWrapper>
           )}
           {(!gitPOAP || gitPOAP.claims.length === 0) && !results.fetching && results.operation && (
             <Group position="center" my={rem(20)}>
