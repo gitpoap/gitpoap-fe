@@ -106,7 +106,7 @@ export const TeamContainer = ({ page, user }: Props) => {
                 {currTeam.name}
               </Menu.Item>
               <Menu.Divider />
-              {teams.teamsData.map(
+              {teams.teamsData?.map(
                 (team) =>
                   team.id !== currTeam.id && (
                     <Menu.Item
