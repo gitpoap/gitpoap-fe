@@ -72,3 +72,10 @@ export const fetchWithToken = async (url: string, token: string | null) => {
 export const getWeb3Provider = (provider: ExternalProvider | JsonRpcFetchFunc) => {
   return new Web3Provider(provider);
 };
+
+export const generateRandomColorRGB = (dark?: boolean) => {
+  const randomColor = `rgb(${Math.floor((Math.random() * 256) / (dark ? 2 : 1))}, ${Math.floor(
+    (Math.random() * 256) / (dark ? 2 : 1),
+  )}, ${Math.floor((Math.random() * 256) / (dark ? 2 : 1))})`;
+  return randomColor;
+};

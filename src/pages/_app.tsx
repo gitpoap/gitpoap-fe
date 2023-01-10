@@ -21,6 +21,7 @@ import { client } from '../lib/urql';
 import { setupExternalServiceClients } from '../lib/app';
 import { Layout } from '../components/Layout';
 import { Amplitude } from '../components/Amplitude';
+import { TeamsProvider } from '../components/team/TeamsContext';
 
 setupExternalServiceClients();
 
@@ -50,12 +51,14 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                 <URQLProvider value={client}>
                   <OAuthProvider>
                     <FeaturesProvider>
-                      <ClaimContextProvider>
-                        <GlobalStyles />
-                        <HexagonPath />
-                        <LoadingBar />
-                        {getLayout(<Component {...pageProps} />)}
-                      </ClaimContextProvider>
+                      <TeamsProvider>
+                        <ClaimContextProvider>
+                          <GlobalStyles />
+                          <HexagonPath />
+                          <LoadingBar />
+                          {getLayout(<Component {...pageProps} />)}
+                        </ClaimContextProvider>
+                      </TeamsProvider>
                     </FeaturesProvider>
                   </OAuthProvider>
                 </URQLProvider>

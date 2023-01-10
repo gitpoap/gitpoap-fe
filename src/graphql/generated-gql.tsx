@@ -7647,6 +7647,21 @@ export type GitPoapWithClaimsQuery = {
   } | null;
 };
 
+export type UserTeamsQueryVariables = Exact<{
+  address: Scalars['String'];
+}>;
+
+export type UserTeamsQuery = {
+  __typename?: 'Query';
+  teams: Array<{
+    __typename?: 'Team';
+    id: number;
+    name: string;
+    description?: string | null;
+    logoImageUrl: string;
+  }>;
+};
+
 export type TeamDataQueryVariables = Exact<{
   teamId: Scalars['Int'];
 }>;
@@ -9581,6 +9596,27 @@ export function useGitPoapWithClaimsQuery(
 ) {
   return Urql.useQuery<GitPoapWithClaimsQuery, GitPoapWithClaimsQueryVariables>({
     query: GitPoapWithClaimsDocument,
+    ...options,
+  });
+}
+export const UserTeamsDocument = gql`
+  query userTeams($address: String!) {
+    teams(
+      where: { memberships: { some: { address: { is: { ethAddress: { equals: $address } } } } } }
+    ) {
+      id
+      name
+      description
+      logoImageUrl
+    }
+  }
+`;
+
+export function useUserTeamsQuery(
+  options: Omit<Urql.UseQueryArgs<UserTeamsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<UserTeamsQuery, UserTeamsQueryVariables>({
+    query: UserTeamsDocument,
     ...options,
   });
 }

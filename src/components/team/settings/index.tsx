@@ -1,34 +1,34 @@
 import { Button, FileButton, Grid, Group, Stack } from '@mantine/core';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
-import { useTeamDataQuery, useUpdateTeamMutation } from '../../../graphql/generated-gql';
+import { useUpdateTeamMutation } from '../../../graphql/generated-gql';
 import { useApi } from '../../../hooks/useApi';
 import { Notifications } from '../../../notifications';
 import { Header, Input, Text, TextArea } from '../../shared/elements';
+import { TeamDataWithColor } from '../TeamsContext';
 import { TeamLogo } from './TeamLogo';
 
 type Props = {
-  teamId: number;
+  teamData: TeamDataWithColor;
 };
 
-export const TeamSettings = ({ teamId }: Props) => {
+export const TeamSettings = ({ teamData }: Props) => {
   const api = useApi();
 
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [logoImageUrl, setLogoImageUrl] = useState<string | null>(null);
 
-  const [result] = useTeamDataQuery({ variables: { teamId } });
-  const team = result.data?.team;
-
   const [updateResult, updateTeam] = useUpdateTeamMutation();
   const updateResultData = updateResult.data?.updateTeam;
 
+  const teamId = teamData.id;
+
   useEffect(() => {
-    setName(team?.name || '');
-    setDescription(team?.description || '');
-    setLogoImageUrl(team?.logoImageUrl || null);
-  }, [team]);
+    setName(teamData?.name || '');
+    setDescription(teamData?.description || '');
+    setLogoImageUrl(teamData?.logoImageUrl || null);
+  }, [teamData]);
 
   useEffect(() => {
     if (updateResultData) {
@@ -37,8 +37,7 @@ export const TeamSettings = ({ teamId }: Props) => {
     }
   }, [updateResultData]);
 
-  const hasChanges = name !== team?.name || description !== team?.description;
-
+  const hasChanges = name !== teamData?.name || description !== teamData?.description;
   const onSave = async () => {
     const data = await updateTeam({
       teamId,
