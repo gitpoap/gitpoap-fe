@@ -11,7 +11,7 @@ const TeamPage: NextPageWithLayout = () => {
 
   const slug = (router.query.slug as string[]) || [];
 
-  if (slug[0] && !Object.values(TeamRoutes).includes(slug[0])) {
+  if (slug[0] && !Object.values<string>(TeamRoutes).includes(slug[0])) {
     void router.push('/app/team', undefined, { shallow: true });
   }
 
