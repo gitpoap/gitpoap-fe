@@ -26,7 +26,11 @@ const TeamPage: NextPageWithLayout = () => {
           content="Manage GiPOAPs"
         />
       </Head>
-      {user?.permissions.isStaff ? <TeamContainer page={page} user={user} /> : <Login />}
+      {user?.permissions.isStaff ? (
+        <TeamContainer page={page as TeamRoutes} user={user} />
+      ) : (
+        <Login />
+      )}
     </>
   );
 };
