@@ -110,7 +110,7 @@ export const makeAPIRequestWithAuth = async (
   const accessTokenExp = payload?.exp ?? 0;
   const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_S > accessTokenExp;
 
-  if (!isExpired) {
+  if (isExpired) {
     const tokens: Tokens | null = await refreshTokens();
 
     if (!tokens) {
@@ -124,8 +124,6 @@ export const makeAPIRequestWithAuth = async (
     ...headers,
     Authorization: `Bearer ${accessToken}`,
   });
-
-  // const response = await fetch('https://google.com');
 
   return response;
 };
