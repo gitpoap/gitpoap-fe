@@ -1,8 +1,8 @@
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from '../../_app';
 import Head from 'next/head';
-import { Login } from '../../components/Login';
-import { TeamContainer } from '../../components/team';
-import { useUser } from '../../hooks/useUser';
+import { Login } from '../../../components/Login';
+import { TeamContainer } from '../../../components/team';
+import { useUser } from '../../../hooks/useUser';
 
 const TeamPage: NextPageWithLayout = () => {
   const user = useUser();

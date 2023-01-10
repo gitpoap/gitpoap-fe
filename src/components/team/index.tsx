@@ -88,7 +88,12 @@ export const TeamContainer = ({ user }: Props) => {
                 mb={rem(16)}
               >
                 <Group spacing={12} noWrap>
-                  <TeamLogo name={currTeam?.name} size={32} imageUrl={currTeam.logoImageUrl} />
+                  <TeamLogo
+                    name={currTeam?.name}
+                    size={32}
+                    color={currTeam.color}
+                    imageUrl={currTeam.logoImageUrl}
+                  />
                   <Text
                     sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                     weight="bold"
@@ -101,7 +106,14 @@ export const TeamContainer = ({ user }: Props) => {
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Item
-                icon={<TeamLogo name={currTeam.name} size={32} imageUrl={currTeam.logoImageUrl} />}
+                icon={
+                  <TeamLogo
+                    name={currTeam.name}
+                    size={32}
+                    color={currTeam.color}
+                    imageUrl={currTeam.logoImageUrl}
+                  />
+                }
                 sx={{ pointerEvents: 'none' }}
               >
                 {currTeam.name}
@@ -111,7 +123,14 @@ export const TeamContainer = ({ user }: Props) => {
                 (team) =>
                   team.id !== teams.teamId && (
                     <Menu.Item
-                      icon={<TeamLogo name={team.name} size={32} imageUrl={team.logoImageUrl} />}
+                      icon={
+                        <TeamLogo
+                          name={team.name}
+                          size={32}
+                          color={team.color}
+                          imageUrl={team.logoImageUrl}
+                        />
+                      }
                       key={`team-${team.id}`}
                       onClick={() => teams.setTeamId(team.id)}
                     >
@@ -142,7 +161,7 @@ export const TeamContainer = ({ user }: Props) => {
         </Panel>
 
         <Panel value={Section.Settings}>
-          <TeamSettings teamId={teams.teamId} />
+          <TeamSettings teamData={currTeam} />
         </Panel>
       </Tabs>
     </Stack>

@@ -1,14 +1,13 @@
 import { useLocalStorage } from '@mantine/hooks';
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { generateRandomColorRGB } from '../../helpers';
 import { UserTeamsQuery, useUserTeamsQuery } from '../../graphql/generated-gql';
 import { useWeb3Context } from '../wallet/Web3Context';
 
-export type EditableTeamData = Partial<
-  Pick<Exclude<UserTeamsQuery['teams'], null | undefined>[number], 'name' | 'description'>
->;
+export type TeamDataWithColor = UserTeamsQuery['teams'][0] & { color: string };
 
 type TeamsContext = {
-  teamsData?: UserTeamsQuery['teams'];
+  teamsData?: TeamDataWithColor[];
   teamId?: number;
   setTeamId: (val: number) => void;
   hasFetchedTeams: boolean;
@@ -27,7 +26,7 @@ type Props = {
 export const TeamsProvider = ({ children }: Props) => {
   const [teamId, setTeamId] = useLocalStorage<number | undefined>({ key: 'teamId' });
   const { address } = useWeb3Context();
-  const [teamsData, setTeamsData] = useState<UserTeamsQuery['teams']>();
+  const [teamsData, setTeamsData] = useState<TeamDataWithColor[]>();
   const [hasFetchedTeams, setHasFetchedTeams] = useState<boolean>(false);
 
   const [result] = useUserTeamsQuery({
@@ -39,7 +38,12 @@ export const TeamsProvider = ({ children }: Props) => {
   /* Hook to set profile data to state */
   useEffect(() => {
     if (result.data?.teams && result.data.teams.length) {
-      setTeamsData(result.data.teams);
+      setTeamsData(
+        result.data.teams.map((team) => ({
+          ...team,
+          color: generateRandomColorRGB(true),
+        })),
+      );
       if (!teamId || !result.data.teams.find((team) => team.id === teamId)) {
         setTeamId(result.data.teams[0].id);
       }
