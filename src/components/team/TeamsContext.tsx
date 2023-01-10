@@ -4,7 +4,7 @@ import { generateRandomColorRGB } from '../../helpers';
 import { UserTeamsQuery, useUserTeamsQuery } from '../../graphql/generated-gql';
 import { useWeb3Context } from '../wallet/Web3Context';
 
-export type TeamDataWithColor = UserTeamsQuery['teams'][0] & { color: string };
+export type TeamDataWithColor = UserTeamsQuery['teams'][number] & { color: string };
 
 type TeamsContext = {
   currTeam?: TeamDataWithColor;
