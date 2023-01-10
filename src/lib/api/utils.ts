@@ -54,7 +54,7 @@ export const refreshTokens = async (): Promise<Tokens | null> => {
   const refreshToken = refreshTokenRaw ? JSON.parse(refreshTokenRaw) : '';
 
   if (!refreshToken) {
-    console.warn('No refreshToken provided');
+    console.warn('No refresh token provided');
     return null;
   }
 
@@ -63,7 +63,7 @@ export const refreshTokens = async (): Promise<Tokens | null> => {
   const isExpired = DateTime.now().toUnixInteger() >= issuedAt + ONE_MONTH_IN_S;
 
   if (isExpired) {
-    console.warn('RefreshToken is expired');
+    console.warn('The refresh token is expired');
     return null;
   }
   // refresh tokens
@@ -79,8 +79,8 @@ export const refreshTokens = async (): Promise<Tokens | null> => {
 
   const tokens: Tokens = await res.json();
 
-  localStorage.setItem('accessToken', tokens.accessToken);
-  localStorage.setItem('refreshToken', tokens.refreshToken);
+  localStorage.setItem('accessToken', JSON.stringify(tokens.accessToken));
+  localStorage.setItem('refreshToken', JSON.stringify(tokens.refreshToken));
 
   return tokens;
 };
@@ -110,7 +110,7 @@ export const makeAPIRequestWithAuth = async (
   const accessTokenExp = payload?.exp ?? 0;
   const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_S > accessTokenExp;
 
-  if (isExpired) {
+  if (!isExpired) {
     const tokens: Tokens | null = await refreshTokens();
 
     if (!tokens) {
@@ -124,6 +124,8 @@ export const makeAPIRequestWithAuth = async (
     ...headers,
     Authorization: `Bearer ${accessToken}`,
   });
+
+  // const response = await fetch('https://google.com');
 
   return response;
 };
