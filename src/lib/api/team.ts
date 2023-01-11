@@ -14,12 +14,11 @@ export const ACCEPTED_IMAGE_TYPES = ['image/png', 'image/gif'];
 
 const ImageFileSchema = z
   .any()
-  .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 4MB.`)
+  .refine((file) => !file || file?.size <= MAX_FILE_SIZE, `Max file size is 4MB.`)
   .refine(
-    (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+    (file) => !file || ACCEPTED_IMAGE_TYPES.includes(file?.type),
     'File type must be image/png or image/gif',
-  )
-  .optional();
+  );
 
 export const CreateTeamFormValidationSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
