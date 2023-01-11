@@ -43,7 +43,7 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
       return;
     }
 
-    await router.push(`/team/${data.id}`);
+    await router.push(`/app/team/dashboard`);
   }, [validate, api, router, values, setAPIError]);
 
   const onLogoUpload = async (file: File) => {
