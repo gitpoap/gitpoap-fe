@@ -44,11 +44,7 @@ export const TeamLogo = ({ name, size, color, imageUrl, error, onLogoUpload }: P
         {onLogoUpload && (
           <FileButton onChange={onLogoUpload} accept="image/png,image/jpeg">
             {(props) =>
-              hovered ? (
-                <Button {...props} variant="outline">
-                  {!imageUrl ? 'Upload' : 'Replace'}
-                </Button>
-              ) : null
+              hovered ? <Button {...props}>{!imageUrl ? 'Upload' : 'Replace'}</Button> : null
             }
           </FileButton>
         )}
