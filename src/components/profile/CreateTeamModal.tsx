@@ -62,8 +62,9 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
       <Stack sx={{ width: '100%', maxWidth: rem(1000) }}>
         <Grid gutter={36}>
           <Grid.Col span="content">
-            <Stack>
+            <Stack sx={{ width: rem(250) }}>
               <TeamLogo
+                name={values.name}
                 size={250}
                 imageUrl={logoImageUrl ?? undefined}
                 onLogoUpload={onLogoUpload}

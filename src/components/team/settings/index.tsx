@@ -88,6 +88,7 @@ export const TeamSettings = ({ teamData }: Props) => {
           <Stack>
             <Text>{'Team Logo'}</Text>
             <TeamLogo
+              name={name}
               size={250}
               imageUrl={logoImageUrl ?? undefined}
               onLogoUpload={onLogoUpload}

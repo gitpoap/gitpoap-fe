@@ -18,7 +18,8 @@ const ImageFileSchema = z
   .refine(
     (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
     'File type must be image/png or image/gif',
-  );
+  )
+  .optional();
 
 export const CreateTeamFormValidationSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
