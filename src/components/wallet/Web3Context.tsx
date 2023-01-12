@@ -304,7 +304,7 @@ export const Web3ContextProvider = (props: Props) => {
       if (provider === 'injected') {
         if (window.ethereum.isMetaMask) {
           if (window.ethereum.request) {
-            /* Check if MetaMask is unlocked - if locked, then skip */
+            /* Check if MetaMask is unlocked - if locked, ask to unlock */
             const accounts = await window.ethereum.request({ method: 'eth_accounts' });
             if (!accounts.length) {
               try {
