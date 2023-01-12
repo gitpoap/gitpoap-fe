@@ -56,7 +56,11 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
       opened={isOpen}
       onClose={onClose}
       padding={32}
-      title={<Text size={24}>Create a Team</Text>}
+      title={
+        <Text size={36} sx={{ fontFamily: 'VT323' }}>
+          Create a Team
+        </Text>
+      }
       size={rem(800)}
     >
       <Stack sx={{ width: '100%', maxWidth: rem(1000) }}>

@@ -42,11 +42,13 @@ export const TeamLogo = ({ name, size, color, imageUrl, error, onLogoUpload }: P
           </Text>
         )}
         {onLogoUpload && (
-          <FileButton onChange={onLogoUpload} accept="image/png,image/jpeg">
-            {(props) =>
-              hovered ? <Button {...props}>{!imageUrl ? 'Upload' : 'Replace'}</Button> : null
-            }
-          </FileButton>
+          <Stack justify="flex-end" sx={{ height: '100%' }} pb={30}>
+            <FileButton onChange={onLogoUpload} accept="image/png,image/jpeg">
+              {(props) =>
+                hovered ? <Button {...props}>{!imageUrl ? 'Upload' : 'Replace'}</Button> : null
+              }
+            </FileButton>
+          </Stack>
         )}
       </Center>
       {error && (
