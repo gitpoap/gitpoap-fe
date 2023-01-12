@@ -58,7 +58,13 @@ export class TeamApi extends API {
 
     Notifications.success(`Success - Created Team Request - ${values.name}`);
 
-    const data = await res.json();
+    let data = null;
+    try {
+      data = await res.json();
+    } catch (err) {
+      return null;
+    }
+
     return data;
   }
 
