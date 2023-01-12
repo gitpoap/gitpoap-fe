@@ -1,6 +1,15 @@
 import { ScrollArea, Stack } from '@mantine/core';
 import { rem } from 'polished';
+import styled from 'styled-components';
 import { BackgroundPanel } from '../../../colors';
+
+export const TableRow = styled.tr<{ active?: boolean }>`
+  cursor: pointer;
+  &:hover {
+    background-color: ${BackgroundPanel} !important;
+  }
+  ${({ active }) => active && `background-color: ${BackgroundPanel}`}
+`;
 
 type Props = {
   children: React.ReactNode;

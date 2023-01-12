@@ -6,7 +6,7 @@ import React from 'react';
 import { TeamGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { GitPOAPBadgePopover } from '../../../request/RequestItem/GitPOAPBadgePopover';
 import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
-import { TableRow } from '../../../shared/elements/TableRow';
+import { TableRow } from '../../../shared/elements/Table';
 
 type RowProps = {
   gitPOAPRequest: Exclude<

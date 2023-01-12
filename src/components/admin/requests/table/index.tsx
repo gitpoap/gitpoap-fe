@@ -14,7 +14,7 @@ import { Loader } from '../../../shared/elements';
 import { GitPOAPRequestRejectModal } from '../modals/Reject';
 import { AdminGitPOAPRequestTableRow } from './Row';
 import { GitPOAPRequestApproveModal } from '../modals/Approve';
-import { TableWrapper } from '../../../shared/elements/TableWrapper';
+import { TableWrapper } from '../../../shared/elements/Table';
 
 const HEADERS: {
   label: string;

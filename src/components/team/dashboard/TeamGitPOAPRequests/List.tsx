@@ -4,7 +4,7 @@ import React from 'react';
 import { TableHeaderItem } from '../../../gitpoap/manage/TableHeaderItem';
 import { TeamGitPOAPRequestsRow } from './Row';
 import { TeamGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
-import { TableWrapper } from '../../../shared/elements/TableWrapper';
+import { TableWrapper } from '../../../shared/elements/Table';
 
 const HEADERS: {
   label: string;

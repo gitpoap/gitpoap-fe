@@ -8,7 +8,7 @@ import { ContributorModal } from '../../../request/RequestItem/ContributorModal'
 import { MdCheck, MdClose, MdOutlineEdit } from 'react-icons/md';
 import Link from 'next/link';
 import { formatUTCDate, shortenAddress } from '../../../../helpers';
-import { TableRow } from '../../../shared/elements/TableRow';
+import { TableRow } from '../../../shared/elements/Table';
 
 type RowProps = {
   active: boolean;

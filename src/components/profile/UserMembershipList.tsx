@@ -5,7 +5,7 @@ import { useUserMembershipsQuery } from '../../graphql/generated-gql';
 import { Header, Divider } from '../shared/elements';
 import { TableHeaderItem } from '../gitpoap/manage/TableHeaderItem';
 import { UserMembershipRow } from './UserMembershipRow';
-import { TableWrapper } from '../shared/elements/TableWrapper';
+import { TableWrapper } from '../shared/elements/Table';
 
 const HEADERS: {
   label: string;

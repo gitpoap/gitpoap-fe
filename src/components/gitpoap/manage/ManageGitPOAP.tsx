@@ -27,7 +27,7 @@ import { Link } from '../../shared/compounds/Link';
 import { useDebouncedValue } from '@mantine/hooks';
 import { TableHeaderItem } from './TableHeaderItem';
 import { trackOpenAddContributorsModal } from '../../../lib/tracking/events';
-import { TableWrapper } from '../../shared/elements/TableWrapper';
+import { TableWrapper } from '../../shared/elements/Table';
 
 type Props = {
   gitPOAPId: number;

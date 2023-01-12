@@ -6,7 +6,7 @@ import { AcceptanceStatusBadge } from './AcceptanceStatusBadge';
 import { shortenAddress } from '../../../../helpers';
 import { Button, Text, RelativeDate } from '../../../shared/elements';
 import { Link } from '../../../shared/compounds/Link';
-import { TableRow } from '../../../shared/elements/TableRow';
+import { TableRow } from '../../../shared/elements/Table';
 
 type TeamMemberships = Exclude<TeamMembershipsQuery['teamMemberships'], undefined | null>;
 

@@ -16,7 +16,7 @@ import {
   useRemoveMembershipMutation,
 } from '../../../../graphql/generated-gql';
 import { shortenAddress } from '../../../../helpers';
-import { TableWrapper } from '../../../shared/elements/TableWrapper';
+import { TableWrapper } from '../../../shared/elements/Table';
 
 const HEADERS: {
   label: string;
