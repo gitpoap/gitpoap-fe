@@ -3,15 +3,10 @@ import { rem } from 'polished';
 import { Group, Stack, Text, Table, Button } from '@mantine/core';
 import { useUserMembershipsQuery } from '../../graphql/generated-gql';
 import { Header, Divider } from '../shared/elements';
-import { TableHeaderItem } from '../gitpoap/manage/TableHeaderItem';
 import { UserMembershipRow } from './UserMembershipRow';
-import { BackgroundPanel } from '../../colors';
+import { HeaderItem, TableHeaderItem, TableWrapper } from '../shared/elements/Table';
 
-const HEADERS: {
-  label: string;
-  key: string;
-  isSortable: boolean;
-}[] = [
+const HEADERS: HeaderItem[] = [
   { label: 'Status', key: 'status', isSortable: false },
   { label: 'Team', key: 'team', isSortable: false },
   { label: 'Role', key: 'role', isSortable: false },
@@ -42,26 +37,16 @@ export const UserMembershipList = () => {
 
   return (
     <Group position="center" py={0} px={rem(20)}>
-      <Stack align="center" justify="flex-start" spacing="sm" style={{ width: '100%' }}>
-        <Group position="apart" align="center" grow style={{ width: '100%' }}>
+      <Stack align="stretch" justify="flex-start" spacing="sm" style={{ width: '100%' }}>
+        <Group position="apart" align="center" grow>
           <Header style={{ alignSelf: 'start' }}>{'My Memberships'}</Header>
         </Group>
-        <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
+        <Divider style={{ marginTop: rem(10), marginBottom: rem(10) }} />
         {!result.fetching && memberships && memberships.length === 0 && (
           <Button>{'+ Create Team'}</Button>
         )}
         {!result.fetching && memberships && memberships.length > 0 && (
-          <Stack
-            align="center"
-            justify="flex-start"
-            spacing="sm"
-            py={0}
-            sx={{
-              background: BackgroundPanel,
-              borderRadius: `${rem(6)} ${rem(6)} 0 0`,
-              width: '100%',
-            }}
-          >
+          <TableWrapper>
             <Table highlightOnHover horizontalSpacing="md" verticalSpacing="xs" fontSize="sm">
               <thead>
                 <tr>
@@ -85,7 +70,7 @@ export const UserMembershipList = () => {
                   })}
               </tbody>
             </Table>
-          </Stack>
+          </TableWrapper>
         )}
       </Stack>
     </Group>

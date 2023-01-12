@@ -1,5 +1,4 @@
 import { Group, Text, Button, ActionIcon, Tooltip, Center } from '@mantine/core';
-import styled from 'styled-components';
 import React from 'react';
 import { GitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { GitPOAPBadgePopover } from '../../../request/RequestItem/GitPOAPBadgePopover';
@@ -8,16 +7,8 @@ import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBa
 import { ContributorModal } from '../../../request/RequestItem/ContributorModal';
 import { MdCheck, MdClose, MdOutlineEdit } from 'react-icons/md';
 import Link from 'next/link';
-import { BackgroundPanel } from '../../../../colors';
 import { formatUTCDate, shortenAddress } from '../../../../helpers';
-
-const TableRow = styled.tr<{ active: boolean }>`
-  cursor: pointer;
-  &:hover {
-    background-color: ${BackgroundPanel} !important;
-  }
-  ${({ active }) => active && `background-color: ${BackgroundPanel}`}
-`;
+import { TableRow } from '../../../shared/elements/Table';
 
 type RowProps = {
   active: boolean;

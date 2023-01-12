@@ -1,12 +1,11 @@
 import React, { useState, useCallback } from 'react';
-import { Group, Stack, Table, ScrollArea, Pagination } from '@mantine/core';
+import { Group, Stack, Table, Pagination } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { rem } from 'polished';
 import { openConfirmModal } from '@mantine/modals';
 import { Select } from '../../../shared/elements/Select';
 import { Header } from '../../../shared/elements/Header';
-import { TableHeaderItem } from '../../../gitpoap/manage/TableHeaderItem';
-import { BackgroundPanel, TextGray } from '../../../../colors';
+import { TextGray } from '../../../../colors';
 import { BREAKPOINTS } from '../../../../constants';
 import { Divider, Button, Text } from '../../../shared/elements';
 import { MembershipRow, Address } from './MembershipRow';
@@ -16,12 +15,9 @@ import {
   useRemoveMembershipMutation,
 } from '../../../../graphql/generated-gql';
 import { shortenAddress } from '../../../../helpers';
+import { HeaderItem, TableHeaderItem, TableWrapper } from '../../../shared/elements/Table';
 
-const HEADERS: {
-  label: string;
-  key: string;
-  isSortable: boolean;
-}[] = [
+const HEADERS: HeaderItem[] = [
   { label: 'Status', key: 'status', isSortable: false },
   { label: 'Address', key: 'address', isSortable: false },
   { label: 'Role', key: 'role', isSortable: false },
@@ -120,8 +116,8 @@ export const MembershipList = ({ teamId }: Props) => {
 
   return (
     <Group position="center" py={0} px={rem(20)}>
-      <Stack align="center" justify="flex-start" spacing="sm" style={{ width: '100%' }}>
-        <Group position="apart" align="center" grow style={{ width: '100%' }}>
+      <Stack align="stretch" justify="flex-start" spacing="sm" style={{ width: '100%' }}>
+        <Group position="apart" align="center" grow>
           <Header style={{ alignSelf: 'start' }}>{'Members'}</Header>
           <Group position="right" spacing="lg">
             {!matchesBreakpointSmall && (
@@ -135,50 +131,38 @@ export const MembershipList = ({ teamId }: Props) => {
         </Group>
         <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
 
-        <Stack
-          align="center"
-          justify="flex-start"
-          spacing="sm"
-          py={0}
-          sx={{
-            background: BackgroundPanel,
-            borderRadius: `${rem(6)} ${rem(6)} 0 0`,
-            width: '100%',
-          }}
-        >
-          <ScrollArea style={{ width: '100%' }}>
-            <Table highlightOnHover horizontalSpacing="md" verticalSpacing="xs" fontSize="sm">
-              <thead>
-                <tr>
-                  {HEADERS.map((header, i) => (
-                    <TableHeaderItem
-                      key={`header-${i}`}
-                      isSortable={header.isSortable}
-                      isSorted={false}
-                      isReversed={false}
-                    >
-                      {header.label}
-                    </TableHeaderItem>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {memberships &&
-                  memberships.length > 0 &&
-                  memberships.map((membership) => {
-                    return (
-                      <MembershipRow
-                        key={membership.id}
-                        teamId={teamId}
-                        membership={membership}
-                        openRemoveModal={openRemoveModal}
-                      />
-                    );
-                  })}
-              </tbody>
-            </Table>
-          </ScrollArea>
-        </Stack>
+        <TableWrapper>
+          <Table highlightOnHover horizontalSpacing="md" verticalSpacing="xs" fontSize="sm">
+            <thead>
+              <tr>
+                {HEADERS.map((header, i) => (
+                  <TableHeaderItem
+                    key={`header-${i}`}
+                    isSortable={header.isSortable}
+                    isSorted={false}
+                    isReversed={false}
+                  >
+                    {header.label}
+                  </TableHeaderItem>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {memberships &&
+                memberships.length > 0 &&
+                memberships.map((membership) => {
+                  return (
+                    <MembershipRow
+                      key={membership.id}
+                      teamId={teamId}
+                      membership={membership}
+                      openRemoveModal={openRemoveModal}
+                    />
+                  );
+                })}
+            </tbody>
+          </Table>
+        </TableWrapper>
         {totalCount > variables.perPage && (
           <Pagination
             page={variables.page}

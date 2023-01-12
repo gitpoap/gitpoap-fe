@@ -3,18 +3,10 @@ import { useDisclosure } from '@mantine/hooks';
 import { DateTime } from 'luxon';
 import { useRouter } from 'next/router';
 import React from 'react';
-import styled from 'styled-components';
 import { StaffApprovalStatus, TeamGitPoaPsQuery } from '../../../../graphql/generated-gql';
 import { GitPOAPBadgePopover } from '../../../request/RequestItem/GitPOAPBadgePopover';
 import { RequestStatusBadge } from '../../../request/RequestItem/RequestStatusBadge';
-import { BackgroundPanel2 } from '../../../../colors';
-
-const TableRow = styled.tr`
-  cursor: pointer;
-  &:hover {
-    background-color: ${BackgroundPanel2} !important;
-  }
-`;
+import { TableRow } from '../../../shared/elements/Table';
 
 type RowProps = {
   gitPOAP: Exclude<TeamGitPoaPsQuery['teamGitPOAPs'], null | undefined>[number];
