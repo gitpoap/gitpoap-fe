@@ -1,16 +1,11 @@
 import { Table } from '@mantine/core';
 import React from 'react';
 
-import { TableHeaderItem } from '../../../gitpoap/manage/TableHeaderItem';
 import { TeamGitPOAPRequestsRow } from './Row';
 import { TeamGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
-import { TableWrapper } from '../../../shared/elements/Table';
+import { HeaderItem, TableHeaderItem, TableWrapper } from '../../../shared/elements/Table';
 
-const HEADERS: {
-  label: string;
-  key: string;
-  isSortable: boolean;
-}[] = [
+const HEADERS: HeaderItem[] = [
   { label: '', key: 'index', isSortable: false },
   { label: 'Status', key: 'status', isSortable: false },
   { label: 'Image', key: 'image', isSortable: false },

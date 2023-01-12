@@ -87,7 +87,12 @@ export const TeamSettings = ({ teamData }: Props) => {
         <Grid.Col span="content">
           <Stack>
             <Text>{'Team Logo'}</Text>
-            <TeamLogo name={name} size={250} imageUrl={logoImageUrl ?? undefined} />
+            <TeamLogo
+              name={name}
+              size={250}
+              color={teamData.color}
+              imageUrl={logoImageUrl ?? undefined}
+            />
             <Group sx={{ width: '100%' }}>
               <FileButton onChange={onLogoUpload} accept="image/png,image/jpeg">
                 {(props) => (

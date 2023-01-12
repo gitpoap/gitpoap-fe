@@ -3,15 +3,10 @@ import { rem } from 'polished';
 import { Group, Stack, Text, Table, Button } from '@mantine/core';
 import { useUserMembershipsQuery } from '../../graphql/generated-gql';
 import { Header, Divider } from '../shared/elements';
-import { TableHeaderItem } from '../gitpoap/manage/TableHeaderItem';
 import { UserMembershipRow } from './UserMembershipRow';
-import { TableWrapper } from '../shared/elements/Table';
+import { HeaderItem, TableHeaderItem, TableWrapper } from '../shared/elements/Table';
 
-const HEADERS: {
-  label: string;
-  key: string;
-  isSortable: boolean;
-}[] = [
+const HEADERS: HeaderItem[] = [
   { label: 'Status', key: 'status', isSortable: false },
   { label: 'Team', key: 'team', isSortable: false },
   { label: 'Role', key: 'role', isSortable: false },

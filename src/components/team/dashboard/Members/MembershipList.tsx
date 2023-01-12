@@ -5,7 +5,6 @@ import { rem } from 'polished';
 import { openConfirmModal } from '@mantine/modals';
 import { Select } from '../../../shared/elements/Select';
 import { Header } from '../../../shared/elements/Header';
-import { TableHeaderItem } from '../../../gitpoap/manage/TableHeaderItem';
 import { TextGray } from '../../../../colors';
 import { BREAKPOINTS } from '../../../../constants';
 import { Divider, Button, Text } from '../../../shared/elements';
@@ -16,13 +15,9 @@ import {
   useRemoveMembershipMutation,
 } from '../../../../graphql/generated-gql';
 import { shortenAddress } from '../../../../helpers';
-import { TableWrapper } from '../../../shared/elements/Table';
+import { HeaderItem, TableHeaderItem, TableWrapper } from '../../../shared/elements/Table';
 
-const HEADERS: {
-  label: string;
-  key: string;
-  isSortable: boolean;
-}[] = [
+const HEADERS: HeaderItem[] = [
   { label: 'Status', key: 'status', isSortable: false },
   { label: 'Address', key: 'address', isSortable: false },
   { label: 'Role', key: 'role', isSortable: false },

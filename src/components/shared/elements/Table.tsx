@@ -1,5 +1,7 @@
-import { ScrollArea, Stack } from '@mantine/core';
+import { Center, Group, ScrollArea, Stack, Text, UnstyledButton } from '@mantine/core';
 import { rem } from 'polished';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { HiSelector } from 'react-icons/hi';
 import styled from 'styled-components';
 import { BackgroundPanel } from '../../../colors';
 
@@ -11,13 +13,13 @@ export const TableRow = styled.tr<{ active?: boolean }>`
   ${({ active }) => active && `background-color: ${BackgroundPanel}`}
 `;
 
-type Props = {
+type TableWrapperProps = {
   children: React.ReactNode;
   border?: boolean;
   headerControls?: React.ReactNode;
 };
 
-export const TableWrapper = ({ children, border = true, headerControls }: Props) => (
+export const TableWrapper = ({ children, border = true, headerControls }: TableWrapperProps) => (
   <Stack
     align="center"
     justify="flex-start"
@@ -33,3 +35,55 @@ export const TableWrapper = ({ children, border = true, headerControls }: Props)
     <ScrollArea style={{ width: '100%' }}>{children}</ScrollArea>
   </Stack>
 );
+
+export type HeaderItem = {
+  label: string;
+  key: string;
+  isSortable: boolean;
+};
+
+interface TableHeaderItemProps {
+  children: React.ReactNode;
+  isSortable: boolean;
+  isReversed: boolean;
+  isSorted: boolean;
+  onSort?: () => void;
+}
+
+export const TableHeaderItem = ({
+  children,
+  isSortable,
+  isReversed,
+  isSorted,
+  onSort,
+}: TableHeaderItemProps) => {
+  const Icon =
+    isSortable === false
+      ? null
+      : isSorted
+      ? isReversed
+        ? FaChevronUp
+        : FaChevronDown
+      : HiSelector;
+  return (
+    <th>
+      <UnstyledButton onClick={onSort}>
+        <Group position="apart" noWrap={true}>
+          <Text
+            weight={500}
+            size="sm"
+            transform="uppercase"
+            sx={{ letterSpacing: rem(1), whiteSpace: 'nowrap' }}
+          >
+            {children}
+          </Text>
+          {Icon && (
+            <Center>
+              <Icon size={14} />
+            </Center>
+          )}
+        </Group>
+      </UnstyledButton>
+    </th>
+  );
+};
