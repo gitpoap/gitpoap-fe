@@ -89,7 +89,11 @@ export const MembershipList = ({ teamId }: Props) => {
 
   const openRemoveModal = (membershipId: number, address: Address) =>
     openConfirmModal({
-      title: 'Remove member?',
+      title: (
+        <Text size={28} sx={{ fontFamily: 'VT323' }}>
+          Remove member?
+        </Text>
+      ),
       centered: true,
       children: (
         <Text size="sm">

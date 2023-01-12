@@ -35,7 +35,11 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
 
   const handleAccept = () =>
     openConfirmModal({
-      title: 'Accept invitation?',
+      title: (
+        <Text size={28} sx={{ fontFamily: 'VT323' }}>
+          Accept invitation?
+        </Text>
+      ),
       centered: true,
       children: (
         <Text size="sm">
@@ -52,7 +56,11 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
 
   const handleReject = () =>
     openConfirmModal({
-      title: 'Reject invitation?',
+      title: (
+        <Text size={28} sx={{ fontFamily: 'VT323' }}>
+          Reject invitation?
+        </Text>
+      ),
       centered: true,
       children: (
         <Text size="sm">

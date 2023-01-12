@@ -56,8 +56,12 @@ export const AddMemberModal = ({
       centered
       opened={isOpen}
       onClose={handleClose}
-      padding={32}
-      title={<Text>Add members</Text>}
+      padding={24}
+      title={
+        <Text size={28} sx={{ fontFamily: 'VT323' }}>
+          Add members
+        </Text>
+      }
     >
       <Stack align="stretch" spacing={16}>
         <MultiSelect
