@@ -300,12 +300,39 @@ export const Web3ContextProvider = (props: Props) => {
     if (tokens && payload?.address && !isExpired && tokens.refreshToken) {
       // use existing refresh token to refresh access token
       setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+      //  unlock if metamask is locked
+      if (provider === 'injected') {
+        if (window.ethereum.isMetaMask) {
+          if (window.ethereum.request) {
+            /* Check if MetaMask is unlocked - if locked, ask to unlock */
+            const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+            if (!accounts.length) {
+              try {
+                await activate(connectors.injected);
+              } catch {
+                setConnectionStatus(ConnectionStatus.DISCONNECTED);
+                return;
+              }
+            }
+          }
+        }
+      }
+
       void refreshToken(payload.address);
     } else {
       // otherwise, open wallet connect modal
       openModal();
     }
-  }, [tokens, payload, openModal, refreshToken, setConnectionStatus, refreshTokenPayload?.iat]);
+  }, [
+    tokens,
+    payload,
+    openModal,
+    refreshToken,
+    setConnectionStatus,
+    activate,
+    provider,
+    refreshTokenPayload?.iat,
+  ]);
 
   const onChainProvider = useMemo(
     () => ({
