@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Group } from '@mantine/core';
 import { DateTime } from 'luxon';
@@ -13,6 +14,7 @@ import {
 import { AcceptanceStatusBadge } from '../team/dashboard/Members/AcceptanceStatusBadge';
 import { BackgroundPanel2 } from '../../colors';
 import { Button, Text, RelativeDate } from '../shared/elements';
+import { useTeamsContext } from '../team/TeamsContext';
 
 const TableRow = styled.tr`
   cursor: pointer;
@@ -28,12 +30,18 @@ type RowProps = {
 };
 
 export const UserMembershipRow = ({ membership }: RowProps) => {
+  const router = useRouter();
+  const { setTeamId } = useTeamsContext();
+
   const { id, role, acceptanceStatus, joinedOn, teamId, team } = membership;
 
   const [, acceptMembership] = useAcceptMembershipMutation();
   const [, removeMember] = useRemoveMembershipMutation();
 
-  const handleAccept = () =>
+  const handleAccept = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     openConfirmModal({
       title: (
         <Text size={28} sx={{ fontFamily: 'VT323' }}>
@@ -53,8 +61,12 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         await acceptMembership({ teamId });
       },
     });
+  };
 
-  const handleReject = () =>
+  const handleReject = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     openConfirmModal({
       title: (
         <Text size={28} sx={{ fontFamily: 'VT323' }}>
@@ -74,9 +86,16 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         await removeMember({ membershipId: id });
       },
     });
+  };
+
+  const handleClick = async () => {
+    setTeamId(teamId);
+
+    await router.push('/app/team/dashboard');
+  };
 
   return (
-    <TableRow>
+    <TableRow onClick={handleClick}>
       <td>
         <AcceptanceStatusBadge status={acceptanceStatus} />
       </td>
