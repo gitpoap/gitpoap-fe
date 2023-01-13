@@ -186,6 +186,7 @@ export const FormFields = <FormValues extends CreateFormValues | EditFormValues>
           teams.teamsData && (
             <Select
               style={{ width: '100%' }}
+              clearable
               label="Team"
               placeholder="Pick one"
               itemComponent={SelectItem}
