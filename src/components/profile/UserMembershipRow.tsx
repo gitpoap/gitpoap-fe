@@ -15,6 +15,7 @@ import { AcceptanceStatusBadge } from '../team/dashboard/Members/AcceptanceStatu
 import { BackgroundPanel2 } from '../../colors';
 import { Button, Text, RelativeDate } from '../shared/elements';
 import { useTeamsContext } from '../team/TeamsContext';
+import { Notifications } from '../../notifications';
 
 const TableRow = styled.tr`
   cursor: pointer;
@@ -58,7 +59,12 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onConfirm: async () => {
-        await acceptMembership({ teamId });
+        const result = await acceptMembership({ teamId });
+        if (result.error) {
+          Notifications.error(`Error - Request Failed to accept an invite`);
+        } else {
+          Notifications.success(`Success - Accepted an invite`);
+        }
       },
     });
   };
@@ -83,7 +89,12 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onConfirm: async () => {
-        await removeMember({ membershipId: id });
+        const result = await removeMember({ membershipId: id });
+        if (result.error) {
+          Notifications.error(`Error - Request Failed to reject an invite`);
+        } else {
+          Notifications.success(`Success - Rejected an invite`);
+        }
       },
     });
   };

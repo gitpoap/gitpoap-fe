@@ -16,6 +16,7 @@ import {
 } from '../../../../graphql/generated-gql';
 import { shortenAddress } from '../../../../helpers';
 import { HeaderItem, TableHeaderItem, TableWrapper } from '../../../shared/elements/Table';
+import { Notifications } from '../../../../notifications';
 
 const HEADERS: HeaderItem[] = [
   { label: 'Status', key: 'status', isSortable: false },
@@ -104,9 +105,15 @@ export const MembershipList = ({ teamId }: Props) => {
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onConfirm: async () => {
-        await removeMember({
+        const result = await removeMember({
           membershipId,
         });
+
+        if (result.error) {
+          Notifications.error(`Error - Request Failed to remove member`);
+        } else {
+          Notifications.success(`Success - Removed a member`);
+        }
       },
     });
 
