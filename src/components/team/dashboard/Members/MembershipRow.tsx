@@ -1,7 +1,7 @@
 import React from 'react';
 import { MdDelete } from 'react-icons/md';
 import { DateTime } from 'luxon';
-import { TeamMembershipsQuery } from '../../../../graphql/generated-gql';
+import { TeamMembershipsQuery, MembershipRole } from '../../../../graphql/generated-gql';
 import { AcceptanceStatusBadge } from './AcceptanceStatusBadge';
 import { shortenAddress } from '../../../../helpers';
 import { Button, Text, RelativeDate } from '../../../shared/elements';
@@ -40,9 +40,11 @@ export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
         <RelativeDate sx={{ whiteSpace: 'nowrap' }} date={DateTime.fromISO(joinedOn)} />
       </td>
       <td>
-        <Button onClick={() => openRemoveModal(id, address)} compact>
-          <MdDelete />
-        </Button>
+        {role !== MembershipRole.Owner && (
+          <Button onClick={() => openRemoveModal(id, address)} compact>
+            <MdDelete />
+          </Button>
+        )}
       </td>
     </TableRow>
   );

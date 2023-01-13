@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Group, Stack, Table, Pagination } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { rem } from 'polished';
@@ -13,11 +13,9 @@ import { AddMemberModal } from './AddMemberModal';
 import {
   useTeamMembershipsQuery,
   useRemoveMembershipMutation,
-  MembershipRole,
 } from '../../../../graphql/generated-gql';
 import { shortenAddress } from '../../../../helpers';
 import { HeaderItem, TableHeaderItem, TableWrapper } from '../../../shared/elements/Table';
-import { useUser } from '../../../../hooks/useUser';
 
 const HEADERS: HeaderItem[] = [
   { label: 'Status', key: 'status', isSortable: false },
@@ -46,7 +44,6 @@ type Props = {
 };
 
 export const MembershipList = ({ teamId }: Props) => {
-  const user = useUser();
   const [isAddModalOpen, { open: openAddModal, close: closeAddModal }] = useDisclosure(false);
   const [sortBy, setSortBy] = useState<SortOptions>('joinedOn');
 
@@ -74,13 +71,6 @@ export const MembershipList = ({ teamId }: Props) => {
   const memberships = teamMemberships ? teamMemberships.memberships : null;
   const totalCount = teamMemberships ? teamMemberships.total : 0;
   const totalPages = Math.floor(totalCount / variables.perPage + 1);
-
-  const isOwner = useMemo(() => {
-    const userMembership = memberships?.find(
-      (membership) => membership.address.ethAddress.toLowerCase() === user?.address.toLowerCase(),
-    );
-    return userMembership?.role === MembershipRole.Owner;
-  }, [user, memberships]);
 
   const handlePageChange = useCallback(
     (page: number) =>
@@ -140,7 +130,7 @@ export const MembershipList = ({ teamId }: Props) => {
               </Text>
             )}
             <Select data={selectOptions} value={sortBy} onChange={onSelectChange} />
-            {isOwner && <Button onClick={openAddModal}>{'+ Add members'}</Button>}
+            <Button onClick={openAddModal}>{'+ Add members'}</Button>
           </Group>
         </Group>
         <Divider style={{ width: '100%', marginTop: rem(10), marginBottom: rem(10) }} />
