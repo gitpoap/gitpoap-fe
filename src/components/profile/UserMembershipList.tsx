@@ -44,6 +44,9 @@ export const UserMembershipList = () => {
       <Stack align="stretch" justify="flex-start" spacing="sm" style={{ width: '100%' }}>
         <Group position="apart" align="center" grow>
           <Header style={{ alignSelf: 'start' }}>{'My Memberships'}</Header>
+          <Group position="right" spacing="lg">
+            <Button onClick={openModal}>{'+ Create Team'}</Button>
+          </Group>
         </Group>
         <Divider style={{ marginTop: rem(10), marginBottom: rem(10) }} />
         {!result.fetching && memberships && memberships.length > 0 && (
@@ -73,9 +76,6 @@ export const UserMembershipList = () => {
             </Table>
           </TableWrapper>
         )}
-        <Stack align="center">
-          <Button onClick={openModal}>{'+ Create Team'}</Button>
-        </Stack>
       </Stack>
       <CreateTeamModal isOpen={isModalOpen} onClose={closeModal} />
     </Group>
