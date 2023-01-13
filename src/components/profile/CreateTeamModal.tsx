@@ -6,6 +6,7 @@ import { useApi } from '../../hooks/useApi';
 import { Input, Button, Text, TextArea } from '../../components/shared/elements';
 import { useCreateTeamForm } from './useCreateTeamForm';
 import { TeamLogo } from '../team/settings/TeamLogo';
+import { useTeamsContext } from '../team/TeamsContext';
 
 type CreateTeamModalProps = {
   isOpen: boolean;
@@ -15,6 +16,7 @@ type CreateTeamModalProps = {
 export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
   const api = useApi();
   const router = useRouter();
+  const { setTeamId, refetch } = useTeamsContext();
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [apiError, setAPIError] = useState<string>('');
@@ -43,8 +45,10 @@ export const CreateTeamModal = ({ isOpen, onClose }: CreateTeamModalProps) => {
       return;
     }
 
+    setTeamId(data.id);
+    refetch();
     await router.push(`/app/team/dashboard`);
-  }, [validate, api, router, values, setAPIError]);
+  }, [validate, api, router, values, setAPIError, setTeamId, refetch]);
 
   const onLogoUpload = async (file: File) => {
     setFieldValue('image', file);
