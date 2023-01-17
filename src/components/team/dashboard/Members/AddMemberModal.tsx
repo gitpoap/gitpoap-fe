@@ -4,6 +4,7 @@ import { utils } from 'ethers';
 import { Button, Text, MultiSelect } from '../../../shared/elements';
 import { useAddMembershipMutation } from '../../../../graphql/generated-gql';
 import { shortenAddress } from '../../../../helpers';
+import { Notifications } from '../../../../notifications';
 
 type AddMemberModalProps = {
   teamId: number;
@@ -27,6 +28,11 @@ export const AddMemberModal = ({
 
   const handleSubmit = useCallback(async () => {
     const addresses = values.map((address) => address.trim());
+
+    if (addresses.length === 0) {
+      return;
+    }
+
     const results = await Promise.all(
       addresses.map((address) =>
         addMember({
@@ -39,6 +45,8 @@ export const AddMemberModal = ({
     if (hasError) {
       setError('Something went wrong');
     } else {
+      Notifications.success(`Success - Added members`);
+
       refetchMemberships();
       setData([]);
       setValues([]);
@@ -56,8 +64,12 @@ export const AddMemberModal = ({
       centered
       opened={isOpen}
       onClose={handleClose}
-      padding={32}
-      title={<Text>Add members</Text>}
+      padding={24}
+      title={
+        <Text size={28} sx={{ fontFamily: 'VT323' }}>
+          Add members
+        </Text>
+      }
     >
       <Stack align="stretch" spacing={16}>
         <MultiSelect

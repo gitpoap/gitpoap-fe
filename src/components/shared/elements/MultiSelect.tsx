@@ -18,7 +18,6 @@ export const MultiSelectLabelStyles = css`
   color: ${TextLight};
   font-weight: 700;
   font-size: ${rem(11)};
-  text-transform: uppercase;
   letter-spacing: ${rem(1.2)};
   line-height: ${rem(18)};
 `;

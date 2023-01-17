@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Group } from '@mantine/core';
 import { DateTime } from 'luxon';
@@ -13,6 +14,8 @@ import {
 import { AcceptanceStatusBadge } from '../team/dashboard/Members/AcceptanceStatusBadge';
 import { BackgroundPanel2 } from '../../colors';
 import { Button, Text, RelativeDate } from '../shared/elements';
+import { useTeamsContext } from '../team/TeamsContext';
+import { Notifications } from '../../notifications';
 
 const TableRow = styled.tr`
   cursor: pointer;
@@ -28,14 +31,24 @@ type RowProps = {
 };
 
 export const UserMembershipRow = ({ membership }: RowProps) => {
+  const router = useRouter();
+  const { setTeamId } = useTeamsContext();
+
   const { id, role, acceptanceStatus, joinedOn, teamId, team } = membership;
 
   const [, acceptMembership] = useAcceptMembershipMutation();
   const [, removeMember] = useRemoveMembershipMutation();
 
-  const handleAccept = () =>
+  const handleAccept = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     openConfirmModal({
-      title: 'Accept invitation?',
+      title: (
+        <Text size={28} sx={{ fontFamily: 'VT323' }}>
+          Accept invitation?
+        </Text>
+      ),
       centered: true,
       children: (
         <Text size="sm">
@@ -46,13 +59,26 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onConfirm: async () => {
-        await acceptMembership({ teamId });
+        const result = await acceptMembership({ teamId });
+        if (result.error) {
+          Notifications.error(`Error - Request Failed to accept an invite`);
+        } else {
+          Notifications.success(`Success - Accepted an invite`);
+        }
       },
     });
+  };
 
-  const handleReject = () =>
+  const handleReject = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     openConfirmModal({
-      title: 'Reject invitation?',
+      title: (
+        <Text size={28} sx={{ fontFamily: 'VT323' }}>
+          Reject invitation?
+        </Text>
+      ),
       centered: true,
       children: (
         <Text size="sm">
@@ -63,12 +89,24 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onConfirm: async () => {
-        await removeMember({ membershipId: id });
+        const result = await removeMember({ membershipId: id });
+        if (result.error) {
+          Notifications.error(`Error - Request Failed to reject an invite`);
+        } else {
+          Notifications.success(`Success - Rejected an invite`);
+        }
       },
     });
+  };
+
+  const handleClick = async () => {
+    setTeamId(teamId);
+
+    await router.push('/app/team/dashboard');
+  };
 
   return (
-    <TableRow>
+    <TableRow onClick={handleClick}>
       <td>
         <AcceptanceStatusBadge status={acceptanceStatus} />
       </td>

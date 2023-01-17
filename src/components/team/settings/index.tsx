@@ -1,4 +1,4 @@
-import { Button, FileButton, Grid, Group, Stack } from '@mantine/core';
+import { Button, Grid, Stack } from '@mantine/core';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
 import { useUpdateTeamMutation } from '../../../graphql/generated-gql';
@@ -90,18 +90,10 @@ export const TeamSettings = ({ teamData }: Props) => {
             <TeamLogo
               name={name}
               size={250}
-              color={teamData.color}
               imageUrl={logoImageUrl ?? undefined}
+              onLogoUpload={onLogoUpload}
+              color={teamData.color}
             />
-            <Group sx={{ width: '100%' }}>
-              <FileButton onChange={onLogoUpload} accept="image/png,image/jpeg">
-                {(props) => (
-                  <Button {...props} variant="outline">
-                    {'Replace'}
-                  </Button>
-                )}
-              </FileButton>
-            </Group>
           </Stack>
         </Grid.Col>
       </Grid>

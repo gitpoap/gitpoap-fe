@@ -11,6 +11,7 @@ type TeamsContext = {
   teamsData?: TeamDataWithColor[];
   setTeamId: (val: number) => void;
   hasFetchedTeams: boolean;
+  refetch: () => void;
 };
 
 const TeamsContext = createContext<TeamsContext>({} as TeamsContext);
@@ -29,10 +30,11 @@ export const TeamsProvider = ({ children }: Props) => {
   const [teamsData, setTeamsData] = useState<TeamDataWithColor[]>();
   const [hasFetchedTeams, setHasFetchedTeams] = useState<boolean>(false);
 
-  const [result] = useUserTeamsQuery({
+  const [result, refetch] = useUserTeamsQuery({
     variables: {
       address: address ?? '',
     },
+    requestPolicy: 'network-only',
   });
 
   useEffect(() => {
@@ -59,6 +61,7 @@ export const TeamsProvider = ({ children }: Props) => {
         teamsData,
         setTeamId,
         hasFetchedTeams,
+        refetch,
       }}
     >
       {children}
