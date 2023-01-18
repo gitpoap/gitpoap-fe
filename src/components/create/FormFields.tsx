@@ -31,14 +31,14 @@ type StaffApprovalStatus = 'UNSUBMITTED' | 'APPROVED' | 'REJECTED' | 'PENDING';
 type Props<FormValues> = {
   approvalStatus: StaffApprovalStatus;
   buttonStatus: ButtonStatus;
-  creatorEmail?: string;
-  teamId?: number;
   imageUrl: string | null;
   isDisabled: boolean;
   form: UseFormReturnType<FormValues>;
   addImage: (image: FileWithPath) => void;
   handleSubmit: (values: FormValues) => void;
   removeImage: () => void;
+  creatorEmail?: string;
+  teamId?: number | null;
 };
 
 const TeamDisplay = ({ teamId }: { teamId: number }) => {
@@ -51,14 +51,14 @@ const TeamDisplay = ({ teamId }: { teamId: number }) => {
 export const FormFields = <FormValues extends CreateFormValues | EditFormValues>({
   approvalStatus,
   buttonStatus,
-  creatorEmail,
-  teamId,
   imageUrl,
   isDisabled,
   form,
   addImage,
   handleSubmit,
   removeImage,
+  creatorEmail,
+  teamId,
 }: Props<FormValues>) => {
   const teams = useTeamsContext();
 

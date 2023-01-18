@@ -30,7 +30,7 @@ type Props = {
   initialValues: EditFormValues;
   gitPOAPRequestId: number;
   savedImageUrl: string;
-  teamId?: number;
+  teamId?: number | null;
 };
 
 export const EditForm = ({

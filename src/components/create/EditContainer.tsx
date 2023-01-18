@@ -79,7 +79,7 @@ export const EditContainer = ({ gitPOAPId, user }: Props) => {
       }}
       gitPOAPRequestId={gitPOAPId}
       savedImageUrl={gitPOAPRequest.imageUrl}
-      teamId={gitPOAPRequest.teamId ?? undefined}
+      teamId={gitPOAPRequest.teamId}
     />
   );
 };
