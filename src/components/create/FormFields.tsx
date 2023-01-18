@@ -43,8 +43,10 @@ type Props<FormValues> = {
 
 const TeamDisplay = ({ teamId }: { teamId: number }) => {
   const [results] = useTeamDataQuery({ variables: { teamId } });
-  return (
-    <Input disabled label="Team" style={{ width: '100%' }} value={results.data?.team?.name ?? ''} />
+  return results.data?.team ? (
+    <Input disabled label="Team" style={{ width: '100%' }} value={results.data.team.name} />
+  ) : (
+    <></>
   );
 };
 
