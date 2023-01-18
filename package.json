@@ -30,6 +30,7 @@
     "@mantine/notifications": "^5.9.4",
     "@metamask/detect-provider": "^2.0.0",
     "@next/bundle-analyzer": "^13.0.6",
+    "@privy-io/react-auth": "^1.11.0",
     "@sentry/nextjs": "^7.26.0",
     "@ukstv/jazzicon-react": "^1.0.0",
     "@web3-react/core": "^6.1.9",

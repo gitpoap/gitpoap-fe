@@ -1,9 +1,8 @@
 import { API, makeAPIRequest, makeAPIRequestWithAuth } from './utils';
-import { SignatureType, Tokens } from '../../types';
+import { Tokens } from '../../types';
 
 export type AuthenticateResponse = {
   tokens: Tokens;
-  signatureData: SignatureType;
 };
 
 export class AuthAPI extends API {
@@ -14,17 +13,12 @@ export class AuthAPI extends API {
     this.refreshToken = tokens?.refreshToken ?? null;
   }
 
-  async authenticate(signatureData: SignatureType): Promise<AuthenticateResponse | null> {
+  async authenticate(privyToken: string): Promise<AuthenticateResponse | null> {
     const res = await makeAPIRequest(
       '/auth',
       'POST',
       JSON.stringify({
-        address: signatureData.address,
-        signatureData: {
-          signature: signatureData.signature,
-          message: signatureData.message,
-          createdAt: signatureData.createdAt,
-        },
+        privyToken,
       }),
     );
 
@@ -33,7 +27,7 @@ export class AuthAPI extends API {
     }
 
     const tokens: Tokens = await res.json();
-    return { tokens, signatureData };
+    return { tokens };
   }
 
   async refresh() {

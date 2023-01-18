@@ -2,6 +2,7 @@ import { ReactElement, ReactNode } from 'react';
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { PrivyProvider } from '@privy-io/react-auth';
 import { Provider as URQLProvider } from 'urql';
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
@@ -22,6 +23,7 @@ import { setupExternalServiceClients } from '../lib/app';
 import { Layout } from '../components/Layout';
 import { Amplitude } from '../components/Amplitude';
 import { TeamsProvider } from '../components/team/TeamsContext';
+import { PRIVY_APP_ID } from '../environment';
 
 setupExternalServiceClients();
 
@@ -42,31 +44,33 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         {/* <!-- Metadata for Viewport & Mantine (CANNOT GO IN _document.tsx) --> */}
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      <Web3ReactProvider getLibrary={getWeb3Provider}>
-        <Web3ContextProvider>
-          <Amplitude />
-          <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-            <ModalsProvider>
-              <NotificationsProvider autoClose={5000}>
-                <URQLProvider value={client}>
-                  <OAuthProvider>
-                    <FeaturesProvider>
-                      <TeamsProvider>
-                        <ClaimContextProvider>
-                          <GlobalStyles />
-                          <HexagonPath />
-                          <LoadingBar />
-                          {getLayout(<Component {...pageProps} />)}
-                        </ClaimContextProvider>
-                      </TeamsProvider>
-                    </FeaturesProvider>
-                  </OAuthProvider>
-                </URQLProvider>
-              </NotificationsProvider>
-            </ModalsProvider>
-          </MantineProvider>
-        </Web3ContextProvider>
-      </Web3ReactProvider>
+      <PrivyProvider appId={PRIVY_APP_ID}>
+        <Web3ReactProvider getLibrary={getWeb3Provider}>
+          <Web3ContextProvider>
+            <Amplitude />
+            <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+              <ModalsProvider>
+                <NotificationsProvider autoClose={5000}>
+                  <URQLProvider value={client}>
+                    <OAuthProvider>
+                      <FeaturesProvider>
+                        <TeamsProvider>
+                          <ClaimContextProvider>
+                            <GlobalStyles />
+                            <HexagonPath />
+                            <LoadingBar />
+                            {getLayout(<Component {...pageProps} />)}
+                          </ClaimContextProvider>
+                        </TeamsProvider>
+                      </FeaturesProvider>
+                    </OAuthProvider>
+                  </URQLProvider>
+                </NotificationsProvider>
+              </ModalsProvider>
+            </MantineProvider>
+          </Web3ContextProvider>
+        </Web3ReactProvider>
+      </PrivyProvider>
     </>
   );
 };
