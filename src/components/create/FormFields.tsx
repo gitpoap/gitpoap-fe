@@ -41,7 +41,7 @@ type Props<FormValues> = {
   removeImage: () => void;
 };
 
-const TeamField = ({ teamId }: { teamId: number }) => {
+const TeamDisplay = ({ teamId }: { teamId: number }) => {
   const [results] = useTeamDataQuery({ variables: { teamId } });
   return (
     <Input disabled label="Team" style={{ width: '100%' }} value={results.data?.team?.name ?? ''} />
@@ -101,7 +101,7 @@ export const FormFields = <FormValues extends CreateFormValues | EditFormValues>
         </Box>
 
         {teamId ? (
-          <TeamField teamId={teamId} />
+          <TeamDisplay teamId={teamId} />
         ) : (
           !creatorEmail &&
           teams.currTeam && (
