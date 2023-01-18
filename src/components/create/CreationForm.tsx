@@ -1,9 +1,8 @@
-import { Container, Group, Stack } from '@mantine/core';
+import { Container, Group } from '@mantine/core';
+import { FileWithPath } from '@mantine/dropzone';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { ButtonStatus } from '../shared/compounds/StatusButton';
-import { Header } from '../shared/elements';
-import { useCreationForm } from './useCreationForm';
 import { useApi } from '../../hooks/useApi';
 import {
   ContributorsObject,
@@ -11,13 +10,11 @@ import {
   ValidatedCreateFormValues,
   ValidatedContributor,
 } from '../../lib/api/gitpoapRequest';
-import { FileWithPath } from '@mantine/dropzone';
-import { FormFields } from './FormFields';
-import { useRouter } from 'next/router';
-import { TeamSwitcher } from '../team/TeamSwitcher';
-import { BackgroundPanel, TextGray } from '../../colors';
-import { rem } from 'polished';
+import { ButtonStatus } from '../shared/compounds/StatusButton';
+import { Header } from '../shared/elements';
 import { useTeamsContext } from '../team/TeamsContext';
+import { FormFields } from './FormFields';
+import { useCreationForm } from './useCreationForm';
 
 const HeaderText = {
   UNSUBMITTED: 'Create GitPOAP',
@@ -81,19 +78,7 @@ export const CreationForm = () => {
         position="apart"
         style={{ left: '5%', position: 'absolute', width: '90%', zIndex: 99 }}
       >
-        <Stack>
-          <Header>{HeaderText[approvalStatus]}</Header>
-          {teams.currTeam && (
-            <TeamSwitcher
-              p={8}
-              sx={{
-                backgroundColor: BackgroundPanel,
-                border: `${rem(2)} solid ${TextGray}`,
-                borderRadius: rem(6),
-              }}
-            />
-          )}
-        </Stack>
+        <Header>{HeaderText[approvalStatus]}</Header>
         <Header>{approvalStatus}</Header>
       </Group>
       <FormFields
