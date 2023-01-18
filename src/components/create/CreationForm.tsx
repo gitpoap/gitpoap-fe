@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 import { TeamSwitcher } from '../team/TeamSwitcher';
 import { BackgroundPanel, TextGray } from '../../colors';
 import { rem } from 'polished';
+import { useTeamsContext } from '../team/TeamsContext';
 
 const HeaderText = {
   UNSUBMITTED: 'Create GitPOAP',
@@ -31,6 +32,7 @@ export const CreationForm = () => {
   const api = useApi();
   const form = useCreationForm();
   const router = useRouter();
+  const teams = useTeamsContext();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const approvalStatus: StaffApprovalStatus = 'UNSUBMITTED';
   const imageUrl = form.values.image ? URL.createObjectURL(form.values.image) : null;
@@ -55,10 +57,13 @@ export const CreationForm = () => {
       {},
     );
 
-    const data = await api.gitPOAPRequest.create({
-      ...validatedFormValues,
-      contributors: formattedContributors,
-    });
+    const data = await api.gitPOAPRequest.create(
+      {
+        ...validatedFormValues,
+        contributors: formattedContributors,
+      },
+      teams.currTeam?.id,
+    );
 
     if (data === null) {
       setButtonStatus(ButtonStatus.ERROR);
@@ -78,14 +83,16 @@ export const CreationForm = () => {
       >
         <Stack>
           <Header>{HeaderText[approvalStatus]}</Header>
-          <TeamSwitcher
-            p={8}
-            sx={{
-              backgroundColor: BackgroundPanel,
-              border: `${rem(2)} solid ${TextGray}`,
-              borderRadius: rem(6),
-            }}
-          />
+          {teams.currTeam && (
+            <TeamSwitcher
+              p={8}
+              sx={{
+                backgroundColor: BackgroundPanel,
+                border: `${rem(2)} solid ${TextGray}`,
+                borderRadius: rem(6),
+              }}
+            />
+          )}
         </Stack>
         <Header>{approvalStatus}</Header>
       </Group>

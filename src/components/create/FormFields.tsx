@@ -11,6 +11,7 @@ import { CreateFormValues, EditFormValues } from '../../lib/api/gitpoapRequest';
 import { HexagonDropzone } from './HexagonDropzone';
 import { Link } from '../shared/compounds/Link';
 import { ExtraRed } from '../../colors';
+import { useTeamDataQuery } from '../../graphql/generated-gql';
 
 const Label = styled(InputUI.Label)`
   ${TextInputLabelStyles};
@@ -29,7 +30,7 @@ type Props<FormValues> = {
   approvalStatus: StaffApprovalStatus;
   buttonStatus: ButtonStatus;
   creatorEmail?: string;
-  teamName?: string;
+  teamId?: number;
   imageUrl: string | null;
   isDisabled: boolean;
   form: UseFormReturnType<FormValues>;
@@ -38,10 +39,18 @@ type Props<FormValues> = {
   removeImage: () => void;
 };
 
+const TeamField = ({ teamId }: { teamId: number }) => {
+  const [results] = useTeamDataQuery({ variables: { teamId } });
+  return (
+    <Input disabled label="Team" style={{ width: '100%' }} value={results.data?.team?.name ?? ''} />
+  );
+};
+
 export const FormFields = <FormValues extends CreateFormValues | EditFormValues>({
   approvalStatus,
   buttonStatus,
   creatorEmail,
+  teamId,
   imageUrl,
   isDisabled,
   form,
@@ -143,6 +152,7 @@ export const FormFields = <FormValues extends CreateFormValues | EditFormValues>
           {...form.getInputProps('creatorEmail')}
         />
       )}
+      {teamId && <TeamField teamId={teamId} />}
     </Stack>
     <Box my={32}>
       <Divider
