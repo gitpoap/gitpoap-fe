@@ -81,11 +81,10 @@ export class TeamApi extends API {
       {},
     );
 
-    if (!res) {
+    if (!res?.ok) {
       return null;
     }
 
-    const data = (await res.json()) as { msg: string };
-    return data;
+    return true;
   }
 }
