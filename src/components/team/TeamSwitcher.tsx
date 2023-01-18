@@ -50,7 +50,7 @@ export const TeamSwitcher = (props: UnstyledButtonProps) => {
               name={currTeam.name}
               size={32}
               color={currTeam.color}
-              imageUrl={currTeam.logoImageUrl ?? undefined}
+              imageUrl={currTeam.logoImageUrl}
             />
             <Text
               sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
@@ -69,7 +69,7 @@ export const TeamSwitcher = (props: UnstyledButtonProps) => {
               name={currTeam.name}
               size={32}
               color={currTeam.color}
-              imageUrl={currTeam.logoImageUrl ?? undefined}
+              imageUrl={currTeam.logoImageUrl}
             />
           }
           sx={{ pointerEvents: 'none' }}
@@ -88,7 +88,7 @@ export const TeamSwitcher = (props: UnstyledButtonProps) => {
                         name={team.name}
                         size={32}
                         color={team.color}
-                        imageUrl={team.logoImageUrl ?? undefined}
+                        imageUrl={team.logoImageUrl}
                       />
                     }
                     key={`team-${team.id}`}
