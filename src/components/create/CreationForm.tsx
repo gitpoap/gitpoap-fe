@@ -1,4 +1,4 @@
-import { Container, Group } from '@mantine/core';
+import { Container, Group, Stack } from '@mantine/core';
 import { useState } from 'react';
 
 import { ButtonStatus } from '../shared/compounds/StatusButton';
@@ -14,6 +14,9 @@ import {
 import { FileWithPath } from '@mantine/dropzone';
 import { FormFields } from './FormFields';
 import { useRouter } from 'next/router';
+import { TeamSwitcher } from '../team/TeamSwitcher';
+import { BackgroundPanel, TextGray } from '../../colors';
+import { rem } from 'polished';
 
 const HeaderText = {
   UNSUBMITTED: 'Create GitPOAP',
@@ -69,10 +72,21 @@ export const CreationForm = () => {
   return (
     <Container mt={24} mb={72} p={0} style={{ width: '90%', zIndex: 1 }}>
       <Group
+        align="start"
         position="apart"
         style={{ left: '5%', position: 'absolute', width: '90%', zIndex: 99 }}
       >
-        <Header>{HeaderText[approvalStatus]}</Header>
+        <Stack>
+          <Header>{HeaderText[approvalStatus]}</Header>
+          <TeamSwitcher
+            p={8}
+            sx={{
+              backgroundColor: BackgroundPanel,
+              border: `${rem(2)} solid ${TextGray}`,
+              borderRadius: rem(6),
+            }}
+          />
+        </Stack>
         <Header>{approvalStatus}</Header>
       </Group>
       <FormFields
