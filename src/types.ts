@@ -1,3 +1,5 @@
+import { MembershipRole } from './graphql/generated-gql';
+
 export type GitPOAP = {
   id: number;
   name: string;
@@ -53,17 +55,23 @@ export type Tokens = {
   refreshToken: string;
 };
 
+export type Memberships = {
+  teamId: number;
+  role: MembershipRole;
+}[];
+
 export type AccessTokenPayload = {
   authTokenId: number;
+  privyUserId: string;
   addressId: number;
   ethAddress: string;
   ensName: string | null;
   ensAvatarImageUrl: string | null;
+  memberships: Memberships;
   githubId: number | null;
   githubHandle: string | null;
   emailId: number | null;
   discordId: number | null;
   discordHandle: string | null;
-  exp: number;
-  iat: number;
+  emailAddress: string | null;
 };
