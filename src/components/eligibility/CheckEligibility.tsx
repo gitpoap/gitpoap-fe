@@ -59,7 +59,7 @@ export const CheckEligibility = () => {
         <Header>{'Check Eligibility'}</Header>
         <Text align="center" size="md">
           {
-            'Search for your GitHub, ETH address, ENS names, or any GitPOAP to check if your eligibile'
+            'Search for your GitHub, ETH address, ENS names, or any GitPOAP to check if you're eligibile'
           }
         </Text>
       </Stack>
