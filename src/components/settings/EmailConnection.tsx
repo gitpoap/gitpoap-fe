@@ -11,7 +11,7 @@ export type EmailConnectionStatus = 'CONNECT' | 'SUBMITTED' | 'PENDING' | 'DISCO
 
 export const EmailConnection = () => {
   const user = useUser();
-  const { linkEmail, user: privyUser, unlinkEmail } = usePrivy();
+  const { user: privyUser, linkEmail, unlinkEmail } = usePrivy();
   const [status, setStatus] = useState<EmailConnectionStatus>('CONNECT');
 
   const userEmail = user?.emailAddress ?? '';

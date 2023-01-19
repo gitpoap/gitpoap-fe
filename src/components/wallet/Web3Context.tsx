@@ -140,11 +140,11 @@ export const Web3ContextProvider = (props: Props) => {
   }, [getAccessToken, user, setConnectionStatus, setAddress, api.auth, setAccessToken]);
 
   useEffect(() => {
-    if (ready && authenticated && user) {
+    if (ready && authenticated) {
       setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
       void authenticate();
     }
-  }, [ready, authenticated, user]);
+  }, [ready, authenticated]);
 
   const onChainProvider = useMemo(
     () => ({
