@@ -56,7 +56,7 @@ export type Tokens = {
 export type AccessTokenPayload = {
   authTokenId: number;
   addressId: number;
-  address: string;
+  ethAddress: string;
   ensName: string | null;
   ensAvatarImageUrl: string | null;
   githubId: number | null;
@@ -65,12 +65,5 @@ export type AccessTokenPayload = {
   discordId: number | null;
   discordHandle: string | null;
   exp: number;
-  iat: number;
-};
-
-export type RefreshTokenPayload = {
-  authTokenId: number;
-  addressId: number;
-  generation: number;
   iat: number;
 };

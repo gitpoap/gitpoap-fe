@@ -1,8 +1,7 @@
 import { useLocalStorage } from '@mantine/hooks';
 import jwtDecode from 'jwt-decode';
-import { Tokens, AccessTokenPayload, RefreshTokenPayload } from '../types';
+import { Tokens, AccessTokenPayload } from '../types';
 
-const REFRESH_TOKEN_KEY = 'refreshToken';
 const ACCESS_TOKEN_KEY = 'accessToken';
 
 export const isTokens = (tokens: unknown): tokens is Tokens => {
@@ -30,11 +29,6 @@ export const getAccessToken = () => {
  * @returns authentication token getters & setters.
  */
 export const useTokens = () => {
-  const [refreshToken, setRefreshToken] = useLocalStorage<string | null>({
-    key: REFRESH_TOKEN_KEY,
-    defaultValue: null,
-  });
-
   const [accessToken, setAccessToken] = useLocalStorage<string | null>({
     key: ACCESS_TOKEN_KEY,
     defaultValue: null,
@@ -42,16 +36,13 @@ export const useTokens = () => {
 
   let tokens = null;
   let payload = null;
-  let refreshTokenPayload;
-  if (accessToken && refreshToken) {
+  if (accessToken) {
     tokens = {
       accessToken,
-      refreshToken,
     };
 
     payload = jwtDecode<AccessTokenPayload>(accessToken);
-    refreshTokenPayload = jwtDecode<RefreshTokenPayload>(refreshToken);
   }
 
-  return { tokens, setRefreshToken, setAccessToken, payload, refreshTokenPayload };
+  return { tokens, setAccessToken, payload };
 };

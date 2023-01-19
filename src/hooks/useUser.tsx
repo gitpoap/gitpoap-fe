@@ -38,7 +38,7 @@ export const useUser = (): User | null => {
       discordId: payload.discordId,
       discordHandle: payload.discordHandle,
       addressId: payload.addressId,
-      address: payload.address,
+      address: payload.ethAddress,
       ensName: payload.ensName,
       ensAvatarImageUrl: payload.ensAvatarImageUrl,
       capabilities: {

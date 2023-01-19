@@ -65,7 +65,7 @@ export const Web3ContextProvider = (props: Props) => {
   );
   const [address, setAddress] = useState<string | null>(null);
   const api = useApi();
-  const { setAccessToken, setRefreshToken, tokens, payload } = useTokens();
+  const { setAccessToken, tokens, payload } = useTokens();
 
   /* This hook can only be used once here ~ it contains token refresh logic */
   useRefreshTokens();
@@ -75,12 +75,11 @@ export const Web3ContextProvider = (props: Props) => {
 
     setConnectionStatus(ConnectionStatus.DISCONNECTED);
     setAddress('');
-    setRefreshToken(null);
     setAccessToken(null);
-  }, [setConnectionStatus, setRefreshToken, setAccessToken, setAddress, address]);
+  }, [setConnectionStatus, , setAccessToken, setAddress, address]);
 
   useEffect(() => {
-    if (tokens?.accessToken === null && tokens?.refreshToken === null) {
+    if (tokens?.accessToken === null) {
       disconnectWallet();
     }
   }, [tokens, disconnectWallet]);
@@ -90,7 +89,7 @@ export const Web3ContextProvider = (props: Props) => {
     // // if valid, we use it to refresh access token, no need to ask to sign
     // const issuedAt = refreshTokenPayload?.iat ?? 0;
     // const isExpired = DateTime.now().toUnixInteger() >= issuedAt + ONE_MONTH_IN_S;
-    trackConnectWallet(payload?.address);
+    trackConnectWallet(payload?.ethAddress);
     // if (tokens && payload?.address && !isExpired && tokens.refreshToken) {
     //   // use existing refresh token to refresh access token
     //   setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
@@ -123,10 +122,9 @@ export const Web3ContextProvider = (props: Props) => {
 
   // Privy Auth
 
-  const authenticateWithPrivy = useCallback(async () => {
+  const authenticate = useCallback(async () => {
     const authToken = await getAccessToken();
 
-    console.log('auth token', authToken);
     if (!authToken || !user || !user.wallet) {
       return;
     }
@@ -140,24 +138,15 @@ export const Web3ContextProvider = (props: Props) => {
     }
     // update connection status
     setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
-    setAddress(user?.wallet?.address);
+    setAddress(user.wallet.address);
     // update tokens
     setAccessToken(authData.tokens.accessToken);
-    setRefreshToken(authData.tokens.refreshToken);
-  }, [
-    getAccessToken,
-    user,
-    setConnectionStatus,
-    setAddress,
-    api.auth,
-    setAccessToken,
-    setRefreshToken,
-  ]);
+  }, [getAccessToken, user, setConnectionStatus, setAddress, api.auth, setAccessToken]);
 
   useEffect(() => {
     if (ready && authenticated && user) {
-      console.log('authenticated', user.wallet);
-      void authenticateWithPrivy();
+      setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+      void authenticate();
     }
   }, [ready, authenticated, user]);
 
