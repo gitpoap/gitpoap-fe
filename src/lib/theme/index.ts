@@ -13,6 +13,7 @@ import { cardThemes } from './cardThemes';
 import { tabsThemes } from './tabsThemes';
 import { textTheme } from './textThemes';
 import { tooltipThemes } from './tooltipThemes';
+import { selectThemes } from './selectThemes';
 
 export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
@@ -62,6 +63,7 @@ export const theme: MantineProviderProps['theme'] = {
       },
     },
     Pagination: paginationThemes,
+    Select: selectThemes,
     Tabs: tabsThemes,
     Text: textTheme,
     Tooltip: tooltipThemes,

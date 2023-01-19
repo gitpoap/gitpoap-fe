@@ -30,6 +30,7 @@ type Props = {
   initialValues: EditFormValues;
   gitPOAPRequestId: number;
   savedImageUrl: string;
+  teamId?: number | null;
 };
 
 export const EditForm = ({
@@ -38,6 +39,7 @@ export const EditForm = ({
   initialValues,
   gitPOAPRequestId,
   savedImageUrl,
+  teamId,
 }: Props) => {
   const api = useApi();
   const [hasRemovedSavedImage, setHasRemovedSavedImage] = useState(false);
@@ -98,6 +100,7 @@ export const EditForm = ({
         approvalStatus={staffApprovalStatus}
         buttonStatus={buttonStatus}
         creatorEmail={creatorEmail}
+        teamId={teamId}
         imageUrl={imageUrl}
         isDisabled={
           (!form.isDirty() &&

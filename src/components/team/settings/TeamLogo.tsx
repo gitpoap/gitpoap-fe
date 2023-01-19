@@ -9,7 +9,7 @@ type Props = {
   name: string;
   size: number;
   color?: string;
-  imageUrl?: string;
+  imageUrl?: string | null;
   onLogoUpload?: (file: File) => Promise<void>;
   error?: React.ReactNode;
 };

@@ -1564,7 +1564,6 @@ export type GitPoap = {
   id: Scalars['Int'];
   imageUrl: Scalars['String'];
   isEnabled: Scalars['Boolean'];
-  isOngoing: Scalars['Boolean'];
   isPRBased: Scalars['Boolean'];
   level: Scalars['Int'];
   name: Scalars['String'];
@@ -1647,7 +1646,6 @@ export type GitPoapCountAggregate = {
   id: Scalars['Int'];
   imageUrl: Scalars['Int'];
   isEnabled: Scalars['Int'];
-  isOngoing: Scalars['Int'];
   isPRBased: Scalars['Int'];
   level: Scalars['Int'];
   name: Scalars['Int'];
@@ -1673,7 +1671,6 @@ export type GitPoapCountOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
   isEnabled?: InputMaybe<SortOrder>;
-  isOngoing?: InputMaybe<SortOrder>;
   isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -1704,7 +1701,6 @@ export type GitPoapGroupBy = {
   id: Scalars['Int'];
   imageUrl: Scalars['String'];
   isEnabled: Scalars['Boolean'];
-  isOngoing: Scalars['Boolean'];
   isPRBased: Scalars['Boolean'];
   level: Scalars['Int'];
   name: Scalars['String'];
@@ -1737,7 +1733,6 @@ export type GitPoapMaxAggregate = {
   id?: Maybe<Scalars['Int']>;
   imageUrl?: Maybe<Scalars['String']>;
   isEnabled?: Maybe<Scalars['Boolean']>;
-  isOngoing?: Maybe<Scalars['Boolean']>;
   isPRBased?: Maybe<Scalars['Boolean']>;
   level?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -1763,7 +1758,6 @@ export type GitPoapMaxOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
   isEnabled?: InputMaybe<SortOrder>;
-  isOngoing?: InputMaybe<SortOrder>;
   isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -1789,7 +1783,6 @@ export type GitPoapMinAggregate = {
   id?: Maybe<Scalars['Int']>;
   imageUrl?: Maybe<Scalars['String']>;
   isEnabled?: Maybe<Scalars['Boolean']>;
-  isOngoing?: Maybe<Scalars['Boolean']>;
   isPRBased?: Maybe<Scalars['Boolean']>;
   level?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -1815,7 +1808,6 @@ export type GitPoapMinOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
   isEnabled?: InputMaybe<SortOrder>;
-  isOngoing?: InputMaybe<SortOrder>;
   isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -1849,7 +1841,6 @@ export type GitPoapOrderByWithAggregationInput = {
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
   isEnabled?: InputMaybe<SortOrder>;
-  isOngoing?: InputMaybe<SortOrder>;
   isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -1879,7 +1870,6 @@ export type GitPoapOrderByWithRelationInput = {
   id?: InputMaybe<SortOrder>;
   imageUrl?: InputMaybe<SortOrder>;
   isEnabled?: InputMaybe<SortOrder>;
-  isOngoing?: InputMaybe<SortOrder>;
   isPRBased?: InputMaybe<SortOrder>;
   level?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -2267,7 +2257,6 @@ export enum GitPoapScalarFieldEnum {
   Id = 'id',
   ImageUrl = 'imageUrl',
   IsEnabled = 'isEnabled',
-  IsOngoing = 'isOngoing',
   IsPrBased = 'isPRBased',
   Level = 'level',
   Name = 'name',
@@ -2296,7 +2285,6 @@ export type GitPoapScalarWhereWithAggregatesInput = {
   id?: InputMaybe<IntWithAggregatesFilter>;
   imageUrl?: InputMaybe<StringWithAggregatesFilter>;
   isEnabled?: InputMaybe<BoolWithAggregatesFilter>;
-  isOngoing?: InputMaybe<BoolWithAggregatesFilter>;
   isPRBased?: InputMaybe<BoolWithAggregatesFilter>;
   level?: InputMaybe<IntWithAggregatesFilter>;
   name?: InputMaybe<StringWithAggregatesFilter>;
@@ -2370,7 +2358,6 @@ export type GitPoapWhereInput = {
   id?: InputMaybe<IntFilter>;
   imageUrl?: InputMaybe<StringFilter>;
   isEnabled?: InputMaybe<BoolFilter>;
-  isOngoing?: InputMaybe<BoolFilter>;
   isPRBased?: InputMaybe<BoolFilter>;
   level?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
@@ -6157,7 +6144,7 @@ export type Team = {
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  logoImageUrl: Scalars['String'];
+  logoImageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   ownerAddressId: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
@@ -6216,7 +6203,7 @@ export type TeamGroupBy = {
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  logoImageUrl: Scalars['String'];
+  logoImageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   ownerAddressId: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
@@ -6339,7 +6326,7 @@ export type TeamScalarWhereWithAggregatesInput = {
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   description?: InputMaybe<StringNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
-  logoImageUrl?: InputMaybe<StringWithAggregatesFilter>;
+  logoImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
   name?: InputMaybe<StringWithAggregatesFilter>;
   ownerAddressId?: InputMaybe<IntWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
@@ -6377,7 +6364,7 @@ export type TeamWhereInput = {
   gitPOAPRequests?: InputMaybe<GitPoapRequestListRelationFilter>;
   gitPOAPs?: InputMaybe<GitPoapListRelationFilter>;
   id?: InputMaybe<IntFilter>;
-  logoImageUrl?: InputMaybe<StringFilter>;
+  logoImageUrl?: InputMaybe<StringNullableFilter>;
   memberships?: InputMaybe<MembershipListRelationFilter>;
   name?: InputMaybe<StringFilter>;
   ownerAddress?: InputMaybe<AddressRelationFilter>;
@@ -7493,6 +7480,7 @@ export type GitPoapRequestQuery = {
     imageUrl: string;
     staffApprovalStatus: StaffApprovalStatus;
     gitPOAPId?: number | null;
+    teamId?: number | null;
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
     address: { __typename?: 'Address'; ethAddress: string };
   } | null;
@@ -7658,7 +7646,7 @@ export type UserTeamsQuery = {
     id: number;
     name: string;
     description?: string | null;
-    logoImageUrl: string;
+    logoImageUrl?: string | null;
   }>;
 };
 
@@ -7673,7 +7661,7 @@ export type TeamDataQuery = {
     id: number;
     name: string;
     description?: string | null;
-    logoImageUrl: string;
+    logoImageUrl?: string | null;
   } | null;
 };
 
@@ -9357,6 +9345,7 @@ export const GitPoapRequestDocument = gql`
         ethAddress
       }
       gitPOAPId
+      teamId
     }
   }
 `;

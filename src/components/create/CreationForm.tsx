@@ -1,19 +1,21 @@
 import { Container, Group } from '@mantine/core';
+import { FileWithPath } from '@mantine/dropzone';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { ButtonStatus } from '../shared/compounds/StatusButton';
-import { Header } from '../shared/elements';
-import { useCreationForm } from './useCreationForm';
 import { useApi } from '../../hooks/useApi';
+import { useUser } from '../../hooks/useUser';
 import {
   ContributorsObject,
   CreateFormValues,
   ValidatedCreateFormValues,
   ValidatedContributor,
 } from '../../lib/api/gitpoapRequest';
-import { FileWithPath } from '@mantine/dropzone';
+import { ButtonStatus } from '../shared/compounds/StatusButton';
+import { Header } from '../shared/elements';
+import { useTeamsContext } from '../team/TeamsContext';
 import { FormFields } from './FormFields';
-import { useRouter } from 'next/router';
+import { useCreationForm } from './useCreationForm';
 
 const HeaderText = {
   UNSUBMITTED: 'Create GitPOAP',
@@ -28,6 +30,8 @@ export const CreationForm = () => {
   const api = useApi();
   const form = useCreationForm();
   const router = useRouter();
+  const teams = useTeamsContext();
+  const user = useUser();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const approvalStatus: StaffApprovalStatus = 'UNSUBMITTED';
   const imageUrl = form.values.image ? URL.createObjectURL(form.values.image) : null;
@@ -52,10 +56,13 @@ export const CreationForm = () => {
       {},
     );
 
-    const data = await api.gitPOAPRequest.create({
-      ...validatedFormValues,
-      contributors: formattedContributors,
-    });
+    const data = await api.gitPOAPRequest.create(
+      {
+        ...validatedFormValues,
+        contributors: formattedContributors,
+      },
+      user?.permissions.isStaff ? teams.currTeam?.id : undefined,
+    );
 
     if (data === null) {
       setButtonStatus(ButtonStatus.ERROR);
@@ -69,6 +76,7 @@ export const CreationForm = () => {
   return (
     <Container mt={24} mb={72} p={0} style={{ width: '90%', zIndex: 1 }}>
       <Group
+        align="start"
         position="apart"
         style={{ left: '5%', position: 'absolute', width: '90%', zIndex: 99 }}
       >

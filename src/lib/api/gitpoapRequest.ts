@@ -153,7 +153,7 @@ export class GitPOAPRequestAPI extends API {
     super(tokens?.accessToken);
   }
 
-  async create(values: SubmittedCreateFormValues) {
+  async create(values: SubmittedCreateFormValues, teamId?: number) {
     const formData = new FormData();
 
     formData.append('name', values.name);
@@ -162,6 +162,7 @@ export class GitPOAPRequestAPI extends API {
     formData.append('endDate', DateTime.fromJSDate(values.endDate).toFormat('yyyy-MM-dd'));
     formData.append('creatorEmail', values.creatorEmail);
     formData.append('contributors', JSON.stringify(values.contributors));
+    teamId && formData.append('teamId', teamId.toString());
     formData.append('image', values.image ?? '');
 
     const res = await makeAPIRequestWithAuth('/gitpoaps/custom', 'POST', this.token, formData, {});
