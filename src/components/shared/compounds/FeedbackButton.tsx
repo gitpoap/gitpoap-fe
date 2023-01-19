@@ -90,7 +90,8 @@ export const FeedbackButton = ({ className, href }: Props) => {
       </Popover.Target>
       <Popover.Dropdown>
         <PopoverContainer>
-          <Text>{'Give Feedback'}</Text>
+          <Text>{'Give feedback - or email us at'}</Text>
+          <Text>{'support@gitpoap.io 🐙'}</Text>
         </PopoverContainer>
       </Popover.Dropdown>
     </Popover>
