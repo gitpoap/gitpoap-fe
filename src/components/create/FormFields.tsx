@@ -4,16 +4,17 @@ import { UseFormReturnType } from '@mantine/form';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
-import { ButtonStatus, StatusButton } from '../shared/compounds/StatusButton';
-import { DateInput, Header, Input, TextArea, TextInputLabelStyles } from '../shared/elements';
-import { SelectContributors } from './SelectContributors';
-import { CreateFormValues, EditFormValues } from '../../lib/api/gitpoapRequest';
-import { HexagonDropzone } from './HexagonDropzone';
-import { Link } from '../shared/compounds/Link';
 import { BackgroundPanel, ExtraRed } from '../../colors';
 import { useTeamDataQuery } from '../../graphql/generated-gql';
-import { TeamSwitcher } from '../team/TeamSwitcher';
+import { useUser } from '../../hooks/useUser';
+import { CreateFormValues, EditFormValues } from '../../lib/api/gitpoapRequest';
+import { Link } from '../shared/compounds/Link';
+import { ButtonStatus, StatusButton } from '../shared/compounds/StatusButton';
+import { DateInput, Header, Input, TextArea, TextInputLabelStyles } from '../shared/elements';
 import { useTeamsContext } from '../team/TeamsContext';
+import { TeamSwitcher } from '../team/TeamSwitcher';
+import { HexagonDropzone } from './HexagonDropzone';
+import { SelectContributors } from './SelectContributors';
 
 const Label = styled(InputUI.Label)`
   ${TextInputLabelStyles};
@@ -63,6 +64,7 @@ export const FormFields = <FormValues extends CreateFormValues | EditFormValues>
   teamId,
 }: Props<FormValues>) => {
   const teams = useTeamsContext();
+  const user = useUser();
 
   return (
     <Stack align="center" spacing={32}>
@@ -101,27 +103,27 @@ export const FormFields = <FormValues extends CreateFormValues | EditFormValues>
             </List.Item>
           </List>
         </Box>
-
-        {teamId ? (
-          <TeamDisplay teamId={teamId} />
-        ) : (
-          !creatorEmail &&
-          teams.currTeam && (
-            <Stack spacing={0}>
-              <Label mb={rem(11)} required>
-                Team
-              </Label>
-              <TeamSwitcher
-                p={8}
-                mb={0}
-                sx={{
-                  backgroundColor: BackgroundPanel,
-                  borderRadius: rem(6),
-                }}
-              />
-            </Stack>
-          )
-        )}
+        {user?.permissions?.isStaff &&
+          (teamId ? (
+            <TeamDisplay teamId={teamId} />
+          ) : (
+            !creatorEmail &&
+            teams.currTeam && (
+              <Stack spacing={0}>
+                <Label mb={rem(11)} required>
+                  Team
+                </Label>
+                <TeamSwitcher
+                  p={8}
+                  mb={0}
+                  sx={{
+                    backgroundColor: BackgroundPanel,
+                    borderRadius: rem(6),
+                  }}
+                />
+              </Stack>
+            )
+          ))}
         <Input
           required
           style={{ width: '100%' }}

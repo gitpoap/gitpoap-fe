@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { useApi } from '../../hooks/useApi';
+import { useUser } from '../../hooks/useUser';
 import {
   ContributorsObject,
   CreateFormValues,
@@ -30,6 +31,7 @@ export const CreationForm = () => {
   const form = useCreationForm();
   const router = useRouter();
   const teams = useTeamsContext();
+  const user = useUser();
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(ButtonStatus.INITIAL);
   const approvalStatus: StaffApprovalStatus = 'UNSUBMITTED';
   const imageUrl = form.values.image ? URL.createObjectURL(form.values.image) : null;
@@ -59,7 +61,7 @@ export const CreationForm = () => {
         ...validatedFormValues,
         contributors: formattedContributors,
       },
-      teams.currTeam?.id,
+      user?.permissions.isStaff ? teams.currTeam?.id : undefined,
     );
 
     if (data === null) {
