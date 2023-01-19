@@ -25,7 +25,6 @@ export const getAccessToken = () => {
 
 /**
  * This hook is used to get and set tokens, but does not contain any refresh logic.
- * Refresh logic is encapsulated in the useRefreshTokens hook instead.
  * @returns authentication token getters & setters.
  */
 export const useTokens = () => {

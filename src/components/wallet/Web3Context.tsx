@@ -1,6 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState, useEffect } from 'react';
 import { usePrivy } from '@privy-io/react-auth';
-import { useRefreshTokens } from '../../hooks/useRefreshTokens';
 import { useTokens } from '../../hooks/useTokens';
 import { useApi } from '../../hooks/useApi';
 import { AuthenticateResponse } from '../../lib/api/auth';
@@ -66,9 +65,6 @@ export const Web3ContextProvider = (props: Props) => {
   const [address, setAddress] = useState<string | null>(null);
   const api = useApi();
   const { setAccessToken, tokens, payload } = useTokens();
-
-  /* This hook can only be used once here ~ it contains token refresh logic */
-  useRefreshTokens();
 
   const disconnectWallet = useCallback(() => {
     trackDisconnectWallet(address);
