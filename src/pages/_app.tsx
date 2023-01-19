@@ -14,8 +14,6 @@ import { theme } from '../lib/theme';
 import { ClaimContextProvider } from '../components/claims/ClaimContext';
 import { LoadingBar } from '../components/LoadingBar';
 import { HexagonPath } from '../components/shared/elements';
-import { Web3ReactProvider } from '@web3-react/core';
-import { getWeb3Provider } from '../helpers';
 import { Web3ContextProvider } from '../components/wallet/Web3Context';
 import { ModalsProvider } from '@mantine/modals';
 import { client } from '../lib/urql';
@@ -45,31 +43,29 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <PrivyProvider appId={PRIVY_APP_ID}>
-        <Web3ReactProvider getLibrary={getWeb3Provider}>
-          <Web3ContextProvider>
-            <Amplitude />
-            <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-              <ModalsProvider>
-                <NotificationsProvider autoClose={5000}>
-                  <URQLProvider value={client}>
-                    <OAuthProvider>
-                      <FeaturesProvider>
-                        <TeamsProvider>
-                          <ClaimContextProvider>
-                            <GlobalStyles />
-                            <HexagonPath />
-                            <LoadingBar />
-                            {getLayout(<Component {...pageProps} />)}
-                          </ClaimContextProvider>
-                        </TeamsProvider>
-                      </FeaturesProvider>
-                    </OAuthProvider>
-                  </URQLProvider>
-                </NotificationsProvider>
-              </ModalsProvider>
-            </MantineProvider>
-          </Web3ContextProvider>
-        </Web3ReactProvider>
+        <Web3ContextProvider>
+          <Amplitude />
+          <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+            <ModalsProvider>
+              <NotificationsProvider autoClose={5000}>
+                <URQLProvider value={client}>
+                  <OAuthProvider>
+                    <FeaturesProvider>
+                      <TeamsProvider>
+                        <ClaimContextProvider>
+                          <GlobalStyles />
+                          <HexagonPath />
+                          <LoadingBar />
+                          {getLayout(<Component {...pageProps} />)}
+                        </ClaimContextProvider>
+                      </TeamsProvider>
+                    </FeaturesProvider>
+                  </OAuthProvider>
+                </URQLProvider>
+              </NotificationsProvider>
+            </ModalsProvider>
+          </MantineProvider>
+        </Web3ContextProvider>
       </PrivyProvider>
     </>
   );
