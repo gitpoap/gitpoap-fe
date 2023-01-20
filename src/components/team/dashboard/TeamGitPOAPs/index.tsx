@@ -61,7 +61,6 @@ export const TeamGitPOAPs = ({ teamId }: Props) => {
   };
 
   const gitPOAPs = result.data?.teamGitPOAPs;
-  console.log(result);
 
   return (
     <Group position="center" p={0}>
