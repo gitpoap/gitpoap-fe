@@ -36,8 +36,8 @@ export const Amplitude = () => {
   useEffect(() => {
     if (connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && user) {
       const trackedUser = {
-        address: user.address,
-        addressId: user.addressId,
+        address: user.address ?? 'null',
+        addressId: user.addressId ?? 'null',
         githubId: user.githubId ?? 'null',
         githubHandle: user.githubHandle ?? 'null',
         ensName: user.ensName ?? 'null',
@@ -47,7 +47,7 @@ export const Amplitude = () => {
       };
       const identifyObj = new Identify().set('user', trackedUser);
       identify(identifyObj);
-      setUserId(user.address);
+      setUserId(user.address ?? 'null');
     }
 
     if (connectionStatus === ConnectionStatus.DISCONNECTED) {
