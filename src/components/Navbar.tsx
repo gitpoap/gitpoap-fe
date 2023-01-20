@@ -13,6 +13,7 @@ import { ConnectionButton } from './oauth/ConnectionButton';
 import { SearchBox } from './search/box/SearchBox';
 import { NavLink } from './shared/elements/NavLink';
 import { useWeb3Context, ConnectionStatus } from './wallet/Web3Context';
+import { useUser } from '../hooks/useUser';
 
 const Nav = styled(Group)`
   color: ${TextLight} !important;
@@ -85,8 +86,9 @@ const CollapseMenuContent = styled(Stack)`
 
 export const Navbar = () => {
   const router = useRouter();
-
-  const { connectionStatus, ensName, address } = useWeb3Context();
+  const user = useUser();
+  const { connectionStatus, ensName } = useWeb3Context();
+  const address = user?.address ?? '';
 
   const matches1330 = useMediaQuery(`(min-width: ${rem(1330)})`, false);
   const matchesLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
