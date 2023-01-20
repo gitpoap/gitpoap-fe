@@ -21,6 +21,7 @@ export enum ConnectionStatus {
   DISCONNECTING = 'disconnecting' /* Disconnecting from wallet */,
   DISCONNECTED = 'disconnected' /* Not connected to any wallet */,
   UNINITIALIZED = 'uninitialized' /* Wallet connection hasn't been attempted yet */,
+  AUTHENTICATING = 'authenticating' /* Wallet connection hasn't been attempted yet */,
 }
 
 type onChainProvider = {
@@ -81,37 +82,7 @@ export const Web3ContextProvider = (props: Props) => {
   }, [tokens, disconnect]);
 
   const handleConnect = useCallback(async () => {
-    // // if previous access token exists, we check if refresh token is valid or not
-    // // if valid, we use it to refresh access token, no need to ask to sign
-    // const issuedAt = refreshTokenPayload?.iat ?? 0;
-    // const isExpired = DateTime.now().toUnixInteger() >= issuedAt + ONE_MONTH_IN_S;
     trackConnectWallet(payload?.ethAddress);
-    // if (tokens && payload?.address && !isExpired && tokens.refreshToken) {
-    //   // use existing refresh token to refresh access token
-    //   setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
-    //   //  unlock if metamask is locked
-    //   if (provider === 'injected') {
-    //     if (window.ethereum.isMetaMask) {
-    //       if (window.ethereum.request) {
-    //         /* Check if MetaMask is unlocked - if locked, ask to unlock */
-    //         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-    //         if (!accounts.length) {
-    //           try {
-    //             await activate(connectors.injected);
-    //           } catch {
-    //             setConnectionStatus(ConnectionStatus.DISCONNECTED);
-    //             return;
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-
-    //   void refreshToken(payload.address);
-    // } else {
-    //   // otherwise, open wallet connect modal
-    //   openModal();
-    // }
     setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
     login();
   }, [login, payload?.ethAddress]);
@@ -121,10 +92,10 @@ export const Web3ContextProvider = (props: Props) => {
     const authToken = await getAccessToken();
     // without connected wallet, auth is not working on BE for now
     if (!authToken) {
+      setIsAuthenticating(false);
       return;
     }
 
-    setIsAuthenticating(true);
     const authData: AuthenticateResponse | null = await api.auth.authenticate(authToken);
     setIsAuthenticating(false);
 
@@ -139,21 +110,19 @@ export const Web3ContextProvider = (props: Props) => {
     setAccessToken(authData.tokens.accessToken);
   }, [getAccessToken, setConnectionStatus, api.auth, setAccessToken, setIsAuthenticating]);
 
-  // handle login
+  // handle authentication with BE
   useEffect(() => {
-    if (connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET) return;
-
-    if (ready && authenticated && !isAuthenticating) {
+    if (isAuthenticating) {
       void authenticate();
     }
-  }, [ready, authenticated, connectionStatus, isAuthenticating, authenticate]);
+  }, [authenticate, isAuthenticating]);
 
-  // refresh access token from BE
+  // handle privy user change
   useEffect(() => {
-    if (user && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET) {
-      void authenticate();
+    if (ready && authenticated && user) {
+      setIsAuthenticating(true);
     }
-  }, [user, connectionStatus]);
+  }, [ready, authenticated, user, setIsAuthenticating]);
 
   const onChainProvider = useMemo(
     () => ({
