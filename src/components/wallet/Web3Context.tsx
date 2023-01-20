@@ -82,10 +82,10 @@ export const Web3ContextProvider = (props: Props) => {
   }, [tokens, disconnect]);
 
   const handleConnect = useCallback(async () => {
-    trackConnectWallet(payload?.ethAddress);
+    trackConnectWallet(payload?.address?.ethAddress);
     setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
     login();
-  }, [login, payload?.ethAddress]);
+  }, [login, payload?.address?.ethAddress]);
 
   // Privy Auth
   const authenticate = useCallback(async () => {
@@ -128,11 +128,11 @@ export const Web3ContextProvider = (props: Props) => {
     () => ({
       connectionStatus,
       setConnectionStatus,
-      ensName: payload?.ensName ?? null,
+      ensName: payload?.address?.ensName ?? null,
       disconnect,
       handleConnect,
     }),
-    [connectionStatus, setConnectionStatus, payload?.ensName, disconnect, handleConnect],
+    [connectionStatus, setConnectionStatus, payload?.address?.ensName, disconnect, handleConnect],
   );
 
   return <Web3Context.Provider value={{ onChainProvider }}>{props.children}</Web3Context.Provider>;

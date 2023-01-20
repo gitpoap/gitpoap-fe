@@ -3,8 +3,8 @@ import { useTokens } from './useTokens';
 import { useWeb3Context, ConnectionStatus } from '../components/wallet/Web3Context';
 
 export type User = {
-  addressId: number;
-  address: string;
+  addressId: number | null;
+  address: string | null;
   githubId: number | null;
   githubHandle: string | null;
   discordHandle: string | null;
@@ -33,18 +33,18 @@ export const useUser = (): User | null => {
   let user = null;
   if (payload && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET) {
     user = {
-      githubId: payload.githubId,
-      githubHandle: payload.githubHandle,
-      discordHandle: payload.discordHandle,
-      addressId: payload.addressId,
-      address: payload.ethAddress,
-      ensName: payload.ensName,
-      ensAvatarImageUrl: payload.ensAvatarImageUrl,
-      emailAddress: payload.emailAddress,
+      githubId: payload.github?.githubId ?? null,
+      githubHandle: payload.github?.githubHandle ?? null,
+      discordHandle: payload.discord?.discordHandle ?? null,
+      addressId: payload.address?.id ?? null,
+      address: payload.address?.ethAddress ?? null,
+      ensName: payload.address?.ensName ?? null,
+      ensAvatarImageUrl: payload.address?.ensAvatarImageUrl ?? null,
+      emailAddress: payload.email?.emailAddress ?? null,
       capabilities: {
-        hasGithub: !!payload?.githubId,
-        hasEmail: !!payload?.emailAddress,
-        hasDiscord: !!payload?.discordHandle,
+        hasGithub: !!payload.github?.githubId,
+        hasEmail: !!payload.email?.emailAddress,
+        hasDiscord: !!payload.discord?.discordHandle,
       },
       permissions: {
         isStaff,

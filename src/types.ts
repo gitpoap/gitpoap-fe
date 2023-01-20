@@ -58,18 +58,42 @@ export type Memberships = {
   role: MembershipRole;
 }[];
 
-export type AccessTokenPayload = {
-  authTokenId: number;
-  privyUserId: string;
-  addressId: number;
+export type AddressPayload = {
+  id: number;
   ethAddress: string;
   ensName: string | null;
   ensAvatarImageUrl: string | null;
-  memberships: Memberships;
-  githubId: number | null;
-  githubHandle: string | null;
-  emailId: number | null;
-  discordId: number | null;
-  discordHandle: string | null;
-  emailAddress: string | null;
+};
+
+export type GithubPayload = {
+  id: number;
+  githubId: number;
+  githubHandle: string;
+};
+
+export type EmailPayload = {
+  id: number;
+  emailAddress: string;
+};
+
+export type DiscordPayload = {
+  id: number;
+  discordId: string;
+  discordHandle: string;
+};
+
+export type MembershipPayload = {
+  teamId: number;
+  role: MembershipRole;
+};
+
+export type MembershipsPayload = MembershipPayload[];
+
+export type AccessTokenPayload = {
+  privyUserId: string;
+  address: AddressPayload | null;
+  github: GithubPayload | null;
+  email: EmailPayload | null;
+  discord: DiscordPayload | null;
+  memberships: MembershipsPayload;
 };

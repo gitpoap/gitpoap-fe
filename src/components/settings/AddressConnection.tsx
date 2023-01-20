@@ -34,7 +34,7 @@ export const AddressConnection = ({ user }: Props) => {
                   <b>{`${user.ensName}`}</b>
                 </Tooltip>
               ) : (
-                <b>{`${shortenAddress(user.address)}`}</b>
+                <b>{`${shortenAddress(user.address ?? '')}`}</b>
               )}
             </Link>
           </Text>
