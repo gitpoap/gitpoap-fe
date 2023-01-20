@@ -1,8 +1,7 @@
-import { Group, Stack, Input as InputUI, Box, Text, List, Grid, Divider } from '@mantine/core';
+import { Group, Stack, Box, Text, List, Grid, Divider } from '@mantine/core';
 import { FileWithPath } from '@mantine/dropzone';
 import { UseFormReturnType } from '@mantine/form';
 import { rem } from 'polished';
-import styled from 'styled-components';
 
 import { BackgroundPanel, BackgroundPanel2, ExtraRed } from '../../colors';
 import { useTeamDataQuery } from '../../graphql/generated-gql';
@@ -10,15 +9,11 @@ import { useUser } from '../../hooks/useUser';
 import { CreateFormValues, EditFormValues } from '../../lib/api/gitpoapRequest';
 import { Link } from '../shared/compounds/Link';
 import { ButtonStatus, StatusButton } from '../shared/compounds/StatusButton';
-import { DateInput, Header, Input, TextArea, TextInputLabelStyles } from '../shared/elements';
+import { DateInput, Header, Input, Label, TextArea } from '../shared/elements';
 import { useTeamsContext } from '../team/TeamsContext';
 import { TeamSwitcher } from '../team/TeamSwitcher';
 import { HexagonDropzone } from './HexagonDropzone';
 import { SelectContributors } from './SelectContributors';
-
-const Label = styled(InputUI.Label)`
-  ${TextInputLabelStyles};
-`;
 
 const SubmitButtonText = {
   UNSUBMITTED: 'Create & Submit For Review',

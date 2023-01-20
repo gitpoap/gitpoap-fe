@@ -8,7 +8,7 @@ import {
   TextDarkGray,
 } from '../../../colors';
 import { Textarea } from '@mantine/core';
-import { TextInputLabelStyles } from './Input';
+import { TextInputLabelStyles } from './Label';
 
 type Props = React.ComponentProps<typeof Textarea> & {
   className?: string;

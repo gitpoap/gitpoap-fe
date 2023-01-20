@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useUpdateTeamMutation } from '../../../graphql/generated-gql';
 import { useApi } from '../../../hooks/useApi';
 import { Notifications } from '../../../notifications';
-import { Header, Input, Text, TextArea } from '../../shared/elements';
+import { Header, Input, Label, TextArea } from '../../shared/elements';
 import { TeamDataWithColor } from '../TeamsContext';
 import { TeamLogo } from './TeamLogo';
 
@@ -69,13 +69,13 @@ export const TeamSettings = ({ teamData }: Props) => {
           <Stack spacing={32} sx={{ maxWidth: rem(600), minWidth: rem(300) }}>
             <Input
               placeholder="Name"
-              label={<Text>{'Name'}</Text>}
+              label={<Label>{'Name'}</Label>}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <TextArea
               placeholder="Description"
-              label={<Text>{'Description'}</Text>}
+              label={<Label>{'Description'}</Label>}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -86,7 +86,7 @@ export const TeamSettings = ({ teamData }: Props) => {
         </Grid.Col>
         <Grid.Col span="content">
           <Stack>
-            <Text>{'Team Logo'}</Text>
+            <Label>{'Team Logo'}</Label>
             <TeamLogo
               name={name}
               size={250}

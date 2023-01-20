@@ -8,7 +8,7 @@ import {
   ExtraPressed,
   PrimaryBlue,
 } from '../../../colors';
-import { TextInputLabelStyles } from './Input';
+import { TextInputLabelStyles } from './Label';
 
 const StyledCheckbox = styled(CheckboxUI)<CheckboxProps & { disabled?: boolean }>`
   .mantine-Checkbox-input {

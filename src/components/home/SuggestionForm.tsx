@@ -4,7 +4,7 @@ import { rem } from 'polished';
 import { Radio, Input as InputUI } from '@mantine/core';
 import { validate } from 'email-validator';
 import { BackgroundPanel2, TextAccent } from '../../colors';
-import { Input, TextInputLabelStyles } from '../shared/elements/Input';
+import { Input, TextInputLabelStyles } from '../shared/elements';
 import { Button } from '../shared/elements/Button';
 import { BREAKPOINTS } from '../../constants';
 import { GITPOAP_API_URL } from '../../environment';
