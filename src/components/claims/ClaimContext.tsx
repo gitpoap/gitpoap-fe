@@ -104,7 +104,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
           refetchUserClaims();
           setLoadingClaimIds([]);
         }
-        trackClickMint(address, claimIds);
+        trackClickMint(claimIds);
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.warn(err);
@@ -113,7 +113,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
         setLoadingClaimIds([]);
       }
     },
-    [tokens?.accessToken, refetchUserClaims, address],
+    [tokens?.accessToken, refetchUserClaims],
   );
 
   const value = useMemo(

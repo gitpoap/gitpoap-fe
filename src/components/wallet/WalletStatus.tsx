@@ -39,7 +39,7 @@ export const JazzIconNoText = styled(JazzIconReact)`
 export const WalletStatus = ({ address, ensName, hideText, ensAvatarUrl }: Props) => {
   if (hideText) {
     return (
-      <Container variant="outline">
+      <Container rightIcon={<FaChevronDown />} variant="outline">
         {ensAvatarUrl ? (
           <Avatar src={ensAvatarUrl} useDefaultImageTag size={16} />
         ) : (

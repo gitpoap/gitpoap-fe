@@ -90,7 +90,6 @@ export const Navbar = () => {
   const { connectionStatus, ensName } = useWeb3Context();
   const address = user?.address ?? '';
 
-  const matches1330 = useMediaQuery(`(min-width: ${rem(1330)})`, false);
   const matchesLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
   const matchesMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`, false);
   const [isOpen, setIsOpen] = useState(false);
@@ -113,7 +112,7 @@ export const Navbar = () => {
         {'Docs'}
       </NavLink>
       <ClaimButton hideText={!matchesLg} />
-      <Wallet hideText={!matches1330} isMobile={false} />
+      <Wallet hideText={true} isMobile={false} />
     </>
   );
 
