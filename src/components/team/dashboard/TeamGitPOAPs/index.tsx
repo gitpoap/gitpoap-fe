@@ -1,4 +1,5 @@
 import { Group, Stack, Text, ActionIcon } from '@mantine/core';
+import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import React, { useState } from 'react';
 import { MdGridView, MdList } from 'react-icons/md';
@@ -29,7 +30,10 @@ type Props = {
 };
 
 export const TeamGitPOAPs = ({ teamId }: Props) => {
-  const [view, setView] = useState<'grid' | 'list'>('grid');
+  const [view, setView] = useLocalStorage<'grid' | 'list'>({
+    key: 'dataView',
+    defaultValue: 'grid',
+  });
   const [filter, setFilter] = useState<FilterOptions>('ALL');
   const [sort, setSort] = useState<SortOptions>('createdAt');
 
