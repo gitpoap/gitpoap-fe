@@ -10,7 +10,7 @@ import { GITPOAP_API_URL } from '../../environment';
 import { Notifications } from '../../notifications';
 import { useProfileContext } from './ProfileContext';
 import { useTokens } from '../../hooks/useTokens';
-import { useWeb3Context } from '../wallet/Web3Context';
+import { useUser } from '../../hooks/useUser';
 
 export type GitPOAP = Exclude<
   FeaturedPoapsQuery['profileFeaturedPOAPs'],
@@ -61,7 +61,8 @@ type Props = {
 };
 
 export const FeaturedPOAPsProvider = ({ children }: Props) => {
-  const { address } = useWeb3Context();
+  const user = useUser();
+  const address = user?.address ?? '';
   const { profileData } = useProfileContext();
   const { tokens } = useTokens();
   const [showHearts, setShowHearts] = useState(false);

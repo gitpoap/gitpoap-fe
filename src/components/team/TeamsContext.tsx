@@ -2,7 +2,7 @@ import { useLocalStorage } from '@mantine/hooks';
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { stringToColor } from '../../helpers';
 import { UserTeamsQuery, useUserTeamsQuery } from '../../graphql/generated-gql';
-import { useWeb3Context } from '../wallet/Web3Context';
+import { useUser } from '../../hooks/useUser';
 
 export type TeamDataWithColor = UserTeamsQuery['teams'][number] & { color: string };
 
@@ -26,7 +26,8 @@ type Props = {
 
 export const TeamsProvider = ({ children }: Props) => {
   const [teamId, setTeamId] = useLocalStorage<number | undefined>({ key: 'teamId' });
-  const { address } = useWeb3Context();
+  const user = useUser();
+  const address = user?.address ?? '';
   const [teamsData, setTeamsData] = useState<TeamDataWithColor[]>();
   const [hasFetchedTeams, setHasFetchedTeams] = useState<boolean>(false);
 
