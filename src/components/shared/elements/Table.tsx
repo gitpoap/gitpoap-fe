@@ -19,7 +19,7 @@ type TableWrapperProps = {
   headerControls?: React.ReactNode;
 };
 
-export const TableWrapper = ({ children, border = true, headerControls }: TableWrapperProps) => (
+export const TableWrapper = ({ children, border = false, headerControls }: TableWrapperProps) => (
   <Stack
     align="center"
     justify="flex-start"
