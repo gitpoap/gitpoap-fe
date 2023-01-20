@@ -7756,7 +7756,7 @@ export type UserMembershipsQuery = {
       role: MembershipRole;
       acceptanceStatus: MembershipAcceptanceStatus;
       createdAt: any;
-      team: { __typename?: 'Team'; name: string };
+      team: { __typename?: 'Team'; name: string; logoImageUrl?: string | null };
       address: { __typename?: 'Address'; ethAddress: string; ensName?: string | null };
     }>;
   } | null;
@@ -9725,6 +9725,7 @@ export const UserMembershipsDocument = gql`
         teamId
         team {
           name
+          logoImageUrl
         }
         addressId
         address {

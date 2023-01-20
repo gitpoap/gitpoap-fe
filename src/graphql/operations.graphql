@@ -1145,6 +1145,7 @@ query userMemberships {
       teamId
       team {
         name
+        logoImageUrl
       }
       addressId
       address {

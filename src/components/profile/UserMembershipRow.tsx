@@ -16,6 +16,7 @@ import { BackgroundPanel2 } from '../../colors';
 import { Button, Text, RelativeDate } from '../shared/elements';
 import { useTeamsContext } from '../team/TeamsContext';
 import { Notifications } from '../../notifications';
+import { TeamLogo } from '../team/settings/TeamLogo';
 
 const TableRow = styled.tr`
   cursor: pointer;
@@ -122,13 +123,16 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
   return (
     <TableRow onClick={handleClick}>
       <td>
-        <AcceptanceStatusBadge status={acceptanceStatus} />
-      </td>
-      <td>
-        <Text lineClamp={3}>{team.name}</Text>
+        <Group>
+          <TeamLogo name={team.name} size={40} imageUrl={team.logoImageUrl} />
+          <Text lineClamp={3}>{team.name}</Text>
+        </Group>
       </td>
       <td>
         <Text lineClamp={3}>{role}</Text>
+      </td>
+      <td>
+        <AcceptanceStatusBadge status={acceptanceStatus} />
       </td>
       <td>
         <RelativeDate sx={{ whiteSpace: 'nowrap' }} date={DateTime.fromISO(joinedOn)} />
