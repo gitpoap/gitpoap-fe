@@ -1,4 +1,4 @@
-import { Group, Stack, Text, ActionIcon } from '@mantine/core';
+import { Group, Stack, ActionIcon } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import React, { useState } from 'react';
@@ -8,6 +8,7 @@ import { TextGray, White } from '../../../../colors';
 import { useTeamGitPoaPsQuery } from '../../../../graphql/generated-gql';
 import { SelectOption } from '../../../shared/compounds/ItemList';
 import { Header, Select } from '../../../shared/elements';
+import { TableEmptyState, TableLoader } from '../../../shared/elements/Table';
 import { TeamGitPOAPsGrid } from './Grid';
 import { TeamGitPOAPsList } from './List';
 
@@ -60,6 +61,7 @@ export const TeamGitPOAPs = ({ teamId }: Props) => {
   };
 
   const gitPOAPs = result.data?.teamGitPOAPs;
+  console.log(result);
 
   return (
     <Group position="center" p={0}>
@@ -87,16 +89,16 @@ export const TeamGitPOAPs = ({ teamId }: Props) => {
             </Group>
           </Group>
         </Group>
-        {!result.fetching && gitPOAPs && gitPOAPs.length === 0 && (
-          <Text my={rem(20)} size={18}>
-            {'No GitPOAPs Found'}
-          </Text>
-        )}
-        {gitPOAPs &&
+        {result.fetching ? (
+          <TableLoader />
+        ) : !gitPOAPs || gitPOAPs.length === 0 ? (
+          <TableEmptyState text={'No GitPOAPs Found'} />
+        ) : (
           {
             grid: <TeamGitPOAPsGrid gitPOAPs={gitPOAPs} />,
             list: <TeamGitPOAPsList gitPOAPs={gitPOAPs} />,
-          }[view]}
+          }[view]
+        )}
       </Stack>
     </Group>
   );

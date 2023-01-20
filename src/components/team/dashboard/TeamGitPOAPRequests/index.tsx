@@ -8,6 +8,7 @@ import { TextGray, White } from '../../../../colors';
 import { useTeamGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { SelectOption } from '../../../shared/compounds/ItemList';
 import { Header, Select } from '../../../shared/elements';
+import { TableEmptyState, TableLoader } from '../../../shared/elements/Table';
 import { TeamGitPOAPRequestsGrid } from './Grid';
 import { TeamGitPOAPRequestsList } from './List';
 
@@ -91,11 +92,16 @@ export const TeamGitPOAPRequests = ({ teamId }: Props) => {
             {'No GitPOAP Requests Found'}
           </Text>
         )}
-        {gitPOAPRequests &&
+        {result.fetching ? (
+          <TableLoader />
+        ) : !gitPOAPRequests || gitPOAPRequests.length === 0 ? (
+          <TableEmptyState text={'No GitPOAP Requests Found'} />
+        ) : (
           {
             grid: <TeamGitPOAPRequestsGrid gitPOAPRequests={gitPOAPRequests} />,
             list: <TeamGitPOAPRequestsList gitPOAPRequests={gitPOAPRequests} />,
-          }[view]}
+          }[view]
+        )}
       </Stack>
     </Group>
   );

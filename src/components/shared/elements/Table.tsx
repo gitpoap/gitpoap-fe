@@ -1,4 +1,13 @@
-import { Center, Group, ScrollArea, Stack, Text, UnstyledButton } from '@mantine/core';
+import {
+  Center,
+  Group,
+  Loader,
+  ScrollArea,
+  Stack,
+  Text,
+  Title,
+  UnstyledButton,
+} from '@mantine/core';
 import { rem } from 'polished';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { HiSelector } from 'react-icons/hi';
@@ -87,3 +96,15 @@ export const TableHeaderItem = ({
     </th>
   );
 };
+
+export const TableLoader = () => (
+  <Center sx={{ height: rem(320) }}>
+    <Loader />
+  </Center>
+);
+
+export const TableEmptyState = ({ text }: { text: string }) => (
+  <Center sx={{ height: rem(320) }}>
+    <Title>{text}</Title>
+  </Center>
+);
