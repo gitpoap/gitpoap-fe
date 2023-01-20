@@ -24,12 +24,10 @@ export enum ConnectionStatus {
 }
 
 type onChainProvider = {
-  address: string | null;
-  setAddress: (address: string) => void;
   ensName: string | null;
   connectionStatus: ConnectionStatus;
   setConnectionStatus: (connectionStatus: ConnectionStatus) => void;
-  disconnectWallet: () => void;
+  disconnect: () => void;
   handleConnect: () => void;
 };
 
@@ -57,28 +55,30 @@ export const useWeb3Context = () => {
 };
 
 export const Web3ContextProvider = (props: Props) => {
-  const { ready, authenticated, user, login, getAccessToken } = usePrivy();
+  const { ready, authenticated, user, login, getAccessToken, logout } = usePrivy();
+  const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
 
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(
     ConnectionStatus.UNINITIALIZED,
   );
-  const [address, setAddress] = useState<string | null>(null);
   const api = useApi();
   const { setAccessToken, tokens, payload } = useTokens();
+  const address = user?.wallet?.address ?? '';
 
-  const disconnectWallet = useCallback(() => {
+  const disconnect = useCallback(async () => {
     trackDisconnectWallet(address);
 
-    setConnectionStatus(ConnectionStatus.DISCONNECTED);
-    setAddress('');
+    setConnectionStatus(ConnectionStatus.DISCONNECTING);
+    await logout();
     setAccessToken(null);
-  }, [setConnectionStatus, , setAccessToken, setAddress, address]);
+    setConnectionStatus(ConnectionStatus.DISCONNECTED);
+  }, [setConnectionStatus, , setAccessToken, logout, address]);
 
   useEffect(() => {
     if (tokens?.accessToken === null) {
-      disconnectWallet();
+      void disconnect();
     }
-  }, [tokens, disconnectWallet]);
+  }, [tokens, disconnect]);
 
   const handleConnect = useCallback(async () => {
     // // if previous access token exists, we check if refresh token is valid or not
@@ -112,20 +112,21 @@ export const Web3ContextProvider = (props: Props) => {
     //   // otherwise, open wallet connect modal
     //   openModal();
     // }
-
+    setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
     login();
-  }, [login]);
+  }, [login, payload?.ethAddress]);
 
   // Privy Auth
-
   const authenticate = useCallback(async () => {
     const authToken = await getAccessToken();
-
-    if (!authToken || !user || !user.wallet) {
+    // without connected wallet, auth is not working on BE for now
+    if (!authToken) {
       return;
     }
 
+    setIsAuthenticating(true);
     const authData: AuthenticateResponse | null = await api.auth.authenticate(authToken);
+    setIsAuthenticating(false);
 
     if (!authData) {
       // update connection status
@@ -134,37 +135,35 @@ export const Web3ContextProvider = (props: Props) => {
     }
     // update connection status
     setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
-    setAddress(user.wallet.address);
     // update tokens
     setAccessToken(authData.tokens.accessToken);
-  }, [getAccessToken, user, setConnectionStatus, setAddress, api.auth, setAccessToken]);
+  }, [getAccessToken, setConnectionStatus, api.auth, setAccessToken, setIsAuthenticating]);
 
+  // handle login
   useEffect(() => {
-    if (ready && authenticated) {
-      setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+    if (connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET) return;
+
+    if (ready && authenticated && !isAuthenticating) {
       void authenticate();
     }
-  }, [ready, authenticated]);
+  }, [ready, authenticated, connectionStatus, isAuthenticating, authenticate]);
+
+  // refresh access token from BE
+  useEffect(() => {
+    if (user && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET) {
+      void authenticate();
+    }
+  }, [user, connectionStatus]);
 
   const onChainProvider = useMemo(
     () => ({
-      address,
-      setAddress,
       connectionStatus,
       setConnectionStatus,
       ensName: payload?.ensName ?? null,
-      disconnectWallet,
+      disconnect,
       handleConnect,
     }),
-    [
-      address,
-      setAddress,
-      connectionStatus,
-      setConnectionStatus,
-      payload?.ensName,
-      disconnectWallet,
-      handleConnect,
-    ],
+    [connectionStatus, setConnectionStatus, payload?.ensName, disconnect, handleConnect],
   );
 
   return <Web3Context.Provider value={{ onChainProvider }}>{props.children}</Web3Context.Provider>;

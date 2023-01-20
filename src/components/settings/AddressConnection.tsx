@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const AddressConnection = ({ user }: Props) => {
-  const { disconnectWallet } = useWeb3Context();
+  const { disconnect } = useWeb3Context();
 
   return (
     <Group position="apart" my={4}>
@@ -40,7 +40,7 @@ export const AddressConnection = ({ user }: Props) => {
           </Text>
         </Stack>
       </Group>
-      <Button variant="outline" onClick={disconnectWallet} sx={{ width: rem(145) }}>
+      <Button variant="outline" onClick={disconnect} sx={{ width: rem(145) }}>
         {'SIGN OUT'}
       </Button>
     </Group>

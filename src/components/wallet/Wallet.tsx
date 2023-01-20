@@ -17,10 +17,11 @@ type Props = {
 };
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
-  const { connectionStatus, address: connectedAddress, disconnectWallet } = useWeb3Context();
+  const { connectionStatus, disconnect } = useWeb3Context();
   const user = useUser();
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
+  const connectedAddress = user?.address;
 
   return (
     <Group position="center" align="center">
@@ -77,7 +78,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                 </Menu.Item>
               )}
               <Menu.Divider />
-              <Menu.Item onClick={disconnectWallet}>{'Disconnect'}</Menu.Item>
+              <Menu.Item onClick={disconnect}>{'Disconnect'}</Menu.Item>
             </Menu.Dropdown>
           </Menu>
         ) : (
