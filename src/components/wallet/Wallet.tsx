@@ -61,7 +61,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               </Menu.Item>
               {user?.permissions.isStaff && (
                 <Menu.Item component={Link} href={'/me/teams'}>
-                  {'Teams'}
+                  {'My Teams'}
                 </Menu.Item>
               )}
               <Menu.Item component={Link} href="/settings">
