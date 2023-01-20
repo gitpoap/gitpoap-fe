@@ -121,12 +121,12 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
       </td>
       <td>
         {acceptanceStatus === MembershipAcceptanceStatus.Pending && (
-          <Group align={'center'}>
-            <Button onClick={handleAccept} compact>
-              <FaCheckCircle />
+          <Group align={'center'} noWrap>
+            <Button onClick={handleAccept} leftIcon={<FaCheckCircle />} compact>
+              {'Accept'}
             </Button>
-            <Button onClick={handleReject} compact>
-              <FaTimesCircle />
+            <Button onClick={handleReject} leftIcon={<FaTimesCircle />} compact>
+              {'Deny'}
             </Button>
           </Group>
         )}
