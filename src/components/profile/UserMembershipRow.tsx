@@ -58,6 +58,13 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      cancelProps: {
+        color: 'red',
+        variant: 'outline',
+      },
+      confirmProps: {
+        variant: 'outline',
+      },
       onConfirm: async () => {
         const result = await acceptMembership({ teamId });
         if (result.error) {
@@ -80,6 +87,13 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         </Text>
       ),
       centered: true,
+      cancelProps: {
+        color: 'red',
+        variant: 'outline',
+      },
+      confirmProps: {
+        variant: 'outline',
+      },
       children: (
         <Text size="sm">
           {`Are you sure you want to reject this invitation from `}
