@@ -56,13 +56,6 @@ export const ClaimContextProvider = ({ children }: Props) => {
     refetchUserClaims();
   }, [address, hasGithub, hasEmail, refetchUserClaims]);
 
-  // /* Initially fetch the user's claims */
-  useEffect(() => {
-    if (!userClaims && !result.fetching) {
-      refetchUserClaims();
-    }
-  }, [refetchUserClaims, userClaims, result]);
-
   /*
    * useOpenClaimsQuery includes all claimed GitPOAPs from the previous month
    * This side effect adds the ids of those claimed GitPOAPs to the claimedIds list
@@ -78,7 +71,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
         .map((userClaim) => userClaim.claim.id);
       handlers.setState([...ids]);
     }
-  }, [userClaims]);
+  }, [userClaims, handlers]);
 
   const claimGitPOAPs = useCallback(
     async (claimIds: number[]) => {
@@ -113,7 +106,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
         setLoadingClaimIds([]);
       }
     },
-    [tokens?.accessToken, refetchUserClaims],
+    [tokens?.accessToken, refetchUserClaims, handlers],
   );
 
   const value = useMemo(
