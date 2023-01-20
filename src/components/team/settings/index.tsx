@@ -58,6 +58,8 @@ export const TeamSettings = ({ teamData }: Props) => {
       return;
     }
 
+    Notifications.success('Logo uploaded successfully!');
+
     setLogoImageUrl(URL.createObjectURL(file));
   };
 
