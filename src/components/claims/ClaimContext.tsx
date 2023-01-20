@@ -36,9 +36,6 @@ export const ClaimContextProvider = ({ children }: Props) => {
   const address = user?.address ?? '';
 
   const [result, refetchUserClaims] = useOpenClaimsQuery({
-    variables: {
-      address,
-    },
     pause: true,
     requestPolicy: 'cache-and-network',
   });
@@ -57,14 +54,14 @@ export const ClaimContextProvider = ({ children }: Props) => {
    */
   useEffect(() => {
     refetchUserClaims();
-  }, [hasGithub, hasEmail, refetchUserClaims]);
+  }, [address, hasGithub, hasEmail, refetchUserClaims]);
 
   // /* Initially fetch the user's claims */
   useEffect(() => {
-    if (address && !userClaims && !result.fetching) {
+    if (!userClaims && !result.fetching) {
       refetchUserClaims();
     }
-  }, [address, refetchUserClaims, userClaims, result]);
+  }, [refetchUserClaims, userClaims, result]);
 
   /*
    * useOpenClaimsQuery includes all claimed GitPOAPs from the previous month
