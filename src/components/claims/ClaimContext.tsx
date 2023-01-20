@@ -71,7 +71,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
         .map((userClaim) => userClaim.claim.id);
       handlers.setState([...ids]);
     }
-  }, [userClaims, handlers]);
+  }, [userClaims]);
 
   const claimGitPOAPs = useCallback(
     async (claimIds: number[]) => {
@@ -106,7 +106,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
         setLoadingClaimIds([]);
       }
     },
-    [tokens?.accessToken, refetchUserClaims, handlers],
+    [tokens?.accessToken, refetchUserClaims],
   );
 
   const value = useMemo(
