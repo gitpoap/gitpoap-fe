@@ -1,12 +1,14 @@
+import { DateTime } from 'luxon';
 import React from 'react';
 import { MdDelete } from 'react-icons/md';
-import { DateTime } from 'luxon';
+
 import { TeamMembershipsQuery, MembershipRole } from '../../../../graphql/generated-gql';
-import { AcceptanceStatusBadge } from './AcceptanceStatusBadge';
 import { shortenAddress } from '../../../../helpers';
-import { Button, Text, RelativeDate } from '../../../shared/elements';
+import { useUser } from '../../../../hooks/useUser';
 import { Link } from '../../../shared/compounds/Link';
+import { Button, Text, RelativeDate } from '../../../shared/elements';
 import { TableRow } from '../../../shared/elements/Table';
+import { AcceptanceStatusBadge } from './AcceptanceStatusBadge';
 
 type TeamMemberships = Exclude<TeamMembershipsQuery['teamMemberships'], undefined | null>;
 
@@ -19,6 +21,7 @@ type RowProps = {
 };
 
 export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
+  const user = useUser();
   const { id, role, acceptanceStatus, joinedOn, address } = membership;
 
   return (
@@ -40,7 +43,7 @@ export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
         <RelativeDate sx={{ whiteSpace: 'nowrap' }} date={DateTime.fromISO(joinedOn)} />
       </td>
       <td>
-        {role !== MembershipRole.Owner && (
+        {role !== MembershipRole.Owner && address.ethAddress !== user?.address && (
           <Button onClick={() => openRemoveModal(id, address)} compact>
             <MdDelete />
           </Button>
