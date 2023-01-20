@@ -73,6 +73,15 @@ export const getWeb3Provider = (provider: ExternalProvider | JsonRpcFetchFunc) =
   return new Web3Provider(provider);
 };
 
+export const stringToColor = (text: string, saturation = 100, lightness = 75) => {
+  let hash = 0;
+  for (let i = 0; i < text.length; i++) {
+    hash = text.charCodeAt(i) + ((hash << 5) - hash);
+    hash = hash & hash;
+  }
+  return `hsl(${hash % 360}, ${saturation}%, ${lightness}%)`;
+};
+
 export const generateRandomColorRGB = (dark?: boolean) => {
   const randomColor = `rgb(${Math.floor((Math.random() * 256) / (dark ? 2 : 1))}, ${Math.floor(
     (Math.random() * 256) / (dark ? 2 : 1),
