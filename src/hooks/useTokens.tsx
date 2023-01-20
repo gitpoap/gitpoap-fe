@@ -8,8 +8,7 @@ export const isTokens = (tokens: unknown): tokens is Tokens => {
   return (
     typeof tokens === 'object' &&
     tokens !== null &&
-    typeof (tokens as Tokens).accessToken === 'string' &&
-    typeof (tokens as Tokens).refreshToken === 'string'
+    typeof (tokens as Tokens).accessToken === 'string'
   );
 };
 

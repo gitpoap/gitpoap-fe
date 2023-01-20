@@ -51,8 +51,6 @@ export type SignatureType = {
 export type Tokens = {
   /* GitPOAP issued access token */
   accessToken: string;
-  /* GitPOAP issued refresh token */
-  refreshToken: string;
 };
 
 export type Memberships = {

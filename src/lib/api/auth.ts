@@ -6,11 +6,8 @@ export type AuthenticateResponse = {
 };
 
 export class AuthAPI extends API {
-  protected refreshToken: string | null;
-
   constructor(tokens: Tokens | null) {
     super(tokens?.accessToken);
-    this.refreshToken = tokens?.refreshToken ?? null;
   }
 
   async authenticate(privyToken: string): Promise<AuthenticateResponse | null> {
@@ -28,22 +25,6 @@ export class AuthAPI extends API {
 
     const tokens: Tokens = await res.json();
     return { tokens };
-  }
-
-  async refresh() {
-    const res = await makeAPIRequest(
-      '/auth/refresh',
-      'POST',
-      JSON.stringify({ token: this.refreshToken }),
-    );
-
-    if (!res) {
-      return null;
-    }
-
-    const tokens: Tokens = await res.json();
-
-    return tokens;
   }
 
   async githubAuth(code: string) {

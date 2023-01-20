@@ -23,7 +23,7 @@ export const useIsStaff = (): boolean => {
   }
 
   /* Check if the user's address is in the list of staff on the FE */
-  const isStaffAddress = STAFF_ADDRESSES.includes(payload.address);
+  const isStaffAddress = STAFF_ADDRESSES.includes(payload.ethAddress);
 
   /*
    * Since staff status is determined by a GitHub ID or address, if githubId doesn't exist on the payload

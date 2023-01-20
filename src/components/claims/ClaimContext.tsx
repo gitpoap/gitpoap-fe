@@ -33,9 +33,11 @@ export const ClaimContextProvider = ({ children }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [claimedIds, handlers] = useListState<number>([]);
   const [loadingClaimIds, setLoadingClaimIds] = useState<number[]>([]);
+  const address = user?.address ?? '';
+
   const [result, refetchUserClaims] = useOpenClaimsQuery({
     variables: {
-      address: user?.address ?? '',
+      address,
     },
     pause: true,
     requestPolicy: 'cache-and-network',
@@ -57,12 +59,12 @@ export const ClaimContextProvider = ({ children }: Props) => {
     refetchUserClaims();
   }, [hasGithub, hasEmail, refetchUserClaims]);
 
-  /* Initially fetch the user's claims */
+  // /* Initially fetch the user's claims */
   useEffect(() => {
-    if (user?.address && !userClaims && !result.fetching) {
+    if (address && !userClaims && !result.fetching) {
       refetchUserClaims();
     }
-  }, [user, refetchUserClaims, userClaims, result]);
+  }, [address, refetchUserClaims, userClaims, result]);
 
   /*
    * useOpenClaimsQuery includes all claimed GitPOAPs from the previous month
@@ -105,7 +107,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
           refetchUserClaims();
           setLoadingClaimIds([]);
         }
-        trackClickMint(user?.address, claimIds);
+        trackClickMint(address, claimIds);
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.warn(err);
@@ -114,7 +116,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
         setLoadingClaimIds([]);
       }
     },
-    [tokens?.accessToken, refetchUserClaims, user?.address],
+    [tokens?.accessToken, refetchUserClaims, address],
   );
 
   const value = useMemo(

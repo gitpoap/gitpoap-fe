@@ -20,6 +20,7 @@ export const Amplitude = () => {
   const user = useUser();
   const { connectionStatus } = useWeb3Context();
   const { pathname, asPath, isReady } = useRouter();
+  const address = user?.address ?? '';
 
   useEffect(() => {
     if (isReady) {
@@ -54,7 +55,7 @@ export const Amplitude = () => {
       setUserId(undefined);
       setDeviceId(uuidv4());
     }
-  }, [connectionStatus, user?.address]);
+  }, [connectionStatus, address]);
 
   /* This hook is used to track page views. It is called on every page change, which
    * is detected via changes to pathname
