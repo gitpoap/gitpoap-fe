@@ -4,7 +4,7 @@ import { UseFormReturnType } from '@mantine/form';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
-import { BackgroundPanel, ExtraRed } from '../../colors';
+import { BackgroundPanel, BackgroundPanel2, ExtraRed } from '../../colors';
 import { useTeamDataQuery } from '../../graphql/generated-gql';
 import { useUser } from '../../hooks/useUser';
 import { CreateFormValues, EditFormValues } from '../../lib/api/gitpoapRequest';
@@ -116,9 +116,21 @@ export const FormFields = <FormValues extends CreateFormValues | EditFormValues>
                 <TeamSwitcher
                   p={8}
                   mb={0}
-                  sx={{
-                    backgroundColor: BackgroundPanel,
-                    borderRadius: rem(6),
+                  styles={{
+                    root: {
+                      backgroundColor: BackgroundPanel,
+                      borderRadius: rem(6),
+                      height: 'auto',
+                      '&:hover:not(:disabled)': {
+                        backgroundColor: BackgroundPanel2,
+                      },
+                    },
+                    inner: {
+                      width: '100%',
+                    },
+                    label: {
+                      width: '100%',
+                    },
                   }}
                 />
               </Stack>

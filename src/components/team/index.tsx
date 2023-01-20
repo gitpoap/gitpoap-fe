@@ -64,7 +64,7 @@ export const TeamContainer = ({ page, user }: Props) => {
         variant="pills"
       >
         <Tabs.List pt={rem(10)}>
-          <TeamSwitcher />
+          <TeamSwitcher sx={{ height: 'auto', width: rem(220) }} />
           <Tabs.Tab value={TeamRoutes.Dashboard}>{'Dashboard'}</Tabs.Tab>
           <Tabs.Tab value={TeamRoutes.Requests}>{'Requests'}</Tabs.Tab>
           <Tabs.Tab value={TeamRoutes.Members}>{'Members'}</Tabs.Tab>
