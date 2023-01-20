@@ -23,7 +23,6 @@ import { FaPlus, FaSearch } from 'react-icons/fa';
 import { useCallback, useState } from 'react';
 import { AddContributorModal } from './AddContributorsModal';
 import { AddZone } from './AddZone';
-import { Link } from '../../shared/compounds/Link';
 import { useDebouncedValue } from '@mantine/hooks';
 import { trackOpenAddContributorsModal } from '../../../lib/tracking/events';
 import { HeaderItem, TableHeaderItem, TableWrapper } from '../../shared/elements/Table';
@@ -117,13 +116,6 @@ export const ManageGitPOAP = ({ gitPOAPId }: Props) => {
     <Group position="center" py={0} px={rem(20)}>
       <Stack align="left" justify="flex-start" spacing="xs" style={{ width: '100%' }}>
         <Stack spacing={0} align="stretch" style={{ width: '100%' }}>
-          <Group align="stretch" style={{ width: '100%' }}>
-            <Link href={`/gp/${gitPOAPId}`}>
-              <Text mb="xs" variant="link" sx={{ color: TextGray }}>
-                {'< BACK TO GITPOAP'}
-              </Text>
-            </Link>
-          </Group>
           <Group position="apart" align="center" style={{ width: '100%' }}>
             <Group align="center" position="left" noWrap={true}>
               {gitPOAP?.imageUrl && (
