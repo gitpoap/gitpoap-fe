@@ -29,7 +29,7 @@ exports[`FeedbackButton should render "Give Feedback" button on MouseEnter 1`] =
 <div
   class="emotion-0 emotion-1"
 >
-  Give Feedback
+  Give feedback - or email us at
 </div>
 `;
 
