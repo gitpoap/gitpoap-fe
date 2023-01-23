@@ -1,12 +1,25 @@
-import { Button, Grid, Stack } from '@mantine/core';
+import { Button, Grid, Stack, Text } from '@mantine/core';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { ExtraHover, PrimaryBlue } from '../../../colors';
 import { useUpdateTeamMutation } from '../../../graphql/generated-gql';
 import { useApi } from '../../../hooks/useApi';
 import { Notifications } from '../../../notifications';
 import { Header, Input, Label, TextArea } from '../../shared/elements';
 import { TeamDataWithColor } from '../TeamsContext';
 import { TeamLogo } from './TeamLogo';
+
+export const StyledLink = styled.a`
+  color: ${PrimaryBlue};
+  &:hover {
+    text-decoration: underline;
+    &:not(:active) {
+      color: ${ExtraHover};
+    }
+  }
+  cursor: pointer;
+`;
 
 type Props = {
   teamData: TeamDataWithColor;
@@ -59,7 +72,6 @@ export const TeamSettings = ({ teamData }: Props) => {
     }
 
     Notifications.success('Logo uploaded successfully!');
-
     setLogoImageUrl(URL.createObjectURL(file));
   };
 
@@ -99,6 +111,11 @@ export const TeamSettings = ({ teamData }: Props) => {
           </Stack>
         </Grid.Col>
       </Grid>
+      <Text mt={32}>
+        {`Contact `}
+        <StyledLink href="mailto:support@gitpoap.io">{'support@gitpoap.io'}</StyledLink>
+        {` for any questions or concerns.`}
+      </Text>
     </Stack>
   );
 };
