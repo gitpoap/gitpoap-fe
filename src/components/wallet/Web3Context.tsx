@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState, useEffect } from 'react';
+import { providers } from 'ethers';
 import { usePrivy } from '@privy-io/react-auth';
 import { useTokens } from '../../hooks/useTokens';
 import { useApi } from '../../hooks/useApi';
@@ -123,6 +124,12 @@ export const Web3ContextProvider = (props: Props) => {
       setIsAuthenticating(true);
     }
   }, [ready, authenticated, user, setIsAuthenticating]);
+
+  // handle account change
+  const provider = new providers.Web3Provider(window.ethereum);
+  provider.on('accountsChanged', (accounts) => {
+    console.log('accounts', accounts[0]);
+  });
 
   const onChainProvider = useMemo(
     () => ({

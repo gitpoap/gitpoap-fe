@@ -45,7 +45,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                   address={account}
                   ensName={ensName}
                   ensAvatarUrl={ensAvatarUrl}
-                  hideText={hideText}
+                  hideText={true}
                 />
               </Box>
             </Menu.Target>
@@ -89,7 +89,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             address={account}
             ensName={ensName}
             ensAvatarUrl={ensAvatarUrl}
-            hideText={hideText}
+            hideText={false}
           />
         )
       ) : (

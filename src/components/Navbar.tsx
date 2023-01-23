@@ -112,7 +112,7 @@ export const Navbar = () => {
         {'Docs'}
       </NavLink>
       <ClaimButton hideText={!matchesLg} />
-      <Wallet hideText={true} isMobile={false} />
+      <Wallet isMobile={false} />
     </>
   );
 
