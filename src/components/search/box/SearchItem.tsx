@@ -72,8 +72,6 @@ const SubText = styled(Text)`
 `;
 
 const StyledAvatar = styled(Avatar)`
-  height: ${rem(30)};
-  width: ${rem(30)};
   /* Necessary to align the Avatar with the GitPOAPBadges */
   margin-left: ${rem(2)};
 `;
@@ -129,7 +127,11 @@ export const ProfileSearchItem = ({
     <Link passHref href={href}>
       <Item className={className} onClick={onClick} isSelected={isSelected}>
         {ensAvatarUrl ? (
-          <StyledAvatar src={ensAvatarUrl} useDefaultImageTag={useDefaultImageTag ?? false} />
+          <StyledAvatar
+            src={ensAvatarUrl}
+            useDefaultImageTag={useDefaultImageTag ?? false}
+            size={30}
+          />
         ) : (
           <JazzIcon address={address} />
         )}

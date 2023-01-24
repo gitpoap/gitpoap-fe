@@ -27,11 +27,6 @@ const Name = styled(Title)`
   }
 `;
 
-const AvatarStyled = styled(Avatar)`
-  height: ${rem(20)};
-  width: ${rem(20)};
-`;
-
 const JazzIcon = styled(JazzIconReact)`
   height: ${rem(20)};
   width: ${rem(20)};
@@ -112,7 +107,7 @@ export const LatestMintItem = ({
                 {!profileData ? (
                   <ProfileImageSkeleton height={rem(20)} width={rem(20)} />
                 ) : profileData?.ensAvatarImageUrl ? (
-                  <AvatarStyled src={profileData?.ensAvatarImageUrl} />
+                  <Avatar src={profileData?.ensAvatarImageUrl} size={20} />
                 ) : (
                   <JazzIcon address={userAddress} />
                 )}

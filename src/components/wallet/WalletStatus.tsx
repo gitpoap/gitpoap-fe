@@ -36,17 +36,12 @@ export const JazzIconNoText = styled(JazzIconReact)`
   ${JazzIconStyles}
 `;
 
-export const StyledAvatar = styled(Avatar)`
-  height: ${rem(16)};
-  width: ${rem(16)};
-`;
-
 export const WalletStatus = ({ address, ensName, hideText, ensAvatarUrl }: Props) => {
   if (hideText) {
     return (
       <Container variant="outline">
         {ensAvatarUrl ? (
-          <StyledAvatar src={ensAvatarUrl} useDefaultImageTag />
+          <Avatar src={ensAvatarUrl} useDefaultImageTag size={16} />
         ) : (
           <JazzIconNoText address={address} />
         )}
@@ -57,7 +52,7 @@ export const WalletStatus = ({ address, ensName, hideText, ensAvatarUrl }: Props
     <Container
       leftIcon={
         ensAvatarUrl ? (
-          <StyledAvatar src={ensAvatarUrl} useDefaultImageTag />
+          <Avatar src={ensAvatarUrl} useDefaultImageTag size={16} />
         ) : (
           <JazzIcon address={address} />
         )

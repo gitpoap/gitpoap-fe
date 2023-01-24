@@ -32,11 +32,6 @@ type Props = {
   refetch: () => void;
 };
 
-const AvatarStyled = styled(Avatar)`
-  height: ${rem(30)};
-  width: ${rem(30)};
-`;
-
 const JazzIcon = styled(JazzIconReact)`
   height: ${rem(30)};
   width: ${rem(30)};
@@ -165,7 +160,7 @@ export const ContributorRow = ({ claim, index, refetch }: Props) => {
             <Group noWrap={true}>
               <Link href={`/p/${ensName ?? ethAddress}`} passHref>
                 {avatarImageUrl ? (
-                  <AvatarStyled src={avatarImageUrl} />
+                  <Avatar src={avatarImageUrl} size={30} />
                 ) : ensName || ethAddress ? (
                   <JazzIcon address={ethAddress ?? '0x'} />
                 ) : null}
