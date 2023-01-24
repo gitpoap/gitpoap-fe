@@ -11,8 +11,8 @@ type Props = {
 };
 
 const AvatarWrapper = styled.div<{ size: number }>`
-  height: ${({ size }) => rem(size)})}
-  width: ${({ size }) => rem(size)})}
+  height: ${({ size }) => rem(size)};
+  width: ${({ size }) => rem(size)};
   position: relative;
 `;
 
@@ -31,7 +31,7 @@ export const Avatar = ({ quality = 100, size = 80, className, src, useDefaultIma
     {useDefaultImageTag ? (
       <DefaultImage src={src} alt="" />
     ) : (
-      <Image src={src} fill quality={quality} alt="" width={size} height={size} />
+      <Image src={src} quality={quality} alt="" width={size} height={size} />
     )}
   </AvatarWrapper>
 );
