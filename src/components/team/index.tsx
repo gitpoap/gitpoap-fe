@@ -44,7 +44,6 @@ export const TeamContainer = ({ page }: Props) => {
   }
 
   const currTeam = teams.currTeam;
-  const imageUrl = currTeam?.logoImageUrl ?? undefined;
 
   return (
     <Stack m={rem(20)}>

@@ -23,7 +23,6 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
   const connectedAddress = user?.address ?? '';
   const email = user?.emailAddress ?? '';
-
   const account = connectedAddress ?? email;
 
   return (

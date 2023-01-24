@@ -1,5 +1,4 @@
 import { createContext, useCallback, useContext, useMemo, useState, useEffect } from 'react';
-import { providers } from 'ethers';
 import { usePrivy } from '@privy-io/react-auth';
 import { useTokens } from '../../hooks/useTokens';
 import { useApi } from '../../hooks/useApi';
@@ -22,7 +21,8 @@ export enum ConnectionStatus {
   DISCONNECTING = 'disconnecting' /* Disconnecting from wallet */,
   DISCONNECTED = 'disconnected' /* Not connected to any wallet */,
   UNINITIALIZED = 'uninitialized' /* Wallet connection hasn't been attempted yet */,
-  AUTHENTICATING = 'authenticating' /* Wallet connection hasn't been attempted yet */,
+  INITIALIZED = 'initialized' /* Wallet connection has been attempted */,
+  AUTHENTICATING = 'authenticating' /* Wallet connection has been attempted */,
 }
 
 type onChainProvider = {
@@ -57,7 +57,17 @@ export const useWeb3Context = () => {
 };
 
 export const Web3ContextProvider = (props: Props) => {
-  const { ready, authenticated, user, login, getAccessToken, logout } = usePrivy();
+  const {
+    ready,
+    authenticated,
+    user,
+    login,
+    getAccessToken,
+    logout,
+    getEthereumProvider,
+    setActiveWallet,
+    linkWallet,
+  } = usePrivy();
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
 
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(
@@ -66,6 +76,8 @@ export const Web3ContextProvider = (props: Props) => {
   const api = useApi();
   const { setAccessToken, tokens, payload } = useTokens();
   const address = user?.wallet?.address ?? '';
+
+  const ethereum = getEthereumProvider();
 
   const disconnect = useCallback(async () => {
     trackDisconnectWallet(address);
@@ -84,7 +96,7 @@ export const Web3ContextProvider = (props: Props) => {
 
   const handleConnect = useCallback(async () => {
     trackConnectWallet(payload?.address?.ethAddress);
-    setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+    setConnectionStatus(ConnectionStatus.INITIALIZED);
     login();
   }, [login, payload?.address?.ethAddress]);
 
@@ -115,8 +127,11 @@ export const Web3ContextProvider = (props: Props) => {
   useEffect(() => {
     if (isAuthenticating) {
       void authenticate();
+      if (connectionStatus === ConnectionStatus.INITIALIZED) {
+        setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+      }
     }
-  }, [authenticate, isAuthenticating]);
+  }, [authenticate, isAuthenticating, connectionStatus]);
 
   // handle privy user change
   useEffect(() => {
@@ -126,10 +141,21 @@ export const Web3ContextProvider = (props: Props) => {
   }, [ready, authenticated, user, setIsAuthenticating]);
 
   // handle account change
-  const provider = new providers.Web3Provider(window.ethereum);
-  provider.on('accountsChanged', (accounts) => {
-    console.log('accounts', accounts[0]);
-  });
+  useEffect(() => {
+    const handleAccountChange = () => {
+      ethereum.on('accountsChanged', (accounts) => {
+        const connectedAccounts = accounts as string[];
+
+        if (connectionStatus !== ConnectionStatus.CONNECTED_TO_WALLET) return;
+        if (connectedAccounts[0].toLocaleLowerCase() === address.toLocaleLowerCase()) return;
+
+        linkWallet();
+        setActiveWallet(connectedAccounts[0]);
+      });
+    };
+
+    void handleAccountChange();
+  }, []);
 
   const onChainProvider = useMemo(
     () => ({

@@ -15,6 +15,8 @@ export const EmailConnection = () => {
   const [status, setStatus] = useState<EmailConnectionStatus>('CONNECT');
 
   const userEmail = user?.emailAddress ?? '';
+  const linkedAccounts = privyUser?.linkedAccounts;
+  const isOnlyEmailConnected = !!userEmail && linkedAccounts?.length === 1;
 
   useEffect(() => {
     if (userEmail) {
@@ -57,7 +59,7 @@ export const EmailConnection = () => {
         position="top"
         sx={{ textAlign: 'center', maxWidth: rem(450) }}
       >
-        <Text size="xs">{`Pending verification for ${truncateString(
+        <Text size="xs">{`Pending for ${truncateString(
           privyUser?.email?.address ?? '',
           18,
         )}`}</Text>
@@ -82,6 +84,7 @@ export const EmailConnection = () => {
         onClick={handleSubmit}
         sx={{ width: rem(145) }}
         loading={status === 'PENDING'}
+        disabled={isOnlyEmailConnected}
       >
         {status}
       </Button>
