@@ -34,7 +34,7 @@ export const TeamsProvider = ({ children }: Props) => {
     variables: {
       address: address ?? '',
     },
-    requestPolicy: 'network-only',
+    requestPolicy: 'cache-and-network',
   });
 
   useEffect(() => {

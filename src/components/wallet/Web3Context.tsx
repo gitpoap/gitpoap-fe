@@ -131,7 +131,7 @@ export const Web3ContextProvider = (props: Props) => {
       });
       // update connection status
       setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
-      setAddress(authData.signatureData.address);
+      setAddress(authData.signatureData.address.toLowerCase());
       // update tokens
       setAccessToken(authData.tokens.accessToken);
       setRefreshToken(authData.tokens.refreshToken);
