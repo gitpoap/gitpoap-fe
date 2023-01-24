@@ -35,8 +35,7 @@ const TeamPage: NextPageWithLayout = () => {
         ) : (
           <TableEmptyState text={'Invalid Permissions'} />
         )
-      ) : connectionStatus === ConnectionStatus.CONNECTING_WALLET ||
-        connectionStatus === ConnectionStatus.UNINITIALIZED ? (
+      ) : connectionStatus === ConnectionStatus.CONNECTING_WALLET ? (
         <TableLoader />
       ) : (
         <Login />
