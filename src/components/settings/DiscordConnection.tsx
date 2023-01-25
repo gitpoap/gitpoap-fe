@@ -9,12 +9,17 @@ type Props = {
   user: User;
 };
 
+export type DiscordConnectionStatus = 'CONNECT' | 'PENDING' | 'DISCONNECT';
+
 export const DiscordConnection = ({ user }: Props) => {
   const { user: privyUser, linkDiscord, unlinkDiscord } = usePrivy();
+  const [status, setStatus] = useState<DiscordConnectionStatus>('CONNECT');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const discordHandle = user.discordHandle ?? '';
   const discordSubject = privyUser?.discord?.subject ?? '';
+  const linkedAccounts = privyUser?.linkedAccounts;
+  const isOnlyDiscordConnected = !!discordHandle && linkedAccounts?.length === 1;
 
   useEffect(() => {
     if (discordHandle) {
@@ -22,14 +27,38 @@ export const DiscordConnection = ({ user }: Props) => {
     }
   }, [isLoading, setIsLoading, discordHandle]);
 
-  const handleSubmit = useCallback(async () => {
-    setIsLoading(true);
-    if (user.capabilities.hasDiscord) {
-      void unlinkDiscord(discordSubject);
+  useEffect(() => {
+    if (discordHandle) {
+      setStatus('DISCONNECT');
     } else {
+      setStatus('CONNECT');
+    }
+  }, [discordHandle]);
+
+  const handleSubmit = useCallback(async () => {
+    setStatus('PENDING');
+    if (status === 'DISCONNECT') {
+      void unlinkDiscord(discordSubject);
+    } else if (status === 'CONNECT') {
       linkDiscord();
     }
-  }, [user, discordSubject, setIsLoading, linkDiscord, unlinkDiscord]);
+  }, [linkDiscord, unlinkDiscord, status, discordSubject]);
+
+  const ConnectionStatus = {
+    CONNECT: <Text size="xs">{`Connect your account`}</Text>,
+    PENDING: (
+      <Text size="xs">
+        {`Pending `}
+        {user.discordHandle && <b>{`@${user.discordHandle}`}</b>}
+      </Text>
+    ),
+    DISCONNECT: (
+      <Text size="xs">
+        {`You're connected as `}
+        <b>{`@${user.discordHandle}`}</b>
+      </Text>
+    ),
+  };
 
   return (
     <Group position="apart" my={4}>
@@ -37,21 +66,17 @@ export const DiscordConnection = ({ user }: Props) => {
         <FaDiscord size={32} />
         <Stack spacing={0}>
           <Title order={5}>{'Discord'}</Title>
-          {user.discordHandle && (
-            <Text size="xs">
-              {`You're connected as `}
-              <b>{`@${user.discordHandle}`}</b>
-            </Text>
-          )}
+          {ConnectionStatus[status]}
         </Stack>
       </Group>
       <Button
-        variant={user.capabilities.hasDiscord ? 'outline' : 'filled'}
+        variant={status === 'CONNECT' ? 'filled' : 'outline'}
         onClick={handleSubmit}
-        loading={isLoading}
+        loading={status === 'PENDING'}
         sx={{ width: rem(145) }}
+        disabled={isOnlyDiscordConnected}
       >
-        {user.capabilities.hasDiscord ? 'DISCONNECT' : 'CONNECT'}
+        {status}
       </Button>
     </Group>
   );
