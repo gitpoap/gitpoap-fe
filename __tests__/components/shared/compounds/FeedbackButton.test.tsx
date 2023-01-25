@@ -30,7 +30,7 @@ describe('FeedbackButton', () => {
     expect(target).toBeInTheDocument();
     target && fireEvent.mouseEnter(target);
 
-    const dropdown = screen.getByText('Give Feedback');
+    const dropdown = screen.getByText('Give feedback - or email us at');
     expect(dropdown).toBeInTheDocument();
     expect(dropdown).toMatchSnapshot();
   });

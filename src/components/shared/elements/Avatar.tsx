@@ -4,14 +4,15 @@ import ImageUI from 'next/image';
 
 type Props = {
   quality?: number;
+  size?: number;
   className?: string;
   src: string;
   useDefaultImageTag?: boolean;
 };
 
-const AvatarWrapper = styled.div`
-  height: ${rem(80)};
-  width: ${rem(80)};
+const AvatarWrapper = styled.div<{ size: number }>`
+  height: ${({ size }) => rem(size)};
+  width: ${({ size }) => rem(size)};
   position: relative;
 `;
 
@@ -25,20 +26,12 @@ const DefaultImage = styled.img`
   height: 100%;
 `;
 
-export const Avatar = ({ quality = 100, className, src, useDefaultImageTag }: Props) => {
-  return (
-    <AvatarWrapper className={className}>
-      {useDefaultImageTag ? (
-        <DefaultImage src={src} alt="" />
-      ) : (
-        <Image
-          src={src}
-          fill
-          quality={quality}
-          alt=""
-          sizes={`(max-width: 768px) ${rem(80)}, ${rem(80)}`}
-        />
-      )}
-    </AvatarWrapper>
-  );
-};
+export const Avatar = ({ quality = 100, size = 80, className, src, useDefaultImageTag }: Props) => (
+  <AvatarWrapper className={className} size={size}>
+    {useDefaultImageTag ? (
+      <DefaultImage src={src} alt="" />
+    ) : (
+      <Image src={src} quality={quality} alt="" width={size} height={size} />
+    )}
+  </AvatarWrapper>
+);

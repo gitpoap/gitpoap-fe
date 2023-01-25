@@ -1,5 +1,13 @@
 import { ButtonStylesParams, MantineTheme } from '@mantine/core';
-import { DarkGray, ExtraHover, ExtraPressed, PrimaryBlue, TextGray, White } from '../../colors';
+import {
+  BackgroundPanel,
+  DarkGray,
+  ExtraHover,
+  ExtraPressed,
+  PrimaryBlue,
+  TextGray,
+  White,
+} from '../../colors';
 import { rem } from 'polished';
 
 export const buttonTheme = {
@@ -19,6 +27,7 @@ export const buttonTheme = {
       ...(params.variant === 'outline' &&
         (!params.color || params.color === 'blue') &&
         buttonOutline),
+      ...(params.variant === 'subtle' && buttonSubtle),
     },
   }),
 };
@@ -74,5 +83,12 @@ export const buttonOutline = {
     '::before': {
       content: 'none',
     },
+  },
+};
+
+export const buttonSubtle = {
+  color: White,
+  '&:hover:not(:disabled)': {
+    backgroundColor: BackgroundPanel,
   },
 };

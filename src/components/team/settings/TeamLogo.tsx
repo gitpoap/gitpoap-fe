@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Center, Text, FileButton, Button, Stack } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 import { rem } from 'polished';
-import { generateRandomColorRGB } from '../../../helpers';
+import { stringToColor } from '../../../helpers';
 import { ExtraRed } from '../../../colors';
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 
 export const TeamLogo = ({ name, size, color, imageUrl, error, onLogoUpload }: Props) => {
   const { hovered, ref } = useHover();
-  const [randomColor] = useState<string>(generateRandomColorRGB(true));
+  const [randomColor] = useState<string>(stringToColor(name, undefined, 25));
 
   return (
     <Stack>

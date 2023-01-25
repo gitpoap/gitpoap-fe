@@ -13,17 +13,19 @@ exports[`Avatar renders an Avatar - Next Image 1`] = `
 
 <div
   class="c0"
+  size="80"
 >
   <img
     alt=""
     class="c1"
-    data-nimg="fill"
+    data-nimg="1"
     decoding="async"
+    height="80"
     loading="lazy"
-    sizes="(max-width: 768px) 5rem, 5rem"
-    src="/_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=3840&q=100"
-    srcset="/_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=16&q=100 16w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=32&q=100 32w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=48&q=100 48w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=64&q=100 64w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=96&q=100 96w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=128&q=100 128w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=256&q=100 256w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=384&q=100 384w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=640&q=100 640w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=750&q=100 750w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=828&q=100 828w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=1080&q=100 1080w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=1200&q=100 1200w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=1920&q=100 1920w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=2048&q=100 2048w, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=3840&q=100 3840w"
-    style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
+    src="/_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=256&q=100"
+    srcset="/_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=96&q=100 1x, /_next/image?url=https%3A%2F%2Ftest.com%2Fimage.png&w=256&q=100 2x"
+    style="color: transparent;"
+    width="80"
   />
 </div>
 `;
@@ -43,6 +45,7 @@ exports[`Avatar renders an Avatar - default img tag 1`] = `
 
 <div
   class="c0"
+  size="80"
 >
   <img
     alt=""

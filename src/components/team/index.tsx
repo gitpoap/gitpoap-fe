@@ -2,8 +2,8 @@ import { Center, Stack, Tabs } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import styled from 'styled-components';
-import { User } from '../../hooks/useUser';
-import { Header, Loader } from '../shared/elements';
+import { Header } from '../shared/elements';
+import { TableLoader } from '../shared/elements/Table';
 import { TeamDashboard } from './dashboard';
 import { MembershipList } from './dashboard/Members/MembershipList';
 import { TeamGitPOAPRequests } from './dashboard/TeamGitPOAPRequests';
@@ -25,23 +25,14 @@ export enum TeamRoutes {
 
 type Props = {
   page: TeamRoutes;
-  user: User;
 };
 
-export const TeamContainer = ({ page, user }: Props) => {
+export const TeamContainer = ({ page }: Props) => {
   const router = useRouter();
   const teams = useTeamsContext();
 
-  if (!user) {
-    return <div>Not logged in</div>;
-  }
-
   if (!teams.hasFetchedTeams) {
-    return (
-      <Center my={240}>
-        <Loader />
-      </Center>
-    );
+    return <TableLoader />;
   }
 
   if (!teams || !teams.currTeam) {
@@ -64,7 +55,7 @@ export const TeamContainer = ({ page, user }: Props) => {
         variant="pills"
       >
         <Tabs.List pt={rem(10)}>
-          <TeamSwitcher />
+          <TeamSwitcher sx={{ height: 'auto', width: rem(220) }} />
           <Tabs.Tab value={TeamRoutes.Dashboard}>{'Dashboard'}</Tabs.Tab>
           <Tabs.Tab value={TeamRoutes.Requests}>{'Requests'}</Tabs.Tab>
           <Tabs.Tab value={TeamRoutes.Members}>{'Members'}</Tabs.Tab>

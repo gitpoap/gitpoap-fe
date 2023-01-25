@@ -1,11 +1,11 @@
-import { Center, Group, Menu, Text, UnstyledButton, UnstyledButtonProps } from '@mantine/core';
+import { Button, ButtonProps, Center, Group, Menu, Text } from '@mantine/core';
 import { rem } from 'polished';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { Header, Loader } from '../shared/elements';
 import { TeamLogo } from './settings/TeamLogo';
 import { useTeamsContext } from './TeamsContext';
 
-export const TeamSwitcher = (props: UnstyledButtonProps) => {
+export const TeamSwitcher = (props: ButtonProps) => {
   const teams = useTeamsContext();
 
   if (!teams.hasFetchedTeams) {
@@ -37,30 +37,25 @@ export const TeamSwitcher = (props: UnstyledButtonProps) => {
   return (
     <Menu position="bottom-start">
       <Menu.Target>
-        <UnstyledButton
-          sx={{
-            height: 'auto',
-            width: rem(220),
-          }}
-          mb={rem(16)}
-          {...props}
-        >
-          <Group spacing={12} noWrap>
-            <TeamLogo
-              name={currTeam.name}
-              size={32}
-              color={currTeam.color}
-              imageUrl={currTeam.logoImageUrl}
-            />
-            <Text
-              sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-              weight="bold"
-            >
-              {currTeam.name}
-            </Text>
+        <Button mb={rem(16)} p={rem(4)} variant="subtle" {...props}>
+          <Group spacing={12} position="apart" noWrap sx={{ width: '100%' }}>
+            <Group noWrap>
+              <TeamLogo
+                name={currTeam.name}
+                size={32}
+                color={currTeam.color}
+                imageUrl={currTeam.logoImageUrl}
+              />
+              <Text
+                sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                weight="bold"
+              >
+                {currTeam.name}
+              </Text>
+            </Group>
             <MdKeyboardArrowDown size={20} style={{ flex: 'none', marginLeft: 'auto' }} />
           </Group>
-        </UnstyledButton>
+        </Button>
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Item

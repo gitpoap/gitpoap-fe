@@ -1,15 +1,14 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { rem } from 'polished';
 import {
-  TextGray,
   DarkGray,
   BackgroundPanel,
-  TextLight,
   BackgroundPanel2,
   ExtraRed,
   TextDarkGray,
 } from '../../../colors';
 import { TextInput } from '@mantine/core';
+import { TextInputLabelStyles } from './Label';
 
 type Props = React.ComponentProps<typeof TextInput> & {
   className?: string;
@@ -18,17 +17,6 @@ type Props = React.ComponentProps<typeof TextInput> & {
   value: string;
   inputRef?: React.RefObject<HTMLInputElement>;
 };
-
-export const TextInputLabelStyles = css<{ disabled?: boolean }>`
-  font-family: 'PT Mono', monospace;
-  color: ${TextLight};
-  font-weight: 700;
-  font-size: ${rem(11)};
-  text-transform: uppercase;
-  letter-spacing: ${rem(1.2)};
-  line-height: ${rem(18)};
-  ${(props) => props.disabled && `color: ${TextGray}`};
-`;
 
 const StyledInput = styled(TextInput)<{ disabled?: boolean }>`
   display: inline-block;

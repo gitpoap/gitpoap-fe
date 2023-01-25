@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { ExtraRed } from '../../../colors';
 import { Input } from '@mantine/core';
-import { TextInputLabelStyles } from './Input';
+import { TextInputLabelStyles } from './Label';
 
 type Props = React.ComponentProps<typeof Input.Wrapper>;
 

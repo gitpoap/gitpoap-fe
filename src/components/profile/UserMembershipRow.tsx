@@ -16,6 +16,7 @@ import { BackgroundPanel2 } from '../../colors';
 import { Button, Text, RelativeDate } from '../shared/elements';
 import { useTeamsContext } from '../team/TeamsContext';
 import { Notifications } from '../../notifications';
+import { TeamLogo } from '../team/settings/TeamLogo';
 
 const TableRow = styled.tr`
   cursor: pointer;
@@ -58,6 +59,13 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      cancelProps: {
+        color: 'red',
+        variant: 'outline',
+      },
+      confirmProps: {
+        variant: 'outline',
+      },
       onConfirm: async () => {
         const result = await acceptMembership({ teamId });
         if (result.error) {
@@ -80,6 +88,13 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         </Text>
       ),
       centered: true,
+      cancelProps: {
+        color: 'red',
+        variant: 'outline',
+      },
+      confirmProps: {
+        variant: 'outline',
+      },
       children: (
         <Text size="sm">
           {`Are you sure you want to reject this invitation from `}
@@ -108,25 +123,28 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
   return (
     <TableRow onClick={handleClick}>
       <td>
-        <AcceptanceStatusBadge status={acceptanceStatus} />
-      </td>
-      <td>
-        <Text lineClamp={3}>{team.name}</Text>
+        <Group>
+          <TeamLogo name={team.name} size={40} imageUrl={team.logoImageUrl} />
+          <Text lineClamp={3}>{team.name}</Text>
+        </Group>
       </td>
       <td>
         <Text lineClamp={3}>{role}</Text>
+      </td>
+      <td>
+        <AcceptanceStatusBadge status={acceptanceStatus} />
       </td>
       <td>
         <RelativeDate sx={{ whiteSpace: 'nowrap' }} date={DateTime.fromISO(joinedOn)} />
       </td>
       <td>
         {acceptanceStatus === MembershipAcceptanceStatus.Pending && (
-          <Group align={'center'}>
-            <Button onClick={handleAccept} compact>
-              <FaCheckCircle />
+          <Group align={'center'} noWrap>
+            <Button onClick={handleAccept} leftIcon={<FaCheckCircle />} compact>
+              {'Accept'}
             </Button>
-            <Button onClick={handleReject} compact>
-              <FaTimesCircle />
+            <Button onClick={handleReject} leftIcon={<FaTimesCircle />} compact>
+              {'Deny'}
             </Button>
           </Group>
         )}

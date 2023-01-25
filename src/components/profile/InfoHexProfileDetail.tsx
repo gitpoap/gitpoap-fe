@@ -11,7 +11,7 @@ import { Globe, GitHub, Twitter } from '../shared/elements/icons';
 import {
   ProfileImageSkeleton,
   TextSkeleton,
-  Avatar as AvatarUI,
+  Avatar,
   CollapsibleAddress,
   Button,
   Share,
@@ -32,11 +32,6 @@ type Props = {
   showEditProfileButton: boolean;
   isLoading: boolean;
 };
-
-const Avatar = styled(AvatarUI)`
-  width: ${rem(160)};
-  height: ${rem(160)};
-`;
 
 const JazzIcon = styled(JazzIconReact)`
   height: ${rem(160)};
@@ -127,7 +122,7 @@ export const InfoHexProfileDetail = ({
           {isLoading ? (
             <ProfileImageSkeleton />
           ) : ensAvatarUrl ? (
-            <Avatar src={ensAvatarUrl} />
+            <Avatar src={ensAvatarUrl} size={160} />
           ) : address ? (
             <JazzIcon address={address} />
           ) : null}

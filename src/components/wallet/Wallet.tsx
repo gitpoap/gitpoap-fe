@@ -2,11 +2,12 @@ import { Box, Group, Menu } from '@mantine/core';
 import Link from 'next/link';
 import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
-import { JazzIconNoText, StyledAvatar, WalletStatus } from './WalletStatus';
+import { JazzIconNoText, WalletStatus } from './WalletStatus';
 import { ConnectWalletButton } from '../wallet/ConnectWallet';
 import { useUser } from '../../hooks/useUser';
 import { shortenAddress } from '../../helpers';
 import { useWeb3Context, ConnectionStatus } from './Web3Context';
+import { Avatar } from '../shared/elements';
 
 const POPOVER_HOVER_TIME = 400;
 
@@ -48,7 +49,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               <Menu.Item component={Link} href={`/p/${ensName ?? connectedAddress}`}>
                 <Group noWrap>
                   {ensAvatarUrl ? (
-                    <StyledAvatar src={ensAvatarUrl} useDefaultImageTag />
+                    <Avatar src={ensAvatarUrl} useDefaultImageTag size={16} />
                   ) : (
                     <JazzIconNoText address={connectedAddress} />
                   )}
@@ -61,7 +62,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               </Menu.Item>
               {user?.permissions.isStaff && (
                 <Menu.Item component={Link} href={'/me/teams'}>
-                  {'Teams'}
+                  {'My Teams'}
                 </Menu.Item>
               )}
               <Menu.Item component={Link} href="/settings">

@@ -1,4 +1,13 @@
-import { Center, Group, ScrollArea, Stack, Text, UnstyledButton } from '@mantine/core';
+import {
+  Center,
+  Group,
+  Loader,
+  ScrollArea,
+  Stack,
+  Text,
+  Title,
+  UnstyledButton,
+} from '@mantine/core';
 import { rem } from 'polished';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { HiSelector } from 'react-icons/hi';
@@ -19,7 +28,7 @@ type TableWrapperProps = {
   headerControls?: React.ReactNode;
 };
 
-export const TableWrapper = ({ children, border = true, headerControls }: TableWrapperProps) => (
+export const TableWrapper = ({ children, border = false, headerControls }: TableWrapperProps) => (
   <Stack
     align="center"
     justify="flex-start"
@@ -87,3 +96,15 @@ export const TableHeaderItem = ({
     </th>
   );
 };
+
+export const TableLoader = () => (
+  <Center sx={{ height: rem(320) }}>
+    <Loader />
+  </Center>
+);
+
+export const TableEmptyState = ({ text }: { text: string }) => (
+  <Center sx={{ height: rem(320) }}>
+    <Title>{text}</Title>
+  </Center>
+);

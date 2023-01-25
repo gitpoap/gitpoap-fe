@@ -26,11 +26,6 @@ const Name = styled(Title)`
   }
 `;
 
-const AvatarStyled = styled(Avatar)`
-  height: ${rem(40)};
-  width: ${rem(40)};
-`;
-
 const JazzIcon = styled(JazzIconReact)`
   height: ${rem(40)};
   width: ${rem(40)};
@@ -77,7 +72,7 @@ export const LeaderBoardItem = ({ profile, claimsCount, index }: Props) => {
           <UserInfo>
             <Link href={`/p/${profile.address.ensName ?? profile.address.ethAddress}`} passHref>
               {profile.address.ensAvatarImageUrl ? (
-                <AvatarStyled src={profile.address.ensAvatarImageUrl} />
+                <Avatar src={profile.address.ensAvatarImageUrl} size={40} />
               ) : (
                 <JazzIcon address={profile.address.ethAddress} />
               )}

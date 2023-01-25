@@ -1,10 +1,11 @@
-import { Button, Grid, Stack } from '@mantine/core';
+import { Button, Grid, Stack, Text } from '@mantine/core';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
 import { useUpdateTeamMutation } from '../../../graphql/generated-gql';
 import { useApi } from '../../../hooks/useApi';
 import { Notifications } from '../../../notifications';
-import { Header, Input, Text, TextArea } from '../../shared/elements';
+import { Link } from '../../shared/compounds/Link';
+import { Header, Input, Label, TextArea } from '../../shared/elements';
 import { TeamDataWithColor } from '../TeamsContext';
 import { TeamLogo } from './TeamLogo';
 
@@ -58,6 +59,7 @@ export const TeamSettings = ({ teamData }: Props) => {
       return;
     }
 
+    Notifications.success('Logo uploaded successfully!');
     setLogoImageUrl(URL.createObjectURL(file));
   };
 
@@ -69,13 +71,13 @@ export const TeamSettings = ({ teamData }: Props) => {
           <Stack spacing={32} sx={{ maxWidth: rem(600), minWidth: rem(300) }}>
             <Input
               placeholder="Name"
-              label={<Text>{'Name'}</Text>}
+              label={<Label>{'Name'}</Label>}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <TextArea
               placeholder="Description"
-              label={<Text>{'Description'}</Text>}
+              label={<Label>{'Description'}</Label>}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -86,7 +88,7 @@ export const TeamSettings = ({ teamData }: Props) => {
         </Grid.Col>
         <Grid.Col span="content">
           <Stack>
-            <Text>{'Team Logo'}</Text>
+            <Label>{'Team Logo'}</Label>
             <TeamLogo
               name={name}
               size={250}
@@ -97,6 +99,11 @@ export const TeamSettings = ({ teamData }: Props) => {
           </Stack>
         </Grid.Col>
       </Grid>
+      <Text mt={32}>
+        {`Contact `}
+        <Link href="mailto:support@gitpoap.io">{'support@gitpoap.io'}</Link>
+        {` if you need help!`}
+      </Text>
     </Stack>
   );
 };

@@ -1,6 +1,6 @@
 import { useLocalStorage } from '@mantine/hooks';
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { generateRandomColorRGB } from '../../helpers';
+import { stringToColor } from '../../helpers';
 import { UserTeamsQuery, useUserTeamsQuery } from '../../graphql/generated-gql';
 import { useWeb3Context } from '../wallet/Web3Context';
 
@@ -34,7 +34,7 @@ export const TeamsProvider = ({ children }: Props) => {
     variables: {
       address: address ?? '',
     },
-    requestPolicy: 'network-only',
+    requestPolicy: 'cache-and-network',
   });
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export const TeamsProvider = ({ children }: Props) => {
       setTeamsData(
         result.data.teams.map((team) => ({
           ...team,
-          color: generateRandomColorRGB(true),
+          color: stringToColor(team.name, undefined, 25),
         })),
       );
       if (!teamId || !result.data.teams.find((team) => team.id === teamId)) {

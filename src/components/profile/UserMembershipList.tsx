@@ -9,9 +9,9 @@ import { HeaderItem, TableHeaderItem, TableWrapper } from '../shared/elements/Ta
 import { CreateTeamModal } from './CreateTeamModal';
 
 const HEADERS: HeaderItem[] = [
-  { label: 'Status', key: 'status', isSortable: false },
   { label: 'Team', key: 'team', isSortable: false },
   { label: 'Role', key: 'role', isSortable: false },
+  { label: 'Status', key: 'status', isSortable: false },
   { label: 'Joined On', key: 'joinedOn', isSortable: false },
   { label: 'Actions', key: 'actions', isSortable: false },
 ];
