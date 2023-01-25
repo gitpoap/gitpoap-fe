@@ -9591,7 +9591,16 @@ export function useGitPoapWithClaimsQuery(
 export const UserTeamsDocument = gql`
   query userTeams($address: String!) {
     teams(
-      where: { memberships: { some: { address: { is: { ethAddress: { equals: $address } } } } } }
+      where: {
+        memberships: {
+          some: {
+            AND: [
+              { address: { is: { ethAddress: { equals: $address } } } }
+              { acceptanceStatus: { equals: ACCEPTED } }
+            ]
+          }
+        }
+      }
     ) {
       id
       name

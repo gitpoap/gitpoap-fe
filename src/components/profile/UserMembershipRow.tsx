@@ -18,8 +18,8 @@ import { useTeamsContext } from '../team/TeamsContext';
 import { Notifications } from '../../notifications';
 import { TeamLogo } from '../team/settings/TeamLogo';
 
-const TableRow = styled.tr`
-  cursor: pointer;
+const TableRow = styled.tr<{ hasLink: boolean }>`
+  cursor: ${({ hasLink }) => (hasLink ? 'pointer' : 'cursor')};
   &:hover {
     background-color: ${BackgroundPanel2} !important;
   }
@@ -115,13 +115,18 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
   };
 
   const handleClick = async () => {
-    setTeamId(teamId);
+    if (acceptanceStatus === MembershipAcceptanceStatus.Accepted) {
+      setTeamId(teamId);
 
-    await router.push('/app/team/dashboard');
+      await router.push('/app/team/dashboard');
+    }
   };
 
   return (
-    <TableRow onClick={handleClick}>
+    <TableRow
+      hasLink={acceptanceStatus === MembershipAcceptanceStatus.Accepted}
+      onClick={handleClick}
+    >
       <td>
         <Group>
           <TeamLogo name={team.name} size={40} imageUrl={team.logoImageUrl} />
@@ -129,13 +134,17 @@ export const UserMembershipRow = ({ membership }: RowProps) => {
         </Group>
       </td>
       <td>
-        <Text lineClamp={3}>{role}</Text>
-      </td>
-      <td>
         <AcceptanceStatusBadge status={acceptanceStatus} />
       </td>
       <td>
-        <RelativeDate sx={{ whiteSpace: 'nowrap' }} date={DateTime.fromISO(joinedOn)} />
+        <Text lineClamp={3}>{role}</Text>
+      </td>
+      <td>
+        {joinedOn ? (
+          <RelativeDate sx={{ whiteSpace: 'nowrap' }} date={DateTime.fromISO(joinedOn)} />
+        ) : (
+          <Text>{'Not Joined'}</Text>
+        )}
       </td>
       <td>
         {acceptanceStatus === MembershipAcceptanceStatus.Pending && (

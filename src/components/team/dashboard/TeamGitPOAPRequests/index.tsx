@@ -1,12 +1,14 @@
-import { Group, Stack, Text, ActionIcon } from '@mantine/core';
+import { Group, Stack, ActionIcon, Button } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import React, { useState } from 'react';
+import { HiOutlinePlus } from 'react-icons/hi';
 import { MdGridView, MdList } from 'react-icons/md';
 
 import { TextGray, White } from '../../../../colors';
 import { useTeamGitPoapRequestsQuery } from '../../../../graphql/generated-gql';
 import { SelectOption } from '../../../shared/compounds/ItemList';
+import { Link } from '../../../shared/compounds/Link';
 import { Header, Select } from '../../../shared/elements';
 import { TableEmptyState, TableLoader } from '../../../shared/elements/Table';
 import { TeamGitPOAPRequestsGrid } from './Grid';
@@ -44,7 +46,7 @@ export const TeamGitPOAPRequests = ({ teamId }: Props) => {
       sort: sort,
     },
     pause: false,
-    requestPolicy: 'network-only',
+    requestPolicy: 'cache-and-network',
   });
 
   const onFilterChange = (filterValue: FilterOptions) => {
@@ -67,6 +69,11 @@ export const TeamGitPOAPRequests = ({ teamId }: Props) => {
         <Group position="apart" align="center" style={{ width: '100%' }}>
           <Header style={{ alignSelf: 'start' }}>{'Requests'}</Header>
           <Group position="right" spacing={32}>
+            <Link href="/create">
+              <Button component="a" leftIcon={<HiOutlinePlus size={20} />}>
+                {'Create'}
+              </Button>
+            </Link>
             <Group spacing="xs">
               <Select data={filterOptions} value={filter} onChange={onFilterChange} />
               <Select data={sortOptions} value={sort} onChange={onSortChange} />
@@ -87,20 +94,15 @@ export const TeamGitPOAPRequests = ({ teamId }: Props) => {
             </Group>
           </Group>
         </Group>
-        {!result.fetching && gitPOAPRequests && gitPOAPRequests.length === 0 && (
-          <Text my={rem(20)} size={18}>
-            {'No GitPOAP Requests Found'}
-          </Text>
-        )}
         {result.fetching ? (
           <TableLoader />
-        ) : !gitPOAPRequests || gitPOAPRequests.length === 0 ? (
-          <TableEmptyState text={'No GitPOAP Requests Found'} />
-        ) : (
+        ) : gitPOAPRequests && gitPOAPRequests.length > 0 ? (
           {
             grid: <TeamGitPOAPRequestsGrid gitPOAPRequests={gitPOAPRequests} />,
             list: <TeamGitPOAPRequestsList gitPOAPRequests={gitPOAPRequests} />,
           }[view]
+        ) : (
+          <TableEmptyState text={'No GitPOAP Requests Found'} />
         )}
       </Stack>
     </Group>

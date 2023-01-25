@@ -14,6 +14,7 @@ import { tabsThemes } from './tabsThemes';
 import { textTheme } from './textThemes';
 import { tooltipThemes } from './tooltipThemes';
 import { selectThemes } from './selectThemes';
+import { navLinkThemes } from './navLinkThemes';
 
 export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
@@ -55,13 +56,7 @@ export const theme: MantineProviderProps['theme'] = {
         },
       },
     },
-    NavLink: {
-      styles: {
-        root: {
-          borderRadius: rem(6),
-        },
-      },
-    },
+    NavLink: navLinkThemes,
     Pagination: paginationThemes,
     Select: selectThemes,
     Tabs: tabsThemes,
