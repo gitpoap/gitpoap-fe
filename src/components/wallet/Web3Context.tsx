@@ -79,8 +79,6 @@ export const Web3ContextProvider = (props: Props) => {
 
   const ethereum = getEthereumProvider();
 
-  console.log('linked account', user?.linkedAccounts);
-
   const disconnect = useCallback(async () => {
     trackDisconnectWallet(address);
 
