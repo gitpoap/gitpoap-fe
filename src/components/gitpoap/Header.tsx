@@ -10,14 +10,14 @@ import { Text, Button, Header as HeaderText, GitPOAPBadge, TitleLink } from '../
 import { textEllipses } from '../shared/styles';
 import { TextGray, ExtraHover, PrimaryBlue } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
-import { useGitPoapEventQuery } from '../../graphql/generated-gql';
+import { GitPoapEventQuery } from '../../graphql/generated-gql';
 import { useUser } from '../../hooks/useUser';
 import { useRouter } from 'next/router';
 import { GitPOAP } from '../shared/elements/icons';
 import { trackClickManageGitPOAP } from '../../lib/tracking/events';
 
 type Props = {
-  gitPOAPId: number;
+  gitPOAPEvent: GitPoapEventQuery['gitPOAPEvent'];
 };
 
 export const Wrapper = styled(Stack)`
@@ -145,20 +145,15 @@ const GitPOAPIcon = styled(GitPOAP)`
   }
 `;
 
-export const Header = ({ gitPOAPId }: Props) => {
+export const Header = ({ gitPOAPEvent }: Props) => {
   const user = useUser();
   const hasGithubConnection = user?.capabilities.hasGithub ?? false;
   const [opened, { close, open }] = useDisclosure(false);
   const router = useRouter();
 
-  const [result] = useGitPoapEventQuery({
-    variables: {
-      id: gitPOAPId,
-    },
-  });
-  const event = result?.data?.gitPOAPEvent?.event;
-  const repos = result?.data?.gitPOAPEvent?.gitPOAP.project?.repos;
-  const gitPOAP = result?.data?.gitPOAPEvent?.gitPOAP;
+  const event = gitPOAPEvent?.event;
+  const repos = gitPOAPEvent?.gitPOAP.project?.repos;
+  const gitPOAP = gitPOAPEvent?.gitPOAP;
   const { setIsOpen } = useClaimContext();
   const [isCheckButtonClicked, setIsCheckButtonClicked] = useLocalStorage<boolean>({
     key: 'isCheckEligibilityButtonClicked',

@@ -66,7 +66,7 @@ const GitPOAP: NextPageWithLayout<PageProps> = (props) => {
       <Grid justify="center" style={{ zIndex: 1 }}>
         <BackgroundHexes />
         <Grid.Col style={{ zIndex: 1 }}>
-          <PageHeader gitPOAPId={gitPOAPId} />
+          <PageHeader gitPOAPEvent={props.gitpoap?.gitPOAPEvent} />
         </Grid.Col>
         <Grid.Col span={11}>
           <GitPOAPHolders gitPOAPId={gitPOAPId} />
