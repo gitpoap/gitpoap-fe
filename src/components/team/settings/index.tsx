@@ -1,25 +1,13 @@
 import { Button, Grid, Stack, Text } from '@mantine/core';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { ExtraHover, PrimaryBlue } from '../../../colors';
 import { useUpdateTeamMutation } from '../../../graphql/generated-gql';
 import { useApi } from '../../../hooks/useApi';
 import { Notifications } from '../../../notifications';
+import { Link } from '../../shared/compounds/Link';
 import { Header, Input, Label, TextArea } from '../../shared/elements';
 import { TeamDataWithColor } from '../TeamsContext';
 import { TeamLogo } from './TeamLogo';
-
-export const StyledLink = styled.a`
-  color: ${PrimaryBlue};
-  &:hover {
-    text-decoration: underline;
-    &:not(:active) {
-      color: ${ExtraHover};
-    }
-  }
-  cursor: pointer;
-`;
 
 type Props = {
   teamData: TeamDataWithColor;
@@ -113,8 +101,8 @@ export const TeamSettings = ({ teamData }: Props) => {
       </Grid>
       <Text mt={32}>
         {`Contact `}
-        <StyledLink href="mailto:support@gitpoap.io">{'support@gitpoap.io'}</StyledLink>
-        {` for any questions or concerns.`}
+        <Link href="mailto:support@gitpoap.io">{'support@gitpoap.io'}</Link>
+        {` if you need help!`}
       </Text>
     </Stack>
   );
