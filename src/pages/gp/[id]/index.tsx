@@ -7,7 +7,6 @@ import { withUrqlClient, SSRData } from 'next-urql';
 import { Grid } from '@mantine/core';
 import { NextPageWithLayout } from '../../_app';
 import { BackgroundHexes } from '../../../components/gitpoap/BackgroundHexes';
-import { GitPOAPHolders } from '../../../components/gitpoap/GitPOAPHolders';
 import { Header as PageHeader } from '../../../components/gitpoap/Header';
 import { Header } from '../../../components/shared/elements/Header';
 import {
@@ -19,6 +18,14 @@ import {
 import { SEO } from '../../../components/shared/compounds/SEO';
 import { ONE_WEEK_IN_S } from '../../../constants';
 import { createSSRUrqlClient, urqlClientOptions } from '../../../lib/urql';
+import dynamic from 'next/dynamic';
+
+const GitPOAPHolders = dynamic(
+  () => import('../../../components/gitpoap/GitPOAPHolders').then((mod) => mod.GitPOAPHolders),
+  {
+    ssr: false,
+  },
+);
 
 const Error = styled(Header)`
   position: fixed;
