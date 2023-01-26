@@ -1,9 +1,7 @@
-import { graphql } from 'msw';
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Header } from '../../../components/gitpoap/Header';
-import { GitPoapEventQuery } from '../../../graphql/generated-gql';
 
 export default {
   title: 'GitPOAP/Header',
@@ -15,9 +13,7 @@ const Template: ComponentStory<typeof Header> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = { gitPOAPId: 5 };
-
-const GitPoapEventQueryResponse: GitPoapEventQuery = {
+Default.args = {
   gitPOAPEvent: {
     gitPOAP: {
       id: 1,
@@ -40,13 +36,5 @@ const GitPoapEventQueryResponse: GitPoapEventQuery = {
       image_url: '',
       description: 'Event Description',
     },
-  },
-};
-
-Default.parameters = {
-  msw: {
-    handlers: [
-      graphql.query('gitPoapEvent', (req, res, ctx) => res(ctx.data(GitPoapEventQueryResponse))),
-    ],
   },
 };

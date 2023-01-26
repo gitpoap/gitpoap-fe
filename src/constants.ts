@@ -15,6 +15,7 @@ export const BREAKPOINTS = {
 
 export const FIVE_MINUTES_IN_MS = 5 * 60 * 1000; // in milliseconds
 export const FIVE_MINUTES_IN_S = 5 * 60; // in seconds
+export const ONE_HOUR_IN_S = 3600; // in seconds
 export const ONE_DAY_IN_S = 86400; // in seconds
 export const ONE_YEAR_IN_S = ONE_DAY_IN_S * 365; // in seconds
 export const ONE_WEEK_IN_S = ONE_DAY_IN_S * 7; // in seconds
