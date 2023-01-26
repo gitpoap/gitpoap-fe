@@ -1,5 +1,4 @@
 import { Stack } from '@mantine/core';
-import { rem } from 'polished';
 import { CreateAGitPOAP } from './CreateAGitPOAP';
 import { TeamGitPOAPs } from './TeamGitPOAPs';
 
@@ -9,7 +8,7 @@ type Props = {
 
 export const TeamDashboard = ({ teamId }: Props) => {
   return (
-    <Stack pl={rem(32)}>
+    <Stack>
       <CreateAGitPOAP />
       <TeamGitPOAPs teamId={teamId} />
     </Stack>

@@ -1,16 +1,37 @@
-import { Button, Grid, Stack, Text } from '@mantine/core';
+import { Grid, Stack, Text, ThemeIcon, Tooltip } from '@mantine/core';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
+import { MdErrorOutline, MdOutlineCheckCircleOutline } from 'react-icons/md';
 import { useUpdateTeamMutation } from '../../../graphql/generated-gql';
 import { useApi } from '../../../hooks/useApi';
 import { Notifications } from '../../../notifications';
 import { Link } from '../../shared/compounds/Link';
-import { Header, Input, Label, TextArea } from '../../shared/elements';
+import { Header, Input, Label, Loader, TextArea } from '../../shared/elements';
 import { TeamDataWithColor } from '../TeamsContext';
 import { TeamLogo } from './TeamLogo';
 
 type Props = {
   teamData: TeamDataWithColor;
+};
+
+type FieldState = 'DEFAULT' | 'LOADING' | 'ERROR' | 'SUCCESS';
+const FieldStateIcon = {
+  DEFAULT: <></>,
+  LOADING: <Loader size={20} />,
+  ERROR: (
+    <Tooltip label="An Error Occured">
+      <ThemeIcon variant="outline" color="red" radius="xl" sx={{ border: 'none' }}>
+        <MdErrorOutline size={rem(20)} />
+      </ThemeIcon>
+    </Tooltip>
+  ),
+  SUCCESS: (
+    <Tooltip label="Saved">
+      <ThemeIcon variant="outline" color="green" radius="xl" sx={{ border: 'none' }}>
+        <MdOutlineCheckCircleOutline size={rem(20)} />
+      </ThemeIcon>
+    </Tooltip>
+  ),
 };
 
 export const TeamSettings = ({ teamData }: Props) => {
@@ -19,6 +40,9 @@ export const TeamSettings = ({ teamData }: Props) => {
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [logoImageUrl, setLogoImageUrl] = useState<string | null>(null);
+
+  const [nameFieldState, setNameFieldState] = useState<FieldState>('DEFAULT');
+  const [descriptionFieldState, setDescriptionFieldState] = useState<FieldState>('DEFAULT');
 
   const [updateResult, updateTeam] = useUpdateTeamMutation();
   const updateResultData = updateResult.data?.updateTeam;
@@ -38,17 +62,36 @@ export const TeamSettings = ({ teamData }: Props) => {
     }
   }, [updateResultData]);
 
-  const hasChanges = name !== teamData?.name || description !== teamData?.description;
-  const onSave = async () => {
+  const onSaveName = async () => {
+    setNameFieldState('LOADING');
+
     const data = await updateTeam({
       teamId,
-      input: { name: { set: name }, description: { set: description } },
+      input: { name: { set: name } },
     });
 
     if (data === null) {
-      Notifications.error('Oops, something went wrong!');
+      setNameFieldState('ERROR');
       return;
     }
+
+    setNameFieldState('SUCCESS');
+  };
+
+  const onSaveDescription = async () => {
+    setDescriptionFieldState('LOADING');
+
+    const data = await updateTeam({
+      teamId,
+      input: { description: { set: description } },
+    });
+
+    if (data === null) {
+      setDescriptionFieldState('ERROR');
+      return;
+    }
+
+    setDescriptionFieldState('SUCCESS');
   };
 
   const onLogoUpload = async (file: File) => {
@@ -63,8 +106,15 @@ export const TeamSettings = ({ teamData }: Props) => {
     setLogoImageUrl(URL.createObjectURL(file));
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      (event.target as HTMLInputElement).blur();
+    }
+  };
+
   return (
-    <Stack pl={rem(32)} sx={{ width: '100%', maxWidth: rem(1000) }}>
+    <Stack sx={{ width: '100%', maxWidth: rem(1000) }}>
       <Header>{'Settings'}</Header>
       <Grid>
         <Grid.Col span="auto">
@@ -73,17 +123,26 @@ export const TeamSettings = ({ teamData }: Props) => {
               placeholder="Name"
               label={<Label>{'Name'}</Label>}
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onBlur={onSaveName}
+              onChange={(e) => {
+                setNameFieldState('DEFAULT');
+                setName(e.target.value);
+              }}
+              onKeyDown={handleKeyPress}
+              rightSection={FieldStateIcon[nameFieldState]}
             />
             <TextArea
               placeholder="Description"
               label={<Label>{'Description'}</Label>}
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onBlur={onSaveDescription}
+              onChange={(e) => {
+                setDescriptionFieldState('DEFAULT');
+                setDescription(e.target.value);
+              }}
+              onKeyDown={handleKeyPress}
+              rightSection={FieldStateIcon[descriptionFieldState]}
             />
-            <Button disabled={!hasChanges} onClick={onSave}>
-              {'Save'}
-            </Button>
           </Stack>
         </Grid.Col>
         <Grid.Col span="content">
