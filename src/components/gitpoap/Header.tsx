@@ -170,9 +170,9 @@ export const Header = ({ gitPOAPEvent }: Props) => {
   return (
     <Wrapper justify="center" align="center" spacing={0}>
       <Badge
-        altText={event.name.replace('GitPOAP: ', '') ?? ''}
+        altText={event.name.replace('GitPOAP: ', '')}
         disableHoverEffects
-        imgUrl={event.image_url ?? ''}
+        imgUrl={event.image_url}
         priority={true}
         size="lg"
       />
