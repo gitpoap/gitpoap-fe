@@ -153,7 +153,7 @@ export const Header = ({ gitPOAPEvent }: Props) => {
 
   const event = gitPOAPEvent.event;
   const gitPOAP = gitPOAPEvent.gitPOAP;
-  const repos = gitPOAP.project?.repos;
+  const repos = gitPOAPEvent.gitPOAP.project?.repos;
   const { setIsOpen } = useClaimContext();
   const [isCheckButtonClicked, setIsCheckButtonClicked] = useLocalStorage<boolean>({
     key: 'isCheckEligibilityButtonClicked',
