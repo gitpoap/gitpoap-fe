@@ -23,6 +23,7 @@ type Props = {
   disableHoverEffects?: boolean;
   href?: string;
   level?: Level;
+  priority?: boolean;
 };
 
 export type Sizes = 'xxxs' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
@@ -178,6 +179,7 @@ export const GitPOAPBadge = ({
   disableHoverEffects,
   href,
   level,
+  priority,
 }: Props) => {
   const badgeCore = (
     <HexOuterBorder
@@ -193,6 +195,7 @@ export const GitPOAPBadge = ({
           <Image
             alt={altText}
             fill
+            priority={priority}
             src={imgUrl}
             sizes={`(max-width: 768px) ${rem(350)}, ${rem(350)}`}
           />
