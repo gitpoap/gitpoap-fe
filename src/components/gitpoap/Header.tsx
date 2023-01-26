@@ -17,7 +17,7 @@ import { GitPOAP } from '../shared/elements/icons';
 import { trackClickManageGitPOAP } from '../../lib/tracking/events';
 
 type Props = {
-  gitPOAPEvent: GitPoapEventQuery['gitPOAPEvent'];
+  gitPOAPEvent: Exclude<GitPoapEventQuery['gitPOAPEvent'], null | undefined>;
 };
 
 export const Wrapper = styled(Stack)`
@@ -151,9 +151,9 @@ export const Header = ({ gitPOAPEvent }: Props) => {
   const [opened, { close, open }] = useDisclosure(false);
   const router = useRouter();
 
-  const event = gitPOAPEvent?.event;
-  const repos = gitPOAPEvent?.gitPOAP.project?.repos;
-  const gitPOAP = gitPOAPEvent?.gitPOAP;
+  const event = gitPOAPEvent.event;
+  const gitPOAP = gitPOAPEvent.gitPOAP;
+  const repos = gitPOAP.project?.repos;
   const { setIsOpen } = useClaimContext();
   const [isCheckButtonClicked, setIsCheckButtonClicked] = useLocalStorage<boolean>({
     key: 'isCheckEligibilityButtonClicked',
@@ -170,13 +170,13 @@ export const Header = ({ gitPOAPEvent }: Props) => {
   return (
     <Wrapper justify="center" align="center" spacing={0}>
       <Badge
-        altText={event?.name.replace('GitPOAP: ', '') ?? ''}
+        altText={event.name.replace('GitPOAP: ', '') ?? ''}
         size="lg"
         disableHoverEffects
-        imgUrl={event?.image_url ?? ''}
+        imgUrl={event.image_url ?? ''}
       />
-      <TitleStyled>{event?.name.replace('GitPOAP: ', '')}</TitleStyled>
-      <Description>{event?.description}</Description>
+      <TitleStyled>{event.name.replace('GitPOAP: ', '')}</TitleStyled>
+      <Description>{event.description}</Description>
       {repos && (
         <>
           <Repos>
@@ -205,7 +205,7 @@ export const Header = ({ gitPOAPEvent }: Props) => {
             centered
             opened={opened}
             onClose={close}
-            title={<ModalTitle>{event?.name.replace('GitPOAP: ', '')}</ModalTitle>}
+            title={<ModalTitle>{event.name.replace('GitPOAP: ', '')}</ModalTitle>}
           >
             <StyledTable>
               {repos.map((repo, i) => (
@@ -224,7 +224,7 @@ export const Header = ({ gitPOAPEvent }: Props) => {
           </Modal>
         </>
       )}
-      {user?.address && user.address === gitPOAP?.creatorAddress?.ethAddress ? (
+      {user?.address && user.address === gitPOAP.creatorAddress?.ethAddress ? (
         <Group position="right">
           <Button
             variant="outline"
