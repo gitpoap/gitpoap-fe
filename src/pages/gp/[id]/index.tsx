@@ -39,9 +39,9 @@ const GitPOAP: NextPageWithLayout<PageProps> = ({ gitPOAPEvent }) => {
   return (
     <>
       <SEO
-        title={`${gitPOAPEvent?.event?.name.replace('GitPOAP: ', '') ?? 'GitPOAP'} | GitPOAP`}
-        description={gitPOAPEvent?.event?.description ?? 'GitPOAP'}
-        image={gitPOAPEvent?.event?.image_url ?? 'https://gitpoap.io/og-image-512x512.png'}
+        title={`${gitPOAPEvent?.event.name.replace('GitPOAP: ', '') ?? 'GitPOAP'} | GitPOAP`}
+        description={gitPOAPEvent?.event.description ?? 'GitPOAP'}
+        image={gitPOAPEvent?.event.image_url ?? 'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/gp/${id}`}
       />
       {gitPOAPEvent ? (
