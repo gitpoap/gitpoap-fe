@@ -639,298 +639,7 @@ exports[`Navbar renders a Navbar 1`] = `
   flex-grow: 0;
 }
 
-.emotion-22 {
-  -webkit-tap-highlight-color: transparent;
-  font-family: PT Mono,monospace;
-  cursor: pointer;
-  border: 0;
-  padding: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  font-size: 16px;
-  background-color: transparent;
-  text-align: left;
-  color: #C1C2C5;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  box-sizing: border-box;
-  border-radius: 4px;
-  width: calc(24px + 10px);
-  height: calc(24px + 10px);
-  padding: calc(10px / 2);
-  cursor: pointer;
-}
-
-.emotion-22:focus {
-  outline-offset: 2px;
-  outline: 2px solid #1c7ed6;
-}
-
-.emotion-22:focus:not(:focus-visible) {
-  outline: none;
-}
-
-.emotion-23 {
-  position: relative;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  box-sizing: border-box;
-}
-
-.emotion-23,
-.emotion-23::before,
-.emotion-23::after {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background-color: #fff;
-  outline: 1px solid transparent;
-  transition-property: background-color,transform;
-  transition-duration: 300ms;
-}
-
-.emotion-23::before,
-.emotion-23::after {
-  position: absolute;
-  content: "";
-  left: 0;
-}
-
-.emotion-23::before {
-  top: -8px;
-}
-
-.emotion-23::after {
-  top: 8px;
-}
-
-.emotion-23[data-opened] {
-  background-color: transparent;
-}
-
-.emotion-23[data-opened]::before {
-  -webkit-transform: translateY(8px) rotate(45deg);
-  -moz-transform: translateY(8px) rotate(45deg);
-  -ms-transform: translateY(8px) rotate(45deg);
-  transform: translateY(8px) rotate(45deg);
-}
-
-.emotion-23[data-opened]::after {
-  -webkit-transform: translateY(-8px) rotate(-45deg);
-  -moz-transform: translateY(-8px) rotate(-45deg);
-  -ms-transform: translateY(-8px) rotate(-45deg);
-  transform: translateY(-8px) rotate(-45deg);
-}
-
-.emotion-27 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: stretch;
-  -webkit-box-align: stretch;
-  -ms-flex-align: stretch;
-  align-items: stretch;
-  -webkit-box-pack: top;
-  -ms-flex-pack: top;
-  -webkit-justify-content: top;
-  justify-content: top;
-  gap: 20px;
-}
-
-.emotion-30 {
-  font-family: PT Mono,monospace;
-  line-height: 1.55;
-}
-
-.emotion-33 {
-  position: relative;
-}
-
-.emotion-34 {
-  pointer-events: none;
-  position: absolute;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  width: 36px;
-  color: #909296;
-}
-
-.emotion-41 {
-  font-family: PT Mono,monospace;
-  height: 36px;
-  -webkit-tap-highlight-color: transparent;
-  line-height: 34px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  resize: none;
-  box-sizing: border-box;
-  font-size: 14px;
-  width: 100%;
-  color: #C1C2C5;
-  display: block;
-  text-align: left;
-  min-height: 36px;
-  padding-left: 12px;
-  padding-right: 36px;
-  border-radius: 4px;
-  border: 1px solid #373A40;
-  background-color: #25262b;
-  -webkit-transition: border-color 100ms ease;
-  transition: border-color 100ms ease;
-  padding-left: 36px;
-}
-
-.emotion-41:disabled {
-  background-color: #25262b;
-  color: #909296;
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.emotion-41:disabled::-webkit-input-placeholder {
-  color: #909296;
-}
-
-.emotion-41:disabled::-moz-placeholder {
-  color: #909296;
-}
-
-.emotion-41:disabled:-ms-input-placeholder {
-  color: #909296;
-}
-
-.emotion-41:disabled::placeholder {
-  color: #909296;
-}
-
-.emotion-41::-webkit-input-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #5c5f66;
-  opacity: 1;
-}
-
-.emotion-41::-moz-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #5c5f66;
-  opacity: 1;
-}
-
-.emotion-41:-ms-input-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #5c5f66;
-  opacity: 1;
-}
-
-.emotion-41::placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #5c5f66;
-  opacity: 1;
-}
-
-.emotion-41::-webkit-inner-spin-button,
-.emotion-41::-webkit-outer-spin-button,
-.emotion-41::-webkit-search-decoration,
-.emotion-41::-webkit-search-cancel-button,
-.emotion-41::-webkit-search-results-button,
-.emotion-41::-webkit-search-results-decoration {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-}
-
-.emotion-41[type=number] {
-  -moz-appearance: textfield;
-}
-
-.emotion-41:focus,
-.emotion-41:focus-within {
-  outline: none;
-  border-color: #1971c2;
-}
-
-.emotion-42 {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  width: 36px;
-}
-
-.emotion-46 {
-  font-family: PT Mono,monospace;
-  -webkit-tap-highlight-color: transparent;
-  color: inherit;
-  font-size: 0.875rem;
-  line-height: 1.55;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-weight: normal;
-  color: #E2E2EE;
-  letter-spacing: 0.0125rem;
-  line-height: 1.25rem;
-  -webkit-transition: 150ms color ease;
-  transition: 150ms color ease;
-}
-
-.emotion-46:focus {
-  outline-offset: 2px;
-  outline: 2px solid #1c7ed6;
-}
-
-.emotion-46:focus:not(:focus-visible) {
-  outline: none;
-}
-
-.emotion-49 {
+.emotion-15 {
   -webkit-tap-highlight-color: transparent;
   font-family: PT Mono,monospace;
   cursor: pointer;
@@ -974,45 +683,45 @@ exports[`Navbar renders a Navbar 1`] = `
   background-color: #307AE8;
 }
 
-.emotion-49:focus {
+.emotion-15:focus {
   outline-offset: 2px;
   outline: 2px solid #1c7ed6;
 }
 
-.emotion-49:focus:not(:focus-visible) {
+.emotion-15:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-49:focus {
+.emotion-15:focus {
   outline-offset: 2px;
   outline: 2px solid #1c7ed6;
 }
 
-.emotion-49:focus:not(:focus-visible) {
+.emotion-15:focus:not(:focus-visible) {
   outline: none;
 }
 
 @media (hover: hover) {
-  .emotion-49:hover {
+  .emotion-15:hover {
     background-color: #1864ab;
   }
 }
 
 @media (hover: none) {
-  .emotion-49:active {
+  .emotion-15:active {
     background-color: #1864ab;
   }
 }
 
-.emotion-49:active {
+.emotion-15:active {
   -webkit-transform: translateY(1px);
   -moz-transform: translateY(1px);
   -ms-transform: translateY(1px);
   transform: translateY(1px);
 }
 
-.emotion-49:disabled,
-.emotion-49[data-disabled] {
+.emotion-15:disabled,
+.emotion-15[data-disabled] {
   border-color: transparent;
   background-color: #373A40;
   color: #25262b;
@@ -1021,19 +730,19 @@ exports[`Navbar renders a Navbar 1`] = `
   pointer-events: none;
 }
 
-.emotion-49:disabled:active,
-.emotion-49[data-disabled]:active {
+.emotion-15:disabled:active,
+.emotion-15[data-disabled]:active {
   -webkit-transform: none;
   -moz-transform: none;
   -ms-transform: none;
   transform: none;
 }
 
-.emotion-49[data-loading] {
+.emotion-15[data-loading] {
   pointer-events: none;
 }
 
-.emotion-49[data-loading]::before {
+.emotion-15[data-loading]::before {
   content: "";
   position: absolute;
   top: -1px;
@@ -1045,35 +754,35 @@ exports[`Navbar renders a Navbar 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-49:disabled {
+.emotion-15:disabled {
   background-color: #393A51;
 }
 
-.emotion-49:disabled .emotion-10 {
+.emotion-15:disabled .emotion-10 {
   color: #838495;
 }
 
-.emotion-49:active:not(:disabled) {
+.emotion-15:active:not(:disabled) {
   background-color: #1761CF;
 }
 
-.emotion-49:hover:not(:disabled) {
+.emotion-15:hover:not(:disabled) {
   background-color: #5596F6;
 }
 
-.emotion-49[data-loading] {
+.emotion-15[data-loading] {
   background-color: #393A51;
 }
 
-.emotion-49[data-loading] .emotion-10 {
+.emotion-15[data-loading] .emotion-10 {
   color: #838495;
 }
 
-.emotion-49[data-loading]::before {
+.emotion-15[data-loading]::before {
   content: none;
 }
 
-.emotion-54 {
+.emotion-20 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1083,6 +792,297 @@ exports[`Navbar renders a Navbar 1`] = `
   -ms-flex-align: center;
   align-items: center;
   margin-right: 10px;
+}
+
+.emotion-25 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: PT Mono,monospace;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 16px;
+  background-color: transparent;
+  text-align: left;
+  color: #C1C2C5;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: calc(24px + 10px);
+  height: calc(24px + 10px);
+  padding: calc(10px / 2);
+  cursor: pointer;
+}
+
+.emotion-25:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-25:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-26 {
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.emotion-26,
+.emotion-26::before,
+.emotion-26::after {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #fff;
+  outline: 1px solid transparent;
+  transition-property: background-color,transform;
+  transition-duration: 300ms;
+}
+
+.emotion-26::before,
+.emotion-26::after {
+  position: absolute;
+  content: "";
+  left: 0;
+}
+
+.emotion-26::before {
+  top: -8px;
+}
+
+.emotion-26::after {
+  top: 8px;
+}
+
+.emotion-26[data-opened] {
+  background-color: transparent;
+}
+
+.emotion-26[data-opened]::before {
+  -webkit-transform: translateY(8px) rotate(45deg);
+  -moz-transform: translateY(8px) rotate(45deg);
+  -ms-transform: translateY(8px) rotate(45deg);
+  transform: translateY(8px) rotate(45deg);
+}
+
+.emotion-26[data-opened]::after {
+  -webkit-transform: translateY(-8px) rotate(-45deg);
+  -moz-transform: translateY(-8px) rotate(-45deg);
+  -ms-transform: translateY(-8px) rotate(-45deg);
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.emotion-30 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: top;
+  -ms-flex-pack: top;
+  -webkit-justify-content: top;
+  justify-content: top;
+  gap: 20px;
+}
+
+.emotion-33 {
+  font-family: PT Mono,monospace;
+  line-height: 1.55;
+}
+
+.emotion-36 {
+  position: relative;
+}
+
+.emotion-37 {
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 36px;
+  color: #909296;
+}
+
+.emotion-44 {
+  font-family: PT Mono,monospace;
+  height: 36px;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  resize: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 100%;
+  color: #C1C2C5;
+  display: block;
+  text-align: left;
+  min-height: 36px;
+  padding-left: 12px;
+  padding-right: 36px;
+  border-radius: 4px;
+  border: 1px solid #373A40;
+  background-color: #25262b;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  padding-left: 36px;
+}
+
+.emotion-44:disabled {
+  background-color: #25262b;
+  color: #909296;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.emotion-44:disabled::-webkit-input-placeholder {
+  color: #909296;
+}
+
+.emotion-44:disabled::-moz-placeholder {
+  color: #909296;
+}
+
+.emotion-44:disabled:-ms-input-placeholder {
+  color: #909296;
+}
+
+.emotion-44:disabled::placeholder {
+  color: #909296;
+}
+
+.emotion-44::-webkit-input-placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #5c5f66;
+  opacity: 1;
+}
+
+.emotion-44::-moz-placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #5c5f66;
+  opacity: 1;
+}
+
+.emotion-44:-ms-input-placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #5c5f66;
+  opacity: 1;
+}
+
+.emotion-44::placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #5c5f66;
+  opacity: 1;
+}
+
+.emotion-44::-webkit-inner-spin-button,
+.emotion-44::-webkit-outer-spin-button,
+.emotion-44::-webkit-search-decoration,
+.emotion-44::-webkit-search-cancel-button,
+.emotion-44::-webkit-search-results-button,
+.emotion-44::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+
+.emotion-44[type=number] {
+  -moz-appearance: textfield;
+}
+
+.emotion-44:focus,
+.emotion-44:focus-within {
+  outline: none;
+  border-color: #1971c2;
+}
+
+.emotion-45 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 36px;
+}
+
+.emotion-49 {
+  font-family: PT Mono,monospace;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: normal;
+  color: #E2E2EE;
+  letter-spacing: 0.0125rem;
+  line-height: 1.25rem;
+  -webkit-transition: 150ms color ease;
+  transition: 150ms color ease;
+}
+
+.emotion-49:focus {
+  outline-offset: 2px;
+  outline: 2px solid #1c7ed6;
+}
+
+.emotion-49:focus:not(:focus-visible) {
+  outline: none;
 }
 
 <div
@@ -1176,7 +1176,7 @@ exports[`Navbar renders a Navbar 1`] = `
         class="emotion-0 emotion-12"
       >
         <button
-          class="emotion-4 emotion-5 emotion-6"
+          class="emotion-4 emotion-5 emotion-15"
           data-button="true"
           type="button"
         >
@@ -1184,8 +1184,7 @@ exports[`Navbar renders a Navbar 1`] = `
             class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-9 emotion-10"
-              style="text-transform: uppercase;"
+              class="emotion-18 emotion-19 emotion-20"
             >
               <svg
                 fill="currentColor"
@@ -1201,42 +1200,48 @@ exports[`Navbar renders a Navbar 1`] = `
                 />
               </svg>
             </span>
+            <span
+              class="emotion-9 emotion-10"
+              style="text-transform: uppercase;"
+            >
+              Sign In
+            </span>
           </div>
         </button>
       </div>
     </div>
     <button
-      class="emotion-4 emotion-21 c9 emotion-22"
+      class="emotion-4 emotion-24 c9 emotion-25"
       title="Open navigation"
       type="button"
     >
       <div
-        class="emotion-23 emotion-24"
+        class="emotion-26 emotion-27"
       />
     </button>
   </div>
   <div
     aria-hidden="true"
-    class="c10 emotion-25"
+    class="c10 emotion-28"
     style="box-sizing: border-box; display: none; height: 0px; overflow: hidden;"
   >
     <div
       style="opacity: 0; transition: opacity 200ms ease;"
     >
       <div
-        class="emotion-26 c11 emotion-27"
+        class="emotion-29 c11 emotion-30"
       >
         <div
           class="c12"
         >
           <div
-            class="emotion-28 emotion-29 c13 c14 emotion-30"
+            class="emotion-31 emotion-32 c13 c14 emotion-33"
           >
             <div
-              class="emotion-31 emotion-32 emotion-33"
+              class="emotion-34 emotion-35 emotion-36"
             >
               <div
-                class="emotion-34 emotion-35 emotion-36"
+                class="emotion-37 emotion-38 emotion-39"
               >
                 <svg
                   fill="currentColor"
@@ -1254,18 +1259,18 @@ exports[`Navbar renders a Navbar 1`] = `
               </div>
               <input
                 aria-invalid="false"
-                class="emotion-37 emotion-38 emotion-39 emotion-40 emotion-41"
-                id="mantine-r1"
+                class="emotion-40 emotion-41 emotion-42 emotion-43 emotion-44"
+                id="mantine-r0"
                 placeholder="POAP.ETH OR 0xf6B6..."
                 spellcheck="false"
                 type="text"
                 value=""
               />
               <div
-                class="emotion-42 emotion-43 emotion-44"
+                class="emotion-45 emotion-46 emotion-47"
               >
                 <div
-                  class="emotion-45 c15 emotion-46"
+                  class="emotion-48 c15 emotion-49"
                 >
                   /
                 </div>
@@ -1309,7 +1314,7 @@ exports[`Navbar renders a Navbar 1`] = `
           class="c5 c6"
         >
           <button
-            class="emotion-4 emotion-5 emotion-49"
+            class="emotion-4 emotion-5 emotion-15"
             data-button="true"
             type="button"
           >
@@ -1317,7 +1322,7 @@ exports[`Navbar renders a Navbar 1`] = `
               class="emotion-7 emotion-8"
             >
               <span
-                class="emotion-52 emotion-53 emotion-54"
+                class="emotion-18 emotion-19 emotion-20"
               >
                 <svg
                   class="c7 c8"
@@ -1348,7 +1353,7 @@ exports[`Navbar renders a Navbar 1`] = `
           class="emotion-0 emotion-12"
         >
           <button
-            class="emotion-4 emotion-5 emotion-49"
+            class="emotion-4 emotion-5 emotion-15"
             data-button="true"
             type="button"
           >
@@ -1356,7 +1361,7 @@ exports[`Navbar renders a Navbar 1`] = `
               class="emotion-7 emotion-8"
             >
               <span
-                class="emotion-52 emotion-53 emotion-54"
+                class="emotion-18 emotion-19 emotion-20"
               >
                 <svg
                   fill="currentColor"
