@@ -88,7 +88,6 @@ export const Navbar = () => {
   const router = useRouter();
   const user = useUser();
   const { connectionStatus, ensName } = useWeb3Context();
-  const address = user?.address ?? '';
 
   const matchesLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
   const matchesMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`, false);
@@ -128,7 +127,7 @@ export const Navbar = () => {
       </NavLink>
       {connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && (
         <>
-          <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
+          <NavLink href={`/p/${ensName ?? user?.address}`}>{'Profile'}</NavLink>
           <NavLink href={`/settings`}>{'Settings'}</NavLink>
         </>
       )}

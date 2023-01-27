@@ -36,7 +36,6 @@ export const ConnectionButton = ({ className, hideText }: Props) => {
   const user = useUser();
   const userClaimCount = userClaims?.length;
   const router = useRouter();
-  const email = user?.emailAddress ?? '';
 
   if (user === null) {
     return (
@@ -81,7 +80,7 @@ export const ConnectionButton = ({ className, hideText }: Props) => {
   }
 
   /* User has no connected accounts */
-  if (!user?.capabilities.hasGithub && !email) {
+  if (!user?.capabilities.hasGithub && !user?.emailAddress) {
     return (
       <Content className={className}>
         <Button

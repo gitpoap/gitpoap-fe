@@ -43,7 +43,7 @@ export const useGithubAuth = () => {
         Notifications.error('Unable to authenticate with GitHub');
       }
     },
-    [setAccessToken, , api.auth],
+    [setAccessToken, api.auth],
   );
 
   /* After requesting Github access, Github redirects back to your app with a code parameter. */

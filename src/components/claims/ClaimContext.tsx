@@ -33,7 +33,6 @@ export const ClaimContextProvider = ({ children }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [claimedIds, handlers] = useListState<number>([]);
   const [loadingClaimIds, setLoadingClaimIds] = useState<number[]>([]);
-  const address = user?.address ?? '';
 
   const [result, refetchUserClaims] = useOpenClaimsQuery({
     pause: true,
@@ -54,7 +53,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
    */
   useEffect(() => {
     refetchUserClaims();
-  }, [address, hasGithub, hasEmail, refetchUserClaims]);
+  }, [user?.address, hasGithub, hasEmail, refetchUserClaims]);
 
   /*
    * useOpenClaimsQuery includes all claimed GitPOAPs from the previous month

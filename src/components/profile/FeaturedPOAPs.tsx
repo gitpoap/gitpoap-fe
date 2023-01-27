@@ -41,9 +41,9 @@ export const FeaturedPOAPs = () => {
     showHearts,
   } = useFeaturedPOAPs();
   const { profileData } = useProfileContext();
-  const address = user?.address ?? '';
 
-  const isViewerOwner = profileData && address && profileData.address === address.toLowerCase();
+  const isViewerOwner =
+    profileData && user?.address && profileData.address === user?.address.toLowerCase();
 
   if (featuredPOAPsFull.length === 0 && !isViewerOwner) {
     return null;
