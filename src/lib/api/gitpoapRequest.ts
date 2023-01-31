@@ -75,7 +75,7 @@ export const CreateFormValidationSchema = z.object({
     .string({ required_error: 'Description is required' })
     .min(15, { message: 'Description must be at least 15 characters' }),
   startDate: z.date({
-    required_error: 'Start date iszod string required',
+    required_error: 'Start date is required',
     invalid_type_error: 'Start date is required',
   }),
   endDate: z.date({
