@@ -18,8 +18,9 @@ export const trackPageView = (pathname: string, asPath: string) => {
   });
 };
 
-export const trackClickMint = (claimIds: number[]) => {
+export const trackClickMint = (address: string | null, claimIds: number[]) => {
   track('click_mint', {
+    address,
     claimIds,
   });
 };

@@ -44,6 +44,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
   const userClaims = result.data?.userClaims;
   const hasGithub = user?.capabilities.hasGithub;
   const hasEmail = user?.capabilities.hasEmail;
+  const address = user?.address ?? null;
 
   /**
    * Trigger a new refetch when:
@@ -96,7 +97,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
           refetchUserClaims();
           setLoadingClaimIds([]);
         }
-        trackClickMint(claimIds);
+        trackClickMint(address, claimIds);
       } catch (err) {
         if ((err as MetaMaskError)?.code !== MetaMaskErrors.UserRejectedRequest) {
           console.warn(err);
