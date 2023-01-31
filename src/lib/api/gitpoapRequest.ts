@@ -2,7 +2,7 @@ import { validate } from 'email-validator';
 import { isAddress } from 'ethers/lib/utils';
 import { DateTime } from 'luxon';
 import { z } from 'zod';
-import { isValidGithubHandleWithout0x } from '../../helpers';
+import { isValidGithubHandle } from '../../helpers';
 import { Notifications } from '../../notifications';
 import { API, makeAPIRequestWithAuth } from './utils';
 import { Tokens } from '../../types';
@@ -37,7 +37,7 @@ export const ValidatedContributorSchema = z.union([
       .string()
       .trim()
       .min(1)
-      .refine((v) => isValidGithubHandleWithout0x(v)),
+      .refine((v) => isValidGithubHandle(v)),
   }),
   z.object({
     type: z.literal('ethAddresses'),

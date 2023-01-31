@@ -47,7 +47,7 @@ export const isValidGithubHandle = (handle: string): boolean =>
   /^(?![-])(?!.*[-]{2})(?!.*[-]$)[a-zA-Z0-9-]{1,39}$/.test(handle);
 
 /**
- * Temporary validator that prevents the GitHub handle from starting with 0x
+ * Currently Unnused: Temporary validator that prevents the GitHub handle from starting with 0x
  */
 export const isValidGithubHandleWithout0x = (handle: string): boolean =>
   /^(?![-])(?!0x)(?!.*[-]{2})(?!.*[-]$)[a-zA-Z0-9-]{1,39}$/.test(handle);
