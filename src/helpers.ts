@@ -43,13 +43,13 @@ export const formatUTCDate = (date: string): string =>
  * Github username cannot begin or end with a hyphen.
  * Maximum is 39 characters.
  */
-export const isValidGithubHandle = (handle: string): boolean =>
+export const isValidGitHubHandle = (handle: string): boolean =>
   /^(?![-])(?!.*[-]{2})(?!.*[-]$)[a-zA-Z0-9-]{1,39}$/.test(handle);
 
 /**
- * Temporary validator that prevents the GitHub handle from starting with 0x
+ * Currently Unnused: Temporary validator that prevents the GitHub handle from starting with 0x
  */
-export const isValidGithubHandleWithout0x = (handle: string): boolean =>
+export const isValidGitHubHandleWithout0x = (handle: string): boolean =>
   /^(?![-])(?!0x)(?!.*[-]{2})(?!.*[-]$)[a-zA-Z0-9-]{1,39}$/.test(handle);
 
 export const isValidTwitterHandle = (handle: string): boolean =>
