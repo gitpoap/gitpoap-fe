@@ -68,8 +68,8 @@ export type ValidatedContributor = z.infer<typeof ValidatedContributorSchema>;
 export type UnvalidatedContributor = { type: ContributorType; value: string };
 
 export const CreateFormValidationSchema = z.object({
-  name: z.string().min(10, { message: 'Name is required' }),
-  description: z.string().min(15, { message: 'Description is required' }),
+  name: z.string().min(10, { message: 'Name must be 10 or more characters' }),
+  description: z.string().min(15, { message: 'Description must be 15 or more characters' }),
   startDate: z.date({
     required_error: 'Start date is required',
     invalid_type_error: 'Start date is required',
@@ -101,8 +101,8 @@ export type CreateFormValues = {
 
 export const EditFormValidationSchema = (hasRemovedSavedImage: boolean) =>
   z.object({
-    name: z.string().min(10, { message: 'Name is required' }),
-    description: z.string().min(15, { message: 'Description is required' }),
+    name: z.string().min(10, { message: 'Name must be 10 or more characters' }),
+    description: z.string().min(15, { message: 'Description must be 15 or more characters' }),
     startDate: z.date({
       required_error: 'Start date is required',
       invalid_type_error: 'Start date is required',
@@ -124,8 +124,8 @@ export type ValidatedEditFormValues = {
 };
 
 const EditFormSubmissionSchema = z.object({
-  name: z.string().min(1, { message: 'Name is required' }),
-  description: z.string().min(1, { message: 'Description is required' }),
+  name: z.string().min(10, { message: 'Name must be 10 or more characters' }),
+  description: z.string().min(15, { message: 'Description must be 15 or more characters' }),
   startDate: z.date({
     required_error: 'Start date is required',
     invalid_type_error: 'Start date is required',
