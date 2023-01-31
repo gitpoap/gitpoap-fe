@@ -68,10 +68,14 @@ export type ValidatedContributor = z.infer<typeof ValidatedContributorSchema>;
 export type UnvalidatedContributor = { type: ContributorType; value: string };
 
 export const CreateFormValidationSchema = z.object({
-  name: z.string().min(10, { message: 'Name is required' }),
-  description: z.string().min(15, { message: 'Description is required' }),
+  name: z
+    .string({ required_error: 'Name is required' })
+    .min(10, { message: 'Name must be at least 10 characters' }),
+  description: z
+    .string({ required_error: 'Description is required' })
+    .min(15, { message: 'Description must be at least 15 characters' }),
   startDate: z.date({
-    required_error: 'Start date is required',
+    required_error: 'Start date iszod string required',
     invalid_type_error: 'Start date is required',
   }),
   endDate: z.date({
@@ -101,8 +105,12 @@ export type CreateFormValues = {
 
 export const EditFormValidationSchema = (hasRemovedSavedImage: boolean) =>
   z.object({
-    name: z.string().min(10, { message: 'Name is required' }),
-    description: z.string().min(15, { message: 'Description is required' }),
+    name: z
+      .string({ required_error: 'Name is required' })
+      .min(10, { message: 'Name must be at least 10 characters' }),
+    description: z
+      .string({ required_error: 'Description is required' })
+      .min(15, { message: 'Description must be at least 15 characters' }),
     startDate: z.date({
       required_error: 'Start date is required',
       invalid_type_error: 'Start date is required',
