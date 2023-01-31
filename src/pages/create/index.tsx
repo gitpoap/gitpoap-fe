@@ -8,7 +8,6 @@ import { useUser } from '../../hooks/useUser';
 
 const Create: NextPageWithLayout = () => {
   const user = useUser();
-  const isConnected = user?.permissions.isConnected;
 
   return (
     <>
@@ -17,7 +16,7 @@ const Create: NextPageWithLayout = () => {
         <meta name="Create a GitPOAP" content="Create a GiPOAP" />
       </Head>
       <Grid justify="center" style={{ zIndex: 1 }}>
-        {isConnected ? (
+        {user ? (
           <>
             <BackgroundHexes />
             <CreationForm />

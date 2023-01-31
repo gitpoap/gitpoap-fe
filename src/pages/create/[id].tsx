@@ -11,7 +11,6 @@ import Custom404 from '../404';
 const Create: NextPageWithLayout = () => {
   const router = useRouter();
   const user = useUser();
-  const isConnected = user?.permissions.isConnected;
 
   const { id } = router.query;
 
@@ -32,7 +31,7 @@ const Create: NextPageWithLayout = () => {
         <meta name="Create a GitPOAP" content="Create a GiPOAP" />
       </Head>
       <Grid justify="center" style={{ zIndex: 1 }}>
-        {isConnected ? (
+        {user ? (
           <>
             <BackgroundHexes />
             <EditContainer gitPOAPId={gitPOAPId} user={user} />

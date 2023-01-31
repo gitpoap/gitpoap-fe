@@ -18,7 +18,6 @@ export type User = {
   };
   permissions: {
     isStaff: boolean;
-    isConnected: boolean;
   };
 };
 
@@ -49,7 +48,6 @@ export const useUser = (): User | null => {
       },
       permissions: {
         isStaff,
-        isConnected: !!payload.address?.ethAddress || !!payload.email?.emailAddress,
       },
     };
   }
