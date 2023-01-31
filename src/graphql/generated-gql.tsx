@@ -7479,17 +7479,20 @@ export type GitPoapRequestQuery = {
   __typename?: 'Query';
   gitPOAPRequest?: {
     __typename?: 'GitPOAPRequest';
+    id: number;
     name: string;
     contributors: any;
+    createdAt: any;
     description: string;
     startDate: any;
     endDate: any;
     imageUrl: string;
+    numRequestedCodes: number;
     staffApprovalStatus: StaffApprovalStatus;
     gitPOAPId?: number | null;
     teamId?: number | null;
     creatorEmail: { __typename?: 'Email'; emailAddress: string };
-    address: { __typename?: 'Address'; ethAddress: string };
+    address: { __typename?: 'Address'; ensName?: string | null; ethAddress: string };
   } | null;
 };
 
@@ -9345,8 +9348,10 @@ export function useTrendingReposQuery(
 export const GitPoapRequestDocument = gql`
   query gitPOAPRequest($gitPOAPRequestId: Int!) {
     gitPOAPRequest(where: { id: $gitPOAPRequestId }) {
+      id
       name
       contributors
+      createdAt
       description
       startDate
       endDate
@@ -9354,8 +9359,10 @@ export const GitPoapRequestDocument = gql`
         emailAddress
       }
       imageUrl
+      numRequestedCodes
       staffApprovalStatus
       address {
+        ensName
         ethAddress
       }
       gitPOAPId

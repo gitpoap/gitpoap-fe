@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import GitPOAPRequestsDashboard from '../../../../pages/admin/gitpoap/requests';
+import GitPOAPRequestsDashboard from '../../../../pages/admin/gitpoap/requests/requests';
 import { Layout } from '../../../../components/Layout';
 
 export default {
