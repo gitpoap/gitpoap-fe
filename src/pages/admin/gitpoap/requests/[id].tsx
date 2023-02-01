@@ -1,5 +1,5 @@
 import { Center, Text } from '@mantine/core';
-import { GetStaticPropsContext } from 'next';
+import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { SSRData } from 'next-urql';
 import Head from 'next/head';
 import React from 'react';
@@ -61,6 +61,13 @@ export const getStaticProps = async (
       /* coalesce to null if no data is returned -> nextJS doesn't like 'undefined' */
       gitPOAPRequest: results?.data?.gitPOAPRequest,
     },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
+  return {
+    paths: [], // indicates that no page needs be created at build time
+    fallback: 'blocking', // indicates the type of fallback
   };
 };
 
