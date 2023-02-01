@@ -15,7 +15,7 @@ type PageProps = {
   gitPOAPRequest: GitPoapRequestQuery['gitPOAPRequest'];
 };
 
-const AdminGitPOAPRequests: NextPageWithLayout<PageProps> = ({ gitPOAPRequest }) => {
+const AdminGitPOAPRequest: NextPageWithLayout<PageProps> = ({ gitPOAPRequest }) => {
   const user = useUser();
 
   if (!gitPOAPRequest) {
@@ -71,4 +71,4 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   };
 };
 
-export default AdminGitPOAPRequests;
+export default AdminGitPOAPRequest;
