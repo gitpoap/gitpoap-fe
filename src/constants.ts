@@ -51,8 +51,6 @@ export const STAFF_GITHUB_IDS = [
   914240, // colfax23
   8076957, // peebeejay
   1555326, // burz
-  23272494, // kayleen / nixorokish
-  109097759, // Kayla
   19416312, // Aldo
 ];
 
@@ -60,10 +58,7 @@ export const STAFF_ADDRESSES = [
   '0x56d389c4e07a48d429035532402301310b8143a0', // Colfax
   '0xae32d159bb3abfcadfabe7abb461c2ab4805596d', // Jay
   '0xae95f7e7fb2fcf86148ef832faed2752ae5a358a', // Anna / burz
-  '0x04c0cd38b8c203b14ef2b7b8d736d69b938aff71', // Kayleen / nixorokish
-  '0xa4c58baf393ebf3a281a4bc6152ae084e63dc28e', // Kayla
   '0x02738d122e0970aaf8deadf0c6a217a1923e1e99', // Aldo
-  '0xe078c3bdee620829135e1ab526be860498b06339', // Tyler
   '0x9B6e1a427be7A9456f4aF18eeaa354ccabF3980a', // gitpoap.eth
 ];
 
