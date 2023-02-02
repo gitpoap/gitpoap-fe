@@ -7483,6 +7483,7 @@ export type GitPoapRequestQuery = {
     name: string;
     contributors: any;
     createdAt: any;
+    updatedAt: any;
     description: string;
     startDate: any;
     endDate: any;
@@ -9352,6 +9353,7 @@ export const GitPoapRequestDocument = gql`
       name
       contributors
       createdAt
+      updatedAt
       description
       startDate
       endDate

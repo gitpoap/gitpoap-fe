@@ -871,6 +871,7 @@ query gitPOAPRequest($gitPOAPRequestId: Int!) {
     name
     contributors
     createdAt
+    updatedAt
     description
     startDate
     endDate

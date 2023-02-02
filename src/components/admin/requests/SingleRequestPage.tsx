@@ -1,211 +1,52 @@
-import React, { useState } from 'react';
-import { MdCheck, MdClose, MdOutlineEdit, MdPeople } from 'react-icons/md';
-import {
-  Group,
-  Stack,
-  Text,
-  Button,
-  AlphaSlider,
-  HueSlider,
-  SimpleGrid,
-  Center,
-  Switch,
-  Overlay,
-} from '@mantine/core';
+import React from 'react';
+import { ActionIcon, Group, Stack, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import Link from 'next/link';
-import { hslToColorString, rem } from 'polished';
+import { rem } from 'polished';
 import { GitPoapRequestQuery } from '../../../graphql/generated-gql';
 import { RequestStatusBadge } from '../../request/RequestItem/RequestStatusBadge';
-import { ContributorModal } from '../../request/RequestItem/ContributorModal';
-import { GitPOAPTemplate } from '../../shared/elements/GitPOAPTemplate';
-import { formatUTCDate } from '../../../helpers';
-import { BackgroundPanel } from '../../../colors';
 import { GitPOAPRequestApproveModal } from './modals/Approve';
 import { GitPOAPRequestRejectModal } from './modals/Reject';
+import { GitPOAPRequestModalContent } from './modals/DetailsContent';
+import { FiLink } from 'react-icons/fi';
+import { useClipboardWithNotification } from '../../../hooks/useClipboardWithNotification';
 
 type ModalProps = {
   gitPOAPRequest: Exclude<GitPoapRequestQuery['gitPOAPRequest'], undefined | null>;
 };
 
 export const SingleRequestPage = ({ gitPOAPRequest }: ModalProps) => {
-  const {
-    id,
-    name,
-    description,
-    imageUrl,
-    contributors,
-    createdAt,
-    startDate,
-    endDate,
-    numRequestedCodes,
-    staffApprovalStatus,
-    creatorEmail,
-    address,
-  } = gitPOAPRequest;
+  const { id, staffApprovalStatus } = gitPOAPRequest;
 
-  const [isContributorModalOpen, { open: openContributorModal, close: closeContributorModal }] =
-    useDisclosure(false);
+  const clipboard = useClipboardWithNotification();
   const [isApprovalModalOpen, { open: openApprovalModal, close: closeApprovalModal }] =
     useDisclosure(false);
   const [isRejectionModalOpen, { open: openRejectionModal, close: closeRejectionModal }] =
     useDisclosure(false);
   const matches420 = useMediaQuery(`(max-width: ${rem(420)})`, false);
-  const matches500 = useMediaQuery(`(max-width: ${rem(500)})`, false);
-
-  const [showBorder, setShowBorder] = useState(false);
-  const [showBackground, setShowBackground] = useState(false);
-  const [showTemplateOverlay, setShowTemplateOverlay] = useState(false);
-
-  const [alpha, setAlpha] = useState(0.75);
-  const [hue, setHue] = useState(0);
-
-  const numberOfContributors = Object.values(contributors).flat().length;
 
   return (
     <Stack>
-      <Group position="left">
-        <Group>
-          <Text>
-            {!matches420 ? 'Request ID: ' : ''}
-            {id}
-          </Text>
-          <RequestStatusBadge status={staffApprovalStatus} />
-        </Group>
-      </Group>
-      <SimpleGrid cols={2} spacing="lg" breakpoints={[{ maxWidth: 1100, cols: 1 }]}>
-        <Center pb="md" pt="xs">
-          <Stack>
-            <Link href={imageUrl} target="_blank">
-              <div
-                style={{
-                  border: `${rem(1)} dashed ${showBorder ? 'white' : 'transparent'}`,
-                  width: rem(370),
-                  height: rem(370),
-                  maxWidth: '80vw',
-                  maxHeight: '80vw',
-                  boxSizing: 'content-box',
-                  margin: 'auto',
-                }}
-              >
-                <div
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundImage: showBackground
-                      ? 'linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%),linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%)'
-                      : 'none',
-                    backgroundPosition: '0 0, 10px 10px',
-                    backgroundSize: '20px 20px',
-                  }}
-                >
-                  <div
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      background: `url(${imageUrl}) center/contain no-repeat`,
-                      position: 'relative',
-                    }}
-                  >
-                    {showTemplateOverlay && (
-                      <GitPOAPTemplate
-                        fill={hslToColorString({ hue, saturation: 1, lightness: 0.5, alpha })}
-                        style={{
-                          position: 'absolute',
-                          width: '100%',
-                          height: '100%',
-                        }}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Group grow>
-              <Switch
-                checked={showBorder}
-                onChange={(e) => setShowBorder(e.currentTarget.checked)}
-                label="Border"
-              />
-              <Switch
-                checked={showBackground}
-                onChange={(e) => setShowBackground(e.currentTarget.checked)}
-                label="Background"
-              />
-            </Group>
-            <Switch
-              checked={showTemplateOverlay}
-              onChange={(e) => setShowTemplateOverlay(e.currentTarget.checked)}
-              label="Template Overlay"
-            />
-            <Stack px={1} sx={{ position: 'relative' }}>
-              {!showTemplateOverlay && <Overlay color={BackgroundPanel} />}
-              <HueSlider value={hue} onChange={setHue} onChangeEnd={setHue} />
-              <AlphaSlider
-                color={hslToColorString({ hue, saturation: 1, lightness: 0.5 })}
-                value={alpha}
-                onChange={setAlpha}
-                onChangeEnd={setAlpha}
-              />
-            </Stack>
-          </Stack>
-        </Center>
-        <Stack justify="space-between" sx={{ maxWidth: rem(500), width: '100%', height: '100%' }}>
-          <Stack>
-            <Text>{`Name: ${name}`}</Text>
-            <Text>{`Description: ${description}`}</Text>
-            <Text>{`Creator Address: ${address.ethAddress}`}</Text>
-            {address.ensName && <Text>{`Creator ENS name: ${address.ensName}`}</Text>}
-            <Text>{`Creator Email: ${creatorEmail.emailAddress}`}</Text>
-            <Text sx={{ whiteSpace: 'nowrap' }}>
-              {`Creation Date: ${formatUTCDate(createdAt)}`}
-            </Text>
-            <Text sx={{ whiteSpace: 'nowrap' }}>{`Start Date: ${formatUTCDate(startDate)}`}</Text>
-            <Text sx={{ whiteSpace: 'nowrap' }}>{`End Date: ${formatUTCDate(endDate)}`}</Text>
-            <Text>{`Number of Codes: ${numRequestedCodes}`}</Text>
+      <Group position="apart" align="end">
+        <Stack>
+          <Link href={`/admin/gitpoap/requests`}>{'< View all requests'}</Link>
+          <Group>
             <Text>
-              {'Contributors: '}
-              <Button
-                compact
-                disabled={numberOfContributors === 0}
-                onClick={openContributorModal}
-                rightIcon={<MdPeople />}
-              >
-                {numberOfContributors}
-              </Button>
-              <ContributorModal
-                isOpen={isContributorModalOpen}
-                onClose={closeContributorModal}
-                contributors={contributors}
-              />
+              {!matches420 ? 'Request ID: ' : ''}
+              {id}
             </Text>
-          </Stack>
-          <Group align="center" grow pt="lg" spacing={matches500 ? 'xs' : 'md'} noWrap>
-            <Button
-              disabled={['APPROVED'].includes(gitPOAPRequest.staffApprovalStatus)}
-              leftIcon={!matches500 && <MdCheck />}
-              onClick={openApprovalModal}
-            >
-              {!matches500 || (matches500 && !matches420) ? 'Approve' : <MdCheck />}
-            </Button>
-            <Button
-              disabled={['APPROVED', 'REJECTED'].includes(gitPOAPRequest.staffApprovalStatus)}
-              leftIcon={!matches500 && <MdClose />}
-              onClick={openRejectionModal}
-            >
-              {!matches500 || (matches500 && !matches420) ? 'Reject' : <MdClose />}
-            </Button>
-            <Button
-              component={Link}
-              disabled={['APPROVED'].includes(gitPOAPRequest.staffApprovalStatus)}
-              href={`/create/${id}`}
-              leftIcon={!matches500 && <MdOutlineEdit />}
-            >
-              {!matches500 || (matches500 && !matches420) ? 'Edit' : <MdOutlineEdit />}
-            </Button>
+            <RequestStatusBadge status={staffApprovalStatus} />
           </Group>
         </Stack>
-      </SimpleGrid>
+        <ActionIcon onClick={() => clipboard.copy(window.location.href)}>
+          <FiLink />
+        </ActionIcon>
+      </Group>
+      <GitPOAPRequestModalContent
+        gitPOAPRequest={gitPOAPRequest}
+        onClickApprove={openApprovalModal}
+        onClickReject={openRejectionModal}
+      />
       {isApprovalModalOpen && (
         <GitPOAPRequestApproveModal
           gitPOAPRequestId={id}
