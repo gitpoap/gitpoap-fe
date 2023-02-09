@@ -136,7 +136,7 @@ export const FormFields = <FormValues extends CreateFormValues | EditFormValues>
           required
           style={{ width: '100%' }}
           label="Description"
-          placeholder="For all our valuable contributors in 2022"
+          placeholder="What do you want people to remember about this contribution?"
           {...form.getInputProps('description')}
         />
         <Box>
