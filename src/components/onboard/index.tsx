@@ -3,13 +3,14 @@ import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
 import { FaEthereum } from 'react-icons/fa';
+import { FiAlertCircle } from 'react-icons/fi';
 import { GoMarkGithub } from 'react-icons/go';
 import { useUser } from '../../hooks/useUser';
 import { useOAuthContext } from '../oauth/OAuthContext';
 import { Button, Text } from '../shared/elements';
+import { ConnectWalletButton } from '../wallet/ConnectWallet';
 import { StyledLink } from './Completed';
 import { IntakeForm } from './IntakeForm';
-import { ConnectWalletButton } from '../wallet/ConnectWallet';
 
 export const OnboardingPage = () => {
   const { github } = useOAuthContext();
@@ -44,7 +45,7 @@ export const OnboardingPage = () => {
                 textAlign: 'center',
               }}
             >
-              {'GitPOAP Onboarding'}
+              {'GitPOAP Onboarding Waitlist'}
             </Text>
             <Text style={{ fontSize: rem(16) }}>{'A quick overview:'}</Text>
             <Text style={{ fontSize: rem(16) }}>
@@ -52,6 +53,9 @@ export const OnboardingPage = () => {
                 style={{ color: 'inherit', font: 'inherit', padding: `0 ${rem(24)}` }}
                 spacing="sm"
               >
+                <List.Item icon={<FiAlertCircle />}>
+                  {`We’ve temporarily paused our GitHub repo onboarding, submit a request here to be added to the waitlist and we’ll reach out when we’re ready to onboard you.  If you have any questions, email team@gitpoap.io and we’ll get back to you as soon as we can.`}
+                </List.Item>
                 <List.Item>
                   {" We'll award an annual GitPOAP to anyone who has had a PR merged"}
                 </List.Item>

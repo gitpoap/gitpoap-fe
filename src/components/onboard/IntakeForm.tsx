@@ -253,7 +253,7 @@ export const IntakeForm = ({ githubHandle }: Props) => {
       <Group position="right" mt="xl">
         {stage > 0 && stage < 3 && <Button onClick={prevStep}>Back</Button>}
         {stage < 2 && <Button onClick={nextStep}>Next</Button>}
-        {stage === 2 && <Button onClick={handleSubmit}>Submit</Button>}
+        {stage === 2 && <Button onClick={handleSubmit}>Add to Waitlist</Button>}
       </Group>
     </Container>
   );
