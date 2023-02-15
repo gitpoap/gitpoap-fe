@@ -50,7 +50,9 @@ export const OnboardingPage = () => {
             <Alert icon={<FiAlertCircle />} color="red">
               {`We’ve temporarily paused our GitHub repo onboarding, submit a request here to be added to the waitlist and we’ll reach out when we’re ready to onboard you.  If you have any questions, email team@gitpoap.io and we’ll get back to you as soon as we can.`}
             </Alert>
-            <Text style={{ fontSize: rem(16) }}>{'A quick overview:'}</Text>
+            <Text style={{ fontSize: rem(16) }}>
+              {'An overview of the process once you’re off the waitlist:'}
+            </Text>
             <Text style={{ fontSize: rem(16) }}>
               <List
                 style={{ color: 'inherit', font: 'inherit', padding: `0 ${rem(24)}` }}
