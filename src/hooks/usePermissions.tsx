@@ -22,7 +22,7 @@ export const usePermissions = (): Permissions => {
     if (permissionsQuery.data) {
       setPermissions(permissionsQuery.data.userPermissions);
     }
-  }, [permissionsQuery]);
+  }, [permissionsQuery.data]);
 
   return permissions;
 };
