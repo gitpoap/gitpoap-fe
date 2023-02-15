@@ -1,4 +1,4 @@
-import { Center, Container, List, Stack } from '@mantine/core';
+import { Alert, Center, Container, List, Stack } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
@@ -47,15 +47,15 @@ export const OnboardingPage = () => {
             >
               {'GitPOAP Onboarding Waitlist'}
             </Text>
+            <Alert icon={<FiAlertCircle />} color="red">
+              {`We’ve temporarily paused our GitHub repo onboarding, submit a request here to be added to the waitlist and we’ll reach out when we’re ready to onboard you.  If you have any questions, email team@gitpoap.io and we’ll get back to you as soon as we can.`}
+            </Alert>
             <Text style={{ fontSize: rem(16) }}>{'A quick overview:'}</Text>
             <Text style={{ fontSize: rem(16) }}>
               <List
                 style={{ color: 'inherit', font: 'inherit', padding: `0 ${rem(24)}` }}
                 spacing="sm"
               >
-                <List.Item icon={<FiAlertCircle />}>
-                  {`We’ve temporarily paused our GitHub repo onboarding, submit a request here to be added to the waitlist and we’ll reach out when we’re ready to onboard you.  If you have any questions, email team@gitpoap.io and we’ll get back to you as soon as we can.`}
-                </List.Item>
                 <List.Item>
                   {" We'll award an annual GitPOAP to anyone who has had a PR merged"}
                 </List.Item>
