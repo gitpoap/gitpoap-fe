@@ -1,6 +1,7 @@
 import { useIsStaff } from './useIsStaff';
 import { useTokens } from './useTokens';
 import { useWeb3Context, ConnectionStatus } from '../components/wallet/Web3Context';
+import { usePermissions } from './usePermissions';
 
 export type User = {
   addressId: number;
@@ -17,6 +18,7 @@ export type User = {
     hasDiscord: boolean;
   };
   permissions: {
+    canCreateCGs: boolean;
     isStaff: boolean;
   };
 };
@@ -28,6 +30,7 @@ export type User = {
 export const useUser = (): User | null => {
   const { payload } = useTokens();
   const isStaff = useIsStaff();
+  const permissions = usePermissions();
   const { connectionStatus } = useWeb3Context();
 
   let user = null;
@@ -47,6 +50,7 @@ export const useUser = (): User | null => {
         hasDiscord: !!payload?.discordId,
       },
       permissions: {
+        canCreateCGs: permissions.canCreateCGs,
         isStaff,
       },
     };

@@ -4344,6 +4344,12 @@ export type PoapToken = {
   tokenId: Scalars['String'];
 };
 
+export type Permissions = {
+  __typename?: 'Permissions';
+  canCreateCGs: Scalars['Boolean'];
+  isStaff: Scalars['Boolean'];
+};
+
 export type Profile = {
   __typename?: 'Profile';
   _count?: Maybe<ProfileCount>;
@@ -4920,6 +4926,7 @@ export type Query = {
   userEmail: UserEmail;
   userMemberships?: Maybe<UserMemberships>;
   userPOAPs?: Maybe<UserPoaPs>;
+  userPermissions: Permissions;
 };
 
 export type QueryAddressArgs = {
@@ -7812,6 +7819,13 @@ export type AcceptMembershipMutation = {
   };
 };
 
+export type UserPermissionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type UserPermissionsQuery = {
+  __typename?: 'Query';
+  userPermissions: { __typename?: 'Permissions'; canCreateCGs: boolean; isStaff: boolean };
+};
+
 export const GetAllStatsDocument = gql`
   query getAllStats {
     totalContributors
@@ -9806,4 +9820,21 @@ export function useAcceptMembershipMutation() {
   return Urql.useMutation<AcceptMembershipMutation, AcceptMembershipMutationVariables>(
     AcceptMembershipDocument,
   );
+}
+export const UserPermissionsDocument = gql`
+  query userPermissions {
+    userPermissions {
+      canCreateCGs
+      isStaff
+    }
+  }
+`;
+
+export function useUserPermissionsQuery(
+  options?: Omit<Urql.UseQueryArgs<UserPermissionsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<UserPermissionsQuery, UserPermissionsQueryVariables>({
+    query: UserPermissionsDocument,
+    ...options,
+  });
 }

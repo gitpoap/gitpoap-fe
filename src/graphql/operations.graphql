@@ -1196,3 +1196,10 @@ mutation acceptMembership($teamId: Float!) {
     }
   }
 }
+
+query userPermissions {
+  userPermissions {
+    canCreateCGs
+    isStaff
+  }
+}
