@@ -1,4 +1,4 @@
-import { Button, Center, Grid, Input, Stack } from '@mantine/core';
+import { Button, Center, Grid, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { validate } from 'email-validator';
 import { rem } from 'polished';
@@ -8,7 +8,7 @@ import { MdOutlineError, MdSend } from 'react-icons/md';
 import { TextGray } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { GITPOAP_API_URL } from '../../environment';
-import { Header, Loader, Text } from '../shared/elements';
+import { Header, Input, Loader, Text } from '../shared/elements';
 
 type LoadingState = 'initial' | 'loading' | 'success' | 'error';
 
@@ -78,7 +78,7 @@ export const PausedPage = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                 placeholder={'Email'}
                 value={email}
-                style={{ marginRight: rem(7) }}
+                style={{ paddingRight: rem(7), width: '100%' }}
               />
             </Grid.Col>
             <Grid.Col span="content">
