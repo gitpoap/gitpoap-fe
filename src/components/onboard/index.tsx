@@ -1,15 +1,16 @@
-import { Center, Container, List, Stack } from '@mantine/core';
+import { Alert, Center, Container, List, Stack } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
 import { FaEthereum } from 'react-icons/fa';
+import { FiAlertCircle } from 'react-icons/fi';
 import { GoMarkGithub } from 'react-icons/go';
 import { useUser } from '../../hooks/useUser';
 import { useOAuthContext } from '../oauth/OAuthContext';
 import { Button, Text } from '../shared/elements';
+import { ConnectWalletButton } from '../wallet/ConnectWallet';
 import { StyledLink } from './Completed';
 import { IntakeForm } from './IntakeForm';
-import { ConnectWalletButton } from '../wallet/ConnectWallet';
 
 export const OnboardingPage = () => {
   const { github } = useOAuthContext();
@@ -44,9 +45,14 @@ export const OnboardingPage = () => {
                 textAlign: 'center',
               }}
             >
-              {'GitPOAP Onboarding'}
+              {'GitPOAP Onboarding Waitlist'}
             </Text>
-            <Text style={{ fontSize: rem(16) }}>{'A quick overview:'}</Text>
+            <Alert icon={<FiAlertCircle />} color="red">
+              {`We’ve temporarily paused our GitHub repo onboarding, submit a request here to be added to the waitlist and we’ll reach out when we’re ready to onboard you.  If you have any questions, email team@gitpoap.io and we’ll get back to you as soon as we can.`}
+            </Alert>
+            <Text style={{ fontSize: rem(16) }}>
+              {'An overview of the process once you’re off the waitlist:'}
+            </Text>
             <Text style={{ fontSize: rem(16) }}>
               <List
                 style={{ color: 'inherit', font: 'inherit', padding: `0 ${rem(24)}` }}
