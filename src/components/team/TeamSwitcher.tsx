@@ -1,26 +1,12 @@
 import { Button, ButtonProps, Center, Group, Menu, Text } from '@mantine/core';
 import { rem } from 'polished';
-import { useState } from 'react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import { CreateTeamModal } from '../profile/CreateTeamModal';
 import { Header, Loader } from '../shared/elements';
 import { TeamLogo } from './settings/TeamLogo';
 import { useTeamsContext } from './TeamsContext';
 
-type Props = ButtonProps & {
-  canCreateTeams?: boolean;
-  dropdownWidth?: number | 'target';
-};
-
-export const TeamSwitcher = ({
-  canCreateTeams = false,
-  dropdownWidth: popoverWidth,
-  sx,
-  styles,
-  ...props
-}: Props) => {
+export const TeamSwitcher = (props: ButtonProps) => {
   const teams = useTeamsContext();
-  const [isCreateTeamModalOpen, setIsCreateTeamModalOpen] = useState(false);
 
   if (!teams.hasFetchedTeams) {
     return (
@@ -49,29 +35,11 @@ export const TeamSwitcher = ({
   const currTeam = teams.currTeam;
 
   return (
-    <Menu position="bottom-start" transition="pop" width={popoverWidth}>
+    <Menu position="bottom-start">
       <Menu.Target>
-        <Button
-          mb={rem(16)}
-          p={rem(4)}
-          variant="subtle"
-          sx={{
-            height: 'auto',
-            ...sx,
-          }}
-          styles={{
-            inner: {
-              width: '100%',
-            },
-            label: {
-              width: '100%',
-            },
-            ...styles,
-          }}
-          {...props}
-        >
-          <Group spacing={12} position="apart" noWrap sx={{ width: '100%', maxWidth: '100%' }}>
-            <Group noWrap sx={{ overflow: 'hidden' }}>
+        <Button mb={rem(16)} p={rem(4)} variant="subtle" {...props}>
+          <Group spacing={12} position="apart" noWrap sx={{ width: '100%' }}>
+            <Group noWrap>
               <TeamLogo
                 name={currTeam.name}
                 size={32}
@@ -127,18 +95,7 @@ export const TeamSwitcher = ({
             )}
           </>
         )}
-        {canCreateTeams && (
-          <Menu.Item onClick={() => setIsCreateTeamModalOpen(true)}>
-            <Center>{'+ CREATE TEAM'}</Center>
-          </Menu.Item>
-        )}
       </Menu.Dropdown>
-      {canCreateTeams && (
-        <CreateTeamModal
-          isOpen={isCreateTeamModalOpen}
-          onClose={() => setIsCreateTeamModalOpen(false)}
-        />
-      )}
     </Menu>
   );
 };

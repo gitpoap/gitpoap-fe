@@ -167,8 +167,8 @@ query repoGitPoaps($repoId: Float!, $sort: String, $page: Float, $perPage: Float
   }
 }
 
-query openClaims($address: String!) {
-  userClaims(address: $address) {
+query openClaims {
+  userClaims {
     claim {
       id
       pullRequestEarned {
@@ -653,7 +653,7 @@ query totalEmails {
 }
 
 query totalEmailsValidated {
-  aggregateEmail(where: { isValidated: { equals: true } }) {
+  aggregateEmail {
     _count {
       id
     }
@@ -1066,16 +1066,7 @@ query gitPOAPWithClaims(
 
 query userTeams($address: String!) {
   teams(
-    where: {
-      memberships: {
-        some: {
-          AND: [
-            { address: { is: { ethAddress: { equals: $address } } } }
-            { acceptanceStatus: { equals: ACCEPTED } }
-          ]
-        }
-      }
-    }
+    where: { memberships: { some: { address: { is: { ethAddress: { equals: $address } } } } } }
   ) {
     id
     name
@@ -1195,12 +1186,5 @@ mutation acceptMembership($teamId: Float!) {
       acceptanceStatus
       role
     }
-  }
-}
-
-query userPermissions {
-  userPermissions {
-    canCreateCGs
-    isStaff
   }
 }

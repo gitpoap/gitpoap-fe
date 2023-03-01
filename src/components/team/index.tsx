@@ -1,6 +1,7 @@
-import { Center, Grid, NavLink, Stack } from '@mantine/core';
+import { Center, Stack, Tabs } from '@mantine/core';
+import { useRouter } from 'next/router';
 import { rem } from 'polished';
-import { Link } from '../shared/compounds/Link';
+import styled from 'styled-components';
 import { Header } from '../shared/elements';
 import { TableLoader } from '../shared/elements/Table';
 import { TeamDashboard } from './dashboard';
@@ -9,6 +10,11 @@ import { TeamGitPOAPRequests } from './dashboard/TeamGitPOAPRequests';
 import { TeamSettings } from './settings';
 import { useTeamsContext } from './TeamsContext';
 import { TeamSwitcher } from './TeamSwitcher';
+
+const Panel = styled(Tabs.Panel)`
+  overflow: hidden;
+  width: 100%;
+`;
 
 export enum TeamRoutes {
   Dashboard = 'dashboard',
@@ -22,6 +28,7 @@ type Props = {
 };
 
 export const TeamContainer = ({ page }: Props) => {
+  const router = useRouter();
   const teams = useTeamsContext();
 
   if (!teams.hasFetchedTeams) {
@@ -39,34 +46,40 @@ export const TeamContainer = ({ page }: Props) => {
   const currTeam = teams.currTeam;
 
   return (
-    <Grid p={rem(20)} align="top">
-      <Grid.Col span="content">
-        <Stack p={0} spacing={6}>
-          <TeamSwitcher sx={{ width: rem(220) }} canCreateTeams={true} />
-          <Link href={`/app/team/dashboard`} shallow={true}>
-            <NavLink label={'Dashboard'} active={page === TeamRoutes.Dashboard} />
-          </Link>
-          <Link href={`/app/team/requests`} shallow={true}>
-            <NavLink label={'Requests'} active={page === TeamRoutes.Requests} />
-          </Link>
-          <Link href={`/app/team/members`} shallow={true}>
-            <NavLink label={'Members'} active={page === TeamRoutes.Members} />
-          </Link>
-          <Link href={`/app/team/settings`} shallow={true}>
-            <NavLink label={'Settings'} active={page === TeamRoutes.Settings} />
-          </Link>
-        </Stack>
-      </Grid.Col>
-      <Grid.Col span="auto" pl={20}>
-        {
-          {
-            [TeamRoutes.Dashboard]: <TeamDashboard teamId={currTeam.id} />,
-            [TeamRoutes.Requests]: <TeamGitPOAPRequests teamId={currTeam.id} />,
-            [TeamRoutes.Members]: <MembershipList teamId={currTeam.id} />,
-            [TeamRoutes.Settings]: <TeamSettings teamData={currTeam} />,
-          }[page]
-        }
-      </Grid.Col>
-    </Grid>
+    <Stack m={rem(20)}>
+      <Tabs
+        defaultValue={TeamRoutes.Dashboard}
+        onTabChange={(value) => router.push(`/app/team/${value}`, undefined, { shallow: true })}
+        value={page}
+        orientation="vertical"
+        variant="pills"
+      >
+        <Tabs.List pt={rem(10)}>
+          <TeamSwitcher sx={{ height: 'auto', width: rem(220) }} />
+          <Tabs.Tab value={TeamRoutes.Dashboard}>{'Dashboard'}</Tabs.Tab>
+          <Tabs.Tab value={TeamRoutes.Requests}>{'Requests'}</Tabs.Tab>
+          <Tabs.Tab value={TeamRoutes.Members}>{'Members'}</Tabs.Tab>
+          <Tabs.Tab value={TeamRoutes.Settings}>{'Settings'}</Tabs.Tab>
+        </Tabs.List>
+
+        <Panel value={TeamRoutes.Dashboard}>
+          <TeamDashboard teamId={currTeam.id} />
+        </Panel>
+
+        <Panel value={TeamRoutes.Requests}>
+          <Stack pl={rem(32)}>
+            <TeamGitPOAPRequests teamId={currTeam.id} />
+          </Stack>
+        </Panel>
+
+        <Panel value={TeamRoutes.Members}>
+          <MembershipList teamId={currTeam.id} />
+        </Panel>
+
+        <Panel value={TeamRoutes.Settings}>
+          <TeamSettings teamData={currTeam} />
+        </Panel>
+      </Tabs>
+    </Stack>
   );
 };

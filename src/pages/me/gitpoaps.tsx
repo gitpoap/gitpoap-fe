@@ -8,7 +8,6 @@ import { useUser } from '../../hooks/useUser';
 
 const UserGitPOAPs: NextPageWithLayout = () => {
   const user = useUser();
-  const address = user?.address;
 
   return (
     <>
@@ -20,7 +19,7 @@ const UserGitPOAPs: NextPageWithLayout = () => {
       />
       <Grid justify="center" mt={rem(20)} mb={rem(20)} style={{ flex: 1 }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {address ? <UserGitPOAPRequestList /> : <Login />}
+          {user ? <UserGitPOAPRequestList /> : <Login />}
         </Grid.Col>
       </Grid>
     </>

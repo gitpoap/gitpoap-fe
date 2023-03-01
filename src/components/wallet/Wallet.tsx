@@ -17,14 +17,17 @@ type Props = {
 };
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
-  const { connectionStatus, address: connectedAddress, disconnectWallet } = useWeb3Context();
+  const { connectionStatus, disconnect } = useWeb3Context();
   const user = useUser();
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
+  const connectedAddress = user?.address ?? '';
+  const email = user?.emailAddress ?? '';
+  const account = connectedAddress ?? email;
 
   return (
     <Group position="center" align="center">
-      {connectedAddress && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET ? (
+      {(connectedAddress || email) && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET ? (
         !isMobile ? (
           <Menu
             closeDelay={POPOVER_HOVER_TIME}
@@ -38,10 +41,10 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             <Menu.Target>
               <Box>
                 <WalletStatus
-                  address={connectedAddress}
+                  address={account}
                   ensName={ensName}
                   ensAvatarUrl={ensAvatarUrl}
-                  hideText={hideText}
+                  hideText={true}
                 />
               </Box>
             </Menu.Target>
@@ -51,9 +54,9 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                   {ensAvatarUrl ? (
                     <Avatar src={ensAvatarUrl} useDefaultImageTag size={16} />
                   ) : (
-                    <JazzIconNoText address={connectedAddress} />
+                    <JazzIconNoText address={account} />
                   )}
-                  {ensName ?? shortenAddress(connectedAddress)}
+                  {connectedAddress ? ensName ?? shortenAddress(connectedAddress) : email}
                 </Group>
               </Menu.Item>
               <Menu.Divider />
@@ -75,15 +78,15 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                 </Menu.Item>
               )}
               <Menu.Divider />
-              <Menu.Item onClick={disconnectWallet}>{'Disconnect'}</Menu.Item>
+              <Menu.Item onClick={disconnect}>{'Disconnect'}</Menu.Item>
             </Menu.Dropdown>
           </Menu>
         ) : (
           <WalletStatus
-            address={connectedAddress}
+            address={account}
             ensName={ensName}
             ensAvatarUrl={ensAvatarUrl}
-            hideText={hideText}
+            hideText={false}
           />
         )
       ) : (

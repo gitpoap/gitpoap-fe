@@ -9,7 +9,7 @@ import { OAuthConnectionType } from '../types';
 
 export const useGithubAuth = () => {
   const api = useApi();
-  const { tokens, setAccessToken, setRefreshToken } = useTokens();
+  const { tokens, setAccessToken } = useTokens();
   /* A react ref that tracks if GitHub auth is loading */
   const isGitHubAuthLoading = useRef(false);
   const { asPath, push } = useRouter();
@@ -22,11 +22,10 @@ export const useGithubAuth = () => {
 
     if (tokens) {
       setAccessToken(tokens.accessToken);
-      setRefreshToken(tokens.refreshToken);
     } else {
       Notifications.error('Unable to disconnect GitHub account');
     }
-  }, [api.auth, setAccessToken, setRefreshToken]);
+  }, [api.auth, setAccessToken]);
 
   /* Redirect to github to authorize if not connected / logged in */
   const authorize = useCallback(() => {
@@ -40,12 +39,11 @@ export const useGithubAuth = () => {
 
       if (tokens) {
         setAccessToken(tokens.accessToken);
-        setRefreshToken(tokens.refreshToken);
       } else {
         Notifications.error('Unable to authenticate with GitHub');
       }
     },
-    [setAccessToken, setRefreshToken, api.auth],
+    [setAccessToken, api.auth],
   );
 
   /* After requesting Github access, Github redirects back to your app with a code parameter. */

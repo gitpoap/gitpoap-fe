@@ -45,7 +45,7 @@ export const TeamGitPOAPs = ({ teamId }: Props) => {
       sort: sort,
     },
     pause: false,
-    requestPolicy: 'cache-and-network',
+    requestPolicy: 'network-only',
   });
 
   const onFilterChange = (filterValue: FilterOptions) => {
@@ -90,13 +90,13 @@ export const TeamGitPOAPs = ({ teamId }: Props) => {
         </Group>
         {result.fetching ? (
           <TableLoader />
-        ) : gitPOAPs && gitPOAPs.length > 0 ? (
+        ) : !gitPOAPs || gitPOAPs.length === 0 ? (
+          <TableEmptyState text={'No GitPOAPs Found'} />
+        ) : (
           {
             grid: <TeamGitPOAPsGrid gitPOAPs={gitPOAPs} />,
             list: <TeamGitPOAPsList gitPOAPs={gitPOAPs} />,
           }[view]
-        ) : (
-          <TableEmptyState text={'No GitPOAPs Found'} />
         )}
       </Stack>
     </Group>

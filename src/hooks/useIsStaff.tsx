@@ -22,19 +22,26 @@ export const useIsStaff = (): boolean => {
     return false;
   }
 
+  const address = payload.address?.ethAddress;
+  const githubId = payload.github?.githubId;
+
+  if (!address) {
+    return false;
+  }
+
   /* Check if the user's address is in the list of staff on the FE */
-  const isStaffAddress = STAFF_ADDRESSES.includes(payload.address);
+  const isStaffAddress = STAFF_ADDRESSES.includes(address);
 
   /*
    * Since staff status is determined by a GitHub ID or address, if githubId doesn't exist on the payload
    * if address is not staff, the user is not a staff member
    */
-  if (!payload.githubId) {
+  if (!githubId) {
     return isStaffAddress;
   }
 
   /* Check if the user's githubId is in the list of staff on the FE */
-  const isStaffGithubId = STAFF_GITHUB_IDS.includes(payload.githubId);
+  const isStaffGithubId = STAFF_GITHUB_IDS.includes(githubId);
 
   return isStaffAddress || isStaffGithubId;
 };

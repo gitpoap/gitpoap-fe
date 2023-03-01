@@ -61,7 +61,7 @@ export const MembershipList = ({ teamId }: Props) => {
       sort: sortBy,
     },
     pause: false,
-    requestPolicy: 'cache-and-network',
+    requestPolicy: 'network-only',
   });
 
   const [, removeMember] = useRemoveMembershipMutation();
@@ -126,7 +126,7 @@ export const MembershipList = ({ teamId }: Props) => {
   }
 
   return (
-    <Group position="center" py={0}>
+    <Group position="center" py={0} px={rem(20)}>
       <Stack align="stretch" justify="flex-start" spacing="sm" style={{ width: '100%' }}>
         <Group position="apart" align="center" grow>
           <Header style={{ alignSelf: 'start' }}>{'Members'}</Header>

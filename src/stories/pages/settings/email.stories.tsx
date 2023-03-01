@@ -1,95 +1,42 @@
+import React from 'react';
 import { Container } from '@mantine/core';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { rest } from 'msw';
-import React from 'react';
+import { usePrivy } from '@privy-io/react-auth';
+import { HiOutlineMail } from 'react-icons/hi';
 import { Layout } from '../../../components/Layout';
 import { ProfileProvider } from '../../../components/profile/ProfileContext';
-import { EmailConnection } from '../../../components/settings/EmailConnection';
-import { ONE_DAY_IN_S } from '../../../constants';
-import { EmailReturnType } from '../../../lib/api/email';
+import { AccountConnection } from '../../../components/settings/AccountConnection';
+import { truncateString } from '../../../helpers';
 
 export default {
   title: 'Pages/Settings/Email',
-  component: EmailConnection,
-} as ComponentMeta<typeof EmailConnection>;
+  component: AccountConnection,
+} as ComponentMeta<typeof AccountConnection>;
 
-const Template: ComponentStory<typeof EmailConnection> = () => (
-  <Layout>
-    <ProfileProvider addressOrEns="0x12345">
-      <Container my={48} size={600} style={{ width: '100%' }}>
-        <EmailConnection />
-      </Container>
-    </ProfileProvider>
-  </Layout>
-);
+const Template: ComponentStory<typeof AccountConnection> = () => {
+  const { user: privyUser, linkEmail, unlinkEmail } = usePrivy();
 
-const DefaultQueryResponse: EmailReturnType = {
-  id: 1,
-  emailAddress: 'test@gitpoap.io',
-  isValidated: true,
-  tokenExpiresAt: new Date(new Date().getTime() + ONE_DAY_IN_S * 1000),
+  return (
+    <Layout>
+      <ProfileProvider addressOrEns="0x12345">
+        <Container my={48} size={600} style={{ width: '100%' }}>
+          <AccountConnection
+            user={privyUser}
+            accountValue={''}
+            label={'Email'}
+            icon={<HiOutlineMail size={32} />}
+            description={truncateString(privyUser?.email?.address ?? '', 18)}
+            linkAccount={linkEmail}
+            unlinkAccount={unlinkEmail}
+          />
+        </Container>
+      </ProfileProvider>
+    </Layout>
+  );
 };
 
 export const Connected = Template.bind({});
-Connected.args = { address: '0x12345' };
-Connected.parameters = {
-  msw: {
-    handlers: [
-      rest.get('*/email/connected', (req, res, ctx) => {
-        return res(
-          ctx.json({
-            email: { ...DefaultQueryResponse },
-          }),
-        );
-      }),
-    ],
-  },
-};
+Connected.args = { accountValue: 'test@gitpoap.io' };
 
 export const Disconnected = Template.bind({});
-Disconnected.args = { address: '0x12345' };
-Disconnected.parameters = {
-  msw: {
-    handlers: [
-      rest.get('*/email/disconnected', (req, res, ctx) => {
-        return res(
-          ctx.json({
-            email: null,
-          }),
-        );
-      }),
-    ],
-  },
-};
-
-export const Pending = Template.bind({});
-Pending.args = { address: '0x12345' };
-Pending.parameters = {
-  msw: {
-    handlers: [
-      rest.get('*/email/pending', (req, res, ctx) => {
-        return res(
-          ctx.json({
-            email: { ...DefaultQueryResponse, isValidated: false },
-          }),
-        );
-      }),
-    ],
-  },
-};
-
-export const Expired = Template.bind({});
-Expired.args = { address: '0x12345' };
-Expired.parameters = {
-  msw: {
-    handlers: [
-      rest.get('*/email/expired', (req, res, ctx) => {
-        return res(
-          ctx.json({
-            email: { ...DefaultQueryResponse, isValidated: false, tokenExpiresAt: new Date() },
-          }),
-        );
-      }),
-    ],
-  },
-};
+Disconnected.args = { accountValue: '' };

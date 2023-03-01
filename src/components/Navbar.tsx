@@ -13,6 +13,7 @@ import { ConnectionButton } from './oauth/ConnectionButton';
 import { SearchBox } from './search/box/SearchBox';
 import { NavLink } from './shared/elements/NavLink';
 import { useWeb3Context, ConnectionStatus } from './wallet/Web3Context';
+import { useUser } from '../hooks/useUser';
 
 const Nav = styled(Group)`
   color: ${TextLight} !important;
@@ -85,10 +86,9 @@ const CollapseMenuContent = styled(Stack)`
 
 export const Navbar = () => {
   const router = useRouter();
+  const user = useUser();
+  const { connectionStatus, ensName } = useWeb3Context();
 
-  const { connectionStatus, ensName, address } = useWeb3Context();
-
-  const matches1330 = useMediaQuery(`(min-width: ${rem(1330)})`, false);
   const matchesLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
   const matchesMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`, false);
   const [isOpen, setIsOpen] = useState(false);
@@ -111,7 +111,7 @@ export const Navbar = () => {
         {'Docs'}
       </NavLink>
       <ClaimButton hideText={!matchesLg} />
-      <Wallet hideText={!matches1330} isMobile={false} />
+      <Wallet isMobile={false} />
     </>
   );
 
@@ -127,7 +127,7 @@ export const Navbar = () => {
       </NavLink>
       {connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && (
         <>
-          <NavLink href={`/p/${ensName ?? address}`}>{'Profile'}</NavLink>
+          <NavLink href={`/p/${ensName ?? user?.address}`}>{'Profile'}</NavLink>
           <NavLink href={`/settings`}>{'Settings'}</NavLink>
         </>
       )}

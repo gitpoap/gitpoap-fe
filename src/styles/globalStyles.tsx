@@ -26,6 +26,4 @@ export const GlobalStyles = createGlobalStyle`
   * {
   box-sizing: border-box;
   }
-
-  .web3modal-modal-lightbox { z-index: 220 !important; }
 `;

@@ -2,6 +2,7 @@ import { ReactElement, ReactNode } from 'react';
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { PrivyProvider } from '@privy-io/react-auth';
 import { Provider as URQLProvider } from 'urql';
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
@@ -13,8 +14,6 @@ import { theme } from '../lib/theme';
 import { ClaimContextProvider } from '../components/claims/ClaimContext';
 import { LoadingBar } from '../components/LoadingBar';
 import { HexagonPath } from '../components/shared/elements';
-import { Web3ReactProvider } from '@web3-react/core';
-import { getWeb3Provider } from '../helpers';
 import { Web3ContextProvider } from '../components/wallet/Web3Context';
 import { ModalsProvider } from '@mantine/modals';
 import { client } from '../lib/urql';
@@ -22,6 +21,7 @@ import { setupExternalServiceClients } from '../lib/app';
 import { Layout } from '../components/Layout';
 import { Amplitude } from '../components/Amplitude';
 import { TeamsProvider } from '../components/team/TeamsContext';
+import { PRIVY_APP_ID } from '../environment';
 
 setupExternalServiceClients();
 
@@ -42,7 +42,7 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         {/* <!-- Metadata for Viewport & Mantine (CANNOT GO IN _document.tsx) --> */}
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      <Web3ReactProvider getLibrary={getWeb3Provider}>
+      <PrivyProvider appId={PRIVY_APP_ID}>
         <Web3ContextProvider>
           <Amplitude />
           <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
@@ -66,7 +66,7 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
             </ModalsProvider>
           </MantineProvider>
         </Web3ContextProvider>
-      </Web3ReactProvider>
+      </PrivyProvider>
     </>
   );
 };

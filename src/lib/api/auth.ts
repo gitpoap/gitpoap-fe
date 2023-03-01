@@ -1,30 +1,21 @@
 import { API, makeAPIRequest, makeAPIRequestWithAuth } from './utils';
-import { SignatureType, Tokens } from '../../types';
+import { Tokens } from '../../types';
 
 export type AuthenticateResponse = {
   tokens: Tokens;
-  signatureData: SignatureType;
 };
 
 export class AuthAPI extends API {
-  protected refreshToken: string | null;
-
   constructor(tokens: Tokens | null) {
     super(tokens?.accessToken);
-    this.refreshToken = tokens?.refreshToken ?? null;
   }
 
-  async authenticate(signatureData: SignatureType): Promise<AuthenticateResponse | null> {
+  async authenticate(privyToken: string): Promise<AuthenticateResponse | null> {
     const res = await makeAPIRequest(
       '/auth',
       'POST',
       JSON.stringify({
-        address: signatureData.address,
-        signatureData: {
-          signature: signatureData.signature,
-          message: signatureData.message,
-          createdAt: signatureData.createdAt,
-        },
+        privyToken,
       }),
     );
 
@@ -33,23 +24,7 @@ export class AuthAPI extends API {
     }
 
     const tokens: Tokens = await res.json();
-    return { tokens, signatureData };
-  }
-
-  async refresh() {
-    const res = await makeAPIRequest(
-      '/auth/refresh',
-      'POST',
-      JSON.stringify({ token: this.refreshToken }),
-    );
-
-    if (!res) {
-      return null;
-    }
-
-    const tokens: Tokens = await res.json();
-
-    return tokens;
+    return { tokens };
   }
 
   async githubAuth(code: string) {

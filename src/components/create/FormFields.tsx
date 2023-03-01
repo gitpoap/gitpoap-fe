@@ -111,14 +111,20 @@ export const FormFields = <FormValues extends CreateFormValues | EditFormValues>
                 <TeamSwitcher
                   p={8}
                   mb={0}
-                  dropdownWidth={'target'}
                   styles={{
                     root: {
                       backgroundColor: BackgroundPanel,
                       borderRadius: rem(6),
+                      height: 'auto',
                       '&:hover:not(:disabled)': {
                         backgroundColor: BackgroundPanel2,
                       },
+                    },
+                    inner: {
+                      width: '100%',
+                    },
+                    label: {
+                      width: '100%',
                     },
                   }}
                 />
@@ -136,7 +142,7 @@ export const FormFields = <FormValues extends CreateFormValues | EditFormValues>
           required
           style={{ width: '100%' }}
           label="Description"
-          placeholder="What do you want people to remember about this contribution?"
+          placeholder="For all our valuable contributors in 2022"
           {...form.getInputProps('description')}
         />
         <Box>

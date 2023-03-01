@@ -1,13 +1,14 @@
 import { Button, ButtonProps } from '@mantine/core';
-import WalletModal from './WalletModal';
 import { truncateAddress } from '../../helpers';
 import { useWeb3Context, ConnectionStatus } from './Web3Context';
 import { Loader } from '../shared/elements';
 import { White } from '../../colors';
+import { useUser } from '../../hooks/useUser';
 
 export const ConnectWalletButton = (props: ButtonProps) => {
-  const { address, ensName, connectionStatus, isModalOpened, closeModal, handleConnect } =
-    useWeb3Context();
+  const { ensName, connectionStatus, handleConnect } = useWeb3Context();
+  const user = useUser();
+  const address = user?.address ?? '';
 
   if (address && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET) {
     return <Button {...props}>{ensName || `${truncateAddress(address, 4)}`}</Button>;
@@ -26,7 +27,6 @@ export const ConnectWalletButton = (props: ButtonProps) => {
       <Button {...props} onClick={handleConnect} key="connect-wallet-button">
         {props.children}
       </Button>
-      <WalletModal isOpen={isModalOpened} closeModal={closeModal} />
     </>
   );
 };

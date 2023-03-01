@@ -25,7 +25,7 @@ import {
 } from '../../colors';
 import { Button, Input, Text, TextArea } from '../shared/elements';
 import Papa from 'papaparse';
-import { isValidGitHubHandle, shortenAddress } from '../../helpers';
+import { isValidGithubHandleWithout0x, shortenAddress } from '../../helpers';
 import { isAddress } from 'ethers/lib/utils';
 import { VscTrash } from 'react-icons/vsc';
 import { UnvalidatedContributor } from '../../lib/api/gitpoapRequest';
@@ -63,7 +63,7 @@ export const SelectContributors = ({ contributors, addContributor, removeContrib
         return;
       }
 
-      if (isValidGitHubHandle(value)) {
+      if (isValidGithubHandleWithout0x(value)) {
         addContributor({ type: 'githubHandles', value });
       } else if (isAddress(value)) {
         addContributor({ type: 'ethAddresses', value });

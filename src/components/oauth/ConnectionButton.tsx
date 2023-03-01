@@ -6,7 +6,6 @@ import { Button, ClaimCircle } from '../shared/elements';
 import { useRouter } from 'next/router';
 import { useUser } from '../../hooks/useUser';
 import { GitPOAP } from '../shared/elements/icons';
-import { useGetEmail } from '../../hooks/useGetEmail';
 import {
   trackClickCheckEligibility,
   trackGoToSettings,
@@ -37,7 +36,6 @@ export const ConnectionButton = ({ className, hideText }: Props) => {
   const user = useUser();
   const userClaimCount = userClaims?.length;
   const router = useRouter();
-  const email = useGetEmail({ showNotification: false });
 
   if (user === null) {
     return (
@@ -82,7 +80,7 @@ export const ConnectionButton = ({ className, hideText }: Props) => {
   }
 
   /* User has no connected accounts */
-  if (!user?.capabilities.hasGithub && !email) {
+  if (!user?.capabilities.hasGithub && !user?.emailAddress) {
     return (
       <Content className={className}>
         <Button

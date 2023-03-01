@@ -12,7 +12,7 @@ import { GITPOAP_API_URL } from '../../environment';
 import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { useTokens } from '../../hooks/useTokens';
-import { useWeb3Context } from '../wallet/Web3Context';
+import { useUser } from '../../hooks/useUser';
 
 export type EditableProfileData = Partial<
   Pick<
@@ -45,7 +45,9 @@ type Props = {
 
 export const ProfileProvider = ({ children, addressOrEns }: Props) => {
   const { tokens } = useTokens();
-  const { address } = useWeb3Context();
+  const user = useUser();
+  const address = user?.address ?? '';
+
   const [profileData, setProfileData] = useState<ProfileQuery['profileData']>();
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
   const [isSaveSuccessful, setIsSaveSuccessful] = useState<boolean>(false);
