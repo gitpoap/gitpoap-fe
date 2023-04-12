@@ -28,7 +28,8 @@ export const IconCount = ({ icon, count }: Props) => {
         transform="uppercase"
         span
         weight="bold"
-        styles={{
+        sx={{
+          cursor: 'default',
           lineHeight: rem(17),
           letterSpacing: rem(0.5),
         }}
