@@ -71,11 +71,11 @@ const Home: NextPageWithLayout = () => {
         </CenteredCol>
       </Grid>
 
-      <Grid columns={24} justify="center" style={{ marginBottom: rem(50) }}>
+      <Grid columns={24} justify="center" gutter={48} style={{ marginBottom: rem(50) }}>
         {/* <Grid.Col xs={22} md={13} xl={14} style={{ zIndex: 0 }}>
           <MostClaimed />
         </Grid.Col> */}
-        <Grid.Col xs={22} md={13} xl={9} style={{ zIndex: 0 }}>
+        <Grid.Col xs={22} md={13} xl={8} style={{ zIndex: 0 }}>
           <TrendingRepos />
         </Grid.Col>
         <Grid.Col xs={20} md={7} xl={6} style={{ zIndex: 0 }}>
