@@ -58,6 +58,9 @@ exports[`IconCount renders an IconCount 1`] = `
   line-height: 1.25rem;
   -webkit-transition: 150ms color ease;
   transition: 150ms color ease;
+  cursor: default;
+  line-height: 1.0625rem;
+  letter-spacing: 0.03125rem;
   margin-left: 0.375rem;
 }
 
