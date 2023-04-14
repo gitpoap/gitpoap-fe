@@ -453,6 +453,9 @@ exports[`RepoHexSmall should render with gitPoapCount 1`] = `
   text-decoration: none;
   font-weight: bold;
   text-transform: uppercase;
+  cursor: default;
+  line-height: 1.0625rem;
+  letter-spacing: 0.03125rem;
   margin-left: 0.375rem;
 }
 
@@ -821,6 +824,9 @@ exports[`RepoHexSmall should render with memberCount 1`] = `
   text-decoration: none;
   font-weight: bold;
   text-transform: uppercase;
+  cursor: default;
+  line-height: 1.0625rem;
+  letter-spacing: 0.03125rem;
   margin-left: 0.375rem;
 }
 
@@ -1453,6 +1459,9 @@ exports[`RepoHexSmall should render with stars 1`] = `
   text-decoration: none;
   font-weight: bold;
   text-transform: uppercase;
+  cursor: default;
+  line-height: 1.0625rem;
+  letter-spacing: 0.03125rem;
   margin-left: 0.375rem;
 }
 
