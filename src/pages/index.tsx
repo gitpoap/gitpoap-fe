@@ -4,7 +4,6 @@ import { rem } from 'polished';
 import { Grid } from '@mantine/core';
 import { NextPageWithLayout } from './_app';
 import { BannerStats } from '../components/home/BannerStats';
-import { MostClaimed } from '../components/home/MostClaimed';
 import { LeaderBoard } from '../components/home/LeaderBoard';
 import { RecentlyAdded } from '../components/home/RecentlyAdded';
 import { BackgroundHexes } from '../components/home/BackgroundHexes';
@@ -12,8 +11,8 @@ import { SEO } from '../components/shared/compounds/SEO';
 import { FurtherInfoFor } from '../components/home/FurtherInfoFor';
 import { FurtherInfoHow } from '../components/home/FurtherInfoHow';
 import { Banner } from '../components/home/Banner';
-import { LatestMint } from '../components/home/LatestMints';
 import { TrendingRepos } from '../components/home/TrendingRepos';
+import { TopAndLatestMints } from '../components/home/TopAndLatest';
 
 const Background = styled(BackgroundHexes)`
   display: flex;
@@ -54,18 +53,30 @@ const Home: NextPageWithLayout = () => {
         </Grid.Col>
       </Grid>
 
-      <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}>
-        <CenteredCol xs={22} sm={22} md={11} lg={11} xl={10} style={{ zIndex: 0 }}>
+      {/* <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}> */}
+      {/* <CenteredCol xs={22} sm={22} md={11} lg={11} xl={10} style={{ zIndex: 0 }}>
           <TrendingRepos />
         </CenteredCol>
         <CenteredCol xs={20} sm={20} md={9} lg={11} xl={10} style={{ zIndex: 0 }}>
           <LatestMint />
+        </CenteredCol> */}
+      {/* <CenteredCol xs={24} style={{ zIndex: 0 }}>
+          <LatestMint />
+        </CenteredCol> */}
+      {/* </Grid> */}
+
+      <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}>
+        <CenteredCol xs={24} style={{ zIndex: 0 }}>
+          <TopAndLatestMints />
         </CenteredCol>
       </Grid>
 
       <Grid columns={24} justify="center" style={{ marginBottom: rem(50) }}>
-        <Grid.Col xs={22} md={13} xl={14} style={{ zIndex: 0 }}>
+        {/* <Grid.Col xs={22} md={13} xl={14} style={{ zIndex: 0 }}>
           <MostClaimed />
+        </Grid.Col> */}
+        <Grid.Col xs={22} md={13} xl={9} style={{ zIndex: 0 }}>
+          <TrendingRepos />
         </Grid.Col>
         <Grid.Col xs={20} md={7} xl={6} style={{ zIndex: 0 }}>
           <LeaderBoard />

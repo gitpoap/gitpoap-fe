@@ -4,12 +4,12 @@ import { FaUsers } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useListState } from '@mantine/hooks';
 import { useGitPoapHoldersQuery } from '../../graphql/generated-gql';
-import { InfoHexSummary } from './InfoHexSummary';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { Text } from '../shared/elements/Text';
 import { TextDarkGray } from '../../colors';
 import { Group } from '@mantine/core';
+import { GitPOAPHolderBlock } from './GitPOAPHolderBlock';
 
 type Props = {
   gitPOAPId: number;
@@ -33,29 +33,44 @@ const StyledItemList = styled(ItemList)`
 
 const HoldersWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  column-gap: ${rem(40)};
-  row-gap: ${rem(40)};
+  width: 100%;
 
-  @media (max-width: ${rem(2050)}) {
-    grid-template-columns: repeat(6, 1fr);
+  justify-content: center;
+  align-content: center;
+  align-items: flex-start;
+
+  grid-template-columns: repeat(auto-fit, minmax(${rem(300)}, 1fr));
+  column-gap: ${rem(20)};
+  row-gap: ${rem(24)};
+  @media (max-width: ${rem(1000)}) {
+    grid-template-columns: repeat(auto-fit, minmax(${rem(300)}, 1fr));
+    column-gap: ${rem(10)};
+    row-gap: ${rem(16)};
   }
 
-  @media (max-width: ${rem(1550)}) {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  // grid-template-columns: repeat(8, 1fr);
+  // column-gap: ${rem(40)};
+  // row-gap: ${rem(40)};
 
-  @media (max-width: ${rem(1130)}) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  // @media (max-width: ${rem(2050)}) {
+  //   grid-template-columns: repeat(6, 1fr);
+  // }
 
-  @media (max-width: ${rem(850)}) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  // @media (max-width: ${rem(1550)}) {
+  //   grid-template-columns: repeat(4, 1fr);
+  // }
 
-  @media (max-width: ${rem(550)}) {
-    grid-template-columns: repeat(1, 1fr);
-  }
+  // @media (max-width: ${rem(1130)}) {
+  //   grid-template-columns: repeat(3, 1fr);
+  // }
+
+  // @media (max-width: ${rem(850)}) {
+  //   grid-template-columns: repeat(2, 1fr);
+  // }
+
+  // @media (max-width: ${rem(550)}) {
+  //   grid-template-columns: repeat(1, 1fr);
+  // }
 `;
 
 type SortOptions = 'claim-date' | 'claim-count';
@@ -145,21 +160,20 @@ export const GitPOAPHolders = ({ gitPOAPId }: Props) => {
       }}
     >
       {total ? (
-        <Group mb={rem(50)} mt={rem(40)} spacing={0} position="center">
+        <Group mb={rem(50)} spacing={0} position="center">
           <HoldersWrapper>
             {holders.map((holder: Holder) => (
-              <Group key={`${holder.githubHandle}-${holder.address}`}>
-                <InfoHexSummary
-                  address={holder.address}
-                  bio={holder.bio}
-                  gitpoapId={gitPOAPId}
-                  twitterHandle={holder.twitterHandle}
-                  personalSiteUrl={holder.personalSiteUrl}
-                  numGitPOAPs={holder.gitPOAPCount}
-                  ensAvatarUrl={holder.ensAvatarUrl}
-                  ensName={holder.ensName}
-                />
-              </Group>
+              <GitPOAPHolderBlock
+                address={holder.address}
+                bio={holder.bio}
+                gitpoapId={gitPOAPId}
+                twitterHandle={holder.twitterHandle}
+                personalSiteUrl={holder.personalSiteUrl}
+                numGitPOAPs={holder.gitPOAPCount}
+                ensAvatarUrl={holder.ensAvatarUrl}
+                ensName={holder.ensName}
+                key={`${holder.githubHandle}-${holder.address}`}
+              />
             ))}
           </HoldersWrapper>
         </Group>

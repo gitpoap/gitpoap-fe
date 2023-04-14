@@ -5,6 +5,7 @@ import { useAdminClaimsQuery } from '../../graphql/generated-gql';
 import { Header } from '../shared/elements/Header';
 import { BREAKPOINTS } from '../../constants';
 import { LatestMintItem } from './LatestMintItem';
+import { Group } from '@mantine/core';
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -17,7 +18,7 @@ const Wrapper = styled.div`
 `;
 
 const List = styled.div`
-  margin-top: ${rem(30)};
+  // margin-top: ${rem(30)};
 `;
 
 export const LatestMint = () => {
@@ -30,11 +31,18 @@ export const LatestMint = () => {
   return (
     <Wrapper>
       <Header>{'Latest mints'}</Header>
-      <List>
-        {result.data?.claims.map((item) => (
-          <LatestMintItem key={item.id} {...item} />
-        ))}
-      </List>
+      <Group spacing={48}>
+        <List>
+          {result.data?.claims.slice(0, 5).map((item, i) => (
+            <LatestMintItem key={item.id} index={i + 1} {...item} />
+          ))}
+        </List>
+        <List>
+          {result.data?.claims.slice(5).map((item, i) => (
+            <LatestMintItem key={item.id} index={i + 6} {...item} />
+          ))}
+        </List>
+      </Group>
     </Wrapper>
   );
 };
