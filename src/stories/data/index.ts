@@ -393,6 +393,7 @@ export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
       project: {
         repos: [
           {
+            id: 1,
             name: 'Polygon',
             organization: {
               name: 'Polygon',
@@ -413,6 +414,7 @@ export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
       project: {
         repos: [
           {
+            id: 2,
             name: 'AAVE',
             organization: {
               name: 'AAVE',
@@ -433,6 +435,7 @@ export const mostClaimed: MostClaimedGitPoapsQuery['mostClaimedGitPOAPs'] = [
       project: {
         repos: [
           {
+            id: 2,
             name: 'AAVE',
             organization: {
               name: 'AAVE',
