@@ -15,6 +15,7 @@ export const Link = (props: Props) => {
       target={restProps.target}
       rel={restProps.rel}
       onClick={(e) => {
+        e.stopPropagation();
         trackLink(e);
       }}
     >

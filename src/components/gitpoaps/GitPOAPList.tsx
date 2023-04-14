@@ -16,6 +16,7 @@ import {
 } from '../../graphql/generated-gql';
 import { GitPOAP, GitPOAPSkeleton } from '../shared/compounds/GitPOAP';
 import { trackSearchForGitPOAP } from '../../lib/tracking/events';
+import { GitPOAPBlock } from './GitPOAPBlock';
 
 type SortOptions = 'count' | 'new';
 
@@ -70,25 +71,34 @@ export const GitPOAPListContainer = styled.div`
   align-content: center;
   align-items: flex-start;
 
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(${rem(400)}, 1fr));
   column-gap: ${rem(20)};
   row-gap: ${rem(32)};
-
-  @media (max-width: ${rem(1500)}) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
   @media (max-width: ${rem(1000)}) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(${rem(300)}, 1fr));
+    column-gap: ${rem(10)};
+    row-gap: ${rem(16)};
   }
 
-  @media (max-width: ${rem(750)}) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  // grid-template-columns: repeat(6, 1fr);
+  // column-gap: ${rem(20)};
+  // row-gap: ${rem(32)};
 
-  @media (max-width: ${rem(500)}) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  // @media (max-width: ${rem(1500)}) {
+  //   grid-template-columns: repeat(4, 1fr);
+  // }
+
+  // @media (max-width: ${rem(1000)}) {
+  //   grid-template-columns: repeat(4, 1fr);
+  // }
+
+  // @media (max-width: ${rem(750)}) {
+  //   grid-template-columns: repeat(3, 1fr);
+  // }
+
+  // @media (max-width: ${rem(500)}) {
+  //   grid-template-columns: repeat(2, 1fr);
+  // }
 `;
 
 export type GitPOAP = Exclude<GitPoaPsWithClaimCountQuery['gitPOAPS'], undefined | null>[number];
@@ -204,7 +214,7 @@ export const GitPOAPList = () => {
             {searchResult.data?.gitPOAPS && searchValue
               ? searchResult.data.gitPOAPS.map((gitPOAP, i) => {
                   return (
-                    <GitPOAP
+                    <GitPOAPBlock
                       key={i}
                       gitPOAPId={gitPOAP.id}
                       name={gitPOAP.name}
@@ -217,7 +227,7 @@ export const GitPOAPList = () => {
                 })
               : gitPOAPListItems?.map((gitPOAP, i) => {
                   return (
-                    <GitPOAP
+                    <GitPOAPBlock
                       key={i}
                       gitPOAPId={gitPOAP.id}
                       name={gitPOAP.name}

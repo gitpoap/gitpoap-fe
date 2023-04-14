@@ -67,7 +67,9 @@ export const LeaderBoardItem = ({ profile, claimsCount, index }: Props) => {
   return (
     <>
       <Group spacing={0}>
-        {index !== undefined && <Index order={2}>{`${index}: `}</Index>}
+        {index !== undefined && (
+          <Index color="dimmed" sx={{ cursor: 'default' }} order={2}>{`${index}`}</Index>
+        )}
         <Item>
           <UserInfo>
             <Link href={`/p/${profile.address.ensName ?? profile.address.ethAddress}`} passHref>

@@ -72,6 +72,7 @@ query mostClaimedGitPoaps($count: Float!) {
       id
       project {
         repos {
+          id
           name
           organization {
             name

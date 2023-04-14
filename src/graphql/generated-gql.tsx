@@ -6540,6 +6540,7 @@ export type MostClaimedGitPoapsQuery = {
         __typename?: 'Project';
         repos: Array<{
           __typename?: 'Repo';
+          id: number;
           name: string;
           organization: { __typename?: 'GithubOrganization'; name: string };
         }>;
@@ -7946,6 +7947,7 @@ export const MostClaimedGitPoapsDocument = gql`
         id
         project {
           repos {
+            id
             name
             organization {
               name
