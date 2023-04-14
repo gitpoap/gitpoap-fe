@@ -64,7 +64,7 @@ const StyledSearch = styled(Input)`
 export const GitPOAPListContainer = styled.div`
   display: grid;
   width: 100%;
-  margin-top: ${rem(50)};
+  // margin-top: ${rem(50)};
   margin-bottom: ${rem(55)};
 
   justify-content: center;
@@ -72,12 +72,12 @@ export const GitPOAPListContainer = styled.div`
   align-items: flex-start;
 
   grid-template-columns: repeat(auto-fit, minmax(${rem(400)}, 1fr));
-  column-gap: ${rem(20)};
-  row-gap: ${rem(32)};
+  column-gap: ${rem(16)};
+  row-gap: ${rem(24)};
   @media (max-width: ${rem(1000)}) {
     grid-template-columns: repeat(auto-fit, minmax(${rem(300)}, 1fr));
     column-gap: ${rem(10)};
-    row-gap: ${rem(16)};
+    row-gap: ${rem(14)};
   }
 
   // grid-template-columns: repeat(6, 1fr);

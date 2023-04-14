@@ -26,7 +26,7 @@ type Props = {
   poapTokenId?: string | null;
   onClick?: () => void;
   level?: Level;
-  size?: 'sm' | 'md';
+  size?: 'xs' | 'sm' | 'md';
 };
 
 export const LineClamp = (lines: number) => css`
@@ -52,6 +52,9 @@ const Info = styled.div`
 `;
 
 const TitleStyled = styled(Title)`
+  @media (min-width: ${rem(1000)}) {
+    font-size: ${rem(16)};
+  }
   margin-top: ${rem(10)};
   text-align: start;
   ${LineClamp(3)};
@@ -69,6 +72,10 @@ const RepoName = styled.div<{ isLink?: boolean }>`
   color: ${TextLight};
   margin-top: ${rem(8)};
   transition: color 200ms ease-in-out;
+
+  @media (min-width: ${rem(1000)}) {
+    font-size: ${rem(12)};
+  }
 
   ${({ isLink }) =>
     isLink &&
