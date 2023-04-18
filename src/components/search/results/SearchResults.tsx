@@ -11,12 +11,12 @@ import { Header } from '../../shared/elements';
 import { SearchResultList } from './SearchResultList';
 import { OrgList as OrgListContainer } from '../../shared/compounds/OrgList';
 import { OrganizationHex, OrganizationHexSkeleton } from '../../orgs/OrgHex';
-import { RepoHex, RepoHexSkeleton } from '../../repos/RepoHex';
 import { RepoList } from '../../shared/compounds/RepoList';
 import { GitPOAP } from '../../shared/compounds/GitPOAP';
 import { POAPBadgeSkeleton } from '../../shared/elements/Skeletons';
 import { ProfileResultItem } from './ProfileResultItem';
 import { useGeneratedProfileResult } from '../useGeneratedProfileResult';
+import { RepoBlock, RepoBlockSkeleton } from '../../shared/compounds/RepoBlock';
 
 const SearchHeading = styled.div`
   margin-bottom: ${rem(20)};
@@ -147,12 +147,12 @@ export const SearchResults = ({ searchQuery }: Props) => {
                 {repoResult.fetching && !repoResult.operation && repos && repos.length === 0 && (
                   <>
                     {[...Array(4)].map((_, i) => (
-                      <RepoHexSkeleton key={i} />
+                      <RepoBlockSkeleton key={i} />
                     ))}
                   </>
                 )}
                 {repos?.map((repo, i) => {
-                  return <RepoHex key={'repo-' + i} repo={repo} />;
+                  return <RepoBlock key={'repo-' + i} repo={repo} />;
                 })}
               </OrgListContainer>
             </SearchResultList>

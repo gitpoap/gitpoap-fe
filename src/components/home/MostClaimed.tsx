@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Grid } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import { Header } from '../shared/elements/Header';
 import { GitPOAP } from '../shared/compounds/GitPOAP';
 import { Button } from '../shared/elements/Button';
@@ -11,50 +11,61 @@ import { BREAKPOINTS } from '../../constants';
 import { useMostClaimedGitPoapsQuery } from '../../graphql/generated-gql';
 import { Link } from '../shared/compounds/Link';
 
-const Container = styled.div`
-  padding: ${rem(10)};
-
-  @media (max-width: ${BREAKPOINTS.md}px) {
+const Container = styled(Stack)`
+  @media (max-width: ${BREAKPOINTS.sm}px) {
     align-items: center;
-    padding: 0;
-    max-width: 100%;
   }
+`;
+
+const MostClaimedList = styled.div`
+  display: grid;
+  width: 100%;
+  margin-bottom: ${rem(25)};
+  margin-top: ${rem(12)};
+
+  // justify-content: center;
+  // align-content: center;
+  // align-items: flex-start;
+
+  // @media (max-width: ${BREAKPOINTS.sm}px) {
+  // }
+
+  grid-template-columns: repeat(auto-fit, minmax(${rem(162)}, 1fr));
+  column-gap: ${rem(24)};
+  row-gap: ${rem(24)};
 `;
 
 export const MostClaimed = () => {
   const [result] = useMostClaimedGitPoapsQuery({
     variables: {
-      count: 12,
+      count: 8,
     },
   });
 
   return (
     <Container>
       <Header>{'Most minted GitPOAPs'}</Header>
-      <Grid align="flex-start" mb={`${rem(25)}`} mt={`${rem(50)}`} gutter="xl">
+      <MostClaimedList>
         {result.fetching && !result.operation && (
           <>
-            {[...Array(6)].map((_, i) => {
-              return (
-                <POAPBadgeSkeleton key={i} style={{ marginTop: rem(30), marginRight: rem(40) }} />
-              );
+            {[...Array(4)].map((_, i) => {
+              return <POAPBadgeSkeleton key={i} sx={{ margin: 'auto' }} />;
             })}
           </>
         )}
 
         {result.data?.mostClaimedGitPOAPs &&
           result.data?.mostClaimedGitPOAPs.map((item, i) => (
-            <Grid.Col key={item.gitPOAP.id + '-' + i} xs={6} sm={3} md={4} lg={3} xl={2}>
-              <GitPOAP
-                gitPOAPId={item.gitPOAP.id}
-                imgSrc={item.event.image_url}
-                name={item.event.name}
-                repoName={item.gitPOAP.project?.repos[0].name}
-                orgName={item.gitPOAP.project?.repos[0].organization.name}
-              />
-            </Grid.Col>
+            <GitPOAP
+              gitPOAPId={item.gitPOAP.id}
+              imgSrc={item.event.image_url}
+              name={item.event.name}
+              repoName={item.gitPOAP.project?.repos[0].name}
+              orgName={item.gitPOAP.project?.repos[0].organization.name}
+              key={item.gitPOAP.id + '-' + i}
+            />
           ))}
-      </Grid>
+      </MostClaimedList>
       <Link href={'/gitpoaps'}>
         <Button variant="outline" rightIcon={<FaArrowRight />}>
           {'ALL GITPOAPS'}

@@ -6,12 +6,13 @@ import { Header } from '../shared/elements/Header';
 import { BREAKPOINTS } from '../../constants';
 import { LeaderBoardItem } from './LeaderBoardItem';
 import { useDisclosure } from '@mantine/hooks';
-import { Modal } from '@mantine/core';
+import { Modal, Stack } from '@mantine/core';
 import { Button } from '../shared/elements';
 
-const Wrapper = styled.div`
+const Wrapper = styled(Stack)`
   display: inline-flex;
   flex-direction: column;
+  width: 100%;
 
   @media (max-width: ${BREAKPOINTS.md}px) {
     display: flex;
@@ -26,15 +27,15 @@ const HeaderStyled = styled(Header)`
   @media (max-width: ${BREAKPOINTS.md}px) {
     font-size: ${rem(40)};
   }
-`;
 
-const List = styled.div`
-  margin-top: ${rem(30)};
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    margin: auto;
+  }
 `;
 
 const ModalButton = styled(Button)`
   width: fit-content;
-  margin: ${rem(24)} auto 0;
+  margin: 0 auto;
 `;
 
 type Contributor = LeadersQuery['mostHonoredContributors'][number];
@@ -50,11 +51,11 @@ export const LeaderBoard = () => {
   return (
     <Wrapper>
       <HeaderStyled>{'Most honored contributors'}</HeaderStyled>
-      <List>
+      <Stack spacing={0}>
         {result.data?.mostHonoredContributors.slice(0, 8).map((item) => (
           <LeaderBoardItem key={item.profile.id} {...item} />
         ))}
-      </List>
+      </Stack>
       <ModalButton onClick={open} variant="outline">
         View More
       </ModalButton>
