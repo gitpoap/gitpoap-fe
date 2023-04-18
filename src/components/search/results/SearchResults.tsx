@@ -143,7 +143,7 @@ export const SearchResults = ({ searchQuery }: Props) => {
                 reposLength > 0 ? `${reposLength} ${reposLength === 1 ? 'repo' : 'repos'}` : ''
               }
             >
-              <OrgListContainer>
+              <RepoList>
                 {repoResult.fetching && !repoResult.operation && repos && repos.length === 0 && (
                   <>
                     {[...Array(4)].map((_, i) => (
@@ -154,7 +154,7 @@ export const SearchResults = ({ searchQuery }: Props) => {
                 {repos?.map((repo, i) => {
                   return <RepoBlock key={'repo-' + i} repo={repo} />;
                 })}
-              </OrgListContainer>
+              </RepoList>
             </SearchResultList>
           </SortSection>
           <SortSection>
