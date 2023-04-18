@@ -5,19 +5,19 @@ import { BREAKPOINTS } from '../../../constants';
 export const RepoList = styled.div`
   display: grid;
   width: 100%;
-  margin-top: ${rem(50)};
-  margin-bottom: ${rem(55)};
+  margin-top: ${rem(32)};
+  margin-bottom: ${rem(32)};
 
   justify-content: center;
   align-content: center;
   align-items: flex-start;
 
-  grid-template-columns: repeat(auto-fill, ${rem(280)});
-  column-gap: ${rem(30)};
-  row-gap: ${rem(32)};
-
-  @media (max-width: ${rem(800)}) {
-    grid-template-columns: repeat(auto-fit, minmax(${rem(250)}, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(${rem(300)}, 1fr));
+  column-gap: ${rem(24)};
+  row-gap: ${rem(24)};
+  @media (max-width: ${rem(1000)}) {
+    column-gap: ${rem(16)};
+    row-gap: ${rem(16)};
   }
 `;
 

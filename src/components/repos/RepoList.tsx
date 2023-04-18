@@ -6,7 +6,6 @@ import { useDebouncedValue, useListState } from '@mantine/hooks';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
 import { RepoList as RepoListContainer } from '../shared/compounds/RepoList';
 import { Header } from '../shared/elements/Header';
-import { RepoHex, RepoHexSkeleton } from './RepoHex';
 import { Input, Loader, TextSkeleton } from '../shared/elements';
 import {
   AllReposOnRepoPageQuery,
@@ -15,6 +14,7 @@ import {
   useRepoSearchOnRepoPageQuery,
 } from '../../graphql/generated-gql';
 import { trackSearchForRepos } from '../../lib/tracking/events';
+import { RepoBlock, RepoBlockSkeleton } from '../shared/compounds/RepoBlock';
 
 type SortOptions = 'alphabetical' | 'date' | 'gitpoap-count' | 'organization';
 
@@ -153,15 +153,15 @@ export const RepoList = () => {
           {result.fetching && !result.operation && repoListItems.length === 0 && (
             <>
               {[...Array(15)].map((_, i) => (
-                <RepoHexSkeleton key={i} />
+                <RepoBlockSkeleton key={i} />
               ))}
             </>
           )}
           {searchResult.data?.repos && searchValue
             ? searchResult.data.repos.map((repo, i) => {
-                return <RepoHex key={'repo-' + i} repo={repo} />;
+                return <RepoBlock key={'repo-' + i} repo={repo} />;
               })
-            : repoListItems?.map((repo, i) => <RepoHex key={'repo-' + i} repo={repo} />)}
+            : repoListItems?.map((repo, i) => <RepoBlock key={'repo-' + i} repo={repo} />)}
         </RepoListContainer>
       </StyledItemList>
     </Wrapper>

@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ItemList, SelectOption } from '../shared/compounds/ItemList';
-import { RepoHexSkeleton } from '../repos/RepoHex';
 import { OrganizationReposQuery, useOrganizationReposQuery } from '../../graphql/generated-gql';
 import { useListState } from '@mantine/hooks';
-import { OrgRepoBlock } from './OrgRepoBlock';
-import styled from 'styled-components';
-import { rem } from 'polished';
+import { RepoBlock, RepoBlockSkeleton } from '../shared/compounds/RepoBlock';
+import { RepoList } from '../shared/compounds/RepoList';
 
 type SortOptions = 'alphabetical' | 'date' | 'contributor-count' | 'minted-count';
 export type OrgRepo = Exclude<
@@ -29,24 +27,6 @@ type QueryVars = {
 type Props = {
   orgId: number;
 };
-
-export const RepoList = styled.div`
-  display: grid;
-  width: 100%;
-  margin-bottom: ${rem(50)};
-
-  justify-content: center;
-  align-content: center;
-  align-items: flex-start;
-
-  grid-template-columns: repeat(auto-fit, minmax(${rem(300)}, 1fr));
-  column-gap: ${rem(20)};
-  row-gap: ${rem(24)};
-  @media (max-width: ${rem(1000)}) {
-    column-gap: ${rem(10)};
-    row-gap: ${rem(16)};
-  }
-`;
 
 export const OrgRepoList = ({ orgId }: Props) => {
   const [variables, setVariables] = useState<QueryVars>({
@@ -123,7 +103,7 @@ export const OrgRepoList = ({ orgId }: Props) => {
         {result.fetching && !result.operation && (
           <>
             {[...Array(3)].map((_, i) => (
-              <RepoHexSkeleton key={i} />
+              <RepoBlockSkeleton key={i} />
             ))}
           </>
         )}
@@ -132,7 +112,7 @@ export const OrgRepoList = ({ orgId }: Props) => {
             searchValue ? repo.name.toLowerCase().includes(searchValue.toLowerCase()) : true,
           )
           .map((repo, i) => (
-            <OrgRepoBlock key={'org-repo-' + i} repo={repo} />
+            <RepoBlock key={'org-repo-' + i} repo={repo} />
           ))}
       </RepoList>
     </ItemList>

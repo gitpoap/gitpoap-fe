@@ -9,13 +9,17 @@ import { Stack } from '@mantine/core';
 
 const NUM_DAYS = 7;
 
-const Container = styled.div`
-  padding: 0 ${rem(10)};
+const Container = styled(Stack)`
+  width: 100%;
 
-  @media (max-width: ${BREAKPOINTS.md}px) {
+  @media (max-width: ${BREAKPOINTS.sm}px) {
     align-items: center;
     padding: 0;
     max-width: 100%;
+  }
+
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    align-items: center;
   }
 `;
 
@@ -27,7 +31,7 @@ const List = styled(Stack)`
 export const TrendingRepos = () => {
   const [result] = useTrendingReposQuery({
     variables: {
-      count: 4,
+      count: 5,
       numDays: NUM_DAYS,
     },
   });

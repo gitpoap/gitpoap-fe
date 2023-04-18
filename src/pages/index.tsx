@@ -12,7 +12,8 @@ import { FurtherInfoFor } from '../components/home/FurtherInfoFor';
 import { FurtherInfoHow } from '../components/home/FurtherInfoHow';
 import { Banner } from '../components/home/Banner';
 import { TrendingRepos } from '../components/home/TrendingRepos';
-import { TopAndLatestMints } from '../components/home/TopAndLatest';
+import { LatestMint } from '../components/home/LatestMints';
+import { MostClaimed } from '../components/home/MostClaimed';
 
 const Background = styled(BackgroundHexes)`
   display: flex;
@@ -53,32 +54,21 @@ const Home: NextPageWithLayout = () => {
         </Grid.Col>
       </Grid>
 
-      {/* <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}> */}
-      {/* <CenteredCol xs={22} sm={22} md={11} lg={11} xl={10} style={{ zIndex: 0 }}>
+      <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}>
+        <CenteredCol xs={22} sm={20} md={20} lg={11} xl={9} style={{ zIndex: 0 }}>
           <TrendingRepos />
         </CenteredCol>
-        <CenteredCol xs={20} sm={20} md={9} lg={11} xl={10} style={{ zIndex: 0 }}>
+        <CenteredCol md={0} lg={1} />
+        <CenteredCol xs={22} sm={20} md={20} lg={11} xl={9} style={{ zIndex: 0 }}>
           <LatestMint />
-        </CenteredCol> */}
-      {/* <CenteredCol xs={24} style={{ zIndex: 0 }}>
-          <LatestMint />
-        </CenteredCol> */}
-      {/* </Grid> */}
-
-      <Grid columns={24} justify="center" style={{ marginTop: rem(100), marginBottom: rem(50) }}>
-        <CenteredCol xs={24} style={{ zIndex: 0 }}>
-          <TopAndLatestMints />
         </CenteredCol>
       </Grid>
 
       <Grid columns={24} justify="center" gutter={48} style={{ marginBottom: rem(50) }}>
-        {/* <Grid.Col xs={22} md={13} xl={14} style={{ zIndex: 0 }}>
+        <Grid.Col xs={22} sm={20} md={12} xl={11} style={{ zIndex: 0 }}>
           <MostClaimed />
-        </Grid.Col> */}
-        <Grid.Col xs={22} md={13} xl={8} style={{ zIndex: 0 }}>
-          <TrendingRepos />
         </Grid.Col>
-        <Grid.Col xs={20} md={7} xl={6} style={{ zIndex: 0 }}>
+        <Grid.Col xs={22} sm={20} md={8} xl={6} style={{ zIndex: 0 }}>
           <LeaderBoard />
         </Grid.Col>
       </Grid>
