@@ -65,10 +65,10 @@ const Home: NextPageWithLayout = () => {
       </Grid>
 
       <Grid columns={24} justify="center" gutter={48} style={{ marginBottom: rem(50) }}>
-        <Grid.Col xs={22} sm={20} md={12} xl={11} style={{ zIndex: 0 }}>
+        <Grid.Col xs={22} sm={20} md={20} lg={14} xl={12} style={{ zIndex: 0 }}>
           <MostClaimed />
         </Grid.Col>
-        <Grid.Col xs={22} sm={20} md={8} xl={6} style={{ zIndex: 0 }}>
+        <Grid.Col xs={22} sm={20} md={20} lg={8} xl={7} style={{ zIndex: 0 }}>
           <LeaderBoard />
         </Grid.Col>
       </Grid>

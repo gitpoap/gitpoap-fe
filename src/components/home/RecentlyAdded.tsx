@@ -37,7 +37,7 @@ const StyledLink = styled(Link)`
 export const RecentlyAdded = () => {
   const [result] = useRecentReposQuery({
     variables: {
-      count: 14,
+      count: 12,
     },
   });
 
