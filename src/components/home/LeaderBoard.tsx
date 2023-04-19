@@ -21,11 +21,11 @@ const Wrapper = styled(Stack)`
 `;
 
 const HeaderStyled = styled(Header)`
-  font-size: ${rem(30)};
-  line-height: ${rem(48)};
+  // font-size: ${rem(30)};
+  // line-height: ${rem(48)};
 
   @media (max-width: ${BREAKPOINTS.md}px) {
-    font-size: ${rem(40)};
+    // font-size: ${rem(40)};
   }
 
   @media (max-width: ${BREAKPOINTS.sm}px) {
@@ -35,7 +35,12 @@ const HeaderStyled = styled(Header)`
 
 const ModalButton = styled(Button)`
   width: fit-content;
-  margin: 0 auto;
+  @media (max-width: ${BREAKPOINTS.sm}px) {
+    margin: 0 auto;
+  }
+  @media (min-width: ${rem(BREAKPOINTS.xl + 1)}) {
+    margin: auto;
+  }
 `;
 
 type Contributor = LeadersQuery['mostHonoredContributors'][number];

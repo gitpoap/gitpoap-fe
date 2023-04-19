@@ -23,22 +23,23 @@ const MostClaimedList = styled.div`
   margin-bottom: ${rem(25)};
   margin-top: ${rem(12)};
 
-  // justify-content: center;
-  // align-content: center;
-  // align-items: flex-start;
-
-  // @media (max-width: ${BREAKPOINTS.sm}px) {
-  // }
+  justify-content: center;
+  align-content: center;
+  align-items: flex-start;
 
   grid-template-columns: repeat(auto-fit, minmax(${rem(162)}, 1fr));
   column-gap: ${rem(24)};
   row-gap: ${rem(24)};
+
+  @media (min-width: ${BREAKPOINTS.md}px) {
+    grid-template-columns: repeat(auto-fit, minmax(${rem(186)}, 1fr));
+  }
 `;
 
 export const MostClaimed = () => {
   const [result] = useMostClaimedGitPoapsQuery({
     variables: {
-      count: 8,
+      count: 12,
     },
   });
 
