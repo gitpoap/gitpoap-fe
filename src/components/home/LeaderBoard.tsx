@@ -21,13 +21,6 @@ const Wrapper = styled(Stack)`
 `;
 
 const HeaderStyled = styled(Header)`
-  // font-size: ${rem(30)};
-  // line-height: ${rem(48)};
-
-  @media (max-width: ${BREAKPOINTS.md}px) {
-    // font-size: ${rem(40)};
-  }
-
   @media (max-width: ${BREAKPOINTS.sm}px) {
     margin: auto;
   }
