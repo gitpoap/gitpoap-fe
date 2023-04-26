@@ -4,9 +4,8 @@ import React from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import { JazzIconNoText, WalletStatus } from './WalletStatus';
 import { ConnectWalletButton } from '../wallet/ConnectWallet';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { shortenAddress } from '../../helpers';
-import { useWeb3Context, ConnectionStatus } from './Web3Context';
 import { Avatar } from '../shared/elements';
 
 const POPOVER_HOVER_TIME = 400;
@@ -17,8 +16,8 @@ type Props = {
 };
 
 export const Wallet = ({ hideText, isMobile }: Props) => {
-  const { connectionStatus, disconnect } = useWeb3Context();
-  const user = useUser();
+  const { disconnect } = useAuthContext();
+  const { user } = useAuthContext();
   const ensName = user?.ensName ?? null;
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
   const connectedAddress = user?.address ?? '';
@@ -27,7 +26,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
 
   return (
     <Group position="center" align="center">
-      {(connectedAddress || email) && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET ? (
+      {connectedAddress || email ? (
         !isMobile ? (
           <Menu
             closeDelay={POPOVER_HOVER_TIME}

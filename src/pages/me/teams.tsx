@@ -3,11 +3,11 @@ import { rem } from 'polished';
 import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
 import { Login } from '../../components/Login';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { UserMembershipList } from '../../components/profile/UserMembershipList';
 
 const UserTeams: NextPageWithLayout = () => {
-  const user = useUser();
+  const { user } = useAuthContext();
 
   return (
     <>

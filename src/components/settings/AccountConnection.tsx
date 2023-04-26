@@ -1,14 +1,16 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { User } from '@privy-io/react-auth';
-import { Button, Group, Stack, Title, Text } from '@mantine/core';
+import { Button, Group, Stack, Title, Text, Tooltip } from '@mantine/core';
 import { rem } from 'polished';
+import { Link } from '../shared/compounds/Link';
+import { truncateString } from '../../helpers';
 
 type Props = {
   user: User | null;
   accountValue: string | null;
   label: string;
   icon: ReactNode;
-  description: ReactNode;
+  href?: string | null;
   linkAccount: () => void;
   unlinkAccount: (account: string) => Promise<User>;
 };
@@ -20,7 +22,7 @@ export const AccountConnection = ({
   accountValue,
   label,
   icon,
-  description,
+  href,
   linkAccount,
   unlinkAccount,
 }: Props) => {
@@ -44,18 +46,39 @@ export const AccountConnection = ({
     }
   }, [linkAccount, unlinkAccount, status, accountValue]);
 
+  const shortenedAccountValue = truncateString(accountValue ?? '', 18);
+
   const ConnectionStatus = {
     CONNECT: <Text size="xs">{`Connect your account`}</Text>,
-    PENDING: (
-      <Text size="xs">
-        {`Pending`}
-        {description}
-      </Text>
-    ),
+    PENDING: <Text size="xs">{`Pending`}</Text>,
     DISCONNECT: (
       <Text size="xs">
         {`You're connected as `}
-        {description}
+        {href ? (
+          <Link href={href} passHref>
+            <Tooltip
+              label={accountValue}
+              multiline
+              withArrow
+              transition="fade"
+              position="top"
+              sx={{ textAlign: 'center', maxWidth: rem(450) }}
+            >
+              <b>{shortenedAccountValue}</b>
+            </Tooltip>
+          </Link>
+        ) : (
+          <Tooltip
+            label={accountValue}
+            multiline
+            withArrow
+            transition="fade"
+            position="top"
+            sx={{ textAlign: 'center', maxWidth: rem(450) }}
+          >
+            <b>{shortenedAccountValue}</b>
+          </Tooltip>
+        )}
       </Text>
     ),
   };

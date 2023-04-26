@@ -4,10 +4,10 @@ import Head from 'next/head';
 import { CreationForm } from '../../components/create/CreationForm';
 import { BackgroundHexes } from '../../components/gitpoap/BackgroundHexes';
 import { Login } from '../../components/Login';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const Create: NextPageWithLayout = () => {
-  const user = useUser();
+  const { user } = useAuthContext();
 
   return (
     <>

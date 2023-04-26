@@ -1,6 +1,6 @@
 import { Center, Loader, Stack, Text } from '@mantine/core';
 import { useGitPoapRequestQuery } from '../../graphql/generated-gql';
-import { User } from '../../hooks/useUser';
+import { User } from '../../hooks/useAuthContext';
 import { Link } from '../shared/compounds/Link';
 import { Header } from '../shared/elements';
 import { convertContributorsObjectToList } from './convertContributorsObjectToList';

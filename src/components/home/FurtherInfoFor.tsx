@@ -8,7 +8,7 @@ import { BREAKPOINTS } from '../../constants';
 import { useClaimContext } from '../claims/ClaimContext';
 import { ExtraHover, ExtraPressed } from '../../colors';
 import { useLocalStorage } from '@mantine/hooks';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { GitPOAP } from '../shared/elements/icons';
 
 const InfoHexHeader = styled(Header)`
@@ -101,7 +101,7 @@ const GitPOAPIcon = styled(GitPOAP)`
 
 export const FurtherInfoFor = () => {
   const { setIsOpen } = useClaimContext();
-  const user = useUser();
+  const { user } = useAuthContext();
   const hasGithub = user?.capabilities.hasGithub ?? false;
   const [isFurtherInfoClaimButtonClicked, setIsFurtherInfoClaimButtonClicked] =
     useLocalStorage<boolean>({

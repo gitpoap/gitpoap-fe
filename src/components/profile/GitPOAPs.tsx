@@ -10,7 +10,7 @@ import { TextDarkGray } from '../../colors';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { useGitPoapsQuery, GitPoapsQuery } from '../../graphql/generated-gql';
 import { Level } from '../../types';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { Link } from '../shared/compounds/Link';
 
 type Props = {
@@ -39,7 +39,7 @@ const determineLevel = (contributionCount: number): Level | undefined => {
 };
 
 export const GitPOAPs = ({ address }: Props) => {
-  const user = useUser();
+  const { user } = useAuthContext();
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortOptions>('date');
   const [gitPOAPItems, setGitPOAPItems] = useState<GitPOAPItems>([]);

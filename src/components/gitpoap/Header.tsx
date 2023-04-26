@@ -11,7 +11,7 @@ import { textEllipses } from '../shared/styles';
 import { TextGray, ExtraHover, PrimaryBlue } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { useGitPoapEventQuery } from '../../graphql/generated-gql';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { useRouter } from 'next/router';
 import { GitPOAP } from '../shared/elements/icons';
 import { trackClickManageGitPOAP } from '../../lib/tracking/events';
@@ -146,7 +146,7 @@ const GitPOAPIcon = styled(GitPOAP)`
 `;
 
 export const Header = ({ gitPOAPId }: Props) => {
-  const user = useUser();
+  const { user } = useAuthContext();
   const hasGithubConnection = user?.capabilities.hasGithub ?? false;
   const [opened, { close, open }] = useDisclosure(false);
   const router = useRouter();

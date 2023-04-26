@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Stack, Divider, Group, Box, Tooltip } from '@mantine/core';
+import { Stack, Divider, Group, Box } from '@mantine/core';
 import { usePrivy } from '@privy-io/react-auth';
 import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import styled from 'styled-components';
-import { FaCheckCircle, FaEthereum, FaDiscord } from 'react-icons/fa';
+import { FaCheckCircle, FaEthereum, FaDiscord, FaGithub } from 'react-icons/fa';
 import { HiOutlineMail } from 'react-icons/hi';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { useProfileContext } from '../profile/ProfileContext';
-import { useFeatures } from '../FeaturesContext';
 import {
   Button,
   Input as InputUI,
@@ -17,10 +16,8 @@ import {
   Text,
   TextArea as TextAreaUI,
 } from '../shared/elements';
-import { Link } from '../shared/compounds/Link';
-import { isValidTwitterHandle, isValidURL, shortenAddress, truncateString } from '../../helpers';
+import { isValidTwitterHandle, isValidURL } from '../../helpers';
 import { Login } from '../Login';
-import { GithubConnection } from './GithubConnection';
 import { AccountConnection } from './AccountConnection';
 import { trackClickSaveUserSettings } from '../../lib/tracking/events';
 
@@ -46,10 +43,11 @@ export const SettingsPage = () => {
     unlinkEmail,
     linkDiscord,
     unlinkDiscord,
+    linkGithub,
+    unlinkGithub,
   } = usePrivy();
-  const user = useUser();
+  const { user } = useAuthContext();
   const router = useRouter();
-  const features = useFeatures();
 
   const [personSiteUrlValue, setPersonalSiteUrlValue] = useState<string | undefined | null>(
     profileData?.personalSiteUrl,
@@ -104,45 +102,32 @@ export const SettingsPage = () => {
         accountValue={user.address}
         label={'Ethereum'}
         icon={<FaEthereum size={32} />}
-        description={
-          <Link href={`https://etherscan.io/address/${user.address}`} passHref>
-            {user?.ensName ? (
-              <Tooltip
-                label={user.address}
-                multiline
-                withArrow
-                transition="fade"
-                position="top"
-                sx={{ textAlign: 'center', maxWidth: rem(450) }}
-              >
-                <b>{`${user.ensName}`}</b>
-              </Tooltip>
-            ) : (
-              <b>{`${shortenAddress(user.address ?? '')}`}</b>
-            )}
-          </Link>
-        }
+        href={user.address && `https://etherscan.io/address/${user.address}`}
         linkAccount={linkWallet}
         unlinkAccount={unlinkWallet}
       />
-      <GithubConnection user={user} />
-      {features.hasDiscordOAuth && (
-        <AccountConnection
-          user={privyUser}
-          accountValue={user.discordHandle}
-          label={'Discord'}
-          icon={<FaDiscord size={32} />}
-          description={user.discordHandle && <b>{`@${user.discordHandle}`}</b>}
-          linkAccount={linkDiscord}
-          unlinkAccount={unlinkDiscord}
-        />
-      )}
+      <AccountConnection
+        user={privyUser}
+        accountValue={user.githubHandle}
+        label={'GitHub'}
+        icon={<FaGithub size={32} />}
+        href={user.githubHandle && `https://github.com/${user.githubHandle}`}
+        linkAccount={linkGithub}
+        unlinkAccount={unlinkGithub}
+      />
+      <AccountConnection
+        user={privyUser}
+        accountValue={user.discordHandle}
+        label={'Discord'}
+        icon={<FaDiscord size={32} />}
+        linkAccount={linkDiscord}
+        unlinkAccount={unlinkDiscord}
+      />
       <AccountConnection
         user={privyUser}
         accountValue={user.emailAddress}
         label={'Email'}
         icon={<HiOutlineMail size={32} />}
-        description={truncateString(privyUser?.email?.address ?? '', 18)}
         linkAccount={linkEmail}
         unlinkAccount={unlinkEmail}
       />
