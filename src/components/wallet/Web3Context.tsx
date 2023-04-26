@@ -1,18 +1,8 @@
 import { createContext, useCallback, useContext, useMemo, useState, useEffect } from 'react';
-import { useWeb3React } from '@web3-react/core';
-import { useDisclosure, useLocalStorage } from '@mantine/hooks';
-import { JsonRpcSigner } from '@ethersproject/providers';
-import detectEthereumProvider from '@metamask/detect-provider';
-import { DateTime } from 'luxon';
-import { useRefreshTokens } from '../../hooks/useRefreshTokens';
+import { usePrivy } from '@privy-io/react-auth';
 import { useTokens } from '../../hooks/useTokens';
 import { useApi } from '../../hooks/useApi';
-import { useIndexedDB, IndexDBStatus } from '../../hooks/useIndexedDB';
-import { SignatureType } from '../../types';
 import { AuthenticateResponse } from '../../lib/api/auth';
-import { sign, generateSignatureData } from '../../lib/api/utils';
-import { ONE_MONTH_IN_S, FIVE_MINUTES_IN_S } from '../../constants';
-import { connectors } from '../../connectors';
 import { trackConnectWallet, trackDisconnectWallet } from '../../lib/tracking/events';
 
 type Props = {
@@ -31,19 +21,16 @@ export enum ConnectionStatus {
   DISCONNECTING = 'disconnecting' /* Disconnecting from wallet */,
   DISCONNECTED = 'disconnected' /* Not connected to any wallet */,
   UNINITIALIZED = 'uninitialized' /* Wallet connection hasn't been attempted yet */,
+  INITIALIZED = 'initialized' /* Wallet connection has been attempted */,
+  AUTHENTICATING = 'authenticating' /* Wallet connection has been attempted */,
 }
 
 type onChainProvider = {
-  address: string | null;
-  setAddress: (address: string) => void;
   ensName: string | null;
   connectionStatus: ConnectionStatus;
   setConnectionStatus: (connectionStatus: ConnectionStatus) => void;
-  disconnectWallet: () => void;
-  isModalOpened: boolean;
-  closeModal: () => void;
+  disconnect: () => void;
   handleConnect: () => void;
-  isMetaMaskInstalled: boolean;
 };
 
 type Web3ContextState = {
@@ -70,295 +57,115 @@ export const useWeb3Context = () => {
 };
 
 export const Web3ContextProvider = (props: Props) => {
+  const {
+    ready,
+    authenticated,
+    user,
+    login,
+    getAccessToken,
+    logout,
+    getEthereumProvider,
+    setActiveWallet,
+    linkWallet,
+  } = usePrivy();
+  const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
+
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(
     ConnectionStatus.UNINITIALIZED,
   );
-  const [address, setAddress] = useState<string | null>(null);
-  const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState<boolean>(false);
-  const { deactivate, account, library, activate } = useWeb3React();
-  const isConnected = typeof account === 'string' && !!library;
-  const [isModalOpened, { close: closeModal, open: openModal }] = useDisclosure(false);
   const api = useApi();
-  const { setAccessToken, setRefreshToken, tokens, payload, refreshTokenPayload } = useTokens();
-  const [provider, setProvider] = useLocalStorage<string | null>({
-    key: 'provider',
-    defaultValue: null,
-  });
+  const { setAccessToken, tokens, payload } = useTokens();
+  const address = user?.wallet?.address ?? '';
 
-  const {
-    value: signature,
-    setValue: setSignature,
-    status: signatureStatus,
-  } = useIndexedDB(account ?? '', null);
+  const ethereum = getEthereumProvider();
 
-  /* This hook can only be used once here ~ it contains token refresh logic */
-  useRefreshTokens();
-
-  const disconnectWallet = useCallback(() => {
-    deactivate();
+  const disconnect = useCallback(async () => {
     trackDisconnectWallet(address);
 
-    setConnectionStatus(ConnectionStatus.DISCONNECTED);
-    setProvider(null);
-    setAddress('');
-    setRefreshToken(null);
+    setConnectionStatus(ConnectionStatus.DISCONNECTING);
+    await logout();
     setAccessToken(null);
-  }, [
-    deactivate,
-    setConnectionStatus,
-    setRefreshToken,
-    setAccessToken,
-    setAddress,
-    setProvider,
-    address,
-  ]);
-
-  const authenticate = useCallback(
-    async (signature: SignatureType) => {
-      const authData: AuthenticateResponse | null = await api.auth.authenticate(signature);
-
-      if (!authData) {
-        // update connection status
-        setConnectionStatus(ConnectionStatus.UNINITIALIZED);
-        // update signature
-        setSignature(null);
-        return;
-      }
-
-      // set signature data into IndexedDB
-      setSignature({
-        ...authData.signatureData,
-      });
-      // update connection status
-      setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
-      setAddress(authData.signatureData.address.toLowerCase());
-      // update tokens
-      setAccessToken(authData.tokens.accessToken);
-      setRefreshToken(authData.tokens.refreshToken);
-    },
-    [setConnectionStatus, setSignature, setAddress, api.auth, setAccessToken, setRefreshToken],
-  );
-
-  const authenticateWithoutSignature = useCallback(async () => {
-    const signer: JsonRpcSigner = library.getSigner();
-    const address = await signer.getAddress();
-    const signatureData = generateSignatureData(address);
-    const signatureString = await sign(signer, signatureData.message);
-
-    if (!signatureString) return;
-
-    await authenticate({
-      ...signatureData,
-      signature: signatureString,
-      address,
-    });
-  }, [library, authenticate]);
-
-  const authenticateWithSignature = useCallback(
-    async (signature: SignatureType) => {
-      await authenticate(signature);
-    },
-    [authenticate],
-  );
-
-  // check if metamask is installed
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
-    async function checkForMetaMask() {
-      const provider = await detectEthereumProvider({
-        timeout: 1000,
-        mustBeMetaMask: true,
-      });
-
-      if (provider) {
-        setIsMetaMaskInstalled(true);
-      } else {
-        setIsMetaMaskInstalled(false);
-      }
-    }
-
-    void checkForMetaMask();
-  }, []);
-
-  // handle auth when account has changed
-  useEffect(() => {
-    // if wallet is not connected, do nothing
-    if (!isConnected) return;
-    // do nothing if signature is not loaded yet from indexedDB
-    if (signatureStatus !== IndexDBStatus.LOADED || (signature && signature.address !== account))
-      return;
-    // if wallet is connecting, do nothing
-    if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) return;
-    // if wallet is connected signed by current address, do nothing
-    if (
-      connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET &&
-      address?.toLowerCase() === account.toLowerCase()
-    )
-      return;
-
-    // now that we go through authentication
-    // set connection status as connecting
-    setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
-
-    if (signature) {
-      void authenticateWithSignature(signature);
-    } else {
-      // we ask to sign a signature only if there is no signature for connected address
-      void authenticateWithoutSignature();
-    }
-  }, [
-    account,
-    address,
-    isConnected,
-    signature,
-    connectionStatus,
-    signatureStatus,
-    authenticateWithSignature,
-    authenticateWithoutSignature,
-    setConnectionStatus,
-  ]);
+    setConnectionStatus(ConnectionStatus.DISCONNECTED);
+  }, [setConnectionStatus, , setAccessToken, logout, address]);
 
   useEffect(() => {
-    if (tokens?.accessToken === null && tokens?.refreshToken === null) {
-      disconnectWallet();
+    if (tokens?.accessToken === null) {
+      void disconnect();
     }
-  }, [tokens, disconnectWallet]);
-
-  /**
-   * Hook to check whether a cached provider exists. If it does, connect to provider. It also
-   * prevents MetaMask from prompting login on page load if the wallet is cached, but locked.
-   *
-   * Additionally checks to ensure that there is a valid token in localStorage.
-   */
-  useEffect(() => {
-    const connectToCachedProvider = async () => {
-      // check if token is still not expired, connection status is uninitialized
-      if (tokens?.accessToken && payload && connectionStatus === ConnectionStatus.UNINITIALIZED) {
-        const accessTokenExp = payload?.exp;
-        if (accessTokenExp) {
-          const isExpired = DateTime.now().toUnixInteger() + FIVE_MINUTES_IN_S > accessTokenExp;
-          if (!isExpired) {
-            // get cached connector
-            let cachedConnector = null;
-            if (provider === 'injected') {
-              cachedConnector = connectors.injected;
-              if (window.ethereum.isMetaMask) {
-                if (window.ethereum.request) {
-                  /* Check if MetaMask is unlocked - if locked, then skip */
-                  const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-                  if (!accounts.length) {
-                    console.warn('MetaMask is not enabled');
-                    return;
-                  }
-                }
-              }
-            } else if (provider === 'coinbaseWallet') {
-              cachedConnector = connectors.coinbaseWallet;
-            }
-
-            if (cachedConnector) {
-              setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
-              void activate(cachedConnector);
-              setAddress(payload.address);
-              setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
-            }
-          }
-        }
-      }
-    };
-
-    void connectToCachedProvider();
-  }, [tokens, payload, connectionStatus, activate, account, provider]);
-
-  const refreshToken = useCallback(
-    async (address: string) => {
-      const tokens = await api.auth.refresh();
-
-      if (tokens?.accessToken && tokens?.refreshToken) {
-        setAccessToken(tokens.accessToken);
-        setRefreshToken(tokens.refreshToken);
-
-        // update connection status
-        setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
-        setAddress(address);
-      } else {
-        disconnectWallet();
-      }
-    },
-    [api.auth, setAccessToken, setRefreshToken, setConnectionStatus, setAddress, disconnectWallet],
-  );
+  }, [tokens, disconnect]);
 
   const handleConnect = useCallback(async () => {
-    // if previous access token exists, we check if refresh token is valid or not
-    // if valid, we use it to refresh access token, no need to ask to sign
-    const issuedAt = refreshTokenPayload?.iat ?? 0;
-    const isExpired = DateTime.now().toUnixInteger() >= issuedAt + ONE_MONTH_IN_S;
-    trackConnectWallet(payload?.address);
-    if (tokens && payload?.address && !isExpired && tokens.refreshToken) {
-      // use existing refresh token to refresh access token
-      setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
-      //  unlock if metamask is locked
-      if (provider === 'injected') {
-        if (window.ethereum.isMetaMask) {
-          if (window.ethereum.request) {
-            /* Check if MetaMask is unlocked - if locked, ask to unlock */
-            const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-            if (!accounts.length) {
-              try {
-                await activate(connectors.injected);
-              } catch {
-                setConnectionStatus(ConnectionStatus.DISCONNECTED);
-                return;
-              }
-            }
-          }
-        }
-      }
+    trackConnectWallet(payload?.address?.ethAddress);
+    setConnectionStatus(ConnectionStatus.INITIALIZED);
+    login();
+  }, [login, payload?.address?.ethAddress]);
 
-      void refreshToken(payload.address);
-    } else {
-      // otherwise, open wallet connect modal
-      openModal();
+  // Privy Auth
+  const authenticate = useCallback(async () => {
+    const authToken = await getAccessToken();
+    // without connected wallet, auth is not working on BE for now
+    if (!authToken) {
+      setIsAuthenticating(false);
+      return;
     }
-  }, [
-    tokens,
-    payload,
-    openModal,
-    refreshToken,
-    setConnectionStatus,
-    activate,
-    provider,
-    refreshTokenPayload?.iat,
-  ]);
+
+    const authData: AuthenticateResponse | null = await api.auth.authenticate(authToken);
+    setIsAuthenticating(false);
+
+    if (!authData) {
+      // update connection status
+      setConnectionStatus(ConnectionStatus.UNINITIALIZED);
+      return;
+    }
+    // update connection status
+    setConnectionStatus(ConnectionStatus.CONNECTED_TO_WALLET);
+    // update tokens
+    setAccessToken(authData.tokens.accessToken);
+  }, [getAccessToken, setConnectionStatus, api.auth, setAccessToken, setIsAuthenticating]);
+
+  // handle authentication with BE
+  useEffect(() => {
+    if (isAuthenticating) {
+      void authenticate();
+      if (connectionStatus === ConnectionStatus.INITIALIZED) {
+        setConnectionStatus(ConnectionStatus.CONNECTING_WALLET);
+      }
+    }
+  }, [authenticate, isAuthenticating, connectionStatus]);
+
+  // handle privy user change
+  useEffect(() => {
+    if (ready && authenticated && user) {
+      setIsAuthenticating(true);
+    }
+  }, [ready, authenticated, user, setIsAuthenticating]);
+
+  // handle account change
+  useEffect(() => {
+    const handleAccountChange = () => {
+      ethereum.on('accountsChanged', (accounts) => {
+        const connectedAccounts = accounts as string[];
+
+        if (connectionStatus !== ConnectionStatus.CONNECTED_TO_WALLET) return;
+        if (connectedAccounts[0].toLocaleLowerCase() === address.toLocaleLowerCase()) return;
+
+        linkWallet();
+        setActiveWallet(connectedAccounts[0]);
+      });
+    };
+
+    void handleAccountChange();
+  }, []);
 
   const onChainProvider = useMemo(
     () => ({
-      address,
-      setAddress,
       connectionStatus,
       setConnectionStatus,
-      ensName: payload?.ensName ?? null,
-      disconnectWallet,
+      ensName: payload?.address?.ensName ?? null,
+      disconnect,
       handleConnect,
-      isModalOpened,
-      closeModal,
-      isMetaMaskInstalled,
     }),
-    [
-      address,
-      setAddress,
-      connectionStatus,
-      setConnectionStatus,
-      payload?.ensName,
-      disconnectWallet,
-      handleConnect,
-      isModalOpened,
-      closeModal,
-      isMetaMaskInstalled,
-    ],
+    [connectionStatus, setConnectionStatus, payload?.address?.ensName, disconnect, handleConnect],
   );
 
   return <Web3Context.Provider value={{ onChainProvider }}>{props.children}</Web3Context.Provider>;

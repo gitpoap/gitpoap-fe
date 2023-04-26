@@ -23,6 +23,7 @@ import { Link } from '../shared/compounds/Link';
 import { ConnectWalletButton } from '../wallet/ConnectWallet';
 import { useWeb3Context } from '../wallet/Web3Context';
 import { trackClickMintAll } from '../../lib/tracking/events';
+import { useUser } from '../../hooks/useUser';
 
 type Props = {
   isConnected: boolean;
@@ -116,6 +117,7 @@ export const ClaimModal = ({
   onClose,
   onClickClaim,
 }: Props) => {
+  const user = useUser();
   const [page, setPage] = useState(1);
   const matchesBreakpoint750 = useMediaQuery(`(min-width: ${rem(750)})`, false);
   const matchesBreakpoint500 = useMediaQuery(`(min-width: ${rem(500)})`, false);
@@ -124,7 +126,8 @@ export const ClaimModal = ({
   const start = (page - 1) * perPage;
   const end = start + perPage;
 
-  const { address, ensName } = useWeb3Context();
+  const { ensName } = useWeb3Context();
+  const address = user?.address ?? '';
 
   const hasClaimedAll = claimedIds.length === claims.length;
   const isClaimingAll = !!loadingClaimIds && loadingClaimIds.length === claims.length;

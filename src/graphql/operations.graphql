@@ -167,8 +167,8 @@ query repoGitPoaps($repoId: Float!, $sort: String, $page: Float, $perPage: Float
   }
 }
 
-query openClaims($address: String!) {
-  userClaims(address: $address) {
+query openClaims {
+  userClaims {
     claim {
       id
       pullRequestEarned {
@@ -653,7 +653,7 @@ query totalEmails {
 }
 
 query totalEmailsValidated {
-  aggregateEmail(where: { isValidated: { equals: true } }) {
+  aggregateEmail {
     _count {
       id
     }

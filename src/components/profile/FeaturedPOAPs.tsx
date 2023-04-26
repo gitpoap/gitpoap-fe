@@ -12,7 +12,7 @@ import { Text as TextUI } from '../shared/elements/Text';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { useProfileContext } from './ProfileContext';
-import { useWeb3Context } from '../wallet/Web3Context';
+import { useUser } from '../../hooks/useUser';
 
 const Container = styled(Box)<BoxProps>`
   display: inline-flex;
@@ -32,6 +32,7 @@ const isGitPOAP = (poap: POAP | GitPOAPType): poap is GitPOAPType => {
 };
 
 export const FeaturedPOAPs = () => {
+  const user = useUser();
   const {
     featuredPOAPsState: { featuredPOAPsFull, featuredPOAPTokenIDs },
     hasFetched,
@@ -40,8 +41,9 @@ export const FeaturedPOAPs = () => {
     showHearts,
   } = useFeaturedPOAPs();
   const { profileData } = useProfileContext();
-  const { address } = useWeb3Context();
-  const isViewerOwner = profileData && address && profileData.address === address.toLowerCase();
+
+  const isViewerOwner =
+    profileData && user?.address && profileData.address === user?.address.toLowerCase();
 
   if (featuredPOAPsFull.length === 0 && !isViewerOwner) {
     return null;
