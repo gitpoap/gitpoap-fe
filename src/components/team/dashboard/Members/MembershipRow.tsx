@@ -4,7 +4,7 @@ import { MdDelete } from 'react-icons/md';
 
 import { TeamMembershipsQuery, MembershipRole } from '../../../../graphql/generated-gql';
 import { shortenAddress } from '../../../../helpers';
-import { useUser } from '../../../../hooks/useUser';
+import { useAuthContext } from '../../../../hooks/useAuthContext';
 import { Link } from '../../../shared/compounds/Link';
 import { Button, Text, RelativeDate } from '../../../shared/elements';
 import { TableRow } from '../../../shared/elements/Table';
@@ -21,7 +21,7 @@ type RowProps = {
 };
 
 export const MembershipRow = ({ membership, openRemoveModal }: RowProps) => {
-  const user = useUser();
+  const { user } = useAuthContext();
   const { id, role, acceptanceStatus, joinedOn, address } = membership;
 
   return (

@@ -3,8 +3,7 @@ import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { NextRouter } from 'next/router';
 import { Provider as URQLProvider } from 'urql';
 import { Navbar } from '../../src/components/Navbar';
-import { Web3ContextProvider } from '../../src/components/wallet/Web3Context';
-import { OAuthProvider } from '../../src/components/oauth/OAuthContext';
+import { AuthContextProvider } from '../../src/components/wallet/AuthContext';
 import { renderWithTheme } from '../__utils__/renderWithTheme';
 
 const mockClient = {
@@ -39,13 +38,11 @@ describe('Navbar', () => {
   it('renders a Navbar', () => {
     const { container } = renderWithTheme(
       <RouterContext.Provider value={mockRouter}>
-        <Web3ContextProvider>
-          <OAuthProvider>
-            <URQLProvider value={mockClient}>
-              <Navbar />
-            </URQLProvider>
-          </OAuthProvider>
-        </Web3ContextProvider>
+        <AuthContextProvider>
+          <URQLProvider value={mockClient}>
+            <Navbar />
+          </URQLProvider>
+        </AuthContextProvider>
       </RouterContext.Provider>,
     );
     const navbar = container.firstChild;

@@ -8,13 +8,12 @@ import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import '../styles/styles.css';
 import { GlobalStyles } from '../styles/globalStyles';
-import { OAuthProvider } from '../components/oauth/OAuthContext';
 import { FeaturesProvider } from '../components/FeaturesContext';
 import { theme } from '../lib/theme';
 import { ClaimContextProvider } from '../components/claims/ClaimContext';
 import { LoadingBar } from '../components/LoadingBar';
 import { HexagonPath } from '../components/shared/elements';
-import { Web3ContextProvider } from '../components/wallet/Web3Context';
+import { AuthContextProvider } from '../components/wallet/AuthContext';
 import { ModalsProvider } from '@mantine/modals';
 import { client } from '../lib/urql';
 import { setupExternalServiceClients } from '../lib/app';
@@ -43,29 +42,27 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <PrivyProvider appId={PRIVY_APP_ID}>
-        <Web3ContextProvider>
+        <AuthContextProvider>
           <Amplitude />
           <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
             <ModalsProvider>
               <NotificationsProvider autoClose={5000}>
                 <URQLProvider value={client}>
-                  <OAuthProvider>
-                    <FeaturesProvider>
-                      <TeamsProvider>
-                        <ClaimContextProvider>
-                          <GlobalStyles />
-                          <HexagonPath />
-                          <LoadingBar />
-                          {getLayout(<Component {...pageProps} />)}
-                        </ClaimContextProvider>
-                      </TeamsProvider>
-                    </FeaturesProvider>
-                  </OAuthProvider>
+                  <FeaturesProvider>
+                    <TeamsProvider>
+                      <ClaimContextProvider>
+                        <GlobalStyles />
+                        <HexagonPath />
+                        <LoadingBar />
+                        {getLayout(<Component {...pageProps} />)}
+                      </ClaimContextProvider>
+                    </TeamsProvider>
+                  </FeaturesProvider>
                 </URQLProvider>
               </NotificationsProvider>
             </ModalsProvider>
           </MantineProvider>
-        </Web3ContextProvider>
+        </AuthContextProvider>
       </PrivyProvider>
     </>
   );

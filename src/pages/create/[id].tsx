@@ -5,12 +5,12 @@ import { useRouter } from 'next/router';
 import { EditContainer } from '../../components/create/EditContainer';
 import { BackgroundHexes } from '../../components/gitpoap/BackgroundHexes';
 import { Login } from '../../components/Login';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import Custom404 from '../404';
 
 const Create: NextPageWithLayout = () => {
   const router = useRouter();
-  const user = useUser();
+  const { user } = useAuthContext();
 
   const { id } = router.query;
 

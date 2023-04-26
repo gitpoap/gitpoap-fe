@@ -3,10 +3,10 @@ import { NextPageWithLayout } from '../../_app';
 import Head from 'next/head';
 import { ConnectGitHub } from '../../../components/admin/ConnectGitHub';
 import { AdminGitPOAPRequestContainer } from '../../../components/admin/requests';
-import { useUser } from '../../../hooks/useUser';
+import { useAuthContext } from '../../../hooks/useAuthContext';
 
 const AdminGitPOAPRequests: NextPageWithLayout = () => {
-  const user = useUser();
+  const { user } = useAuthContext();
 
   return (
     <>

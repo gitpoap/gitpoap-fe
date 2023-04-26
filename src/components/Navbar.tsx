@@ -9,11 +9,10 @@ import { DividerGray1, TextLight, MidnightBlue } from '../colors';
 import { BREAKPOINTS, TYPEFORM_LINKS } from '../constants';
 import { GitPOAPLogo } from './shared/elements/icons/GitPOAPLogoWhite';
 import { Wallet } from './wallet/Wallet';
-import { ConnectionButton } from './oauth/ConnectionButton';
+import { ConnectionButton } from './ConnectionButton';
 import { SearchBox } from './search/box/SearchBox';
 import { NavLink } from './shared/elements/NavLink';
-import { useWeb3Context, ConnectionStatus } from './wallet/Web3Context';
-import { useUser } from '../hooks/useUser';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const Nav = styled(Group)`
   color: ${TextLight} !important;
@@ -86,8 +85,7 @@ const CollapseMenuContent = styled(Stack)`
 
 export const Navbar = () => {
   const router = useRouter();
-  const user = useUser();
-  const { connectionStatus, ensName } = useWeb3Context();
+  const { user } = useAuthContext();
 
   const matchesLg = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.lg)})`, false);
   const matchesMd = useMediaQuery(`(min-width: ${rem(BREAKPOINTS.md)})`, false);
@@ -125,9 +123,9 @@ export const Navbar = () => {
       <NavLink href={'https://docs.gitpoap.io'} target="_blank" rel="noopener noreferrer">
         {'Docs'}
       </NavLink>
-      {connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && (
+      {!!user && (
         <>
-          <NavLink href={`/p/${ensName ?? user?.address}`}>{'Profile'}</NavLink>
+          <NavLink href={`/p/${user.ensName ?? user.address}`}>{'Profile'}</NavLink>
           <NavLink href={`/settings`}>{'Settings'}</NavLink>
         </>
       )}

@@ -14,7 +14,7 @@ import { BREAKPOINTS } from '../../constants';
 import { SelectOption } from '../shared/compounds/ItemList';
 import { useUrlState } from '../../hooks/useUrlState';
 import { useRouter } from 'next/router';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { AddZone } from '../gitpoap/manage/AddZone';
 
 type QueryVars = {
@@ -32,7 +32,7 @@ const selectOptions: SelectOption<SortOptions>[] = [
 ];
 
 export const UserGitPOAPRequestList = () => {
-  const user = useUser();
+  const { user } = useAuthContext();
   const address = user?.address;
   const router = useRouter();
   const isRouterReady = router.isReady;

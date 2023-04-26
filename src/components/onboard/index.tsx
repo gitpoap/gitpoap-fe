@@ -5,17 +5,16 @@ import { useEffect, useState } from 'react';
 import { FaEthereum } from 'react-icons/fa';
 import { FiAlertCircle } from 'react-icons/fi';
 import { GoMarkGithub } from 'react-icons/go';
-import { useUser } from '../../hooks/useUser';
-import { useOAuthContext } from '../oauth/OAuthContext';
 import { Button, Text } from '../shared/elements';
-import { ConnectWalletButton } from '../wallet/ConnectWallet';
 import { StyledLink } from './Completed';
 import { IntakeForm } from './IntakeForm';
+import { ConnectWalletButton } from '../wallet/ConnectWallet';
+import { useAuthContext } from '../../hooks/useAuthContext';
+import { usePrivy } from '@privy-io/react-auth';
 
 export const OnboardingPage = () => {
-  const { github } = useOAuthContext();
-
-  const user = useUser();
+  const { user } = useAuthContext();
+  const { linkGithub } = usePrivy();
   const [getStarted, setGetStarted] = useState(false);
 
   const [isOnboardingConnectButtonActive, setIsOnboardingConnectButtonActive] =
@@ -85,7 +84,7 @@ export const OnboardingPage = () => {
                   if (!user?.capabilities.hasGithub) {
                     /* User doesn't have a connected Github */
                     setIsOnboardingConnectButtonActive(true);
-                    github.authorize();
+                    linkGithub();
                   } else {
                     /* If ETH wallet is connected & Github is connected, then progress */
                     setGetStarted(true);

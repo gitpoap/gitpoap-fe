@@ -4,10 +4,10 @@ import { SEO } from '../../components/shared/compounds/SEO';
 import { UserGitPOAPRequestList } from '../../components/request/UserGitPOAPRequestList';
 import { rem } from 'polished';
 import { Login } from '../../components/Login';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const UserGitPOAPs: NextPageWithLayout = () => {
-  const user = useUser();
+  const { user } = useAuthContext();
 
   return (
     <>

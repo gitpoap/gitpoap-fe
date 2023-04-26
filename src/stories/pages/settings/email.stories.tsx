@@ -6,7 +6,6 @@ import { HiOutlineMail } from 'react-icons/hi';
 import { Layout } from '../../../components/Layout';
 import { ProfileProvider } from '../../../components/profile/ProfileContext';
 import { AccountConnection } from '../../../components/settings/AccountConnection';
-import { truncateString } from '../../../helpers';
 
 export default {
   title: 'Pages/Settings/Email',
@@ -25,7 +24,6 @@ const Template: ComponentStory<typeof AccountConnection> = () => {
             accountValue={''}
             label={'Email'}
             icon={<HiOutlineMail size={32} />}
-            description={truncateString(privyUser?.email?.address ?? '', 18)}
             linkAccount={linkEmail}
             unlinkAccount={unlinkEmail}
           />

@@ -5,14 +5,14 @@ import { SEO } from '../../components/shared/compounds/SEO';
 import { SettingsPage } from '../../components/settings/SettingsPage';
 import { ProfileProvider } from '../../components/profile/ProfileContext';
 import { Login } from '../../components/Login';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const Wrapper = styled(Container)`
   width: 100vw;
 `;
 
 const Settings: NextPageWithLayout = () => {
-  const user = useUser();
+  const { user } = useAuthContext();
   const address = user?.address ?? null;
 
   return (

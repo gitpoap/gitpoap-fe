@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useClaimContext } from '../claims/ClaimContext';
+import { useClaimContext } from './claims/ClaimContext';
 import { rem } from 'polished';
-import { Button, ClaimCircle } from '../shared/elements';
+import { Button, ClaimCircle } from './shared/elements';
 import { useRouter } from 'next/router';
-import { useUser } from '../../hooks/useUser';
-import { GitPOAP } from '../shared/elements/icons';
+import { useAuthContext } from '../hooks/useAuthContext';
+import { GitPOAP } from './shared/elements/icons';
 import {
   trackClickCheckEligibility,
   trackGoToSettings,
   trackOpenClaimModal,
-} from '../../lib/tracking/events';
+} from '../lib/tracking/events';
 
 const Content = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ type Props = {
 
 export const ConnectionButton = ({ className, hideText }: Props) => {
   const { claimedIds, userClaims, setIsOpen } = useClaimContext();
-  const user = useUser();
+  const { user } = useAuthContext();
   const userClaimCount = userClaims?.length;
   const router = useRouter();
 

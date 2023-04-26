@@ -12,7 +12,7 @@ import { Text as TextUI } from '../shared/elements/Text';
 import { POAPBadgeSkeleton } from '../shared/elements/Skeletons';
 import { EmptyState } from '../shared/compounds/ItemListEmptyState';
 import { useProfileContext } from './ProfileContext';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const Container = styled(Box)<BoxProps>`
   display: inline-flex;
@@ -32,7 +32,7 @@ const isGitPOAP = (poap: POAP | GitPOAPType): poap is GitPOAPType => {
 };
 
 export const FeaturedPOAPs = () => {
-  const user = useUser();
+  const { user } = useAuthContext();
   const {
     featuredPOAPsState: { featuredPOAPsFull, featuredPOAPTokenIDs },
     hasFetched,
