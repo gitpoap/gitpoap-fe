@@ -10,7 +10,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-type User = {
+export type User = {
   addressId: number | null;
   address: string | null;
   githubId: number | null;
