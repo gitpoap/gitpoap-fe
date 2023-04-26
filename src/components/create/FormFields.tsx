@@ -5,7 +5,7 @@ import { rem } from 'polished';
 
 import { BackgroundPanel, BackgroundPanel2, ExtraRed } from '../../colors';
 import { useTeamDataQuery } from '../../graphql/generated-gql';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { CreateFormValues, EditFormValues } from '../../lib/api/gitpoapRequest';
 import { Link } from '../shared/compounds/Link';
 import { ButtonStatus, StatusButton } from '../shared/compounds/StatusButton';
@@ -59,7 +59,7 @@ export const FormFields = <FormValues extends CreateFormValues | EditFormValues>
   teamId,
 }: Props<FormValues>) => {
   const teams = useTeamsContext();
-  const user = useUser();
+  const { user } = useAuthContext();
 
   return (
     <Stack align="center" spacing={32}>

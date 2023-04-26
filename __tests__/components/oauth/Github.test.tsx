@@ -3,9 +3,8 @@ import 'jest-styled-components';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { NextRouter } from 'next/router';
 import { Provider as URQLProvider } from 'urql';
-import { Web3ContextProvider } from '../../../src/components/wallet/Web3Context';
-import { OAuthProvider } from '../../../src/components/oauth/OAuthContext';
-import { ConnectionButton } from '../../../src/components/oauth/ConnectionButton';
+import { AuthContextProvider } from '../../../src/components/wallet/AuthContext';
+import { ConnectionButton } from '../../../src/components/ConnectionButton';
 
 const mockClient = {
   executeQuery: jest.fn(() => {}),
@@ -39,13 +38,11 @@ describe('ConnectionButton Button', () => {
   it('renders a Button', () => {
     const { container } = render(
       <RouterContext.Provider value={mockRouter}>
-        <Web3ContextProvider>
-          <OAuthProvider>
-            <URQLProvider value={mockClient}>
-              <ConnectionButton />
-            </URQLProvider>
-          </OAuthProvider>
-        </Web3ContextProvider>
+        <AuthContextProvider>
+          <URQLProvider value={mockClient}>
+            <ConnectionButton />
+          </URQLProvider>
+        </AuthContextProvider>
       </RouterContext.Provider>,
     );
     const button = container.firstChild;
@@ -59,13 +56,11 @@ describe('ConnectionButton Button', () => {
   it('renders a button and hides the text when hideText is true', () => {
     const { container } = render(
       <RouterContext.Provider value={mockRouter}>
-        <Web3ContextProvider>
-          <OAuthProvider>
-            <URQLProvider value={mockClient}>
-              <ConnectionButton hideText />
-            </URQLProvider>
-          </OAuthProvider>
-        </Web3ContextProvider>
+        <AuthContextProvider>
+          <URQLProvider value={mockClient}>
+            <ConnectionButton hideText />
+          </URQLProvider>
+        </AuthContextProvider>
       </RouterContext.Provider>,
     );
     const button = container.firstChild;

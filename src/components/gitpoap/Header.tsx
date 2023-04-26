@@ -11,10 +11,10 @@ import { textEllipses } from '../shared/styles';
 import { TextGray, ExtraHover, PrimaryBlue } from '../../colors';
 import { BREAKPOINTS } from '../../constants';
 import { GitPoapEventQuery } from '../../graphql/generated-gql';
-import { useUser } from '../../hooks/useUser';
 import { useRouter } from 'next/router';
 import { GitPOAP } from '../shared/elements/icons';
 import { trackClickManageGitPOAP } from '../../lib/tracking/events';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 type Props = {
   gitPOAPEvent: Exclude<GitPoapEventQuery['gitPOAPEvent'], null | undefined>;
@@ -146,7 +146,7 @@ const GitPOAPIcon = styled(GitPOAP)`
 `;
 
 export const Header = ({ gitPOAPEvent }: Props) => {
-  const user = useUser();
+  const { user } = useAuthContext();
   const hasGithubConnection = user?.capabilities.hasGithub ?? false;
   const [opened, { close, open }] = useDisclosure(false);
   const router = useRouter();

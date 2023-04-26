@@ -2,10 +2,10 @@ import { Alert, Button, Center, Group, Stack } from '@mantine/core';
 import { rem } from 'polished';
 import { FiAlertCircle } from 'react-icons/fi';
 import { useGitPoapEventQuery } from '../../../graphql/generated-gql';
-import { User } from '../../../hooks/useUser';
 import { Link } from '../../shared/compounds/Link';
 import { Header, Loader } from '../../shared/elements';
 import { ManageGitPOAP } from './ManageGitPOAP';
+import { User } from '../../wallet/AuthContext';
 
 type Props = {
   gitPOAPId: number;

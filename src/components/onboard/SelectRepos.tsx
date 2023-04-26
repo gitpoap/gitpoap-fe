@@ -3,7 +3,7 @@ import { rem } from 'polished';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { BackgroundPanel2, ExtraRed, ExtraRedDark, PrimaryBlue } from '../../colors';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { Checkbox, Input, Text } from '../shared/elements';
 import { FormReturnTypes, Repo } from './types';
 
@@ -34,7 +34,7 @@ const formatRepoForDB = (repo: Repo) => ({
 });
 
 export const SelectReposList = ({ errors, repos, setFieldValue, values }: Props) => {
-  const user = useUser();
+  const { user } = useAuthContext();
   const [searchValue, setSearchValue] = useState<string>('');
   const [checkedSelectAll, setCheckedSelectAll] = useState(false);
   const filteredRepos = repos.filter((repo) =>

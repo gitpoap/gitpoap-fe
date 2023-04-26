@@ -12,7 +12,7 @@ import { GITPOAP_API_URL } from '../../environment';
 import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { useTokens } from '../../hooks/useTokens';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 export type EditableProfileData = Partial<
   Pick<
@@ -45,7 +45,7 @@ type Props = {
 
 export const ProfileProvider = ({ children, addressOrEns }: Props) => {
   const { tokens } = useTokens();
-  const user = useUser();
+  const { user } = useAuthContext();
   const address = user?.address ?? '';
 
   const [profileData, setProfileData] = useState<ProfileQuery['profileData']>();

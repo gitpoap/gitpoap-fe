@@ -10,7 +10,7 @@ import { useClaimContext } from '../claims/ClaimContext';
 import { Link } from '../shared/compounds/Link';
 import { TitleLink } from '../shared/elements';
 import { useLocalStorage } from '@mantine/hooks';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { trackClickCheckEligibility } from '../../lib/tracking/events';
 
 const StyledStack = styled(Stack)`
@@ -82,7 +82,7 @@ const CTAButtons = styled(Group)`
 `;
 
 export const Banner = () => {
-  const user = useUser();
+  const { user } = useAuthContext();
   const hasGithub = user?.capabilities.hasGithub ?? false;
   const { setIsOpen } = useClaimContext();
   const router = useRouter();

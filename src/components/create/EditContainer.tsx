@@ -1,10 +1,10 @@
 import { Center, Loader, Stack, Text } from '@mantine/core';
 import { useGitPoapRequestQuery } from '../../graphql/generated-gql';
-import { User } from '../../hooks/useUser';
 import { Link } from '../shared/compounds/Link';
 import { Header } from '../shared/elements';
 import { convertContributorsObjectToList } from './convertContributorsObjectToList';
 import { EditForm } from './EditForm';
+import { User } from '../wallet/AuthContext';
 
 function addTimezoneOffset(date: Date) {
   const timezoneOffset = date.getTimezoneOffset() * 60000;

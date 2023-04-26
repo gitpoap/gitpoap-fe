@@ -6,8 +6,7 @@ import { Notifications } from '../../notifications';
 import { MetaMaskError, MetaMaskErrors } from '../../types';
 import { ClaimModal } from './index';
 import { useTokens } from '../../hooks/useTokens';
-import { useUser } from '../../hooks/useUser';
-import { useWeb3Context, ConnectionStatus } from '../wallet/Web3Context';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { trackClickMint } from '../../lib/tracking/events';
 
 type ClaimState = {
@@ -28,7 +27,7 @@ type Props = {
 };
 
 export const ClaimContextProvider = ({ children }: Props) => {
-  const user = useUser();
+  const { authenticated, user } = useAuthContext();
   const { tokens } = useTokens();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [claimedIds, handlers] = useListState<number>([]);
@@ -38,8 +37,6 @@ export const ClaimContextProvider = ({ children }: Props) => {
     pause: true,
     requestPolicy: 'cache-and-network',
   });
-
-  const { connectionStatus } = useWeb3Context();
 
   const userClaims = result.data?.userClaims;
   const hasGithub = user?.capabilities.hasGithub;
@@ -126,7 +123,7 @@ export const ClaimContextProvider = ({ children }: Props) => {
       {children}
       <ClaimModal
         claims={userClaims ?? []}
-        isConnected={connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET}
+        isConnected={authenticated}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onClickClaim={claimGitPOAPs}

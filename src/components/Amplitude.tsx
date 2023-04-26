@@ -10,15 +10,13 @@ import {
   Types,
   Identify,
 } from '@amplitude/analytics-browser';
-import { useWeb3Context, ConnectionStatus } from '../components/wallet/Web3Context';
 import { v4 as uuidv4 } from 'uuid';
 import { AMPLITUDE_TOKEN, SENTRY_ENVIRONMENT } from '../environment';
 import { PRODUCTION_ENVIRONMENT } from '../constants';
-import { useUser } from '../hooks/useUser';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 export const Amplitude = () => {
-  const user = useUser();
-  const { connectionStatus } = useWeb3Context();
+  const { authenticated, ready, user } = useAuthContext();
   const { pathname, asPath, isReady } = useRouter();
   const address = user?.address ?? '';
 
@@ -34,7 +32,7 @@ export const Amplitude = () => {
   }, [isReady]);
 
   useEffect(() => {
-    if (connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && user) {
+    if (authenticated && user) {
       const trackedUser = {
         address: user.address ?? 'null',
         addressId: user.addressId ?? 'null',
@@ -50,12 +48,12 @@ export const Amplitude = () => {
       setUserId(user.address ?? 'null');
     }
 
-    if (connectionStatus === ConnectionStatus.DISCONNECTED) {
+    if (ready && !authenticated) {
       reset();
       setUserId(undefined);
       setDeviceId(uuidv4());
     }
-  }, [connectionStatus, address]);
+  }, [authenticated, ready, address]);
 
   /* This hook is used to track page views. It is called on every page change, which
    * is detected via changes to pathname

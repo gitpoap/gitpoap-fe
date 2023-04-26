@@ -19,7 +19,6 @@ export type Scalars = {
 
 export type Address = {
   __typename?: 'Address';
-  GithubUser?: Maybe<GithubUser>;
   _count?: Maybe<AddressCount>;
   createdAt: Scalars['DateTime'];
   createdGitPOAPs: Array<GitPoap>;
@@ -27,7 +26,6 @@ export type Address = {
   ensName?: Maybe<Scalars['String']>;
   ethAddress: Scalars['String'];
   gitPOAPRequests: Array<GitPoapRequest>;
-  githubUserId?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   issuedClaims: Array<Claim>;
   memberships: Array<Membership>;
@@ -93,12 +91,10 @@ export type AddressTeamsArgs = {
 
 export type AddressAvgAggregate = {
   __typename?: 'AddressAvgAggregate';
-  githubUserId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
 export type AddressAvgOrderByAggregateInput = {
-  githubUserId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
 };
 
@@ -119,7 +115,6 @@ export type AddressCountAggregate = {
   ensAvatarImageUrl: Scalars['Int'];
   ensName: Scalars['Int'];
   ethAddress: Scalars['Int'];
-  githubUserId: Scalars['Int'];
   id: Scalars['Int'];
   updatedAt: Scalars['Int'];
 };
@@ -129,7 +124,6 @@ export type AddressCountOrderByAggregateInput = {
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
   ethAddress?: InputMaybe<SortOrder>;
-  githubUserId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -145,15 +139,8 @@ export type AddressGroupBy = {
   ensAvatarImageUrl?: Maybe<Scalars['String']>;
   ensName?: Maybe<Scalars['String']>;
   ethAddress: Scalars['String'];
-  githubUserId?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
-};
-
-export type AddressListRelationFilter = {
-  every?: InputMaybe<AddressWhereInput>;
-  none?: InputMaybe<AddressWhereInput>;
-  some?: InputMaybe<AddressWhereInput>;
 };
 
 export type AddressMaxAggregate = {
@@ -162,7 +149,6 @@ export type AddressMaxAggregate = {
   ensAvatarImageUrl?: Maybe<Scalars['String']>;
   ensName?: Maybe<Scalars['String']>;
   ethAddress?: Maybe<Scalars['String']>;
-  githubUserId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -172,7 +158,6 @@ export type AddressMaxOrderByAggregateInput = {
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
   ethAddress?: InputMaybe<SortOrder>;
-  githubUserId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -183,7 +168,6 @@ export type AddressMinAggregate = {
   ensAvatarImageUrl?: Maybe<Scalars['String']>;
   ensName?: Maybe<Scalars['String']>;
   ethAddress?: Maybe<Scalars['String']>;
-  githubUserId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -193,13 +177,8 @@ export type AddressMinOrderByAggregateInput = {
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
   ethAddress?: InputMaybe<SortOrder>;
-  githubUserId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
-};
-
-export type AddressOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
 };
 
 export type AddressOrderByWithAggregationInput = {
@@ -212,20 +191,17 @@ export type AddressOrderByWithAggregationInput = {
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
   ethAddress?: InputMaybe<SortOrder>;
-  githubUserId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
 export type AddressOrderByWithRelationInput = {
-  GithubUser?: InputMaybe<GithubUserOrderByWithRelationInput>;
   createdAt?: InputMaybe<SortOrder>;
   createdGitPOAPs?: InputMaybe<GitPoapOrderByRelationAggregateInput>;
   ensAvatarImageUrl?: InputMaybe<SortOrder>;
   ensName?: InputMaybe<SortOrder>;
   ethAddress?: InputMaybe<SortOrder>;
   gitPOAPRequests?: InputMaybe<GitPoapRequestOrderByRelationAggregateInput>;
-  githubUserId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   issuedClaims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   memberships?: InputMaybe<MembershipOrderByRelationAggregateInput>;
@@ -245,7 +221,6 @@ export enum AddressScalarFieldEnum {
   EnsAvatarImageUrl = 'ensAvatarImageUrl',
   EnsName = 'ensName',
   EthAddress = 'ethAddress',
-  GithubUserId = 'githubUserId',
   Id = 'id',
   UpdatedAt = 'updatedAt',
 }
@@ -258,25 +233,21 @@ export type AddressScalarWhereWithAggregatesInput = {
   ensAvatarImageUrl?: InputMaybe<StringNullableWithAggregatesFilter>;
   ensName?: InputMaybe<StringNullableWithAggregatesFilter>;
   ethAddress?: InputMaybe<StringWithAggregatesFilter>;
-  githubUserId?: InputMaybe<IntNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
 };
 
 export type AddressSumAggregate = {
   __typename?: 'AddressSumAggregate';
-  githubUserId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
 };
 
 export type AddressSumOrderByAggregateInput = {
-  githubUserId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
 };
 
 export type AddressWhereInput = {
   AND?: InputMaybe<Array<AddressWhereInput>>;
-  GithubUser?: InputMaybe<GithubUserRelationFilter>;
   NOT?: InputMaybe<Array<AddressWhereInput>>;
   OR?: InputMaybe<Array<AddressWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -285,7 +256,6 @@ export type AddressWhereInput = {
   ensName?: InputMaybe<StringNullableFilter>;
   ethAddress?: InputMaybe<StringFilter>;
   gitPOAPRequests?: InputMaybe<GitPoapRequestListRelationFilter>;
-  githubUserId?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<IntFilter>;
   issuedClaims?: InputMaybe<ClaimListRelationFilter>;
   memberships?: InputMaybe<MembershipListRelationFilter>;
@@ -3277,7 +3247,6 @@ export type GithubPullRequestWhereUniqueInput = {
 export type GithubUser = {
   __typename?: 'GithubUser';
   _count?: Maybe<GithubUserCount>;
-  addresses: Array<Address>;
   claims: Array<Claim>;
   createdAt: Scalars['DateTime'];
   githubHandle: Scalars['String'];
@@ -3287,15 +3256,6 @@ export type GithubUser = {
   githubPullRequests: Array<GithubPullRequest>;
   id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
-};
-
-export type GithubUserAddressesArgs = {
-  cursor?: InputMaybe<AddressWhereUniqueInput>;
-  distinct?: InputMaybe<Array<AddressScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<AddressOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<AddressWhereInput>;
 };
 
 export type GithubUserClaimsArgs = {
@@ -3347,7 +3307,6 @@ export type GithubUserAvgOrderByAggregateInput = {
 
 export type GithubUserCount = {
   __typename?: 'GithubUserCount';
-  addresses: Scalars['Int'];
   claims: Scalars['Int'];
   githubIssues: Scalars['Int'];
   githubMentions: Scalars['Int'];
@@ -3360,9 +3319,7 @@ export type GithubUserCountAggregate = {
   createdAt: Scalars['Int'];
   githubHandle: Scalars['Int'];
   githubId: Scalars['Int'];
-  githubOAuthToken: Scalars['Int'];
   id: Scalars['Int'];
-  privyUserId: Scalars['Int'];
   updatedAt: Scalars['Int'];
 };
 
@@ -3384,9 +3341,7 @@ export type GithubUserGroupBy = {
   createdAt: Scalars['DateTime'];
   githubHandle: Scalars['String'];
   githubId: Scalars['Int'];
-  githubOAuthToken?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  privyUserId?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
 };
 
@@ -3395,9 +3350,7 @@ export type GithubUserMaxAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   githubHandle?: Maybe<Scalars['String']>;
   githubId?: Maybe<Scalars['Int']>;
-  githubOAuthToken?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
-  privyUserId?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -3414,9 +3367,7 @@ export type GithubUserMinAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   githubHandle?: Maybe<Scalars['String']>;
   githubId?: Maybe<Scalars['Int']>;
-  githubOAuthToken?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
-  privyUserId?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -3442,7 +3393,6 @@ export type GithubUserOrderByWithAggregationInput = {
 };
 
 export type GithubUserOrderByWithRelationInput = {
-  addresses?: InputMaybe<AddressOrderByRelationAggregateInput>;
   claims?: InputMaybe<ClaimOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   githubHandle?: InputMaybe<SortOrder>;
@@ -3463,9 +3413,7 @@ export enum GithubUserScalarFieldEnum {
   CreatedAt = 'createdAt',
   GithubHandle = 'githubHandle',
   GithubId = 'githubId',
-  GithubOAuthToken = 'githubOAuthToken',
   Id = 'id',
-  PrivyUserId = 'privyUserId',
   UpdatedAt = 'updatedAt',
 }
 
@@ -3495,7 +3443,6 @@ export type GithubUserWhereInput = {
   AND?: InputMaybe<Array<GithubUserWhereInput>>;
   NOT?: InputMaybe<Array<GithubUserWhereInput>>;
   OR?: InputMaybe<Array<GithubUserWhereInput>>;
-  addresses?: InputMaybe<AddressListRelationFilter>;
   claims?: InputMaybe<ClaimListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   githubHandle?: InputMaybe<StringFilter>;

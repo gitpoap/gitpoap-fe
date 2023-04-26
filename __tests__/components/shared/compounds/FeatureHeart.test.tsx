@@ -5,7 +5,7 @@ import {
   FeaturedPOAPsContext,
   FeaturedPOAPsDispatchContext,
 } from '../../../../src/components/profile/FeaturedPOAPsContext';
-import { Web3ContextProvider } from '../../../../src/components/wallet/Web3Context';
+import { AuthContextProvider } from '../../../../src/components/wallet/AuthContext';
 
 const addFeaturedPOAP = () => {};
 const removeFeaturedPOAP = () => {};
@@ -17,7 +17,7 @@ const renderFeatureHeart = ({
   loadingIds: Record<string, true>;
 }) => {
   return render(
-    <Web3ContextProvider>
+    <AuthContextProvider>
       <FeaturedPOAPsContext.Provider
         value={{
           featuredPOAPsState: {
@@ -36,7 +36,7 @@ const renderFeatureHeart = ({
           <FeatureHeart poapTokenId="test" />
         </FeaturedPOAPsDispatchContext.Provider>
       </FeaturedPOAPsContext.Provider>
-    </Web3ContextProvider>,
+    </AuthContextProvider>,
   );
 };
 

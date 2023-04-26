@@ -1,20 +1,18 @@
 import { Button, ButtonProps } from '@mantine/core';
 import { truncateAddress } from '../../helpers';
-import { useWeb3Context, ConnectionStatus } from './Web3Context';
 import { Loader } from '../shared/elements';
 import { White } from '../../colors';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 export const ConnectWalletButton = (props: ButtonProps) => {
-  const { ensName, connectionStatus, handleConnect } = useWeb3Context();
-  const user = useUser();
+  const { ready, user, handleConnect } = useAuthContext();
   const address = user?.address ?? '';
 
-  if (address && connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET) {
-    return <Button {...props}>{ensName || `${truncateAddress(address, 4)}`}</Button>;
+  if (address) {
+    return <Button {...props}>{user?.ensName || `${truncateAddress(address, 4)}`}</Button>;
   }
 
-  if (connectionStatus === ConnectionStatus.CONNECTING_WALLET) {
+  if (!ready) {
     return (
       <Button>
         <Loader size="sm" color={White} />

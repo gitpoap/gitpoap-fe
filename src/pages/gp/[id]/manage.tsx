@@ -5,13 +5,13 @@ import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import { ManageGitPOAPContainer } from '../../../components/gitpoap/manage/ManageGitPOAPContainer';
 import { Login } from '../../../components/Login';
-import { useUser } from '../../../hooks/useUser';
+import { useAuthContext } from '../../../hooks/useAuthContext';
 import Custom404 from '../../404';
 
 const ManageGitPOAPPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { id } = router.query;
-  const user = useUser();
+  const { user } = useAuthContext();
 
   if (typeof id !== 'string') {
     return <></>;

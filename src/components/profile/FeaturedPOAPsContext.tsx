@@ -10,7 +10,7 @@ import { GITPOAP_API_URL } from '../../environment';
 import { Notifications } from '../../notifications';
 import { useProfileContext } from './ProfileContext';
 import { useTokens } from '../../hooks/useTokens';
-import { useUser } from '../../hooks/useUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 export type GitPOAP = Exclude<
   FeaturedPoapsQuery['profileFeaturedPOAPs'],
@@ -61,7 +61,7 @@ type Props = {
 };
 
 export const FeaturedPOAPsProvider = ({ children }: Props) => {
-  const user = useUser();
+  const { user } = useAuthContext();
   const address = user?.address ?? '';
   const { profileData } = useProfileContext();
   const { tokens } = useTokens();
