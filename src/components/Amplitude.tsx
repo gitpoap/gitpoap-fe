@@ -20,6 +20,7 @@ export const Amplitude = () => {
   const user = useUser();
   const { connectionStatus } = useWeb3Context();
   const { pathname, asPath, isReady } = useRouter();
+  const address = user?.address ?? '';
 
   useEffect(() => {
     if (isReady) {
@@ -35,8 +36,8 @@ export const Amplitude = () => {
   useEffect(() => {
     if (connectionStatus === ConnectionStatus.CONNECTED_TO_WALLET && user) {
       const trackedUser = {
-        address: user.address,
-        addressId: user.addressId,
+        address: user.address ?? 'null',
+        addressId: user.addressId ?? 'null',
         githubId: user.githubId ?? 'null',
         githubHandle: user.githubHandle ?? 'null',
         ensName: user.ensName ?? 'null',
@@ -46,7 +47,7 @@ export const Amplitude = () => {
       };
       const identifyObj = new Identify().set('user', trackedUser);
       identify(identifyObj);
-      setUserId(user.address);
+      setUserId(user.address ?? 'null');
     }
 
     if (connectionStatus === ConnectionStatus.DISCONNECTED) {
@@ -54,7 +55,7 @@ export const Amplitude = () => {
       setUserId(undefined);
       setDeviceId(uuidv4());
     }
-  }, [connectionStatus, user?.address]);
+  }, [connectionStatus, address]);
 
   /* This hook is used to track page views. It is called on every page change, which
    * is detected via changes to pathname

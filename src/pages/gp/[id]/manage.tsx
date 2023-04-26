@@ -12,7 +12,6 @@ const ManageGitPOAPPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { id } = router.query;
   const user = useUser();
-  const address = user?.address;
 
   if (typeof id !== 'string') {
     return <></>;
@@ -35,7 +34,7 @@ const ManageGitPOAPPage: NextPageWithLayout = () => {
       </Head>
       <Grid justify="center" mt={rem(20)} mb={rem(20)} style={{ zIndex: 1, flex: 1 }}>
         <Grid.Col xs={10} sm={10} md={10} lg={10} xl={10}>
-          {address ? <ManageGitPOAPContainer gitPOAPId={gitPOAPId} user={user} /> : <Login />}
+          {user ? <ManageGitPOAPContainer gitPOAPId={gitPOAPId} user={user} /> : <Login />}
         </Grid.Col>
       </Grid>
     </>

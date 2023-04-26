@@ -13,7 +13,7 @@ const Wrapper = styled(Container)`
 
 const Settings: NextPageWithLayout = () => {
   const user = useUser();
-  const address = user?.address;
+  const address = user?.address ?? null;
 
   return (
     <Wrapper size={600} my={48}>
@@ -23,7 +23,7 @@ const Settings: NextPageWithLayout = () => {
         image={'https://gitpoap.io/og-image-512x512.png'}
         url={`https://gitpoap.io/settings`}
       />
-      {address ? (
+      {user ? (
         <ProfileProvider addressOrEns={address}>
           <SettingsPage />
         </ProfileProvider>

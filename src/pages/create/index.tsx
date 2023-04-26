@@ -9,7 +9,6 @@ import { PausedPage } from '../../components/create/PausedPage';
 
 const Create: NextPageWithLayout = () => {
   const user = useUser();
-  const address = user?.address;
   const canCreateCGs = user?.permissions.canCreateCGs;
 
   return (
@@ -19,7 +18,7 @@ const Create: NextPageWithLayout = () => {
         <meta name="Create a GitPOAP" content="Create a GiPOAP" />
       </Head>
       <Grid justify="center" style={{ zIndex: 1 }}>
-        {address ? (
+        {user ? (
           canCreateCGs ? (
             <>
               <BackgroundHexes />

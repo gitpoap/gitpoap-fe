@@ -1,3 +1,5 @@
+import { MembershipRole } from './graphql/generated-gql';
+
 export type GitPOAP = {
   id: number;
   name: string;
@@ -49,28 +51,49 @@ export type SignatureType = {
 export type Tokens = {
   /* GitPOAP issued access token */
   accessToken: string;
-  /* GitPOAP issued refresh token */
-  refreshToken: string;
 };
 
-export type AccessTokenPayload = {
-  authTokenId: number;
-  addressId: number;
-  address: string;
+export type Memberships = {
+  teamId: number;
+  role: MembershipRole;
+}[];
+
+export type AddressPayload = {
+  id: number;
+  ethAddress: string;
   ensName: string | null;
   ensAvatarImageUrl: string | null;
-  githubId: number | null;
-  githubHandle: string | null;
-  emailId: number | null;
-  discordId: number | null;
-  discordHandle: string | null;
-  exp: number;
-  iat: number;
 };
 
-export type RefreshTokenPayload = {
-  authTokenId: number;
-  addressId: number;
-  generation: number;
-  iat: number;
+export type GithubPayload = {
+  id: number;
+  githubId: number;
+  githubHandle: string;
+};
+
+export type EmailPayload = {
+  id: number;
+  emailAddress: string;
+};
+
+export type DiscordPayload = {
+  id: number;
+  discordId: string;
+  discordHandle: string;
+};
+
+export type MembershipPayload = {
+  teamId: number;
+  role: MembershipRole;
+};
+
+export type MembershipsPayload = MembershipPayload[];
+
+export type AccessTokenPayload = {
+  privyUserId: string;
+  address: AddressPayload | null;
+  github: GithubPayload | null;
+  email: EmailPayload | null;
+  discord: DiscordPayload | null;
+  memberships: MembershipsPayload;
 };
