@@ -1,11 +1,12 @@
-import { createContext, useCallback, useMemo, useState, useEffect } from 'react';
 import { usePrivy } from '@privy-io/react-auth';
-import { useTokens } from '../../hooks/useTokens';
+import { createContext, useCallback, useMemo, useState, useEffect } from 'react';
+
 import { useApi } from '../../hooks/useApi';
-import { AuthenticateResponse } from '../../lib/api/auth';
-import { trackConnectWallet, trackDisconnectWallet } from '../../lib/tracking/events';
 import { useIsStaff } from '../../hooks/useIsStaff';
 import { usePermissions } from '../../hooks/usePermissions';
+import { useTokens } from '../../hooks/useTokens';
+import { AuthenticateResponse } from '../../lib/api/auth';
+import { trackConnectWallet, trackDisconnectWallet } from '../../lib/tracking/events';
 
 type Props = {
   children: React.ReactNode;
