@@ -1,16 +1,14 @@
-import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import { Button, Group, Stack, Title, Text } from '@mantine/core';
 import { User } from '@privy-io/react-auth';
-import { Button, Group, Stack, Title, Text, Tooltip } from '@mantine/core';
 import { rem } from 'polished';
-import { Link } from '../shared/compounds/Link';
-import { truncateString } from '../../helpers';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 
 type Props = {
   user: User | null;
   accountValue: string | null;
   label: string;
   icon: ReactNode;
-  href?: string | null;
+  customAccountLink?: ReactNode;
   linkAccount: () => void;
   unlinkAccount: (account: string) => Promise<User>;
 };
@@ -22,7 +20,7 @@ export const AccountConnection = ({
   accountValue,
   label,
   icon,
-  href,
+  customAccountLink,
   linkAccount,
   unlinkAccount,
 }: Props) => {
@@ -46,7 +44,7 @@ export const AccountConnection = ({
     }
   }, [linkAccount, unlinkAccount, status, accountValue]);
 
-  const shortenedAccountValue = truncateString(accountValue ?? '', 18);
+  // const shortenedAccountValue = truncateString(accountValue ?? '', 18);
 
   const ConnectionStatus = {
     CONNECT: <Text size="xs">{`Connect your account`}</Text>,
@@ -54,31 +52,7 @@ export const AccountConnection = ({
     DISCONNECT: (
       <Text size="xs">
         {`You're connected as `}
-        {href ? (
-          <Link href={href} passHref>
-            <Tooltip
-              label={accountValue}
-              multiline
-              withArrow
-              transition="fade"
-              position="top"
-              sx={{ textAlign: 'center', maxWidth: rem(450) }}
-            >
-              <b>{shortenedAccountValue}</b>
-            </Tooltip>
-          </Link>
-        ) : (
-          <Tooltip
-            label={accountValue}
-            multiline
-            withArrow
-            transition="fade"
-            position="top"
-            sx={{ textAlign: 'center', maxWidth: rem(450) }}
-          >
-            <b>{shortenedAccountValue}</b>
-          </Tooltip>
-        )}
+        {customAccountLink ? customAccountLink : <b>{accountValue}</b>}
       </Text>
     ),
   };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Stack, Divider, Group, Box } from '@mantine/core';
+import { Stack, Divider, Group, Box, Tooltip } from '@mantine/core';
 import { usePrivy } from '@privy-io/react-auth';
 import { useRouter } from 'next/router';
 import { rem } from 'polished';
@@ -16,10 +16,11 @@ import {
   Text,
   TextArea as TextAreaUI,
 } from '../shared/elements';
-import { isValidTwitterHandle, isValidURL } from '../../helpers';
+import { isValidTwitterHandle, isValidURL, shortenAddress } from '../../helpers';
 import { Login } from '../Login';
 import { AccountConnection } from './AccountConnection';
 import { trackClickSaveUserSettings } from '../../lib/tracking/events';
+import { Link } from '../shared/compounds/Link';
 
 const Input = styled(InputUI)`
   flex: 1;
@@ -102,7 +103,24 @@ export const SettingsPage = () => {
         accountValue={user.address}
         label={'Ethereum'}
         icon={<FaEthereum size={32} />}
-        href={user.address && `https://etherscan.io/address/${user.address}`}
+        customAccountLink={
+          <Link href={`https://etherscan.io/address/${user.address}`} passHref>
+            {user?.ensName ? (
+              <Tooltip
+                label={user.address}
+                multiline
+                withArrow
+                transition="fade"
+                position="top"
+                sx={{ textAlign: 'center', maxWidth: rem(450) }}
+              >
+                <b>{`${user.ensName}`}</b>
+              </Tooltip>
+            ) : (
+              <b>{`${shortenAddress(user.address ?? '')}`}</b>
+            )}
+          </Link>
+        }
         linkAccount={linkWallet}
         unlinkAccount={unlinkWallet}
       />
@@ -111,7 +129,11 @@ export const SettingsPage = () => {
         accountValue={user.githubHandle}
         label={'GitHub'}
         icon={<FaGithub size={32} />}
-        href={user.githubHandle && `https://github.com/${user.githubHandle}`}
+        customAccountLink={
+          <Link href={`https://github.com/${user.githubHandle}`} passHref>
+            <b>{`@${user.githubHandle}`}</b>
+          </Link>
+        }
         linkAccount={linkGithub}
         unlinkAccount={unlinkGithub}
       />
