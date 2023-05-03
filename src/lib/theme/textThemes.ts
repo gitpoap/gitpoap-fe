@@ -1,5 +1,5 @@
 import { MantineTheme, TextStylesParams } from '@mantine/core';
-import { ExtraHover, PrimaryBlue, TextLight } from '../../colors';
+import { ExtraHover, ExtraRed, PrimaryBlue, TextLight } from '../../colors';
 import { rem } from 'polished';
 
 export const textTheme = {
@@ -12,6 +12,9 @@ export const textTheme = {
       // This allows us to use the color prop to set the color of the text
       ...(!params.color && {
         color: TextLight,
+      }),
+      ...(params.color === 'red' && {
+        color: ExtraRed,
       }),
       letterSpacing: rem(0.2),
       lineHeight: rem(20),

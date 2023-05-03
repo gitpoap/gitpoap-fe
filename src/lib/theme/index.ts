@@ -15,6 +15,7 @@ import { textTheme } from './textThemes';
 import { tooltipThemes } from './tooltipThemes';
 import { selectThemes } from './selectThemes';
 import { navLinkThemes } from './navLinkThemes';
+import { alertTheme } from './alertThemes';
 
 export const theme: MantineProviderProps['theme'] = {
   breakpoints: BREAKPOINTS,
@@ -22,6 +23,7 @@ export const theme: MantineProviderProps['theme'] = {
   respectReducedMotion: false,
   components: {
     ActionIcon: actionIconThemes,
+    Alert: alertTheme,
     Badge: badgeThemes,
     Button: buttonTheme,
     Card: cardThemes,

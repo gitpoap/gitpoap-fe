@@ -47,7 +47,10 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
               </Box>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item component={Link} href={`/p/${ensName ?? connectedAddress}`}>
+              <Menu.Item
+                component={Link}
+                href={connectedAddress ? `/p/${ensName ?? connectedAddress}` : '/settings'}
+              >
                 <Group noWrap>
                   {ensAvatarUrl ? (
                     <Avatar src={ensAvatarUrl} useDefaultImageTag size={16} />
