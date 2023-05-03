@@ -125,13 +125,6 @@ export const SettingsPage = () => {
         linkAccount={linkWallet}
         unlinkAccount={unlinkWallet}
       />
-      {!user.address && (
-        <Alert color="red" icon={<AiOutlineExclamation />} variant="outline">
-          <Text color="red">
-            {'Connect a wallet to mint GitPOAPs and create a public profile page'}
-          </Text>
-        </Alert>
-      )}
       <AccountConnection
         user={privyUser}
         accountValue={user.githubHandle}
@@ -162,7 +155,14 @@ export const SettingsPage = () => {
         unlinkAccount={unlinkEmail}
       />
 
-      <Divider my={32} />
+      <Divider mt={32} />
+
+      <Header style={{ textAlign: 'left' }}>{'Public Profile'}</Header>
+      {!user.address && (
+        <Alert color="red" icon={<AiOutlineExclamation />} variant="outline">
+          <Text color="red">{'Connect a wallet to create a profile page'}</Text>
+        </Alert>
+      )}
 
       <Input
         placeholder="gitpoap"
@@ -170,6 +170,7 @@ export const SettingsPage = () => {
         value={twitterHandleValue ?? ''}
         onChange={(e) => setTwitterHandleValue(e.target.value)}
         error={twitterHandleValue && !isValidTwitterHandle(twitterHandleValue)}
+        disabled={!user.address}
       />
 
       <Input
@@ -178,6 +179,7 @@ export const SettingsPage = () => {
         value={personSiteUrlValue ?? ''}
         onChange={(e) => setPersonalSiteUrlValue(e.target.value)}
         error={personSiteUrlValue && !isValidURL(personSiteUrlValue)}
+        disabled={!user.address}
       />
 
       <TextArea
@@ -188,6 +190,7 @@ export const SettingsPage = () => {
         autosize
         minRows={4}
         maxRows={4}
+        disabled={!user.address}
       />
 
       <Checkbox
@@ -217,7 +220,10 @@ export const SettingsPage = () => {
           >
             {'Save'}
           </Button>
-          <Button onClick={() => router.push(`/p/${user.ensName ?? user.address}`)}>
+          <Button
+            disabled={!user.address}
+            onClick={() => router.push(`/p/${user.ensName ?? user.address}`)}
+          >
             {'Visit Profile'}
           </Button>
         </Group>
