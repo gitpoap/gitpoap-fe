@@ -2,13 +2,11 @@ import styled, { css } from 'styled-components';
 import { rem } from 'polished';
 import { Jazzicon as JazzIconReact } from '@ukstv/jazzicon-react';
 import { Button } from '../shared/elements/Button';
-import { shortenAddress } from '../../helpers';
 import { Avatar } from '../shared/elements';
 import { FaChevronDown } from 'react-icons/fa';
 
 type Props = {
-  address: string;
-  ensName: string | null;
+  accountValue: string;
   hideText?: boolean;
   ensAvatarUrl: string | null;
 };
@@ -36,14 +34,14 @@ export const JazzIconNoText = styled(JazzIconReact)`
   ${JazzIconStyles}
 `;
 
-export const WalletStatus = ({ address, ensName, hideText, ensAvatarUrl }: Props) => {
+export const WalletStatus = ({ accountValue, hideText, ensAvatarUrl }: Props) => {
   if (hideText) {
     return (
       <Container rightIcon={<FaChevronDown />} variant="outline">
         {ensAvatarUrl ? (
           <Avatar src={ensAvatarUrl} useDefaultImageTag size={16} />
         ) : (
-          <JazzIconNoText address={address} />
+          <JazzIconNoText address={accountValue} />
         )}
       </Container>
     );
@@ -54,13 +52,13 @@ export const WalletStatus = ({ address, ensName, hideText, ensAvatarUrl }: Props
         ensAvatarUrl ? (
           <Avatar src={ensAvatarUrl} useDefaultImageTag size={16} />
         ) : (
-          <JazzIcon address={address} />
+          <JazzIcon address={accountValue} />
         )
       }
       rightIcon={<FaChevronDown />}
       variant="outline"
     >
-      {ensName ? ensName : shortenAddress(address)}
+      {accountValue}
     </Container>
   );
 };

@@ -22,7 +22,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
   const ensAvatarUrl = user?.ensAvatarImageUrl ?? null;
   const connectedAddress = user?.address ?? '';
   const email = user?.emailAddress ?? '';
-  const account = connectedAddress ?? email;
+  const accountValue = connectedAddress ? ensName ?? shortenAddress(connectedAddress) : email;
 
   return (
     <Group position="center" align="center">
@@ -40,8 +40,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             <Menu.Target>
               <Box>
                 <WalletStatus
-                  address={account}
-                  ensName={ensName}
+                  accountValue={accountValue}
                   ensAvatarUrl={ensAvatarUrl}
                   hideText={hideText}
                 />
@@ -53,9 +52,9 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                   {ensAvatarUrl ? (
                     <Avatar src={ensAvatarUrl} useDefaultImageTag size={16} />
                   ) : (
-                    <JazzIconNoText address={account} />
+                    <JazzIconNoText address={accountValue} />
                   )}
-                  {connectedAddress ? ensName ?? shortenAddress(connectedAddress) : email}
+                  {accountValue}
                 </Group>
               </Menu.Item>
               <Menu.Divider />
@@ -81,12 +80,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
             </Menu.Dropdown>
           </Menu>
         ) : (
-          <WalletStatus
-            address={account}
-            ensName={ensName}
-            ensAvatarUrl={ensAvatarUrl}
-            hideText={false}
-          />
+          <WalletStatus accountValue={accountValue} ensAvatarUrl={ensAvatarUrl} hideText={false} />
         )
       ) : (
         <ConnectWalletButton leftIcon={!hideText && <FaEthereum size={16} />}>
