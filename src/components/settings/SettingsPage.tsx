@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Stack, Divider, Group, Box, Tooltip } from '@mantine/core';
+import { Stack, Divider, Group, Box, Tooltip, Alert } from '@mantine/core';
 import { usePrivy } from '@privy-io/react-auth';
 import { useRouter } from 'next/router';
 import { rem } from 'polished';
@@ -21,6 +21,7 @@ import { Login } from '../Login';
 import { AccountConnection } from './AccountConnection';
 import { trackClickSaveUserSettings } from '../../lib/tracking/events';
 import { Link } from '../shared/compounds/Link';
+import { AiOutlineExclamation } from 'react-icons/ai';
 
 const Input = styled(InputUI)`
   flex: 1;
@@ -124,6 +125,13 @@ export const SettingsPage = () => {
         linkAccount={linkWallet}
         unlinkAccount={unlinkWallet}
       />
+      {!user.address && (
+        <Alert color="red" icon={<AiOutlineExclamation />} variant="outline">
+          <Text color="red">
+            {'Connect a wallet to mint GitPOAPs and create a public profile page'}
+          </Text>
+        </Alert>
+      )}
       <AccountConnection
         user={privyUser}
         accountValue={user.githubHandle}
