@@ -47,7 +47,7 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         config={{
           appearance: {
             accentColor: TextAccent,
-            logo: 'https://gitpoap.io/gitpoap-image.svg',
+            logo: 'https://gitpoap.io/gitpoap_logo.svg',
             theme: BackgroundPanel,
           },
         }}
