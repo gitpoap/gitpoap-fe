@@ -21,6 +21,7 @@ import { Layout } from '../components/Layout';
 import { Amplitude } from '../components/Amplitude';
 import { TeamsProvider } from '../components/team/TeamsContext';
 import { PRIVY_APP_ID } from '../environment';
+import { BackgroundPanel, TextAccent } from '../colors';
 
 setupExternalServiceClients();
 
@@ -41,7 +42,16 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         {/* <!-- Metadata for Viewport & Mantine (CANNOT GO IN _document.tsx) --> */}
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      <PrivyProvider appId={PRIVY_APP_ID}>
+      <PrivyProvider
+        appId={PRIVY_APP_ID}
+        config={{
+          appearance: {
+            accentColor: TextAccent,
+            logo: 'https://gitpoap.io/gitpoap-image.svg',
+            theme: BackgroundPanel,
+          },
+        }}
+      >
         <AuthContextProvider>
           <Amplitude />
           <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>

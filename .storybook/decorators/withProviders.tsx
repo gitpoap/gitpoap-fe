@@ -10,6 +10,7 @@ import { AuthContextProvider } from '../../src/components/wallet/AuthContext';
 import { FeaturesProvider } from '../../src/components/FeaturesContext';
 import { theme } from '../../src/lib/theme';
 import { PRIVY_APP_ID } from '../../src/environment';
+import { BackgroundPanel, TextAccent } from '../../src/colors';
 
 const client = createClient({
   url: 'http://localhost:3001/graphql',
@@ -43,7 +44,16 @@ const mockRouter: NextRouter = {
 export const withProviders = (storyFn) => {
   return (
     <RouterContext.Provider value={mockRouter}>
-      <PrivyProvider appId={PRIVY_APP_ID}>
+      <PrivyProvider
+        appId={PRIVY_APP_ID}
+        config={{
+          appearance: {
+            accentColor: TextAccent,
+            logo: 'https://gitpoap.io/gitpoap-image.svg',
+            theme: BackgroundPanel,
+          },
+        }}
+      >
         <AuthContextProvider>
           <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
             <NotificationsProvider autoClose={5000}>
