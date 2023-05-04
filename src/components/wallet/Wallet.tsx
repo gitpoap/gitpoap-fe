@@ -79,7 +79,7 @@ export const Wallet = ({ hideText, isMobile }: Props) => {
                 </Menu.Item>
               )}
               <Menu.Divider />
-              <Menu.Item onClick={disconnect}>{'Disconnect'}</Menu.Item>
+              <Menu.Item onClick={disconnect}>{'Sign Out'}</Menu.Item>
             </Menu.Dropdown>
           </Menu>
         ) : (
