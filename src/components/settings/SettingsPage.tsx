@@ -47,7 +47,7 @@ export const SettingsPage = () => {
     linkGithub,
     unlinkGithub,
   } = usePrivy();
-  const { user } = useAuthContext();
+  const { disconnect, user } = useAuthContext();
   const router = useRouter();
 
   const [personSiteUrlValue, setPersonalSiteUrlValue] = useState<string | undefined | null>(
@@ -151,6 +151,14 @@ export const SettingsPage = () => {
         linkAccount={linkDiscord}
         unlinkAccount={unlinkDiscord}
       />
+
+      <Box mt={rem(24)}>
+        <Group position="right">
+          <Button onClick={() => disconnect()} style={{ width: rem(145) }}>
+            {'Sign Out'}
+          </Button>
+        </Group>
+      </Box>
 
       <Divider mt={32} />
 
