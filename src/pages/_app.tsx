@@ -52,12 +52,12 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
           },
         }}
       >
-        <AuthContextProvider>
-          <Amplitude />
-          <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-            <ModalsProvider>
-              <NotificationsProvider autoClose={5000}>
-                <URQLProvider value={client}>
+        <URQLProvider value={client}>
+          <AuthContextProvider>
+            <Amplitude />
+            <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+              <ModalsProvider>
+                <NotificationsProvider autoClose={5000}>
                   <FeaturesProvider>
                     <TeamsProvider>
                       <ClaimContextProvider>
@@ -68,11 +68,11 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                       </ClaimContextProvider>
                     </TeamsProvider>
                   </FeaturesProvider>
-                </URQLProvider>
-              </NotificationsProvider>
-            </ModalsProvider>
-          </MantineProvider>
-        </AuthContextProvider>
+                </NotificationsProvider>
+              </ModalsProvider>
+            </MantineProvider>
+          </AuthContextProvider>
+        </URQLProvider>
       </PrivyProvider>
     </>
   );
