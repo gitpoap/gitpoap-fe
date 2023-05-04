@@ -38,7 +38,6 @@ export const SettingsText = styled(Text)`
 export const SettingsPage = () => {
   const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
   const {
-    user: privyUser,
     linkWallet,
     unlinkWallet,
     linkEmail,
@@ -100,7 +99,6 @@ export const SettingsPage = () => {
 
       <Divider mb={32} />
       <AccountConnection
-        user={privyUser}
         accountValue={user.address}
         label={'Ethereum'}
         icon={<FaEthereum size={32} />}
@@ -122,11 +120,19 @@ export const SettingsPage = () => {
             )}
           </Link>
         }
+        requiredConnection={!user.emailAddress}
         linkAccount={linkWallet}
         unlinkAccount={unlinkWallet}
       />
       <AccountConnection
-        user={privyUser}
+        accountValue={user.emailAddress}
+        label={'Email'}
+        icon={<HiOutlineMail size={32} />}
+        requiredConnection={!user.address}
+        linkAccount={linkEmail}
+        unlinkAccount={unlinkEmail}
+      />
+      <AccountConnection
         accountValue={user.githubHandle}
         label={'GitHub'}
         icon={<FaGithub size={32} />}
@@ -139,20 +145,11 @@ export const SettingsPage = () => {
         unlinkAccount={unlinkGithub}
       />
       <AccountConnection
-        user={privyUser}
         accountValue={user.discordHandle}
         label={'Discord'}
         icon={<FaDiscord size={32} />}
         linkAccount={linkDiscord}
         unlinkAccount={unlinkDiscord}
-      />
-      <AccountConnection
-        user={privyUser}
-        accountValue={user.emailAddress}
-        label={'Email'}
-        icon={<HiOutlineMail size={32} />}
-        linkAccount={linkEmail}
-        unlinkAccount={unlinkEmail}
       />
 
       <Divider mt={32} />
@@ -196,6 +193,7 @@ export const SettingsPage = () => {
       <Checkbox
         label={'Is visible on leaderboard?'}
         checked={isVisibleOnLeaderboardValue ?? false}
+        disabled={!user.address}
         onChange={(e) => setIsVisibleOnLeaderboardValue(e.target.checked)}
       />
 

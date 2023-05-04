@@ -4,11 +4,11 @@ import { rem } from 'polished';
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 
 type Props = {
-  user: User | null;
   accountValue: string | null;
   label: string;
   icon: ReactNode;
   customAccountLink?: ReactNode;
+  requiredConnection?: boolean;
   linkAccount: () => void;
   unlinkAccount: (account: string) => Promise<User>;
 };
@@ -16,16 +16,16 @@ type Props = {
 export type AccountConnectionStatus = 'CONNECT' | 'PENDING' | 'DISCONNECT';
 
 export const AccountConnection = ({
-  user,
   accountValue,
   label,
   icon,
   customAccountLink,
+  requiredConnection,
   linkAccount,
   unlinkAccount,
 }: Props) => {
   const [status, setStatus] = useState<AccountConnectionStatus>('CONNECT');
-  const isOnlyConnected = !!accountValue && user?.linkedAccounts?.length === 1;
+  // const isOnlyConnected = !!accountValue && user?.linkedAccounts?.length === 1;
 
   useEffect(() => {
     if (accountValue) {
@@ -71,7 +71,7 @@ export const AccountConnection = ({
         onClick={handleSubmit}
         sx={{ width: rem(145) }}
         loading={status === 'PENDING'}
-        disabled={isOnlyConnected}
+        disabled={requiredConnection}
       >
         {status}
       </Button>
