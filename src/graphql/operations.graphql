@@ -438,6 +438,8 @@ query allReposOnRepoPage($sort: String, $page: Float, $perPage: Float) {
         id
       }
     }
+    contributorCount
+    mintedGitPOAPCount
   }
 }
 

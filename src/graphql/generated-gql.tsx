@@ -4719,7 +4719,7 @@ export type Query = {
   aggregateRepo: AggregateRepo;
   aggregateTeam: AggregateTeam;
   allOrganizations?: Maybe<Array<GithubOrganization>>;
-  allRepos?: Maybe<Array<Repo>>;
+  allRepos?: Maybe<Array<RepoReturnData>>;
   claim?: Maybe<Claim>;
   claims: Array<Claim>;
   discordUser?: Maybe<DiscordUser>;
@@ -6809,10 +6809,12 @@ export type AllReposOnRepoPageQueryVariables = Exact<{
 export type AllReposOnRepoPageQuery = {
   __typename?: 'Query';
   allRepos?: Array<{
-    __typename?: 'Repo';
+    __typename?: 'RepoReturnData';
     id: number;
     name: string;
     githubRepoId: number;
+    contributorCount: number;
+    mintedGitPOAPCount: number;
     organization: { __typename?: 'GithubOrganization'; name: string };
     project: { __typename?: 'Project'; gitPOAPs: Array<{ __typename?: 'GitPOAP'; id: number }> };
   }> | null;
@@ -8351,6 +8353,8 @@ export const AllReposOnRepoPageDocument = gql`
           id
         }
       }
+      contributorCount
+      mintedGitPOAPCount
     }
   }
 `;
