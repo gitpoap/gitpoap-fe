@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { BackgroundPanel, BackgroundPanel2, ExtraHover, ExtraPressed } from '../../../colors';
@@ -101,27 +101,36 @@ export const RepoBlockSkeleton = ({ className }: { className?: string }) => {
 type Repo = {
   id: number;
   name: string;
-  contributorCount?: number;
-  mintedGitPOAPCount?: number;
   organization: {
     name: string;
   };
+  contributorCount?: number;
+  mintedGitPOAPCount?: number;
 };
 
 type Props = {
   repo: Repo;
   className?: string;
+  showStats?: boolean;
   starredCount?: number;
   totalContributors?: number;
 };
 
-export const RepoBlock = ({ className, repo }: Props) => {
-  // @TODO: Add back claimCount, uniqueContributorCount once backend changes are in
+export const RepoBlock = ({ className, repo, showStats }: Props) => {
   const { id, name, contributorCount, mintedGitPOAPCount, organization } = repo;
 
   const router = useRouter();
-  const [resultStarCount] = useRepoStarCountQuery({ variables: { repoId: id } });
+  const [resultStarCount, getStarCount] = useRepoStarCountQuery({
+    variables: { repoId: id },
+    pause: true,
+  });
   const starCount = resultStarCount?.data?.repoStarCount;
+
+  useEffect(() => {
+    if (!starCount && showStats) {
+      getStarCount();
+    }
+  }, [getStarCount, starCount, showStats]);
 
   return (
     <Paper
@@ -144,21 +153,22 @@ export const RepoBlock = ({ className, repo }: Props) => {
         <Link href={`/gh/${repo.organization.name}`} passHref>
           <OrgName>{organization.name}</OrgName>
         </Link>
-        {/* @TODO: Add back once backend changes are ready - Jay (Jul 3 2022) */}
-        <Group position="center">
-          <Group spacing={4}>
-            <People />
-            <Text>{contributorCount ?? 0}</Text>
+        {showStats && (
+          <Group position="center">
+            <Group spacing={4}>
+              <People />
+              <Text>{contributorCount ?? 0}</Text>
+            </Group>
+            <Group spacing={4}>
+              <GitPOAP />
+              <Text>{mintedGitPOAPCount ?? 0}</Text>
+            </Group>
+            <Group spacing={4}>
+              <Star />
+              <Text>{starCount ?? 0}</Text>
+            </Group>
           </Group>
-          <Group spacing={4}>
-            <GitPOAP />
-            <Text>{mintedGitPOAPCount ?? 0}</Text>
-          </Group>
-          <Group spacing={4}>
-            <Star />
-            <Text>{starCount ?? 0}</Text>
-          </Group>
-        </Group>
+        )}
       </Stack>
     </Paper>
   );

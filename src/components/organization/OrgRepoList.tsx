@@ -112,7 +112,7 @@ export const OrgRepoList = ({ orgId }: Props) => {
             searchValue ? repo.name.toLowerCase().includes(searchValue.toLowerCase()) : true,
           )
           .map((repo, i) => (
-            <RepoBlock key={'org-repo-' + i} repo={repo} />
+            <RepoBlock key={'org-repo-' + i} repo={repo} showStats={true} />
           ))}
       </RepoList>
     </ItemList>

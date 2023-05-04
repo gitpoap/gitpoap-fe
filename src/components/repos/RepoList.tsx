@@ -159,9 +159,11 @@ export const RepoList = () => {
           )}
           {searchResult.data?.repos && searchValue
             ? searchResult.data.repos.map((repo, i) => {
-                return <RepoBlock key={'repo-' + i} repo={repo} />;
+                return <RepoBlock key={'repo-' + i} repo={repo} showStats={true} />;
               })
-            : repoListItems?.map((repo, i) => <RepoBlock key={'repo-' + i} repo={repo} />)}
+            : repoListItems?.map((repo, i) => (
+                <RepoBlock key={'repo-' + i} repo={repo} showStats={true} />
+              ))}
         </RepoListContainer>
       </StyledItemList>
     </Wrapper>
