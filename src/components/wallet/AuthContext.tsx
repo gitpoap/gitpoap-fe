@@ -53,7 +53,6 @@ export const AuthContext = createContext<AuthContext>(initialState);
 
 export const AuthContextProvider = (props: Props) => {
   const isStaff = useIsStaff();
-  const permissions = usePermissions();
   const {
     ready,
     authenticated,
@@ -65,6 +64,7 @@ export const AuthContextProvider = (props: Props) => {
     setActiveWallet,
     linkWallet,
   } = usePrivy();
+  const permissions = usePermissions();
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
 
   const api = useApi();
