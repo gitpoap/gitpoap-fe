@@ -12,9 +12,7 @@ export const Login = () => {
       {ready ? (
         <Stack spacing={32}>
           <Header>{'Sign In to Continue'}</Header>
-          <ConnectWalletButton leftIcon={<FaEthereum size={16} />}>
-            {'Connect Wallet'}
-          </ConnectWalletButton>
+          <ConnectWalletButton leftIcon={<FaEthereum size={16} />}>{'Sign In'}</ConnectWalletButton>
         </Stack>
       ) : (
         <Loader />
