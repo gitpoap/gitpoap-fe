@@ -13,14 +13,13 @@ export default {
 } as ComponentMeta<typeof AccountConnection>;
 
 const Template: ComponentStory<typeof AccountConnection> = () => {
-  const { user: privyUser, linkEmail, unlinkEmail } = usePrivy();
+  const { linkEmail, unlinkEmail } = usePrivy();
 
   return (
     <Layout>
       <ProfileProvider addressOrEns="0x12345">
         <Container my={48} size={600} style={{ width: '100%' }}>
           <AccountConnection
-            user={privyUser}
             accountValue={''}
             label={'Email'}
             icon={<HiOutlineMail size={32} />}
