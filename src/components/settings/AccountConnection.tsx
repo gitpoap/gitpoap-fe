@@ -10,7 +10,7 @@ type Props = {
   customAccountLink?: ReactNode;
   requiredConnection?: boolean;
   linkAccount: () => void;
-  unlinkAccount: (account: string) => Promise<User>;
+  unlinkAccount: () => Promise<User>;
 };
 
 export type AccountConnectionStatus = 'CONNECT' | 'PENDING' | 'DISCONNECT';
@@ -40,7 +40,7 @@ export const AccountConnection = ({
       linkAccount();
     } else if (status === 'DISCONNECT' && accountValue) {
       setStatus('PENDING');
-      await unlinkAccount(accountValue);
+      await unlinkAccount();
     }
   }, [linkAccount, unlinkAccount, status, accountValue]);
 

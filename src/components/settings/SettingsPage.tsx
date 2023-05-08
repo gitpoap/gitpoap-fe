@@ -38,6 +38,7 @@ export const SettingsText = styled(Text)`
 export const SettingsPage = () => {
   const { profileData, updateProfile, isSaveLoading, isSaveSuccessful } = useProfileContext();
   const {
+    user: privyUser,
     linkWallet,
     unlinkWallet,
     linkEmail,
@@ -122,7 +123,7 @@ export const SettingsPage = () => {
         }
         requiredConnection={!user.emailAddress}
         linkAccount={linkWallet}
-        unlinkAccount={unlinkWallet}
+        unlinkAccount={() => unlinkWallet(user.address ?? '')}
       />
       <AccountConnection
         accountValue={user.emailAddress}
@@ -130,7 +131,7 @@ export const SettingsPage = () => {
         icon={<HiOutlineMail size={32} />}
         requiredConnection={!user.address}
         linkAccount={linkEmail}
-        unlinkAccount={unlinkEmail}
+        unlinkAccount={() => unlinkEmail(user.emailAddress ?? '')}
       />
       <AccountConnection
         accountValue={user.githubHandle}
@@ -142,14 +143,14 @@ export const SettingsPage = () => {
           </Link>
         }
         linkAccount={linkGithub}
-        unlinkAccount={unlinkGithub}
+        unlinkAccount={() => unlinkGithub(privyUser?.github?.subject ?? '')}
       />
       <AccountConnection
         accountValue={user.discordHandle}
         label={'Discord'}
         icon={<FaDiscord size={32} />}
         linkAccount={linkDiscord}
-        unlinkAccount={unlinkDiscord}
+        unlinkAccount={() => unlinkDiscord(privyUser?.discord?.subject ?? '')}
       />
 
       <Box mt={rem(24)}>
