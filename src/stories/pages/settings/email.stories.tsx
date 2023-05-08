@@ -24,7 +24,7 @@ const Template: ComponentStory<typeof AccountConnection> = () => {
             label={'Email'}
             icon={<HiOutlineMail size={32} />}
             linkAccount={linkEmail}
-            unlinkAccount={unlinkEmail}
+            unlinkAccount={() => unlinkEmail('')}
           />
         </Container>
       </ProfileProvider>
