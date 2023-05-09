@@ -83,7 +83,7 @@ export const FormFields = <FormValues extends CreateFormValues | EditFormValues>
             <List.Item>
               <Group spacing={6}>
                 <Text>{'Mandatory: PNG or GIF format,'}</Text>
-                <Link href="/links/canva-template" target="_blank" rel="noopener noreferrer">
+                <Link href="/links/template" target="_blank" rel="noopener noreferrer">
                   <Text variant="link">{'GitPOAP Template'}</Text>
                 </Link>
               </Group>
