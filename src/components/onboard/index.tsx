@@ -2,19 +2,14 @@ import { Alert, Center, Container, List, Stack } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { rem } from 'polished';
 import { useEffect, useState } from 'react';
-import { FaEthereum } from 'react-icons/fa';
 import { FiAlertCircle } from 'react-icons/fi';
-import { GoMarkGithub } from 'react-icons/go';
-import { Button, Text } from '../shared/elements';
+import { Text } from '../shared/elements';
 import { StyledLink } from './Completed';
 import { IntakeForm } from './IntakeForm';
-import { ConnectWalletButton } from '../wallet/ConnectWallet';
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { usePrivy } from '@privy-io/react-auth';
 
 export const OnboardingPage = () => {
   const { user } = useAuthContext();
-  const { linkGithub } = usePrivy();
   const [getStarted, setGetStarted] = useState(false);
 
   const [isOnboardingConnectButtonActive, setIsOnboardingConnectButtonActive] =
@@ -47,10 +42,10 @@ export const OnboardingPage = () => {
               {'GitPOAP Onboarding Waitlist'}
             </Text>
             <Alert icon={<FiAlertCircle />} color="red">
-              {`We’ve temporarily paused our GitHub repo onboarding, submit a request here to be added to the waitlist and we’ll reach out when we’re ready to onboard you.  If you have any questions, email team@gitpoap.io and we’ll get back to you as soon as we can.`}
+              {`We’ve temporarily paused our GitHub repo onboarding, we’ll reach out when we’re ready to onboard you.`}
             </Alert>
             <Text style={{ fontSize: rem(16) }}>
-              {'An overview of the process once you’re off the waitlist:'}
+              {'Here’s an overview of the onboarding process:'}
             </Text>
             <Text style={{ fontSize: rem(16) }}>
               <List
@@ -71,31 +66,9 @@ export const OnboardingPage = () => {
               </StyledLink>
               {'!'}
             </Text>
-            {!user ? (
-              <ConnectWalletButton
-                style={{ margin: `${rem(16)} auto`, width: 'fit-content' }}
-                leftIcon={<FaEthereum />}
-              >
-                {'CONNECT WALLET'}
-              </ConnectWalletButton>
-            ) : (
-              <Button
-                onClick={() => {
-                  if (!user?.capabilities.hasGithub) {
-                    /* User doesn't have a connected Github */
-                    setIsOnboardingConnectButtonActive(true);
-                    linkGithub();
-                  } else {
-                    /* If ETH wallet is connected & Github is connected, then progress */
-                    setGetStarted(true);
-                  }
-                }}
-                leftIcon={<GoMarkGithub />}
-                style={{ margin: `${rem(16)} auto`, width: 'fit-content' }}
-              >
-                {!user?.capabilities.hasGithub ? 'CONNECT GITHUB' : 'GET STARTED'}
-              </Button>
-            )}
+            <Text style={{ fontSize: rem(16) }}>
+              {'If you’d like to be added to the waitlist, send an email to: team@gitpoap.io'}
+            </Text>
           </Stack>
         </Center>
       </Container>

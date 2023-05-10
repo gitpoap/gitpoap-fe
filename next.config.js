@@ -91,9 +91,9 @@ const moduleExports = withBundleAnalyzer({
         basePath: false,
       },
       {
-        source: '/links/canva-template',
+        source: '/links/template',
         destination:
-          'https://www.canva.com/design/DAFQoFm0dhQ/H17FASlR17kwLk6m303hBw/view?utm_content=DAFQoFm0dhQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview',
+          'https://gitpoap-public.s3.us-east-2.amazonaws.com/design/gitpoap-design-template.zip',
         permanent: false,
         basePath: false,
       },
