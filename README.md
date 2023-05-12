@@ -1,8 +1,5 @@
 # Contributing to GitPOAP
-First off, thanks for taking the time to contribute! ❤️
-
-All types of contributions are encouraged and valued. See the [Table of Contents](https://github.com/gitpoap/gitpoap-fe/README.md#table-of-contents) for different ways to help and details about how this project handles them. Please make sure to read the relevant section before making your contribution. It will make it a lot easier for us maintainers and smooth out the experience for all involved. The community looks forward to your contributions. 🎉
-
+Thank you for showing interest in contributing to GitPOAP! All your contributions are extremely valuable to the project!
 ## Table of Contents
 - [Code of Conduct](https://github.com/gitpoap/gitpoap-fe/README.md#code-of-conduct)
 - [Ways to Contribute](https://github.com/gitpoap/gitpoap-fe/README.md#ways-to-contribute)
