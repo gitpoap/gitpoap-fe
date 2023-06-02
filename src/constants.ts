@@ -49,17 +49,21 @@ interface Network {
 /* GitPOAP Staff ~ used for soft-gating admin pages */
 export const STAFF_GITHUB_IDS = [
   914240, // colfax23
-  8076957, // peebeejay
-  1555326, // burz
-  19416312, // Aldo
+  52794365, // Patricio (poapxyz)
+  64825072, // Emilio (emilio-silva)
+  128195919, // Moe (CanMat)
+  43926625, // Iz (oggonz)
+  19580671, // Tomas (tomso11)
 ];
 
 export const STAFF_ADDRESSES = [
   '0x56d389c4e07a48d429035532402301310b8143a0', // Colfax
-  '0xae32d159bb3abfcadfabe7abb461c2ab4805596d', // Jay
-  '0xae95f7e7fb2fcf86148ef832faed2752ae5a358a', // Anna / burz
-  '0x02738d122e0970aaf8deadf0c6a217a1923e1e99', // Aldo
   '0x9B6e1a427be7A9456f4aF18eeaa354ccabF3980a', // gitpoap.eth
+  '0xa5f6057a21da3a919008e8791c19c849fe98e1f9', // heurea.eth
+  '0x4124cf34f56fa151e05c91ace550ada0dd5aabd7', // izgnzlz.eth
+  '0xf6b6f07862a02c85628b3a9688beae07fea9c863', // poap.eth
+  '0xac1c5131f0a85eafaa637a1ab342ed8e7771212d', // emiliosilva.eth
+  '0xf2dfcae8fef5b5cd5d89a527d193da567a5d6297', // tomso.eth
 ];
 
 /**
