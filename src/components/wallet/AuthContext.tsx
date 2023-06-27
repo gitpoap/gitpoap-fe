@@ -128,7 +128,7 @@ export const AuthContextProvider = (props: Props) => {
   // handle account change
   useEffect(() => {
     const handleAccountChange = () => {
-      ethereum.on('accountsChanged', (accounts) => {
+      ethereum.on('accountsChanged', (accounts: unknown) => {
         const connectedAccounts = accounts as string[];
 
         if (!authenticated) return;
