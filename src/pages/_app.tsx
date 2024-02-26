@@ -45,6 +45,7 @@ const TheApp = ({ Component, pageProps }: AppPropsWithLayout) => {
       <PrivyProvider
         appId={PRIVY_APP_ID}
         config={{
+          loginMethods: ['wallet', 'email'],
           appearance: {
             accentColor: TextAccent,
             logo: 'https://gitpoap.io/gitpoap_logo.svg',
