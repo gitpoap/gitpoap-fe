@@ -139,7 +139,7 @@ include Setup of env, IDE and typical getting started instructions?
 
 ## Styleguides
 
-We use `prettier` for formatting the code. This will be run automatically before commiting via a `husky` hook.
+We use `prettier` for formatting the code. This will be run automatically before committing via a `husky` hook.
 
 <!-- omit in toc -->
 ## Attribution
