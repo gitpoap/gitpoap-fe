@@ -30,7 +30,7 @@
     "@mantine/notifications": "^5.9.4",
     "@metamask/detect-provider": "^2.0.0",
     "@next/bundle-analyzer": "^13.0.6",
-    "@privy-io/react-auth": "^1.28.1",
+    "@privy-io/react-auth": "^1.57.2",
     "@sentry/nextjs": "^7.26.0",
     "@ukstv/jazzicon-react": "^1.0.0",
     "buffer": "^6.0.3",
@@ -79,7 +79,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^29.2.2",
     "@types/luxon": "^2.3.2",
-    "@types/node": "16.11.13",
+    "@types/node": "18.17.1",
     "@types/papaparse": "^5.3.5",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
@@ -115,7 +115,7 @@
     "stream-http": "^3.2.0",
     "swc": "^1.0.11",
     "ts-jest": "^29.0.3",
-    "typescript": "4.8.4",
+    "typescript": "~5.0.4",
     "url": "^0.11.0"
   },
   "engines": {
