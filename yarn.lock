@@ -3255,10 +3255,10 @@
   resolved "https://registry.npmjs.org/@polka/url/-/url-1.0.0-next.21.tgz"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
-"@privy-io/react-auth@^1.54.3":
-  version "1.56.2"
-  resolved "https://registry.yarnpkg.com/@privy-io/react-auth/-/react-auth-1.56.2.tgz#681f3e2e0b7a343c5a37a06e3674270500de6d63"
-  integrity sha512-8dLSsUIbufqYCRpOb30P8bsf6mwCRHJStN/P3fGkxV9alpUx2M2YkVw66OoF18tFaCRGlryXzxCnClcK/Z4l+w==
+"@privy-io/react-auth@^1.57.2":
+  version "1.58.0"
+  resolved "https://registry.yarnpkg.com/@privy-io/react-auth/-/react-auth-1.58.0.tgz#0008571365a08b385f0fac32e7bf9546392545fc"
+  integrity sha512-uqzdTqxpLY9QKsVzAOMTwdYIjH02BtcK7Du/dk8MyOPgM0IjX75OlsxDE7eGXd4oznZXAOnMf8P8TwcsaYVC8Q==
   dependencies:
     "@coinbase/wallet-sdk" "^3.9.0"
     "@ethersproject/abstract-signer" "^5.7.0"
@@ -5138,7 +5138,7 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*", "@types/node@16.11.13", "@types/node@^14.0.10 || ^16.0.0", "@types/node@^14.14.20 || ^16.0.0":
+"@types/node@*", "@types/node@^14.0.10 || ^16.0.0", "@types/node@^14.14.20 || ^16.0.0":
   version "16.11.13"
   resolved "https://registry.npmjs.org/@types/node/-/node-16.11.13.tgz"
   integrity sha512-eUXZzHLHoZqj1frtUetNkUetYoJ6X55UmrVnFD4DMhVeAmwLjniZhtBmsRiemQh4uq4G3vUra/Ws/hs9vEvL3Q==
@@ -5147,6 +5147,13 @@
   version "12.20.55"
   resolved "https://registry.npmjs.org/@types/node/-/node-12.20.55.tgz"
   integrity sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==
+
+"@types/node@^18":
+  version "18.19.21"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.21.tgz#f4ca1ac8ffb05ee4b89163c2d6fac9a1a59ee149"
+  integrity sha512-2Q2NeB6BmiTFQi4DHBzncSoq/cJMLDdhPaAoJFnFCyD9a8VPZRf7a1GAwp1Edb7ROaZc5Jz/tnZyL6EsWMRaqw==
+  dependencies:
+    undici-types "~5.26.4"
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -17173,6 +17180,11 @@ uncrypto@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/uncrypto/-/uncrypto-0.1.3.tgz#e1288d609226f2d02d8d69ee861fa20d8348ef2b"
   integrity sha512-Ql87qFHB3s/De2ClA9e0gsnS6zXG27SkTiSJwjCc9MebbfapQfuPzumMIUMi38ezPZVNFcHI9sUIepeQfw8J8Q==
+
+undici-types@~5.26.4:
+  version "5.26.5"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
+  integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
 undici@^5.8.0:
   version "5.9.1"
