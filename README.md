@@ -1,5 +1,5 @@
 # Contributing to GitPOAP
-Thank you for showing interest in contributing to GitPOAP! All your contributions are extremely valuable to the project!
+Thank you for showing interest in contributing to GitPOAP! All your contributions are extremely valuable to the project.
 ## Table of Contents
 - [Code of Conduct](https://github.com/gitpoap/gitpoap-fe/README.md#code-of-conduct)
 - [Ways to Contribute](https://github.com/gitpoap/gitpoap-fe/README.md#ways-to-contribute)
