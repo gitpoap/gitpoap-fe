@@ -83,7 +83,7 @@ export const getStaticProps = async (
   return {
     props: {
       urqlState: ssrCache.extractData(),
-      gitPOAPEvent: results?.data?.gitPOAPEvent,
+      gitPOAPEvent: results?.data?.gitPOAPEvent ?? null,
     },
     revalidate: ONE_HOUR_IN_S,
   };
